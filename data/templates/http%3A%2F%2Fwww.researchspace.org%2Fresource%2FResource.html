@@ -30,101 +30,99 @@
           [[#if (ask "ASK {?? a crm:E21_Person }") ]] 
            <bs-nav-item event-key="artworks">Artworks</bs-nav-item>
            [[/if]]
-          <bs-nav-item event-key="annotations">
+          <!-- <bs-nav-item event-key="annotations">
             Annotations <semantic-context repository='assets'><semantic-query query="SELECT (COUNT(DISTINCT ?s) AS ?count) WHERE {
               ?s <http://www.ics.forth.gr/isl/CRMdig/L43_annotates> ??;
               }"
               template='{{#each bindings}}<span class="badge">{{count.value}}</span>{{/each}}'></semantic-query></semantic-context>
-          </bs-nav-item>
-          <bs-nav-item event-key="related">Explore Related</bs-nav-item>
+          </bs-nav-item> -->
+          <!-- <bs-nav-item event-key="related">Explore Related</bs-nav-item> -->
         </bs-nav>
 
         <bs-tab-content unmount-on-exit=true>
           <bs-tab-pane event-key="summary">
             [[#if (ask 'ASK {{?? rso:PX_has_main_representation ?mainImage .} UNION {?? crm:P138i_has_representation ?representationImage .} UNION {?? <http://www.cidoc-crm.org/cidoc-crm/P16i_was_used_for> ?creation .}  UNION {?? <http://www.cidoc-crm.org/cidoc-crm/P138i_is_represented_by> ?vi .} UNION {?source owl:sameAs ?? . ?source crm:P138i_is_represented_by ?vi. } BIND(COALESCE(?mainImage, ?representationImage) AS ?image) .}')]]
-<div class="rs-page__summary-image">
-       <mp-overlay-dialog title="Inspect image in detail" class="miradorViewerPopup">
-         <mp-overlay-dialog-trigger>
-           <div class="rs-page__summary-image">
-             <semantic-query query='SELECT distinct ?label (bound(?mainRepresentationImage) AS ?isMainRep) (STR(COALESCE(?mainRepresentationImage,?representationImage)) AS ?imgURL)
-                   WHERE {
-                     {
-                        ?? rso:displayLabel ?label .
-                     }
-                     UNION {
-                       ?? crm:P138i_has_representation ?representationImage .
-                       ?representationImage a crm:E38_Image
-                     }
-                     UNION {
-                        ?? rso:PX_has_main_representation ?mainRepresentationImage .
-                     }
-                     UNION 
-                     {
-                        ?? crm:P138i_is_represented_by ?vi.
-     										?vi crm:P128i_is_carried_by ?subject .
-      									?subject crm:P2_has_type <http://vocab.getty.edu/aat/300046300> .
-                       	?subject <http://www.cidoc-crm.org/cidoc-crm/P138i_has_representation> ?mainRepresentationImage.
-                        ?mainRepresentationImage a crm:E38_Image.
-                     }
-                     
-                     UNION 
-                     {
-                        ?source owl:sameAs ?? .
-                        ?source crm:P138i_is_represented_by ?vi.
-     										?vi crm:P128i_is_carried_by ?subject .
-      									?subject crm:P2_has_type <http://vocab.getty.edu/aat/300046300> .
-                       	?subject <http://www.cidoc-crm.org/cidoc-crm/P138i_has_representation> ?mainRepresentationImage.
-                        ?mainRepresentationImage a crm:E38_Image.
-                     }
-                     
-                     
-                      UNION 
-                     {
-                        ?? crm:P138i_is_represented_by ?vi.
-     									  ?vi crm:P165i_is_incorported_in 	?subject.
- 												?subject crm:P2_has_type <http://vocab.getty.edu/aat/300417379>.
-                       	?subject <http://www.cidoc-crm.org/cidoc-crm/P138i_has_representation> ?mainRepresentationImage.
-                         ?mainRepresentationImage a crm:E38_Image.
-                     }
-                     UNION 
-                     {
-                        ?? crm:P138i_is_represented_by ?vi.
-     										 ?vi crm:P128i_is_carried_by ?subject .
-      										?subject crm:P2_has_type ?type .
-      										?type rdfs:label "Photograph" .
-                       	 ?subject <http://www.cidoc-crm.org/cidoc-crm/P138i_has_representation> ?mainRepresentationImage.
-                          ?mainRepresentationImage a crm:E38_Image.
-                     }
-                   }' template='{{> imageThumbnail}}'>
-                                                       <template id="imageThumbnail">
-                                                         {{#each bindings}}
-                                                        <img style="height:20vh" src="{{imgURL.value}}"/>
-                                                        <div class="subtitle"><i>{{label.value}}</i></div>
-               																					 {{/each}}                                     
-               </template>
-                                                     </semantic-query>
-                                                    </div>
-                                                </mp-overlay-dialog-trigger>
-                                                <mp-overlay-dialog-content>
-                                                   <div style='height: 80vh; width: 100%;'>
-                                                        <rs-iiif-mirador
-                                                        image-or-region="[[this]]" 
-            
-                                                        image-id-pattern='
-                                                        BIND("image" AS ?type). BIND(?? AS ?imageIRI). 
-                                                        <[[this]]> crm:P56_bears_feature ?feat.             
-                                                        ?feat crm:P136_has_representation ?img_visual.
-                                                        ?img_visual crm:P129i_is_subject_of ?image . 
-                                                        BIND(REPLACE(STR(REPLACE(STR(?image),"/full/full/0/default.jpg","")), "(^.*)\\/(.*)$", "$2") AS ?imageID)
-                                                        '
-                                                        iiif-server-url="https://iiif.itatti.harvard.edu/iiif/2" 
-                                                        >
-                                                        </rs-iiif-mirador>
-                                                    </div>
-                                                </mp-overlay-dialog-content>
-                                              </mp-overlay-dialog>
-</div>
-[[/if]]
+          <div class="rs-page__summary-image">
+                <mp-overlay-dialog title="Inspect image in detail" class="miradorViewerPopup">
+                  <mp-overlay-dialog-trigger>
+                    <div class="rs-page__summary-image">
+                      <semantic-query query='SELECT distinct ?imgURL
+                            WHERE {
+                                  ?? crm:P138i_is_represented_by ?visual_item.
+                                  ?visual_item crm:P128i_is_carried_by ?photo.
+                                  ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
+                                  ?photo crm:P129i_is_subject_of ?imgURL.
+                                  ?imgURL crm:P2_has_type <http://iiif.io/api/image> .
+                            }' template='{{> imageThumbnail}}'>
+                        <template id="imageThumbnail">
+                          {{#each bindings}}
+                            <img class="thumbnailImage"  src="{{imgURL.value}}"/>
+                          {{/each}}                                     
+                        </template>
+                      </semantic-query>
+              </div>
+                  </mp-overlay-dialog-trigger>
+                  <mp-overlay-dialog-content>
+                      <div style='height: 80vh; width: 90vw !important;'>
+                          <rs-iiif-mirador
+                            id="modal_mirador"
+                            image-or-region="[[#if record]][[record]][[else]]{{record}}[[/if]]" 
+                            image-id-pattern='BIND("image" AS ?type). BIND( ?? AS ?imageIRI). 
+                            ?? crm:P138i_is_represented_by ?visual_item.
+                            ?visual_item crm:P128i_is_carried_by ?photo.
+                            ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
+                            ?photo crm:P129i_is_subject_of ?image.
+                            ?image crm:P2_has_type <http://iiif.io/api/image>.
+                            BIND(REPLACE(STR(REPLACE(STR(?image),"/full/full/0/native.jpg","")), "(^.*)\\/(.*)$", "$2") AS ?imageID)'
+                          
+                            iiif-server-url="https://ids.lib.harvard.edu/ids/iiif" 
+                              
+                          />
+                      </div>
+                  </mp-overlay-dialog-content>
+                </mp-overlay-dialog>
+          </div>
+          [[/if]]
+          
+<semantic-if query='ASK {<[[this]]> <https://pharos.artresearch.net/custom/has_provider> ?institute . ?institute rdfs:label ?instituteLabel . }'
+  then='{{> then}}' else='{{> else}}'>
+
+  <template id="then">
+      <semantic-query
+          query='SELECT ?instituteLabel WHERE {<[[this]]> <https://pharos.artresearch.net/custom/has_provider> ?institute . ?institute rdfs:label ?instituteLabel . }'
+          template='{{> institute}}'>
+          <template id='institute'>
+              <span class="rs-h1 rs-resource-section--header">
+                  {{#each bindings}}
+                  {{#if @first}}{{else}} - {{/if}}
+                  {{instituteLabel.value}}
+                  {{/each}}
+                  Dataset</span>
+          </template>
+      </semantic-query>
+      <mp-field-visualization
+          subject="[[this]]"
+          fields='[[fieldDefinitionsFromQuery "SELECT ?field WHERE { ?field <http://www.researchspace.org/resource/system/fields/domain> crm:E22_Man-Made_Object. ?field <http://www.researchspace.org/resource/system/fields/order> ?order} ORDER BY ASC(?order) ?field"]]'
+          template='{{>sixtyone_edition_field_table}}'
+          >
+        <template id="sixtyone_edition_field_table">
+            [[> rsp:ResourceFieldBasedVisualization subject=[[this]]  ]]
+        </template>
+      </mp-field-visualization>
+  </template>
+  <template id="else">
+      <span class="rs-h1 rs-resource-section--header">Dataset</span>
+            <mp-field-visualization
+          subject="[[this]]"
+          fields='[[fieldDefinitionsFromQuery "SELECT ?field WHERE { ?field <http://www.researchspace.org/resource/system/fields/domain> crm:E22_Man-Made_Object. ?field <http://www.researchspace.org/resource/system/fields/order> ?order} ORDER BY ASC(?order) ?field"]]'
+          template='{{>sixtyone_edition_field_table}}'
+          >
+        <template id="sixtyone_edition_field_table">
+            [[> rsp:ResourceFieldBasedVisualization subject=[[this]]  ]]
+        </template>
+      </mp-field-visualization>
+  </template>
+</semantic-if>
             <div>
        <semantic-table 
       query='PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -294,3 +292,11 @@
     </bs-tab-container>
     [[/rsp:ClipboardSidebar]]
 </div>
+
+<style>
+  .thumbnailImage{
+    height:20vh; 
+    margin:1vw;
+    cursor: pointer;
+  }
+</style>
