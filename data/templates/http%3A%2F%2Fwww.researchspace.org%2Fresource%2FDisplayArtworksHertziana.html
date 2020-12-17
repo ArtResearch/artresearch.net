@@ -1,0 +1,34 @@
+<div class="text-center panel panel-default" style="border:none;margin-right:20px;font-size:12px;height:20px;width: 33%;display:inline;">
+<h4 align="center"><b>Artworks (Hertziana)</b></h4>
+</div>
+
+ <semantic-table 
+                query='PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+											 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+		 									 PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+
+											 SELECT  distinct $subject ?label ?artist 
+
+											 WHERE {
+     	                	$subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
+                        $subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <http://vocab.getty.edu/aat/300133025>.
+                        $subject <https://pharos.artresearch.net/custom/has_provider> <https://pharos.artresearch.net/resource/hertziana/source/C0E1A7B8-D249-3D0E-88C5-8FD265F000AA>.
+                        $subject rdfs:label ?label .
+                         
+                        $subject crm:P108i_was_produced_by ?production.
+                        ?production crm:P01i_is_domain_of ?carried.
+                        ?carried crm:P02_has_range ?artist
+
+  											} limit 1000' 
+                id="table-result"
+                number-of-displayed-rows= 100
+                options='{"showFilter": false, "showTableHeading": true}'
+                column-configuration='[
+ 							  {"variableName": "subject", "displayName": "Artwork"},             
+                {"variableName": "label", "displayName": "Label"},
+                {"variableName": "artist", "displayName": "Artist"}
+                ]'>
+</semantic-table>
+
+<br>
+<br>

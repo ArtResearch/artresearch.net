@@ -1,0 +1,31 @@
+<div class="text-center panel panel-default" style="border:none;margin-right:20px;font-size:12px;height:20px;width: 33%;display:inline;">
+<h4 align="center"><b>Repositories (Marburg)</b></h4>
+</div>
+
+ <semantic-table 
+                query='PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+											 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+		 									 PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+
+											 SELECT  distinct ?repository (count(?subject) as ?c)
+
+											 WHERE {
+                       
+                        $subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
+                        $subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <http://vocab.getty.edu/aat/300133025>.
+                        $subject <https://pharos.artresearch.net/custom/has_provider> <https://pharos.artresearch.net/resource/marburg/source/FD3EBB9F-41F9-3036-9BA5-791051BC5749>.
+
+    										?subject crm:P50_has_current_keeper ?repository
+                                 
+  											} GROUP BY(?repository) ORDER BY DESC(?c)' 
+                id="table-result"
+                number-of-displayed-rows= 100
+                options='{"showFilter": false, "showTableHeading": true}'
+                column-configuration='[
+ 							  {"variableName": "repository", "displayName": "Repository"},
+                {"variableName": "c", "displayName": "No. of Artworks"}
+                ]'>
+</semantic-table>
+
+<br>
+<br>

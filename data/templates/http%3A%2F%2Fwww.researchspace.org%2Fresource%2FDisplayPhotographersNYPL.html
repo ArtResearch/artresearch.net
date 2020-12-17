@@ -1,0 +1,28 @@
+<div class="text-center panel panel-default" style="border:none;margin-right:20px;font-size:12px;height:20px;width: 33%;display:inline;">
+<h4 align="center"><b>Photographers (NYPL)</b></h4>
+</div>
+
+ <semantic-table 
+                query='PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+											 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+		 									 PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+
+											 SELECT ?subject ?label
+											 WHERE {
+                         
+                        $subject <https://pharos.artresearch.net/custom/has_provider> <https://pharos.artresearch.net/resource/nypl/source/QHQMNU6O>.
+  											$subject rdfs:label ?label
+                                   
+											 } ' 
+                 
+                id="table-result" 
+                number-of-displayed-rows= 100
+                options='{"showFilter": false, "showTableHeading": true}'
+                column-configuration='[
+ 							  {"variableName": "subject", "displayName": "Photographer"},
+                {"variableName": "label", "displayName": "Label"}
+                ]'>
+</semantic-table>
+
+<br>
+<br>

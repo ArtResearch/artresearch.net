@@ -1,0 +1,27 @@
+<div class="text-center panel panel-default" style="border:none;margin-right:20px;font-size:12px;height:20px;width: 33%;display:inline;">
+<h4 align="center"><b>Repositories (Villa i Tatti SharedShelf)</b></h4>
+</div>
+
+ <semantic-table 
+                query='PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+											 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+		 									 PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+
+											 SELECT distinct $institution
+											 WHERE {
+                        
+                       $subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <http://vocab.getty.edu/aat/300133025>.
+                       $subject <https://pharos.artresearch.net/custom/has_provider>  <https://pharos.artresearch.net/resource/villaitatti/source/437307F4-17C7-3714-9760-75ED7C00B29D>.
+     	                 $subject crm:P50_has_current_keeper $institution
+											 }' 
+                 
+                id="table-result" 
+                number-of-displayed-rows= 100
+                options='{"showFilter": false, "showTableHeading": true}'
+                column-configuration='[
+ 							  {"variableName": "institution", "displayName": "Repository"}
+                ]'>
+</semantic-table>
+
+<br>
+<br>

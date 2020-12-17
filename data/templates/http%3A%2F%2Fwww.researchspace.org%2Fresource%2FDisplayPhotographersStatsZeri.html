@@ -1,0 +1,29 @@
+<div class="text-center panel panel-default" style="border:none;margin-right:20px;font-size:12px;height:20px;width: 33%;display:inline;">
+<h4 align="center"><b>Photographers (Zeri)</b></h4>
+</div>
+
+ <semantic-table 
+                query='PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+											 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+		 									 PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+
+											 SELECT distinct ?photographer
+											 WHERE {
+
+                        $subject <https://pharos.artresearch.net/custom/has_provider> <https://pharos.artresearch.net/resource/zeri/source/BE1153E1-A9C7-3A2B-B3C1-5EED24ED1531>.
+                       	$subject crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
+                         
+                        ?subject crm:P108i_was_produced_by ?production.
+                        ?production crm:P14_carried_out_by ?photographer
+											 } limit 1000' 
+                 
+                id="table-result" 
+                number-of-displayed-rows= 100
+                options='{"showFilter": false, "showTableHeading": true}'
+                column-configuration='[
+ 							  {"variableName": "photographer", "displayName": "Photographer"}
+                ]'>
+</semantic-table>
+
+<br>
+<br>

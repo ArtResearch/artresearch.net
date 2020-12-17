@@ -1,0 +1,12 @@
+<bs-tab-container id="vertical-tab-container" class="vertical-tabs" default-active-key="images">
+  <div style='height: 65vh; width:100%'>
+   <rs-iiif-mirador
+      image-or-region="[[this]]" 
+            
+      image-id-pattern='BIND("image" AS ?type). BIND( ?? AS ?imageIRI). ?? <http://www.cidoc-crm.org/cidoc-crm/P138i_has_representation> ?image .   
+BIND(REPLACE(STR(REPLACE(STR(?image),"/full/200%2C/0/native.jpg","")), "(^.*)\\/(.*)$", "$2") AS ?imageID)'
+                    iiif-server-url="https://ids.lib.harvard.edu/ids/iiif" 
+                                                         
+  />
+  </div>
+</bs-tab-container>
