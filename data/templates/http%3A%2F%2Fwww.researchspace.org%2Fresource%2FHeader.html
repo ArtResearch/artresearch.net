@@ -1,0 +1,44 @@
+<div class='page__header-body' data-flex-layout='row top-left'>
+  [[#if notDraggable]]
+  [[else]]
+  <div class="page__header-draggable-title">
+    <mp-draggable iri='[[this]]'>
+      <h2 data-flex-layout='row center-left'>
+        <span class="page__header-gripper"></span>
+        
+         <!-- <mp-label iri='[[singleValueFromSelect 'SELECT distinct ?title WHERE {{?? crm:P1_is_identified_by ?titleuri. ?titleuri  crm:P2_has_type <http://vocab.getty.edu/aat/300417193> . ?titleuri rdfs:label ?title} UNION {?subject owl:sameAs ??. ?subject crm:P1_is_identified_by ?titleuri. ?titleuri  crm:P2_has_type <http://vocab.getty.edu/aat/300417193> . ?titleuri rdfs:label ?title}}']]' class='page__header-gripper-label'></mp-label> -->
+        
+  			<mp-label iri='[[this]]' class='page__header-gripper-label'></mp-label>
+        
+      </h2>
+      
+
+      
+    </mp-draggable>
+  </div>
+  [[/if]]
+  <h2 data-flex-layout='row center-left' class="page__header-tagline">
+    <span class="icon-fc--header-title icon-fc--[[#if fc]][[fc]][[/if]]"></span>
+    <small>
+      [[#if fcLabel]]
+      <semantic-query
+        query='
+                             SELECT ?dataset WHERE {
+                               ?? <http://www.cidoc-crm.org/cidoc-crm/P50_has_current_keeper> ?repo .
+                               ?repo rdfs:label ?repo_label.
+                                OPTIONAL {
+                               ?? <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ?type .
+                               ?type rdfs:label ?type_label.
+                               ?type <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/vocab/maintype>}
+                               BIND(IF(BOUND(?repo), concat(?type_label," (Repository: ",str(?repo_label),")"), "(Repository: Unknown)") as ?dataset) .
+                             } LIMIT 1
+                             '
+        template='{{bindings.0.dataset.value}}'
+      ></semantic-query>
+      [[else]]
+      [[#if subLabel]][[subLabel]][[/if]]
+      [[#if labelChild]][[> @partial-block]][[/if]]
+      [[/if]]
+    </small>
+  </h2>
+</div>

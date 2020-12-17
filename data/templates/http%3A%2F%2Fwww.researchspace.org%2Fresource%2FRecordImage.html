@@ -1,0 +1,47 @@
+[[#if (ask 'ASK {{?? crm:P138i_is_represented_by ?vi . ?vi crm:P128i_is_carried_by ?subject . 	?subject crm:P129i_is_subject_of ?mainRepresentationImage.} UNION {?? crm:P129i_is_subject_of ?mainRepresentationImage. } UNION {?source owl:sameAs ?? . ?source crm:138i_is_represented_by  ?vi. } BIND(COALESCE(?mainImage, ?representationImage) AS ?image) .}')]]
+
+<div class="rs-page__summary-image">
+  <rs-object-representations query='SELECT distinct ?label (bound(?mainRepresentationImage) AS ?isMainRep) (STR(COALESCE(?mainRepresentationImage,?representationImage)) AS ?imgURL)
+                   WHERE {
+                     {
+                        ?? rso:displayLabel ?label .
+                     }
+
+                     UNION 
+                     {
+                        ?? crm:P138i_is_represented_by ?vi.
+     										?vi crm:P128i_is_carried_by ?subject .
+      									?subject crm:P2_has_type <http://vocab.getty.edu/aat/300046300> .
+                       	?subject crm:P129i_is_subject_of ?mainRepresentationImage.
+                     }
+                     
+                     UNION 
+                     {
+                        ?source owl:sameAs ?? .
+                        ?source crm:P138i_is_represented_by ?vi.
+     										?vi crm:P128i_is_carried_by ?subject .
+      									?subject crm:P2_has_type <http://vocab.getty.edu/aat/300046300> .
+                       	?subject crm:P129i_is_subject_of ?mainRepresentationImage.
+                     }
+                     
+                     UNION 
+                     {
+                        ?? crm:P138i_is_represented_by ?vi.
+     									  ?vi crm:P165i_is_incorported_in 	?subject.
+ 												?subject crm:P2_has_type <http://vocab.getty.edu/aat/300417379>.
+                       	?subject crm:P129i_is_subject_of ?mainRepresentationImage.
+                     }
+                     
+                     UNION 
+                     {
+                       	?? crm:P2_has_type <http://vocab.getty.edu/aat/300046300> .
+                        ?? crm:P129i_is_subject_of ?mainRepresentationImage.
+                     }
+    
+                   }'
+                   template='<img class="object-representations__image--rep" src="{{imgURL.value}}"/>'
+                  >
+  </rs-object-representations>
+</div>
+
+[[/if]]

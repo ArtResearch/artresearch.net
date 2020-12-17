@@ -43,7 +43,6 @@
           <bs-tab-pane event-key="summary">
             [[#if (ask 'ASK {{?? rso:PX_has_main_representation ?mainImage .} UNION {?? crm:P138i_has_representation ?representationImage .} UNION {?? <http://www.cidoc-crm.org/cidoc-crm/P16i_was_used_for> ?creation .}  UNION {?? <http://www.cidoc-crm.org/cidoc-crm/P138i_is_represented_by> ?vi .} UNION {?source owl:sameAs ?? . ?source crm:P138i_is_represented_by ?vi. } BIND(COALESCE(?mainImage, ?representationImage) AS ?image) .}')]]
 <div class="rs-page__summary-image">
-  <h2>test</h2>
        <mp-overlay-dialog title="Inspect image in detail" class="miradorViewerPopup">
          <mp-overlay-dialog-trigger>
            <div class="rs-page__summary-image">
@@ -159,12 +158,12 @@
   </template>
 </semantic-table>
 
-                                            <mp-field-visualization subject='[[this]]' additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
-                                                                    fields='[[fieldDefinitionsFromQuery  "SELECT DISTINCT ?field WHERE {?field <http://www.metaphacts.com/ontology/fields#domain> <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>. OPTIONAL {?field <https://pharos.artresearch.net/field/order> ?w}} ORDER BY ASC(?w)"]]'
-                                                                    template='{{> template}}'>
-                                                <template id="template">{{> rsp:FieldBasedVisualization subject="[[this]]"}}</template>
+        <mp-field-visualization subject='[[this]]' additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
+                                fields='[[fieldDefinitionsFromQuery  "SELECT DISTINCT ?field WHERE {?field <http://www.metaphacts.com/ontology/fields#domain> <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>. OPTIONAL {?field <https://pharos.artresearch.net/field/order> ?w}} ORDER BY ASC(?w)"]]'
+                                template='{{> template}}'>
+            <template id="template">{{> rsp:FieldBasedVisualization subject="[[this]]"}}</template>
 
-                                            </mp-field-visualization>
+        </mp-field-visualization>
 
             
             <semantic-table 
