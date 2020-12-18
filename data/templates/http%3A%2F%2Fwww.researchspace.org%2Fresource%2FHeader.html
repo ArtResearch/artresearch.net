@@ -18,7 +18,6 @@
   </div>
   [[/if]]
   <h2 data-flex-layout='row center-left' class="page__header-tagline">
-    <span class="icon-fc--header-title icon-fc--[[#if fc]][[fc]][[/if]]"></span>
     <small>
       [[#if fcLabel]]
       <semantic-query
@@ -38,7 +37,7 @@
         template='{{> fcLabelTemplate}}'
       >
           <template id="fcLabelTemplate">
-              <div>
+              <div id="fcLabel">
                 <span>
                   {{#each bindings}}
                   {{#ifCond providerLabel.value "!==" undefined }} 
@@ -47,16 +46,30 @@
                       <img src="../../assets/itatti.ico">
                    {{/ifCond}}
                       
-                   {{#ifCond providerLabel.value "===" "I Tatti" }}
-                      <img src="../../assets/itatti.ico">
+                   {{#ifCond providerLabel.value "===" "Zeri" }}
+                      <img src="../../assets/zeri.ico">
                    {{/ifCond}}
+
+                   {{#ifCond providerLabel.value "===" "Marburg" }}
+                     <img src="../../assets/marburg.ico">
+                   {{/ifCond}}
+
+                   {{#ifCond providerLabel.value "===" "Hertziana" }}
+                      <img src="../../assets/hertz.ico">
+                   {{/ifCond}}
+
+                    {{#ifCond providerLabel.value "===" "Frick" }}
+                      <img src="../../assets/frick.ico">
+                     {{/ifCond}}
+
+                     {{#ifCond providerLabel.value "===" "KHI" }}
+                     <img src="../../assets/khi.ico">
+                    {{/ifCond}}
 
                   {{/ifCond}}
                 {{/each}}
                 </span>
                 <h3>{{bindings.0.dataset.value}}</h3>
-                  {{log bindings}}
-                
               </div>
           </template>
     </semantic-query>
@@ -67,3 +80,17 @@
     </small>
   </h2>
 </div>
+
+<style>
+#fcLabel{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#fcLabel img{
+  height: 18px;
+  margin: 1vh
+}
+
+
+</style>

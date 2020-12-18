@@ -43,11 +43,11 @@
           <bs-tab-pane event-key="summary">
             [[#if (ask 'ASK {{?? rso:PX_has_main_representation ?mainImage .} UNION {?? crm:P138i_has_representation ?representationImage .} UNION {?? <http://www.cidoc-crm.org/cidoc-crm/P16i_was_used_for> ?creation .}  UNION {?? <http://www.cidoc-crm.org/cidoc-crm/P138i_is_represented_by> ?vi .} UNION {?source owl:sameAs ?? . ?source crm:P138i_is_represented_by ?vi. } BIND(COALESCE(?mainImage, ?representationImage) AS ?image) .}')]]
           <div class="rs-page__summary-image">
-                <mp-overlay-dialog title="Inspect image in detail" class="miradorViewerPopup">
+                <mp-overlay-dialog title="‎‎" class="miradorViewerPopup">
                   <mp-overlay-dialog-trigger>
                     <div class="rs-page__summary-image">
-                      <semantic-query query='SELECT distinct ?imgURL
-                            WHERE {
+                      <semantic-query query='
+                      SELECT distinct ?imgURL  WHERE {
                                   ?? crm:P138i_is_represented_by ?visual_item.
                                   ?visual_item crm:P128i_is_carried_by ?photo.
                                   ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
@@ -63,10 +63,9 @@
               </div>
                   </mp-overlay-dialog-trigger>
                   <mp-overlay-dialog-content>
-                      <div style='height: 80vh; width: 90vw !important;'>
+                      <div style='height: 80vh; width: 100%;'>
                           <rs-iiif-mirador
-                            id="modal_mirador"
-                            image-or-region="[[#if record]][[record]][[else]]{{record}}[[/if]]" 
+                            image-or-region="[[this]]" 
                             image-id-pattern='BIND("image" AS ?type). BIND( ?? AS ?imageIRI). 
                             ?? crm:P138i_is_represented_by ?visual_item.
                             ?visual_item crm:P128i_is_carried_by ?photo.
@@ -75,7 +74,7 @@
                             ?image crm:P2_has_type <http://iiif.io/api/image>.
                             BIND(REPLACE(STR(REPLACE(STR(?image),"/full/full/0/native.jpg","")), "(^.*)\\/(.*)$", "$2") AS ?imageID)'
                           
-                            iiif-server-url="https://ids.lib.harvard.edu/ids/iiif" 
+                            iiif-server-url="https://ids.lib.harvard.edu/ids/iiif/" 
                               
                           />
                       </div>
@@ -125,10 +124,7 @@
 </semantic-if>
             <div>
        <semantic-table 
-      query='PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-						 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-		 				 PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
-
+      query='
 					 	 SELECT distinct ?record ?image WHERE 
 						{
               {
@@ -165,10 +161,7 @@
 
             
             <semantic-table 
-      query='PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-						 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-		 				 PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
-
+      query='
 					 	 SELECT distinct ?photo ?photo_label ?keeper ?keeper_label ?photographer ?photographer_label ?verso ?recto WHERE 
 						{
   							<[[this]]> crm:P138i_is_represented_by ?visual_item.
@@ -229,11 +222,8 @@
             
      [[#if (ask "ASK {?? crm:P2_has_type <https://pharos.artresearch.net/resource/type/pharos> }") ]]         
      <semantic-table 
-      query='PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-						 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-		 				 PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
-
-					 	 SELECT distinct ?photo ?photo_label ?keeper ?keeper_label ?photographer ?photographer_label ?recto ?verso WHERE 
+      query='
+      		SELECT distinct ?photo ?photo_label ?keeper ?keeper_label ?photographer ?photographer_label ?recto ?verso WHERE 
 						{
   							?original owl:sameAs ??.
                 ?original crm:P138i_is_represented_by ?visual_item.
@@ -244,7 +234,8 @@
                 ?production crm:P14_carried_out_by ?photographer.
                 ?photographer rdfs:label ?phototographer_label.
                 ?photo crm:P138i_has_representation ?recto.
-            }' 
+            }
+            ' 
             options='{"showFilter": false, "showTableHeading": false}'
             tuple-template='{{> photos}}'
 >
@@ -299,4 +290,28 @@
     margin:1vw;
     cursor: pointer;
   }
+  .miradorViewerPopup .grid-demo{
+    height: 92vh;
+}
+  .miradorViewerPopup .modal-dialog{
+      width: 85%;
+  }
+  .miradorViewerPopup .modal-title{
+      text-align: center;
+  }
+  .mirador-main-menu-bar{
+    display: none !important;
+    }
+
+    .mirador-viewer{
+        top: 0px !important;
+    }
+    .mirador-osd-annotation-controls{
+        display: none !important;
+    }
+    a.mirador-icon-window-menu{
+        display: none !important;
+    }
+    
+
 </style>
