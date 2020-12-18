@@ -23,18 +23,43 @@
       [[#if fcLabel]]
       <semantic-query
         query='
-                             SELECT ?dataset WHERE {
-                               ?? <http://www.cidoc-crm.org/cidoc-crm/P50_has_current_keeper> ?repo .
-                               ?repo rdfs:label ?repo_label.
-                                OPTIONAL {
-                               ?? <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ?type .
-                               ?type rdfs:label ?type_label.
-                               ?type <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/vocab/maintype>}
-                               BIND(IF(BOUND(?repo), concat(?type_label," (Repository: ",str(?repo_label),")"), "(Repository: Unknown)") as ?dataset) .
-                             } LIMIT 1
+              SELECT ?dataset ?providerLabel WHERE {
+                ?? <http://www.cidoc-crm.org/cidoc-crm/P50_has_current_keeper> ?repo .
+                ?repo rdfs:label ?repo_label.
+                ?? <https://pharos.artresearch.net/custom/has_provider> ?provider.
+                ?provider rdfs:label ?providerLabel
+                OPTIONAL {
+                ?? <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ?type .
+                ?type rdfs:label ?type_label.
+                ?type <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/vocab/maintype>}
+                  BIND(IF(BOUND(?repo), concat(?type_label," (Provider: ",str(?providerLabel),")"), "(Repository: Unknown)") as ?dataset) .
+              } LIMIT 1
                              '
-        template='{{bindings.0.dataset.value}}'
-      ></semantic-query>
+        template='{{> fcLabelTemplate}}'
+      >
+          <template id="fcLabelTemplate">
+              <div>
+                <span>
+                  {{#each bindings}}
+                  {{#ifCond providerLabel.value "!==" undefined }} 
+                    
+                   {{#ifCond providerLabel.value "===" "I Tatti" }}
+                      <img src="../../assets/itatti.ico">
+                   {{/ifCond}}
+                      
+                   {{#ifCond providerLabel.value "===" "I Tatti" }}
+                      <img src="../../assets/itatti.ico">
+                   {{/ifCond}}
+
+                  {{/ifCond}}
+                {{/each}}
+                </span>
+                <h3>{{bindings.0.dataset.value}}</h3>
+                  {{log bindings}}
+                
+              </div>
+          </template>
+    </semantic-query>
       [[else]]
       [[#if subLabel]][[subLabel]][[/if]]
       [[#if labelChild]][[> @partial-block]][[/if]]
