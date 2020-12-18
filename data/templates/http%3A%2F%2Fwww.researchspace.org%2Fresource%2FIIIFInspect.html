@@ -3,24 +3,26 @@
        	<div class="grid-demo">
       
    
-  <div style='height: 65vh;'>
+  <div style='width:60vw; height: 70vh;'>
 
    <rs-iiif-mirador
-  image-or-region="[[this]]" 
-
-image-id-pattern='BIND("image" AS ?type). BIND( ?? AS ?imageIRI). ?? <http://www.cidoc-crm.org/cidoc-crm/P129i_is_subject_of> ?image . ?image crm:P2_has_type <http://iiif.io/api/image> .
-  
-BIND(REPLACE(STR(REPLACE(STR(?image),"/full/full/0/native.jpg","")), "(^.*)\\/(.*)$", "$2") AS ?imageID)'
-  
-iiif-server-url="https://ids.lib.harvard.edu/ids/iiif" 
+   image-or-region="[[#if record]][[record]][[else]]{{record}}[[/if]]"
+                            image-id-pattern='BIND("image" AS ?type). BIND( ?? AS ?imageIRI). 
+                            ?? crm:P138i_is_represented_by ?visual_item.
+                            ?visual_item crm:P128i_is_carried_by ?photo.
+                            ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
+                            ?photo crm:P129i_is_subject_of ?image.
+                            ?image crm:P2_has_type <http://iiif.io/api/image>.
+                            BIND(REPLACE(STR(REPLACE(STR(?image),"/full/full/0/native.jpg","")), "(^.*)\\/(.*)$", "$2") AS ?imageID)'
+                          
+                            iiif-server-url="https://ids.lib.harvard.edu/ids/iiif/" 
        
   />
 
   </div>
 
   </div> 
-  	<div class="grid-demo">
-  
+      <div id="photo-cards">
   <semantic-table 
       query='PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 						 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -49,57 +51,103 @@ iiif-server-url="https://ids.lib.harvard.edu/ids/iiif"
             tuple-template='{{> photos}}'
 >
  <template id='photos'>
-				<table class='table'>
-              <tr>
-                <td>
-       
-                <a href={{json.value}} style="margin-top:18px;margin-right:20px;">  
-          				 <img src={{recto.value}} style="max-height:170px; max-width:170px; margin: 0 auto;" class="img-rounded">
-         				</a>
-                </td>
-                <td>
-                   Photograph:
+				<div draggable="true" href={{json.value}} class='card' title="drag & drop into viewer to inspect">
+                <bs-col md="4" sm="12">
+          				 <img src={{recto.value}}>
+                </bs-col>
+                <bs-col md="8" sm="12">
+                  <h4>Photograph:</h4>
                  	<semantic-link iri="{{photo.value}}"> 
           				{{photo.value}}
                   </semantic-link> <br>
-                  Photographer:
+                  <h4>Photographer:</h4>
                  	<semantic-link iri="{{photographer.value}}"> 
           				 {{photographer_label.value}}
                   </semantic-link> <br>
-                  IIIF Image:
-                  <a href={{recto.value}} style="margin-top:18px;margin-right:20px;">  
+                  <h4>IIIF Image:</h4>
+                  <a target="_null" href={{recto.value}} style="margin-top:18px;margin-right:20px;">  
           			  {{recto.value}}
          				  </a>
                   <br>
-                  IIIF Image Json:
-                  <a href={{json.value}} style="margin-top:18px;margin-right:20px;">  
+                  <h4>IIIF Image Json:</h4>
+                  <a target="_null" href={{json.value}} style="margin-top:18px;margin-right:20px;">  
           			  {{json.value}}
          				  </a>
  
          				
-                 </td>
-              </tr>
-            </table>
-        
+                 </bs-col>
+            </div>
   </template>    
 </semantic-table>
-  
-  
-  
-  </div>
-        
-  
-       
-   
-
+</div>
 </div>
 
 
 
 
 
+<style>
+
+.mirador .researchspace-mirador .qtip-dark{
+  background-color: white !important;
+}
+
+  #photo-cards{
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 70vh;
+  }
+
+  #photo-cards .card{
+    cursor: grab;
+    width: 30vw;
+    margin-bottom: 2vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2vh;
+    padding: 1vh;
+  }
+
+  #photo-cards .card img{
+    height: 9vw;
+    max-height:170px; 
+    max-width:170px; 
+    margin: 12px;
+    user-select: none;
+  }
+
+  #photo-cards .card a{
+    user-select: none;
+  }
+  
+  #photo-cards .card:active{
+    cursor: grabbing !important;
+  }
 
 
+  #photo-cards .card h4{
+    line-height: 0.6 !important;
+    font-weight: bold !important;
+    color: #8b2e32 !important ;
+    user-select: none;
+  }
+
+
+  .mirador-main-menu-bar{
+    display: block !important;
+    }
+
+    .mirador-viewer{
+        top: 0px !important;
+    }
+
+    
+
+</style>
 
 
 
