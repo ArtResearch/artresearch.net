@@ -225,15 +225,20 @@
       query='
       		SELECT distinct ?photo ?photo_label ?keeper ?keeper_label ?photographer ?photographer_label ?recto ?verso WHERE 
 						{
-  							?original owl:sameAs ??.
-                ?original crm:P138i_is_represented_by ?visual_item.
-  							?visual_item crm:P128i_is_carried_by ?photo.
-  							?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
-
-                ?photo crm:P108i_was_produced_by ?production .
-                ?production crm:P14_carried_out_by ?photographer.
-                ?photographer rdfs:label ?phototographer_label.
-                ?photo crm:P138i_has_representation ?recto.
+              ?? crm:P138i_is_represented_by ?visual_item.
+              ?visual_item crm:P128i_is_carried_by ?photo.
+              ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
+            
+              ?photo crm:P50_has_current_keeper ?keeper.
+              ?keeper rdfs:label ?keeper_label.
+              ?photo crm:P108i_was_produced_by ?production .
+              ?production crm:P14_carried_out_by ?photographer.
+              ?photographer rdfs:label ?phototographer_label.
+ 
+              ?photo crm:P129i_is_subject_of ?recto.
+              ?recto crm:P2_has_type <http://iiif.io/api/image> .
+              ?recto crm:P2_has_type ?typer .
+              ?typer rdfs:label "recto".
             }
             ' 
             options='{"showFilter": false, "showTableHeading": false}'

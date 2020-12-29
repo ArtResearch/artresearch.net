@@ -42,6 +42,11 @@
                   {{#each bindings}}
                   {{#ifCond providerLabel.value "!==" undefined }} 
                     
+                  {{#ifCond providerLabel.value "===" "Pharos" }}
+                    <img src="../../assets/pharos.ico">
+                  {{/ifCond}}
+
+
                    {{#ifCond providerLabel.value "===" "I Tatti" }}
                       <img src="../../assets/itatti.ico">
                    {{/ifCond}}
@@ -65,6 +70,7 @@
                      {{#ifCond providerLabel.value "===" "KHI" }}
                      <img src="../../assets/khi.ico">
                     {{/ifCond}}
+            
 
                   {{/ifCond}}
                 {{/each}}

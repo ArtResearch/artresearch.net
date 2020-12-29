@@ -181,7 +181,7 @@
                   >
                     <template id='gridItem'>
                       <mp-draggable iri="{{iri.value}}">
-                        {{#> rsp:ItemCard}}
+                        {{#> rsp:itemCardTemplate}}
                         <bs-dropdown-button bs-style="link" title="" id="result-item-action-{{iri.value}}">
                           <semantic-search-action-use-result-item-in-extended-search iri='{{iri.value}}'>
                             <bs-menu-item event-key="explore">Start search</bs-menu-item>
@@ -209,7 +209,7 @@
                             <bs-menu-item event-key="explore">Explore (Detailed)</bs-menu-item>
                           </mp-resource-link-container>
                         </bs-dropdown-button>
-                        {{/ rsp:ItemCard}}
+                        {{/ rsp:itemCardTemplate}}
                       </mp-draggable>
                     </template>
                   </semantic-table>
@@ -300,7 +300,7 @@
                                     <semantic-link uri='{{iri.value}}'></semantic-link>
                                   </div>
                                 </mp-popover-trigger>
-                                <mp-popover-content>{{> rsp:ItemCard}}</mp-popover-content>
+                                <mp-popover-content>{{> rsp:itemCardTemplate}}</mp-popover-content>
                               </mp-popover>
                             </template>
                           </semantic-timeline>

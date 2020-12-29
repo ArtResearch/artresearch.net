@@ -395,7 +395,7 @@
                   >
                     <template id='gridItem'>
                       <mp-draggable iri="{{iri.value}}">
-                        {{#> rsp:ItemCard}}
+                        {{#> rsp:itemCardTemplate}}
                         <bs-dropdown-button bs-style="link" title="" id="result-item-action-{{iri.value}}">
                           <semantic-search-action-use-result-item-in-extended-search iri='{{iri.value}}'>
                             <bs-menu-item event-key="explore">Start search</bs-menu-item>
@@ -423,7 +423,7 @@
                             <bs-menu-item event-key="explore">Explore (Detailed)</bs-menu-item>
                           </mp-resource-link-container>
                         </bs-dropdown-button>
-                        {{/ rsp:ItemCard}}
+                        {{/ rsp:itemCardTemplate}}
                       </mp-draggable>
                     </template>
                   </semantic-table>
@@ -514,7 +514,7 @@
                                     <semantic-link uri='{{iri.value}}'></semantic-link>
                                   </div>
                                 </mp-popover-trigger>
-                                <mp-popover-content>{{> rsp:ItemCard}}</mp-popover-content>
+                                <mp-popover-content>{{> rsp:itemCardTemplate}}</mp-popover-content>
                               </mp-popover>
                             </template>
                           </semantic-timeline>
@@ -565,3 +565,47 @@
   </div>
   [[/rsp:ClipboardSidebar]]
 </div>
+
+<style>
+.QueryBuilder--itemHolder {
+    height: 5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    box-shadow: 0px 2px 2px 0px lightgrey;
+    padding-left: 12px;
+    padding-right: 12px;
+    min-width: 140px;
+}
+
+
+.QueryBuilder--searchClause {
+    margin: 10px 0;
+    flex-wrap: wrap;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    height: fit-content;
+    position: relative;
+  border: none !important;
+
+}
+
+.QueryBuilder--selectedItem:after {
+    content: "";
+    position: absolute;
+    width: 35.12px;
+    height: 35.12px;
+    top: 8px;
+    right: -15px;
+    transform: scaleX(.7) rotate(45deg);
+    padding: 0;
+    z-index: 1;
+    border: 1px solid #ccc;
+    border-bottom: none;
+    border-left: none;
+    background-color: #fff;
+}
+
+</style>
