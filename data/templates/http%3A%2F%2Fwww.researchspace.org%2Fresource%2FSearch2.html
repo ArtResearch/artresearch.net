@@ -2,29 +2,42 @@
   <li class="active">Home</li>
 </ol>
 
-<mp-event-proxy id='clipboard-update-on-save-set' on-event-source='save-set-result-action'
-                proxy-event-type='Component.Refresh' proxy-targets='["clipboard-sidebar"]'
+<mp-event-proxy
+  id="clipboard-update-on-save-set"
+  on-event-source="save-set-result-action"
+  proxy-event-type="Component.Refresh"
+  proxy-targets='["clipboard-sidebar"]'
 ></mp-event-proxy>
 
-<mp-event-proxy id='clipboard-update-on-save-search' on-event-source='save-search-result-action'
-                proxy-event-type='Component.Refresh' proxy-targets='["clipboard-sidebar"]'
+<mp-event-proxy
+  id="clipboard-update-on-save-search"
+  on-event-source="save-search-result-action"
+  proxy-event-type="Component.Refresh"
+  proxy-targets='["clipboard-sidebar"]'
 ></mp-event-proxy>
 
-<mp-event-proxy id='clipboard-update-on-persisted-component' on-event-source='persit-component-action'
-                proxy-event-type='Component.Refresh' proxy-targets='["clipboard-sidebar"]'
+<mp-event-proxy
+  id="clipboard-update-on-persisted-component"
+  on-event-source="persit-component-action"
+  proxy-event-type="Component.Refresh"
+  proxy-targets='["clipboard-sidebar"]'
 ></mp-event-proxy>
 
-<mp-event-proxy id='guided-tour-run' on-event-type='Component.Loaded' on-event-source='semantic-search'
-  proxy-event-type='GuidedTour.RunIfNotSeen' proxy-targets='["guided-tour-search"]'>
+<mp-event-proxy
+  id="guided-tour-run"
+  on-event-type="Component.Loaded"
+  on-event-source="semantic-search"
+  proxy-event-type="GuidedTour.RunIfNotSeen"
+  proxy-targets='["guided-tour-search"]'
+>
 </mp-event-proxy>
 <div class="page">
   [[#>rsp:ClipboardSidebar]]
-  <div class='page__body--borderless'>
-    
+  <div class="page__body--borderless">
     <semantic-search
-      id='semantic-search'
-      limit=50000
-      optimizer=blazegraph
+      id="semantic-search"
+      limit="50000"
+      optimizer="blazegraph"
       categories='{
     "<http://www.researchspace.org/ontology/Concept>": [
       {
@@ -97,7 +110,7 @@
       }
     ]
   }'
-    search-profile='{
+      search-profile='{
     "defaultProfile": "<http://www.researchspace.org/profile/all>",
     "categoriesQuery": "
         SELECT DISTINCT ?profile ?category ?label ?thumbnail ?description WHERE {
@@ -161,13 +174,14 @@
         }
         ORDER BY ?orderLabel ?label
     "
-  }'>
+  }'
+    >
       <semantic-search-query-builder
-        id='semantic-query-builder'
+        id="semantic-query-builder"
         relation-template='
       <div style="margin-left: {{order.value}}px">{{label}}</div>
     '
-      resource-selector='{
+        resource-selector='{
       "query":
         [[#if solr]]
           "
@@ -216,8 +230,7 @@
      "suggestionTupleTemplate": "<span title=\"{{label.value}}\">{{label.value}}</span>",
      "noSuggestionsTemplate": "<div class=\"suggestion-no-matches\">no matches found</div>"
    }'
-
-     tree-selector='{
+        tree-selector='{
      "rootsQuery": "
         select distinct ?item ?label ?hasChildren where {
          <http://www.bigdata.com/queryHints#Query> <http://www.bigdata.com/queryHints#optimizer> \"None\".
@@ -323,8 +336,7 @@
       [[/if]],
      "placeholder": "Search ... "
    }'
-
-    geo-selector='{
+        geo-selector='{
      "query": "
         SELECT ?value ?label ?lat ?long WHERE {
           ?value crm:P87_is_identified_by ?coord;
@@ -339,13 +351,12 @@
      "
    }'
       >
-
       </semantic-search-query-builder>
       <div data-flex-layout="row stretch-stretch">
-        <div data-flex-self="size-1of3" style="flex: 0 0 0;">
+        <div data-flex-self="size-1of3" style="flex: 0 0 0">
           <semantic-search-facet
-            id='semantic-search-facet'
-            select-first-category=true
+            id="semantic-search-facet"
+            select-first-category="true"
             value-categories='{
     "<http://www.researchspace.org/ontology/Time>": {
       "kind": "date-range",
@@ -362,66 +373,102 @@
         <semantic-search-result-holder>
           <div data-flex-self="md-full">
             <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
-            <semantic-search-result id='semantic-search-result'>
-              <mp-sparql-result-counts id='semantic-search-result-count' query="SELECT DISTINCT ?subject {}"
-                                       template='{{> template}}'
+            <semantic-search-result id="semantic-search-result">
+              <mp-sparql-result-counts
+                id="semantic-search-result-count"
+                query="SELECT DISTINCT ?subject {}"
+                template="{{> template}}"
               >
-                <template id='template'>
+                <template id="template">
                   {{#if hasLimit}}
                   <bs-alert bs-style="warning" class="search-results__alert">
-                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                    <span class="num-results">Found {{numberOfResults}} matches</span> of {{totalNumberOfResults}} matches. <strong>Please, refine your search.</strong>
+                    <i
+                      class="fa fa-exclamation-triangle"
+                      aria-hidden="true"
+                    ></i>
+                    <span class="num-results"
+                      >Found {{numberOfResults}} matches</span
+                    >
+                    of {{totalNumberOfResults}} matches.
+                    <strong>Please, refine your search.</strong>
                   </bs-alert>
                   {{else}}
-                  <span class="num-results">Found {{numberOfResults}} matches</span>
+                  <span class="num-results"
+                    >Found {{numberOfResults}} matches</span
+                  >
                   {{/if}}
                 </template>
               </mp-sparql-result-counts>
             </semantic-search-result>
-            <bs-tabs default-active-key='2' unmount-on-exit=true id='search-results' animation=false class='tabs-right'>
+            <bs-tabs
+              default-active-key="2"
+              unmount-on-exit="true"
+              id="search-results"
+              animation="false"
+              class="tabs-right"
+            >
               <bs-tab event-key="1" title="Grid">
                 <semantic-search-result>
                   <semantic-table
-                    id='semantic-search-result-grid'
-                    query='
-                    SELECT DISTINCT ?subject ?iri WHERE {
+                    id="semantic-search-result-grid"
+                    query="
+                    SELECT DISTINCT ?subject ?iri ?imgUrl WHERE {
                       FILTER EXISTS { ?subject (rdfs:label | rso:displayLabel) ?label }
-                        OPTIONAL {?subject (rs:PX_has_main_representation | crm:P138i_has_representation) ?image}
+                        OPTIONAL {?subject (rs:PX_has_main_representation | crm:P138i_is_represented_by) ?visual.
+                          ?visual <http://www.cidoc-crm.org/cidoc-crm/P128i_is_carried_by> ?photo.
+                          ?photo <http://www.cidoc-crm.org/cidoc-crm/P129i_is_subject_of> ?imgUrl}
                       BIND(?subject as ?iri) .
                     } ORDER BY DESC(?image)
-                  '
-                    tuple-template='{{> gridItem }}',
-                    options='{"showFilter":false, "resultsPerPage":16}'
+                  "
+                    tuple-template="{{> gridItem }}"
+                    options='{"showFilter":false, "resultsPerPage":12}'
                   >
-                    <template id='gridItem'>
+                    <template id="gridItem">
                       <mp-draggable iri="{{iri.value}}">
                         {{#> rsp:itemCardTemplate}}
-                        <bs-dropdown-button bs-style="link" title="" id="result-item-action-{{iri.value}}">
-                          <semantic-search-action-use-result-item-in-extended-search iri='{{iri.value}}'>
-                            <bs-menu-item event-key="explore">Start search</bs-menu-item>
-                          </semantic-search-action-use-result-item-in-extended-search>
+                        <bs-dropdown-button
+                          bs-style="link"
+                          title=""
+                          id="result-item-action-{{iri.value}}"
+                        >
+                          <!-- <semantic-search-action-use-result-item-in-extended-search
+                            iri="{{iri.value}}"
+                          >
+                            <bs-menu-item event-key="explore"
+                              >Start search</bs-menu-item
+                            >
+                          </semantic-search-action-use-result-item-in-extended-search> -->
 
-                          <mp-anonymous-hidden>
-                            <mp-overlay-dialog title="New Image" bs-size='lg'>
+                          <!-- <mp-anonymous-hidden>
+                            <mp-overlay-dialog title="New Image" bs-size="lg">
                               <mp-overlay-dialog-trigger>
-                                <bs-menu-item>
-                                  Add Image
-                                </bs-menu-item>
+                                <bs-menu-item> Add Image </bs-menu-item>
                               </mp-overlay-dialog-trigger>
                               <mp-overlay-dialog-content>
-                                <mp-page-loader iri="http://www.researchspace.org/resource/NewImageAssertion"
-                                                urlqueryparam-subject="{{iri.value}}"
+                                <mp-page-loader
+                                  iri="http://www.researchspace.org/resource/NewImageAssertion"
+                                  urlqueryparam-subject="{{iri.value}}"
                                 ></mp-page-loader>
                               </mp-overlay-dialog-content>
                             </mp-overlay-dialog>
-                          </mp-anonymous-hidden>
+                          </mp-anonymous-hidden> -->
 
-                          <mp-resource-link-container uri='http://www.researchspace.org/resource/FcFrOntodia' urlqueryparam-instance='{{iri.value}}'>
-                            <bs-menu-item event-key="explore">Explore (Simple)</bs-menu-item>
+                          <!-- <mp-resource-link-container
+                            uri="http://www.researchspace.org/resource/FcFrOntodia"
+                            urlqueryparam-instance="{{iri.value}}"
+                          >
+                            <bs-menu-item event-key="explore"
+                              >Explore (Simple)</bs-menu-item
+                            >
                           </mp-resource-link-container>
-                          <mp-resource-link-container uri='http://www.researchspace.org/resource/CidocOntodia' urlqueryparam-instance='{{iri.value}}'>
-                            <bs-menu-item event-key="explore">Explore (Detailed)</bs-menu-item>
-                          </mp-resource-link-container>
+                          <mp-resource-link-container
+                            uri="http://www.researchspace.org/resource/CidocOntodia"
+                            urlqueryparam-instance="{{iri.value}}"
+                          >
+                            <bs-menu-item event-key="explore"
+                              >Explore (Detailed)</bs-menu-item
+                            >
+                          </mp-resource-link-container> -->
                         </bs-dropdown-button>
                         {{/ rsp:itemCardTemplate}}
                       </mp-draggable>
@@ -431,25 +478,36 @@
               </bs-tab>
               <bs-tab event-key="2" title="Table">
                 <semantic-search-result>
-                  <semantic-table id='semantic-search-result-table'
-                                  query='SELECT DISTINCT ?subject WHERE { } ORDER BY ?subject'
-                                  options='{"showFilter":false, "resultsPerPage":10}'
+                  <semantic-table
+                    id="semantic-search-result-table"
+                    query="SELECT DISTINCT ?subject WHERE { } ORDER BY ?subject"
+                    options='{"showFilter":false, "resultsPerPage":10}'
                   >
                   </semantic-table>
                 </semantic-search-result>
               </bs-tab>
               <bs-tab event-key="3" title="Chart">
-                <semantic-search-result-context ranges='["http://www.researchspace.org/ontology/Concept", "http://www.researchspace.org/ontology/Place", "http://www.researchspace.org/ontology/Actor"]'>
-                  <semantic-search-result id='semantic-search-result-chart'>
+                <semantic-search-result-context
+                  ranges='["http://www.researchspace.org/ontology/Concept", "http://www.researchspace.org/ontology/Place", "http://www.researchspace.org/ontology/Actor"]'
+                >
+                  <semantic-search-result id="semantic-search-result-chart">
                     <mp-component-toolbar>
                       <mp-component-toolbar-actions>
-                        <semantic-chart-type-selector id='search-result-chart-type-selector' default="bar" types='["line", "bar", "radar", "pie", "donut"]' style='margin-right: 10px;'></semantic-chart-type-selector>
+                        <semantic-chart-type-selector
+                          id="search-result-chart-type-selector"
+                          default="bar"
+                          types='["line", "bar", "radar", "pie", "donut"]'
+                          style="margin-right: 10px"
+                        ></semantic-chart-type-selector>
                         <mp-component-toolbar-action-download></mp-component-toolbar-action-download>
-                        <mp-component-toolbar-action-save id='persit-component-action' add-to-default-set=true></mp-component-toolbar-action-save>
+                        <mp-component-toolbar-action-save
+                          id="persit-component-action"
+                          add-to-default-set="true"
+                        ></mp-component-toolbar-action-save>
                       </mp-component-toolbar-actions>
                       <mp-component-toolbar-component>
                         <semantic-chart
-                          id='search-result-chart'
+                          id="search-result-chart"
                           query='
                                              SELECT ?object (COUNT(DISTINCT ?subject) as ?count) WHERE {
                                                OPTIONAL { ?subject ?__contextRelation__ ?object }
@@ -459,7 +517,8 @@
                           sets='[{
                                               "category": "object",
                                               "value": "count"
-                                            }]'>
+                                            }]'
+                        >
                         </semantic-chart>
                       </mp-component-toolbar-component>
                     </mp-component-toolbar>
@@ -469,32 +528,46 @@
               <bs-tab event-key="4" title="Timeline">
                 <div>
                   <semantic-search-result>
-                    <mp-sparql-result-counts id='timeline-search-result-count' query="SELECT DISTINCT ?subject {} LIMIT 100"
-                                             template='{{> template}}'
+                    <mp-sparql-result-counts
+                      id="timeline-search-result-count"
+                      query="SELECT DISTINCT ?subject {} LIMIT 100"
+                      template="{{> template}}"
                     >
-                      <template id='template'>
+                      <template id="template">
                         {{#if hasLimit}}
-                        <bs-alert bs-style="warning" class="search-results__alert">
-                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        <bs-alert
+                          bs-style="warning"
+                          class="search-results__alert"
+                        >
+                          <i
+                            class="fa fa-exclamation-triangle"
+                            aria-hidden="true"
+                          ></i>
                           <span class="num-results">
-                          There were {{totalNumberOfResults}} results. Only 100 can be visualised on the timeline at once!
-                        </span>
+                            There were {{totalNumberOfResults}} results. Only
+                            100 can be visualised on the timeline at once!
+                          </span>
                         </bs-alert>
                         {{/if}}
                       </template>
                     </mp-sparql-result-counts>
                   </semantic-search-result>
 
-                  <semantic-search-result-context ranges='["http://www.researchspace.org/ontology/Time"]'>
+                  <semantic-search-result-context
+                    ranges='["http://www.researchspace.org/ontology/Time"]'
+                  >
                     <semantic-search-result>
                       <mp-component-toolbar>
                         <mp-component-toolbar-actions>
-                          <mp-component-toolbar-action-save id='persit-component-action' add-to-default-set=true></mp-component-toolbar-action-save>
+                          <mp-component-toolbar-action-save
+                            id="persit-component-action"
+                            add-to-default-set="true"
+                          ></mp-component-toolbar-action-save>
                         </mp-component-toolbar-actions>
                         <mp-component-toolbar-component>
                           <semantic-timeline
-                            id='search-result-timeline'
-                            query='PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+                            id="search-result-timeline"
+                            query="PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
                                  SELECT DISTINCT ?start ?end ?iri WHERE {
                                     FILTER(?__contextRelationPattern__)
                                     BIND(?__dateBeginValue__ AS ?start)
@@ -503,18 +576,28 @@
                                  }
                                  ORDER BY ?subject
                                  LIMIT 100
-                                 '
-                            tuple-template='{{> timelineItem}}'
-                            tuple-template-height=50>
-                            <template id='timelineItem'>
+                                 "
+                            tuple-template="{{> timelineItem}}"
+                            tuple-template-height="50"
+                          >
+                            <template id="timelineItem">
                               <mp-popover>
-                                <mp-popover-trigger placement="top" trigger='["hover"]' root-close='false'>
-                                  <div data-flex-layout='column top-left'>
+                                <mp-popover-trigger
+                                  placement="top"
+                                  trigger='["hover"]'
+                                  root-close="false"
+                                >
+                                  <div data-flex-layout="column top-left">
                                     <p>{{start.value}} - {{end.value}}</p>
-                                    <semantic-link uri='{{iri.value}}'></semantic-link>
+                                    <semantic-link
+                                      uri="{{iri.value}}"
+                                    ></semantic-link>
                                   </div>
                                 </mp-popover-trigger>
-                                <mp-popover-content>{{> rsp:itemCardTemplate}}</mp-popover-content>
+                                <mp-popover-content
+                                  >{{>
+                                  rsp:itemCardTemplate}}</mp-popover-content
+                                >
                               </mp-popover>
                             </template>
                           </semantic-timeline>
@@ -526,35 +609,57 @@
               </bs-tab>
             </bs-tabs>
 
-            <hr>
-            <div class="semantic-search-results-actions pull-right" style="display: flex;">
+            <hr />
+            <div
+              class="semantic-search-results-actions pull-right"
+              style="display: flex"
+            >
               <semantic-search-result>
-                <mp-sparql-download id='csv-result' query="SELECT ?subject WHERE { }"
-                                    header="text/csv"
-                                    filename="csv-result.csv"
+                <mp-sparql-download
+                  id="csv-result"
+                  query="SELECT ?subject WHERE { }"
+                  header="text/csv"
+                  filename="csv-result.csv"
                 >
-                  <button class="btn btn-default" style="margin-right:10px">Download CSV</button>
+                  <button class="btn btn-default" style="margin-right: 10px">
+                    Download CSV
+                  </button>
                 </mp-sparql-download>
               </semantic-search-result>
               <semantic-search-result>
-                <mp-sparql-download id='json-result' query="SELECT ?subject WHERE { }"
-                                    header="application/sparql-results+json"
-                                    filename="json-result.json"
+                <mp-sparql-download
+                  id="json-result"
+                  query="SELECT ?subject WHERE { }"
+                  header="application/sparql-results+json"
+                  filename="json-result.json"
                 >
-                  <button class="btn btn-default" style="margin-right:10px">Download JSON</button>
+                  <button class="btn btn-default" style="margin-right: 10px">
+                    Download JSON
+                  </button>
                 </mp-sparql-download>
               </semantic-search-result>
               <semantic-search-action-use-result-in-extended-search>
-                <button class="btn btn-default" style="margin-right:10px">Use in Search</button>
+                <button class="btn btn-default" style="margin-right: 10px">
+                  Use in Search
+                </button>
               </semantic-search-action-use-result-in-extended-search>
               <mp-anonymous-hidden>
-                <semantic-search-action-save-set-result id='save-set-result-action'>
-                  <button class="btn btn-default" style="margin-right:10px">Save As Set</button>
+                <semantic-search-action-save-set-result
+                  id="save-set-result-action"
+                >
+                  <button class="btn btn-default" style="margin-right: 10px">
+                    Save As Set
+                  </button>
                 </semantic-search-action-save-set-result>
               </mp-anonymous-hidden>
               <mp-anonymous-hidden>
-                <semantic-search-action-save-search-result id='save-search-result-action' add-to-default-set=true>
-                  <button class="btn btn-default" style="margin-right:10px">Save As Search</button>
+                <semantic-search-action-save-search-result
+                  id="save-search-result-action"
+                  add-to-default-set="true"
+                >
+                  <button class="btn btn-default" style="margin-right: 10px">
+                    Save As Search
+                  </button>
                 </semantic-search-action-save-search-result>
               </mp-anonymous-hidden>
             </div>
@@ -567,20 +672,19 @@
 </div>
 
 <style>
-
-.QueryBuilder--addDisjunctButton {
+  .QueryBuilder--addDisjunctButton {
     visibility: initial !important;
     height: 5vh !important;
     margin-top: 8px;
-
-}
-.QueryBuilder--addConjunctButton {
+  }
+  .QueryBuilder--addConjunctButton {
     visibility: initial !important;
     height: 5vh !important;
     margin-top: 8px;
-}
+  }
 
-  .QueryBuilder--searchExpand.QueryBuilder--searchCollapseExpand.QueryBuilder--searchCollapseExpand +.search-summary{
+  .QueryBuilder--searchExpand.QueryBuilder--searchCollapseExpand.QueryBuilder--searchCollapseExpand
+    + .search-summary {
     margin: unset;
     position: unset;
     top: unset;
@@ -590,8 +694,9 @@
     font-weight: unset;
   }
 
- .QueryBuilder--searchCollapse.QueryBuilder--searchCollapseExpand.QueryBuilder--searchCollapseExpand + .search-summary {
-  margin: unset;
+  .QueryBuilder--searchCollapse.QueryBuilder--searchCollapseExpand.QueryBuilder--searchCollapseExpand
+    + .search-summary {
+    margin: unset;
     position: unset;
     top: unset;
     width: unset;
@@ -599,9 +704,9 @@
     text-align: unset;
     font-weight: unset;
     font-size: large !important;
-}
+  }
 
-.search-summary {
+  .search-summary {
     margin: 0 5px 0 0;
     position: absolute;
     top: 10%;
@@ -609,10 +714,10 @@
     font-size: x-large;
     text-align: center;
     font-weight: bold;
-}
+  }
 
-.QueryBuilder--domainSelection {
-  position: absolute;
+  .QueryBuilder--domainSelection {
+    position: absolute;
     top: 12vh;
     display: flex;
     min-width: fit-content;
@@ -622,25 +727,26 @@
     height: 30vh;
     align-items: center;
     flex-wrap: wrap;
-}
+  }
 
-.QueryBuilder--domainSelection li {
+  .QueryBuilder--domainSelection li {
     border-top: none !important;
     font-size: large;
     height: 8vh !important;
     width: fit-content;
     border-radius: 4px;
-}
+  }
 
-.QueryBuilder--domainSelection li  .semantic-search__class-selector-item  img {
-  height: 5vh !important;
-}
+  .QueryBuilder--domainSelection li .semantic-search__class-selector-item img {
+    height: 5vh !important;
+  }
 
-.ItemSelector--itemHolder:focus, .ItemSelector--itemHolder:hover {
-  background-color: #d1323915;
-}
+  .ItemSelector--itemHolder:focus,
+  .ItemSelector--itemHolder:hover {
+    background-color: #d1323915;
+  }
 
-.QueryBuilder--itemHolder {
+  .QueryBuilder--itemHolder {
     height: 5vh;
     display: flex;
     justify-content: center;
@@ -651,10 +757,9 @@
     padding-right: 12px;
     min-width: 140px;
     min-height: 50px;
-}
+  }
 
-
-.QueryBuilder--searchClause {
+  .QueryBuilder--searchClause {
     margin: 10px 0;
     flex-wrap: wrap;
     display: flex;
@@ -662,32 +767,31 @@
     justify-content: flex-start;
     height: fit-content;
     position: relative;
-  border: none !important;
+    border: none !important;
+  }
 
-}
-
-.QueryBuilder--selectedItem:after {
+  .QueryBuilder--selectedItem:after {
     content: "";
     position: absolute;
     width: 35.12px;
     height: 35.12px;
     top: 8px;
     right: -15px;
-    transform: scaleX(.7) rotate(45deg);
+    transform: scaleX(0.7) rotate(45deg);
     padding: 0;
     z-index: 1;
     border: 1px solid #ccc;
     border-bottom: none;
     border-left: none;
     background-color: #fff;
-    margin-bottom: 8px; 
-}
+    margin-bottom: 8px;
+  }
 
-.ItemSelector--itemHolder {
+  .ItemSelector--itemHolder {
     height: 5vh !important;
-}
+  }
 
-.QueryBuilder--searchAreaHolder {
+  .QueryBuilder--searchAreaHolder {
     display: flex;
     justify-content: flex-start;
     align-items: top;
@@ -696,16 +800,17 @@
     position: relative;
     left: 10%;
     margin-top: 4%;
-}
+  }
 
-.QueryBuilder--searchAreaHolder img {
+  .QueryBuilder--searchAreaHolder img {
     height: 3vh !important;
     width: unset !important;
-}
-.semantic-search__class-selector-item{
-  margin-right: 8px !important;
-}
-.QueryBuilder--magnifierIcon {
+    filter: invert(30%) sepia(60%) saturate(3000%) hue-rotate(-10deg) brightness(65%) contrast(100%);
+  }
+  .semantic-search__class-selector-item {
+    margin-right: 8px !important;
+  }
+  .QueryBuilder--magnifierIcon {
     width: 100% !important;
     height: 100% !important;
     left: 0 !important;
@@ -715,22 +820,23 @@
     filter: hue-rotate(130deg);
     background-image: url(../../assets/images/icons/relation.svg) !important;
     background-size: contain;
-}
-.QueryBuilder--nestedSearchButton{
-  width: 5vw;
-}
-.QueryBuilder--nestedSearchButton img{
-  display: none !important;
-}
-.SearchSummary--domain, .SearchSummary--Resource {
+  }
+  .QueryBuilder--nestedSearchButton {
+    width: 5vw;
+  }
+  .QueryBuilder--nestedSearchButton img {
+    display: none !important;
+  }
+  .SearchSummary--domain,
+  .SearchSummary--Resource {
     width: max-content;
     font-weight: 600;
     color: #961319 !important;
     font-size: 15px;
     line-height: 1.2;
-}
+  }
 
-.facet__category-selector-holder .category-selector li {
+  .facet__category-selector-holder .category-selector li {
     border-right: none;
     border: none !important;
     margin: 4px;
@@ -741,45 +847,47 @@
     align-items: center;
     justify-content: center;
     height: 50px;
-}
-.facet__category-selector-holder .category-selector .category-item-holder {
+  }
+  .facet__category-selector-holder .category-selector .category-item-holder {
     min-width: 30px;
-}
-.facet__relation__header:focus, .facet__relation__header:hover {
-    background-color: #d1323915 !important
-}
-.category-item-holder--active {
-  background-color: transparent !important;
-}
-.show-facet-button__show {
+  }
+  .facet__relation__header:focus,
+  .facet__relation__header:hover {
+    background-color: #d1323915 !important;
+  }
+  .category-item-holder--active {
+    background-color: transparent !important;
+  }
+  .show-facet-button__show {
     margin-left: -38% !important;
-}
-.clearable-input{
-  border:none!important;
-}
-.clearable-input__clear {
+  }
+  .clearable-input {
+    border: none !important;
+  }
+  .clearable-input__clear {
     width: 45px;
     height: 3vh !important;
-    color: var(--color-dark--op50,rgba(29,10,112,.5));
+    color: var(--color-dark--op50, rgba(29, 10, 112, 0.5));
     border: none !important;
-}
-.facet-relations{
-  margin-left: 17%;
+  }
+  .facet-relations {
+    margin-left: 17%;
     margin-top: 5%;
-}
-.facet__relation__values__value:focus, .facet__relation__values__value:hover {
-    background-color:#d1323915 !important
-}
-.FacetBreadcrumbs--cancelButton {
+  }
+  .facet__relation__values__value:focus,
+  .facet__relation__values__value:hover {
+    background-color: #d1323915 !important;
+  }
+  .FacetBreadcrumbs--cancelButton {
     min-width: 30px;
     max-width: 60px;
     width: 2vw;
-    padding: 0 !important
-}
-.QueryBuilder--removeConjunctButton{
-  height: 6.5vh !important;
-}
-.Select-control{
-  border-bottom-color: #79323660 !important;
-}
+    padding: 0 !important;
+  }
+  .QueryBuilder--removeConjunctButton {
+    height: 6.5vh !important;
+  }
+  .Select-control {
+    border-bottom-color: #79323660 !important;
+  }
 </style>

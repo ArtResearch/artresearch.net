@@ -34,19 +34,36 @@
  </div>
 </div>
 
-
-<!-- ARTWORKS SECTION -->
+<!-- PHAROS SECTION -->
 <div style="margin-top:8vh;">
   <div class="banner"><img src="https://ids.lib.harvard.edu/ids/iiif/420719520/full/full/0/native.jpg">
-    <div class="text">Artworks</div>
+    <div class="text">Pharos Datasets</div>
   </div>
   <div class="card-list">
 
     <a href="/resource/DisplayPharosArtworks">
       <div class="card">
-        <img src="../../assets/images/logos/pharos.png">
+        <img class="photo photo-1" src="../../assets/images/media/lucretia.jpg">
+        <div class="title" >Browse Artworks</div>
       </div>
     </a>
+
+    <a href="/resource/DisplayPharosArtists">
+      <div class="card">
+        <img class="photo photo-2" src="../../assets/images/media/michelangelo_portrait.jpg">
+        <div class="title">Browse Artists</div>
+      </div>
+    </a>
+ 
+  </div>
+</div>
+
+<!-- ARTWORKS SECTION -->
+<div style="margin-top:8vh;">
+  <div class="banner"><img src="../../assets/images/media/lucretia.jpg">
+    <div class="text">Artworks</div>
+  </div>
+  <div class="card-list">
 
     <a href="/resource/DisplayArtworksVillaITattiSS">
       <div class="card">
@@ -159,6 +176,36 @@
   </div>
 </div>
 
+<!-- BUILTWORKS SECTION -->
+<div style="margin-top:8vh;">
+  <div class="banner"><img src="../../assets/images/media/builtwork.jpeg">
+    <div class="text">Builtworks</div>
+  </div>
+
+  <div class="card-list">
+
+    <a href=/resource/DisplayBuiltworksHertziana>          
+      <div class="card">
+        <img src="../../assets/images/logos/hertziana.svg">
+      </div>
+    </a>
+
+    <a href=/resource/DisplayBuiltworksMarburg>
+      <div class="card">
+        <img src="../../assets/images/logos/marb.png">
+      </div>
+    </a>
+    
+    <a href=/resource/DisplayBuiltworksKHI>
+      <div class="card">
+        <img src="../../assets/images/logos/khi.png">
+      </div>
+    </a>
+ 
+  </div>
+</div>
+
+
 <!-- ARTISTS SECTION -->
 <div style="margin-top:8vh;">
   <div class="banner"><img style="object-position: -4vw 46%;" src="../../assets/images/media/michelangelo_portrait.jpg">
@@ -166,12 +213,6 @@
   </div>
 
   <div class="card-list">
-
-    <a href="/resource/DisplayPharosArtists">
-      <div class="card">
-        <img src="../../assets/images/logos/pharos.png">
-      </div>
-    </a>
 
     <a href="/resource/DisplayPersonsVillaITattiSS">
       <div class="card">
@@ -224,28 +265,45 @@
   </div>
 </div>
 
-
-<!-- BUILTWORKS SECTION -->
+<!-- PHOTOGRAPHERS SECTION -->
 <div style="margin-top:8vh;">
-  <div class="banner"><img src="../../assets/images/media/builtwork.jpeg">
-    <div class="text">Builtworks</div>
+  <div class="banner"><img style="    object-position: -4vw 19%;" src="../../assets/images/media/fratelli.jpg">
+    <div class="text">Photographers</div>
   </div>
 
   <div class="card-list">
 
-    <a href=/resource/DisplayBuiltworksHertziana>          
+    <a href="/resource/DisplayPhotographersVillaITattiSS">
+      <div class="card">
+        <img src="../../assets/images/logos/itatti.png">
+      </div>
+    </a>
+    
+    <a href=/resource/DisplayPhotographersFrick>
+      <div class="card">
+        <img src="../../assets/images/logos/frick.png">
+      </div>
+    </a>
+    
+    <a href=/resource/DisplayPhotographersHertziana>          
       <div class="card">
         <img src="../../assets/images/logos/hertziana.svg">
       </div>
     </a>
 
-    <a href=/resource/DisplayBuiltworksMarburg>
+    <a href=/resource/DisplayPhotographersZeri>
+      <div class="card">
+        <img src="../../assets/images/logos/zeri.png">
+      </div>
+    </a>
+
+    <a href=/resource/DisplayPhotographersMarburg>
       <div class="card">
         <img src="../../assets/images/logos/marb.png">
       </div>
     </a>
     
-    <a href=/resource/DisplayBuiltworksKHI>
+    <a href=/resource/DisplayPhotographersKHI>
       <div class="card">
         <img src="../../assets/images/logos/khi.png">
       </div>
@@ -253,8 +311,6 @@
  
   </div>
 </div>
-
-
 
    <br>
    <br>
@@ -281,8 +337,8 @@
     line-height: 1;
     font-family: sans-serif;
     filter:drop-shadow(1px 4px 3px #a9a9a9) !important;
-	-webkit-animation: focus-in-contract 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-	        animation: focus-in-contract 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	/* -webkit-animation: focus-in-contract 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: focus-in-contract 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both; */
   }
 
 
@@ -290,7 +346,7 @@
     display: flex;
     width: 100%;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-evenly;
 
   }
   .card-list .card{
@@ -303,7 +359,32 @@
     margin: 0.5vw;
     min-width: 345px;
     min-height: 177px;
+    overflow: hidden;
   }
+  .card-list .card .title{
+    text-align: center;
+    font-weight: bold;
+    border-top: 1px solid #e2e2e2;
+    padding: 1vh;
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: .6px;
+    font-size: 12px;
+  }
+
+  .card-list .card .photo{
+    height: 17vh !important;
+    min-width: 28vw !important;
+    margin: 0 !important;
+    object-fit: cover;
+  }
+  .card-list .card .photo-1{
+    object-position: -7vw 8%;
+  }
+
+  .card-list .card .photo-2{
+    object-position: -4vw 60%;
+    }  
 
   .card-list .card img{
     height: 10vh;
