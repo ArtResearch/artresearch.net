@@ -1,35 +1,21 @@
-<div class="text-center panel panel-default" style="border:none;margin-right:20px;font-size:12px;height:20px;width: 33%;display:inline;">
-<div class="result-title">Artworks (Villa i Tatti FotoIndex)</div>
+<div class="row row-center">
+  <div
+    id="main-container"
+    style="max-width: 1300px"
+    class="col-md-10 col-xs-10"
+  >
+    <!-- Title -->
+    <div class="row">
+      <div class="col-sm-7">
+        <header style="margin-left: 20px">
+          <h1>Artworks by Villa i Tatti</h1>
+          <h3>
+            <i>FotoIndex Dataset</i>
+          </h3>
+        </header>
+      </div>
+    </div>
+    <!-- Filter search component -->
+    [[> rsp:artworkfiltersearch provider="https://pharos.artresearch.net/resource/itatti/source/FotoIndex"]]
+  </div>
 </div>
-
- <semantic-table 
-                query='PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-											 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-		 									 PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
-
-											SELECT  distinct $subject ?label ?artist
-											 WHERE {
-     	                 	$subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
-                        $subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <http://vocab.getty.edu/aat/300133025>.
-                        $subject <https://pharos.artresearch.net/custom/has_provider> <https://pharos.artresearch.net/resource/itatti/source/FotoIndex>.
-                        $subject rdfs:label ?label .
-              					OPTIONAL
-                        {           
-                        $subject crm:P108i_was_produced_by ?production.
-                        ?production crm:P01i_is_domain_of ?carried.
-                        ?carried crm:P02_has_range ?artist
-                        }
-                                 
-  											} limit 1000' 
-                id="table-result" 
-                number-of-displayed-rows= 100
-                options='{"showFilter": false, "showTableHeading": true}'
-                column-configuration='[
- 							  {"variableName": "subject", "displayName": "Artwork"},             
-                {"variableName": "label", "displayName": "Label"},
-                {"variableName": "artist", "displayName": "Created or Influenced by"}
-                ]'>
-</semantic-table>
-
-<br>
-<br>

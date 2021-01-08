@@ -351,3 +351,223 @@
   </div>
   [[/rsp:ClipboardSidebar]]
 </div>
+<style>
+  .QueryBuilder--addDisjunctButton {
+    visibility: initial !important;
+    height: 5vh !important;
+    margin-top: 8px;
+  }
+  .QueryBuilder--addConjunctButton {
+    visibility: initial !important;
+    height: 5vh !important;
+    margin-top: 8px;
+  }
+
+  .QueryBuilder--searchExpand.QueryBuilder--searchCollapseExpand.QueryBuilder--searchCollapseExpand
+    + .search-summary {
+    margin: unset;
+    position: unset;
+    top: unset;
+    width: unset;
+    font-size: unset;
+    text-align: unset;
+    font-weight: unset;
+  }
+
+  .QueryBuilder--searchCollapse.QueryBuilder--searchCollapseExpand.QueryBuilder--searchCollapseExpand
+    + .search-summary {
+    margin: unset;
+    position: unset;
+    top: unset;
+    width: unset;
+    font-size: unset;
+    text-align: unset;
+    font-weight: unset;
+    font-size: large !important;
+  }
+
+  .search-summary {
+    margin: 0 5px 0 0;
+    position: absolute;
+    top: 10%;
+    width: 100%;
+    font-size: x-large;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  .QueryBuilder--domainSelection {
+    position: absolute;
+    top: 12vh;
+    display: flex;
+    min-width: fit-content;
+    margin-left: 0px !important;
+    justify-content: space-evenly;
+    width: 80vw;
+    height: 30vh;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .QueryBuilder--domainSelection li {
+    border-top: none !important;
+    font-size: large;
+    height: 8vh !important;
+    width: fit-content;
+    border-radius: 4px;
+  }
+
+  .QueryBuilder--domainSelection li .semantic-search__class-selector-item img {
+    height: 5vh !important;
+  }
+
+  .ItemSelector--itemHolder:focus,
+  .ItemSelector--itemHolder:hover {
+    background-color: #d1323915;
+  }
+
+  .QueryBuilder--itemHolder {
+    height: 5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    box-shadow: 0px 2px 2px 0px lightgrey;
+    padding-left: 12px;
+    padding-right: 12px;
+    min-width: 140px;
+    min-height: 50px;
+  }
+
+  .QueryBuilder--searchClause {
+    margin: 10px 0;
+    flex-wrap: wrap;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    height: fit-content;
+    position: relative;
+    border: none !important;
+  }
+
+  .QueryBuilder--selectedItem:after {
+    content: "";
+    position: absolute;
+    width: 35.12px;
+    height: 35.12px;
+    top: 8px;
+    right: -15px;
+    transform: scaleX(0.7) rotate(45deg);
+    padding: 0;
+    z-index: 1;
+    border: 1px solid #ccc;
+    border-bottom: none;
+    border-left: none;
+    background-color: #fff;
+    margin-bottom: 8px;
+  }
+
+  .ItemSelector--itemHolder {
+    height: 5vh !important;
+  }
+
+  .QueryBuilder--searchAreaHolder {
+    display: flex;
+    justify-content: flex-start;
+    align-items: top;
+    width: 90;
+    width: 83%;
+    position: relative;
+    left: 10%;
+    margin-top: 4%;
+  }
+
+  .QueryBuilder--searchAreaHolder img {
+    height: 3vh !important;
+    width: unset !important;
+    filter: invert(30%) sepia(60%) saturate(3000%) hue-rotate(-10deg) brightness(65%) contrast(100%);
+  }
+  .semantic-search__class-selector-item {
+    margin-right: 8px !important;
+  }
+  .QueryBuilder--magnifierIcon {
+    width: 100% !important;
+    height: 100% !important;
+    left: 0 !important;
+    top: 0 !important;
+    background-position-y: center;
+    background-position-x: center;
+    filter: hue-rotate(130deg);
+    background-image: url(../../assets/images/icons/relation.svg) !important;
+    background-size: contain;
+  }
+  .QueryBuilder--nestedSearchButton {
+    width: 5vw;
+  }
+  .QueryBuilder--nestedSearchButton img {
+    display: none !important;
+  }
+  .SearchSummary--domain,
+  .SearchSummary--Resource {
+    width: max-content;
+    font-weight: 600;
+    color: #961319 !important;
+    font-size: 15px;
+    line-height: 1.2;
+  }
+
+  .facet__category-selector-holder .category-selector li {
+    border-right: none;
+    border: none !important;
+    margin: 4px;
+    min-width: 50px;
+    padding: 10px;
+    box-shadow: 1px 1px 4px 1px lightgrey;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+  }
+  .facet__category-selector-holder .category-selector .category-item-holder {
+    min-width: 30px;
+  }
+  .facet__relation__header:focus,
+  .facet__relation__header:hover {
+    background-color: #d1323915 !important;
+  }
+  .category-item-holder--active {
+    background-color: transparent !important;
+  }
+  .show-facet-button__show {
+    margin-left: -38% !important;
+  }
+  .clearable-input {
+    border: none !important;
+  }
+  .clearable-input__clear {
+    width: 45px;
+    height: 3vh !important;
+    color: var(--color-dark--op50, rgba(29, 10, 112, 0.5));
+    border: none !important;
+  }
+  .facet-relations {
+    margin-left: 17%;
+    margin-top: 5%;
+  }
+  .facet__relation__values__value:focus,
+  .facet__relation__values__value:hover {
+    background-color: #d1323915 !important;
+  }
+  .FacetBreadcrumbs--cancelButton {
+    min-width: 30px;
+    max-width: 60px;
+    width: 2vw;
+    padding: 0 !important;
+  }
+  .QueryBuilder--removeConjunctButton {
+    height: 6.5vh !important;
+  }
+  .Select-control {
+    border-bottom-color: #79323660 !important;
+  }
+</style>
