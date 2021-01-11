@@ -1,142 +1,98 @@
 [[#if provider]]
     <semantic-search
-      optimizer="blazegraph"
-      categories='{
-        "<http://www.researchspace.org/ontology/Concept>": [
+    relations='{
+      "<https://florentinedrawings.itatti.harvard.edu/resource/field/Artist_Attribution>":[
+        {
+          "kind": "resource",
+          "queryPattern": "
+            {
+              $subject crm:P108i_was_produced_by ?production.
+              ?production crm:P01i_is_domain_of ?domain.
+              ?domain a crm:PC14_carried_out_by.
+              ?domain crm:P02_has_range ?__value__.
+            }"
+        }
+    ],
+    "<https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution>":[
+    {
+      "kind": "resource",
+      "queryPattern": "
+        {
+          $subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
+          $subject <https://pharos.net/resource/fr/Work_has_provider_Institution> ?__value__.
+          ?__value__ a <https://pharos.net/resource/fc/institution>.
+        }"
+    }],
+    "<https://florentinedrawings.itatti.harvard.edu/resource/field/Has_Location>": [
+    {
+      "kind": "resource",
+      "queryPattern": "
+        {
+          $subject crm:P30_custody_transferred_through ?transfer.
+          ?transfer crm:P29_custody_recieved_by ?__value__.
+        }"
+    }]
+      }'
+
+      search-profile='{
+        "categories":  
+        [
           {
-            "kind": "hierarchy",
-            "queryPattern": "$subject $__relation__ ?__value__ ."
+            "iri":"<http://www.cidoc-crm.org/cidoc-crm/E21_Person>",
+            "label":"Painter"
+          },
+          {
+            "iri":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
+            "label":"Artwork"
+          },
+          {
+            "iri":"<https://pharos.artresearch.net/resource/fc/work>",
+            "label":"Work of art"
+          },
+          {
+            "iri":"<https://pharos.artresearch.net/resource/fc/institution>",
+            "label":"Institution"
+          },
+          {
+            "iri":"<http://www.cidoc-crm.org/cidoc-crm/E55_Type>",
+            "label":"Techniques"
+          }, 
+          {
+            "iri":"<http://www.cidoc-crm.org/cidoc-crm/E40_Legal_Body>",
+            "label":"Location"
+          }, 
+          {
+            "iri":"<http://www.cidoc-crm.org/cidoc-crm/E13_Attribute_Assignment>",
+            "label":"Edition"
           }
         ],
-        "<http://www.researchspace.org/ontology/Place>": [
+        "relations":
+        [
           {
-            "kind": "hierarchy",
-            "queryPattern": "$subject ?__relation__ ?__value__ ."
-          }
-        ],
-        "<http://www.researchspace.org/ontology/Time>": [
+            "iri": "<https://florentinedrawings.itatti.harvard.edu/resource/field/Artist_Attribution>",
+            "label":"Artist",
+            "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
+            "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E21_Person>"
+          },
           {
-            "kind": "date-range",
-            "queryPattern": "
-               {
-                 $subject ?__relation__ ?date .
-                 ?date crm:P82a_begin_of_the_begin ?begin ;
-                       crm:P82b_end_of_the_end ?end .
-                 FILTER(?begin <= ?__dateEndValue__) .
-                 FILTER(?end >= ?__dateBeginValue__) .
-               }
-            "
-          }
-        ],
-        "<http://www.researchspace.org/ontology/Text>": [
+            "iri": "<https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution>",
+            "label":"Kept by",
+            "hasDomain":"<https://pharos.artresearch.net/resource/fc/work>",
+            "hasRange":"<https://pharos.artresearch.net/resource/fc/institution>"
+          },
           {
-            "kind": "text",
-            [[#if solr]]
-              "queryPattern":
-              "
-                 {
-                 $subject a ?__domain__ .
-                 $subject rso:displayLabel ?label .
-                 { SELECT $subject WHERE {
-                 BIND(CONCAT(\"defType=edismax&ps=100&pf=suggestionSearchText&fl=id,score&q.op=AND&rows=5000&fq=fc:\", REPLACE(str(?__domain__), \":\", \"\\\\\\\\:\")) as ?sFC)
-                 BIND(CONCAT(\"(\",LCASE(?__value__),\")\") as ?lcasevalue)
-                 SERVICE <http://www.bigdata.com/rdf/fts#search> {
-                    $subject fts:search ?lcasevalue .
-                    $subject fts:endpoint \"[[solrEndpoint]]\" .
-                    $subject fts:params ?sFC .
-                    $subject fts:scoreField \"score\" .
-                    $subject fts:score ?score .
-                    $subject fts:fieldToSearch \"suggestionSearchText\" .
-                    $subject fts:searchField \"id\" .
-                    $subject fts:searchResultType \"URI\" .
-                 } } ORDER BY DESC(?score) }
-                    <http://www.bigdata.com/queryHints#Prior> <http://www.bigdata.com/queryHints#runFirst> \"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>.
-               }
-              ",
-              "helpPage": "<http://help.metaphacts.com/resource/SolrFullTextSearchSyntax>",
-              "escapeLuceneSyntax": false
-            [[else]]
-              "queryPattern":
-              "
-                 {
-                   $subject a ?__domain__ .
-                   $subject rso:displayLabel ?label .
-                   SERVICE <http://www.bigdata.com/rdf/search#search> {
-                     ?label bds:search ?__value__ ;
-                            bds:minRelevance \"0.3\" ;
-                            bds:matchAllTerms \"true\"  .
-                   }
-                 }
-              "
-            [[/if]]
-    
+            "iri":"<https://florentinedrawings.itatti.harvard.edu/resource/field/Recto_Technique>",
+            "label":"Technique",
+            "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
+            "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E55_Type>"
+          },
+          {
+            "iri":"<https://florentinedrawings.itatti.harvard.edu/resource/field/Has_Location>",
+            "label":"Location",
+            "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
+            "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E40_Legal_Body>"
           }
         ]
-      }'
-          search-profile='{
-        "defaultProfile": "<http://www.researchspace.org/profile/all>",
-        "categoriesQuery": "
-            SELECT DISTINCT ?profile ?category ?label ?thumbnail ?description WHERE {
-              {
-                SELECT ?category ?label ?profile ?description ?thumbnail {
-                  ?profile rso:hasCategory ?hasCategory.
-                  {
-                    ?hasCategory rso:category ?category .
-                    ?category rdf:type rso:FundamentalCategory ;
-                      rdfs:label ?label ;
-                      rdfs:label ?description .
-                      ?category rso:hasThumbnail ?thumbnail .
-                  } UNION {
-                    BIND(<http://www.researchspace.org/ontology/Text> AS ?category)
-                    BIND(\"sss\" AS ?label)
-                    BIND(\"All\" AS ?description)
-                  }
-                }
-              } UNION {
-                SELECT ?profile ?category ?label ?description ?thumbnail {
-                  ?category rdf:type rso:FundamentalCategory ;
-                    rdfs:label ?label ;
-                    rdfs:label ?description .
-                    ?category rso:hasThumbnail ?thumbnail .
-                  BIND(<http://www.researchspace.org/profile/all> as ?profile) .
-                }
-              } UNION {
-                BIND(<http://www.researchspace.org/ontology/Text> as ?category) .
-                BIND(\"All\" as ?label) .
-                BIND(\"All\" as ?description) .
-                BIND(<http://www.researchspace.org/profile/all> AS ?profile)
-              }
-            }
-    
-        ",
-        "relationsQuery": "
-            SELECT DISTINCT ?profile ?relation ?label ?description ?hasDomain ?hasRange ?order WHERE {
-              {
-                SELECT ?profile ?relation ?label ?hasDomain ?hasRange ?description ?orderLabel ?order {
-                  ?profile rso:hasRelation/rso:relation ?relation.
-                  ?relation rdfs:label ?label ;
-                    rdfs:label ?description ;
-                    rso:hasDomain ?hasDomain ;
-                    rso:hasRange ?hasRange .
-                  OPTIONAL { ?relation crm:P127_has_broader_term ?broader }.
-                  BIND(IF(BOUND(?broader), CONCAT(STR(?broader), \"1\"), CONCAT(STR(?relation), \"0\")) AS ?orderLabel)
-                  BIND(IF(BOUND(?broader), 15, 0) AS ?order)
-                }
-              } UNION {
-                SELECT ?profile ?relation ?label ?hasDomain ?hasRange ?description ?orderLabel ?order  {
-                  ?relation rdfs:label ?label ;
-                    rdfs:label ?description ;
-                    rso:hasDomain ?hasDomain ;
-                    rso:hasRange ?hasRange .
-                    BIND(<http://www.researchspace.org/profile/all> as ?profile) .
-                  OPTIONAL { ?relation crm:P127_has_broader_term ?broader }.
-                  BIND(IF(BOUND(?broader), CONCAT(STR(?broader), \"1\"), CONCAT(STR(?relation), \"0\")) AS ?orderLabel)
-                  BIND(IF(BOUND(?broader), 25, 0) AS ?order)
-                }
-              }
-            }
-            ORDER BY ?orderLabel ?label
-        "
       }'
     >
       <semantic-search-query-constant
@@ -187,18 +143,18 @@
                         ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
                         ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <http://vocab.getty.edu/aat/300133025>.
                         ?subject <https://pharos.artresearch.net/custom/has_provider>  <[[provider]]>.
+                
                         ?entity ?p	?someLabel .
                         ?someLabel bds:search ?__token__  .
                         ?someLabel bds:minRelevance "0.3"^^xsd:double;
                         bds:matchAllTerms "true"  .
-                          BIND ( iri(replace(str(?entity), "frick/.*", "frick" )) AS ?subject) .
                       
                       
                       } ORDER BY ?q
                     '></semantic-search-query-keyword>
                 </semantic-form-composite-input>
               </semantic-form-switch-case>
-              <semantic-form-switch-case label="Artist">
+              <semantic-form-switch-case label="Creator">
                 <semantic-form-composite-input for="switch-action-type"
                   new-subject-template='http://www.example.com/switch/action/artist' fields='[
                 {
@@ -216,15 +172,18 @@
                   </semantic-form-hidden-input>
 
                     <semantic-search-query-keyword domain='<http://www.w3.org/2000/01/rdf-schema#Resource>'
-                      placeholder="Search for an artist e.g. Michelangelo" escape-lucene-syntax='false' query='
+                      placeholder="Search for an artwork creator e.g. Michelangelo" escape-lucene-syntax='false' query='
                       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
                       SELECT ?subject WHERE {
-                      ?subject a crm:E22_Man-Made_Object.
-                      ?subject crm:P108i_was_produced_by ?production.
-                      ?production crm:P01i_is_domain_of ?domain.
-                      ?domain crm:P02_has_range ?artist.
-                      ?artist rdfs:label ?someLabel. 
+                      ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
+                      ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <http://vocab.getty.edu/aat/300133025>.
+                      ?subject <https://pharos.artresearch.net/custom/has_provider>  <[[provider]]>.
+                      ?subject crm:P108i_was_produced_by ?production .
+                      ?production crm:P01i_is_domain_of ?carried .
+                      ?carried a crm:PC14_carried_out_by .
+                      ?carried crm:P02_has_range ?value.
+                      ?value rdfs:label ?someLabel.
                       ?someLabel bds:search ?__token__ .
                       ?someLabel bds:minRelevance "0.3"^^xsd:double;
                       bds:matchAllTerms "true"  .
@@ -252,20 +211,16 @@
                   </semantic-form-hidden-input>
 
                     <semantic-search-query-keyword domain='<http://www.w3.org/2000/01/rdf-schema#Resource>'
-                      placeholder="Search for a title e.g. Madonna con.." escape-lucene-syntax='false' query='
+                      placeholder="Search for a title e.g. Madonna and Chil.." escape-lucene-syntax='false' query='
                       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
                       SELECT ?subject WHERE {
-                      ?subject a crm:E22_Man-Made_Object.
-                      ?subject crm:P56_bears_feature ?feature.
-                      ?feature crm:P2_has_type ?featureType.
-                      ?feature a crm:E25_Man-Made_Feature.
-                      ?feature crm:P138_has_representation ?visual_item.
-                      ?visual_item a crm:E36_Visual_Item.
-                      ?visual_item crm:P102_has_title ?value_uri.
-                      ?value_uri a crm:E35_Title.
-                      ?value_uri rdfs:label ?someLabel.
-                      ?value_uri crm:P141i_was_assigned_by ?editionAttributeAssignment.
+                      ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
+                      ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <http://vocab.getty.edu/aat/300133025>.
+                      ?subject <https://pharos.artresearch.net/custom/has_provider>  <[[provider]]>.
+                      ?subject crm:P1_is_identified_by ?value. 
+                      ?value crm:P2_has_type <http://vocab.getty.edu/aat/300417193> .   
+                      ?value rdfs:label ?someLabel.
                       ?someLabel bds:search ?__token__ .
                       ?someLabel bds:minRelevance "0.3"^^xsd:double;
                       bds:matchAllTerms "true"  .
@@ -275,7 +230,7 @@
 
                 </semantic-form-composite-input>
               </semantic-form-switch-case>
-              <semantic-form-switch-case label="Museum Inventory No.">
+              <semantic-form-switch-case label="Repository">
                 <semantic-form-composite-input for="switch-action-type"
                   new-subject-template="http://www.example.com/switch/action/inv.number" fields='[
                 {
@@ -293,13 +248,15 @@
                   </semantic-form-hidden-input>
 
                     <semantic-search-query-keyword domain='<http://www.w3.org/2000/01/rdf-schema#Resource>'
-                      placeholder="Search for a museum inventory number e.g. 1856,0621.1" escape-lucene-syntax='false' query='
+                      placeholder="Search for a repository e.g. 1856,0621.1" escape-lucene-syntax='false' query='
                       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
                       SELECT ?subject ?someLabel WHERE {
-                      ?subject a crm:E22_Man-Made_Object.
-                      ?subject  <http://www.cidoc-crm.org/cidoc-crm/P48_has_preferred_identifier> ?id .
-                      ?id rdfs:label ?someLabel. 
+                      ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
+                      ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <http://vocab.getty.edu/aat/300133025>.
+                      ?subject <https://pharos.artresearch.net/custom/has_provider>  <[[provider]]>.
+                      ?subject crm:P50_has_current_keeper ?value.
+                      ?value rdfs:label ?someLabel.
                       ?someLabel bds:search ?__token__ .
                       ?someLabel bds:minRelevance "0.3"^^xsd:double;
                       bds:matchAllTerms "true"  .
@@ -349,11 +306,9 @@
                       <div
                         class="rs-grid-element panel panel-default artwork-card fade-in"
                       >
-                      {{log this}}
                         <semantic-link-container uri="{{subject.value}}">
                           <div class="panel-body">
-                            <bs-col lg="4" md="12" xs="12">
-                              <div class="row-center">
+                            <bs-col class="thumbnailImageContainer" lg="4" md="12" xs="12">
                                 <semantic-query
                                   query='SELECT DISTINCT ?imgUrl WHERE{
                                     <{{subject.value}}> <http://www.cidoc-crm.org/cidoc-crm/P138i_is_represented_by> ?visual. 
@@ -372,9 +327,8 @@
                                     ></object>
                                   </template>
                                 </semantic-query>
-                              </div>
                             </bs-col>
-                            <bs-col lg="7" md="10" xs="10">
+                            <bs-col class="cardInfo" lg="7" md="10" xs="10">
                               <div
                                 data-flex-layout="row md-column center-stretch"
                               >
@@ -577,6 +531,10 @@
     height: fit-content;
     padding: 2vh 0 2vh 0;
   }
+  #search-results .rs-grid-element.panel 
+  {
+    background-attachment: white !important;
+  }
   #search-results .rs-grid-element:hover {
     box-shadow: 1px 2px 8px 0 #761f0e35, 1px 3px 12px 2px rgba(0, 0, 0, 0.07);
   }
@@ -711,9 +669,34 @@
     text-transform: uppercase;
   }
 
+
+  .cardInfo{
+    position: relative;
+    left: 4vw;
+    top: 1vh;
+  }
+
+  .thumbnailImageContainer{
+    display: flex;
+    overflow: hidden;
+    align-items: center;
+    border-radius: 5px 0px 0px 5px;
+    padding: 0;
+    position: absolute;
+    height: -moz-available;
+    height: -webkit-fill-available;
+    height: fill-available;
+    left: 0;
+    top: 0;
+    min-height: 23vh;
+  }
   .thumbnailImage {
-    margin-top: 1vh;
-    margin-left: 1vw;
+    width: fit-content;
+    min-height: 23vh;
+    height: unset;
+    max-height: unset;
+    min-width: unset;
+    object-fit: cover;
   }
   
   .drawingInfo {
@@ -734,6 +717,11 @@
     color: #777777;
   }
 
+#search-results .rs-grid-element.panel-default {
+    border-color: #e9e9e9;
+  overflow: hidden;
+  padding: 0;
+}
   #search-results .rs-grid-element .panel-body {
     cursor: pointer;
     font-size: large;

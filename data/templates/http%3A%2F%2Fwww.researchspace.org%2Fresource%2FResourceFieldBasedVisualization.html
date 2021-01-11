@@ -35,13 +35,11 @@
         </td>
         <td>
           {{#ifCond (objectLength field.values) '>' 1}}
-          <ol class="rs-page-resource__field-values">
             {{#each field.values as |value|}}
-            <li class="rs-page-resource__field-value">
+            <div class="rs-page-resource__field-value">
               {{> rsp:ResourceFieldValueVisualization field=field value=value }}
-            </li>
+            </div>
             {{/each}}
-          </ol>
           {{/ifCond}}
           {{#ifCond (objectLength field.values) '===' 1}}
           {{#each field.values as |value|}}
@@ -56,3 +54,10 @@
   </table>
 </div>
 {{/if}}
+<style>
+  .rs-page-resource__field-label {
+    font-size: medium !important;
+    font-weight: 600;
+    color: #616161;
+}
+</style>
