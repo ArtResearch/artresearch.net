@@ -151,7 +151,7 @@
        ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
        ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <http://vocab.getty.edu/aat/300133025>.
        ?subject <https://pharos.artresearch.net/custom/has_provider>  <[[provider]]>.
-      }LIMIT 250"
+      }LIMIT 100"
   >
   </semantic-search-query-constant>
   <div id="header-search" class="search-page">
@@ -387,7 +387,7 @@
                     ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
                     ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <http://vocab.getty.edu/aat/300133025>.
                     ?subject <https://pharos.artresearch.net/custom/has_provider>  <[[provider]]>.
-                   }LIMIT 250
+                   }LIMIT 100
                 "
                 tuple-template="{{>tupleTemplate}}"
               >
@@ -408,9 +408,8 @@
                                     <{{subject.value}}> <http://www.cidoc-crm.org/cidoc-crm/P138i_is_represented_by> ?visual. 
                                    ?visual crm:P128i_is_carried_by ?image .
                                    ?image crm:P129i_is_subject_of ?fullsizeImgUrl.
-                                   ?fullsizeImgUrl crm:P2_has_type <http://iiif.io/api/image>.
                                    BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/200,") AS ?imgUrl).
-                                  }'
+                                  }LIMIT 1'
                             template="{{> imageThumbnail}}"
                           >
                             <template id="imageThumbnail">
