@@ -1,27 +1,18 @@
-<div class="text-center panel panel-default" style="border:none;margin-right:20px;font-size:12px;height:20px;width: 33%;display:inline;">
-<div class="result-title">Photographs (Marburg)</div>
+<div class="row row-center">
+  <div
+    id="main-container"
+    style="max-width: 1300px"
+    class="col-md-10 col-xs-10"
+  >
+    <!-- Title -->
+    <div class="row">
+      <div class="col-sm-7">
+        <header style="margin-left: 20px">
+          <h1>Photographs by Bildarchiv Foto Marburg</h1>
+        </header>
+      </div>
+    </div>
+    <!-- Filter search component -->
+    [[> rsp:artworkfiltersearch type="http://vocab.getty.edu/aat/300046300" provider="https://pharos.artresearch.net/resource/marburg/source/Marburg"]]
+  </div>
 </div>
-
- <semantic-table 
-                 query='PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-											 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-		 									 PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
-
- 											 SELECT  distinct $subject ?artwork
-											 WHERE {
-                 
-  												$subject crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
-                          $subject <https://pharos.artresearch.net/custom/has_provider> <https://pharos.artresearch.net/resource/marburg/source/Marburg> .
-                          $subject rdfs:label ?label .
-        								 } limit 100' 
-                id="table-result"
-                number-of-displayed-rows= 100
-                options='{"showFilter": false, "showTableHeading": true}'
-                column-configuration='[
- 							  {"variableName": "subject", "displayName": "Photograph"},             
-                {"variableName": "artwork", "displayName": "Artwork"}
-                ]'>
-</semantic-table>
-
-<br>
-<br>
