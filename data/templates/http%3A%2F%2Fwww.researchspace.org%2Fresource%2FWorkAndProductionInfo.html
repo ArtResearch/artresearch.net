@@ -1,6 +1,7 @@
 <div class="workAndProductionInfo">
       <mp-field-visualization
           subject="[[this]]"
+          additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
           fields='[[fieldDefinitions  
           Title="https://pharos.artresearch.net/fieldDefinition/2" 
           Type="https://pharos.artresearch.net/fieldDefinition/55" 
@@ -31,6 +32,7 @@
 
         <mp-field-visualization
         subject="[[this]]"
+        additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
         fields='[[fieldDefinitions  
         Creator="https://pharos.artresearch.net/fieldDefinition/1" 
         ProductionParticipant="https://pharos.artresearch.net/fieldDefinition/73" 

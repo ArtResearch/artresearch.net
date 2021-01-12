@@ -1,44 +1,36 @@
 <!-- Displays a row of IIIF photographs that are clickable (iiif mirador popup) -->
 [[#if (ask 'ASK {{?? rso:PX_has_main_representation ?mainImage .} UNION {?? crm:P138i_has_representation ?representationImage .} UNION {?? <http://www.cidoc-crm.org/cidoc-crm/P16i_was_used_for> ?creation .}  UNION {?? <http://www.cidoc-crm.org/cidoc-crm/P138i_is_represented_by> ?vi .} UNION {?source owl:sameAs ?? . ?source crm:P138i_is_represented_by ?vi. } BIND(COALESCE(?mainImage, ?representationImage) AS ?image) .}')]]
-  <div class="rs-page__summary-image summaryImages">
-    <mp-overlay-dialog title="‎‎" class="miradorViewerPopup">
+  <div >
+    <semantic-query query='
+    SELECT distinct ?imgURL ?image  WHERE {
+      ?? crm:P138i_is_represented_by ?visual_item.
+      ?visual_item crm:P128i_is_carried_by ?photo.
+      ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
+      ?photo crm:P129i_is_subject_of ?image.
+      ?image crm:P2_has_type <http://iiif.io/api/image> .
+      BIND(REPLACE(STR(?image),"full/full","full/500,") AS ?imgURL).
+    }' template='{{> imageThumbnail}}'>
+              <template id="imageThumbnail">
+                <div class="rs-page__summary-image summaryImages">
+                  <div class="rs-page__summary-image">
+                {{#each bindings}} 
+                 
+    <mp-overlay-dialog title="‎‎"  type="lightbox">
       <mp-overlay-dialog-trigger>
-        <div class="rs-page__summary-image">
-          <semantic-query query='
-  SELECT distinct ?imgURL  WHERE {
-    ?? crm:P138i_is_represented_by ?visual_item.
-    ?visual_item crm:P128i_is_carried_by ?photo.
-    ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
-    ?photo crm:P129i_is_subject_of ?image.
-    ?image crm:P2_has_type <http://iiif.io/api/image> .
-    BIND(REPLACE(STR(?image),"full/full","full/500,") AS ?imgURL).
-  }' template='{{> imageThumbnail}}'>
-            <template id="imageThumbnail">
-              {{#each bindings}}
-              <img class="thumbnailImage"  src="{{imgURL.value}}"/>
-              {{/each}}                                     
-            </template>
-          </semantic-query>
-        </div>
+              <img class="thumbnailImage"  src="{{imgURL.value}}"/>                         
       </mp-overlay-dialog-trigger>
       <mp-overlay-dialog-content>
-        <div style='height: 80vh; width: 100%;'>
-          <rs-iiif-mirador
-                           image-or-region="[[this]]" 
-                           image-id-pattern='BIND("image" AS ?type). BIND( ?? AS ?imageIRI). 
-                                             ?? crm:P138i_is_represented_by ?visual_item.
-                                             ?visual_item crm:P128i_is_carried_by ?photo.
-                                             ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
-                                             ?photo crm:P129i_is_subject_of ?image.
-                                             ?image crm:P2_has_type <http://iiif.io/api/image>.
-                                             BIND(REPLACE(STR(REPLACE(STR(?image),"/full/full/0/native.jpg","")), "(^.*)\\/(.*)$", "$2") AS ?imageID)'
-
-                           iiif-server-url="https://ids.lib.harvard.edu/ids/iiif/" 
-
-                           />
-        </div>
+      
+          <img style="width: 100%; height:100%; object-fit: contain;" src="{{image.value}}"/>
+ 
       </mp-overlay-dialog-content>
     </mp-overlay-dialog>
+
+    {{/each}} 
+  </div>    
+  </div>       
+  </template>
+</semantic-query>
   </div>
 [[/if]]
 <style>
@@ -47,5 +39,19 @@
     justify-content: center;
     background: #f5f5f5;
     border-radius: 4px !important;
+    max-height: 30vh;
+    overflow-y: scroll;
   }
+  .modal-content {
+    background-color: #f5f5f5 !important;
+  }
+  button.close{
+    color: black !important;
+    opacity: 1;
+    font-size: 55px !important;
+  }
+  .modal-content {
+    border:  none !important;
+    box-shadow: none !important
+}
 </style>
