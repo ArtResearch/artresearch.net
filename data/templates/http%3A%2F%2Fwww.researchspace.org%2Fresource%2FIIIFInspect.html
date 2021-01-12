@@ -5,7 +5,6 @@
           BIND(REPLACE(STR("{{imgURL}}"),"text200","text500") AS ?pageImg).
           BIND(REPLACE(STR(?pageImg),"plates200","plates500") AS ?imageUrl).
 
-
           }' template='{{> iiifViewer}}'>
           <template id="iiifViewer">
 
@@ -92,7 +91,7 @@
                 ?recto crm:P2_has_type <http://iiif.io/api/image> .
   							?recto crm:P2_has_type ?typer .
                 ?typer rdfs:label "recto".
-                 ?recto crm:P129i_is_subject_of ?json .
+                ?recto crm:P129i_is_subject_of ?json .
 
                  BIND(REPLACE(STR(?recto),"full/full","full/500,") AS ?rectoImage).
         			
@@ -101,7 +100,7 @@
       tuple-template="{{> photos}}"
     >
       <template id="photos">
-        <mp-event-trigger id='event-trigger' type='Component.TemplateUpdate' data='{"imgURL":"{{imgUrl.value}}","label":"{{imageLabel.value}}","imageType":"rectoverso","iiifServer":"https://iiif.itatti.harvard.edu/iiif/2","iiifPattern":"?? crm:P56_bears_feature ?feat. ?feat crm:P138_has_representation ?img_visual. ?img_visual crm:P129i_is_subject_of ?image."}' targets='["event-target"]'>
+        <mp-event-trigger id='event-trigger' type='Component.TemplateUpdate' data='{"imgURL":"{{recto.value}}","label":"{{imageLabel.value}}","imageType":"rectoverso","iiifServer":"https://iiif.itatti.harvard.edu/iiif/2"}' targets='["event-target"]'>
         <div
           draggable="true"
           href="{{json.value}}"

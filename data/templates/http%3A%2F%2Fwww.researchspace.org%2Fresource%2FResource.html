@@ -16,16 +16,18 @@
   [[#if (urlParam "tab")]]
   <bs-tab-container id="tab-container" class="page__body-navtabs--borderless" default-active-key="[[urlParam 'tab']]">
     [[else]]
-    <bs-tab-container id="tab-container" class="page__body-navtabs--borderless" default-active-key="IIIFInspect">
+    <bs-tab-container id="tab-container" class="page__body-navtabs--borderless" default-active-key="summary">
       [[/if]]
       <div>
         <bs-nav bs-style="tabs">
           <bs-nav-item event-key="summary">Summary</bs-nav-item>
-          [[#if (ask "ASK {?? crm:P2_has_type <http://vocab.getty.edu/aat/300046300> }") ]] 
-          <bs-nav-item event-key="IIIF">Image Lightbox</bs-nav-item>
-          [[/if]]
-          [[#if (ask "ASK {?? crm:P2_has_type <http://vocab.getty.edu/aat/300133025> }") ]] 
-          <bs-nav-item event-key="IIIFInspect">Image Lightbox</bs-nav-item>
+          [[#if (ask "ASK {?? <https://pharos.artresearch.net/custom/has_provider> ?provider. ?provider <https://pharos.artresearch.net/custom/has_iiif_server> ?iiifServer.  }") ]] 
+            [[#if (ask "ASK {?? crm:P2_has_type <http://vocab.getty.edu/aat/300046300> }") ]] 
+            <bs-nav-item event-key="IIIF">Image Lightbox</bs-nav-item>
+            [[/if]]
+            [[#if (ask "ASK {?? crm:P2_has_type <http://vocab.getty.edu/aat/300133025> }") ]] 
+            <bs-nav-item event-key="IIIFInspect">Image Lightbox</bs-nav-item>
+            [[/if]]
           [[/if]]
           [[#if (ask "ASK {?? a crm:E21_Person }") ]] 
            <bs-nav-item event-key="artworks">Artworks</bs-nav-item>
