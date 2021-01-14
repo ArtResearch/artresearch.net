@@ -1,0 +1,65 @@
+<!-- Checks provider and return an icon -->
+<semantic-query
+  query="
+     SELECT distinct ?provider ?providerLabel   WHERE 
+   {
+    <{{value.binding.graph.value}}> <https://pharos.artresearch.net/custom/has_provider> ?provider . 
+    ?provider rdfs:label ?providerLabel
+}"
+  template="{{>sourceIconTemplate}}"
+>
+  <template id="sourceIconTemplate">
+    {{#each bindings}} {{#ifCond providerLabel.value "!==" undefined }}
+    {{#ifCond providerLabel.value "===" "Pharos" }}
+    <semantic-link-container uri="{{provider.value}}">
+      <img
+        title="{{providerLabel.value}}"
+        class="sourceIcon"
+        src="../../assets/pharos.ico"
+      />
+    </semantic-link-container>
+    {{/ifCond}} {{#ifCond providerLabel.value "===" "I Tatti" }}
+    <semantic-link-container uri="{{provider.value}}">
+      <img
+        title="{{providerLabel.value}}"
+        class="sourceIcon"
+        src="../../assets/itatti.ico"
+    /></semantic-link-container>
+    {{/ifCond}} {{#ifCond providerLabel.value "===" "Zeri" }}
+    <semantic-link-container uri="{{provider.value}}"
+      ><img
+        title="{{providerLabel.value}}"
+        class="sourceIcon"
+        src="../../assets/zeri.ico"
+    /></semantic-link-container>
+    {{/ifCond}} {{#ifCond providerLabel.value "===" "Marburg" }}
+    <semantic-link-container uri="{{provider.value}}"
+      ><img
+        title="{{providerLabel.value}}"
+        class="sourceIcon"
+        src="../../assets/marburg.ico"
+    /></semantic-link-container>
+    {{/ifCond}} {{#ifCond providerLabel.value "===" "Hertziana" }}
+    <semantic-link-container uri="{{provider.value}}"
+      ><img
+        title="{{providerLabel.value}}"
+        class="sourceIcon"
+        src="../../assets/hertz.ico"
+    /></semantic-link-container>
+    {{/ifCond}} {{#ifCond providerLabel.value "===" "Frick" }}
+    <semantic-link-container uri="{{provider.value}}"
+      ><img
+        title="{{providerLabel.value}}"
+        class="sourceIcon"
+        src="../../assets/frick.ico"
+    /></semantic-link-container>
+    {{/ifCond}} {{#ifCond providerLabel.value "===" "KHI" }}
+    <semantic-link-container uri="{{provider.value}}"
+      ><img
+        title="{{providerLabel.value}}"
+        class="sourceIcon"
+        src="../../assets/khi.ico"
+    /></semantic-link-container>
+    {{/ifCond}} {{/ifCond}} {{/each}}
+  </template>
+</semantic-query>
