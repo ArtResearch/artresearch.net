@@ -687,10 +687,13 @@
     margin: unset;
     position: unset;
     top: unset;
+    left: unset;
     width: unset;
     font-size: unset;
     text-align: unset;
     font-weight: unset;
+    height: unset;
+    background-image: unset;
   }
 
   .QueryBuilder--searchCollapse.QueryBuilder--searchCollapseExpand.QueryBuilder--searchCollapseExpand
@@ -698,7 +701,10 @@
     margin: unset;
     position: unset;
     top: unset;
+    left: unset;
     width: unset;
+    height: unset;
+    background-image: unset;
     font-size: unset;
     text-align: unset;
     font-weight: unset;
@@ -708,11 +714,18 @@
   .search-summary {
     margin: 0 5px 0 0;
     position: absolute;
-    top: 10%;
+    top: -10vh;
+    left: -10vw;
     width: 100%;
     font-size: x-large;
     text-align: center;
     font-weight: bold;
+    height: 100vh;
+    width: 100vw;
+    background-image: url("https://iiif.artresearch.net/iiif/2/marburg!fm145604.jpg/full/full/0/default.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
   }
 
   .QueryBuilder--domainSelection {
@@ -726,6 +739,8 @@
     height: 30vh;
     align-items: center;
     flex-wrap: wrap;
+    border-radius: 4px;
+    background: rgb(255 255 255 / 90%);
   }
 
   .QueryBuilder--domainSelection li {
@@ -734,6 +749,7 @@
     height: 8vh !important;
     width: fit-content;
     border-radius: 4px;
+    background: transparent;
   }
 
   .QueryBuilder--domainSelection li .semantic-search__class-selector-item img {
@@ -890,3 +906,4 @@
     border-bottom-color: #79323660 !important;
   }
 </style>
+

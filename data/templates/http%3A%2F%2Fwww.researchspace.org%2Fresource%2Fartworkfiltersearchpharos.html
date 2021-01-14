@@ -1,24 +1,30 @@
-[[#if provider]]
 <semantic-search
   relations='{
-      "<https://florentinedrawings.itatti.harvard.edu/resource/field/hoghsdogihsdoh>":[
+      "<https://pharos.artresearch.net/resource/field/Artist_Attribution>":[
         {
           "kind": "resource",
           "queryPattern": "
             {
-              $subject crm:P108i_was_produced_by ?production.
-              ?production crm:P01i_is_domain_of ?domain.
-              ?domain a crm:PC14_carried_out_by.
-              ?domain crm:P02_has_range ?__value__.
+              $subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?__value__
             }"
         }
+    ],
+    "<https://pharos.artresearch.net/field/fcrs_Institution>":[
+    {
+      "kind": "resource",
+      "queryPattern": "
+        {
+          $subject <https://pharos.artresearch.net/resource/fr/Work_has_provider_Institution> ?__value__.
+        }"
+    }
     ],
     "<https://pharos.artresearch.net/fieldDefinition/Repository>":[
     {
       "kind": "resource",
       "queryPattern": "
         {
-          $subject <http://www.cidoc-crm.org/cidoc-crm/P50_has_current_keeper> ?__value__.
+          ?original owl:sameAs $subject.
+          ?original <http://www.cidoc-crm.org/cidoc-crm/P50_has_current_keeper> ?__value__.
         }"
     }],
     "<https://pharos.artresearch.net/fieldDefinition/46>": [
@@ -26,7 +32,8 @@
       "kind": "resource",
       "queryPattern": "
         {
-          $subject crm:P65_shows_visual_item ?__value__.
+          ?original owl:sameAs $subject.
+          ?original crm:P65_shows_visual_item ?__value__.
           ?__value__ crm:P2_has_type <http://vocab.getty.edu/aat/300404126>
         }"
     }],
@@ -35,7 +42,8 @@
       "kind": "resource",
       "queryPattern": "
         {
-          $subject crm:P45_consists_of ?__value__.
+          ?original owl:sameAs $subject.
+          ?original crm:P45_consists_of ?__value__.
           ?__value__ a crm:E57_Material.
         }"
     }],
@@ -44,7 +52,8 @@
       "kind": "resource",
       "queryPattern": "
         {
-          $subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ?__value__ .
+          ?original owl:sameAs $subject.
+          ?original <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ?__value__ .
         }"
     }],
     "<https://pharos.artresearch.net/fieldDefinition/42>": [
@@ -52,16 +61,17 @@
       "kind": "resource",
       "queryPattern": "
         {
-          $subject crm:P108i_was_produced_by ?production.
+          ?original owl:sameAs $subject.
+          ?original crm:P108i_was_produced_by ?production.
           ?production crm:P33_used_specific_technique ?__value__.
         }"
     }],
-    "<https://pharos.artresearch.net/fieldDefinition/93>": [
+    "<https://pharos.artresearch.net/resource/fr/Work_from_Place>": [
     {
       "kind": "resource",
       "queryPattern": "
         {
-          $subject crm:P55_has_current_location ?__value__.
+          $subject <https://pharos.artresearch.net/resource/fr/Work_from_Place> ?__value__
         }"
     }]
       }'
@@ -74,7 +84,7 @@
           },
           {
             "iri":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
-            "label":"Creator"
+            "label":"Creator/Institution"
           },
           {
             "iri":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
@@ -100,10 +110,16 @@
         "relations":
         [
           {
-            "iri": "<https://florentinedrawings.itatti.harvard.edu/resource/field/Artist_Attribution>",
+            "iri": "<https://pharos.artresearch.net/resource/field/Artist_Attribution>",
             "label":"Creator",
             "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
             "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E21_Person>"
+          },
+          {
+            "iri": "<https://pharos.artresearch.net/field/fcrs_Institution>",
+            "label":"Institution",
+            "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
+            "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>"
           },
           {
             "iri": "<https://pharos.artresearch.net/fieldDefinition/Repository>",
@@ -136,7 +152,7 @@
             "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E29_Design_or_Procedure>"
           },
           {
-            "iri":"<https://pharos.artresearch.net/fieldDefinition/93>",
+            "iri":"<https://pharos.artresearch.net/resource/fr/Work_from_Place>",
             "label":"Location",
             "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
             "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E53_Place>"
@@ -146,11 +162,11 @@
 >
   <semantic-search-query-constant
     domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
-    query=" SELECT DISTINCT ?subject 
+    query=" SELECT DISTINCT ?subject ?originalSubject
       WHERE {
        ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
        ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
-       ?subject <https://pharos.artresearch.net/custom/has_provider>  <[[provider]]>.
+       ?originalSubject owl:sameAs ?subject.
       }LIMIT 100"
   >
   </semantic-search-query-constant>
@@ -206,14 +222,10 @@
                       SELECT ?subject WHERE {
                         ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
                         ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
-                        ?subject <https://pharos.artresearch.net/custom/has_provider>  <[[provider]]>.
-                
                         ?entity ?p	?someLabel .
                         ?someLabel bds:search ?__token__  .
                         ?someLabel bds:minRelevance "0.3"^^xsd:double;
                         bds:matchAllTerms "true"  .
-                      
-                      
                       } ORDER BY ?q
                     '
             ></semantic-search-query-keyword>
@@ -251,11 +263,7 @@
                       SELECT ?subject WHERE {
                       ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
                       ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
-                      ?subject <https://pharos.artresearch.net/custom/has_provider>  <[[provider]]>.
-                      ?subject crm:P108i_was_produced_by ?production .
-                      ?production crm:P01i_is_domain_of ?carried .
-                      ?carried a crm:PC14_carried_out_by .
-                      ?carried crm:P02_has_range ?value.
+                      ?subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?value.
                       ?value rdfs:label ?someLabel.
                       ?someLabel bds:search ?__token__ .
                       ?someLabel bds:minRelevance "0.3"^^xsd:double;
@@ -298,10 +306,7 @@
                       SELECT ?subject WHERE {
                       ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
                       ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
-                      ?subject <https://pharos.artresearch.net/custom/has_provider>  <[[provider]]>.
-                      ?subject crm:P1_is_identified_by ?value. 
-                      ?value crm:P2_has_type <http://vocab.getty.edu/aat/300417193> .   
-                      ?value rdfs:label ?someLabel.
+                      ?subject rdfs:label ?someLabel.
                       ?someLabel bds:search ?__token__ .
                       ?someLabel bds:minRelevance "0.3"^^xsd:double;
                       bds:matchAllTerms "true"  .
@@ -343,7 +348,6 @@
                       SELECT ?subject ?someLabel WHERE {
                       ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
                       ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
-                      ?subject <https://pharos.artresearch.net/custom/has_provider>  <[[provider]]>.
                       ?subject crm:P50_has_current_keeper ?value.
                       ?value rdfs:label ?someLabel.
                       ?someLabel bds:search ?__token__ .
@@ -382,11 +386,11 @@
                     }'
                 number-of-displayed-rows="10"
                 query="
-                  SELECT DISTINCT ?subject
+                  SELECT DISTINCT ?subject ?originalSubject
                    WHERE {
                     ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
                     ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
-                    ?subject <https://pharos.artresearch.net/custom/has_provider>  <[[provider]]>.
+                    ?originalSubject owl:sameAs ?subject.
                    }LIMIT 100
                 "
                 tuple-template="{{>tupleTemplate}}"
@@ -403,75 +407,36 @@
                           md="12"
                           xs="12"
                         >
-                        <!-- Thumbnail for artwork -->
-                        {{#ifCond "[[type]]" "===" "http://vocab.getty.edu/aat/300133025" }}
-                          <semantic-query
-                            query='SELECT DISTINCT ?imgUrl WHERE{
-                                    bind("_" as ?default_imageUrl)
-                                    OPTIONAL{
-                                      <{{subject.value}}>  <http://www.cidoc-crm.org/cidoc-crm/P138i_is_represented_by> ?visual. 
-                                      ?visual crm:P128i_is_carried_by ?image .
-                                      ?image crm:P129i_is_subject_of ?fullsizeImgUrl.
-                                      BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/200,") AS ?smallerImgUrl).
-                                    }
-                                    BIND(coalesce(?smallerImgUrl, ?default_imageUrl) as ?imgUrl)      
-                                  }LIMIT 1'
-                            template="{{> imageThumbnail}}"
-                          >
-                            <template id="imageThumbnail">
-                              <img
-                                alt='   '
-                                class="thumbnailImage"
-                                src="{{bindings.0.imgUrl.value}}"
-                                />
-                            </template>
-                          </semantic-query>
-                        {{/ifCond}}
-                        <!-- Thumbnail for photo -->
-                        {{#ifCond "[[type]]" "===" "http://vocab.getty.edu/aat/300046300" }}
                         <semantic-query
-                          query='SELECT DISTINCT ?imgUrl WHERE{
-                            bind("_" as ?default_imageUrl)
-                            OPTIONAL{
-                                ?artwork crm:P138i_is_represented_by ?visual_item.
-                                ?visual_item crm:P128i_is_carried_by <{{subject.value}}> .
-                                ?artwork <http://www.cidoc-crm.org/cidoc-crm/P138i_is_represented_by> ?visual. 
-                                ?visual crm:P128i_is_carried_by ?image .
-                                ?image crm:P129i_is_subject_of ?fullsizeImgUrl.
-                                FILTER(?image = <{{subject.value}}>).
-                                BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/200,") AS ?smallerImgUrl).
-                              }
-                              BIND(coalesce(?smallerImgUrl, ?default_imageUrl) as ?imgUrl)    
-                                }LIMIT 1'
-                          template="{{> imageThumbnail}}"
-                        >
-                          <template id="imageThumbnail">
-                            <img
-                            alt='   '
-                            class="thumbnailImage"
-                            src="{{bindings.0.imgUrl.value}}"
-                            />
-                          </template>
-                        </semantic-query>
-                      {{/ifCond}}
+                        query='SELECT DISTINCT ?imgUrl WHERE{
+                                bind("_" as ?default_imageUrl)
+                                OPTIONAL{
+                               <{{originalSubject.value}}> <http://www.cidoc-crm.org/cidoc-crm/P138i_is_represented_by> ?visual. 
+                               ?visual crm:P128i_is_carried_by ?image .
+                               ?image crm:P129i_is_subject_of ?fullsizeImgUrl.
+                               BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/200,") AS ?smallerImgUrl).
+                                }
+                               BIND(coalesce(?smallerImgUrl, ?default_imageUrl) as ?imgUrl)
+                              }LIMIT 1'
+                        template="{{> imageThumbnail}}"
+                      >
+                        <template id="imageThumbnail">
+                          [[log this]]
+                          <img
+                          alt='   '
+                          class="thumbnailImage"
+                          src="{{bindings.0.imgUrl.value}}"
+                          />
+                        </template>
+                      </semantic-query>
                         </bs-col>
                         <bs-col class="cardInfo" lg="7" md="10" xs="10">
                           <div data-flex-layout="row md-column center-stretch">
                             <bs-row class="cardInfoFields">
-                              <mp-field-visualization
-                                subject="{{subject.value}}"
-                                fields='[[fieldDefinitions  
-                              Title="https://pharos.artresearch.net/fieldDefinition/2"
-                              Creator="https://pharos.artresearch.net/fieldDefinition/1"  
-                              Repository="https://pharos.artresearch.net/fieldDefinition/Repository"
-                              ]]'
-                                template="{{>generalInfo}}"
-                              >
-                                <template id="generalInfo">
-                                  [[> rsp:ResourceFieldBasedVisualization
-                                  subject=[[this]] ]]
-                                </template>
-                              </mp-field-visualization>
+                                <h2>Pharos record</h2>
+                                <h4><semantic-link iri="{{subject.value}}"></semantic-link></h4>
+                                <h2>Original record</h2>
+                                <h4><semantic-link iri="{{originalSubject.value}}"></semantic-link></h4>
                             </bs-row>
                           </div>
                         </bs-col>
@@ -487,9 +452,6 @@
     </bs-col>
   </div>
 </semantic-search>
-[[else]] No provider enter a provider in your rsp:artworkfiltersearch
-!!add!!>>>><b> provider="https://some.provider.uri" </b>
-[[/if]]
 <style>
   .header-search {
     background-color: #f3f3f1;
@@ -659,6 +621,9 @@
   #search-results .rs-grid-element:hover {
     box-shadow: 1px 2px 8px 0 #761f0e35, 1px 3px 12px 2px rgba(0, 0, 0, 0.07);
   }
+  #search-results .rs-grid-element a{
+    color: #6b0000!important;
+  }
   .panel-body {
     cursor: pointer;
     display: flex;
@@ -803,8 +768,8 @@
 
   .cardInfo {
     position: relative;
-    left: 5vw;
-    top: 0vh;
+    left: 6vw;
+    top: 3vh;
     background: #ffffffe8;
     border-radius: 0px 0px 4px 4px;
   }
@@ -836,6 +801,10 @@
     object-fit: cover;
   }
 
+  .thumbnailImage html{
+    display: none !important;
+  }
+  
   .drawingInfo {
     margin-bottom: 2vh;
   }
@@ -889,9 +858,10 @@
   }
 
   @media (max-width: 800px) {
-    .thumbnailImageContainer {
+        .thumbnailImageContainer {
     justify-content: center;
     }
+    
     .cardInfo {
     left: 0vw;
     top: 0vh;

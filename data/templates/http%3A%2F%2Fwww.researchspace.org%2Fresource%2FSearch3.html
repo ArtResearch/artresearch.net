@@ -2,31 +2,115 @@
   <li class="active">Home</li>
 </ol>
 
-<mp-event-proxy id='clipboard-update-on-save-set' on-event-source='save-set-result-action'
-                proxy-event-type='Component.Refresh' proxy-targets='["clipboard-sidebar"]'
+<mp-event-proxy
+  id="clipboard-update-on-save-set"
+  on-event-source="save-set-result-action"
+  proxy-event-type="Component.Refresh"
+  proxy-targets='["clipboard-sidebar"]'
 ></mp-event-proxy>
 
-<mp-event-proxy id='clipboard-update-on-save-search' on-event-source='save-search-result-action'
-                proxy-event-type='Component.Refresh' proxy-targets='["clipboard-sidebar"]'
+<mp-event-proxy
+  id="clipboard-update-on-save-search"
+  on-event-source="save-search-result-action"
+  proxy-event-type="Component.Refresh"
+  proxy-targets='["clipboard-sidebar"]'
 ></mp-event-proxy>
 
-<mp-event-proxy id='clipboard-update-on-persisted-component' on-event-source='persit-component-action'
-                proxy-event-type='Component.Refresh' proxy-targets='["clipboard-sidebar"]'
+<mp-event-proxy
+  id="clipboard-update-on-persisted-component"
+  on-event-source="persit-component-action"
+  proxy-event-type="Component.Refresh"
+  proxy-targets='["clipboard-sidebar"]'
 ></mp-event-proxy>
 
-<mp-event-proxy id='guided-tour-run' on-event-type='Component.Loaded' on-event-source='semantic-search'
-  proxy-event-type='GuidedTour.RunIfNotSeen' proxy-targets='["guided-tour-search"]'>
+<mp-event-proxy
+  id="guided-tour-run"
+  on-event-type="Component.Loaded"
+  on-event-source="semantic-search"
+  proxy-event-type="GuidedTour.RunIfNotSeen"
+  proxy-targets='["guided-tour-search"]'
+>
 </mp-event-proxy>
 <div class="page">
   [[#>rsp:ClipboardSidebar]]
-  <div class='page__body--borderless'>
-    
+  <div class="page__body--borderless">
     <semantic-search
-      id='semantic-search'
-      limit=50000
-      optimizer=blazegraph
+      id="semantic-search"
+      limit="50000"
+      optimizer="blazegraph"
+      categories='{
+    "<http://www.researchspace.org/ontology/Concept>": [
+      {
+        "kind": "hierarchy",
+        "queryPattern": "$subject $__relation__ ?__value__ ."
+      }
+    ],
+    "<http://www.researchspace.org/ontology/Place>": [
+      {
+        "kind": "hierarchy",
+        "queryPattern": "$subject ?__relation__ ?__value__ ."
+      }
+    ],
+    "<http://www.researchspace.org/ontology/Time>": [
+      {
+        "kind": "date-range",
+        "queryPattern": "
+           {
+             $subject ?__relation__ ?date .
+             ?date crm:P82a_begin_of_the_begin ?begin ;
+                   crm:P82b_end_of_the_end ?end .
+             FILTER(?begin <= ?__dateEndValue__) .
+             FILTER(?end >= ?__dateBeginValue__) .
+           }
+        "
+      }
+    ],
+    "<http://www.researchspace.org/ontology/Text>": [
+      {
+        "kind": "text",
+        [[#if solr]]
+          "queryPattern":
+          "
+             {
+             $subject a ?__domain__ .
+             $subject rso:displayLabel ?label .
+             { SELECT $subject WHERE {
+             BIND(CONCAT(\"defType=edismax&ps=100&pf=suggestionSearchText&fl=id,score&q.op=AND&rows=5000&fq=fc:\", REPLACE(str(?__domain__), \":\", \"\\\\\\\\:\")) as ?sFC)
+             BIND(CONCAT(\"(\",LCASE(?__value__),\")\") as ?lcasevalue)
+             SERVICE <http://www.bigdata.com/rdf/fts#search> {
+                $subject fts:search ?lcasevalue .
+                $subject fts:endpoint \"[[solrEndpoint]]\" .
+                $subject fts:params ?sFC .
+                $subject fts:scoreField \"score\" .
+                $subject fts:score ?score .
+                $subject fts:fieldToSearch \"suggestionSearchText\" .
+                $subject fts:searchField \"id\" .
+                $subject fts:searchResultType \"URI\" .
+             } } ORDER BY DESC(?score) }
+                <http://www.bigdata.com/queryHints#Prior> <http://www.bigdata.com/queryHints#runFirst> \"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>.
+           }
+          ",
+          "helpPage": "<http://help.metaphacts.com/resource/SolrFullTextSearchSyntax>",
+          "escapeLuceneSyntax": false
+        [[else]]
+          "queryPattern":
+          "
+             {
+               $subject a ?__domain__ .
+               $subject rso:displayLabel ?label .
+               SERVICE <http://www.bigdata.com/rdf/search#search> {
+                 ?label bds:search ?__value__ ;
+                        bds:minRelevance \"0.3\" ;
+                        bds:matchAllTerms \"true\"  .
+               }
+             }
+          "
+        [[/if]]
 
-    search-profile='{
+      }
+    ]
+  }'
+      search-profile='{
     "defaultProfile": "<http://www.researchspace.org/profile/all>",
     "categoriesQuery": "
         SELECT DISTINCT ?profile ?category ?label ?thumbnail ?description WHERE {
@@ -41,8 +125,8 @@
                   ?category rso:hasThumbnail ?thumbnail .
               } UNION {
                 BIND(<http://www.researchspace.org/ontology/Text> AS ?category)
-                BIND(\"Text search\" AS ?label)
-                BIND(\"Text search\" AS ?description)
+                BIND(\"sss\" AS ?label)
+                BIND(\"All\" AS ?description)
               }
             }
           } UNION {
@@ -55,8 +139,8 @@
             }
           } UNION {
             BIND(<http://www.researchspace.org/ontology/Text> as ?category) .
-            BIND(\"Text search\" as ?label) .
-            BIND(\"Text search\" as ?description) .
+            BIND(\"All\" as ?label) .
+            BIND(\"All\" as ?description) .
             BIND(<http://www.researchspace.org/profile/all> AS ?profile)
           }
         }
@@ -90,14 +174,39 @@
         }
         ORDER BY ?orderLabel ?label
     "
-  }'>
+  }'
+    >
       <semantic-search-query-builder
-        id='semantic-query-builder'
+        id="semantic-query-builder"
         relation-template='
       <div style="margin-left: {{order.value}}px">{{label}}</div>
     '
-      resource-selector='{
+        resource-selector='{
       "query":
+        [[#if solr]]
+          "
+          SELECT DISTINCT $suggestion $label WHERE {
+             {
+               { SELECT $suggestion ?score WHERE {
+             BIND(CONCAT(\"defType=edismax&ps=100&pf=suggestionSearchText&fl=id,score&rows=1000&q.op=AND&fq=fc:\", REPLACE(str(?__range__), \":\", \"\\\\\\\\:\"), \"&fq=frs:\", REPLACE(str(?__relation__), \":\", \"\\\\\\\\:\")) as ?sFC)
+             BIND(CONCAT(\"(\",LCASE(?__token__),\")\") as ?lcasetoken)
+             SERVICE <http://www.bigdata.com/rdf/fts#search> {
+                $suggestion fts:search ?lcasetoken .
+                $suggestion fts:endpoint \"[[solrEndpoint]]\" .
+                $suggestion fts:params ?sFC .
+                $suggestion fts:scoreField \"score\" .
+                $suggestion fts:score ?score .
+                $suggestion fts:fieldToSearch \"suggestionSearchText\" .
+                $suggestion fts:searchField \"id\" .
+                $suggestion fts:searchResultType \"URI\" .
+             } } }
+             <http://www.bigdata.com/queryHints#Prior> <http://www.bigdata.com/queryHints#runFirst> \"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>.
+             ?suggestion rdfs:label ?label .
+             BIND (STRLEN(?label) as ?len)
+            }
+          } ORDER BY DESC(?score) ?len LIMIT 10
+          "
+     [[else]]
        "
        SELECT DISTINCT $suggestion $label WHERE {
              {
@@ -108,29 +217,147 @@
                    bds:minRelevance \"0.3\" ;
                    bds:matchAllTerms \"true\"  .
                  }
-                 ?record owl:sameAs ?suggestion .
-                 ?suggestion crm:P2_has_type <https://pharos.artresearch.net/resource/type/pharos> . 
-                 ?suggestion rdfs:label ?label .
-                 ?record  a ?__range__ .
+                 ?suggestion <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.        
+                 ?suggestion rdfs:label ?label ;
+                             a ?__range__ .
               }
             }
             FILTER(EXISTS {
-              ?subject ?__relation__ ?record  .
+              ?subject ?__relation__ $suggestion .
+              ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>. 
             })
           } ORDER BY DESC(?score)  LIMIT 10
        "
-,
+     [[/if]],
      "suggestionTupleTemplate": "<span title=\"{{label.value}}\">{{label.value}}</span>",
      "noSuggestionsTemplate": "<div class=\"suggestion-no-matches\">no matches found</div>"
    }'
+        tree-selector='{
+     "rootsQuery": "
+        select distinct ?item ?label ?hasChildren where {
+         <http://www.bigdata.com/queryHints#Query> <http://www.bigdata.com/queryHints#optimizer> \"None\".
+         BIND(?__range__ as ?range)
+         BIND(IF(?range = rso:Concept, rso:Concept_has_broader_Concept, rso:Place_is_part_of_Place)	AS ?broader) .
+          {
+            ?item a ?__range__ .
+            ?item skos:inScheme ?schema .
+            FILTER(EXISTS { ?subject ?__relation__ ?item . }) .
+            MINUS { ?item ?broader ?parent }
+            ?item rso:displayLabel ?label .
+          }
+          OPTIONAL { ?child ?broader ?item . }
+          BIND(bound(?child) as ?hasChildren)
+        } order by ?label",
+     "childrenQuery": "
+       select distinct ?item ?label ?hasChildren where {
+         <http://www.bigdata.com/queryHints#Query> <http://www.bigdata.com/queryHints#optimizer> \"None\".
+         BIND(?__range__ as ?range)
+         BIND(IF(?range = rso:Concept, rso:Concept_has_broader_Concept, rso:Place_is_part_of_Place)	AS ?broader) .
+         {
+           FILTER(EXISTS { ?subject ?__relation__ ?item . }) .
+           ?item ?broader ?parent .
+           ?item rso:displayLabel ?label .
+         }
+         OPTIONAL { ?child ?broader ?item . }
+         BIND(bound(?child) as ?hasChildren)
+       } order by ?label",
+     "parentsQuery": "
+       select distinct ?item ?parent ?parentLabel where {
+          <http://www.bigdata.com/queryHints#Query> <http://www.bigdata.com/queryHints#optimizer> \"None\".
+         BIND(?__range__ as ?range)
+         BIND(IF(?range = rso:Concept, rso:Concept_has_broader_Concept, rso:Place_is_part_of_Place)	AS ?broader) .
+         ?item ?broader ?parent .
+         ?parent rso:displayLabel ?parentLabel .
+       }",
+     "searchQuery": [[#if solr]]
+       "
+  SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
+            BIND(?__range__ AS ?range)
+            BIND(IF(?range = rso:Concept, rso:Concept_has_broader_Concept, rso:Place_is_part_of_Place) AS ?broader)
+            {
+              SELECT DISTINCT ?item ?score ?label WHERE {
+                {
+                  SELECT DISTINCT ?item ?score ?label WHERE {
+                    BIND(CONCAT(\"defType=edismax&ps=100&pf=suggestionSearchText&fl=id,score&rows=50&q.op=AND&fq=scheme:*&fq=fc:\", REPLACE(str(?__range__), \":\", \"\\\\\\\\:\"), \"&fq=frs:\", REPLACE(str(?__relation__), \":\", \"\\\\\\\\:\")) as ?sFC)
+                    BIND(CONCAT(\"(\",LCASE(?__token__),\")\") as ?lcasetoken)
+                    SERVICE <http://www.bigdata.com/rdf/fts#search> {
+                      ?item <http://www.bigdata.com/rdf/fts#search> ?lcasetoken.
+                      ?item <http://www.bigdata.com/rdf/fts#endpoint> \"[[solrEndpoint]]\".
+                      ?item <http://www.bigdata.com/rdf/fts#params> ?sFC.
+                      ?item <http://www.bigdata.com/rdf/fts#scoreField> \"score\".
+                      ?item <http://www.bigdata.com/rdf/fts#score> ?score.
+                      ?item <http://www.bigdata.com/rdf/fts#fieldToSearch> \"suggestionSearchText\".
+                      ?item <http://www.bigdata.com/rdf/fts#searchField> \"id\".
+                      ?item <http://www.bigdata.com/rdf/fts#searchResultType> \"URI\".
+                    }
+                  }
+                }
+                <http://www.bigdata.com/queryHints#Prior> <http://www.bigdata.com/queryHints#runFirst> \"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>.
+                ?item rso:displayLabel ?label.
+                OPTIONAL {?item skos:inScheme ?schema .}
+              } LIMIT 500
+            }
+            OPTIONAL { ?child ?broader ?item. }
+            BIND(BOUND(?child) AS ?hasChildren)
+          }
+          ORDER BY DESC(?score) ?label
+          LIMIT 200
+        "
+      [[else]]
+        "
+          SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
+            BIND(?__range__ AS ?range)
+            BIND(IF(?range = rso:Concept, rso:Concept_has_broader_Concept, rso:Place_is_part_of_Place) AS ?broader)
+            {
+              SELECT DISTINCT ?item ?score ?label WHERE {
+                {
+                  SELECT DISTINCT ?item ?score ?label WHERE {
+                    SERVICE <http://www.bigdata.com/rdf/search#search> {
+                      ?label bds:search ?__token__ ;
+                      bds:relevance ?score ;
+                      bds:minRelevance \"0.3\" ;
+                      bds:maxRank \"50000\" ;
+                      bds:matchAllTerms \"true\"  .
+                    }
+                    ?item rso:displayLabel ?label.
+                    OPTIONAL {?item skos:inScheme ?schema .}
+                  }
+                }
+                OPTIONAL {
+                  ?subject ?__relation__ ?item .
+                }
+                FILTER(BOUND(?subject))
+              } LIMIT 500
+            }
+            OPTIONAL { ?child ?broader ?item. }
+            BIND(BOUND(?child) AS ?hasChildren)
+          }
+          ORDER BY DESC(?score) ?label
+          LIMIT 200
+        "
+      [[/if]],
+     "placeholder": "Search ... "
+   }'
+        geo-selector='{
+     "query": "
+        SELECT ?value ?label ?lat ?long WHERE {
+          ?value crm:P87_is_identified_by ?coord;
+                 rso:displayLabel ?label.
+
+          ?coord wgs84_pos:lat ?lat;
+                 wgs84_pos:long ?long.
+
+          ?label bds:search ?__token__ ;
+          bds:relevance ?score .
+         } ORDER BY DESC(?score)  LIMIT 20
+     "
+   }'
       >
-        
       </semantic-search-query-builder>
       <div data-flex-layout="row stretch-stretch">
-        <div data-flex-self="size-1of3" style="flex: 0 0 0;">
+        <div data-flex-self="size-1of3" style="flex: 0 0 0">
           <semantic-search-facet
-            id='semantic-search-facet'
-            select-first-category=true
+            id="semantic-search-facet"
             value-categories='{
     "<http://www.researchspace.org/ontology/Time>": {
       "kind": "date-range",
@@ -147,67 +374,102 @@
         <semantic-search-result-holder>
           <div data-flex-self="md-full">
             <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
-            <semantic-search-result id='semantic-search-result'>
-              <mp-sparql-result-counts id='semantic-search-result-count' query="SELECT DISTINCT ?subject {}"
-                                       template='{{> template}}'
+            <semantic-search-result id="semantic-search-result">
+              <mp-sparql-result-counts
+                id="semantic-search-result-count"
+                query="SELECT DISTINCT ?subject {}"
+                template="{{> template}}"
               >
-                <template id='template'>
+                <template id="template">
                   {{#if hasLimit}}
                   <bs-alert bs-style="warning" class="search-results__alert">
-                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                    <span class="num-results">Found {{numberOfResults}} matches</span> of {{totalNumberOfResults}} matches. <strong>Please, refine your search.</strong>
+                    <i
+                      class="fa fa-exclamation-triangle"
+                      aria-hidden="true"
+                    ></i>
+                    <span class="num-results"
+                      >Found {{numberOfResults}} matches</span
+                    >
+                    of {{totalNumberOfResults}} matches.
+                    <strong>Please, refine your search.</strong>
                   </bs-alert>
                   {{else}}
-                  <span class="num-results">Found {{numberOfResults}} matches</span>
+                  <span class="num-results"
+                    >Found {{numberOfResults}} matches</span
+                  >
                   {{/if}}
                 </template>
               </mp-sparql-result-counts>
             </semantic-search-result>
-            <bs-tabs unmount-on-exit=true id='search-results' animation=false class='tabs-right'>
+            <bs-tabs
+              default-active-key="2"
+              unmount-on-exit="true"
+              id="search-results"
+              animation="false"
+              class="tabs-right"
+            >
               <bs-tab event-key="1" title="Grid">
                 <semantic-search-result>
                   <semantic-table
-                    id='semantic-search-result-grid'
-                    query='
-                    SELECT DISTINCT ?subject ?iri WHERE {
-                 ?s ?dsadas ?sadad 
+                    id="semantic-search-result-grid"
+                    query="
+                    SELECT DISTINCT ?subject ?iri ?imgUrl WHERE {
                       FILTER EXISTS { ?subject (rdfs:label | rso:displayLabel) ?label }
-                        OPTIONAL {?subject (rs:PX_has_main_representation | crm:P138i_has_representation) ?image}
+                        OPTIONAL {?subject (rs:PX_has_main_representation | crm:P138i_is_represented_by) ?visual.
+                          ?visual <http://www.cidoc-crm.org/cidoc-crm/P128i_is_carried_by> ?photo.
+                          ?photo <http://www.cidoc-crm.org/cidoc-crm/P129i_is_subject_of> ?imgUrl}
                       BIND(?subject as ?iri) .
                     } ORDER BY DESC(?image)
-                  '
-                    tuple-template='{{> gridItem }}',
-                    options='{"showFilter":false, "resultsPerPage":16}'
+                  "
+                    tuple-template="{{> gridItem }}"
+                    options='{"showFilter":false, "resultsPerPage":12}'
                   >
-                    <template id='gridItem'>
+                    <template id="gridItem">
                       <mp-draggable iri="{{iri.value}}">
                         {{#> rsp:itemCardTemplate}}
-                        <bs-dropdown-button bs-style="link" title="" id="result-item-action-{{iri.value}}">
-                          <semantic-search-action-use-result-item-in-extended-search iri='{{iri.value}}'>
-                            <bs-menu-item event-key="explore">Start search</bs-menu-item>
-                          </semantic-search-action-use-result-item-in-extended-search>
+                        <bs-dropdown-button
+                          bs-style="link"
+                          title=""
+                          id="result-item-action-{{iri.value}}"
+                        >
+                          <!-- <semantic-search-action-use-result-item-in-extended-search
+                            iri="{{iri.value}}"
+                          >
+                            <bs-menu-item event-key="explore"
+                              >Start search</bs-menu-item
+                            >
+                          </semantic-search-action-use-result-item-in-extended-search> -->
 
-                          <mp-anonymous-hidden>
-                            <mp-overlay-dialog title="New Image" bs-size='lg'>
+                          <!-- <mp-anonymous-hidden>
+                            <mp-overlay-dialog title="New Image" bs-size="lg">
                               <mp-overlay-dialog-trigger>
-                                <bs-menu-item>
-                                  Add Image
-                                </bs-menu-item>
+                                <bs-menu-item> Add Image </bs-menu-item>
                               </mp-overlay-dialog-trigger>
                               <mp-overlay-dialog-content>
-                                <mp-page-loader iri="http://www.researchspace.org/resource/NewImageAssertion"
-                                                urlqueryparam-subject="{{iri.value}}"
+                                <mp-page-loader
+                                  iri="http://www.researchspace.org/resource/NewImageAssertion"
+                                  urlqueryparam-subject="{{iri.value}}"
                                 ></mp-page-loader>
                               </mp-overlay-dialog-content>
                             </mp-overlay-dialog>
-                          </mp-anonymous-hidden>
+                          </mp-anonymous-hidden> -->
 
-                          <mp-resource-link-container uri='http://www.researchspace.org/resource/FcFrOntodia' urlqueryparam-instance='{{iri.value}}'>
-                            <bs-menu-item event-key="explore">Explore (Simple)</bs-menu-item>
+                          <!-- <mp-resource-link-container
+                            uri="http://www.researchspace.org/resource/FcFrOntodia"
+                            urlqueryparam-instance="{{iri.value}}"
+                          >
+                            <bs-menu-item event-key="explore"
+                              >Explore (Simple)</bs-menu-item
+                            >
                           </mp-resource-link-container>
-                          <mp-resource-link-container uri='http://www.researchspace.org/resource/CidocOntodia' urlqueryparam-instance='{{iri.value}}'>
-                            <bs-menu-item event-key="explore">Explore (Detailed)</bs-menu-item>
-                          </mp-resource-link-container>
+                          <mp-resource-link-container
+                            uri="http://www.researchspace.org/resource/CidocOntodia"
+                            urlqueryparam-instance="{{iri.value}}"
+                          >
+                            <bs-menu-item event-key="explore"
+                              >Explore (Detailed)</bs-menu-item
+                            >
+                          </mp-resource-link-container> -->
                         </bs-dropdown-button>
                         {{/ rsp:itemCardTemplate}}
                       </mp-draggable>
@@ -217,25 +479,36 @@
               </bs-tab>
               <bs-tab event-key="2" title="Table">
                 <semantic-search-result>
-                  <semantic-table id='semantic-search-result-table'
-                                  query='SELECT DISTINCT ?subject WHERE {   . } ORDER BY ?subject'
-                                  options='{"showFilter":false, "resultsPerPage":10}'
+                  <semantic-table
+                    id="semantic-search-result-table"
+                    query="SELECT DISTINCT ?subject WHERE { } ORDER BY ?subject"
+                    options='{"showFilter":false, "resultsPerPage":10}'
                   >
                   </semantic-table>
                 </semantic-search-result>
               </bs-tab>
               <bs-tab event-key="3" title="Chart">
-                <semantic-search-result-context ranges='["http://www.researchspace.org/ontology/Concept", "http://www.researchspace.org/ontology/Place", "http://www.researchspace.org/ontology/Actor"]'>
-                  <semantic-search-result id='semantic-search-result-chart'>
+                <semantic-search-result-context
+                  ranges='["http://www.researchspace.org/ontology/Concept", "http://www.researchspace.org/ontology/Place", "http://www.researchspace.org/ontology/Actor"]'
+                >
+                  <semantic-search-result id="semantic-search-result-chart">
                     <mp-component-toolbar>
                       <mp-component-toolbar-actions>
-                        <semantic-chart-type-selector id='search-result-chart-type-selector' default="bar" types='["line", "bar", "radar", "pie", "donut"]' style='margin-right: 10px;'></semantic-chart-type-selector>
+                        <semantic-chart-type-selector
+                          id="search-result-chart-type-selector"
+                          default="bar"
+                          types='["line", "bar", "radar", "pie", "donut"]'
+                          style="margin-right: 10px"
+                        ></semantic-chart-type-selector>
                         <mp-component-toolbar-action-download></mp-component-toolbar-action-download>
-                        <mp-component-toolbar-action-save id='persit-component-action' add-to-default-set=true></mp-component-toolbar-action-save>
+                        <mp-component-toolbar-action-save
+                          id="persit-component-action"
+                          add-to-default-set="true"
+                        ></mp-component-toolbar-action-save>
                       </mp-component-toolbar-actions>
                       <mp-component-toolbar-component>
                         <semantic-chart
-                          id='search-result-chart'
+                          id="search-result-chart"
                           query='
                                              SELECT ?object (COUNT(DISTINCT ?subject) as ?count) WHERE {
                                                OPTIONAL { ?subject ?__contextRelation__ ?object }
@@ -245,7 +518,8 @@
                           sets='[{
                                               "category": "object",
                                               "value": "count"
-                                            }]'>
+                                            }]'
+                        >
                         </semantic-chart>
                       </mp-component-toolbar-component>
                     </mp-component-toolbar>
@@ -255,32 +529,46 @@
               <bs-tab event-key="4" title="Timeline">
                 <div>
                   <semantic-search-result>
-                    <mp-sparql-result-counts id='timeline-search-result-count' query="SELECT DISTINCT ?subject {} LIMIT 100"
-                                             template='{{> template}}'
+                    <mp-sparql-result-counts
+                      id="timeline-search-result-count"
+                      query="SELECT DISTINCT ?subject {} LIMIT 100"
+                      template="{{> template}}"
                     >
-                      <template id='template'>
+                      <template id="template">
                         {{#if hasLimit}}
-                        <bs-alert bs-style="warning" class="search-results__alert">
-                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        <bs-alert
+                          bs-style="warning"
+                          class="search-results__alert"
+                        >
+                          <i
+                            class="fa fa-exclamation-triangle"
+                            aria-hidden="true"
+                          ></i>
                           <span class="num-results">
-                          There were {{totalNumberOfResults}} results. Only 100 can be visualised on the timeline at once!
-                        </span>
+                            There were {{totalNumberOfResults}} results. Only
+                            100 can be visualised on the timeline at once!
+                          </span>
                         </bs-alert>
                         {{/if}}
                       </template>
                     </mp-sparql-result-counts>
                   </semantic-search-result>
 
-                  <semantic-search-result-context ranges='["http://www.researchspace.org/ontology/Time"]'>
+                  <semantic-search-result-context
+                    ranges='["http://www.researchspace.org/ontology/Time"]'
+                  >
                     <semantic-search-result>
                       <mp-component-toolbar>
                         <mp-component-toolbar-actions>
-                          <mp-component-toolbar-action-save id='persit-component-action' add-to-default-set=true></mp-component-toolbar-action-save>
+                          <mp-component-toolbar-action-save
+                            id="persit-component-action"
+                            add-to-default-set="true"
+                          ></mp-component-toolbar-action-save>
                         </mp-component-toolbar-actions>
                         <mp-component-toolbar-component>
                           <semantic-timeline
-                            id='search-result-timeline'
-                            query='PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+                            id="search-result-timeline"
+                            query="PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
                                  SELECT DISTINCT ?start ?end ?iri WHERE {
                                     FILTER(?__contextRelationPattern__)
                                     BIND(?__dateBeginValue__ AS ?start)
@@ -289,18 +577,28 @@
                                  }
                                  ORDER BY ?subject
                                  LIMIT 100
-                                 '
-                            tuple-template='{{> timelineItem}}'
-                            tuple-template-height=50>
-                            <template id='timelineItem'>
+                                 "
+                            tuple-template="{{> timelineItem}}"
+                            tuple-template-height="50"
+                          >
+                            <template id="timelineItem">
                               <mp-popover>
-                                <mp-popover-trigger placement="top" trigger='["hover"]' root-close='false'>
-                                  <div data-flex-layout='column top-left'>
+                                <mp-popover-trigger
+                                  placement="top"
+                                  trigger='["hover"]'
+                                  root-close="false"
+                                >
+                                  <div data-flex-layout="column top-left">
                                     <p>{{start.value}} - {{end.value}}</p>
-                                    <semantic-link uri='{{iri.value}}'></semantic-link>
+                                    <semantic-link
+                                      uri="{{iri.value}}"
+                                    ></semantic-link>
                                   </div>
                                 </mp-popover-trigger>
-                                <mp-popover-content>{{> rsp:itemCardTemplate}}</mp-popover-content>
+                                <mp-popover-content
+                                  >{{>
+                                  rsp:itemCardTemplate}}</mp-popover-content
+                                >
                               </mp-popover>
                             </template>
                           </semantic-timeline>
@@ -312,35 +610,57 @@
               </bs-tab>
             </bs-tabs>
 
-            <hr>
-            <div class="semantic-search-results-actions pull-right" style="display: flex;">
+            <hr />
+            <div
+              class="semantic-search-results-actions pull-right"
+              style="display: flex"
+            >
               <semantic-search-result>
-                <mp-sparql-download id='csv-result' query="SELECT ?subject WHERE { }"
-                                    header="text/csv"
-                                    filename="csv-result.csv"
+                <mp-sparql-download
+                  id="csv-result"
+                  query="SELECT ?subject WHERE { }"
+                  header="text/csv"
+                  filename="csv-result.csv"
                 >
-                  <button class="btn btn-default" style="margin-right:10px">Download CSV</button>
+                  <button class="btn btn-default" style="margin-right: 10px">
+                    Download CSV
+                  </button>
                 </mp-sparql-download>
               </semantic-search-result>
               <semantic-search-result>
-                <mp-sparql-download id='json-result' query="SELECT ?subject WHERE { }"
-                                    header="application/sparql-results+json"
-                                    filename="json-result.json"
+                <mp-sparql-download
+                  id="json-result"
+                  query="SELECT ?subject WHERE { }"
+                  header="application/sparql-results+json"
+                  filename="json-result.json"
                 >
-                  <button class="btn btn-default" style="margin-right:10px">Download JSON</button>
+                  <button class="btn btn-default" style="margin-right: 10px">
+                    Download JSON
+                  </button>
                 </mp-sparql-download>
               </semantic-search-result>
               <semantic-search-action-use-result-in-extended-search>
-                <button class="btn btn-default" style="margin-right:10px">Use in Search</button>
+                <button class="btn btn-default" style="margin-right: 10px">
+                  Use in Search
+                </button>
               </semantic-search-action-use-result-in-extended-search>
               <mp-anonymous-hidden>
-                <semantic-search-action-save-set-result id='save-set-result-action'>
-                  <button class="btn btn-default" style="margin-right:10px">Save As Set</button>
+                <semantic-search-action-save-set-result
+                  id="save-set-result-action"
+                >
+                  <button class="btn btn-default" style="margin-right: 10px">
+                    Save As Set
+                  </button>
                 </semantic-search-action-save-set-result>
               </mp-anonymous-hidden>
               <mp-anonymous-hidden>
-                <semantic-search-action-save-search-result id='save-search-result-action' add-to-default-set=true>
-                  <button class="btn btn-default" style="margin-right:10px">Save As Search</button>
+                <semantic-search-action-save-search-result
+                  id="save-search-result-action"
+                  add-to-default-set="true"
+                >
+                  <button class="btn btn-default" style="margin-right: 10px">
+                    Save As Search
+                  </button>
                 </semantic-search-action-save-search-result>
               </mp-anonymous-hidden>
             </div>
@@ -351,6 +671,7 @@
   </div>
   [[/rsp:ClipboardSidebar]]
 </div>
+
 <style>
   .QueryBuilder--addDisjunctButton {
     visibility: initial !important;
@@ -368,10 +689,13 @@
     margin: unset;
     position: unset;
     top: unset;
+    left: unset;
     width: unset;
     font-size: unset;
     text-align: unset;
     font-weight: unset;
+    height: unset;
+    background-image: unset;
   }
 
   .QueryBuilder--searchCollapse.QueryBuilder--searchCollapseExpand.QueryBuilder--searchCollapseExpand
@@ -379,7 +703,10 @@
     margin: unset;
     position: unset;
     top: unset;
+    left: unset;
     width: unset;
+    height: unset;
+    background-image: unset;
     font-size: unset;
     text-align: unset;
     font-weight: unset;
@@ -389,11 +716,18 @@
   .search-summary {
     margin: 0 5px 0 0;
     position: absolute;
-    top: 10%;
+    top: -10vh;
+    left: -10vw;
     width: 100%;
     font-size: x-large;
     text-align: center;
     font-weight: bold;
+    height: 100vh;
+    width: 100vw;
+    background-image: url("https://iiif.artresearch.net/iiif/2/marburg!fm145604.jpg/full/full/0/default.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
   }
 
   .QueryBuilder--domainSelection {
@@ -407,6 +741,8 @@
     height: 30vh;
     align-items: center;
     flex-wrap: wrap;
+    border-radius: 4px;
+    background: rgb(255 255 255 / 90%);
   }
 
   .QueryBuilder--domainSelection li {
@@ -415,6 +751,7 @@
     height: 8vh !important;
     width: fit-content;
     border-radius: 4px;
+    background: transparent;
   }
 
   .QueryBuilder--domainSelection li .semantic-search__class-selector-item img {
@@ -571,3 +908,4 @@
     border-bottom-color: #79323660 !important;
   }
 </style>
+
