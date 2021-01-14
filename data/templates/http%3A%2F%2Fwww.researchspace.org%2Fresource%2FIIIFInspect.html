@@ -1,72 +1,55 @@
-<mp-event-target-template-render id='event-target' template='{{> mainImageTemplate}}'>
-  <template id='mainImageTemplate'>
-      <semantic-query query='SELECT DISTINCT ?imageUrl WHERE{
-          
-          BIND(REPLACE(STR("{{imgURL}}"),"text200","text500") AS ?pageImg).
-          BIND(REPLACE(STR(?pageImg),"plates200","plates500") AS ?imageUrl).
-
-          }' template='{{> iiifViewer}}'>
-          <template id="iiifViewer">
-
-  <div style='height: 80vh; width: 100%;'>
-          {{#ifCond iiifServer "===" undefined}}
-          <rs-iiif-mirador
-          image-or-region="[[this]]" 
-
-          image-id-pattern='
-          BIND("image" AS ?type). BIND(?? AS ?imageIRI). 
-          <[[this]]> crm:P129i_is_subject_of ?feat.             
-          ?feat crm:P148_is_component_of ?img_visual.
-          ?img_visual crm:P129i_is_subject_of ?image . 
-          ?image crm:P2_has_type <http://iiif.io/api/image>.
-          BIND(REPLACE(STR(REPLACE(STR(?image),"/full/full/0/default.jpg","")), "(^.*)\\/(.*)$", "$2") AS ?imageID)
-          '
-          iiif-server-url="https://ids.lib.harvard.edu/ids/iiif" 
-          >
-          </rs-iiif-mirador>
-          {{/ifCond}}
-
-          {{#ifCond iiifServer "!==" undefined}}
-              {{#ifCond imageType "===" "plate"}}
-              <rs-iiif-mirador
-              image-or-region="[[this]]" 
-              image-id-pattern='BIND("image" AS ?type). BIND(?? AS ?imageIRI). 
-              ?? crm:P56_bears_feature ?feat.
-              ?feat crm:P129i_is_subject_of ?plate.
-              ?plate crm:P129i_is_subject_of ?image. 
-              ?image crm:P2_has_type <http://iiif.io/api/image>.
-              BIND(REPLACE(STR(REPLACE(STR(?image),"/full/full/0/default.jpg","")), "(^.*)\\/(.*)$", "$2") AS ?imagio).
-              BIND(REPLACE(STR(REPLACE(STR(?imagio),"florentinedrawings!","florentinedrawings!plates!")), "(^.*)\\/(.*)$", "$2") AS ?imageID)
-              '                                                                       
-              iiif-server-url={{iiifServer}} 
-              >
-              </rs-iiif-mirador>
-          {{/ifCond}}
-
-              
-            {{/ifCond}}
-  </div>
-</template>
-</semantic-query>
-</template>
-</mp-event-target-template-render>
-
-
 
 <div data-flex-layout="row center-stretch">
   <div class="grid-demo">
     <div style="width: 60vw; height: 70vh">
-      <rs-iiif-mirador
-        image-or-region="[[#if record]][[record]][[else]]{{record}}[[/if]]"
-        image-id-pattern='BIND("image" AS ?type). BIND( ?? AS ?imageIRI). 
-                            ?? crm:P138i_is_represented_by ?visual_item.
-                            ?visual_item crm:P128i_is_carried_by ?photo.
-                            ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
-                            ?photo crm:P129i_is_subject_of ?image.
-                            ?image crm:P2_has_type <http://iiif.io/api/image>.
-                            BIND(REPLACE(STR(REPLACE(STR(?image),"/full/full/0/native.jpg","")), "(^.*)\\/(.*)$", "$2") AS ?imageID)'
-        iiif-server-url="https://ids.lib.harvard.edu/ids/iiif/"
-      />
+      <mp-event-target-template-render id='event-target' template='{{> mainImageTemplate}}'>
+        <template id='mainImageTemplate'>
+            <semantic-query query='SELECT DISTINCT ?imageUrl ?iiifServer WHERE{
+                ?? <https://pharos.artresearch.net/custom/has_provider> ?provider.
+                ?provider <https://pharos.artresearch.net/custom/has_iiif_server> ?iiifServer.
+                BIND(STR("{{imgURL}}") AS ?imageUrl).
+                }' template='{{> iiifViewer}}'>
+                <template id="iiifViewer">
+                 
+                  {{#ifCond  (objectLength bindings.0.imageUrl.value) "!==" 0}}  
+                    <rs-iiif-mirador
+                    image-or-region="[[this]]" 
+                    image-id-pattern='BIND("image" AS ?type). BIND(?? AS ?imageIRI). 
+                    ?? crm:P138i_is_represented_by ?visual_item.
+                    ?visual_item crm:P128i_is_carried_by ?photo.
+                    ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
+                    ?photo crm:P129i_is_subject_of ?image.
+                    ?image crm:P2_has_type <http://iiif.io/api/image>.
+                    FILTER(str(?image) = "{{bindings.0.imageUrl.value}}").
+                    BIND(REPLACE(STR(REPLACE(STR(?image),"/full/full/0/*","")), "(^.*)\\/(.*)$", "$2") AS ?idWithDefaultNative).
+                    BIND(REPLACE(?idWithDefaultNative,"default.jpg","") AS ?idWithNative).
+                    BIND(REPLACE(?idWithNative,"native.jpg","") AS ?imageID).
+                    '                                                                       
+                    iiif-server-url="{{bindings.0.iiifServer.value}}" 
+                    >
+                    </rs-iiif-mirador>
+                  {{/ifCond}}
+                  {{#ifCond (objectLength bindings.0.imageUrl.value) "===" 0}}  
+                    <rs-iiif-mirador
+                    image-or-region="[[this]]" 
+                    image-id-pattern='BIND("image" AS ?type). BIND(?? AS ?imageIRI). 
+                    ?? crm:P138i_is_represented_by ?visual_item.
+                    ?visual_item crm:P128i_is_carried_by ?photo.
+                    ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
+                    ?photo crm:P129i_is_subject_of ?image.
+                    ?image crm:P2_has_type <http://iiif.io/api/image>.
+                    BIND(REPLACE(STR(REPLACE(STR(?image),"/full/full/0/*","")), "(^.*)\\/(.*)$", "$2") AS ?idWithDefaultNative).
+                    BIND(REPLACE(?idWithDefaultNative,"default.jpg","") AS ?idWithNative).
+                    BIND(REPLACE(?idWithNative,"native.jpg","") AS ?imageID).
+                    '                                                                       
+                    iiif-server-url="{{bindings.0.iiifServer.value}}" 
+                    >
+                    </rs-iiif-mirador>
+                    {{/ifCond}}
+      </template>
+      </semantic-query>
+      </template>
+      </mp-event-target-template-render>
     </div>
   </div>
   <div id="photo-cards">
@@ -93,19 +76,18 @@
                 ?typer rdfs:label "recto".
                 ?recto crm:P129i_is_subject_of ?json .
 
-                 BIND(REPLACE(STR(?recto),"full/full","full/500,") AS ?rectoImage).
+                 BIND(REPLACE(STR(?recto),"full/full","full/350,") AS ?rectoImage).
         			
             }'
       options='{"showFilter": false, "showTableHeading": false}'
       tuple-template="{{> photos}}"
     >
       <template id="photos">
-        <mp-event-trigger id='event-trigger' type='Component.TemplateUpdate' data='{"imgURL":"{{recto.value}}","label":"{{imageLabel.value}}","imageType":"rectoverso","iiifServer":"https://iiif.itatti.harvard.edu/iiif/2"}' targets='["event-target"]'>
+        <mp-event-trigger id='event-trigger' type='Component.TemplateUpdate' data='{"imgURL":"{{recto.value}}","label":"{{imageLabel.value}}"}' targets='["event-target"]'>
         <div
-          draggable="true"
           href="{{json.value}}"
           class="card"
-          title="drag & drop into viewer to inspect"
+          title="Click to view in IIIF viewer"
         >
           <bs-col md="4" sm="12">
             <img src="{{rectoImage.value}}" />
@@ -160,7 +142,7 @@
   }
 
   #photo-cards .card {
-    cursor: grab;
+    cursor: pointer;
     width: 30vw;
     margin-bottom: 2vh;
     display: flex;
