@@ -729,7 +729,29 @@
     background-position: center;
     background-size: cover;
   }
-
+  
+  .search-summary .SearchSummary--start {
+    position: absolute;
+    top: 10vh;
+    left: 0;
+    width: 100%;
+    font-size: 38px;
+    color: white !important;
+    text-align: center;
+    filter: drop-shadow(2px 4px 6px black);
+  }
+  .QueryBuilder--searchCollapse.QueryBuilder--searchCollapseExpand.QueryBuilder--searchCollapseExpand
+  + .search-summary .SearchSummary--start
+  {
+    position: unset;
+    top: unset;
+    left: unset;
+    color: unset;
+    width: unset;
+    font-size: unset;
+    text-align: unset;
+    filter:unset;
+  }
   .QueryBuilder--domainSelection {
     position: absolute;
     top: 12vh;
