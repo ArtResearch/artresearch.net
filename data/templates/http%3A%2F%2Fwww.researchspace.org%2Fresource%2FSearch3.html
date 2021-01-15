@@ -402,7 +402,7 @@
               </mp-sparql-result-counts>
             </semantic-search-result>
             <bs-tabs
-              default-active-key="2"
+              default-active-key="1"
               unmount-on-exit="true"
               id="search-results"
               animation="false"
@@ -410,82 +410,91 @@
             >
               <bs-tab event-key="1" title="Grid">
                 <semantic-search-result>
-                  <semantic-table
-                    id="semantic-search-result-grid"
-                    query="
-                    SELECT DISTINCT ?subject ?iri ?imgUrl WHERE {
-                      FILTER EXISTS { ?subject (rdfs:label | rso:displayLabel) ?label }
-                        OPTIONAL {?subject (rs:PX_has_main_representation | crm:P138i_is_represented_by) ?visual.
-                          ?visual <http://www.cidoc-crm.org/cidoc-crm/P128i_is_carried_by> ?photo.
-                          ?photo <http://www.cidoc-crm.org/cidoc-crm/P129i_is_subject_of> ?imgUrl}
-                      BIND(?subject as ?iri) .
-                    } ORDER BY DESC(?image)
-                  "
-                    tuple-template="{{> gridItem }}"
-                    options='{"showFilter":false, "resultsPerPage":12}'
-                  >
-                    <template id="gridItem">
-                      <mp-draggable iri="{{iri.value}}">
-                        {{#> rsp:itemCardTemplate}}
-                        <bs-dropdown-button
-                          bs-style="link"
-                          title=""
-                          id="result-item-action-{{iri.value}}"
-                        >
-                          <!-- <semantic-search-action-use-result-item-in-extended-search
-                            iri="{{iri.value}}"
-                          >
-                            <bs-menu-item event-key="explore"
-                              >Start search</bs-menu-item
-                            >
-                          </semantic-search-action-use-result-item-in-extended-search> -->
-
-                          <!-- <mp-anonymous-hidden>
-                            <mp-overlay-dialog title="New Image" bs-size="lg">
-                              <mp-overlay-dialog-trigger>
-                                <bs-menu-item> Add Image </bs-menu-item>
-                              </mp-overlay-dialog-trigger>
-                              <mp-overlay-dialog-content>
-                                <mp-page-loader
-                                  iri="http://www.researchspace.org/resource/NewImageAssertion"
-                                  urlqueryparam-subject="{{iri.value}}"
-                                ></mp-page-loader>
-                              </mp-overlay-dialog-content>
-                            </mp-overlay-dialog>
-                          </mp-anonymous-hidden> -->
-
-                          <!-- <mp-resource-link-container
-                            uri="http://www.researchspace.org/resource/FcFrOntodia"
-                            urlqueryparam-instance="{{iri.value}}"
-                          >
-                            <bs-menu-item event-key="explore"
-                              >Explore (Simple)</bs-menu-item
-                            >
-                          </mp-resource-link-container>
-                          <mp-resource-link-container
-                            uri="http://www.researchspace.org/resource/CidocOntodia"
-                            urlqueryparam-instance="{{iri.value}}"
-                          >
-                            <bs-menu-item event-key="explore"
-                              >Explore (Detailed)</bs-menu-item
-                            >
-                          </mp-resource-link-container> -->
-                        </bs-dropdown-button>
-                        {{/ rsp:itemCardTemplate}}
-                      </mp-draggable>
-                    </template>
-                  </semantic-table>
+                   <!-- Table of Cards -->
+                   <semantic-table
+                   id="grid-result"
+                   options='{
+                         "showFilter":false
+                       }'
+                   number-of-displayed-rows="10"
+                   query="
+                     SELECT DISTINCT ?subject ?originalSubject
+                      WHERE {
+                       ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
+                       ?originalSubject owl:sameAs ?subject.
+                      }LIMIT 100
+                   "
+                   tuple-template="{{>tupleTemplate}}"
+                 >
+                 
+                   <template id="tupleTemplate">
+                    <mp-draggable iri="{{subject.value}}">
+                     <div
+                       class="rs-grid-element panel panel-default artwork-card fade-in"
+                     >
+                         <div class="panel-body">
+                           <bs-col
+                             class="thumbnailImageContainer"
+                             lg="4"
+                             md="12"
+                             xs="12"
+                           >
+                           <semantic-query
+                           query='SELECT DISTINCT ?imgUrl WHERE{
+                                   bind("_" as ?default_imageUrl)
+                                   OPTIONAL{
+                                  <{{originalSubject.value}}> <http://www.cidoc-crm.org/cidoc-crm/P138i_is_represented_by> ?visual. 
+                                  ?visual crm:P128i_is_carried_by ?image .
+                                  ?image crm:P129i_is_subject_of ?fullsizeImgUrl.
+                                  BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/200,") AS ?smallerImgUrl).
+                                   }
+                                  BIND(coalesce(?smallerImgUrl, ?default_imageUrl) as ?imgUrl)
+                                 }LIMIT 1'
+                           template="{{> imageThumbnail}}"
+                         >
+                           <template id="imageThumbnail">
+                             <img
+                             alt='   '
+                             class="thumbnailImage"
+                             src="{{bindings.0.imgUrl.value}}"
+                             />
+                           </template>
+                         </semantic-query>
+                           </bs-col>
+                           <bs-col class="cardInfo" lg="7" md="10" xs="10">
+                             <div data-flex-layout="row md-column center-stretch">
+                               <bs-row class="cardInfoFields">
+                                   <h2>Pharos record</h2>
+                                   <h4><semantic-link iri="{{subject.value}}"></semantic-link></h4>
+                                   <h2>Original record</h2>
+                                   <h4><semantic-link iri="{{originalSubject.value}}"></semantic-link></h4>
+                               </bs-row>
+                             </div>
+                           </bs-col>
+                         </div>
+                     </div>
+                    </mp-draggable>
+                   </template>
+                 </semantic-table>
                 </semantic-search-result>
               </bs-tab>
               <bs-tab event-key="2" title="Table">
+                <div id="tableView">
                 <semantic-search-result>
                   <semantic-table
                     id="semantic-search-result-table"
-                    query="SELECT DISTINCT ?subject WHERE { } ORDER BY ?subject"
-                    options='{"showFilter":false, "resultsPerPage":10}'
+                    query="SELECT DISTINCT ?subject ?originalSubject WHERE {  ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
+                      ?originalSubject owl:sameAs ?subject.} ORDER BY ?subject"
+                    options='{"showFilter":false, "resultsPerPage":10}
+                    '
+                    column-configuration='[
+                    {"variableName": "subject", "displayName": "Pharos record"},
+                    {"variableName": "originalSubject", "displayName": "Original record"}
+                    ]'
                   >
                   </semantic-table>
                 </semantic-search-result>
+              </div>
               </bs-tab>
               <bs-tab event-key="3" title="Chart">
                 <semantic-search-result-context
@@ -928,6 +937,111 @@
   }
   .Select-control {
     border-bottom-color: #79323660 !important;
+  }
+  .artwork-card {
+    width: 100% !important;
+    min-height: 23vh;
+    height: fit-content;
+    padding: 2vh 0 2vh 0;
+  }
+
+  .cardInfo {
+    position: relative;
+    left: 5vw;
+    top: 0vh;
+    background: #ffffffe8;
+    border-radius: 0px 0px 4px 4px;
+  }
+
+  .cardInfoFields{
+    padding: 1vh;
+  }
+  #search-results .rs-grid-element.panel {
+    background: white !important;
+  }
+  #search-results .rs-grid-element:hover {
+    box-shadow: 1px 2px 8px 0 #761f0e35, 1px 3px 12px 2px rgba(0, 0, 0, 0.07);
+  }
+  #search-results .rs-grid-element.panel-default {
+    border-color: #e9e9e9;
+    overflow: hidden;
+    padding: 0;
+    width: 35vw !important;
+  }
+  .panel-body {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    user-select: unset !important;
+  }
+  #search-results .rs-grid-element .panel-body {
+    cursor: pointer;
+    font-size: large;
+    align-items: center;
+    display: flex !important;
+  }
+  #search-results .rs-grid-element a{
+    color: #6b0000!important;
+  }
+  .thumbnailImageContainer {
+    display: flex;
+    overflow: hidden;
+    align-items: center;
+    border-radius: 5px 0px 0px 5px;
+    padding: 0;
+    position: absolute;
+    height: -moz-available;
+    height: -webkit-fill-available;
+    height: fill-available;
+    left: 0;
+    top: 0;
+    min-height: 23vh;
+  }
+  .thumbnailImage {
+    width: fit-content;
+    min-height: 23vh;
+    height: unset;
+    max-height: unset;
+    min-width: unset;
+    object-fit: cover;
+  }
+
+  #tableView{
+    margin: 10px;
+    padding: 20px;
+    box-shadow: 0px 0px 20px 1px #f8f8f8;
+  }
+  #tableView th {
+    font-size: medium !important;
+    font-weight: 600;
+    color: #616161 !important;
+    border-bottom-color: #f4f4f4 !important;
+  }
+
+
+  #tableView .standard-row a {
+    font-size: medium !important;
+    color: #6b0000 !important;
+    text-decoration: none !important;
+    white-space: normal !important;
+  }
+  .semantic-facet-holder .facet {
+    background: white;
+}
+  .fade-in {
+    -webkit-animation: fade-in-fwd 0.8s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+    animation: fade-in-fwd 0.8s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+  }
+  @media (max-width: 800px) {
+    .thumbnailImageContainer {
+    justify-content: center;
+    }
+    .cardInfo {
+    left: 0vw;
+    top: 0vh;
+  }
+   
   }
 </style>
 
