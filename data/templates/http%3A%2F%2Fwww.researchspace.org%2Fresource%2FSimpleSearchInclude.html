@@ -1,0 +1,468 @@
+  [[!--
+    To include this page within you application, you can optionally pass in the following parameters:
+    
+    searchPattern="?subject rdfs:label|skos:prefLabel ?label . ?label bds:search ?__token__ ;"
+		searchPlaceholder="Type to search for X"
+    searchLimit="100"
+  ---]]
+    <semantic-search limit=[[#if searchLimit]][[searchLimit]][[else]]10[[/if]]>
+      [[!-- heuristics to check whether we have a blazegraph instance and can apply bds search --]]
+      [[#if (ask "ASK {  <http://www.bigdata.com/queryHints#Query> <http://www.bigdata.com/queryHints#optimizer> 'None' . ?x ?y ?z . }") ]]
+        <semantic-search-query-keyword 
+          [[#if searchPlaceholder]]placeholder='[[searchPlaceholder]]'[[/if]]                                 
+          domain='<http://www.w3.org/2000/01/rdf-schema#Resource>'
+          query='
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+						PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+						PREFIX bds: <http://www.bigdata.com/rdf/search#>
+            SELECT ?subject WHERE {
+              [[#if searchPattern]]
+                [[searchPattern]]
+              [[else]]                      
+              ?subject a ?type. 
+              ?subject rdfs:label ?label .
+              ?label bds:search ?__token__ ;
+              bds:minRelevance "0.5" ;
+              bds:relevance ?score ;
+              bds:matchAllTerms "true" .
+              BIND(STRLEN(?label) as ?length)
+              FILTER(?type in (crm:E22_Man-Made_Object,crm:E21_Person,crm:E39_Actor))
+               [[/if]]
+            } ORDER BY DESC(?score) ?length
+          '
+        ></semantic-search-query-keyword>
+      [[else]]
+        <semantic-search-query-keyword 
+          [[#if searchPlaceholder]]placeholder='[[searchPlaceholder]]'[[/if]]                          
+          domain='<http://www.w3.org/2000/01/rdf-schema#Resource>'
+          escape-lucene-syntax='false'
+          query='
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+						PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+            SELECT ?subject WHERE {
+              [[#if searchPattern]]
+                              [[searchPattern]]
+              [[else]]
+                ?subject a crm:E39_Actor. 
+                ?subject rdfs:label ?label .
+                ?label bds:search ?_token_ ; bds:minRelevance \"0.3\" ; bds:relevance ?score ; bds:matchAllTerms \"true\" . 
+                FILTER(REGEX(?label, ?__token__, "i"))
+                BIND(STRLEN(?label) as ?length)
+                FILTER(?type in (crm:E22_Man-Made_Object,crm:E21_Person,crm:E39_Actor))
+              [[/if]]
+            }ORDER BY DESC(?score) ?length
+          '
+        ></semantic-search-query-keyword>
+      [[/if]]
+  <div data-flex-layout="row stretch-stretch">
+    <semantic-search-result-holder>
+      <div data-flex-self="md-full">
+        <semantic-search-result>
+          <semantic-table id='grid-result'
+                    query='SELECT DISTINCT ?subject (SAMPLE(?rawDesc) as ?description) WHERE {
+                                  OPTIONAL { ?subject rdfs:comment ?rawDesc . }
+                            } GROUP BY ?subject LIMIT [[#if searchLimit]][[searchLimit]][[else]]50[[/if]]'
+
+                            number-of-displayed-rows="12"
+         
+                   tuple-template="{{> subjectCellTemplate}}"
+                    options='{"showTableHeading": false, "showFilter":false}'
+                    no-result-template='<div style="text-align: center;">No results. Please refine your keyword.</div>'>
+            <template id="subjectCellTemplate">
+            <div
+                    class="rs-grid-element panel panel-default artwork-card fade-in"
+                  >
+                    <semantic-link-container uri="{{subject.value}}">
+                      <div class="panel-body">
+                        <bs-col
+                          class="thumbnailImageContainer"
+                          lg="4"
+                          md="12"
+                          xs="12"
+                        >
+                          <!-- Pharos Artwork -->
+                          <semantic-if query='ASK { <{{subject.value}}>  <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.}'
+                            then='{{> thenPharosArtwork}}' else='{{> originalArtwork}}'>
+                              <template id="thenPharosArtwork">
+                                <semantic-query
+                                query='SELECT DISTINCT ?imgUrl WHERE{
+                                        bind("_" as ?default_imageUrl)
+                                        OPTIONAL{
+                                        ?originalSubject owl:sameAs     <{{subject.value}}> .
+                                        ?originalSubject <http://www.cidoc-crm.org/cidoc-crm/P138i_is_represented_by> ?visual. 
+                                        ?visual crm:P128i_is_carried_by ?image .
+                                        ?image crm:P129i_is_subject_of ?fullsizeImgUrl.
+                                        BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/200,") AS ?smallerImgUrl).
+                                        }
+                                      BIND(coalesce(?smallerImgUrl, ?default_imageUrl) as ?imgUrl)
+                                      }LIMIT 1'
+                                template="{{> imageThumbnail}}"
+                              >
+                                <template id="imageThumbnail">
+                                  <img
+                                  alt='   '
+                                  class="thumbnailImage"
+                                  src="{{bindings.0.imgUrl.value}}"
+                                  />
+                                </template>
+                                </semantic-query>
+                              </template>
+                              <template id="originalArtwork">
+                                <!-- Work of art thumbnail -->
+                                <semantic-if query='ASK { <{{subject.value}}>  <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <http://vocab.getty.edu/aat/300133025>.}'
+                                  then='{{> thenWorkOfArtThumbnail}}'>
+                                  <template id="thenWorkOfArtThumbnail">
+                                    <semantic-query
+                                    query='SELECT DISTINCT ?imgUrl WHERE{
+                                            bind("_" as ?default_imageUrl)
+                                            {
+                                              <{{subject.value}}>  <http://www.cidoc-crm.org/cidoc-crm/P138i_is_represented_by> ?visual. 
+                                              ?visual crm:P128i_is_carried_by ?image .
+                                              ?image crm:P129i_is_subject_of ?fullsizeImgUrl.
+                                              BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/200,") AS ?smallerImgUrl).
+                                            }
+                                            BIND(coalesce(?smallerImgUrl, ?default_imageUrl) as ?imgUrl)      
+                                          }LIMIT 1'
+                                    template="{{> imageThumbnail}}"
+                                    >
+                                    <template id="imageThumbnail">
+                                      <h2>Hello</h2>
+                                      <img
+                                        alt='   '
+                                        class="thumbnailImage"
+                                        src="{{bindings.0.imgUrl.value}}"
+                                        />
+                                    </template>
+                                  </semantic-query>
+                                  </template>
+                                </semantic-if>
+                                <!-- Photograph thumbnail -->
+                                <semantic-if query='ASK { <{{subject.value}}>  <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <http://vocab.getty.edu/aat/300046300>.}'
+                                  then='{{> thenPhotographThumbnail}}'>
+                                  <template id="thenPhotographThumbnail">
+                                    <semantic-query
+                                    query='SELECT DISTINCT ?imgUrl WHERE{
+                                      bind("_" as ?default_imageUrl)
+                                      OPTIONAL{
+                                          ?artwork crm:P138i_is_represented_by ?visual_item.
+                                          ?visual_item crm:P128i_is_carried_by <{{subject.value}}> .
+                                          ?artwork <http://www.cidoc-crm.org/cidoc-crm/P138i_is_represented_by> ?visual. 
+                                          ?visual crm:P128i_is_carried_by ?image .
+                                          ?image crm:P129i_is_subject_of ?fullsizeImgUrl.
+                                          FILTER(?image = <{{subject.value}}>).
+                                          BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/200,") AS ?smallerImgUrl).
+                                        }
+                                        BIND(coalesce(?smallerImgUrl, ?default_imageUrl) as ?imgUrl)    
+                                          }LIMIT 1'
+                                    template="{{> imageThumbnail}}"
+                                  >
+                                    <template id="imageThumbnail">
+                                      <h2>Hio</h2>
+                                      <img
+                                      alt='   '
+                                      class="thumbnailImage"
+                                      src="{{bindings.0.imgUrl.value}}"
+                                      />
+                                    </template>
+                                </semantic-query>
+                                </template>
+                                </semantic-if>
+                              </template>
+                          </semantic-if>
+
+                          <!-- Person thumbnail -->
+                          <semantic-if query='ASK { <{{subject.value}}>  a crm:E21_Person.}'
+                            then='{{> thenPersonThumbnail}}'>
+                            <template id="thenPersonThumbnail">
+                              <semantic-query query="SELECT ?artistName WHERE{
+                                <{{subject.value}}> rdfs:label ?artistName
+                              }LIMIT 1"
+                              template="{{> artistNameTemplate}}">
+                              <template id="artistNameTemplate">
+                                    <semantic-query
+                                    query='
+                                  PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                                  PREFIX wd: <http://www.wikidata.org/entity/>
+                                  PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+      
+                                  SELECT DISTINCT ?imgUrl WHERE{
+                                    bind("_" as ?default_imageUrl)
+                                    OPTIONAL{
+                                  SERVICE <https://query.wikidata.org/sparql> 
+                                          {
+                                              { ?person wdt:P31 wd:Q5 . 
+                                                ?person wdt:P106 wd:Q483501.
+                                                ?person rdfs:label "{{bindings.0.artistName.value}}"@en .
+                                                ?person wdt:P18 ?personImage}
+                                              UNION{
+                                                ?person wdt:P31 wd:Q5 . 
+                                                ?person wdt:P106 wd:Q1028181.
+                                                ?person rdfs:label "{{bindings.0.artistName.value}}"@en .
+                                                ?person wdt:P18 ?personImage
+                                              }
+                                      }
+                                    }
+                                      BIND(coalesce(?personImage, ?default_imageUrl) as ?imgUrl)    
+                                        }LIMIT 1'
+                                    template="{{> imageThumbnail}}"
+                                  >
+                                    <template id="imageThumbnail">
+                                      <img
+                                        alt="   "
+                                        class="thumbnailImage"
+                                        src="{{bindings.0.imgUrl.value}}"
+                                      />
+                                    </template>
+                                </semantic-query>
+                              </template>
+                              </semantic-query>
+                            </template>
+                          </semantic-if>
+
+                          <!-- Institution thumbnail -->
+                          <semantic-if query='ASK { <{{subject.value}}>  a crm:E39_Actor.}'
+                            then='{{> thenInstitutionThumbnail}}'>
+                            <template id="thenInstitutionThumbnail">
+                              <semantic-query query="SELECT ?institutionName WHERE{
+                                <{{subject.value}}> rdfs:label ?institutionName
+                              }LIMIT 1"
+                              template="{{> institutionNameTemplate}}">
+                              <template id="institutionNameTemplate">
+                                <semantic-query
+                                query='
+                              PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                              PREFIX wd: <http://www.wikidata.org/entity/>
+                              PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+  
+                              SELECT DISTINCT ?imgUrl WHERE{
+                                bind("_" as ?default_imageUrl)
+                                OPTIONAL{
+                                  SERVICE <https://query.wikidata.org/sparql> 
+                                    {
+                                      {
+                                        ?institution wdt:P31 wd:Q33506 . 
+                                        ?institution rdfs:label "{{bindings.0.institutionName.value}}"@en .
+                                        ?institution wdt:P18 ?institutionImage
+                                      }UNION{
+                                        ?institution wdt:P31 wd:Q207694.
+                                        ?institution rdfs:label "{{bindings.0.institutionName.value}}"@en .
+                                        ?institution wdt:P18 ?institutionImage.
+                                      }
+                                    }
+                                }
+                                BIND(coalesce(?institutionImage, ?default_imageUrl) as ?imgUrl)    
+                                    }LIMIT 1'
+                                template="{{> imageThumbnail}}"
+                              >
+                                <template id="imageThumbnail">
+                                  <img
+                                    alt="   "
+                                    class="thumbnailImage"
+                                    src="{{bindings.0.imgUrl.value}}"
+                                  />
+                                </template>
+                            </semantic-query>
+                                </template>
+                                </semantic-query>
+                            </template>
+                          </semantic-if>
+                        </bs-col>
+                        <bs-col class="cardInfo" lg="7" md="10" xs="10">
+                          <div data-flex-layout="row md-column center-stretch">
+                            <bs-row class="cardInfoFields">
+                                <h4><semantic-link iri="{{subject.value}}"></semantic-link></h4>
+                                <!-- <h2>Original record</h2>
+                                <h4><semantic-link iri="{{originalSubject.value}}"></semantic-link></h4> -->
+                            </bs-row>
+                          </div>
+                        </bs-col>
+                      </div>
+                    </semantic-link-container>
+                  </div>
+            </template>
+					</semantic-table>          
+				</semantic-search-result>
+      </div>
+    </semantic-search-result-holder>
+  </div>
+</semantic-search>
+<style>
+  table.table {
+    min-width: 100%;
+  }
+
+  tr.standard-row {
+    border: none!important;
+  }
+
+  .table > tbody + tbody {
+    border: none!important;
+  }
+
+  .table > tbody + tbody > tr {
+    border: none!important;
+  }
+
+
+  .res-label {
+    float: left;
+  }
+
+  .res-comment {
+    clear: left;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .res-img-thumbnail {
+    display: inline;
+    float: left;
+    max-width: 50px;
+    max-height: 50px;
+    margin-right: 10px;
+    margin-bottom: 5px;
+  }
+
+  input#semantic-search-text-input {
+    margin-top: 10vh!important;
+    width: 50vw;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .cardInfo {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    text-align: center !important;
+    bottom: 35%;
+    background: #ffffffe8;
+  }
+
+  .cardInfoFields {
+    padding: 1vh;
+  }
+
+  .thumbnailImageContainer {
+    display: flex;
+    overflow: hidden;
+    height: 100%;
+    align-items: center;
+    border-radius: 5px 0px 0px 5px;
+    padding: 0;
+    height: -moz-available;
+    height: -webkit-fill-available;
+    height: fill-available;
+    left: 0;
+    top: 0;
+    min-height: 23vh;
+    width: 100%;
+    position: absolute;
+  }
+  #search-results .rs-grid-element a {
+    color: #6b0000 !important;
+  }
+
+  .thumbnailImage {
+    width: 100%;
+    min-height: 23vh;
+    height: unset;
+    max-height: unset;
+    min-width: unset;
+    object-fit: cover;
+  }
+
+
+  .drawingInfo {
+    margin-bottom: 2vh;
+  }
+
+  .grid-info {
+    font-size: 16px !important;
+  }
+
+  .fade-in {
+    -webkit-animation: fade-in-fwd 0.8s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+    animation: fade-in-fwd 0.8s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+  }
+
+  .grid-demo b {
+    font-weight: normal;
+    color: #777777;
+  }
+  .facet__relation__values__value:hover {
+    background-color: #f5f5f5;
+  }
+  .facet__relation__values__filter {
+    filter: none !important;
+    border: none;
+  }
+
+  #search-results .rs-grid-element.panel-default {
+    border-color: #e9e9e9;
+    overflow: hidden;
+    padding: 0;
+  }
+  #search-results .rs-grid-element .panel-body {
+    cursor: pointer;
+    font-size: large;
+    align-items: center;
+    display: flex !important;
+  }
+  .rs-application .table > tbody > tr > td {
+    border-color: white !important;
+    padding: 4px 8px;
+  }
+  .rs-page__field {
+    display: flex;
+    justify-content: flex-start;
+  }
+  .rs-page__field-label {
+    font-weight: normal;
+    color: #777777;
+  }
+  .rs-page__field-label-holder {
+    min-width: 10vw;
+  }
+
+  .artwork-card {
+    width: 12vw !important;
+    border-radius: 4px !important;
+    height: 12vw !important;
+    min-width: 200px;
+    min-height: 200px;
+    max-width: 280px;
+    max-height: 280px;
+    margin: 1vh;
+  }
+  #search-results .rs-grid-element.panel {
+    background: white !important;
+  }
+  #search-results .rs-grid-element:hover {
+    box-shadow: 1px 2px 8px 0 #761f0e35, 1px 3px 12px 2px rgba(0, 0, 0, 0.07);
+  }
+  .panel-body {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    user-select: unset !important;
+  }
+
+
+  @media (max-width: 800px) {
+    .thumbnailImageContainer {
+      justify-content: center;
+    }
+    .cardInfo {
+      left: 0vw;
+      top: 0vh;
+    }
+    .rs-page__field {
+      flex-direction: column;
+    }
+    .table-responsive > .table {
+      overflow: hidden;
+    }
+  }
+</style>
