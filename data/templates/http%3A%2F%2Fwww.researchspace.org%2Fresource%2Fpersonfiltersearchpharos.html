@@ -1,4 +1,3 @@
-[[#if provider]]
 <semantic-search
   relations='{
     "<https://pharos.artresearch.net/resource/field/Artist_Attribution>":[
@@ -146,12 +145,10 @@
     query="
     SELECT  ?subject  
     WHERE {
-      ?artwork a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
-      ?artwork <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
-      ?artwork <https://pharos.artresearch.net/custom/has_provider> <[[provider]]>.
-      ?artwork  <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?subject.
-      ?subject  rdfs:label ?label .
-    }LIMIT 100"
+      ?subject a <http://www.cidoc-crm.org/cidoc-crm/E21_Person>.
+      ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.
+               
+    }LIMIT 1000"
   >
   </semantic-search-query-constant>
   <div id="header-search" class="search-page">
@@ -206,12 +203,8 @@
                       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
                       SELECT ?subject WHERE {
-                      ?artwork a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
-                      ?artwork <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
-                      ?artwork <https://pharos.artresearch.net/custom/has_provider>  <[[provider]]>.
-                      ?artwork crm:P108i_was_produced_by ?production .
-                      ?production crm:P01i_is_domain_of ?carried.
-                      ?carried crm:P02_has_range ?subject.
+                      ?subject a <http://www.cidoc-crm.org/cidoc-crm/E21_Person>.
+                      ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.
                       ?subject rdfs:label ?someLabel.
                       ?someLabel bds:search ?__token__ .
                       ?someLabel bds:minRelevance "0.3"^^xsd:double;
@@ -248,19 +241,15 @@
                       "showFilter":false
                     }'
                 number-of-displayed-rows="12"
-                query="
-                  SELECT DISTINCT ?subject ?artistName (count(?artwork) as ?artworkCount)
+                query='
+                  SELECT DISTINCT ?subject ?artistName
                    WHERE {
-                    ?artwork a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
-                    ?artwork <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
-                    ?artwork <https://pharos.artresearch.net/custom/has_provider> <[[provider]]>.
-              
-                    ?artwork crm:P108i_was_produced_by ?production.
-                    ?production crm:P01i_is_domain_of ?carried.
-                    ?carried crm:P02_has_range ?subject.
-                    ?subject rdfs:label ?artistName
-                   }GROUP BY ?subject ?artistName ORDER BY DESC(?artworkCount) LIMIT 100
-                "
+                    ?subject a <http://www.cidoc-crm.org/cidoc-crm/E21_Person>.
+                    ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.
+                    ?subject rdfs:label ?personName.
+                    BIND(REPLACE(STR(?personName),"@en","") AS ?artistName).
+                   }LIMIT 1000
+                '
                 tuple-template="{{>tupleTemplate}}"
               >
                 <template id="tupleTemplate">
@@ -275,9 +264,9 @@
                           md="12"
                           xs="12"
                         >
-                        <!-- Thumbnail for Person (fetch from wikidata (good luck)) -->
-                        <semantic-query
-                          query='
+                          <!-- Thumbnail for Person (fetch from wikidata (good luck)) -->
+                          <semantic-query
+                            query='
                           PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                           PREFIX wd: <http://www.wikidata.org/entity/>
                           PREFIX wdt: <http://www.wikidata.org/prop/direct/>
@@ -287,31 +276,41 @@
                             OPTIONAL{
                           SERVICE <https://query.wikidata.org/sparql> 
                                    {
-                                    ?person wdt:P31 wd:Q5 . 
-                                      ?person rdfs:label "{{artistName.value}}"@en .
-                                      ?person wdt:P18 ?personImage
+                                      { ?person wdt:P31 wd:Q5 . 
+                                        ?person wdt:P106 wd:Q483501.
+                                        ?person rdfs:label "{{artistName.value}}"@en .
+                                        ?person wdt:P18 ?personImage}
+                                      UNION{
+                                        ?person wdt:P31 wd:Q5 . 
+                                        ?person wdt:P106 wd:Q1028181.
+                                        ?person rdfs:label "{{artistName.value}}"@en .
+                                        ?person wdt:P18 ?personImage
+                                      }
+
                               }
                             }
                               BIND(coalesce(?personImage, ?default_imageUrl) as ?imgUrl)    
 
                                 }LIMIT 1'
-                          template="{{> imageThumbnail}}"
-                        >
-                          <template id="imageThumbnail">
-                            <img
-                            alt='   '
-                            class="thumbnailImage"
-                            src="{{bindings.0.imgUrl.value}}"
-                            />
-                          </template>
-                        </semantic-query>
-
+                            template="{{> imageThumbnail}}"
+                          >
+                            <template id="imageThumbnail">
+                              <img
+                                alt="   "
+                                class="thumbnailImage"
+                                src="{{bindings.0.imgUrl.value}}"
+                              />
+                            </template>
+                          </semantic-query>
                         </bs-col>
                         <bs-col class="cardInfo" lg="12">
                           <div data-flex-layout="row md-column center-stretch">
                             <bs-row class="cardInfoFields">
-                              <h4><semantic-link iri="{{subject.value}}"></semantic-link>({{artworkCount.value}})</h4>
-                 
+                              <h4>
+                                <semantic-link
+                                  iri="{{subject.value}}"
+                                ></semantic-link>
+                              </h4>
                             </bs-row>
                           </div>
                         </bs-col>
@@ -327,9 +326,6 @@
     </bs-col>
   </div>
 </semantic-search>
-[[else]] No provider enter a provider in your rsp:artworkfiltersearch
-!!add!!>>>><b> provider="https://some.provider.uri" </b>
-[[/if]]
 <style>
   .header-search {
     background-color: #f3f3f1;
@@ -489,13 +485,12 @@
 
   .artwork-card {
     width: 12vw !important;
-    border-radius: 100% !important;
-    height: 12vw !important;    
+    border-radius: 25px !important;
+    height: 12vw !important;
     min-width: 200px;
     min-height: 200px;
     max-width: 280px;
     max-height: 280px;
-
   }
   #search-results .rs-grid-element.panel {
     background: white !important;
@@ -655,7 +650,7 @@
     border-radius: 0px 0px 4px 4px;
   }
 
-  .cardInfoFields{
+  .cardInfoFields {
     padding: 1vh;
   }
 
@@ -675,8 +670,8 @@
     width: 100%;
     position: absolute;
   }
-  #search-results .rs-grid-element a{
-    color: #6b0000!important;
+  #search-results .rs-grid-element a {
+    color: #6b0000 !important;
   }
 
   .thumbnailImage {
@@ -746,12 +741,12 @@
 
   @media (max-width: 800px) {
     .thumbnailImageContainer {
-    justify-content: center;
+      justify-content: center;
     }
     .cardInfo {
-    left: 0vw;
-    top: 0vh;
-  }
+      left: 0vw;
+      top: 0vh;
+    }
     .rs-page__field {
       flex-direction: column;
     }
