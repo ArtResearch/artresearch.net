@@ -4,19 +4,28 @@
           subject="[[this]]"
           additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
           fields='[[fieldDefinitions  
-          Name="https://pharos.artresearch.net/fieldDefinition/3" 
-          Identifiers="https://pharos.artresearch.net/fieldDefinition/19"
-          Residence="https://pharos.artresearch.net/fieldDefinition/285"
-          Active="https://pharos.artresearch.net/fieldDefinition/284"
-          Institution="https://pharos.artresearch.net/fieldDefinition/286"
-          DeathDate="https://pharos.artresearch.net/fieldDefinition/283"
-          Nationality="https://pharos.artresearch.net/fieldDefinition/290"
+          Title="https://pharos.artresearch.net/fieldDefinition/2" 
+          Type="https://pharos.artresearch.net/fieldDefinition/550" 
+          Culture="https://pharos.artresearch.net/fieldDefinition/5" 
+          Subject="https://pharos.artresearch.net/fieldDefinition/46" 
+          SubjectDescription="https://pharos.artresearch.net/fieldDefinition/62" 
+          Collection="https://pharos.artresearch.net/fieldDefinition/4" 
+          Repository="https://pharos.artresearch.net/fieldDefinition/44" 
+          CurrentLocation="https://pharos.artresearch.net/fieldDefinition/93" 
+          MuseumCreditLine="https://pharos.artresearch.net/fieldDefinition/71" 
+          Dimensions="https://pharos.artresearch.net/fieldDefinition/6" 
+          ColorInformation="https://pharos.artresearch.net/fieldDefinition/67" 
+          Material="https://pharos.artresearch.net/fieldDefinition/44" 
+          Inscription="https://pharos.artresearch.net/fieldDefinition/33" 
+          StateofPreservation="https://pharos.artresearch.net/fieldDefinition/203" 
+          ConditionAssessmentDescription="https://pharos.artresearch.net/fieldDefinition/68" 
+          IconclassInformation="https://pharos.artresearch.net/fieldDefinition/92" 
           ]]'
           template='{{>workInfo}}'
           >
         <template id="workInfo">
           <div class="workInfoContainer">
-          <h2>Person Info</h2>
+          <h2>Work info</h2>
             [[> rsp:ResourceFieldBasedVisualization subject=[[this]] showSourceIcon="true" ]]
           </div>
         </template>
