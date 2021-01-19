@@ -1,65 +1,105 @@
 <div class="workAndProductionInfo">
   <!-- Fields for Work (Artwork or photograph) -->
-      <mp-field-visualization
-          subject="[[this]]"
-          additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
-          fields='[[fieldDefinitions  
-          Title="https://pharos.artresearch.net/fieldDefinition/2" 
-          Type="https://pharos.artresearch.net/fieldDefinition/550" 
-          Culture="https://pharos.artresearch.net/fieldDefinition/5" 
-          Subject="https://pharos.artresearch.net/fieldDefinition/46" 
-          SubjectDescription="https://pharos.artresearch.net/fieldDefinition/62" 
-          Collection="https://pharos.artresearch.net/fieldDefinition/4" 
-          Repository="https://pharos.artresearch.net/fieldDefinition/44" 
-          CurrentLocation="https://pharos.artresearch.net/fieldDefinition/93" 
-          MuseumCreditLine="https://pharos.artresearch.net/fieldDefinition/71" 
-          Dimensions="https://pharos.artresearch.net/fieldDefinition/6" 
-          ColorInformation="https://pharos.artresearch.net/fieldDefinition/67" 
-          Material="https://pharos.artresearch.net/fieldDefinition/44" 
-          Inscription="https://pharos.artresearch.net/fieldDefinition/33" 
-          StateofPreservation="https://pharos.artresearch.net/fieldDefinition/203" 
-          ConditionAssessmentDescription="https://pharos.artresearch.net/fieldDefinition/68" 
-          IconclassInformation="https://pharos.artresearch.net/fieldDefinition/92" 
-          ]]'
-          template='{{>workInfo}}'
-          >
-        <template id="workInfo">
-          <div class="workInfoContainer">
-          <h2>Work info</h2>
-            [[> rsp:ResourceFieldBasedVisualization subject=[[this]] showSourceIcon="true" ]]
-          </div>
-        </template>
-        </mp-field-visualization>
+  <mp-field-visualization
+    subject="[[this]]"
+    additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
+    fields='[[fieldDefinitions  
+    Title="https://pharos.artresearch.net/fieldDefinition/2" 
+    Type="https://pharos.artresearch.net/fieldDefinition/550" 
+    Culture="https://pharos.artresearch.net/fieldDefinition/5" 
+    Subject="https://pharos.artresearch.net/fieldDefinition/46" 
+    SubjectDescription="https://pharos.artresearch.net/fieldDefinition/62" 
+    Collection="https://pharos.artresearch.net/fieldDefinition/4" 
+    Repository="https://pharos.artresearch.net/fieldDefinition/44" 
+    CurrentLocation="https://pharos.artresearch.net/fieldDefinition/93" 
+    MuseumCreditLine="https://pharos.artresearch.net/fieldDefinition/71" 
+    Dimensions="https://pharos.artresearch.net/fieldDefinition/6" 
+    ColorInformation="https://pharos.artresearch.net/fieldDefinition/67" 
+    Material="https://pharos.artresearch.net/fieldDefinition/44" 
+    Inscription="https://pharos.artresearch.net/fieldDefinition/33" 
+    StateofPreservation="https://pharos.artresearch.net/fieldDefinition/203" 
+    ConditionAssessmentDescription="https://pharos.artresearch.net/fieldDefinition/68" 
+    IconclassInformation="https://pharos.artresearch.net/fieldDefinition/92" 
+    ]]'
+    template='{{>workInfo}}'
+    >
+  <template id="workInfo">
+    <div class="workInfoContainer">
+    <h2>Work info</h2>
+      [[> rsp:ResourceFieldBasedVisualization subject=[[this]] showSourceIcon="true" ]]
+    </div>
+  </template>
+  </mp-field-visualization>
 
   <!-- Fields for Production -->
-        <mp-field-visualization
-        subject="[[this]]"
-        additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
-        fields='[[fieldDefinitions  
-        Creator="https://pharos.artresearch.net/fieldDefinition/1" 
-        ProductionParticipant="https://pharos.artresearch.net/fieldDefinition/73" 
-        InfluencedBy="https://pharos.artresearch.net/fieldDefinition/20" 
-        AttributionReason="https://pharos.artresearch.net/fieldDefinition/204" 
-        AttributionNotes="https://pharos.artresearch.net/fieldDefinition/17" 
-        ProductionDateEarliest="https://pharos.artresearch.net/fieldDefinition/7" 
-        ProductionDateStartQualifier="https://pharos.artresearch.net/fieldDefinition/10" 
-        ProductionDateLatest="https://pharos.artresearch.net/fieldDefinition/9" 
-        ProductionDateEndQualifier="https://pharos.artresearch.net/fieldDefinition/11" 
-        ProductionDate="https://pharos.artresearch.net/fieldDefinition/8" 
-        ProductionDateCentury="https://pharos.artresearch.net/fieldDefinition/78" 
-        ProductionDatePartofCentury="https://pharos.artresearch.net/fieldDefinition/79" 
-        ProductionDateAlternative="https://pharos.artresearch.net/fieldDefinition/146" 
-        ProductionPlace="https://pharos.artresearch.net/fieldDefinition/145" 
-        Technique="https://pharos.artresearch.net/fieldDefinition/42" 
-        Attributions="https://pharos.artresearch.net/fieldDefinition/277" 
-        Technique="https://pharos.artresearch.net/fieldDefinition/278" 
-        ]]'template='{{>productionInfo}}'
-        >
-      <template id="productionInfo">
-        <div class="productionInfoContainer">
-        <h2>Production info</h2>
-          [[> rsp:ResourceFieldBasedVisualization subject=[[this]] showSourceIcon="true"  ]]
-        </div>
-      </template>
-    </mp-field-visualization>
+  <mp-field-visualization
+  subject="[[this]]"
+  additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
+  fields='[[fieldDefinitions  
+  Creator="https://pharos.artresearch.net/fieldDefinition/1" 
+  ProductionParticipant="https://pharos.artresearch.net/fieldDefinition/73" 
+  InfluencedBy="https://pharos.artresearch.net/fieldDefinition/20" 
+  AttributionReason="https://pharos.artresearch.net/fieldDefinition/204" 
+  AttributionNotes="https://pharos.artresearch.net/fieldDefinition/17" 
+  ProductionDate="https://pharos.artresearch.net/fieldDefinition/8" 
+  ProductionDateCentury="https://pharos.artresearch.net/fieldDefinition/78" 
+  ProductionDatePartofCentury="https://pharos.artresearch.net/fieldDefinition/79" 
+  ProductionDateAlternative="https://pharos.artresearch.net/fieldDefinition/146" 
+  ProductionPlace="https://pharos.artresearch.net/fieldDefinition/145" 
+  Technique="https://pharos.artresearch.net/fieldDefinition/42" 
+  Attributions="https://pharos.artresearch.net/fieldDefinition/277" 
+  Technique="https://pharos.artresearch.net/fieldDefinition/278" 
+  ]]'template='{{>productionInfo}}'
+  >
+  <template id="productionInfo">
+  <div class="productionInfoContainer">
+  <h2>Production info</h2>
+    [[> rsp:ResourceFieldBasedVisualization subject=[[this]] showSourceIcon="true"  ]]
   </div>
+  </template>
+  </mp-field-visualization>
+
+  <!-- General fields -->
+  <mp-field-visualization
+  subject="[[this]]"
+  additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
+  fields='[[fieldDefinitions  
+  Identifiers="https://pharos.artresearch.net/fieldDefinition/19" 
+  HistoryofOwnership="https://pharos.artresearch.net/fieldDefinition/39" 
+  PastOwnership="https://pharos.artresearch.net/fieldDefinition/18" 
+  AcquisitionTimespan="https://pharos.artresearch.net/fieldDefinition/16" 
+  AcquisitionType="https://pharos.artresearch.net/fieldDefinition/56" 
+  Formerlocation="https://pharos.artresearch.net/fieldDefinition/205" 
+  Exhibition="https://pharos.artresearch.net/fieldDefinition/37" 
+  ExhibitionDescription="https://pharos.artresearch.net/fieldDefinition/34" 
+  Modification="https://pharos.artresearch.net/fieldDefinition/90" 
+  Destruction="https://pharos.artresearch.net/fieldDefinition/14" 
+  Transformation="https://pharos.artresearch.net/fieldDefinition/15" 
+  UseRestrictions="https://pharos.artresearch.net/fieldDefinition/201"
+  RightHolder="https://pharos.artresearch.net/fieldDefinition/140"
+  RightType="https://pharos.artresearch.net/fieldDefinition/45"
+  Bibliography="https://pharos.artresearch.net/fieldDefinition/69"
+  SourcedDocumentationDescription="https://pharos.artresearch.net/fieldDefinition/70"
+  Photo="https://pharos.artresearch.net/fieldDefinition/135"
+  DigitalImages="https://pharos.artresearch.net/fieldDefinition/43"
+  RelatedWorksDescription="https://pharos.artresearch.net/fieldDefinition/74"
+  DescriptiveNotes="https://pharos.artresearch.net/fieldDefinition/128"
+  CuratorialNote="https://pharos.artresearch.net/fieldDefinition/81"
+  HasPart="https://pharos.artresearch.net/fieldDefinition/91"
+  IsPartOf="https://pharos.artresearch.net/fieldDefinition/94"
+  ]]'template='{{>generalInfo}}'
+  >
+  <template id="generalInfo">
+  <div class="workInfoContainer">
+  <h2>General info</h2>
+  [[> rsp:ResourceFieldBasedVisualization subject=[[this]] showSourceIcon="true" ]]
+  </div>
+  </template>
+  </mp-field-visualization>
+ 
+  <!-- Photographs detailed information -->
+  <div class="workInfoContainer">
+    <h2>Photographs info</h2>
+    [[> rsp:PhotographTable]]            
+  </div>
+</div>
