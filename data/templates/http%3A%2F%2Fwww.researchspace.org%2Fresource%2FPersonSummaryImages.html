@@ -1,8 +1,9 @@
 <!-- Displays a row of photographs that are clickable (full size image popup) -->
 <div>
-  <semantic-query query="SELECT ?artistName WHERE{
-    ?? rdfs:label ?artistName
-  }LIMIT 1"
+  <semantic-query query='SELECT ?artistName WHERE{
+    ?? rdfs:label ?name.
+    BIND(REPLACE(str(?name),"@en","") as ?artistName)
+  }LIMIT 1'
   template="{{> artistNameTemplate}}">
   <template id="artistNameTemplate">
     <semantic-query query='PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
