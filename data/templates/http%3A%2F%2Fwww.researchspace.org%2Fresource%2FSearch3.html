@@ -217,14 +217,26 @@
                    bds:minRelevance \"0.3\" ;
                    bds:matchAllTerms \"true\"  .
                  }
-                 ?suggestion <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.        
+                 {
+                   ?suggestion <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.
+                 } UNION {
+                   ?suggestion a <https://pharos.artresearch.net/resource/fc/subject>.
+                 } UNION {
+                   ?suggestion a <https://pharos.artresearch.net/resource/fc/photo>.
+                 } UNION {
+                   ?suggestion a <https://pharos.artresearch.net/resource/fc/date>.
+                 }
                  ?suggestion rdfs:label ?label ;
-                             a ?__range__ .
+                           a ?__range__ .
               }
             }
             FILTER(EXISTS {
               ?subject ?__relation__ $suggestion .
-              ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>. 
+              {
+                ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.
+              } UNION {
+                ?subject a <https://pharos.artresearch.net/resource/fc/photo>.
+              }
             })
           } ORDER BY DESC(?score)  LIMIT 10
        "
@@ -420,15 +432,21 @@
                    query="
                      SELECT DISTINCT ?subject ?originalSubject
                       WHERE {
-                       ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
-                       ?originalSubject owl:sameAs ?subject.
-                      }LIMIT 100
-                   "
+                             {  
+                               ?originalSubject owl:sameAs ?subject.
+                             } UNION {
+                               ?subject a <https://pharos.artresearch.net/resource/fc/subject>.
+                             } UNION {
+                               ?subject a <https://pharos.artresearch.net/resource/fc/photo>.
+                             } UNION {
+                               ?subject a <https://pharos.artresearch.net/resource/fc/date>.
+                             }
+                      }LIMIT 100"
                    tuple-template="{{>tupleTemplate}}"
                  >
                  
                    <template id="tupleTemplate">
-                    <mp-draggable iri="{{subject.value}}">
+                    <mp-draggable iri="{{originalSubject.value}}">
                      <div
                        class="rs-grid-element panel panel-default artwork-card fade-in"
                      >
@@ -464,7 +482,7 @@
                            <bs-col class="cardInfo" lg="7" md="10" xs="10">
                              <div data-flex-layout="row md-column center-stretch">
                                <bs-row class="cardInfoFields">
-                                   <h2>Pharos record</h2>
+                                   <h2>Record</h2>
                                    <h4><semantic-link iri="{{subject.value}}"></semantic-link></h4>
                                    <h2>Original record</h2>
                                    <h4><semantic-link iri="{{originalSubject.value}}"></semantic-link></h4>
@@ -483,13 +501,23 @@
                 <semantic-search-result>
                   <semantic-table
                     id="semantic-search-result-table"
-                    query="SELECT DISTINCT ?subject ?originalSubject WHERE {  ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
-                      ?originalSubject owl:sameAs ?subject.} ORDER BY ?subject"
+                    query="SELECT DISTINCT ?subject ?originalSubject WHERE {
+                             {  
+                               ?originalSubject owl:sameAs ?subject.
+                             } UNION {
+                               ?subject a <https://pharos.artresearch.net/resource/fc/subject>.
+                             } UNION {
+                               ?subject a <https://pharos.artresearch.net/resource/fc/photo>.
+                             } UNION {
+                               ?subject a <https://pharos.artresearch.net/resource/fc/date>.
+                             }
+                             
+                           }"
                     options='{"showFilter":false, "resultsPerPage":10}
                     '
                     column-configuration='[
-                    {"variableName": "subject", "displayName": "Pharos record"},
-                    {"variableName": "originalSubject", "displayName": "Original record"}
+                    {"variableName": "subject", "displayName": "Record"},
+                    {"variableName": "originalSubject", "displayName": "Original Record"}
                     ]'
                   >
                   </semantic-table>
