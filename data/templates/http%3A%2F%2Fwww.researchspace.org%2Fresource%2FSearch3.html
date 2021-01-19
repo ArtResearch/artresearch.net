@@ -220,10 +220,16 @@
                  {
                    ?suggestion <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.
                  } UNION {
+                   ?pharos <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.
+                   ?pharos ?fcfr ?suggestion.
                    ?suggestion a <https://pharos.artresearch.net/resource/fc/subject>.
                  } UNION {
+                   ?pharos <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.
+                   ?pharos ?fcfr ?suggestion.
                    ?suggestion a <https://pharos.artresearch.net/resource/fc/photo>.
                  } UNION {
+                   ?pharos <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.
+                   ?pharos ?fcfr ?suggestion.
                    ?suggestion a <https://pharos.artresearch.net/resource/fc/date>.
                  }
                  ?suggestion rdfs:label ?label ;
@@ -235,6 +241,8 @@
               {
                 ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.
               } UNION {
+                ?subject ?fcfr ?pharos.
+                ?pharos <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.        
                 ?subject a <https://pharos.artresearch.net/resource/fc/photo>.
               }
             })
