@@ -385,14 +385,13 @@
                       "showFilter":false
                     }'
                 number-of-displayed-rows="10"
-                query="
-                  SELECT DISTINCT ?subject ?originalSubject
-                   WHERE {
+                query='
+                  SELECT DISTINCT ?subject
+                  WHERE {
                     ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
                     ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
-                    ?originalSubject owl:sameAs ?subject.
-                   }LIMIT 100
-                "
+                   }GROUP BY(?subject) LIMIT 100
+               '
                 tuple-template="{{>tupleTemplate}}"
               >
                 <template id="tupleTemplate">
@@ -411,7 +410,8 @@
                         query='SELECT DISTINCT ?imgUrl WHERE{
                                 bind("_" as ?default_imageUrl)
                                 OPTIONAL{
-                               <{{originalSubject.value}}> <http://www.cidoc-crm.org/cidoc-crm/P138i_is_represented_by> ?visual. 
+                                  ?originalSubject owl:sameAs <{{subject.value}}>.
+                                ?originalSubject <http://www.cidoc-crm.org/cidoc-crm/P138i_is_represented_by> ?visual. 
                                ?visual crm:P128i_is_carried_by ?image .
                                ?image crm:P129i_is_subject_of ?fullsizeImgUrl.
                                BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/200,") AS ?smallerImgUrl).
@@ -445,7 +445,8 @@
                                 </h4>
                                   <!-- Show Production date -->
                                   <semantic-query query='SELECT ?productionDate WHERE{
-                                    <{{originalSubject.value}}> <http://www.cidoc-crm.org/cidoc-crm/P108i_was_produced_by> ?production .
+                                    ?originalSubject owl:sameAs <{{subject.value}}>.
+                                  ?originalSubject <http://www.cidoc-crm.org/cidoc-crm/P108i_was_produced_by> ?production .
                                    ?production <http://www.cidoc-crm.org/cidoc-crm/P4_has_time-span> ?timespan .
                                    ?timespan crm:P82_at_some_time_within ?productionDate
                                   }' template="{{>productionDateTemplate}}">
