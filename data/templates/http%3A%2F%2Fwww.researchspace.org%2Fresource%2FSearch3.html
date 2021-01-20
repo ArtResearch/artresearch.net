@@ -217,14 +217,34 @@
                    bds:minRelevance \"0.3\" ;
                    bds:matchAllTerms \"true\"  .
                  }
-                 ?suggestion <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.        
+                 {
+                   ?suggestion <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.
+                 } UNION {
+                   ?pharos <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.
+                   ?pharos ?fcfr ?suggestion.
+                   ?suggestion a <https://pharos.artresearch.net/resource/fc/subject>.
+                 } UNION {
+                   ?pharos <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.
+                   ?pharos ?fcfr ?suggestion.
+                   ?suggestion a <https://pharos.artresearch.net/resource/fc/photo>.
+                 } UNION {
+                   ?pharos <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.
+                   ?pharos ?fcfr ?suggestion.
+                   ?suggestion a <https://pharos.artresearch.net/resource/fc/date>.
+                 }
                  ?suggestion rdfs:label ?label ;
-                             a ?__range__ .
+                           a ?__range__ .
               }
             }
             FILTER(EXISTS {
               ?subject ?__relation__ $suggestion .
-              ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>. 
+              {
+                ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.
+              } UNION {
+                ?subject ?fcfr ?pharos.
+                ?pharos <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.        
+                ?subject a <https://pharos.artresearch.net/resource/fc/photo>.
+              }
             })
           } ORDER BY DESC(?score)  LIMIT 10
        "
@@ -420,10 +440,16 @@
                    query="
                      SELECT DISTINCT ?subject ?originalSubject
                       WHERE {
-                       ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
-                       ?originalSubject owl:sameAs ?subject.
-                      }LIMIT 100
-                   "
+                             {  
+                               ?originalSubject owl:sameAs ?subject.
+                             } UNION {
+                               ?subject a <https://pharos.artresearch.net/resource/fc/subject>.
+                             } UNION {
+                               ?subject a <https://pharos.artresearch.net/resource/fc/photo>.
+                             } UNION {
+                               ?subject a <https://pharos.artresearch.net/resource/fc/date>.
+                             }
+                      }LIMIT 100"
                    tuple-template="{{>tupleTemplate}}"
                  >
                  
@@ -505,8 +531,18 @@
                 <semantic-search-result>
                   <semantic-table
                     id="semantic-search-result-table"
-                    query="SELECT DISTINCT ?subject ?originalSubject WHERE {  ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
-                      ?originalSubject owl:sameAs ?subject.} ORDER BY ?subject"
+                    query="SELECT DISTINCT ?subject ?originalSubject WHERE {
+                             {  
+                               ?originalSubject owl:sameAs ?subject.
+                             } UNION {
+                               ?subject a <https://pharos.artresearch.net/resource/fc/subject>.
+                             } UNION {
+                               ?subject a <https://pharos.artresearch.net/resource/fc/photo>.
+                             } UNION {
+                               ?subject a <https://pharos.artresearch.net/resource/fc/date>.
+                             }
+                             
+                           }"
                     options='{"showFilter":false, "resultsPerPage":10}
                     '
                     column-configuration='[
