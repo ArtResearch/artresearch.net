@@ -1,4 +1,611 @@
 <div class="page">
+  <div  class="jumbotron">
+    <h1 style="margin-left:2vw" class="display-4">Statistics</h1>
+    <p style="margin-left:2vw" class="lead">Statistics are updated daily. Click on the tabs bellow to browse statistics about artworks, photos, artists & more.</p>
+  </div>
+  <bs-tabs class="page__body-navtabs--borderless-no-image" unmount-on-exit=true>
+    <bs-tab event-key="1" title="Artworks">
+      
+   <mp-component-toolbar>
+       <mp-component-toolbar-actions>
+         <semantic-chart-type-selector default="donut" types='["line", "bar", "radar", "pie", "donut"]' />
+       </mp-component-toolbar-actions>
+       <mp-component-toolbar-component>
+         <semantic-chart
+           type = 'pie'
+           query='
+             SELECT * WHERE {
+                {
+                  # Villa I Tatti
+                  GRAPH <https://pharos.artresearch.net/resource/itatti/source/ITatti/statistics/graph> {
+                    ?person <https://pharos.artresearch.net/custom/numOfWorks> ?count
+                  }
+                }
+                union{           
+                  # FotoIndex
+                  GRAPH <https://pharos.artresearch.net/resource/itatti/source/FotoIndex/statistics/graph> {
+                    ?person <https://pharos.artresearch.net/custom/numOfWorks> ?count
+                  }
+                }
+                union{           
+                  # SharedShelf
+                  GRAPH <https://pharos.artresearch.net/resource/itatti/source/SharedShelf/statistics/graph> {
+                    ?person <https://pharos.artresearch.net/custom/numOfWorks> ?count
+                  }
+                }             
+                union{
+                  # Zeri
+                  GRAPH <https://pharos.artresearch.net/resource/zeri/source/Zeri/statistics/graph> {
+                    ?person <https://pharos.artresearch.net/custom/numOfWorks> ?count
+                  }
+                }
+                union{           
+                  # Frick
+                  GRAPH <https://pharos.artresearch.net/resource/frick/source/Frick/statistics/graph> {
+                    ?person <https://pharos.artresearch.net/custom/numOfWorks> ?count
+                  }
+                }
+                union{           
+                  # KHI
+                  GRAPH <https://pharos.artresearch.net/resource/khi/source/KHI/statistics/graph> {
+                    ?person <https://pharos.artresearch.net/custom/numOfWorks> ?count
+                  }
+                }
+                union{           
+                  # Hertziana
+                  GRAPH <https://pharos.artresearch.net/resource/hertziana/source/Hertziana/statistics/graph> {
+                    ?person <https://pharos.artresearch.net/custom/numOfWorks> ?count
+                  }
+                }
+                union{           
+                  # Marburg
+                  GRAPH <https://pharos.artresearch.net/resource/marburg/source/Marburg/statistics/graph> {
+                    ?person <https://pharos.artresearch.net/custom/numOfWorks> ?count
+                  }
+                }
+              } ORDER BY ASC(?person)'
+           sets='[{"dataSetName": "Works", "category": "person", "value": "count"}]'>
+         </semantic-chart>
+       </mp-component-toolbar-component>
+     </mp-component-toolbar>
+   <br/>
+   <br/>
+     
+    </bs-tab>
+    <bs-tab event-key="2" title="Photos">
+              
+   <mp-component-toolbar>
+       <mp-component-toolbar-actions>
+         <semantic-chart-type-selector default="donut" types='["line", "bar", "radar", "pie", "donut"]' />
+       </mp-component-toolbar-actions>
+       <mp-component-toolbar-component>
+         <semantic-chart
+           type = 'pie'
+           query='
+             SELECT * WHERE {
+                {
+                  # Villa I Tatti
+                  GRAPH <https://pharos.artresearch.net/resource/itatti/source/ITatti/statistics/graph> {
+                    ?person <https://pharos.artresearch.net/custom/numOfPhotos> ?count
+                  }
+                }
+                union{           
+                  # FotoIndex
+                  GRAPH <https://pharos.artresearch.net/resource/itatti/source/FotoIndex/statistics/graph> {
+                    ?person <https://pharos.artresearch.net/custom/numOfPhotos> ?count
+                  }
+                }
+                union{           
+                  # SharedShelf
+                  GRAPH <https://pharos.artresearch.net/resource/itatti/source/SharedShelf/statistics/graph> {
+                    ?person <https://pharos.artresearch.net/custom/numOfPhotos> ?count
+                  }
+                }             
+                union{
+                  # Zeri
+                  GRAPH <https://pharos.artresearch.net/resource/zeri/source/Zeri/statistics/graph> {
+                    ?person <https://pharos.artresearch.net/custom/numOfPhotos> ?count
+                  }
+                }
+                union{           
+                  # Frick
+                  GRAPH <https://pharos.artresearch.net/resource/frick/source/Frick/statistics/graph> {
+                    ?person <https://pharos.artresearch.net/custom/numOfPhotos> ?count
+                  }
+                }
+                union{           
+                  # KHI
+                  GRAPH <https://pharos.artresearch.net/resource/khi/source/KHI/statistics/graph> {
+                    ?person <https://pharos.artresearch.net/custom/numOfPhotos> ?count
+                  }
+                }
+                union{           
+                  # Hertziana
+                  GRAPH <https://pharos.artresearch.net/resource/hertziana/source/Hertziana/statistics/graph> {
+                    ?person <https://pharos.artresearch.net/custom/numOfPhotos> ?count
+                  }
+                }
+                union{           
+                  # Marburg
+                  GRAPH <https://pharos.artresearch.net/resource/marburg/source/Marburg/statistics/graph> {
+                    ?person <https://pharos.artresearch.net/custom/numOfPhotos> ?count
+                  }
+                }
+             } ORDER BY ASC(?person)'
+           sets='[{"dataSetName": "Photos", "category": "person", "value": "count"}]'>
+         </semantic-chart>
+       </mp-component-toolbar-component>
+     </mp-component-toolbar>
+   <br/>
+   
+    </bs-tab>
+    <bs-tab event-key="3" title="Artists">
+              
+   <mp-component-toolbar>
+       <mp-component-toolbar-actions>
+         <semantic-chart-type-selector default="donut" types='["line", "bar", "radar", "pie", "donut"]' />
+       </mp-component-toolbar-actions>
+       <mp-component-toolbar-component>
+         <semantic-chart
+           type = 'pie'
+           query='
+             SELECT * WHERE {
+                {
+                  # Villa I Tatti
+                  GRAPH <https://pharos.artresearch.net/resource/itatti/source/ITatti/statistics/graph> {
+                    ?person <https://pharos.artresearch.net/custom/numOfArtists> ?count
+                  }
+                }
+                union{           
+                  # FotoIndex
+                  GRAPH <https://pharos.artresearch.net/resource/itatti/source/FotoIndex/statistics/graph> {
+                    ?person <https://pharos.artresearch.net/custom/numOfArtists> ?count
+                  }
+                }
+                union{           
+                  # SharedShelf
+                  GRAPH <https://pharos.artresearch.net/resource/itatti/source/SharedShelf/statistics/graph> {
+                    ?person <https://pharos.artresearch.net/custom/numOfArtists> ?count
+                  }
+                }             
+                union{
+                  # Zeri
+                  GRAPH <https://pharos.artresearch.net/resource/zeri/source/Zeri/statistics/graph> {
+                    ?person <https://pharos.artresearch.net/custom/numOfArtists> ?count
+                  }
+                }
+                union{           
+                  # Frick
+                  GRAPH <https://pharos.artresearch.net/resource/frick/source/Frick/statistics/graph> {
+                    ?person <https://pharos.artresearch.net/custom/numOfArtists> ?count
+                  }
+                }
+                union{           
+                  # KHI
+                  GRAPH <https://pharos.artresearch.net/resource/khi/source/KHI/statistics/graph> {
+                    ?person <https://pharos.artresearch.net/custom/numOfArtists> ?count
+                  }
+                }
+                union{           
+                  # Hertziana
+                  GRAPH <https://pharos.artresearch.net/resource/hertziana/source/Hertziana/statistics/graph> {
+                    ?person <https://pharos.artresearch.net/custom/numOfArtists> ?count
+                  }
+                }
+                union{           
+                  # Marburg
+                  GRAPH <https://pharos.artresearch.net/resource/marburg/source/Marburg/statistics/graph> {
+                    ?person <https://pharos.artresearch.net/custom/numOfArtists> ?count
+                  }
+                }
+             } ORDER BY ASC(?person)'
+           sets='[{"dataSetName": "Photos", "category": "person", "value": "count"}]'>
+         </semantic-chart>
+       </mp-component-toolbar-component>
+     </mp-component-toolbar>
+   <br/>
+   
+    </bs-tab>
+    <bs-tab event-key="4" title="Photographers">
+              
+   <mp-component-toolbar>
+       <mp-component-toolbar-actions>
+         <semantic-chart-type-selector default="donut" types='["line", "bar", "radar", "pie", "donut"]' />
+       </mp-component-toolbar-actions>
+       <mp-component-toolbar-component>
+         <semantic-chart
+           type = 'pie'
+           query='
+             SELECT * WHERE {
+              {
+                # Villa I Tatti
+                GRAPH <https://pharos.artresearch.net/resource/itatti/source/ITatti/statistics/graph> {
+                  ?person <https://pharos.artresearch.net/custom/numOfPhotographers> ?count
+                }
+              }
+              union{           
+                # FotoIndex
+                GRAPH <https://pharos.artresearch.net/resource/itatti/source/FotoIndex/statistics/graph> {
+                  ?person <https://pharos.artresearch.net/custom/numOfPhotographers> ?count
+                }
+              }
+              union{           
+                # SharedShelf
+                GRAPH <https://pharos.artresearch.net/resource/itatti/source/SharedShelf/statistics/graph> {
+                  ?person <https://pharos.artresearch.net/custom/numOfPhotographers> ?count
+                }
+              }             
+              union{
+                # Zeri
+                GRAPH <https://pharos.artresearch.net/resource/zeri/source/Zeri/statistics/graph> {
+                  ?person <https://pharos.artresearch.net/custom/numOfPhotographers> ?count
+                }
+              }
+              union{           
+                # Frick
+                GRAPH <https://pharos.artresearch.net/resource/frick/source/Frick/statistics/graph> {
+                  ?person <https://pharos.artresearch.net/custom/numOfPhotographers> ?count
+                }
+              }
+              union{           
+                # KHI
+                GRAPH <https://pharos.artresearch.net/resource/khi/source/KHI/statistics/graph> {
+                  ?person <https://pharos.artresearch.net/custom/numOfPhotographers> ?count
+                }
+              }
+              union{           
+                # Hertziana
+                GRAPH <https://pharos.artresearch.net/resource/hertziana/source/Hertziana/statistics/graph> {
+                  ?person <https://pharos.artresearch.net/custom/numOfPhotographers> ?count
+                }
+              }
+              union{           
+                # Marburg
+                GRAPH <https://pharos.artresearch.net/resource/marburg/source/Marburg/statistics/graph> {
+                  ?person <https://pharos.artresearch.net/custom/numOfPhotographers> ?count
+                }
+              }
+             } ORDER BY ASC(?person)'
+           sets='[{"dataSetName": "Photos", "category": "person", "value": "count"}]'>
+         </semantic-chart>
+       </mp-component-toolbar-component>
+     </mp-component-toolbar>
+   <br/>
+   
+    </bs-tab>    
+    <bs-tab event-key="5" title="Repositories">
+              
+      <mp-component-toolbar>
+          <mp-component-toolbar-actions>
+            <semantic-chart-type-selector default="donut" types='["line", "bar", "radar", "pie", "donut"]' />
+          </mp-component-toolbar-actions>
+          <mp-component-toolbar-component>
+            <semantic-chart
+              type = 'pie'
+              query='
+                SELECT * WHERE {
+                 {
+                   # Villa I Tatti
+                   GRAPH <https://pharos.artresearch.net/resource/itatti/source/ITatti/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfInstitutions> ?count
+                   }
+                 }
+                 union{           
+                   # FotoIndex
+                   GRAPH <https://pharos.artresearch.net/resource/itatti/source/FotoIndex/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfInstitutions> ?count
+                   }
+                 }
+                 union{           
+                   # SharedShelf
+                   GRAPH <https://pharos.artresearch.net/resource/itatti/source/SharedShelf/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfInstitutions> ?count
+                   }
+                 }             
+                 union{
+                   # Zeri
+                   GRAPH <https://pharos.artresearch.net/resource/zeri/source/Zeri/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfInstitutions> ?count
+                   }
+                 }
+                 union{           
+                   # Frick
+                   GRAPH <https://pharos.artresearch.net/resource/frick/source/Frick/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfInstitutions> ?count
+                   }
+                 }
+                 union{           
+                   # KHI
+                   GRAPH <https://pharos.artresearch.net/resource/khi/source/KHI/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfInstitutions> ?count
+                   }
+                 }
+                 union{           
+                   # Hertziana
+                   GRAPH <https://pharos.artresearch.net/resource/hertziana/source/Hertziana/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfInstitutions> ?count
+                   }
+                 }
+                 union{           
+                   # Marburg
+                   GRAPH <https://pharos.artresearch.net/resource/marburg/source/Marburg/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfInstitutions> ?count
+                   }
+                 }
+                } ORDER BY ASC(?person)'
+              sets='[{"dataSetName": "Photos", "category": "person", "value": "count"}]'>
+            </semantic-chart>
+          </mp-component-toolbar-component>
+        </mp-component-toolbar>
+      <br/>
+      
+    </bs-tab>
+    <bs-tab event-key="6" title="Places">
+              
+      <mp-component-toolbar>
+          <mp-component-toolbar-actions>
+            <semantic-chart-type-selector default="donut" types='["line", "bar", "radar", "pie", "donut"]' />
+          </mp-component-toolbar-actions>
+          <mp-component-toolbar-component>
+            <semantic-chart
+              type = 'pie'
+              query='
+                SELECT * WHERE {
+                 {
+                   # Villa I Tatti
+                   GRAPH <https://pharos.artresearch.net/resource/itatti/source/ITatti/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfPlaces> ?count
+                   }
+                 }
+                 union{           
+                   # FotoIndex
+                   GRAPH <https://pharos.artresearch.net/resource/itatti/source/FotoIndex/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfPlaces> ?count
+                   }
+                 }
+                 union{           
+                   # SharedShelf
+                   GRAPH <https://pharos.artresearch.net/resource/itatti/source/SharedShelf/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfPlaces> ?count
+                   }
+                 }             
+                 union{
+                   # Zeri
+                   GRAPH <https://pharos.artresearch.net/resource/zeri/source/Zeri/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfPlaces> ?count
+                   }
+                 }
+                 union{           
+                   # Frick
+                   GRAPH <https://pharos.artresearch.net/resource/frick/source/Frick/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfPlaces> ?count
+                   }
+                 }
+                 union{           
+                   # KHI
+                   GRAPH <https://pharos.artresearch.net/resource/khi/source/KHI/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfPlaces> ?count
+                   }
+                 }
+                 union{           
+                   # Hertziana
+                   GRAPH <https://pharos.artresearch.net/resource/hertziana/source/Hertziana/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfPlaces> ?count
+                   }
+                 }
+                 union{           
+                   # Marburg
+                   GRAPH <https://pharos.artresearch.net/resource/marburg/source/Marburg/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfPlaces> ?count
+                   }
+                 }
+                } ORDER BY ASC(?person)'
+              sets='[{"dataSetName": "Photos", "category": "person", "value": "count"}]'>
+            </semantic-chart>
+          </mp-component-toolbar-component>
+        </mp-component-toolbar>
+      <br/>
+      
+    </bs-tab>
+    <bs-tab event-key="7" title="Techniques">           
+      <mp-component-toolbar>
+          <mp-component-toolbar-actions>
+            <semantic-chart-type-selector default="donut" types='["line", "bar", "radar", "pie", "donut"]' />
+          </mp-component-toolbar-actions>
+          <mp-component-toolbar-component>
+            <semantic-chart
+              type = 'pie'
+              query='
+                SELECT * WHERE {
+                 {
+                   # Villa I Tatti
+                   GRAPH <https://pharos.artresearch.net/resource/itatti/source/ITatti/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfTechniques> ?count
+                   }
+                 }
+                 union{           
+                   # FotoIndex
+                   GRAPH <https://pharos.artresearch.net/resource/itatti/source/FotoIndex/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfTechniques> ?count
+                   }
+                 }
+                 union{           
+                   # SharedShelf
+                   GRAPH <https://pharos.artresearch.net/resource/itatti/source/SharedShelf/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfTechniques> ?count
+                   }
+                 }             
+                 union{
+                   # Zeri
+                   GRAPH <https://pharos.artresearch.net/resource/zeri/source/Zeri/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfTechniques> ?count
+                   }
+                 }
+                 union{           
+                   # Frick
+                   GRAPH <https://pharos.artresearch.net/resource/frick/source/Frick/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfTechniques> ?count
+                   }
+                 }
+                 union{           
+                   # KHI
+                   GRAPH <https://pharos.artresearch.net/resource/khi/source/KHI/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfTechniques> ?count
+                   }
+                 }
+                 union{           
+                   # Hertziana
+                   GRAPH <https://pharos.artresearch.net/resource/hertziana/source/Hertziana/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfTechniques> ?count
+                   }
+                 }
+                 union{           
+                   # Marburg
+                   GRAPH <https://pharos.artresearch.net/resource/marburg/source/Marburg/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfTechniques> ?count
+                   }
+                 }
+                } ORDER BY ASC(?person)'
+              sets='[{"dataSetName": "Photos", "category": "person", "value": "count"}]'>
+            </semantic-chart>
+          </mp-component-toolbar-component>
+        </mp-component-toolbar>
+      <br/>
+      
+    </bs-tab>
+    <bs-tab event-key="8" title="Materials">           
+      <mp-component-toolbar>
+          <mp-component-toolbar-actions>
+            <semantic-chart-type-selector default="donut" types='["line", "bar", "radar", "pie", "donut"]' />
+          </mp-component-toolbar-actions>
+          <mp-component-toolbar-component>
+            <semantic-chart
+              type = 'pie'
+              query='
+                SELECT * WHERE {
+                 {
+                   # Villa I Tatti
+                   GRAPH <https://pharos.artresearch.net/resource/itatti/source/ITatti/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfMaterials> ?count
+                   }
+                 }
+                 union{           
+                   # FotoIndex
+                   GRAPH <https://pharos.artresearch.net/resource/itatti/source/FotoIndex/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfMaterials> ?count
+                   }
+                 }
+                 union{           
+                   # SharedShelf
+                   GRAPH <https://pharos.artresearch.net/resource/itatti/source/SharedShelf/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfMaterials> ?count
+                   }
+                 }             
+                 union{
+                   # Zeri
+                   GRAPH <https://pharos.artresearch.net/resource/zeri/source/Zeri/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfMaterials> ?count
+                   }
+                 }
+                 union{           
+                   # Frick
+                   GRAPH <https://pharos.artresearch.net/resource/frick/source/Frick/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfMaterials> ?count
+                   }
+                 }
+                 union{           
+                   # KHI
+                   GRAPH <https://pharos.artresearch.net/resource/khi/source/KHI/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfMaterials> ?count
+                   }
+                 }
+                 union{           
+                   # Hertziana
+                   GRAPH <https://pharos.artresearch.net/resource/hertziana/source/Hertziana/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfMaterials> ?count
+                   }
+                 }
+                 union{           
+                   # Marburg
+                   GRAPH <https://pharos.artresearch.net/resource/marburg/source/Marburg/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfMaterials> ?count
+                   }
+                 }
+                } ORDER BY ASC(?person)'
+              sets='[{"dataSetName": "Photos", "category": "person", "value": "count"}]'>
+            </semantic-chart>
+          </mp-component-toolbar-component>
+        </mp-component-toolbar>
+      <br/>
+      
+    </bs-tab>
+    <bs-tab event-key="9" title="Types">           
+      <mp-component-toolbar>
+          <mp-component-toolbar-actions>
+            <semantic-chart-type-selector default="donut" types='["line", "bar", "radar", "pie", "donut"]' />
+          </mp-component-toolbar-actions>
+          <mp-component-toolbar-component>
+            <semantic-chart
+              type = 'pie'
+              query='
+                SELECT * WHERE {
+                 {
+                   # Villa I Tatti
+                   GRAPH <https://pharos.artresearch.net/resource/itatti/source/ITatti/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfTypes> ?count
+                   }
+                 }
+                 union{           
+                   # FotoIndex
+                   GRAPH <https://pharos.artresearch.net/resource/itatti/source/FotoIndex/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfTypes> ?count
+                   }
+                 }
+                 union{           
+                   # SharedShelf
+                   GRAPH <https://pharos.artresearch.net/resource/itatti/source/SharedShelf/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfTypes> ?count
+                   }
+                 }             
+                 union{
+                   # Zeri
+                   GRAPH <https://pharos.artresearch.net/resource/zeri/source/Zeri/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfTypes> ?count
+                   }
+                 }
+                 union{           
+                   # Frick
+                   GRAPH <https://pharos.artresearch.net/resource/frick/source/Frick/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfTypes> ?count
+                   }
+                 }
+                 union{           
+                   # KHI
+                   GRAPH <https://pharos.artresearch.net/resource/khi/source/KHI/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfTypes> ?count
+                   }
+                 }
+                 union{           
+                   # Hertziana
+                   GRAPH <https://pharos.artresearch.net/resource/hertziana/source/Hertziana/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfTypes> ?count
+                   }
+                 }
+                 union{           
+                   # Marburg
+                   GRAPH <https://pharos.artresearch.net/resource/marburg/source/Marburg/statistics/graph> {
+                     ?person <https://pharos.artresearch.net/custom/numOfTypes> ?count
+                   }
+                 }
+                } ORDER BY ASC(?person)'
+              sets='[{"dataSetName": "Photos", "category": "person", "value": "count"}]'>
+            </semantic-chart>
+          </mp-component-toolbar-component>
+        </mp-component-toolbar>
+      <br/>
+      
+    </bs-tab>
+           </bs-tabs>
   <div style="margin-top:10px;">
     <div data-flex-layout="column center-center">
       <div>
@@ -143,124 +750,14 @@
       </div>
     </div>
   </div>
-      <bs-tabs class="page__body-navtabs--borderless-no-image" unmount-on-exit=true>
 
- <bs-tab event-key="1" title="Artworks">
-   
-<mp-component-toolbar>
-    <mp-component-toolbar-actions>
-      <semantic-chart-type-selector default="donut" types='["line", "bar", "radar", "pie", "donut"]' />
-    </mp-component-toolbar-actions>
-    <mp-component-toolbar-component>
-      <semantic-chart
-        type = 'pie'
-        query='
- 
-          SELECT * WHERE {
-            VALUES (?person ?count)
-            {
-              (<https://pharos.artresearch.net/resource/villaitatti/source/522F1465-3EB6-3399-BF75-71880225CECF> 75786)
-              (<https://pharos.artresearch.net/resource/frick/source/Frick> 199702)
-							(<https://pharos.artresearch.net/resource/hertziana/source/Hertziana> 106340)
-              (<https://pharos.artresearch.net/resource/zeri/source/Zeri> 81009)
-              (<https://pharos.artresearch.net/resource/marburg/source/Marburg> 635585)
-              (<https://pharos.artresearch.net/resource/khi/source/KHI> 98948)
-            }
-          } ORDER BY DESC(?count)'
-        sets='[{"dataSetName": "Works", "category": "person", "value": "count"}]'>
-      </semantic-chart>
-    </mp-component-toolbar-component>
-  </mp-component-toolbar>
-<br/>
-<br/>
-  
-          </bs-tab>
-          <bs-tab event-key="2" title="Photos">
-           
-<mp-component-toolbar>
-    <mp-component-toolbar-actions>
-      <semantic-chart-type-selector default="donut" types='["line", "bar", "radar", "pie", "donut"]' />
-    </mp-component-toolbar-actions>
-    <mp-component-toolbar-component>
-      <semantic-chart
-        type = 'pie'
-        query='
- 
-          SELECT * WHERE {
-            VALUES (?person ?count)
-            {
-               (<https://pharos.artresearch.net/resource/villaitatti/source/522F1465-3EB6-3399-BF75-71880225CECF> 152529)
-              (<https://pharos.artresearch.net/resource/frick/source/Frick> 364944)
-							(<https://pharos.artresearch.net/resource/hertziana/source/Hertziana> 218510)
-               (<https://pharos.artresearch.net/resource/zeri/source/Zeri> 114229)
-              (<https://pharos.artresearch.net/resource/marburg/source/Marburg> 406136)
-              (<https://pharos.artresearch.net/resource/khi/source/KHI> 69183)
-            }
-          } ORDER BY DESC(?count)'
-        sets='[{"dataSetName": "Photos", "category": "person", "value": "count"}]'>
-      </semantic-chart>
-    </mp-component-toolbar-component>
-  </mp-component-toolbar>
-<br/>
-
-          </bs-tab>
-              <bs-tab event-key="3" title="Artists">
-           
-<mp-component-toolbar>
-    <mp-component-toolbar-actions>
-      <semantic-chart-type-selector default="donut" types='["line", "bar", "radar", "pie", "donut"]' />
-    </mp-component-toolbar-actions>
-    <mp-component-toolbar-component>
-      <semantic-chart
-        type = 'pie'
-        query='
- 
-          SELECT * WHERE {
-            VALUES (?person ?count)
-            {
-              (<https://pharos.artresearch.net/resource/villaitatti/source/522F1465-3EB6-3399-BF75-71880225CECF> 2688  )
-              (<https://pharos.artresearch.net/resource/frick/source/Frick> 17467)
-							(<https://pharos.artresearch.net/resource/hertziana/source/Hertziana> 5802)
-              (<https://pharos.artresearch.net/resource/zeri/source/Zeri> 4801)
-              (<https://pharos.artresearch.net/resource/marburg/source/Marburg> 43007)
-              (<https://pharos.artresearch.net/resource/khi/source/KHI> 6715)
-            }
-          } ORDER BY DESC(?count)'
-        sets='[{"dataSetName": "Photos", "category": "person", "value": "count"}]'>
-      </semantic-chart>
-    </mp-component-toolbar-component>
-  </mp-component-toolbar>
-<br/>
-
-          </bs-tab>
-              <bs-tab event-key="4" title="Repositories">
-           
-<mp-component-toolbar>
-    <mp-component-toolbar-actions>
-      <semantic-chart-type-selector default="donut" types='["line", "bar", "radar", "pie", "donut"]' />
-    </mp-component-toolbar-actions>
-    <mp-component-toolbar-component>
-      <semantic-chart
-        type = 'pie'
-        query='
- 
-          SELECT * WHERE {
-            VALUES (?person ?count)
-            {
-              (<https://pharos.artresearch.net/resource/villaitatti/source/522F1465-3EB6-3399-BF75-71880225CECF> 10800)
-              (<https://pharos.artresearch.net/resource/frick/source/Frick> 20422)
-							(<https://pharos.artresearch.net/resource/hertziana/source/Hertziana> 2549)
-              (<https://pharos.artresearch.net/resource/zeri/source/Zeri> 6091)
-              (<https://pharos.artresearch.net/resource/marburg/source/Marburg> 13513)
-              (<https://pharos.artresearch.net/resource/khi/source/KHI> 5721)
-            }
-          } ORDER BY DESC(?count)'
-        sets='[{"dataSetName": "Photos", "category": "person", "value": "count"}]'>
-      </semantic-chart>
-    </mp-component-toolbar-component>
-  </mp-component-toolbar>
-<br/>
-
-          </bs-tab>
-        </bs-tabs>
-      </div>
+</div>
+<style>
+  .jumbotron {
+    padding-top: 15px !important;
+    padding-bottom: 15px !important;
+}
+.jumbotron h1 {
+    font-size: 48px;
+}
+</style>

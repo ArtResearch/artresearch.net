@@ -16,7 +16,7 @@
           >
         <template id="workInfo">
           <div class="workInfoContainer">
-          <h2>Work info</h2>
+          <h2>Person info</h2>
             [[> rsp:ResourceFieldBasedVisualization subject=[[this]] showSourceIcon="true" ]]
           </div>
         </template>
@@ -27,12 +27,20 @@
         subject="[[this]]"
         additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
         fields='[[fieldDefinitions  
-        Creator="https://pharos.artresearch.net/fieldDefinition/1" 
-        ]]'template='{{>productionInfo}}'
+        ulan1="https://pharos.artresearch.net/fieldDefinition/ulan_date_of_birth"
+        ulan2="https://pharos.artresearch.net/fieldDefinition/ulan_date_of_death"
+        ulan3="https://pharos.artresearch.net/fieldDefinition/ulan_place_of_birth"
+        ulan4="https://pharos.artresearch.net/fieldDefinition/ulan_place_of_death"
+        ulan5="https://pharos.artresearch.net/fieldDefinition/ulan_nationality"
+        ulan6="https://pharos.artresearch.net/fieldDefinition/ulan_gender"
+        ulan7="https://pharos.artresearch.net/fieldDefinition/ulan_description"
+        ulan8="https://pharos.artresearch.net/fieldDefinition/ulan_relations"
+        ulan9="http://www.researchspace.org/fieldDefinition/Events"
+        ]]' template='{{>productionInfo}}'
         >
       <template id="productionInfo">
         <div class="productionInfoContainer">
-        <h2>Production info</h2>
+        <h2>External info</h2>
           [[> rsp:ResourceFieldBasedVisualization subject=[[this]] showSourceIcon="true"  ]]
         </div>
       </template>
