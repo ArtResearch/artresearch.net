@@ -432,10 +432,30 @@
                         <bs-col class="cardInfo" lg="7" md="10" xs="10">
                           <div data-flex-layout="row md-column center-stretch">
                             <bs-row class="cardInfoFields">
-                                <h2>Pharos record</h2>
+                                <h2>Title</h2>
                                 <h4><semantic-link iri="{{subject.value}}"></semantic-link></h4>
-                                <h2>Original record</h2>
-                                <h4><semantic-link iri="{{originalSubject.value}}"></semantic-link></h4>
+                                <h2>Created by</h2>
+                                <h4>
+                                  <!-- Show Creator -->
+                                  <semantic-query query='SELECT ?creator WHERE{
+                                   <{{subject.value}}> <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?creator
+                                  }'>
+                                  <semantic-link iri="{{creator.value}}"></semantic-link>
+                                  </semantic-query>
+                                </h4>
+                                  <!-- Show Production date -->
+                                  <semantic-query query='SELECT ?productionDate WHERE{
+                                    <{{originalSubject.value}}> <http://www.cidoc-crm.org/cidoc-crm/P108i_was_produced_by> ?production .
+                                   ?production <http://www.cidoc-crm.org/cidoc-crm/P4_has_time-span> ?timespan .
+                                   ?timespan crm:P82_at_some_time_within ?productionDate
+                                  }' template="{{>productionDateTemplate}}">
+                                  <template id="productionDateTemplate">
+                                    <h2>Production Date</h2>
+                                    <h4>
+                                    {{bindings.0.productionDate.value}}
+                                    </h4>
+                                  </template>
+                                  </semantic-query>
                             </bs-row>
                           </div>
                         </bs-col>
@@ -768,7 +788,7 @@
   .cardInfo {
     position: relative;
     left: 6vw;
-    top: 3vh;
+    top: 1.5vh;
     background: #ffffffe8;
     border-radius: 0px 0px 4px 4px;
   }

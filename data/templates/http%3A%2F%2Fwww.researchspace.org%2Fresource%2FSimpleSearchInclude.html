@@ -19,14 +19,13 @@
               [[#if searchPattern]]
                 [[searchPattern]]
               [[else]]                      
-              ?subject a ?type. 
+              ?subject a crm:E22_Man-Made_Object. 
               ?subject rdfs:label ?label .
               ?label bds:search ?__token__ ;
-              bds:minRelevance "0.5" ;
+              bds:minRelevance "0.3" ;
               bds:relevance ?score ;
-              bds:matchAllTerms "true" .
+              bds:matchAllTerms "false" .
               BIND(STRLEN(?label) as ?length)
-              FILTER(?type in (crm:E22_Man-Made_Object,crm:E21_Person,crm:E39_Actor))
                [[/if]]
             } ORDER BY DESC(?score) ?length
           '
@@ -48,7 +47,6 @@
                 ?label bds:search ?_token_ ; bds:minRelevance \"0.3\" ; bds:relevance ?score ; bds:matchAllTerms \"true\" . 
                 FILTER(REGEX(?label, ?__token__, "i"))
                 BIND(STRLEN(?label) as ?length)
-                FILTER(?type in (crm:E22_Man-Made_Object,crm:E21_Person,crm:E39_Actor))
               [[/if]]
             }ORDER BY DESC(?score) ?length
           '
@@ -80,190 +78,58 @@
                           md="12"
                           xs="12"
                         >
-                          <!-- Pharos Artwork -->
-                          <semantic-if query='ASK { <{{subject.value}}>  <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.}'
-                            then='{{> thenPharosArtwork}}' else='{{> originalArtwork}}'>
-                              <template id="thenPharosArtwork">
-                                <semantic-query
-                                query='SELECT DISTINCT ?imgUrl WHERE{
-                                        bind("_" as ?default_imageUrl)
-                                        OPTIONAL{
-                                        ?originalSubject owl:sameAs     <{{subject.value}}> .
-                                        ?originalSubject <http://www.cidoc-crm.org/cidoc-crm/P138i_is_represented_by> ?visual. 
-                                        ?visual crm:P128i_is_carried_by ?image .
-                                        ?image crm:P129i_is_subject_of ?fullsizeImgUrl.
-                                        BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/200,") AS ?smallerImgUrl).
-                                        }
-                                      BIND(coalesce(?smallerImgUrl, ?default_imageUrl) as ?imgUrl)
-                                      }LIMIT 1'
-                                template="{{> imageThumbnail}}"
-                              >
-                                <template id="imageThumbnail">
-                                  <img
-                                  alt='   '
-                                  class="thumbnailImage"
-                                  src="{{bindings.0.imgUrl.value}}"
-                                  />
-                                </template>
-                                </semantic-query>
-                              </template>
-                              <template id="originalArtwork">
-                                <!-- Work of art thumbnail -->
-                                <semantic-if query='ASK { <{{subject.value}}>  <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <http://vocab.getty.edu/aat/300133025>.}'
-                                  then='{{> thenWorkOfArtThumbnail}}'>
-                                  <template id="thenWorkOfArtThumbnail">
-                                    <semantic-query
-                                    query='SELECT DISTINCT ?imgUrl WHERE{
-                                            bind("_" as ?default_imageUrl)
-                                            {
-                                              <{{subject.value}}>  <http://www.cidoc-crm.org/cidoc-crm/P138i_is_represented_by> ?visual. 
-                                              ?visual crm:P128i_is_carried_by ?image .
-                                              ?image crm:P129i_is_subject_of ?fullsizeImgUrl.
-                                              BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/200,") AS ?smallerImgUrl).
-                                            }
-                                            BIND(coalesce(?smallerImgUrl, ?default_imageUrl) as ?imgUrl)      
-                                          }LIMIT 1'
-                                    template="{{> imageThumbnail}}"
-                                    >
-                                    <template id="imageThumbnail">
-                                      <img
-                                        alt='   '
-                                        class="thumbnailImage"
-                                        src="{{bindings.0.imgUrl.value}}"
-                                        />
-                                    </template>
-                                  </semantic-query>
-                                  </template>
-                                </semantic-if>
-                                <!-- Photograph thumbnail -->
-                                <semantic-if query='ASK { <{{subject.value}}>  <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <http://vocab.getty.edu/aat/300046300>.}'
-                                  then='{{> thenPhotographThumbnail}}'>
-                                  <template id="thenPhotographThumbnail">
-                                    <semantic-query
-                                    query='SELECT DISTINCT ?imgUrl WHERE{
-                                      bind("_" as ?default_imageUrl)
-                                      OPTIONAL{
-                                          ?artwork crm:P138i_is_represented_by ?visual_item.
-                                          ?visual_item crm:P128i_is_carried_by <{{subject.value}}> .
-                                          ?artwork <http://www.cidoc-crm.org/cidoc-crm/P138i_is_represented_by> ?visual. 
-                                          ?visual crm:P128i_is_carried_by ?image .
-                                          ?image crm:P129i_is_subject_of ?fullsizeImgUrl.
-                                          FILTER(?image = <{{subject.value}}>).
-                                          BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/200,") AS ?smallerImgUrl).
-                                        }
-                                        BIND(coalesce(?smallerImgUrl, ?default_imageUrl) as ?imgUrl)    
-                                          }LIMIT 1'
-                                    template="{{> imageThumbnail}}"
-                                  >
-                                    <template id="imageThumbnail">
-                                      <img
-                                      alt='   '
-                                      class="thumbnailImage"
-                                      src="{{bindings.0.imgUrl.value}}"
-                                      />
-                                    </template>
-                                </semantic-query>
-                                </template>
-                                </semantic-if>
-                              </template>
-                          </semantic-if>
-
-                          <!-- Person thumbnail -->
-                          <semantic-if query='ASK { <{{subject.value}}>  a crm:E21_Person.}'
-                            then='{{> thenPersonThumbnail}}'>
-                            <template id="thenPersonThumbnail">
-                              <semantic-query query="SELECT ?artistName WHERE{
-                                <{{subject.value}}> rdfs:label ?artistName
-                              }LIMIT 1"
-                              template="{{> artistNameTemplate}}">
-                              <template id="artistNameTemplate">
-                                    <semantic-query
-                                    query='
-                                  PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-                                  PREFIX wd: <http://www.wikidata.org/entity/>
-                                  PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-      
-                                  SELECT DISTINCT ?imgUrl WHERE{
-                                    bind("_" as ?default_imageUrl)
-                                    OPTIONAL{
-                                  SERVICE <https://query.wikidata.org/sparql> 
-                                          {
-                                              { ?person wdt:P31 wd:Q5 . 
-                                                ?person wdt:P106 wd:Q483501.
-                                                ?person rdfs:label "{{bindings.0.artistName.value}}"@en .
-                                                ?person wdt:P18 ?personImage}
-                                              UNION{
-                                                ?person wdt:P31 wd:Q5 . 
-                                                ?person wdt:P106 wd:Q1028181.
-                                                ?person rdfs:label "{{bindings.0.artistName.value}}"@en .
-                                                ?person wdt:P18 ?personImage
-                                              }
-                                      }
-                                    }
-                                      BIND(coalesce(?personImage, ?default_imageUrl) as ?imgUrl)    
-                                        }LIMIT 1'
-                                    template="{{> imageThumbnail}}"
-                                  >
-                                    <template id="imageThumbnail">
-                                      <img
-                                        alt="   "
-                                        class="thumbnailImage"
-                                        src="{{bindings.0.imgUrl.value}}"
-                                      />
-                                    </template>
-                                </semantic-query>
-                              </template>
-                              </semantic-query>
-                            </template>
-                          </semantic-if>
-
-                          <!-- Institution thumbnail -->
-                          <semantic-if query='ASK { <{{subject.value}}>  a crm:E39_Actor.}'
-                            then='{{> thenInstitutionThumbnail}}'>
-                            <template id="thenInstitutionThumbnail">
-                              <semantic-query query="SELECT ?institutionName WHERE{
-                                <{{subject.value}}> rdfs:label ?institutionName
-                              }LIMIT 1"
-                              template="{{> institutionNameTemplate}}">
-                              <template id="institutionNameTemplate">
-                                <semantic-query
-                                query='
-                              PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-                              PREFIX wd: <http://www.wikidata.org/entity/>
-                              PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-  
-                              SELECT DISTINCT ?imgUrl WHERE{
+                        <semantic-query
+                        query='SELECT DISTINCT ?imgUrl WHERE{
                                 bind("_" as ?default_imageUrl)
                                 OPTIONAL{
-                                  SERVICE <https://query.wikidata.org/sparql> 
-                                    {
-                                      {
-                                        ?institution wdt:P31 wd:Q33506 . 
-                                        ?institution rdfs:label "{{bindings.0.institutionName.value}}"@en .
-                                        ?institution wdt:P18 ?institutionImage
-                                      }UNION{
-                                        ?institution wdt:P31 wd:Q207694.
-                                        ?institution rdfs:label "{{bindings.0.institutionName.value}}"@en .
-                                        ?institution wdt:P18 ?institutionImage.
-                                      }
-                                    }
+                                  {
+                                    # Artwork Image #
+                                    <{{subject.value}}>  <http://www.cidoc-crm.org/cidoc-crm/P138i_is_represented_by> ?visual. 
+                                    ?visual crm:P128i_is_carried_by ?image .
+                                    ?image crm:P129i_is_subject_of ?fullsizeImgUrl.
+                                    BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/200,") AS ?smallerImgUrl).
+                                  }UNION{
+                                    # Pharos Artwork Image #
+                                    ?originalSubject owl:sameAs <{{subject.value}}> .
+                                    ?originalSubject <http://www.cidoc-crm.org/cidoc-crm/P138i_is_represented_by> ?visual. 
+                                    ?visual crm:P128i_is_carried_by ?image .
+                                    ?image crm:P129i_is_subject_of ?fullsizeImgUrl.
+                                    BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/200,") AS ?smallerImgUrl).
+                                  }UNION{
+                                    # Pharos Photo Image #
+                                    ?originalSubject owl:sameAs <{{subject.value}}> .
+                                    ?artwork crm:P138i_is_represented_by ?visual_item.
+                                    ?visual_item crm:P128i_is_carried_by ?originalSubject.
+                                    ?artwork <http://www.cidoc-crm.org/cidoc-crm/P138i_is_represented_by> ?visual. 
+                                    ?visual crm:P128i_is_carried_by ?image .
+                                    ?image crm:P129i_is_subject_of ?fullsizeImgUrl.
+                                    FILTER(?image = ?originalSubject).
+                                    BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/200,") AS ?smallerImgUrl).
+                                  }UNION{
+                                    # Photo Image #
+                                    ?artwork crm:P138i_is_represented_by ?visual_item.
+                                    ?visual_item crm:P128i_is_carried_by <{{subject.value}}> .
+                                    ?artwork <http://www.cidoc-crm.org/cidoc-crm/P138i_is_represented_by> ?visual. 
+                                    ?visual crm:P128i_is_carried_by ?image .
+                                    ?image crm:P129i_is_subject_of ?fullsizeImgUrl.
+                                    FILTER(?image = <{{subject.value}}>).
+                                    BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/200,") AS ?smallerImgUrl).
+                                  }
                                 }
-                                BIND(coalesce(?institutionImage, ?default_imageUrl) as ?imgUrl)    
-                                    }LIMIT 1'
-                                template="{{> imageThumbnail}}"
-                              >
-                                <template id="imageThumbnail">
-                                  <img
-                                    alt="   "
-                                    class="thumbnailImage"
-                                    src="{{bindings.0.imgUrl.value}}"
-                                  />
-                                </template>
-                            </semantic-query>
-                                </template>
-                                </semantic-query>
-                            </template>
-                          </semantic-if>
+                                BIND(coalesce(?smallerImgUrl, ?default_imageUrl) as ?imgUrl)      
+                              }LIMIT 1'
+                        template="{{> imageThumbnail}}"
+                        >
+                        <template id="imageThumbnail">
+                          <img
+                            alt='   '
+                            class="thumbnailImage"
+                            src="{{bindings.0.imgUrl.value}}"
+                            />
+                        </template>
+                      </semantic-query>
+
+
                         </bs-col>
                         <bs-col class="cardInfo" lg="7" md="10" xs="10">
                           <div data-flex-layout="row md-column center-stretch">
