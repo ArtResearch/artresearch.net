@@ -1,23 +1,21 @@
 <!-- Displays a row of IIIF photographs that are clickable (iiif mirador popup) -->
 [[#if (ask 'ASK {{?? rso:PX_has_main_representation ?mainImage .} UNION {?? crm:P138i_has_representation ?representationImage .} UNION {?? <http://www.cidoc-crm.org/cidoc-crm/P16i_was_used_for> ?creation .}  UNION {?? <http://www.cidoc-crm.org/cidoc-crm/P138i_is_represented_by> ?vi .} UNION {?source owl:sameAs ?? . ?source crm:P138i_is_represented_by ?vi. } BIND(COALESCE(?mainImage, ?representationImage) AS ?image) .}')]]
   <div>
-    <semantic-query query='
-    SELECT distinct ?imgURL ?image  WHERE {
+    <semantic-query query=' SELECT distinct ?imgURL ?image  WHERE {
     {
-      ?? crm:P138i_is_represented_by ?visual_item.
-      ?visual_item crm:P128i_is_carried_by ?photo.
-      ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
-      ?photo crm:P129i_is_subject_of ?image.
-      BIND(REPLACE(STR(?image),"full/full","full/350,") AS ?imgURL).
-    }UNION{ 
-    ?originalSubject owl:sameAs ??.
-    ?originalSubject <http://www.cidoc-crm.org/cidoc-crm/P138i_is_represented_by> ?visual. 
-    ?visual crm:P128i_is_carried_by ?image .
-    ?image crm:P129i_is_subject_of ?fullsizeImgUrl.
-    BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/350,") AS ?imgURL).
-  }
-    
-    }' template='{{> imageThumbnail}}'>
+        ?? crm:P138i_is_represented_by ?visual_item.
+        ?visual_item crm:P128i_is_carried_by ?photo.
+        ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
+        ?photo crm:P129i_is_subject_of ?image.
+        BIND(REPLACE(STR(?image),"full/full","full/350,") AS ?imgURL).
+        }UNION{ 
+        ?originalSubject owl:sameAs ??.
+        ?originalSubject <http://www.cidoc-crm.org/cidoc-crm/P138i_is_represented_by> ?visual. 
+        ?visual crm:P128i_is_carried_by ?fullsizeImgUrl .
+        ?fullsizeImgUrl crm:P129i_is_subject_of ?image.
+        BIND(REPLACE(STR(?image),"full/full","full/350,") AS ?imgURL).
+      }
+    }' template="{{> imageThumbnail}}">
               <template id="imageThumbnail">
                 <div class="rs-page__summary-image summaryImages">
                   <div class="rs-page__summary-image">
@@ -28,9 +26,52 @@
               <img class="imageThumbnail" alt="Issue with image"  src="{{imgURL.value}}"/>                         
       </mp-overlay-dialog-trigger>
       <mp-overlay-dialog-content>
-      
-          <img style="width: 100%; height:100%; object-fit: contain;" src="{{image.value}}"/>
- 
+          <semantic-query 
+          query='SELECT ?fullsizeImgUrl ?iiifServer WHERE {
+            OPTIONAL
+            {
+              { 
+                ??  <https://pharos.artresearch.net/custom/has_provider> ?provider.
+                ?provider <https://pharos.artresearch.net/custom/has_iiif_server> ?iiifServer.
+              }UNION{
+                ?originalSubject owl:sameAs ??.
+                ?originalSubject  <https://pharos.artresearch.net/custom/has_provider> ?provider.
+                ?provider <https://pharos.artresearch.net/custom/has_iiif_server> ?iiifServer.
+              }
+            }
+            BIND(str("{{image.value}}") as ?fullsizeImgUrl)
+        }LIMIT 1'
+          template="{{> fullSizeImageTemplate}}"
+          >
+            <template id="fullSizeImageTemplate">
+              {{#each bindings}}
+                {{#ifCond iiifServer.value "!==" undefined}}
+                  <div>
+                      <div style="width: 100vw; height: 86vh;">
+                        <rs-iiif-mirador
+                        image-or-region="[[this]]" 
+                        image-id-pattern='
+                        BIND("image" AS ?type). BIND(?subject AS ?imageIRI). 
+                        ?subject crm:P138i_is_represented_by ?visual_item.
+                        ?visual_item crm:P128i_is_carried_by ?photo.
+                        ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
+                        ?photo crm:P129i_is_subject_of <{{fullsizeImgUrl.value}}>.
+                        <{{fullsizeImgUrl.value}}> crm:P2_has_type <http://iiif.io/api/image>.
+                        BIND(REPLACE(STR(REPLACE(STR("{{fullsizeImgUrl.value}}"),"/full/full/0/*","")), "(^.*)\\/(.*)$", "$2") AS ?idWithDefaultNative).
+                        BIND(REPLACE(?idWithDefaultNative,"default.jpg","") AS ?idWithNative).
+                        BIND(REPLACE(?idWithNative,"native.jpg","") AS ?imageID).
+                        '                                                                       
+                        iiif-server-url="{{iiifServer.value}}" 
+                        >
+                        </rs-iiif-mirador>
+                      </div>
+                  </div>
+                {{else}}        
+                  <img style="width: 100%; height:100%; object-fit: contain;" src="{{fullsizeImgUrl.value}}"/>
+                {{/ifCond}}
+              {{/each}}
+            </template>
+          </semantic-query>
       </mp-overlay-dialog-content>
     </mp-overlay-dialog>
 
@@ -42,6 +83,18 @@
   </div>
 [[/if]]
 <style>
+  .mirador .researchspace-mirador.mirador-container .mirador-viewer {
+    background-color: #f5f5f5 !important;
+}
+.mirador .researchspace-mirador.mirador-container .book-view, .mirador .researchspace-mirador.mirador-container .image-view, .mirador .researchspace-mirador.mirador-container .mirador-osd, .mirador .researchspace-mirador.mirador-container .scroll-view, .mirador .researchspace-mirador.mirador-container .thumbnail-view {
+  background-color: #f5f5f5;
+}
+  .modal-body img{
+    height: 100%;
+    object-fit: contain;
+    width: 100%;
+  }
+
   .summaryImages{
     display: flex;
     justify-content: center;
@@ -67,6 +120,9 @@
     opacity: 1;
     font-size: 55px !important;
   }
+  .overlay-lightbox__body {
+    padding: 0px !important;
+}
   .modal-content {
     border:  none !important;
     box-shadow: none !important
