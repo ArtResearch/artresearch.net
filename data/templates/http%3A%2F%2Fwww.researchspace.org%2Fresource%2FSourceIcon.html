@@ -10,6 +10,15 @@
 >
   <template id="sourceIconTemplate">
     {{#each bindings}} {{#ifCond providerLabel.value "!==" undefined }}
+    {{#ifCond providerLabel.value "===" "ULAN" }}
+    <semantic-link-container uri="{{provider.value}}">
+      <img
+        title="{{providerLabel.value}}"
+        class="sourceIcon"
+        src="../../assets/images/getty.png"
+      />
+    </semantic-link-container>
+    {{/ifCond}}
     {{#ifCond providerLabel.value "===" "Pharos" }}
     <semantic-link-container uri="{{provider.value}}">
       <img

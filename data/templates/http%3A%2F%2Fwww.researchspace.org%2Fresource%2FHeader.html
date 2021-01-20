@@ -12,8 +12,6 @@
         
       </h2>
       
-
-      
     </mp-draggable>
   </div>
   [[/if]]
@@ -22,16 +20,14 @@
       [[#if fcLabel]]
       <semantic-query
         query='
-              SELECT ?dataset ?providerLabel WHERE {
-                ?? <http://www.cidoc-crm.org/cidoc-crm/P50_has_current_keeper> ?repo .
-                ?repo rdfs:label ?repo_label.
-                ?? <https://pharos.artresearch.net/custom/has_provider> ?provider.
-                ?provider rdfs:label ?providerLabel
+              SELECT ?dataset ?repositoryLabel WHERE {
+                ?? <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution> ?repo.
+                ?repo rdfs:label ?repositoryLabel
                 OPTIONAL {
                 ?? <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ?type .
                 ?type rdfs:label ?type_label.
                 ?type <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/vocab/maintype>}
-                  BIND(IF(BOUND(?repo), concat(?type_label," (Provider: ",str(?providerLabel),")"), "(Repository: Unknown)") as ?dataset) .
+                  BIND(IF(BOUND(?repo), concat(?type_label," (Repository: ",str(?repositoryLabel),")"), "(Repository: Unknown)") as ?dataset) .
               } LIMIT 1
                              '
         template='{{> fcLabelTemplate}}'
