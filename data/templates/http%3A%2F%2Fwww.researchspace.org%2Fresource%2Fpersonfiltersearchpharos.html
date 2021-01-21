@@ -140,17 +140,6 @@
         ]
       }'
 >
-  <semantic-search-query-constant
-    domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
-    query="
-    SELECT  ?subject  
-    WHERE {
-      ?subject a <http://www.cidoc-crm.org/cidoc-crm/E21_Person>.
-      ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.
-               
-    }LIMIT 100"
-  >
-  </semantic-search-query-constant>
   <div id="header-search" class="search-page">
     <semantic-form
       new-subject-template="http://www.example.com/switch/actions/{{UUID}}"
@@ -196,15 +185,16 @@
             </semantic-form-hidden-input>
 
             <semantic-search-query-keyword
-              domain="<http://www.w3.org/2000/01/rdf-schema#Resource>"
               placeholder="Search for a creator e.g. Michelangelo"
               escape-lucene-syntax="false"
-              default-query='
-                SELECT ?subject WHERE {
+              domain="<http://www.cidoc-crm.org/cidoc-crm/E21_Person>"
+              default-query="
+              SELECT  ?subject  
+              WHERE {
                 ?subject a <http://www.cidoc-crm.org/cidoc-crm/E21_Person>.
                 ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.
-                }
-              '
+                         
+              }LIMIT 100"
               query='
                       SELECT ?subject WHERE {
                       ?subject a <http://www.cidoc-crm.org/cidoc-crm/E21_Person>.

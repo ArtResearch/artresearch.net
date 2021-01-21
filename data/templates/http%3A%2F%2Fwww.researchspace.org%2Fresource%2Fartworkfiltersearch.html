@@ -141,16 +141,6 @@
         ]
       }'
 >
-  <semantic-search-query-constant
-    domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
-    query=" SELECT DISTINCT ?subject 
-      WHERE {
-       ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
-       ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
-       ?subject <https://pharos.artresearch.net/custom/has_provider>  <[[provider]]>.
-      }LIMIT 100"
-  >
-  </semantic-search-query-constant>
   <div id="header-search" class="search-page">
     <semantic-form
       new-subject-template="http://www.example.com/switch/actions/{{UUID}}"
@@ -196,7 +186,7 @@
             </semantic-form-hidden-input>
 
             <semantic-search-query-keyword
-              domain="<http://www.w3.org/2000/01/rdf-schema#Resource>"
+              domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
               placeholder="Search for any field e.g. Michelangelo"
               escape-lucene-syntax="false"
               default-query='
@@ -204,7 +194,7 @@
                 ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
                 ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
                 ?subject <https://pharos.artresearch.net/custom/has_provider>  <[[provider]]>.
-              }'
+              }LIMIT 100'
               query='
                       SELECT ?subject WHERE {
                         ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
@@ -245,7 +235,7 @@
             </semantic-form-hidden-input>
 
             <semantic-search-query-keyword
-              domain="<http://www.w3.org/2000/01/rdf-schema#Resource>"
+              domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
               placeholder="Search for an artwork creator e.g. Michelangelo"
               escape-lucene-syntax="false"
               default-query='
@@ -253,7 +243,7 @@
                 ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
                 ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
                 ?subject <https://pharos.artresearch.net/custom/has_provider>  <[[provider]]>.
-              }'
+              }LIMIT  100'
               query='
                       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
@@ -298,7 +288,7 @@
             </semantic-form-hidden-input>
 
             <semantic-search-query-keyword
-              domain="<http://www.w3.org/2000/01/rdf-schema#Resource>"
+              domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
               placeholder="Search for a title e.g. Madonna and Chil.."
               escape-lucene-syntax="false"
               default-query='
@@ -306,7 +296,7 @@
                 ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
                 ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
                 ?subject <https://pharos.artresearch.net/custom/has_provider>  <[[provider]]>.
-              }'
+              }LIMIT 100'
               query='
                       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
@@ -349,7 +339,7 @@
             </semantic-form-hidden-input>
 
             <semantic-search-query-keyword
-              domain="<http://www.w3.org/2000/01/rdf-schema#Resource>"
+              domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
               placeholder="Search for a repository e.g. British Museum"
               escape-lucene-syntax="false"
               default-query='
@@ -357,7 +347,7 @@
                 ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
                 ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
                 ?subject <https://pharos.artresearch.net/custom/has_provider>  <[[provider]]>.
-              }'
+              }LIMIT 100'
               query='
                       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>

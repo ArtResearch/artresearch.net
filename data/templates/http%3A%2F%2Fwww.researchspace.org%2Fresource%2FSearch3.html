@@ -231,6 +231,9 @@
                    ?pharos <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.
                    ?pharos ?fcfr ?suggestion.
                    ?suggestion a <https://pharos.artresearch.net/resource/fc/date>.
+                 } UNION {
+                      ?pharos <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.
+                       ?pharos crm:P2_has_type ?suggestion.
                  }
                  ?suggestion rdfs:label ?label ;
                            a ?__range__ .
