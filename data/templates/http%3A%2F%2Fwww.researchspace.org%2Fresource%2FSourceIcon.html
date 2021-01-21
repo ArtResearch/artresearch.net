@@ -5,70 +5,16 @@
    {
     <{{value.binding.graph.value}}> <https://pharos.artresearch.net/custom/has_provider> ?provider . 
     ?provider rdfs:label ?providerLabel
-}"
+}LIMIT 1"
   template="{{>sourceIconTemplate}}"
 >
   <template id="sourceIconTemplate">
-    {{#each bindings}} {{#ifCond providerLabel.value "!==" undefined }}
-    {{#ifCond providerLabel.value "===" "ULAN" }}
-    <semantic-link-container uri="{{provider.value}}">
+    <semantic-link-container uri="{{bindings.0.provider.value}}">
       <img
-        title="{{providerLabel.value}}"
+        title="{{bindings.0.providerLabel.value}}"
         class="sourceIcon"
-        src="../../assets/images/getty.png"
+        src="../../assets/images/{{bindings.0.providerLabel.value}}.ico"
       />
     </semantic-link-container>
-    {{/ifCond}}
-    {{#ifCond providerLabel.value "===" "Pharos" }}
-    <semantic-link-container uri="{{provider.value}}">
-      <img
-        title="{{providerLabel.value}}"
-        class="sourceIcon"
-        src="../../assets/pharos.ico"
-      />
-    </semantic-link-container>
-    {{/ifCond}} {{#ifCond providerLabel.value "===" "I Tatti" }}
-    <semantic-link-container uri="{{provider.value}}">
-      <img
-        title="{{providerLabel.value}}"
-        class="sourceIcon"
-        src="../../assets/itatti.ico"
-    /></semantic-link-container>
-    {{/ifCond}} {{#ifCond providerLabel.value "===" "Zeri" }}
-    <semantic-link-container uri="{{provider.value}}"
-      ><img
-        title="{{providerLabel.value}}"
-        class="sourceIcon"
-        src="../../assets/zeri.ico"
-    /></semantic-link-container>
-    {{/ifCond}} {{#ifCond providerLabel.value "===" "Marburg" }}
-    <semantic-link-container uri="{{provider.value}}"
-      ><img
-        title="{{providerLabel.value}}"
-        class="sourceIcon"
-        src="../../assets/marburg.ico"
-    /></semantic-link-container>
-    {{/ifCond}} {{#ifCond providerLabel.value "===" "Hertziana" }}
-    <semantic-link-container uri="{{provider.value}}"
-      ><img
-        title="{{providerLabel.value}}"
-        class="sourceIcon"
-        src="../../assets/hertz.ico"
-    /></semantic-link-container>
-    {{/ifCond}} {{#ifCond providerLabel.value "===" "Frick" }}
-    <semantic-link-container uri="{{provider.value}}"
-      ><img
-        title="{{providerLabel.value}}"
-        class="sourceIcon"
-        src="../../assets/frick.ico"
-    /></semantic-link-container>
-    {{/ifCond}} {{#ifCond providerLabel.value "===" "KHI" }}
-    <semantic-link-container uri="{{provider.value}}"
-      ><img
-        title="{{providerLabel.value}}"
-        class="sourceIcon"
-        src="../../assets/khi.ico"
-    /></semantic-link-container>
-    {{/ifCond}} {{/ifCond}} {{/each}}
   </template>
 </semantic-query>
