@@ -1,0 +1,18 @@
+<div class="row row-center">
+  <div
+    id="main-container"
+    style="max-width: 1300px"
+    class="col-md-10 col-xs-10"
+  >
+    <!-- Title -->
+    <div class="row">
+      <div class="col-sm-7">
+        <header>
+          <h1>Artworks created by Female Artists</h1>
+        </header>
+      </div>
+    </div>
+    <!-- Filter search component -->
+    [[> rsp:collectionfiltersearch  searchQuery='?subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?a .?a rdfs:label ?label .?a owl:sameAs ?artist. ?artist <http://pharos.artresearch.net/resource/fr/Artist_has_gender> <http://vocab.getty.edu/aat/300189557>. FILTER NOT EXISTS {	?subject <https://pharos.artresearch.net/custom/has_provider> <https://pharos.artresearch.net/resource/frick/source/Frick>.}.'  ]]
+  </div>
+</div>

@@ -1,0 +1,93 @@
+<ol class="page-breadcrumb">
+  <li>
+    <mp-link title="Home" url="/">Home</mp-link>
+  </li>
+  <li class="active">
+    <mp-label iri='[[this]]'></mp-label>
+  </li>
+</ol>
+
+<div class="page rs-page">
+  [[#> rsp:ClipboardSidebar]]
+  <div class="page__header-navtabs">
+    [[> rsp:Header fc=fc fcLabel=fcLabel]]
+  </div>
+
+  [[#if (urlParam "tab")]]
+  <bs-tab-container id="tab-container" class="page__body-navtabs--borderless" default-active-key="[[urlParam 'tab']]">
+    [[else]]
+    <bs-tab-container id="tab-container" class="page__body-navtabs--borderless" default-active-key="summary">
+      [[/if]]
+      <div>
+        <bs-nav bs-style="tabs">
+          <bs-nav-item event-key="summary">Summary</bs-nav-item>
+        </bs-nav>
+
+        <bs-tab-content unmount-on-exit=true>
+          <bs-tab-pane event-key="summary">
+            <!-- Loads all IIIF images as 500px thumbnails (clickable with mirador popup) -->
+             [[> rsp:PhotographerSummaryImages]]
+             [[#if (ask "ASK {?? a <https://pharos.artresearch.net/resource/fc/institution>  }") ]] 
+              [[> rsp:InstitutionSummaryImages]]
+             [[/if]]
+             [[> rsp:ArtistInfo]]
+            <div>          
+            </div>
+          </bs-tab-pane>
+          <bs-tab-pane event-key="annotations">
+            [[> rsp:EntityAnnotations]]
+          </bs-tab-pane>
+  
+        </bs-tab-content>
+      </div>
+    </bs-tab-container>
+    [[/rsp:ClipboardSidebar]]
+</div>
+
+<style>
+
+  .workAndProductionInfo{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+  }
+
+  .workAndProductionInfo .workInfoContainer{
+    width: 45%;
+    margin: 10px;
+    padding: 20px;
+    min-width: 500px;
+    box-shadow: 0px 0px 20px 1px #f8f8f8;
+  }
+
+  .workAndProductionInfo .productionInfoContainer{
+    width: 45%;
+    margin: 10px;
+    padding: 20px;
+    min-width: 500px;
+    box-shadow: 0px 0px 20px 1px #f8f8f8;
+  }
+  
+  .miradorViewerPopup .grid-demo{
+    height: 92vh;
+}
+  .miradorViewerPopup .modal-dialog{
+      width: 85%;
+  }
+  .miradorViewerPopup .modal-title{
+      text-align: center;
+  }
+  .mirador-main-menu-bar{
+    display: none !important;
+    }
+
+    .mirador-viewer{
+        top: 0px !important;
+    }
+    .mirador-osd-annotation-controls{
+        display: none !important;
+    }
+
+    
+
+</style>

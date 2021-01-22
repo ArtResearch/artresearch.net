@@ -1,0 +1,82 @@
+<!-- Displays a row of photographs that are clickable (full size image popup) -->
+<div>
+  <semantic-query query='SELECT ?institutionName WHERE{
+    ?? rdfs:label ?name.
+    BIND(REPLACE(str(?name),"@en","") as ?institutionName)
+  }LIMIT 1'
+  template="{{> institutionNameTemplate}}">
+  <template id="institutionNameTemplate">
+    <semantic-query query='PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+      PREFIX wd: <http://www.wikidata.org/entity/>
+      PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+
+      SELECT DISTINCT ?imgUrl WHERE{
+        bind("_" as ?default_imageUrl)
+        OPTIONAL{
+          SERVICE <https://query.wikidata.org/sparql> 
+            {
+              {
+                ?institution wdt:P31 wd:Q33506 . 
+                ?institution rdfs:label "{{bindings.0.institutionName.value}}"@en .
+                ?institution wdt:P18 ?institutionImage
+              }UNION{
+                ?institution wdt:P31 wd:Q207694.
+                ?institution rdfs:label "{{bindings.0.institutionName.value}}"@en .
+                ?institution wdt:P18 ?institutionImage.
+              }
+            }
+        }
+        BIND(coalesce(?institutionImage, ?default_imageUrl) as ?imgUrl)    
+            }LIMIT 1' template='{{> imageThumbnail}}'>
+              <template id="imageThumbnail">
+                <!-- Only show image if imgUrl !== the _ character (aka 1 character length) -->
+                {{#ifCond (objectLength bindings.0.imgUrl.value) "!==" 1}} 
+                  <div class="rs-page__summary-image summaryImages">
+                    <div class="rs-page__summary-image">
+                    <mp-overlay-dialog title="Image from Wikidata‎‎"  type="lightbox">
+                      <mp-overlay-dialog-trigger>
+                              <img class="imageThumbnail" alt="Issue with image"  src="{{bindings.0.imgUrl.value}}"/>                         
+                      </mp-overlay-dialog-trigger>
+                      <mp-overlay-dialog-content>
+                          <img style="width: 100%; height:100%; object-fit: contain;" src="{{bindings.0.imgUrl.value}}"/>
+                      </mp-overlay-dialog-content>
+                    </mp-overlay-dialog>
+                  </div>    
+                </div>     
+              {{/ifCond}}  
+      </template>
+    </semantic-query>
+</template>
+</semantic-query>
+  </div>
+<style>
+  .summaryImages{
+    display: flex;
+    justify-content: center;
+    background: #f5f5f5;
+    border-radius: 4px !important;
+    max-height: 45vh;
+    overflow-y: scroll;
+  }
+
+  .imageThumbnail{
+    height: 40vh;
+    max-height: 400px;
+    margin:1vw;
+    cursor: pointer;
+    background-position: center;
+  }
+
+  .modal-content {
+    background-color: #f5f5f5 !important;
+  }
+  button.close{
+    color: black !important;
+    opacity: 1;
+    font-size: 55px !important;
+  }
+  .modal-content {
+    border:  none !important;
+    box-shadow: none !important
+}
+</style>

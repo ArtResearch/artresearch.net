@@ -1,0 +1,20 @@
+<div class="row row-center">
+  <div
+    id="main-container"
+    style="max-width: 1300px"
+    class="col-md-10 col-xs-10"
+  >
+    <!-- Title -->
+    <div class="row">
+      <div class="col-sm-7">
+        <header>
+          <h1>Artworks created by African American Artists</h1>
+        </header>
+      </div>
+    </div>
+    <!-- Filter search component -->
+    [[> rsp:collectionfiltersearch 
+    searchQuery='?subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?matchedArtist   .?matchedArtist owl:sameAs ?artist. {?artist <http://pharos.artresearch.net/resource/fr/Artist_has_Nationality> <http://vocab.getty.edu/aat/300018125> .} UNION {?artist rdfs:label "Tanner, Henry Ossawa" .} UNION {?artist rdfs:label "Lawrence, Jacob"} UNION {?artist rdfs:label "Harleston, Edwin Augustus "} UNION {?artist rdfs:label "Delaney, Beauford" .}' ]]
+  
+  </div>
+</div>

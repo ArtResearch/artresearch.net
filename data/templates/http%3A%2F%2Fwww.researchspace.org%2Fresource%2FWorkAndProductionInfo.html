@@ -10,7 +10,7 @@
     Subject="https://pharos.artresearch.net/fieldDefinition/46" 
     SubjectDescription="https://pharos.artresearch.net/fieldDefinition/62" 
     Collection="https://pharos.artresearch.net/fieldDefinition/4" 
-    Repository="https://pharos.artresearch.net/fieldDefinition/44" 
+    Repository="https://pharos.artresearch.net/fieldDefinition/Repository" 
     CurrentLocation="https://pharos.artresearch.net/fieldDefinition/93" 
     MuseumCreditLine="https://pharos.artresearch.net/fieldDefinition/71" 
     Dimensions="https://pharos.artresearch.net/fieldDefinition/6" 
@@ -19,7 +19,8 @@
     Inscription="https://pharos.artresearch.net/fieldDefinition/33" 
     StateofPreservation="https://pharos.artresearch.net/fieldDefinition/203" 
     ConditionAssessmentDescription="https://pharos.artresearch.net/fieldDefinition/68" 
-    IconclassInformation="https://pharos.artresearch.net/fieldDefinition/92" 
+    IconclassInformation="https://pharos.artresearch.net/fieldDefinition/92"
+    Artwork="https://pharos.artresearch.net/fieldDefinition/301"
     ]]'
     template='{{>workInfo}}'
     >
@@ -36,7 +37,8 @@
   subject="[[this]]"
   additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
   fields='[[fieldDefinitions  
-  Creator="https://pharos.artresearch.net/fieldDefinition/1" 
+  Creator="https://pharos.artresearch.net/fieldDefinition/1"
+  Photographer="https://pharos.artresearch.net/fieldDefinition/123"
   ProductionParticipant="https://pharos.artresearch.net/fieldDefinition/73" 
   InfluencedBy="https://pharos.artresearch.net/fieldDefinition/20" 
   AttributionReason="https://pharos.artresearch.net/fieldDefinition/204" 
@@ -48,7 +50,7 @@
   ProductionPlace="https://pharos.artresearch.net/fieldDefinition/145" 
   Technique="https://pharos.artresearch.net/fieldDefinition/42" 
   Attributions="https://pharos.artresearch.net/fieldDefinition/277" 
-  Technique="https://pharos.artresearch.net/fieldDefinition/278" 
+  ProductionType="https://pharos.artresearch.net/fieldDefinition/278" 
   ]]'template='{{>productionInfo}}'
   >
   <template id="productionInfo">
