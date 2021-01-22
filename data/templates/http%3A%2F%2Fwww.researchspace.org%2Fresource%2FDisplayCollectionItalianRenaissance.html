@@ -13,6 +13,6 @@
       </div>
     </div>
     <!-- Filter search component -->
-    [[> rsp:collectionfiltersearch  searchQuery='?subject <https://pharos.artresearch.net/resource/fr/Work_from_Date> ?date. ?date rdfs:label ?date_label. ?subject <https://pharos.artresearch.net/resource/fr/Work_to_Date> ?date2. ?date2 rdfs:label ?date2_label. FILTER ( ?date_label > "1500"). FILTER ( ?date2_label < "1700").' ]]
+    [[> rsp:collectionfiltersearch  searchQuery='?subject <https://pharos.artresearch.net/resource/fr/Work_from_Date> ?date. ?date rdfs:label ?date_label. ?subject <https://pharos.artresearch.net/resource/fr/Work_to_Date> ?date2. ?date2 rdfs:label ?date2_label. FILTER ( ?date_label > "1500"). FILTER ( ?date2_label < "1700"). FILTER NOT EXISTS{ ?subject crm:P2_has_type <https://pharos.artresearch.net/resource/type/pharos> }' ]]
   </div>
 </div>  
