@@ -215,7 +215,7 @@
                ?originalSubject owl:sameAs ?subject.
               }LIMIT 100"
               query='
-                      SELECT ?subject WHERE {
+                      SELECT DISTINCT ?subject WHERE {
                         ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
                         ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
                         ?entity ?p	?someLabel .
@@ -259,11 +259,9 @@
                ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
                ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
                ?originalSubject owl:sameAs ?subject.
-              }'
+              } LIMIT 100'
               query='
-                      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-                      PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-                      SELECT ?subject WHERE {
+                      SELECT DISTINCT ?subject WHERE {
                       ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
                       ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
                       ?subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?value.
@@ -311,9 +309,7 @@
                ?originalSubject owl:sameAs ?subject.
               }LIMIT 100'
               query='
-                      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-                      PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-                      SELECT ?subject WHERE {
+                      SELECT DISTINCT ?subject WHERE {
                       ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
                       ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
                       ?subject rdfs:label ?someLabel.
@@ -353,16 +349,15 @@
               placeholder="Search for a repository e.g. British Museum"
               escape-lucene-syntax="false"
               default-query='
-              SELECT DISTINCT ?subject ?originalSubject
+              SELECT DISTINCT ?subject
               WHERE {
+               ?originalSubject owl:sameAs ?subject.
                ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
                ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
-               ?originalSubject owl:sameAs ?subject.
               }LIMIT 100'
               query='
-                      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-                      PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-                      SELECT ?subject ?someLabel WHERE {
+                      SELECT DISTINCT ?subject ?someLabel WHERE {
+                      ?originalSubject owl:sameAs ?subject.
                       ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
                       ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
                       ?subject crm:P50_has_current_keeper ?value.
@@ -406,8 +401,7 @@
                   SELECT DISTINCT ?subject
                   WHERE {
                     ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
-                    ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
-                   }GROUP BY(?subject) LIMIT 100
+                   } LIMIT 100
                '
                 tuple-template="{{>tupleTemplate}}"
               >

@@ -189,13 +189,17 @@
               escape-lucene-syntax="false"
               domain="<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>"
               default-query="
-              SELECT  ?subject  
+              SELECT DISTINCT ?subject  
               WHERE {
-                ?artwork <http://www.cidoc-crm.org/cidoc-crm/P50_has_current_keeper> ?subject.
+                ?subject a <https://pharos.artresearch.net/resource/fc/institution>.
+                ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/institution>.
+                ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.
               }LIMIT 100"
               query='
-                      SELECT ?subject WHERE {
-                      ?artwork <http://www.cidoc-crm.org/cidoc-crm/P50_has_current_keeper> ?subject.
+                      SELECT DISTINCT ?subject WHERE {
+                      ?subject a <https://pharos.artresearch.net/resource/fc/institution>.
+                      ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/institution>.
+                      ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.
                       ?subject rdfs:label ?someLabel.
                       ?someLabel bds:search ?__token__ .
                       ?someLabel bds:minRelevance "0.3"^^xsd:double;
@@ -235,7 +239,6 @@
                 query='
                   SELECT DISTINCT ?subject ?institutionName
                    WHERE {
-                    ?artwork <http://www.cidoc-crm.org/cidoc-crm/P50_has_current_keeper> ?subject.
                     ?subject rdfs:label ?name.
                     BIND(REPLACE(STR(?name),"@en","") AS ?institutionName).
                    }LIMIT 100

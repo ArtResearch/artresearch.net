@@ -162,7 +162,7 @@
         for="switch-action-type"
         switch-on-field="switch-case-type"
       >
-        <semantic-form-switch-case label="Creator">
+        <semantic-form-switch-case label="Artist">
           <semantic-form-composite-input
             for="switch-action-type"
             new-subject-template="http://www.example.com/switch/action/artist"
@@ -185,18 +185,18 @@
             </semantic-form-hidden-input>
 
             <semantic-search-query-keyword
-              placeholder="Search for a creator e.g. Michelangelo"
+              placeholder="Search for an artist e.g. Michelangelo"
               escape-lucene-syntax="false"
               domain="<http://www.cidoc-crm.org/cidoc-crm/E21_Person>"
               default-query="
-              SELECT  ?subject  
+              SELECT DISTINCT ?subject  
               WHERE {
                 ?subject a <http://www.cidoc-crm.org/cidoc-crm/E21_Person>.
                 ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.
                          
               }LIMIT 100"
               query='
-                      SELECT ?subject WHERE {
+                      SELECT DISTINCT ?subject WHERE {
                       ?subject a <http://www.cidoc-crm.org/cidoc-crm/E21_Person>.
                       ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.
                       ?subject rdfs:label ?someLabel.
@@ -236,12 +236,10 @@
                     }'
                 number-of-displayed-rows="12"
                 query='
-                  SELECT DISTINCT ?subject ?artistName
+                  SELECT DISTINCT ?subject
                    WHERE {
                     ?subject a <http://www.cidoc-crm.org/cidoc-crm/E21_Person>.
                     ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.
-                    ?subject rdfs:label ?personName.
-                    BIND(REPLACE(STR(?personName),"@en","") AS ?artistName).
                    }LIMIT 100
                 '
                 tuple-template="{{>tupleTemplate}}"
@@ -260,40 +258,51 @@
                         >
                           <!-- Thumbnail for Person (fetch from wikidata (good luck)) -->
                           <semantic-query
-                            query='
-                          PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-                          PREFIX wd: <http://www.wikidata.org/entity/>
-                          PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-
-                          SELECT DISTINCT ?imgUrl WHERE{
-                            bind("_" as ?default_imageUrl)
-                            OPTIONAL{
-                          SERVICE <https://query.wikidata.org/sparql> 
-                                   {
-                                      { ?person wdt:P31 wd:Q5 . 
-                                        ?person wdt:P106 wd:Q483501.
-                                        ?person rdfs:label "{{artistName.value}}"@en .
-                                        ?person wdt:P18 ?personImage}
-                                      UNION{
-                                        ?person wdt:P31 wd:Q5 . 
-                                        ?person wdt:P106 wd:Q1028181.
-                                        ?person rdfs:label "{{artistName.value}}"@en .
-                                        ?person wdt:P18 ?personImage
-                                      }
-
+                            query=' PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                                  	SELECT DISTINCT ?artistName WHERE {
+																					<{{subject.value}}> rdfs:label ?personName.
+                                      	BIND(REPLACE(?personName,"@en","") AS ?artistName)
+                                  	} LIMIT 1'
+                                    template="{{> imageThumbnailq}}"
+                                  >
+                            <template id="imageThumbnailq">
+                              <semantic-query
+                                query='
+                              PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                              PREFIX wd: <http://www.wikidata.org/entity/>
+                              PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+                              SELECT DISTINCT ?imgUrl WHERE {
+                                BIND("_" AS ?default_imageUrl)
+                                OPTIONAL {
+                                  SERVICE <https://query.wikidata.org/sparql> {
+                                    {
+                                      ?person wdt:P31 wd:Q5;
+                                        wdt:P106 wd:Q483501;
+                                        rdfs:label "{{bindings.0.artistName.value}}"@en;
+                                        wdt:P18 ?personImage.
+                                    }
+                                    UNION
+                                    {
+                                      ?person wdt:P31 wd:Q5;
+                                        wdt:P106 wd:Q1028181;
+                                        rdfs:label "{{bindings.0.artistName.value}}"@en;
+                                        wdt:P18 ?personImage.
+                                    }
+                                  }
+                                }
+                                BIND(COALESCE(?personImage, ?default_imageUrl) AS ?imgUrl)
                               }
-                            }
-                              BIND(coalesce(?personImage, ?default_imageUrl) as ?imgUrl)    
-
-                                }LIMIT 1'
-                            template="{{> imageThumbnail}}"
-                          >
-                            <template id="imageThumbnail">
-                              <img
-                                alt="   "
-                                class="thumbnailImage"
-                                src="{{bindings.0.imgUrl.value}}"
-                              />
+                              LIMIT 1'
+                                template="{{> imageThumbnail}}"
+                              >
+                                <template id="imageThumbnail">
+                                  <img
+                                    alt="   "
+                                    class="thumbnailImage"
+                                    src="{{bindings.0.imgUrl.value}}"
+                                  />
+                                </template>
+                              </semantic-query>
                             </template>
                           </semantic-query>
                         </bs-col>

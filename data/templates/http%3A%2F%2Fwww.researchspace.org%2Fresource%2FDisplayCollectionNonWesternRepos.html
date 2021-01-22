@@ -1,0 +1,18 @@
+<div class="row row-center">
+  <div
+    id="main-container"
+    style="max-width: 1300px"
+    class="col-md-10 col-xs-10"
+  >
+    <!-- Title -->
+    <div class="row">
+      <div class="col-sm-7">
+        <header>
+          <h1>Artworks held at Non-Western Repositories</h1>
+        </header>
+      </div>
+    </div>
+    <!-- Filter search component -->
+    [[> rsp:collectionfiltersearch searchQuery='{ ?place rdfs:label "Egypt" } UNION { ?place rdfs:label "Iran" } UNION { ?place rdfs:label "Cairo" } UNION   { ?place rdfs:label "Aleppo" } UNION { ?place rdfs:label "Tehran" } UNION {   ?place rdfs:label "Jerusalem" } UNION { ?place rdfs:label "Alexandria" }   UNION { ?place rdfs:label "Medina" } UNION { ?place rdfs:label "Bethlehem" }   UNION { ?place rdfs:label "Tel Aviv" } ?subject crm:P50_has_current_keeper   ?repository. ?repository crm:P74_has_current_or_former_residence ?place.   ?place rdfs:label ?place_label.']] 
+  </div>
+</div>
