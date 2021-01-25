@@ -423,7 +423,7 @@
               animation="false"
               class="tabs-right"
             >
-              <bs-tab event-key="1" title="Grid">
+              <bs-tab event-key="1" title="Cards">
                 <semantic-search-result>
                    <!-- Table of Cards -->
                    <semantic-table
@@ -489,7 +489,7 @@
                                 <bs-row class="cardInfoFields">
                                   <h2>Title</h2>
                                   <h4><semantic-link iri="{{subject.value}}"></semantic-link></h4>
-                                  <h2>Created by</h2>
+                                  <h2>Creator</h2>
                                   <h4>
                                     <!-- Show Creator -->
                                     <semantic-query query='SELECT ?creator WHERE{
@@ -523,7 +523,7 @@
                  </semantic-table>
                 </semantic-search-result>
               </bs-tab>
-              <bs-tab event-key="2" title="Table">
+              <bs-tab event-key="2" title="Results">
                 <div id="tableView">
                 <semantic-search-result>
                   <semantic-table
@@ -1046,21 +1046,20 @@
     border-radius: 5px 0px 0px 5px;
     padding: 0;
     position: absolute;
-    height: -moz-available;
-    height: -webkit-fill-available;
-    height: fill-available;
+    height: 100%;
     left: 0;
     top: 0;
     min-height: 23vh;
   }
-  .thumbnailImage {
-    width: fit-content;
+.thumbnailImage {
+    width: 100%;
+    border-top: 0px !important;
     min-height: 23vh;
-    height: unset;
+    height: 100%;
     max-height: unset;
     min-width: unset;
     object-fit: cover;
-  }
+}
 
   #tableView{
     margin: 10px;

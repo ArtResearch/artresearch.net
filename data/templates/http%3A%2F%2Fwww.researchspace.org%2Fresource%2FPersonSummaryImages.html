@@ -9,22 +9,14 @@
     <semantic-query query='PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
       PREFIX wd: <http://www.wikidata.org/entity/>
       PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-
+			PREFIX wdtn: <http://www.wikidata.org/prop/direct-normalized/>
       SELECT DISTINCT ?imgUrl WHERE{
         bind("_" as ?default_imageUrl)
         OPTIONAL{
           SERVICE <https://query.wikidata.org/sparql> 
-                  {
-                      { ?person wdt:P31 wd:Q5 . 
-                        ?person wdt:P106 wd:Q483501.
-                        ?person rdfs:label "{{bindings.0.artistName.value}}"@en .
-                        ?person wdt:P18 ?personImage}
-                      UNION{
-                        ?person wdt:P31 wd:Q5 . 
-                        ?person wdt:P106 wd:Q1028181.
-                        ?person rdfs:label "{{bindings.0.artistName.value}}"@en .
+                  { 
+                        ?person wdtn:P245 ??.
                         ?person wdt:P18 ?personImage
-                      }
               }
           }
           BIND(coalesce(?personImage, ?default_imageUrl) as ?imgUrl)    

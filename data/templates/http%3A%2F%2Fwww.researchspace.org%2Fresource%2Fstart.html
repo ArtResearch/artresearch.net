@@ -7,9 +7,14 @@
 <div class="landing-top">
   <div class="welcome" data-flex-layout="column center-center">
     <div class="message">Welcome to The Pharos Digital Collections</div>
+    <div class="welcomeActions">
     <semantic-link-container uri="Default:Statistics"
-      ><h4 style="cursor: pointer">Show Statistics</h4></semantic-link-container
+      ><h4 class="welcomeAction">Statistics</h4></semantic-link-container
     >
+    <semantic-link-container uri="Default:DataProviders"
+    ><h4 class="welcomeAction">Providers</h4></semantic-link-container
+  >
+</div>
   </div>
 
   <div style="margin-top: 0px">
@@ -525,6 +530,18 @@
 <br />
 <br />
 <style>
+
+  .welcomeActions{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 20%
+  }
+  .welcomeActions .welcomeAction{
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+  }
   .landing-top {
     display: flex;
     flex-direction: column;
