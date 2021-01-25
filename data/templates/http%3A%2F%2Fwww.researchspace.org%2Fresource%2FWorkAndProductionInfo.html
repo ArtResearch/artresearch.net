@@ -22,21 +22,22 @@
     IconclassInformation="https://pharos.artresearch.net/fieldDefinition/92"
     Artwork="https://pharos.artresearch.net/fieldDefinition/301"
     ]]'
-    template='{{>workInfo}}'
-    >
-  <template id="workInfo">
-    <div class="workInfoContainer">
-    <h2>Work info</h2>
-      [[> rsp:ResourceFieldBasedVisualization subject=[[this]] showSourceIcon="true" ]]
-    </div>
-  </template>
+    template="{{>workInfo}}"
+  >
+    <template id="workInfo">
+      <div class="workInfoContainer">
+        <h2>Work info</h2>
+        [[> rsp:ResourceFieldBasedVisualization subject=[[this]]
+        showSourceIcon="true" ]]
+      </div>
+    </template>
   </mp-field-visualization>
 
   <!-- Fields for Production -->
   <mp-field-visualization
-  subject="[[this]]"
-  additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
-  fields='[[fieldDefinitions  
+    subject="[[this]]"
+    additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
+    fields='[[fieldDefinitions  
   Creator="https://pharos.artresearch.net/fieldDefinition/1"
   Photographer="https://pharos.artresearch.net/fieldDefinition/123"
   ProductionParticipant="https://pharos.artresearch.net/fieldDefinition/73" 
@@ -51,21 +52,23 @@
   Technique="https://pharos.artresearch.net/fieldDefinition/42" 
   Attributions="https://pharos.artresearch.net/fieldDefinition/277" 
   ProductionType="https://pharos.artresearch.net/fieldDefinition/278" 
-  ]]'template='{{>productionInfo}}'
+  ]]'
+    template="{{>productionInfo}}"
   >
-  <template id="productionInfo">
-  <div class="productionInfoContainer">
-  <h2>Production info</h2>
-    [[> rsp:ResourceFieldBasedVisualization subject=[[this]] showSourceIcon="true"  ]]
-  </div>
-  </template>
+    <template id="productionInfo">
+      <div class="productionInfoContainer">
+        <h2>Production info</h2>
+        [[> rsp:ResourceFieldBasedVisualization subject=[[this]]
+        showSourceIcon="true" ]]
+      </div>
+    </template>
   </mp-field-visualization>
 
   <!-- General fields -->
   <mp-field-visualization
-  subject="[[this]]"
-  additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
-  fields='[[fieldDefinitions  
+    subject="[[this]]"
+    additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
+    fields='[[fieldDefinitions  
   Identifiers="https://pharos.artresearch.net/fieldDefinition/19" 
   HistoryofOwnership="https://pharos.artresearch.net/fieldDefinition/39" 
   PastOwnership="https://pharos.artresearch.net/fieldDefinition/18" 
@@ -89,19 +92,37 @@
   CuratorialNote="https://pharos.artresearch.net/fieldDefinition/81"
   HasPart="https://pharos.artresearch.net/fieldDefinition/91"
   IsPartOf="https://pharos.artresearch.net/fieldDefinition/94"
-  ]]'template='{{>generalInfo}}'
+  WorkLocation = "https://pharos.artresearch.net/fieldDefinition/geonames_name"
+  ]]'
+    template="{{>generalInfo}}"
   >
-  <template id="generalInfo">
-  <div class="workInfoContainer">
-  <h2>General info</h2>
-  [[> rsp:ResourceFieldBasedVisualization subject=[[this]] showSourceIcon="true" ]]
-  </div>
-  </template>
+    <template id="generalInfo">
+      <div class="workInfoContainer">
+        <h2>Other details</h2>
+        [[> rsp:ResourceFieldBasedVisualization subject=[[this]]
+        showSourceIcon="true" ]]
+        <div style="height: 25vh;">
+          <semantic-map
+            query=" PREFIX osm: <http://www.metaphacts.com/ontologies/osm#>
+    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+    PREFIX wd: <http://www.wikidata.org/entity/>
+
+    SELECT ?lat ?lng WHERE {
+      ?? <https://pharos.artresearch.net/resource/fr/Work_from_Place> ?geonames.
+      ?geonames <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat .
+      ?geonames <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng .
+
+    }LIMIT 1"
+          >
+          </semantic-map>
+        </div>
+      </div>
+    </template>
   </mp-field-visualization>
- 
+
   <!-- Photographs detailed information -->
   <div class="workInfoContainer">
-    <h2>Photographs info</h2>
-    [[> rsp:PhotographTable]]            
+    <h2>Photographs</h2>
+    [[> rsp:PhotographTable]]
   </div>
 </div>
