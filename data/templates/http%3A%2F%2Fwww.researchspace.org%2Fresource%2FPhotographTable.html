@@ -1,77 +1,9 @@
-<!-- This template displays a table of photographs with related info -->
-[[#if (ask "ASK {?? crm:P138i_is_represented_by ?visual_item. ?visual_item crm:P128i_is_carried_by ?photo. ?photo crm:P129i_is_subject_of ?verso. ?verso crm:P2_has_type ?typev .?typev rdfs:label 'verso'. }") ]]         
-<semantic-table 
-query='PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
- PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-  PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 
-  SELECT distinct ?photo ?photo_label ?keeper ?keeper_label ?photographer ?photographer_label ?rectoImage ?versoImage WHERE 
-{
-    ?? crm:P138i_is_represented_by ?visual_item.
-    ?visual_item crm:P128i_is_carried_by ?photo.
-    ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
-    ?photo rdfs:label ?photo_label.
-    ?photo crm:P50_has_current_keeper ?keeper.
-    ?keeper rdfs:label ?keeper_label.
-    ?photo crm:P108i_was_produced_by ?production .
-    ?production crm:P14_carried_out_by ?photographer.
-    ?photographer rdfs:label ?photographer_label.
-     
-    ?photo crm:P129i_is_subject_of ?recto.
-    ?recto crm:P2_has_type ?typer .
-    ?typer rdfs:label "recto".
-    ?photo crm:P129i_is_subject_of ?verso.
-    ?verso crm:P2_has_type ?typev .
-    ?typev rdfs:label "verso".
-   
-    BIND(REPLACE(STR(?recto),"full/full","full/100,") AS ?rectoImage).
-    BIND(REPLACE(STR(?verso),"full/full","full/100,") AS ?versoImage).
-
-}' 
-options='{"showFilter": false, "showTableHeading": false}'
-tuple-template='{{> photos}}'
-no-result-template='<div class="table-responsive rs-table"><table class="table table-hover"><tbody><tr><td>No data available</td><td></td></tr></tbody></table></div>'
->
-
-<template id='photos'>
-<table class='table'>
-  <tr>
-    <td>
-       <semantic-link iri="{{photo.value}}"> 
-       <img src={{rectoImage.value}} style="max-height:70px; max-width:70px; margin: 0 auto;" class="img-rounded">
-       </semantic-link>
-    </td>
-    <td>
-       <semantic-link iri="{{photo.value}}"> 
-         <img src={{versoImage.value}} style="max-height:50px; max-width:50px; margin: 0 auto;" class="img-rounded">
-       </semantic-link>
-    </td>
-    <td>
-       Photograph:
-       <semantic-link iri="{{photo.value}}"> 
-       {{photo_label.value}}
-      </semantic-link> <br>
-      Photographer:
-       <semantic-link iri="{{photographer.value}}"> 
-       {{photographer_label.value}}
-      </semantic-link> <br>
-      Keeper:
-      <semantic-link iri="{{keeper.value}}"> 
-      {{keeper_label.value}}
-       </semantic-link>
-     </td>
-  </tr>
-</table>
-
-</template>    
-</semantic-table>
-[[else]]
-<semantic-table 
-query='PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
- PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-  PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
-
-  SELECT distinct ?photo ?photo_label ?keeper ?keeper_label ?photographer ?photographer_label ?rectoImage WHERE 
+[[#if (ask "ASK { {?? crm:P138i_is_represented_by ?visual_item. ?visual_item crm:P128i_is_carried_by ?photo.  ?photo rdfs:label ?photo_label.} UNION{?originalSubject owl:sameAs ??. ?originalSubject crm:P138i_is_represented_by ?visual_item. ?visual_item crm:P128i_is_carried_by ?photo. ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>. ?photo rdfs:label ?photo_label.}}") ]] 
+<div style="margin-top:45px"> <h2>Photographs</h2></div>
+<semantic-query
+query='  
+SELECT distinct ?photo ?photo_label ?keeper ?keeper_label ?photographer ?photographer_label ?rectoImage WHERE 
 {
     
     {
@@ -79,11 +11,17 @@ query='PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
       ?visual_item crm:P128i_is_carried_by ?photo.
       ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
       ?photo rdfs:label ?photo_label.
-      ?photo crm:P50_has_current_keeper ?keeper.
-      ?keeper rdfs:label ?keeper_label.
-      ?photo crm:P108i_was_produced_by ?production .
-      ?production crm:P14_carried_out_by ?photographer.
-      ?photographer rdfs:label ?photographer_label.
+      OPTIONAL
+      {
+        ?photo crm:P50_has_current_keeper ?keeper.
+        ?keeper rdfs:label ?keeper_label.
+      }
+      OPTIONAL
+      {
+        ?photo crm:P108i_was_produced_by ?production .
+        ?production crm:P14_carried_out_by ?photographer.
+        ?photographer rdfs:label ?photographer_label.
+      }
       ?photo crm:P129i_is_subject_of ?recto.
     }UNION{
       ?originalSubject owl:sameAs ??.
@@ -91,47 +29,85 @@ query='PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
       ?visual_item crm:P128i_is_carried_by ?photo.
       ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
       ?photo rdfs:label ?photo_label.
-      ?photo crm:P50_has_current_keeper ?keeper.
-      ?keeper rdfs:label ?keeper_label.
-      ?photo crm:P108i_was_produced_by ?production .
-      ?production crm:P14_carried_out_by ?photographer.
-      ?photographer rdfs:label ?photographer_label.
+      OPTIONAL
+      {
+        ?photo crm:P50_has_current_keeper ?keeper.
+        ?keeper rdfs:label ?keeper_label.
+      }
+      OPTIONAL
+      {
+        ?photo crm:P108i_was_produced_by ?production .
+        ?production crm:P14_carried_out_by ?photographer.
+        ?photographer rdfs:label ?photographer_label.
+      }
       ?photo crm:P129i_is_subject_of ?recto.
     }
-
-
     BIND(REPLACE(STR(?recto),"full/full","full/100,") AS ?rectoImage).
-  
 }' 
-options='{"showFilter": false, "showTableHeading": false}'
-tuple-template='{{> photos}}'
+template='{{> photos}}'
 >
      
 <template id='photos'>
-<table class='table'>
-  <tr>
+  {{#each bindings}}
+  <div class="photographFieldView">
     <td>
        <semantic-link iri="{{photo.value}}"> 
        <img src={{rectoImage.value}} style="max-height:70px; max-width:70px; margin: 0 auto;" class="img-rounded">
        </semantic-link>
     </td>
-    <td>
-       Photograph:
-       <semantic-link iri="{{photo.value}}"> 
-       {{photo_label.value}}
-      </semantic-link> <br>
-      Photographer:
-       <semantic-link iri="{{photographer.value}}"> 
-       {{photographer_label.value}}
-      </semantic-link> <br>
-      Keeper:
-      <semantic-link iri="{{keeper.value}}"> 
-      {{keeper_label.value}}
-       </semantic-link>
-     </td>
-  </tr>
-</table>
-
+    <div class="photographFieldViewData">
+        <td class="rs-page-resource__field-label">Photograph</td>
+        <td>
+          <span class="rs-page-resource__field-value">
+            <div class="visualizationValue"> <semantic-link iri="{{photo.value}}"> 
+              {{photo_label.value}}
+             </semantic-link></div>
+          </span>
+        </td>
+      </tr>
+      {{#ifCond photographer_label.value "!==" undefined}}
+      <tr>
+        <td class="rs-page-resource__field-label">Photographer</td>
+        <td>
+          <span class="rs-page-resource__field-value">
+            <div class="visualizationValue"> 
+              <semantic-link iri="{{photographer.value}}"> 
+              {{photographer_label.value}}
+             </semantic-link>
+            </div>
+          </span>
+        </td>
+      </tr>
+      {{/ifCond}}
+      
+      {{#ifCond keeper_label.value "!==" undefined}}
+      <tr>
+        <td class="rs-page-resource__field-label">Keeper</td>
+        <td>
+          <span class="rs-page-resource__field-value">
+            <div class="visualizationValue"> 
+              <semantic-link iri="{{keeper.value}}"> 
+                {{keeper_label.value}}
+              </semantic-link>
+            </div>
+          </span>
+        </td>
+      </tr>
+      {{/ifCond}}
+    </div>
+</div>
+{{/each}}
 </template>    
-</semantic-table>
-[[/if]] 
+</semantic-query>
+[[/if]]
+<style>
+  .photographFieldView{
+    display: flex;
+    margin-top: 25px;
+  }
+  .photographFieldViewData{
+    display: flex;
+    flex-direction: column;
+    margin-left: 15px;
+  }
+</style>

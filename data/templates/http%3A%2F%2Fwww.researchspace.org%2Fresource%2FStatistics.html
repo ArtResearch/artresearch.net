@@ -5,7 +5,67 @@
   </div>
   <bs-tabs class="page__body-navtabs--borderless-no-image" unmount-on-exit=true>
     <bs-tab event-key="1" title="Artworks">
-      
+      <!-- <div style="text-align: center; width: 100%;">
+        <h1><div style="color: gray !important">Total number of Artworks:</div></h1>
+        <h1><semantic-query query='SELECT (SUM(?count) as ?totalCount) WHERE {
+          {
+            # ITatti
+          SELECT ?person (SUM(?c) as ?count) WHERE{
+            {
+              GRAPH <https://pharos.artresearch.net/resource/itatti/source/ITatti/statistics/graph> {
+                ?p <https://pharos.artresearch.net/custom/numOfWorks> ?c
+              }
+              BIND(iri("https://pharos.artresearch.net/resource/itatti/source/ITatti") as ?person)
+            }
+            union{           
+              # FotoIndex
+              GRAPH <https://pharos.artresearch.net/resource/itatti/source/FotoIndex/statistics/graph> {
+                ?p <https://pharos.artresearch.net/custom/numOfWorks> ?c
+              }
+              BIND(iri("https://pharos.artresearch.net/resource/itatti/source/ITatti") as ?person)
+            }
+            union{           
+              # SharedShelf
+              GRAPH <https://pharos.artresearch.net/resource/itatti/source/SharedShelf/statistics/graph> {
+                ?p <https://pharos.artresearch.net/custom/numOfWorks> ?c
+              }
+              BIND(iri("https://pharos.artresearch.net/resource/itatti/source/ITatti") as ?person)
+            }
+          }GROUP BY ?person
+          }             
+          union{
+            # Zeri
+            GRAPH <https://pharos.artresearch.net/resource/zeri/source/Zeri/statistics/graph> {
+              ?person <https://pharos.artresearch.net/custom/numOfWorks> ?count
+            }
+          }
+          union{           
+            # Frick
+            GRAPH <https://pharos.artresearch.net/resource/frick/source/Frick/statistics/graph> {
+              ?person <https://pharos.artresearch.net/custom/numOfWorks> ?count
+            }
+          }
+          union{           
+            # KHI
+            GRAPH <https://pharos.artresearch.net/resource/khi/source/KHI/statistics/graph> {
+              ?person <https://pharos.artresearch.net/custom/numOfWorks> ?count
+            }
+          }
+          union{           
+            # Hertziana
+            GRAPH <https://pharos.artresearch.net/resource/hertziana/source/Hertziana/statistics/graph> {
+              ?person <https://pharos.artresearch.net/custom/numOfWorks> ?count
+            }
+          }
+          union{           
+            # Marburg
+            GRAPH <https://pharos.artresearch.net/resource/marburg/source/Marburg/statistics/graph> {
+              ?person <https://pharos.artresearch.net/custom/numOfWorks> ?count
+            }
+          }
+        } ORDER BY ASC(?person)' 
+        ></semantic-query></h1>
+      </div> -->
    <mp-component-toolbar>
        <mp-component-toolbar-actions>
          <semantic-chart-type-selector  default="donut" types='["line", "bar", "radar", "pie", "donut"]' />

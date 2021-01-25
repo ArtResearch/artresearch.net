@@ -25,11 +25,14 @@
     template="{{>workInfo}}"
   >
     <template id="workInfo">
+      {{#if noData}}
+      {{else}}
       <div class="workInfoContainer">
         <h2>Work info</h2>
         [[> rsp:ResourceFieldBasedVisualization subject=[[this]]
         showSourceIcon="true" ]]
       </div>
+      {{/if}}
     </template>
   </mp-field-visualization>
 
@@ -56,11 +59,19 @@
     template="{{>productionInfo}}"
   >
     <template id="productionInfo">
+      {{#if noData}}
+      <!-- Photographs detailed information -->
+      [[> rsp:PhotographTable]]
+      {{else}}
       <div class="productionInfoContainer">
         <h2>Production info</h2>
         [[> rsp:ResourceFieldBasedVisualization subject=[[this]]
         showSourceIcon="true" ]]
+      [[> rsp:PhotographTable]]
       </div>
+
+      {{/if}}
+        
     </template>
   </mp-field-visualization>
 
@@ -97,11 +108,13 @@
     template="{{>generalInfo}}"
   >
     <template id="generalInfo">
+      {{#if noData}}
+      {{else}}
       <div class="workInfoContainer">
         <h2>Other details</h2>
         [[> rsp:ResourceFieldBasedVisualization subject=[[this]]
         showSourceIcon="true" ]]
-        <div style="height: 25vh;">
+        <!-- <div style="height: 25vh;">
           <semantic-map
             query=" PREFIX osm: <http://www.metaphacts.com/ontologies/osm#>
     PREFIX wdt: <http://www.wikidata.org/prop/direct/>
@@ -114,15 +127,10 @@
 
     }LIMIT 1"
           >
-          </semantic-map>
-        </div>
+          </semantic-map> 
+        </div>-->
       </div>
+      {{/if}}
     </template>
   </mp-field-visualization>
-
-  <!-- Photographs detailed information -->
-  <div class="workInfoContainer">
-    <h2>Photographs</h2>
-    [[> rsp:PhotographTable]]
-  </div>
 </div>
