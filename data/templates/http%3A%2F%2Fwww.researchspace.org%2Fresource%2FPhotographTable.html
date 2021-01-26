@@ -3,7 +3,7 @@
 <div style="margin-top:45px"> <h2>Photographs</h2></div>
 <semantic-query
 query='  
-SELECT distinct ?photo ?photo_label ?keeper ?keeper_label ?photographer ?photographer_label ?rectoImage WHERE 
+SELECT distinct ?photo ?photo_label ?keeper ?keeper_label ?rectoImage WHERE 
 {
     
     {
@@ -43,7 +43,7 @@ SELECT distinct ?photo ?photo_label ?keeper ?keeper_label ?photographer ?photogr
       ?photo crm:P129i_is_subject_of ?recto.
     }
     BIND(REPLACE(STR(?recto),"full/full","full/100,") AS ?rectoImage).
-}' 
+}LIMIT 4' 
 template='{{> photos}}'
 >
      

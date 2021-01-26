@@ -487,31 +487,21 @@
                             <bs-col class="cardInfo" lg="7" md="10" xs="10">
                               <div data-flex-layout="row md-column center-stretch">
                                 <bs-row class="cardInfoFields">
-                                  <h2>Title</h2>
-                                  <h4><semantic-link iri="{{subject.value}}"></semantic-link></h4>
-                                  <h2>Creator</h2>
-                                  <h4>
-                                    <!-- Show Creator -->
-                                    <semantic-query query='SELECT ?creator WHERE{
-                                    <{{subject.value}}> <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?creator
-                                    }'>
-                                    <semantic-link iri="{{creator.value}}"></semantic-link>
-                                    </semantic-query>
-                                  </h4>
-                                    <!-- Show Production date -->
-                                    <semantic-query query='SELECT ?productionDate WHERE{
-                                      ?originalSubject owl:sameAs <{{subject.value}}>.
-                                      ?originalSubject <http://www.cidoc-crm.org/cidoc-crm/P108i_was_produced_by> ?production .
-                                      ?production <http://www.cidoc-crm.org/cidoc-crm/P4_has_time-span> ?timespan .
-                                      ?timespan crm:P82_at_some_time_within ?productionDate
-                                    }' template="{{>productionDateTemplate}}">
-                                    <template id="productionDateTemplate">
-                                      <h2>Production Date</h2>
-                                      <h4>
-                                      {{bindings.0.productionDate.value}}
-                                      </h4>
-                                    </template>
-                                    </semantic-query>
+                                  <mp-field-visualization
+                                  additional-subjects='["{{originalSubject.value}}"]'
+                                  fields='[[fieldDefinitions  
+                                  Title="https://pharos.artresearch.net/fieldDefinition/2"
+                                  Creator="https://pharos.artresearch.net/fieldDefinition/1"  
+                                  ProductionDate="https://pharos.artresearch.net/fieldDefinition/8"
+                                  Repository="https://pharos.artresearch.net/fieldDefinition/Repository"
+                                ]]'
+                                  template="{{>generalInfo}}"
+                                >
+                                  <template id="generalInfo">
+                                    [[> rsp:ResourceFieldBasedVisualization
+                                    subject=[[this]] ]]
+                                  </template>
+                                </mp-field-visualization>
                                 </bs-row>
                               </div>
                             </bs-col>
@@ -737,6 +727,16 @@
 </div>
 
 <style>
+
+.visualizationValue {
+    font-size: medium !important;
+    min-width: 14vw;
+    max-width: 14vw;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
   .QueryBuilder--addDisjunctButton {
     visibility: initial !important;
     height: 5vh !important;
@@ -996,14 +996,17 @@
   .artwork-card {
     width: 100% !important;
     min-height: 23vh;
+    height: 28vh !important;
     height: fit-content;
     padding: 2vh 0 2vh 0;
   }
-
+  .table-responsive>.table>tbody>tr>td{
+    padding: 0 !important;
+  }
   .cardInfo {
     position: relative;
-    left: 5vw;
-    top: 0vh;
+    left: 5.5vw;
+    top: -1.5vh;
     background: #ffffffe8;
     border-radius: 0px 0px 4px 4px;
   }
@@ -1051,14 +1054,17 @@
     top: 0;
     min-height: 23vh;
   }
+
 .thumbnailImage {
     width: 100%;
     border-top: 0px !important;
+    border-top-right-radius: 0px !important;
     min-height: 23vh;
     height: 100%;
     max-height: unset;
     min-width: unset;
-    object-fit: cover;
+    object-fit: contain;
+   background: whitesmoke;
 }
 
   #tableView{

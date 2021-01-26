@@ -5,23 +5,32 @@
       <mp-event-target-template-render id='event-target' template='{{> mainImageTemplate}}'>
         <template id='mainImageTemplate'>
             <semantic-query query='SELECT DISTINCT ?imageUrl ?iiifServer WHERE{
+                {
                 ?? <https://pharos.artresearch.net/custom/has_provider> ?provider.
                 ?provider <https://pharos.artresearch.net/custom/has_iiif_server> ?iiifServer.
                 BIND(STR("{{imgURL}}") AS ?imageUrl).
+                }union{
+                  ?original owl:sameAs ??.
+                  ?original <https://pharos.artresearch.net/custom/has_provider> ?provider.
+                  ?provider <https://pharos.artresearch.net/custom/has_iiif_server> ?iiifServer.
+                  BIND(STR("{{imgURL}}") AS ?imageUrl).
+
+                }
                 }' template='{{> iiifViewer}}'>
                 <template id="iiifViewer">
                  
                   {{#ifCond  (objectLength bindings.0.imageUrl.value) "!==" 0}}  
                     <rs-iiif-mirador
                     image-or-region="[[this]]" 
-                    image-id-pattern='BIND("image" AS ?type). BIND(?? AS ?imageIRI). 
-                    ?? crm:P138i_is_represented_by ?visual_item.
+                    image-id-pattern='
+                    ?subject crm:P138i_is_represented_by ?visual_item.
                     ?visual_item crm:P128i_is_carried_by ?photo.
                     ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
-                    ?photo crm:P129i_is_subject_of ?image.
-                    ?image crm:P2_has_type <http://iiif.io/api/image>.
-                    FILTER(str(?image) = "{{bindings.0.imageUrl.value}}").
-                    BIND(REPLACE(STR(REPLACE(STR(?image),"/full/full/0/*","")), "(^.*)\\/(.*)$", "$2") AS ?idWithDefaultNative).
+                    ?photo crm:P129i_is_subject_of <{{bindings.0.imageUrl.value}}>.
+                    <{{bindings.0.imageUrl.value}}> crm:P2_has_type <http://iiif.io/api/image>.
+                    BIND("image" AS ?type). 
+                    BIND(?subject AS ?imageIRI). 
+                    BIND(REPLACE(STR(REPLACE(STR("{{bindings.0.imageUrl.value}}"),"/full/full/0/*","")), "(^.*)\\/(.*)$", "$2") AS ?idWithDefaultNative).
                     BIND(REPLACE(?idWithDefaultNative,"default.jpg","") AS ?idWithNative).
                     BIND(REPLACE(?idWithNative,"native.jpg","") AS ?imageID).
                     '                                                                       
@@ -32,12 +41,24 @@
                   {{#ifCond (objectLength bindings.0.imageUrl.value) "===" 0}}  
                     <rs-iiif-mirador
                     image-or-region="[[this]]" 
-                    image-id-pattern='BIND("image" AS ?type). BIND(?? AS ?imageIRI). 
-                    ?? crm:P138i_is_represented_by ?visual_item.
-                    ?visual_item crm:P128i_is_carried_by ?photo.
-                    ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
-                    ?photo crm:P129i_is_subject_of ?image.
-                    ?image crm:P2_has_type <http://iiif.io/api/image>.
+                    image-id-pattern='
+                    {
+                      ?? crm:P138i_is_represented_by ?visual_item.
+                      ?visual_item crm:P128i_is_carried_by ?photo.
+                      ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
+                      ?photo crm:P129i_is_subject_of ?image.
+                      ?image crm:P2_has_type <http://iiif.io/api/image>.
+                      BIND(?? AS ?imageIRI). 
+                    }UNION{
+                      ?original owl:sameAs ??.
+                      ?original crm:P138i_is_represented_by ?visual_item.
+                      ?visual_item crm:P128i_is_carried_by ?photo.
+                      ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
+                      ?photo crm:P129i_is_subject_of ?image.
+                      ?image crm:P2_has_type <http://iiif.io/api/image>.
+                      BIND(?original AS ?imageIRI). 
+                    }
+                    BIND("image" AS ?type).
                     BIND(REPLACE(STR(REPLACE(STR(?image),"/full/full/0/*","")), "(^.*)\\/(.*)$", "$2") AS ?idWithDefaultNative).
                     BIND(REPLACE(?idWithDefaultNative,"default.jpg","") AS ?idWithNative).
                     BIND(REPLACE(?idWithNative,"native.jpg","") AS ?imageID).
@@ -58,26 +79,57 @@
 						 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 		 				 PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 
-					 	 SELECT distinct ?photo ?photo_label ?keeper ?keeper_label ?photographer ?photographer_label ?recto ?rectoImage ?json WHERE 
+					 	 SELECT distinct ?photo ?photo_label ?keeper ?keeper_label ?recto ?rectoImage ?json WHERE 
 						{
-  							?? crm:P138i_is_represented_by ?visual_item.
-  							?visual_item crm:P128i_is_carried_by ?photo.
-  							?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
-              
-                ?photo crm:P50_has_current_keeper ?keeper.
-                ?keeper rdfs:label ?keeper_label.
-                ?photo crm:P108i_was_produced_by ?production .
-                ?production crm:P14_carried_out_by ?photographer.
-                ?photographer rdfs:label ?phototographer_label.
-   
+              {             
+                ?? crm:P138i_is_represented_by ?visual_item.
+                ?visual_item crm:P128i_is_carried_by ?photo.
+                ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
+                ?photo rdfs:label ?photo_label.
+                OPTIONAL
+                {
+                  ?photo crm:P50_has_current_keeper ?keeper.
+                  ?keeper rdfs:label ?keeper_label.
+                }
+                OPTIONAL
+                {
+                  ?photo crm:P108i_was_produced_by ?production .
+                  ?production crm:P14_carried_out_by ?photographer.
+                  ?photographer rdfs:label ?photographer_label.
+                }
                 ?photo crm:P129i_is_subject_of ?recto.
-                ?recto crm:P2_has_type <http://iiif.io/api/image> .
-  							?recto crm:P2_has_type ?typer .
-                ?typer rdfs:label "recto".
-                ?recto crm:P129i_is_subject_of ?json .
-
-                 BIND(REPLACE(STR(?recto),"full/full","full/350,") AS ?rectoImage).
-        			
+                OPTIONAL{
+                  ?recto crm:P2_has_type <http://iiif.io/api/image> .
+                  ?recto crm:P2_has_type ?typer .
+                  ?typer rdfs:label "recto".
+                  ?recto crm:P129i_is_subject_of ?json .
+                }
+              }UNION{
+                ?originalSubject owl:sameAs ??.
+                ?originalSubject crm:P138i_is_represented_by ?visual_item.
+                ?visual_item crm:P128i_is_carried_by ?photo.
+                ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
+                ?photo rdfs:label ?photo_label.
+                OPTIONAL
+                {
+                  ?photo crm:P50_has_current_keeper ?keeper.
+                  ?keeper rdfs:label ?keeper_label.
+                }
+                OPTIONAL
+                {
+                  ?photo crm:P108i_was_produced_by ?production .
+                  ?production crm:P14_carried_out_by ?photographer.
+                  ?photographer rdfs:label ?photographer_label.
+                }
+                ?photo crm:P129i_is_subject_of ?recto.
+                OPTIONAL{
+                  ?recto crm:P2_has_type <http://iiif.io/api/image> .
+                  ?recto crm:P2_has_type ?typer .
+                  ?typer rdfs:label "recto".
+                  ?recto crm:P129i_is_subject_of ?json .
+                }
+              }
+              BIND(REPLACE(STR(?recto),"full/full","full/350,") AS ?rectoImage).			
             }'
       options='{"showFilter": false, "showTableHeading": false}'
       tuple-template="{{> photos}}"
@@ -98,11 +150,11 @@
               {{photo.value}}
             </semantic-link>
             <br />
-            <h4>Photographer:</h4>
+            <!-- <h4>Photographer:</h4>
             <semantic-link iri="{{photographer.value}}">
               {{photographer_label.value}}
             </semantic-link>
-            <br />
+            <br /> -->
             <h4>IIIF Image:</h4>
             <a
               target="_null"
