@@ -27,30 +27,164 @@
             {{field.label.0.value}}
           </span>
         </td>
-        <td>
-          {{#ifCond (objectLength field.values) '>' 1}}
-          <ul style="padding: 0" class="rs-page__field-value">
+        {{#ifCond (objectLength field.values) '===' 1}}
+        <table class="table table-hover">
+          <tbody>
+            <tr>
+              <td>
+                {{#each field.values as |value|}}
+                <span class="rs-page-resource__field-value"
+                  >{{> rsp:ResourceFieldValueVisualization field=field
+                  value=value }}
+                </span>
+                {{/each}}
+              </td>
+              [[#if showSourceIcon]]
+              <td>
+                <div class="sourceIcons">
+                  {{#each field.values as |value|}} [[> rsp:SourceIcon ]]
+                  {{/each}}
+                </div>
+              </td>
+              [[/if]]
+              <td class="center rs-page__count--title">
+                <div class="rs-page__count--field-annotation">
+                  <semantic-link
+                    title="View existing annotations"
+                    uri="http://www.researchspace.org/resource/Field"
+                    urlqueryparam-tab="annotations"
+                    urlqueryparam-field="test"
+                    urlqueryparam-subject="test"
+                  >
+                    <semantic-context repository="assets">
+                      <semantic-query
+                        query="SELECT (COUNT(DISTINCT ?annotation) AS ?count) WHERE {
+                              BIND(0 as ?count) .
+                            }"
+                        template="{{> template}}"
+                      >
+                        <template id="template">
+                          <span
+                            class='fa-pencil fa badge{{#ifCond bindings.0.count.value ">" 0}} active{{/ifCond}}'
+                            >{{bindings.0.count.value}}</span
+                          >
+                        </template>
+                      </semantic-query>
+                    </semantic-context>
+                  </semantic-link>
+                </div>
+              </td>
+              <td class="center rs-page__count--title">
+                <div class="rs-page__count--field-assertion">
+                  <semantic-link
+                    title="View existing assertions"
+                    uri="http://www.researchspace.org/resource/Field"
+                    urlqueryparam-field="test"
+                    urlqueryparam-subject="test"
+                  >
+                    <semantic-context repository="assets">
+                      <semantic-query
+                        query="
+                            SELECT * WHERE {
+                              BIND(0 as ?count)
+                            }LIMIT 1
+                          "
+                        template="{{> template}}"
+                      >
+                        <template id="template">
+                          <span
+                            class='fa fa-commenting-o badge{{#ifCond bindings.0.count.value ">" 0}} active{{/ifCond}}'
+                            >{{bindings.0.count.value}}</span
+                          >
+                        </template>
+                      </semantic-query>
+                    </semantic-context>
+                  </semantic-link>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        {{/ifCond}} {{#ifCond (objectLength field.values) '>' 1}}
+        <table class="table table-hover">
+          <tbody>
             {{#each field.values as |value|}}
-            <li class="rs-page-resource__field-value">
-              {{> rsp:ResourceFieldValueVisualization field=field value=value }}
-            </li>
+            <tr class="rs-page-resource__field">
+              <td class="multivalueTd rs-page-resource__field">
+                <div style="display: flex; flex-direction: column">
+                  <td>
+                    <span class="rs-page-resource__field-value"
+                      >{{> rsp:ResourceFieldValueVisualization field=field
+                      value=value }}
+                    </span>
+                  </td>
+                </div>
+              </td>
+              [[#if showSourceIcon]]
+              <td>
+                <div class="sourceIcons">[[> rsp:SourceIcon ]]</div>
+              </td>
+              <td class="center rs-page__count--title">
+                <div class="rs-page__count--field-annotation">
+                  <semantic-link
+                    title="View existing annotations"
+                    uri="http://www.researchspace.org/resource/Field"
+                    urlqueryparam-tab="annotations"
+                    urlqueryparam-field="test"
+                    urlqueryparam-subject="test"
+                  >
+                    <semantic-context repository="assets">
+                      <semantic-query
+                        query="SELECT (COUNT(DISTINCT ?annotation) AS ?count) WHERE {
+                              BIND(0 as ?count) .
+                            }"
+                        template="{{> template}}"
+                      >
+                        <template id="template">
+                          <span
+                            class='fa-pencil fa badge{{#ifCond bindings.0.count.value ">" 0}} active{{/ifCond}}'
+                            >{{bindings.0.count.value}}</span
+                          >
+                        </template>
+                      </semantic-query>
+                    </semantic-context>
+                  </semantic-link>
+                </div>
+              </td>
+              <td class="center rs-page__count--title">
+                <div class="rs-page__count--field-assertion">
+                  <semantic-link
+                    title="View existing assertions"
+                    uri="http://www.researchspace.org/resource/Field"
+                    urlqueryparam-field="test"
+                    urlqueryparam-subject="test"
+                  >
+                    <semantic-context repository="assets">
+                      <semantic-query
+                        query="
+                            SELECT * WHERE {
+                              BIND(0 as ?count)
+                            }LIMIT 1
+                          "
+                        template="{{> template}}"
+                      >
+                        <template id="template">
+                          <span
+                            class='fa fa-commenting-o badge{{#ifCond bindings.0.count.value ">" 0}} active{{/ifCond}}'
+                            >{{bindings.0.count.value}}</span
+                          >
+                        </template>
+                      </semantic-query>
+                    </semantic-context>
+                  </semantic-link>
+                </div>
+              </td>
+              [[/if]]
+            </tr>
             {{/each}}
-          </ul>
-          {{/ifCond}} {{#ifCond (objectLength field.values) '===' 1}} {{#each
-          field.values as |value|}}
-          <span class="rs-page-resource__field-value"
-            >{{> rsp:ResourceFieldValueVisualization field=field value=value }}
-          </span>
-          {{/each}} {{/ifCond}}
-        </td>
-        [[#if showSourceIcon]]
-        <td>
-          <div class="sourceIcons">
-            {{#each field.values as |value|}} [[> rsp:SourceIcon ]] {{/each}}
-          </div>
-        </td>
-
-        [[/if]]
+          </tbody>
+        </table>
+        {{/ifCond}}
       </tr>
       {{/if}} {{/each}}
     </tbody>
@@ -68,9 +202,12 @@
     display: flex;
     flex-direction: column;
   }
-
+  .multivalueTd {
+    padding: 0 !important;
+  }
   .visualizationValue {
     font-size: medium !important;
+    min-width: 20vw;
   }
   #search-results .rs-grid-element a {
     color: #6b0000 !important;
@@ -90,5 +227,21 @@
     cursor: pointer;
     border-radius: 100%;
     box-shadow: 1px 1px 3px 1px #e7e7e7;
+  }
+
+  .fa:before {
+    margin-right: 2px;
+  }
+  .badge {
+    background: transparent !important;
+  }
+  .rs-page__count--title{
+    padding: 0 !important;
+  }
+  .rs-page__count--field-assertion a {
+    text-decoration: none !important;
+  }
+  .rs-page__count--field-annotation a {
+    text-decoration: none !important;
   }
 </style>
