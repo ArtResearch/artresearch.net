@@ -96,8 +96,6 @@
   RightType="https://pharos.artresearch.net/fieldDefinition/45"
   Bibliography="https://pharos.artresearch.net/fieldDefinition/69"
   SourcedDocumentationDescription="https://pharos.artresearch.net/fieldDefinition/70"
-  Photo="https://pharos.artresearch.net/fieldDefinition/135"
-  DigitalImages="https://pharos.artresearch.net/fieldDefinition/43"
   RelatedWorksDescription="https://pharos.artresearch.net/fieldDefinition/74"
   DescriptiveNotes="https://pharos.artresearch.net/fieldDefinition/128"
   CuratorialNote="https://pharos.artresearch.net/fieldDefinition/81"
@@ -114,14 +112,18 @@
         <h2>Other details</h2>
         [[> rsp:ResourceFieldBasedVisualization subject=[[this]]
         showSourceIcon="true" ]]
-        <!-- <div style="height: 25vh;">
+        <!--
+        <div style="height: 25vh;">
           <semantic-map
             query=" PREFIX osm: <http://www.metaphacts.com/ontologies/osm#>
     PREFIX wdt: <http://www.wikidata.org/prop/direct/>
     PREFIX wd: <http://www.wikidata.org/entity/>
 
     SELECT ?lat ?lng WHERE {
-      ?? <https://pharos.artresearch.net/resource/fr/Work_from_Place> ?geonames.
+      ?subject owl:sameAs ??;
+           crm:P50_has_current_keeper ?institution.
+      ?institution crm:P74_has_current_or_former_residence ?location.
+      ?location owl:sameAs ?geonames.
       ?geonames <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat .
       ?geonames <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng .
 

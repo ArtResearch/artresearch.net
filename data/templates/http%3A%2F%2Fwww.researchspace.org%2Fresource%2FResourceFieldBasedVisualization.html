@@ -13,16 +13,39 @@
 {{else}}
 <div class="table-responsive rs-table">
   <table class="table table-hover">
-    <!-- <thead>
-      <tr>
-        <th scope="col" style="width: 30%">Field</th>
-        <th scope="col">Value</th>
-      </tr>
-    </thead>-->
+    [[#if showSourceIcon]]
+    <thead role="header">
+      <td class="rs-page-resource__field-label-holder">
+        <span class="rs-page-resource__field-label">
+          {{field.label.0.value}}
+        </span>
+      </td>
+      <table class="table table-hover">
+        <tbody>
+          <tr>
+            <td>
+              <span class="rs-page-resource__field-value">
+                <div class="visualizationValue"></div>
+              </span>
+            </td>
+            <td class="multiValueTd">
+              <div class="icon--database fa fa-database" title="Source"><b style="margin-left: 3px;">Source</b></div>
+            </td>
+            <td class="multiValueTd">
+              <div class="icon--annotation fa fa-pencil" title="Annotations"></div>
+            </td>
+            <td class="multiValueTd">
+              <span class="icon--assertion" title="Assertions"></span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </thead>
+    [[/if]]
     <tbody>
       {{#each fields as |field|}} {{#if field.values}}
       <tr class="rs-page-resource__field">
-        <td class="rs-page-resource__field-label-holder">
+        <td class="rs-page-resource__field-label-holder headLine">
           <span class="rs-page-resource__field-label">
             {{field.label.0.value}}
           </span>
@@ -46,8 +69,7 @@
                   {{/each}}
                 </div>
               </td>
-              [[/if]]
-              <td class="center rs-page__count--title">
+              <td class="center ">
                 <div class="rs-page__count--field-annotation">
                   <semantic-link
                     title="View existing annotations"
@@ -65,7 +87,7 @@
                       >
                         <template id="template">
                           <span
-                            class='fa-pencil fa badge{{#ifCond bindings.0.count.value ">" 0}} active{{/ifCond}}'
+                            class='badge{{#ifCond bindings.0.count.value ">" 0}} active{{/ifCond}}'
                             >{{bindings.0.count.value}}</span
                           >
                         </template>
@@ -74,7 +96,7 @@
                   </semantic-link>
                 </div>
               </td>
-              <td class="center rs-page__count--title">
+              <td class="center ">
                 <div class="rs-page__count--field-assertion">
                   <semantic-link
                     title="View existing assertions"
@@ -93,7 +115,7 @@
                       >
                         <template id="template">
                           <span
-                            class='fa fa-commenting-o badge{{#ifCond bindings.0.count.value ">" 0}} active{{/ifCond}}'
+                            class='badge{{#ifCond bindings.0.count.value ">" 0}} active{{/ifCond}}'
                             >{{bindings.0.count.value}}</span
                           >
                         </template>
@@ -102,6 +124,7 @@
                   </semantic-link>
                 </div>
               </td>
+              [[/if]]
             </tr>
           </tbody>
         </table>
@@ -124,7 +147,7 @@
               <td>
                 <div class="sourceIcons">[[> rsp:SourceIcon ]]</div>
               </td>
-              <td class="center rs-page__count--title">
+              <td class="center ">
                 <div class="rs-page__count--field-annotation">
                   <semantic-link
                     title="View existing annotations"
@@ -142,7 +165,7 @@
                       >
                         <template id="template">
                           <span
-                            class='fa-pencil fa badge{{#ifCond bindings.0.count.value ">" 0}} active{{/ifCond}}'
+                            class='badge{{#ifCond bindings.0.count.value ">" 0}} active{{/ifCond}}'
                             >{{bindings.0.count.value}}</span
                           >
                         </template>
@@ -151,7 +174,7 @@
                   </semantic-link>
                 </div>
               </td>
-              <td class="center rs-page__count--title">
+              <td class="center ">
                 <div class="rs-page__count--field-assertion">
                   <semantic-link
                     title="View existing assertions"
@@ -170,7 +193,7 @@
                       >
                         <template id="template">
                           <span
-                            class='fa fa-commenting-o badge{{#ifCond bindings.0.count.value ">" 0}} active{{/ifCond}}'
+                            class='badge{{#ifCond bindings.0.count.value ">" 0}} active{{/ifCond}}'
                             >{{bindings.0.count.value}}</span
                           >
                         </template>
@@ -192,6 +215,12 @@
 </div>
 {{/if}}
 <style>
+
+  .headLine{
+    border-bottom-color: #f4f4f4 !important;
+    border-bottom: 1px solid;
+  }
+
   .rs-page-resource__field-label {
     font-size: medium !important;
     font-weight: 600;
@@ -228,14 +257,24 @@
     border-radius: 100%;
     box-shadow: 1px 1px 3px 1px #e7e7e7;
   }
+    .icon--database{
+      margin-right: 2px;
+      font-weight: bold;
+    }
+   .icon--annotation{
+     margin-right: 0px !important;
+   }
 
-  .fa:before {
-    margin-right: 2px;
-  }
+   .icon--assertion{
+     margin-right: 0px !important;
+   }
+
   .badge {
-    background: transparent !important;
+    background: #c5c5c5 !important;
+    width: 20px;
+    height: 20px;
   }
-  .rs-page__count--title{
+  .rs-page__count--title {
     padding: 0 !important;
   }
   .rs-page__count--field-assertion a {

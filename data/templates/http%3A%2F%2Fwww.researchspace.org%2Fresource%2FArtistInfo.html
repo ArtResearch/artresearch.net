@@ -25,7 +25,7 @@
   <!-- Fields for Production -->
         <mp-field-visualization
         subject="[[this]]"
-        additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
+        additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { {?s owl:sameAs ?resource}UNION{?resource owl:sameAs ?s} }" resource=this.iri)]]'
         fields='[[fieldDefinitions  
         ulan1="https://pharos.artresearch.net/fieldDefinition/ulan_date_of_birth"
         ulan2="https://pharos.artresearch.net/fieldDefinition/ulan_date_of_death"
