@@ -9,15 +9,6 @@
             }"
         }
     ],
-    "<https://pharos.artresearch.net/field/fcrs_Institution>":[
-    {
-      "kind": "resource",
-      "queryPattern": "
-        {
-          $subject <https://pharos.artresearch.net/resource/fr/Work_has_provider_Institution> ?__value__.
-        }"
-    }
-    ],
     "<https://pharos.artresearch.net/fieldDefinition/Repository>":[
     {
       "kind": "resource",
@@ -45,15 +36,6 @@
           ?original owl:sameAs $subject.
           ?original crm:P45_consists_of ?__value__.
           ?__value__ a crm:E57_Material.
-        }"
-    }],
-    "<https://pharos.artresearch.net/fieldDefinition/550>": [
-    {
-      "kind": "resource",
-      "queryPattern": "
-        {
-          ?original owl:sameAs $subject.
-          ?original <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ?__value__ .
         }"
     }],
     "<https://pharos.artresearch.net/fieldDefinition/42>": [
@@ -204,27 +186,7 @@
             >
             </semantic-form-hidden-input>
 
-            <semantic-search-query-keyword
-              domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
-              placeholder="Search for any field e.g. Michelangelo"
-              escape-lucene-syntax="false"
-              default-query="SELECT DISTINCT ?subject ?originalSubject
-              WHERE {
-               ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
-               ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
-               ?originalSubject owl:sameAs ?subject.
-              }LIMIT 100"
-              query='
-                      SELECT DISTINCT ?subject WHERE {
-                        ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
-                        ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
-                        ?entity ?p	?someLabel .
-                        ?someLabel bds:search ?__token__  .
-                        ?someLabel bds:minRelevance "0.3"^^xsd:double;
-                        bds:matchAllTerms "true"  .
-                      } ORDER BY ?q
-                    '
-            ></semantic-search-query-keyword>
+
           </semantic-form-composite-input>
         </semantic-form-switch-case>
         <semantic-form-switch-case label="Creator">
@@ -249,30 +211,7 @@
             >
             </semantic-form-hidden-input>
 
-            <semantic-search-query-keyword
-              domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
-              placeholder="Search for an artwork creator e.g. Michelangelo"
-              escape-lucene-syntax="false"
-              default-query='
-              SELECT DISTINCT ?subject ?originalSubject
-              WHERE {
-               ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
-               ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
-               ?originalSubject owl:sameAs ?subject.
-              } LIMIT 100'
-              query='
-                      SELECT DISTINCT ?subject WHERE {
-                      ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
-                      ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
-                      ?subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?value.
-                      ?value rdfs:label ?someLabel.
-                      ?someLabel bds:search ?__token__ .
-                      ?someLabel bds:minRelevance "0.3"^^xsd:double;
-                      bds:matchAllTerms "true"  .
-                      BIND( xsd:integer(substr(str(?value), 33)) as ?q)
-                      } ORDER BY ?q
-                    '
-            ></semantic-search-query-keyword>
+
           </semantic-form-composite-input>
         </semantic-form-switch-case>
         <semantic-form-switch-case label="Title">
@@ -297,29 +236,6 @@
             >
             </semantic-form-hidden-input>
 
-            <semantic-search-query-keyword
-              domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
-              placeholder="Search for a title e.g. Madonna and Chil.."
-              escape-lucene-syntax="false"
-              default-query='
-              SELECT DISTINCT ?subject ?originalSubject
-              WHERE {
-               ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
-               ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
-               ?originalSubject owl:sameAs ?subject.
-              }LIMIT 100'
-              query='
-                      SELECT DISTINCT ?subject WHERE {
-                      ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
-                      ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
-                      ?subject rdfs:label ?someLabel.
-                      ?someLabel bds:search ?__token__ .
-                      ?someLabel bds:minRelevance "0.3"^^xsd:double;
-                      bds:matchAllTerms "true"  .
-                      BIND( xsd:integer(substr(str(?value), 33)) as ?q)
-                      } ORDER BY ?q
-                    '
-            ></semantic-search-query-keyword>
           </semantic-form-composite-input>
         </semantic-form-switch-case>
         <semantic-form-switch-case label="Repository">
@@ -343,38 +259,38 @@
               default-value="http://www.example.com/switch/type/allfields"
             >
             </semantic-form-hidden-input>
-
-            <semantic-search-query-keyword
-              domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
-              placeholder="Search for a repository e.g. British Museum"
-              escape-lucene-syntax="false"
-              default-query='
-              SELECT DISTINCT ?subject
-              WHERE {
-               ?originalSubject owl:sameAs ?subject.
-               ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
-               ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
-              }LIMIT 100'
-              query='
-                      SELECT DISTINCT ?subject ?someLabel WHERE {
-                      ?originalSubject owl:sameAs ?subject.
-                      ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
-                      ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
-                      ?subject crm:P50_has_current_keeper ?value.
-                      ?value rdfs:label ?someLabel.
-                      ?someLabel bds:search ?__token__ .
-                      ?someLabel bds:minRelevance "0.3"^^xsd:double;
-                      bds:matchAllTerms "true"  .
-                      BIND( xsd:integer(substr(str(?value), 33)) as ?q)
-                      } ORDER BY ?q
-                    '
-            ></semantic-search-query-keyword>
           </semantic-form-composite-input>
         </semantic-form-switch-case>
       </semantic-form-switch>
     </semantic-form>
+    <semantic-search-query-keyword
+    domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
+    placeholder="Search for an artwork creator e.g. Michelangelo"
+    escape-lucene-syntax="false"
+    default-query="SELECT ?subject ?originalSubject WHERE{
+      ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
+    ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
+    ?originalSubject owl:sameAs ?subject.
+    ?originalSubject <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo .
+    ?photo crm:P129i_is_subject_of ?image .
+     }LIMIT 50 "
+    query='
+            SELECT DISTINCT ?subject ?originalSubject WHERE {
+            ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
+            ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
+            ?originalSubject owl:sameAs ?subject.
+            ?originalSubject <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo .
+            ?photo crm:P129i_is_subject_of ?image .
+            ?subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?value.
+            ?value rdfs:label ?someLabel.
+            ?someLabel bds:search ?__token__ .
+            ?someLabel bds:minRelevance "0.3"^^xsd:double;
+            bds:matchAllTerms "true"  .
+            BIND( xsd:integer(substr(str(?value), 33)) as ?q)
+            }ORDER BY ?q LIMIT 50
+          '
+  ></semantic-search-query-keyword>
   </div>
-
   <div class="row">
     <bs-col
       lg="3"
@@ -398,9 +314,10 @@
                     }'
                 number-of-displayed-rows="10"
                 query='
-                  SELECT DISTINCT ?subject
+                  SELECT DISTINCT ?subject ?originalSubject
                   WHERE {
-                    ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
+                    ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.    
+                    ?originalSubject owl:sameAs ?subject
                    } LIMIT 100
                '
                 tuple-template="{{>tupleTemplate}}"
@@ -409,7 +326,7 @@
                   <div
                     class="rs-grid-element panel panel-default artwork-card fade-in"
                   >
-                    <semantic-link-container uri="{{subject.value}}">
+                    <semantic-link iri="{{subject.value}}">
                       <div class="panel-body">
                         <bs-col
                           class="thumbnailImageContainer"
@@ -443,36 +360,26 @@
                         <bs-col class="cardInfo" lg="7" md="10" xs="10">
                           <div data-flex-layout="row md-column center-stretch">
                             <bs-row class="cardInfoFields">
-                                <h2>Title</h2>
-                                <h4><semantic-link iri="{{subject.value}}"></semantic-link></h4>
-                                <h2>Creator</h2>
-                                <h4>
-                                  <!-- Show Creator -->
-                                  <semantic-query query='SELECT ?creator WHERE{
-                                   <{{subject.value}}> <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?creator
-                                  }'>
-                                  <semantic-link iri="{{creator.value}}"></semantic-link>
-                                  </semantic-query>
-                                </h4>
-                                  <!-- Show Production date -->
-                                  <semantic-query query='SELECT ?productionDate WHERE{
-                                    ?originalSubject owl:sameAs <{{subject.value}}>.
-                                  ?originalSubject <http://www.cidoc-crm.org/cidoc-crm/P108i_was_produced_by> ?production .
-                                   ?production <http://www.cidoc-crm.org/cidoc-crm/P4_has_time-span> ?timespan .
-                                   ?timespan crm:P82_at_some_time_within ?productionDate
-                                  }' template="{{>productionDateTemplate}}">
-                                  <template id="productionDateTemplate">
-                                    <h2>Production Date</h2>
-                                    <h4>
-                                    {{bindings.0.productionDate.value}}
-                                    </h4>
-                                  </template>
-                                  </semantic-query>
+                              <mp-field-visualization
+                              additional-subjects='["{{originalSubject.value}}"]'
+                              fields='[[fieldDefinitions  
+                              Title="https://pharos.artresearch.net/fieldDefinition/2"
+                              Creator="https://pharos.artresearch.net/fieldDefinition/1"  
+                              ProductionDate="https://pharos.artresearch.net/fieldDefinition/8"
+                              Repository="https://pharos.artresearch.net/fieldDefinition/Repository"
+                            ]]'
+                              template="{{>generalInfo}}"
+                            >
+                              <template id="generalInfo">
+                                [[> rsp:ResourceFieldBasedVisualization
+                                subject=[[this]] ]]
+                              </template>
+                            </mp-field-visualization>
                             </bs-row>
                           </div>
                         </bs-col>
                       </div>
-                    </semantic-link-container>
+                    </semantic-link\>
                   </div>
                 </template>
               </semantic-table>
@@ -484,6 +391,20 @@
   </div>
 </semantic-search>
 <style>
+
+.semantic-table-holder {
+    width: 92% !important;
+}
+
+.visualizationValue {
+    font-size: medium !important;
+    min-width: 20vw;
+    max-width: 20vw;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
   .header-search {
     background-color: #f3f3f1;
     border-color: transparent;
@@ -571,7 +492,7 @@
   #header-search.search-page input {
     color: black !important;
     border-radius: 0px 4px 4px 0px;
-    width: 54vw;
+    width: 60vw;
     height: 5vh;
     align-self: center;
     background: white;
@@ -594,6 +515,7 @@
 
   #header-search .form-group {
     margin: 0 !important;
+    display: flex;
   }
 
   #header-search-results {
@@ -799,7 +721,7 @@
 
   .cardInfo {
     position: relative;
-    left: 6vw;
+    left: 8vw;
     top: 1.5vh;
     background: #ffffffe8;
     border-radius: 0px 0px 4px 4px;
@@ -825,11 +747,13 @@
 .thumbnailImage {
     width: 100%;
     border-top: 0px !important;
+    border-top-right-radius: 0px !important;
     min-height: 23vh;
     height: 100%;
     max-height: unset;
     min-width: unset;
-    object-fit: cover;
+    object-fit: contain;
+   background: whitesmoke;
 }
 
   .thumbnailImage html{
