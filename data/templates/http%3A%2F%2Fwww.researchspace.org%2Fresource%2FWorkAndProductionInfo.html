@@ -112,25 +112,30 @@
         <h2>Other details</h2>
         [[> rsp:ResourceFieldBasedVisualization subject=[[this]]
         showSourceIcon="true" ]]
-        <!--
+        
         <div style="height: 25vh;">
           <semantic-map
             query=" PREFIX osm: <http://www.metaphacts.com/ontologies/osm#>
     PREFIX wdt: <http://www.wikidata.org/prop/direct/>
     PREFIX wd: <http://www.wikidata.org/entity/>
-
     SELECT ?lat ?lng WHERE {
-      ?subject owl:sameAs ??;
-           crm:P50_has_current_keeper ?institution.
-      ?institution crm:P74_has_current_or_former_residence ?location.
+      {
+        ?subject owl:sameAs ??.
+      } UNION {
+        BIND (?? AS ?subject)
+        ?subject owl:sameAs ?pharos.
+        ?pharos crm:P2_has_type <https://pharos.artresearch.net/resource/type/pharos>.
+      }
+      ?subject crm:P50_has_current_keeper <https://pharos.artresearch.net/resource/zeri/actor/TOL5YBPD>.
+      <https://pharos.artresearch.net/resource/zeri/actor/TOL5YBPD> crm:P74_has_current_or_former_residence ?location.
       ?location owl:sameAs ?geonames.
       ?geonames <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat .
       ?geonames <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng .
 
-    }LIMIT 1"
+    } LIMIT 1"
           >
           </semantic-map> 
-        </div>-->
+        </div>
       </div>
       {{/if}}
     </template>
