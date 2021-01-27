@@ -75,28 +75,12 @@
   </div>
   <div id="photo-cards">
     <semantic-table
-      query='PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-						 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-		 				 PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
-
+      query='
 					 	 SELECT distinct ?photo ?photo_label ?keeper ?keeper_label ?recto ?rectoImage ?json WHERE 
 						{
               {             
                 ?? crm:P138i_is_represented_by ?visual_item.
                 ?visual_item crm:P128i_is_carried_by ?photo.
-                ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
-                ?photo rdfs:label ?photo_label.
-                OPTIONAL
-                {
-                  ?photo crm:P50_has_current_keeper ?keeper.
-                  ?keeper rdfs:label ?keeper_label.
-                }
-                OPTIONAL
-                {
-                  ?photo crm:P108i_was_produced_by ?production .
-                  ?production crm:P14_carried_out_by ?photographer.
-                  ?photographer rdfs:label ?photographer_label.
-                }
                 ?photo crm:P129i_is_subject_of ?recto.
                 OPTIONAL{
                   ?recto crm:P2_has_type <http://iiif.io/api/image> .
@@ -108,19 +92,6 @@
                 ?originalSubject owl:sameAs ??.
                 ?originalSubject crm:P138i_is_represented_by ?visual_item.
                 ?visual_item crm:P128i_is_carried_by ?photo.
-                ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
-                ?photo rdfs:label ?photo_label.
-                OPTIONAL
-                {
-                  ?photo crm:P50_has_current_keeper ?keeper.
-                  ?keeper rdfs:label ?keeper_label.
-                }
-                OPTIONAL
-                {
-                  ?photo crm:P108i_was_produced_by ?production .
-                  ?production crm:P14_carried_out_by ?photographer.
-                  ?photographer rdfs:label ?photographer_label.
-                }
                 ?photo crm:P129i_is_subject_of ?recto.
                 OPTIONAL{
                   ?recto crm:P2_has_type <http://iiif.io/api/image> .
