@@ -214,16 +214,7 @@
   </div>
 
   <div class="row">
-    <!-- <bs-col
-      lg="3"
-      md="4"
-      sm="5"
-      class="fade-in filters-container"
-      style="margin-top: 8px"
-    >
-      <div class="filter-title">Filters</div>
-      <semantic-search-facet open-by-default="true"></semantic-search-facet>
-    </bs-col> -->
+
     <bs-col lg="12">
       <semantic-search-result-holder>
         <bs-tabs unmount-on-exit="true" id="search-results" animation="false">
@@ -263,9 +254,9 @@
 																					<{{subject.value}}> rdfs:label ?personName.
                                       	BIND(REPLACE(?personName,"@en","") AS ?artistName)
                                   	} LIMIT 1'
-                                    template="{{> imageThumbnailq}}"
+                                    template="{{> imageThumbnail}}"
                                   >
-                            <template id="imageThumbnailq">
+                            <template id="imageThumbnail">
                               <semantic-query
                                 query='
                               PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>

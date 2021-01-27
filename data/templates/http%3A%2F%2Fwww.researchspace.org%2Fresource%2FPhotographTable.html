@@ -1,5 +1,4 @@
 
-[[#if (ask "ASK { {?? crm:P138i_is_represented_by ?visual_item. ?visual_item crm:P128i_is_carried_by ?photo.  ?photo rdfs:label ?photo_label.} UNION{?originalSubject owl:sameAs ??. ?originalSubject crm:P138i_is_represented_by ?visual_item. ?visual_item crm:P128i_is_carried_by ?photo. ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>. ?photo rdfs:label ?photo_label.}}") ]] 
 <div style="margin-top:45px"> <h2>Photographs</h2></div>
 <semantic-query
 query='  
@@ -9,8 +8,11 @@ SELECT distinct ?photo ?photo_label ?keeper ?keeper_label ?rectoImage WHERE
     {
       ?? crm:P138i_is_represented_by ?visual_item.
       ?visual_item crm:P128i_is_carried_by ?photo.
+      OPTIONAL
+      {
       ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
       ?photo rdfs:label ?photo_label.
+      }
       OPTIONAL
       {
         ?photo crm:P50_has_current_keeper ?keeper.
@@ -99,7 +101,6 @@ template='{{> photos}}'
 {{/each}}
 </template>    
 </semantic-query>
-[[/if]]
 <style>
   .photographFieldView{
     display: flex;
