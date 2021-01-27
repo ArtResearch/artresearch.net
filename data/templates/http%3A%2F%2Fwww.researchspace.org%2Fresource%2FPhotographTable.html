@@ -29,8 +29,11 @@ SELECT distinct ?photo ?photo_label ?keeper ?keeper_label ?rectoImage WHERE
       ?originalSubject owl:sameAs ??.
       ?originalSubject crm:P138i_is_represented_by ?visual_item.
       ?visual_item crm:P128i_is_carried_by ?photo.
+      OPTIONAL
+      {
       ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
       ?photo rdfs:label ?photo_label.
+      }
       OPTIONAL
       {
         ?photo crm:P50_has_current_keeper ?keeper.
