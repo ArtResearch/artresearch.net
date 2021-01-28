@@ -16,3 +16,11 @@
     [[> rsp:institutionfiltersearchpharos]]
   </div>
 </div>
+<semantic-map query='SELECT ?subject ?label ?lat ?lng WHERE {
+  ?subject <https://pharos.artresearch.net/resource/fr/Institution_has_Latitude> ?lat.
+  ?subject <https://pharos.artresearch.net/resource/fr/Institution_has_Longitude> ?lng.
+  ?subject <https://pharos.artresearch.net/resource/fr/Institution_has_Label> ?label.
+}'
+tuple-template='<p></p><a style="text-decoration: none;"  href="https://artresearch.net/resource/?uri={{subject.value}}" target="_blank"><b style="color: #6b0000;">{{label.value}}</b><p></p><p></p></a><hr>'
+>
+</semantic-map> 
