@@ -1,11 +1,5 @@
 <!-- Displays a row of photographs that are clickable (full size image popup) -->
-<div >
-  <semantic-query query='SELECT ?artistName WHERE{
-    ?? rdfs:label ?name.
-    BIND(REPLACE(str(?name),"@en","") as ?artistName)
-  }LIMIT 1'
-  template="{{> artistNameTemplate}}">
-  <template id="artistNameTemplate">
+<div>
     <semantic-query query='PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
       PREFIX wd: <http://www.wikidata.org/entity/>
       PREFIX wdt: <http://www.wikidata.org/prop/direct/>
@@ -39,8 +33,6 @@
               {{/ifCond}}  
       </template>
     </semantic-query>
-</template>
-</semantic-query>
   </div>
 <style>
   .summaryImages{
