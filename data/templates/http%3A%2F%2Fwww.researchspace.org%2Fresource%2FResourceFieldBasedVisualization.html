@@ -71,12 +71,13 @@
               </td>
               <td class="center ">
                 <div class="rs-page__count--field-annotation">
+                  {{log field}}
                   <semantic-link
                     title="View existing annotations"
                     uri="http://www.researchspace.org/resource/Field"
                     urlqueryparam-tab="annotations"
-                    urlqueryparam-field="test"
-                    urlqueryparam-subject="test"
+                    urlqueryparam-field="{{field.iri}}"
+                    urlqueryparam-subject="{{../subject}}"
                   >
                     <semantic-context repository="assets">
                       <semantic-query
@@ -101,8 +102,8 @@
                   <semantic-link
                     title="View existing assertions"
                     uri="http://www.researchspace.org/resource/Field"
-                    urlqueryparam-field="test"
-                    urlqueryparam-subject="test"
+                    urlqueryparam-field="{{field.iri}}"
+                    urlqueryparam-subject="{{../subject}}"
                   >
                     <semantic-context repository="assets">
                       <semantic-query
@@ -153,8 +154,8 @@
                     title="View existing annotations"
                     uri="http://www.researchspace.org/resource/Field"
                     urlqueryparam-tab="annotations"
-                    urlqueryparam-field="test"
-                    urlqueryparam-subject="test"
+                    urlqueryparam-field="{{field.iri}}"
+                    urlqueryparam-subject="{{../subject}}"
                   >
                     <semantic-context repository="assets">
                       <semantic-query
@@ -179,8 +180,8 @@
                   <semantic-link
                     title="View existing assertions"
                     uri="http://www.researchspace.org/resource/Field"
-                    urlqueryparam-field="test"
-                    urlqueryparam-subject="test"
+                    urlqueryparam-field="{{field.iri}}"
+                    urlqueryparam-subject="{{../subject}}"
                   >
                     <semantic-context repository="assets">
                       <semantic-query
