@@ -3,19 +3,19 @@
   SELECT ?dataset ?repositoryLabel WHERE {
     {
       {
-        [[this.iri]] crm:P50_has_current_keeper ?repo.
+        <[[work]]> crm:P50_has_current_keeper ?repo.
         ?repo rdfs:label ?repositoryLabel
       }union{
-        [[this.iri]] <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution> ?repo.
+        <[[work]]> <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution> ?repo.
         ?repo rdfs:label ?repositoryLabel
       }
       OPTIONAL {
-      [[this.iri]] <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ?type .
+      <[[work]]> <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ?type .
       ?type rdfs:label ?type_label.
       ?type <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/vocab/maintype>}
   
     }UNION{
-      ?originalSubject owl:sameAs [[this.iri]]
+      ?originalSubject owl:sameAs <[[work]]>
       {
         ?originalSubject crm:P50_has_current_keeper ?repo.
         ?repo rdfs:label ?repositoryLabel
