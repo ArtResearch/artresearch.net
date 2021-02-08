@@ -23,10 +23,10 @@
           <bs-nav-item event-key="summary">Summary</bs-nav-item>
           [[#if (ask "ASK { {?? <https://pharos.artresearch.net/custom/has_provider> ?provider. ?provider <https://pharos.artresearch.net/custom/has_iiif_server> ?iiifServer. }UNION{?original owl:sameAs ??. ?original <https://pharos.artresearch.net/custom/has_provider> ?provider. ?provider <https://pharos.artresearch.net/custom/has_iiif_server> ?iiifServer.} }") ]] 
             [[#if (ask "ASK {?? crm:P2_has_type <http://vocab.getty.edu/aat/300046300> }") ]] 
-            <bs-nav-item event-key="IIIF">Image Lightbox</bs-nav-item>
+              <bs-nav-item event-key="IIIF">Image Lightbox</bs-nav-item>
             [[/if]]
             [[#if (ask "ASK {?? crm:P2_has_type <http://vocab.getty.edu/aat/300133025> }") ]] 
-            <bs-nav-item event-key="IIIFInspect">Image Lightbox</bs-nav-item>
+              <bs-nav-item event-key="IIIFInspect">Image Lightbox</bs-nav-item>
             [[/if]]
           [[/if]]
           [[#if (ask "ASK {?? a crm:E21_Person }") ]] 
@@ -47,59 +47,11 @@
             [[#if (ask "ASK {?? a crm:E22_Man-Made_Object }") ]] 
               [[> rsp:WorkSummaryImages]]
             [[/if]]
-            [[#if (ask "ASK {?? a crm:E21_Person }") ]] 
-              [[> rsp:PersonSummaryImages]]
-            [[/if]]
-
             [[#if (ask "ASK {?? a crm:E22_Man-Made_Object }") ]] 
             <!-- Loads two tables with information regarding work & production -->
             <!-- Loads photographs with info (id, photographer, keeper) -->
               [[> rsp:WorkAndProductionInfo]]
-            [[/if]]
-            [[#if (ask "ASK {?? a crm:E21_Person }") ]] 
-            <!-- Loads two tables with information regarding the artist -->
-              [[> rsp:ArtistInfo]]
-            [[/if]]
-            
-          <div>
-            <div>
-              <semantic-table 
-              query='
-                    SELECT distinct ?record ?image WHERE 
-                    {
-                      {
-                      ?s owl:sameAs ?? . 
-                      ?s <https://pharos.artresearch.net/custom/has_original_record> ?record . 
-                      ?s <https://pharos.artresearch.net/custom/has_provider> ?provider . 
-                      ?provider crm:image ?image.
-                      }
-                      UNION
-                      {
-                      ?? <https://pharos.artresearch.net/custom/has_original_record> ?record . 
-                      ?? <https://pharos.artresearch.net/custom/has_provider> ?provider . 
-                      ?provider crm:image ?image.
-                      }
-                    }' 
-                    options='{"showFilter": false, "showTableHeading": false}'
-              tuple-template='{{> tupleTemplate}}'
-              >
-              <template id='tupleTemplate'>
-
-                <p align="right"><a href={{record.value}} style="margin-top:18px;margin-right:20px;">  
-                  <img src={{image.value}} style="max-height:16px; max-width:16px; margin: 0 auto;" class="img-rounded">
-                  </a> </p>
-
-              </template>
-              </semantic-table>
-
-              <!-- <mp-field-visualization subject='[[this]]' additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
-                                      fields='[[fieldDefinitionsFromQuery  "SELECT DISTINCT ?field WHERE {?field rso:hasDomain <https://pharos.artresearch.net/resource/fc/work>. OPTIONAL {?field <https://pharos.artresearch.net/field/order> ?w}} ORDER BY ASC(?w)"]]'
-                                      template='{{> artworkFields}}'>
-                  <template id="artworkFields">{{> rsp:FieldBasedVisualization subject="[[this]]"}}</template>
-
-              </mp-field-visualization> -->
-                
-            </div>
+            [[/if]]            
           </bs-tab-pane>
           <bs-tab-pane event-key="IIIFInspect">
             [[> IIIFInspect record=(this)]]

@@ -21,17 +21,7 @@
       <div>
         <bs-nav bs-style="tabs">
           <bs-nav-item event-key="summary">Summary</bs-nav-item>
-          [[#if (ask "ASK {?? <https://pharos.artresearch.net/custom/has_provider> ?provider. ?provider <https://pharos.artresearch.net/custom/has_iiif_server> ?iiifServer.  }") ]] 
-            [[#if (ask "ASK {?? crm:P2_has_type <http://vocab.getty.edu/aat/300046300> }") ]] 
-            <bs-nav-item event-key="IIIF">Image Lightbox</bs-nav-item>
-            [[/if]]
-            [[#if (ask "ASK {?? crm:P2_has_type <http://vocab.getty.edu/aat/300133025> }") ]] 
-            <bs-nav-item event-key="IIIFInspect">Image Lightbox</bs-nav-item>
-            [[/if]]
-          [[/if]]
-          [[#if (ask "ASK {?? a crm:E21_Person }") ]] 
            <bs-nav-item event-key="artworks">Artworks</bs-nav-item>
-           [[/if]]
           <!-- <bs-nav-item event-key="annotations">
             Annotations <semantic-context repository='assets'><semantic-query query="SELECT (COUNT(DISTINCT ?s) AS ?count) WHERE {
               ?s <http://www.ics.forth.gr/isl/CRMdig/L43_annotates> ??;
@@ -46,49 +36,7 @@
             <!-- Loads all IIIF images as 500px thumbnails (clickable with mirador popup) -->
             [[> rsp:PersonSummaryImages]]
             <!-- E22 Loads two tables with information regarding work & production -->
-            [[#if (ask "ASK {?? a crm:E21_Person }") ]] 
              [[> rsp:ArtistInfo]]
-            [[/if]]
-            <div>
-              <semantic-table 
-              query='
-                    SELECT distinct ?record ?image WHERE 
-                    {
-                      {
-                      ?s owl:sameAs ?? . 
-                      ?s <https://pharos.artresearch.net/custom/has_original_record> ?record . 
-                      ?s <https://pharos.artresearch.net/custom/has_provider> ?provider . 
-                      ?provider crm:image ?image.
-                      }
-                      UNION
-                      {
-                      ?? <https://pharos.artresearch.net/custom/has_original_record> ?record . 
-                      ?? <https://pharos.artresearch.net/custom/has_provider> ?provider . 
-                      ?provider crm:image ?image.
-                      }
-                    }' 
-                    options='{"showFilter": false, "showTableHeading": false}'
-              tuple-template='{{> tupleTemplate}}'
-              >
-              <template id='tupleTemplate'>
-
-                <p align="right"><a href={{record.value}} style="margin-top:18px;margin-right:20px;">  
-                  <img src={{image.value}} style="max-height:16px; max-width:16px; margin: 0 auto;" class="img-rounded">
-                  </a> </p>
-
-              </template>
-              </semantic-table>
-
-              <!-- <mp-field-visualization subject='[[this]]' additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
-                                      fields='[[fieldDefinitionsFromQuery  "SELECT DISTINCT ?field WHERE {?field rso:hasDomain <https://pharos.artresearch.net/resource/fc/work>. OPTIONAL {?field <https://pharos.artresearch.net/field/order> ?w}} ORDER BY ASC(?w)"]]'
-                                      template='{{> artworkFields}}'>
-                  <template id="artworkFields">{{> rsp:FieldBasedVisualization subject="[[this]]"}}</template>
-
-              </mp-field-visualization> -->
-                
-              <!-- Loads photographs with info (id, photographer, keeper) -->
-              [[> rsp:PhotographTable]]            
-            </div>
           </bs-tab-pane>
           <bs-tab-pane event-key="artworks">
             [[> rsp:artworkfiltersearchartist type="https://pharos.artresearch.net/resource/type/pharos"]]
@@ -96,7 +44,6 @@
           <bs-tab-pane event-key="annotations">
             [[> rsp:EntityAnnotations]]
           </bs-tab-pane>
-  
         </bs-tab-content>
       </div>
     </bs-tab-container>

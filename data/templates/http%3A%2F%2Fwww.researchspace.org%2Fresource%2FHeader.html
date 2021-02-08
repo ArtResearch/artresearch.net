@@ -1,61 +1,95 @@
-<div class='page__header-body' data-flex-layout='row top-left'>
-  [[#if notDraggable]]
-  [[else]]
+<div class="page__header-body" data-flex-layout="row top-left">
+  [[#if notDraggable]] [[else]]
   <div class="page__header-draggable-title">
-    <mp-draggable iri='[[this]]'>
-      <h2 data-flex-layout='row center-left'>
+    <mp-draggable iri="[[this]]">
+      <h2 data-flex-layout="row center-left">
         <span class="page__header-gripper"></span>
-        
-         <!-- <mp-label iri='[[singleValueFromSelect 'SELECT distinct ?title WHERE {{?? crm:P1_is_identified_by ?titleuri. ?titleuri  crm:P2_has_type <http://vocab.getty.edu/aat/300417193> . ?titleuri rdfs:label ?title} UNION {?subject owl:sameAs ??. ?subject crm:P1_is_identified_by ?titleuri. ?titleuri  crm:P2_has_type <http://vocab.getty.edu/aat/300417193> . ?titleuri rdfs:label ?title}}']]' class='page__header-gripper-label'></mp-label> -->
-        
-  			<mp-label iri='[[this]]' class='page__header-gripper-label'></mp-label>
-        
+
+        <!-- <mp-label iri='[[singleValueFromSelect 'SELECT distinct ?title WHERE {{?? crm:P1_is_identified_by ?titleuri. ?titleuri  crm:P2_has_type <http://vocab.getty.edu/aat/300417193> . ?titleuri rdfs:label ?title} UNION {?subject owl:sameAs ??. ?subject crm:P1_is_identified_by ?titleuri. ?titleuri  crm:P2_has_type <http://vocab.getty.edu/aat/300417193> . ?titleuri rdfs:label ?title}}']]' class='page__header-gripper-label'></mp-label> -->
+
+        <mp-label iri="[[this]]" class="page__header-gripper-label"></mp-label>
       </h2>
-      
     </mp-draggable>
   </div>
   [[/if]]
-  <h2 data-flex-layout='row center-left' class="page__header-tagline">
-    <small>
-      [[#if fcLabel]]
-      <semantic-query
-        query='
-              SELECT ?dataset ?repositoryLabel WHERE {
-                ?? <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution> ?repo.
-                ?repo rdfs:label ?repositoryLabel
-                OPTIONAL {
-                ?? <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ?type .
-                ?type rdfs:label ?type_label.
-                ?type <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/vocab/maintype>}
-                  BIND(IF(BOUND(?repo), concat(?type_label," (Repository: ",str(?repositoryLabel),")"), "(Repository: Unknown)") as ?dataset) .
-              } LIMIT 1
-                             '
-        template='{{> fcLabelTemplate}}'
-      >
-          <template id="fcLabelTemplate">
-              <div id="fcLabel">
-                <h3>{{bindings.0.dataset.value}}</h3>
-              </div>
-          </template>
+  <div data-flex-layout='row center-left' class="page__header-tagline subtitleInfo">
+    [[#if fcLabel]]
+
+    [[> rsp:TypeRepositoryInfo iri="[[this]]" ]]
+
+    <semantic-query
+      query="
+            SELECT DISTINCT ?providerRecord ?providerLabel WHERE {
+             {
+              ?originalSubject owl:sameAs ??.
+              ?originalSubject <https://pharos.artresearch.net/custom/has_original_record> ?providerRecord.
+              ?originalSubject<https://pharos.artresearch.net/resource/fr/Work_has_provider_Institution> ?provider.
+              ?provider rdfs:label ?providerLabel
+            }UNION{
+              ?? <https://pharos.artresearch.net/custom/has_original_record> ?providerRecord.
+              ?? <https://pharos.artresearch.net/resource/fr/Work_has_provider_Institution> ?provider.
+              ?provider rdfs:label ?providerLabel
+            }
+            }
+                           "
+      template="{{> originalRecords}}"
+    >
+      <template id="originalRecords">
+        <h4 class="fc-label lowercase">
+          Original record links: {{#each bindings}}
+          <a style="margin-left: 5px;" href="{{providerRecord.value}}" target="_null">
+            <img
+              title="{{providerLabel.value}}"
+              class="sourceIcon"
+              src="../../assets/images/{{providerLabel.value}}.ico"
+          /></a>
+          {{/each}}
+        </h4>
+      </template>
     </semantic-query>
-      [[else]]
-      [[#if subLabel]][[subLabel]][[/if]]
-      [[#if labelChild]][[> @partial-block]][[/if]]
-      [[/if]]
-    </small>
-  </h2>
+    [[else]] [[#if subLabel]][[subLabel]][[/if]] [[#if labelChild]][[>
+    @partial-block]][[/if]] [[/if]]
+  </div>
 </div>
 
 <style>
-#fcLabel{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-#fcLabel img{
-  height: 18px;
-  margin: 1vh
-}
+  .sourceIcon {
+    height: 18px;
+    width: 18px;
+    padding: 2px;
+    margin: 4px;
+    cursor: pointer;
+    border-radius: 100%;
+    box-shadow: 1px 1px 3px 1px #e7e7e7;
+  }
 
+  .subtitleInfo{
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    align-items: initial !important;
+  }
 
+  .lowercase {
+    text-transform: lowercase;
+  }
+  .page__header-body {
+    display: flex;
+    flex-direction: column;
+  }
+  .fc-label {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0 12px;
+  }
+  #fcLabel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #fcLabel img {
+    height: 18px;
+    margin: 1vh;
+  }
 </style>

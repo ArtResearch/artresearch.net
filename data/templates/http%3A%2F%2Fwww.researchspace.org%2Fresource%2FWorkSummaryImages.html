@@ -36,7 +36,7 @@
           </bs-nav>
           <bs-tab-content animation="true">
             <bs-tab-pane event-key="grid">
-              <div class="rs-page__summary-image summaryImages">
+              <div class="summaryImages">
                 <div class="rs-page__summary-image">
                   {{#each bindings}}
                   <mp-overlay-dialog title="‎‎" type="lightbox">
@@ -258,6 +258,11 @@
     border-radius: 4px !important;
     max-height: 45vh;
     overflow-y: scroll;
+  }
+  .rs-page__summary-image{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
   }
 
   .summary-image-with-thumbs {
