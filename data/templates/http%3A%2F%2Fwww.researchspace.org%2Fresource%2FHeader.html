@@ -14,8 +14,8 @@
   [[/if]]
   <div data-flex-layout='row center-left' class="page__header-tagline subtitleInfo">
     [[#if fcLabel]]
-
-    [[> rsp:TypeRepositoryInfo iri="[[this]]" ]]
+    [[log this]]
+    [[> rsp:TypeRepositoryInfo work=(urlParam "uri") ]]
 
     <semantic-query
       query="
