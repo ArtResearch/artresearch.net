@@ -1,20 +1,10 @@
 <!-- Checks provider and return an icon -->
-<semantic-query
-  query="
-     SELECT distinct ?provider ?providerLabel   WHERE 
-   {
-    <{{value.binding.graph.value}}> <https://pharos.artresearch.net/custom/has_provider> ?provider . 
-    ?provider rdfs:label ?providerLabel
-}LIMIT 1"
-  template="{{>sourceIconTemplate}}"
->
-  <template id="sourceIconTemplate">
-    <semantic-link uri="{{bindings.0.provider.value}}">
+<div>
+    <semantic-link uri="{{value.binding.provider.value}}">
       <img
-        title="{{bindings.0.providerLabel.value}}"
+        title="{{value.binding.graph.value}}"
         class="sourceIcon"
-        src="../../assets/images/{{bindings.0.providerLabel.value}}.ico"
+        src="../../assets/images/{{value.binding.providerLabel.value}}.ico"
       />
     </semantic-link>
-  </template>
-</semantic-query>
+</div>

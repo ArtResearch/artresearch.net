@@ -61,7 +61,8 @@
                             ?provider <https://pharos.artresearch.net/custom/has_iiif_server> ?iiifServer.
                           }
                         }
-                        BIND(str("{{image.value}}") as ?fullsizeImgUrl)
+                        BIND(str(REPLACE("{{image.value}}","320px","2048px")) as ?fullsizeImgUrlHertziana)
+                        BIND(str(?fullsizeImgUrlHertziana) as ?fullsizeImgUrl)
                     }LIMIT 1'
                         template="{{> fullSizeImageTemplate}}"
                       >
@@ -160,10 +161,12 @@
                                   }
                                 }
                                 {{#ifCond imgURL "!==" undefined}}
-                                BIND(REPLACE(STR("{{imgURL}}"),"full/350,","full/full") AS ?fullsizeImgUrl).
+                                BIND(REPLACE(STR("{{imgURL}}"),"320px","2048px") AS ?fullsizeImgUrlHertziana).
+                                BIND(STR(?fullsizeImgUrlHertziana) AS ?fullsizeImgUrl).
                                 {{/ifCond}}
                                 {{#ifCond imgURL "===" undefined}}
-                                BIND(REPLACE(STR("{{bindings.0.imgURL.value}}"),"full/350,","full/full") AS ?fullsizeImgUrl).
+                                BIND(REPLACE(STR("{{bindings.0.imgURL.value}}"),"320px","2048px") AS ?fullsizeImgUrlHertziana).
+                                BIND(REPLACE(STR(?fullsizeImgUrlHertziana),"full/350,","full/full") AS ?fullsizeImgUrl).
                                 {{/ifCond}}
                             }LIMIT 1'
                           template="{{> fullSizeImageTemplate}}"
