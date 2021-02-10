@@ -237,9 +237,11 @@
                     }'
                 number-of-displayed-rows="12"
                 query='
-                  SELECT DISTINCT ?subject ?institutionName
+                  SELECT DISTINCT ?subject ?institutionName ?placeLabel
                    WHERE {
                     ?subject rdfs:label ?name.
+                    ?subject <https://pharos.artresearch.net/resource/fr/Institution_from_Place> ?place.
+                    ?place rdfs:label ?placeLabel.
 										BIND(REPLACE(STR(?name),"@en","") AS ?institutionName).
                    }LIMIT 100
                 '
@@ -308,10 +310,13 @@
                                 <semantic-link
                                   iri="{{subject.value}}"
                                 ></semantic-link>
+                     
                               </h4>
+                              <small>
+                                {{placeLabel.value}}
+                              </small>
                             </bs-row>
                           </div>
-
                         </bs-col>
                       </div>
 
