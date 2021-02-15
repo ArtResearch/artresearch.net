@@ -314,10 +314,9 @@
                     }'
                 number-of-displayed-rows="10"
                 query='
-                  SELECT DISTINCT ?subject ?originalSubject
+                  SELECT DISTINCT ?subject
                   WHERE {
                     ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.    
-                    ?originalSubject owl:sameAs ?subject
                    } LIMIT 100
                '
                 tuple-template="{{>tupleTemplate}}"
@@ -360,21 +359,36 @@
                         <bs-col class="cardInfo" lg="7" md="10" xs="10">
                           <div data-flex-layout="row md-column center-stretch">
                             <bs-row class="cardInfoFields">
-                              <mp-field-visualization
-                              additional-subjects='["{{originalSubject.value}}"]'
-                              fields='[[fieldDefinitions  
-                              Title="https://pharos.artresearch.net/fieldDefinition/2"
-                              Creator="https://pharos.artresearch.net/fieldDefinition/1"  
-                              ProductionDate="https://pharos.artresearch.net/fieldDefinition/8"
-                              Repository="https://pharos.artresearch.net/fieldDefinition/Repository"
-                            ]]'
-                              template="{{>generalInfo}}"
-                            >
-                              <template id="generalInfo">
-                                [[> rsp:ResourceFieldBasedVisualization
-                                subject=[[this]] ]]
-                              </template>
-                            </mp-field-visualization>
+                              <semantic-query
+                              query='
+                              SELECT (GROUP_CONCAT(STR(?originalSubject);SEPARATOR=" , ") AS ?additionalSubjects) WHERE{
+                                ?originalSubjects owl:sameAs <{{subject.value}}>.
+                                BIND(CONCAT("\"",str(?originalSubjects),"\"") as ?originalSubject)
+                                }
+                                '
+                              template="{{> combinedFields}}">
+                                <template id="combinedFields">
+                                  <mp-field-visualization
+                                  additional-subjects='[
+                                  {{bindings.0.additionalSubjects.value}}
+                                  ]'
+                                   fields='[[fieldDefinitions  
+                                  Title="https://pharos.artresearch.net/fieldDefinition/2"
+                                  Creator="https://pharos.artresearch.net/fieldDefinition/1"  
+                                  ProductionDate="https://pharos.artresearch.net/fieldDefinition/8"
+                                  Repository="https://pharos.artresearch.net/fieldDefinition/Repository"
+                                ]]'
+                                  template="{{>generalInfo}}"
+                                >
+                                  <template id="generalInfo">
+                                    [[> rsp:ResourceFieldBasedVisualization
+                                    subject=[[this]] ]]
+                                  </template>
+                                </mp-field-visualization>
+                                </template>
+
+                              </semantic-query>
+   
                             </bs-row>
                           </div>
                         </bs-col>
