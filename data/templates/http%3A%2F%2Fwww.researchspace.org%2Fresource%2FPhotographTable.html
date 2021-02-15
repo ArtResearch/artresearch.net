@@ -1,5 +1,4 @@
 
-<div style="margin-top:45px"> <h2>Photographs</h2></div>
 <semantic-query
 query='  
 SELECT distinct ?photo ?photo_label ?keeper ?keeper_label ?rectoImage WHERE 
@@ -53,6 +52,7 @@ template='{{> photos}}'
 >
      
 <template id='photos'>
+  <div style="margin-top:45px"> <h2>Photographs</h2></div>
   {{#each bindings}}
   <div class="photographFieldView">
     <td>
