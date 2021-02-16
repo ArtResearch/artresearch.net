@@ -1,0 +1,88 @@
+<ol class="page-breadcrumb">
+    <li>
+      <mp-link title="Home" url="/">Home</mp-link>
+    </li>
+    <li class="active">
+      <mp-label iri='[[this]]'></mp-label>
+    </li>
+  </ol>
+  
+  <div class="page rs-page">
+    [[#> rsp:ClipboardSidebar]]
+    <div class="page__header-navtabs">
+      [[> rsp:Header fc=fc fcLabel=fcLabel]]
+    </div>
+  
+    [[#if (urlParam "tab")]]
+    <bs-tab-container id="tab-container" class="page__body-navtabs--borderless" default-active-key="[[urlParam 'tab']]">
+      [[else]]
+      <bs-tab-container id="tab-container" class="page__body-navtabs--borderless" default-active-key="summary">
+        [[/if]]
+        <div>
+          <bs-nav bs-style="tabs">
+            <bs-nav-item event-key="summary">Summary</bs-nav-item>
+              
+           
+            <bs-nav-item event-key="artworks">Artworks</bs-nav-item>
+            <!-- <bs-nav-item event-key="annotations">
+              Annotations <semantic-context repository='assets'><semantic-query query="SELECT (COUNT(DISTINCT ?s) AS ?count) WHERE {
+                ?s <http://www.ics.forth.gr/isl/CRMdig/L43_annotates> ??;
+                }"
+                template='{{#each bindings}}<span class="badge">{{count.value}}</span>{{/each}}'></semantic-query></semantic-context>
+            </bs-nav-item> -->
+            <!-- <bs-nav-item event-key="related">Explore Related</bs-nav-item> -->
+          </bs-nav>
+  
+          <bs-tab-content unmount-on-exit=true>
+            <bs-tab-pane event-key="summary">
+              <div style="text-align: left; width: 100%;">
+                <h2>
+                  <div style="color: gray !important; font-weight: bold;">Number of entities with this type:</div>
+                </h2>
+                <h2>
+                  <semantic-query
+                  query='
+                  select (count(?subject) as ?count) where {
+                      ?subject crm:P2_has_type ??
+                  }'
+                ></semantic-query>
+                </h2>
+              </div>
+              <div style="text-align: left; width: 100%; margin-top: 20px;">
+                <h2>
+                  <div style="color: gray !important; font-weight: bold;">Related techniques:</div>
+                </h2>
+                <h2 class="techniques">
+                  <semantic-query
+                  query='
+                  select DISTINCT  ?type where {
+                      ?subject crm:P2_has_type ??.
+                      ?subject crm:P2_has_type ?type
+                      FILTER(?type != ??)
+                  }LIMIT 100'
+                ></semantic-query>
+                </h2>
+              </div>
+            </bs-tab-pane>
+            <bs-tab-pane event-key="artworks">
+              [[> rsp:artworkfiltersearchtype ]]
+            </bs-tab-pane>
+            <bs-tab-pane event-key="annotations">
+              [[> rsp:EntityAnnotations]]
+            </bs-tab-pane>
+          </bs-tab-content>
+        </div>
+      </bs-tab-container>
+      [[/rsp:ClipboardSidebar]]
+  </div>
+  
+  <style>
+    .techniques div a:first-child{
+      margin-left: 0px !important; 
+    }
+    .techniques a{
+      margin-left: 15px;
+      line-height: 30px;
+      color:var(--color-icon-primary) !important;
+    }
+  </style>

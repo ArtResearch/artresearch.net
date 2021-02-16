@@ -35,14 +35,6 @@
           ?__value__ a crm:E57_Material.
         }"
     }],
-    "<https://pharos.artresearch.net/fieldDefinition/550>": [
-    {
-      "kind": "resource",
-      "queryPattern": "
-        {
-          $subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ?__value__ .
-        }"
-    }],
     "<https://pharos.artresearch.net/fieldDefinition/42>": [
     {
       "kind": "resource",
@@ -52,12 +44,12 @@
           ?production crm:P33_used_specific_technique ?__value__.
         }"
     }],
-    "<https://pharos.artresearch.net/fieldDefinition/93>": [
+    "<https://pharos.artresearch.net/resource/fr/Work_from_Place>": [
     {
       "kind": "resource",
       "queryPattern": "
         {
-          $subject crm:P55_has_current_location ?__value__.
+          $subject <https://pharos.artresearch.net/resource/fr/Work_from_Place> ?__value__
         }"
     }]
       }'
@@ -70,7 +62,7 @@
           },
           {
             "iri":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
-            "label":"Creator"
+            "label":"Creator/Institution"
           },
           {
             "iri":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
@@ -96,10 +88,16 @@
         "relations":
         [
           {
-            "iri": "<https://florentinedrawings.itatti.harvard.edu/resource/field/Artist_Attribution>",
+            "iri": "<https://pharos.artresearch.net/resource/field/Artist_Attribution>",
             "label":"Creator",
             "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
             "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E21_Person>"
+          },
+          {
+            "iri": "<https://pharos.artresearch.net/field/fcrs_Institution>",
+            "label":"Institution",
+            "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
+            "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>"
           },
           {
             "iri": "<https://pharos.artresearch.net/fieldDefinition/Repository>",
@@ -132,7 +130,7 @@
             "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E29_Design_or_Procedure>"
           },
           {
-            "iri":"<https://pharos.artresearch.net/fieldDefinition/93>",
+            "iri":"<https://pharos.artresearch.net/resource/fr/Work_from_Place>",
             "label":"Location",
             "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
             "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E53_Place>"
@@ -162,10 +160,10 @@
         for="switch-action-type"
         switch-on-field="switch-case-type"
       >
-        <semantic-form-switch-case label="Photographer">
+        <semantic-form-switch-case label="All fields">
           <semantic-form-composite-input
             for="switch-action-type"
-            new-subject-template="http://www.example.com/switch/action/artist"
+            new-subject-template="http://www.example.com/switch/action/allfields"
             fields='[
                 {
                   "id": "switch-case-type",
@@ -180,27 +178,118 @@
           >
             <semantic-form-hidden-input
               for="switch-case-type"
-              default-value="http://www.example.com/switch/type/move"
+              default-value="http://www.example.com/switch/type/send"
             >
             </semantic-form-hidden-input>
 
             <semantic-search-query-keyword
-              placeholder="Search for a photographer e.g. Fratelli Alinari"
+              domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
+              placeholder="Search for any field, a title, repository or any other identifier"
               escape-lucene-syntax="false"
-              domain="<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>"
-              default-query="
-              SELECT  ?subject  
-              WHERE {
-                ?subject a <http://www.cidoc-crm.org/cidoc-crm/E39_Actor>.
-                ?subject a <https://pharos.artresearch.net/resource/fc/photographer>.
-                ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.
-              }LIMIT 100"
+              default-query='
+              SELECT DISTINCT ?subject WHERE {
+                ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
+                ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ??.
+              }LIMIT 100'
               query='
-                      SELECT ?subject WHERE {
-                      ?subject a <http://www.cidoc-crm.org/cidoc-crm/E39_Actor>.
-                      ?subject a <https://pharos.artresearch.net/resource/fc/photographer>.
-                      ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.
-                      ?subject rdfs:label ?someLabel.
+                      SELECT DISTINCT ?subject WHERE {
+                        ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
+                        ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ??.
+                        ?entity ?p	?someLabel .
+                        ?someLabel bds:search ?__token__  .
+                        ?someLabel bds:minRelevance "0.3"^^xsd:double;
+                        bds:matchAllTerms "true"  .
+                      } ORDER BY ?q
+                    '
+            ></semantic-search-query-keyword>
+          </semantic-form-composite-input>
+        </semantic-form-switch-case>
+        <semantic-form-switch-case label="Title">
+          <semantic-form-composite-input
+            for="switch-action-type"
+            new-subject-template="http://www.example.com/switch/action/title"
+            fields='[
+                {
+                  "id": "switch-case-type",
+                  "xsdDatatype": "xsd:anyURI",
+                  "minOccurs": "1",
+                  "maxOccurs": "1",
+                  "selectPattern": "SELECT ?value WHERE { $subject <http://www.example.com/switch/has-action-type> ?value }",
+                  "insertPattern": "INSERT { $subject <http://www.example.com/switch/has-action-type> ?value } WHERE {}",
+                  "deletePattern": "DELETE { $subject <http://www.example.com/switch/has-action-type> ?value } WHERE {}"
+                }
+              ]'
+          >
+            <semantic-form-hidden-input
+              for="switch-case-type"
+              default-value="http://www.example.com/switch/type/receive"
+            >
+            </semantic-form-hidden-input>
+
+            <semantic-search-query-keyword
+              domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
+              placeholder="Search for a title e.g. Madonna and Chil.."
+              escape-lucene-syntax="false"
+              default-query='SELECT DISTINCT ?subject WHERE {
+                ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
+                ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ??.
+               }'
+              query='
+                      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                      PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+                      SELECT DISTINCT ?subject WHERE {
+                      ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
+                      ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ??.
+                      ?subject crm:P1_is_identified_by ?value. 
+                      ?value crm:P2_has_type <http://vocab.getty.edu/aat/300417193> .   
+                      ?value rdfs:label ?someLabel.
+                      ?someLabel bds:search ?__token__ .
+                      ?someLabel bds:minRelevance "0.3"^^xsd:double;
+                      bds:matchAllTerms "true"  .
+                      BIND( xsd:integer(substr(str(?value), 33)) as ?q)
+                      } ORDER BY ?q
+                    '
+            ></semantic-search-query-keyword>
+          </semantic-form-composite-input>
+        </semantic-form-switch-case>
+        <semantic-form-switch-case label="Repository">
+          <semantic-form-composite-input
+            for="switch-action-type"
+            new-subject-template="http://www.example.com/switch/action/inv.number"
+            fields='[
+                {
+                  "id": "switch-case-type",
+                  "xsdDatatype": "xsd:anyURI",
+                  "minOccurs": "1",
+                  "maxOccurs": "1",
+                  "selectPattern": "SELECT ?value WHERE { $subject <http://www.example.com/switch/has-action-type> ?value }",
+                  "insertPattern": "INSERT { $subject <http://www.example.com/switch/has-action-type> ?value } WHERE {}",
+                  "deletePattern": "DELETE { $subject <http://www.example.com/switch/has-action-type> ?value } WHERE {}"
+                }
+              ]'
+          >
+            <semantic-form-hidden-input
+              for="switch-case-type"
+              default-value="http://www.example.com/switch/type/allfields"
+            >
+            </semantic-form-hidden-input>
+
+            <semantic-search-query-keyword
+              domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
+              placeholder="Search for a repository e.g. British Museum"
+              escape-lucene-syntax="false"
+              default-query='SELECT DISTINCT ?subject WHERE {
+                ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
+                ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ??.
+               }'
+              query='
+                      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                      PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+                      SELECT DISTINCT ?subject ?someLabel WHERE {
+                      ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
+                      ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ??.
+                      ?subject crm:P50_has_current_keeper ?value.
+                      ?value rdfs:label ?someLabel.
                       ?someLabel bds:search ?__token__ .
                       ?someLabel bds:minRelevance "0.3"^^xsd:double;
                       bds:matchAllTerms "true"  .
@@ -213,9 +302,8 @@
       </semantic-form-switch>
     </semantic-form>
   </div>
-
   <div class="row">
-    <!-- <bs-col
+    <bs-col
       lg="3"
       md="4"
       sm="5"
@@ -224,8 +312,8 @@
     >
       <div class="filter-title">Filters</div>
       <semantic-search-facet open-by-default="true"></semantic-search-facet>
-    </bs-col> -->
-    <bs-col lg="12">
+    </bs-col>
+    <bs-col lg="9" md="8" sm="7">
       <semantic-search-result-holder>
         <bs-tabs unmount-on-exit="true" id="search-results" animation="false">
           <bs-tab event-key="2" title="Grid">
@@ -235,21 +323,22 @@
                 options='{
                       "showFilter":false
                     }'
-                number-of-displayed-rows="12"
+                number-of-displayed-rows="10"
                 query='
-                  SELECT DISTINCT ?subject ?artistName
-                   WHERE {
-                    ?subject rdfs:label ?personName.
-                    BIND(REPLACE(STR(?personName),"@en","") AS ?artistName).
-                   }LIMIT 100
-                '
+                  SELECT DISTINCT ?subject ?originalSubject
+                  WHERE {
+                    {?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.   }
+                    UNION
+                    {?subject owl:sameAs ?another}
+                   } LIMIT 100
+               '
                 tuple-template="{{>tupleTemplate}}"
               >
                 <template id="tupleTemplate">
                   <div
                     class="rs-grid-element panel panel-default artwork-card fade-in-fwd"
                   >
-                    <semantic-link uri="{{subject.value}}">
+                    <semantic-link iri="{{subject.value}}">
                       <div class="panel-body">
                         <bs-col
                           class="thumbnailImageContainer"
@@ -257,60 +346,76 @@
                           md="12"
                           xs="12"
                         >
-                          <!-- Thumbnail for Person (fetch from wikidata (good luck)) -->
-                          <semantic-query
-                            query='
-                          PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-                          PREFIX wd: <http://www.wikidata.org/entity/>
-                          PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-
-                          SELECT DISTINCT ?imgUrl WHERE{
-                            bind("_" as ?default_imageUrl)
-                            OPTIONAL{
-                          SERVICE <https://query.wikidata.org/sparql> 
-                                   {
-                                      { ?person wdt:P31 wd:Q5 . 
-                                        ?person wdt:P106 wd:Q33231.
-                                        ?person rdfs:label "{{artistName.value}}"@en .
-                                        ?person wdt:P18 ?personImage}
-                                      UNION{
-                                        ?person wdt:P31 wd:Q672070 . 
-                                        ?person rdfs:label "{{artistName.value}}"@en .
-                                        ?person wdt:P18 ?personImage
-                                      } UNION{
-                                        ?person wdt:P31 wd:Q2085381 . 
-                                        ?person rdfs:label "{{artistName.value}}"@en .
-                                        ?person wdt:P18 ?personImage
-                                      }
-                              }
-                            }
-                              BIND(coalesce(?personImage, ?default_imageUrl) as ?imgUrl)    
-
-                                }LIMIT 1'
-                            template="{{> imageThumbnail}}"
-                          >
-                            <template id="imageThumbnail">
-                              <img
-                                alt="   "
-                                class="thumbnailImage"
-                                src="{{bindings.0.imgUrl.value}}"
-                              />
-                            </template>
-                          </semantic-query>
+                        <semantic-query
+                        query='SELECT DISTINCT ?imgUrl WHERE{
+                                bind("_" as ?default_imageUrl)
+                                OPTIONAL{
+                                  {
+                                    <{{subject.value}}> <http://www.cidoc-crm.org/cidoc-crm/P138i_is_represented_by> ?visual. 
+                                   ?visual crm:P128i_is_carried_by ?image .
+                                   ?image crm:P129i_is_subject_of ?fullsizeImgUrl.
+                                   BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/200,") AS ?smallerImgUrl).
+                                  }
+                                  UNION{
+                                    ?originalSubject owl:sameAs <{{subject.value}}>.
+                                    ?originalSubject <http://www.cidoc-crm.org/cidoc-crm/P138i_is_represented_by> ?visual. 
+                                   ?visual crm:P128i_is_carried_by ?image .
+                                   ?image crm:P129i_is_subject_of ?fullsizeImgUrl.
+                                   BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/200,") AS ?smallerImgUrl).
+                                  }
+                            
+                                }
+                               BIND(coalesce(?smallerImgUrl, ?default_imageUrl) as ?imgUrl)
+                              }LIMIT 1'
+                        template="{{> imageThumbnail}}"
+                      >
+                        <template id="imageThumbnail">
+                          <img
+                          alt='   '
+                          class="thumbnailImage"
+                          src="{{bindings.0.imgUrl.value}}"
+                          />
+                        </template>
+                      </semantic-query>
                         </bs-col>
-                        <bs-col class="cardInfo" lg="12">
+                        <bs-col class="cardInfo" lg="7" md="10" xs="10">
                           <div data-flex-layout="row md-column center-stretch">
                             <bs-row class="cardInfoFields">
-                              <h4>
-                                <semantic-link
-                                  iri="{{subject.value}}"
-                                ></semantic-link>
-                              </h4>
+                              <semantic-query
+                              query='
+                              SELECT (GROUP_CONCAT(STR(?originalSubject);SEPARATOR=" , ") AS ?additionalSubjects) WHERE{
+                                ?originalSubjects owl:sameAs <{{subject.value}}>.
+                                BIND(CONCAT("\"",str(?originalSubjects),"\"") as ?originalSubject)
+                                }
+                                '
+                              template="{{> combinedFields}}">
+                                <template id="combinedFields">
+                                  <mp-field-visualization
+                                  additional-subjects='[
+                                  {{bindings.0.additionalSubjects.value}}
+                                  ]'
+                                  subject='{{subject.value}}'
+                                   fields='[[fieldDefinitions  
+                                  Title="https://pharos.artresearch.net/fieldDefinition/2"
+                                  Creator="https://pharos.artresearch.net/fieldDefinition/1"  
+                                  ProductionDate="https://pharos.artresearch.net/fieldDefinition/8"
+                                  Repository="https://pharos.artresearch.net/fieldDefinition/Repository"
+                                ]]'
+                                  template="{{>generalInfo}}"
+                                >
+                                  <template id="generalInfo">
+                                    [[> rsp:ResourceFieldBasedVisualization
+                                    subject=[[this]] ]]
+                                  </template>
+                                </mp-field-visualization>
+                                </template>
+
+                              </semantic-query>
                             </bs-row>
                           </div>
                         </bs-col>
                       </div>
-                    </semantic-link>
+                    </semantic-link\>
                   </div>
                 </template>
               </semantic-table>
@@ -322,6 +427,20 @@
   </div>
 </semantic-search>
 <style>
+
+.semantic-table-holder {
+    width: 71% !important;
+}
+
+.visualizationValue {
+    font-size: medium !important;
+    min-width: 20vw;
+    max-width: 20vw;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
   .header-search {
     background-color: #f3f3f1;
     border-color: transparent;
@@ -342,7 +461,7 @@
     width: 100%;
     position: sticky;
     position: -webkit-sticky;
-    top: 5vh;
+    top: 9vh;
   }
 
   #header-search.home-page {
@@ -409,7 +528,7 @@
   #header-search.search-page input {
     
     border-radius: 0px 4px 4px 0px;
-    width: 54vw;
+    width: 60vw;
     height: 5vh;
     align-self: center;
     background: white;
@@ -432,6 +551,7 @@
 
   #header-search .form-group {
     margin: 0 !important;
+    display: flex;
   }
 
   #header-search-results {
@@ -479,19 +599,19 @@
   }
 
   .artwork-card {
-    width: 12vw !important;
-    border-radius: 100% !important;
-    height: 12vw !important;
-    min-width: 200px;
-    min-height: 200px;
-    max-width: 280px;
-    max-height: 280px;
+    width: 100% !important;
+    min-height: 23vh;
+    height: fit-content;
+    padding: 2vh 0 2vh 0;
   }
   #search-results .rs-grid-element.panel {
     background: white !important;
   }
   #search-results .rs-grid-element:hover {
     box-shadow: 1px 2px 8px 0 #761f0e35, 1px 3px 12px 2px rgba(0, 0, 0, 0.07);
+  }
+  #search-results .rs-grid-element a{
+    color: var(--color-icon-primary);
   }
   .panel-body {
     cursor: pointer;
@@ -503,7 +623,7 @@
   .show-facet-button {
     display: none;
   }
-  .nav-tabs {
+  #search-results .nav-tabs {
     display: none;
   }
   .facet,
@@ -636,52 +756,46 @@
   }
 
   .cardInfo {
-    position: absolute;
-    width: 100%;
-    left: 0;
-    text-align: center !important;
-    bottom: 25%;
+    position: relative;
+    left: 8vw;
+    top: 1.5vh;
     background: #ffffffe8;
     border-radius: 0px 0px 4px 4px;
   }
 
-  .cardInfoFields {
+  .cardInfoFields{
     padding: 1vh;
   }
 
   .thumbnailImageContainer {
     display: flex;
     overflow: hidden;
-    height: 100%;
     align-items: center;
     border-radius: 5px 0px 0px 5px;
     padding: 0;
-    height: -moz-available;
-    height: -webkit-fill-available;
-    height: fill-available;
+    position: absolute;
+    height: 100%;
     left: 0;
     top: 0;
     min-height: 23vh;
-    width: 100%;
-    position: absolute;
-  }
-  #search-results .rs-grid-element a {
-    color: #6b0000 !important;
   }
 
-  .thumbnailImage {
+.thumbnailImage {
     width: 100%;
+    border-top: 0px !important;
+    border-top-right-radius: 0px !important;
     min-height: 23vh;
-    height: unset;
+    height: 100%;
     max-height: unset;
     min-width: unset;
-    object-fit: cover;
-  }
+    object-fit: contain;
+   background: whitesmoke;
+}
 
-  .thumbnailImage[alt]:after {
-    background-image: url("/assets/images/media/image_placeholder_person.jpg") !important;
+  .thumbnailImage html{
+    display: none !important;
   }
-
+  
   .drawingInfo {
     margin-bottom: 2vh;
   }
@@ -730,13 +844,14 @@
   }
 
   @media (max-width: 800px) {
-    .thumbnailImageContainer {
-      justify-content: center;
+        .thumbnailImageContainer {
+    justify-content: center;
     }
+    
     .cardInfo {
-      left: 0vw;
-      top: 0vh;
-    }
+    left: 0vw;
+    top: 0vh;
+  }
     .rs-page__field {
       flex-direction: column;
     }
