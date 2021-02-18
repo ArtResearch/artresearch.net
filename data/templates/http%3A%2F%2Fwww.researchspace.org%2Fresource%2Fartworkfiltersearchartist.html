@@ -181,23 +181,19 @@
               domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
               placeholder="Search for any field, a title, repository or any other identifier"
               escape-lucene-syntax="false"
-              default-query='
+              default-query="
               SELECT DISTINCT ?subject WHERE {
                 ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
                 ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
                 ?subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ??.
                 ?originalSubject owl:sameAs ?subject.
-                ?originalSubject <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo .
-                ?photo crm:P129i_is_subject_of ?image .
-              }LIMIT 100'
+              }LIMIT 100"
               query='
                       SELECT DISTINCT ?subject WHERE {
                         ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
                         ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
                         ?subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ??.
                         ?originalSubject owl:sameAs ?subject.
-                        ?originalSubject <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo .
-                        ?photo crm:P129i_is_subject_of ?image .
                         ?entity ?p	?someLabel .
                         ?someLabel bds:search ?__token__  .
                         ?someLabel bds:minRelevance "0.3"^^xsd:double;
@@ -233,13 +229,12 @@
               domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
               placeholder="Search for a title e.g. Madonna and Chil.."
               escape-lucene-syntax="false"
-              default-query='SELECT DISTINCT ?subject WHERE {
+              default-query="SELECT DISTINCT ?subject WHERE {
                 ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
                 ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
                 ?subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ??.
                 ?originalSubject owl:sameAs ?subject.
-                ?originalSubject <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo .
-                ?photo crm:P129i_is_subject_of ?image .}'
+                }"
               query='
                       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
@@ -248,8 +243,7 @@
                       ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
                       ?subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ??.
                       ?originalSubject owl:sameAs ?subject.
-                      ?originalSubject <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo .
-                      ?photo crm:P129i_is_subject_of ?image .
+                      
                       ?subject crm:P1_is_identified_by ?value. 
                       ?value crm:P2_has_type <http://vocab.getty.edu/aat/300417193> .   
                       ?value rdfs:label ?someLabel.
@@ -288,13 +282,12 @@
               domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
               placeholder="Search for a repository e.g. British Museum"
               escape-lucene-syntax="false"
-              default-query='SELECT DISTINCT ?subject WHERE {
+              default-query="SELECT DISTINCT ?subject WHERE {
                 ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
                 ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
                 ?subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ??.
                 ?originalSubject owl:sameAs ?subject.
-                ?originalSubject <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo .
-                ?photo crm:P129i_is_subject_of ?image .}'
+                }"
               query='
                       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
@@ -303,8 +296,7 @@
                       ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
                       ?subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ??.
                       ?originalSubject owl:sameAs ?subject.
-                      ?originalSubject <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo .
-                      ?photo crm:P129i_is_subject_of ?image .
+                      
                       ?originalSubject crm:P50_has_current_keeper ?value.
                       ?value rdfs:label ?someLabel.
                       ?someLabel bds:search ?__token__ .
@@ -341,75 +333,15 @@
                       "showFilter":false
                     }'
                 number-of-displayed-rows="10"
-                query='
-                  SELECT DISTINCT ?subject ?originalSubject
-                  WHERE {
+                query="
+                  SELECT DISTINCT ?subject
+                                    WHERE {
                     ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.    
-                    ?originalSubject owl:sameAs ?subject
                    } LIMIT 100
-               '
+               "
                 tuple-template="{{>tupleTemplate}}"
               >
-                <template id="tupleTemplate">
-                  <div
-                    class="rs-grid-element panel panel-default artwork-card fade-in-fwd"
-                  >
-                    <semantic-link iri="{{subject.value}}">
-                      <div class="panel-body">
-                        <bs-col
-                          class="thumbnailImageContainer"
-                          lg="4"
-                          md="12"
-                          xs="12"
-                        >
-                        <semantic-query
-                        query='SELECT DISTINCT ?imgUrl WHERE{
-                                bind("_" as ?default_imageUrl)
-                                OPTIONAL{
-                                ?originalSubject owl:sameAs <{{subject.value}}>.
-                                ?originalSubject <http://www.cidoc-crm.org/cidoc-crm/P138i_is_represented_by> ?visual. 
-                               ?visual crm:P128i_is_carried_by ?image .
-                               ?image crm:P129i_is_subject_of ?fullsizeImgUrl.
-                               BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/200,") AS ?smallerImgUrl).
-                                }
-                               BIND(coalesce(?smallerImgUrl, ?default_imageUrl) as ?imgUrl)
-                              }LIMIT 1'
-                        template="{{> imageThumbnail}}"
-                      >
-                        <template id="imageThumbnail">
-                          <img
-                          alt='   '
-                          class="thumbnailImage"
-                          src="{{bindings.0.imgUrl.value}}"
-                          />
-                        </template>
-                      </semantic-query>
-                        </bs-col>
-                        <bs-col class="cardInfo" lg="7" md="10" xs="10">
-                          <div data-flex-layout="row md-column center-stretch">
-                            <bs-row class="cardInfoFields">
-                              <mp-field-visualization
-                              additional-subjects='["{{originalSubject.value}}"]'
-                              fields='[[fieldDefinitions  
-                              Title="https://pharos.artresearch.net/fieldDefinition/2"
-                              Creator="https://pharos.artresearch.net/fieldDefinition/1"  
-                              ProductionDate="https://pharos.artresearch.net/fieldDefinition/8"
-                              Repository="https://pharos.artresearch.net/fieldDefinition/Repository"
-                            ]]'
-                              template="{{>generalInfo}}"
-                            >
-                              <template id="generalInfo">
-                                [[> rsp:ResourceFieldBasedVisualization
-                                subject=[[this]] ]]
-                              </template>
-                            </mp-field-visualization>
-                            </bs-row>
-                          </div>
-                        </bs-col>
-                      </div>
-                    </semantic-link\>
-                  </div>
-                </template>
+                <template id="tupleTemplate"> [[> rsp:artworkCard]] </template>
               </semantic-table>
             </semantic-search-result>
           </bs-tab>
@@ -419,19 +351,18 @@
   </div>
 </semantic-search>
 <style>
-
-.semantic-table-holder {
+  .semantic-table-holder {
     width: 71% !important;
-}
+  }
 
-.visualizationValue {
+  .visualizationValue {
     font-size: medium !important;
     min-width: 20vw;
     max-width: 20vw;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-}
+  }
 
   .header-search {
     background-color: #f3f3f1;
@@ -518,7 +449,6 @@
 } */
 
   #header-search.search-page input {
-    
     border-radius: 0px 4px 4px 0px;
     width: 60vw;
     height: 5vh;
@@ -528,7 +458,6 @@
   }
 
   #header-search.home-page input {
-    
     border-radius: 0px 20px 20px 0px;
     width: 41vw;
     height: 5vh;
@@ -602,7 +531,7 @@
   #search-results .rs-grid-element:hover {
     box-shadow: 1px 2px 8px 0 #761f0e35, 1px 3px 12px 2px rgba(0, 0, 0, 0.07);
   }
-  #search-results .rs-grid-element a{
+  #search-results .rs-grid-element a {
     color: var(--color-icon-primary);
   }
   .panel-body {
@@ -697,7 +626,6 @@
   }
 
   .clearable-input {
-    
     border-radius: 5px;
   }
 
@@ -755,7 +683,7 @@
     border-radius: 0px 0px 4px 4px;
   }
 
-  .cardInfoFields{
+  .cardInfoFields {
     padding: 1vh;
   }
 
@@ -772,7 +700,7 @@
     min-height: 23vh;
   }
 
-.thumbnailImage {
+  .thumbnailImage {
     width: 100%;
     border-top: 0px !important;
     border-top-right-radius: 0px !important;
@@ -781,13 +709,13 @@
     max-height: unset;
     min-width: unset;
     object-fit: contain;
-   background: whitesmoke;
-}
+    background: whitesmoke;
+  }
 
-  .thumbnailImage html{
+  .thumbnailImage html {
     display: none !important;
   }
-  
+
   .drawingInfo {
     margin-bottom: 2vh;
   }
@@ -836,14 +764,14 @@
   }
 
   @media (max-width: 800px) {
-        .thumbnailImageContainer {
-    justify-content: center;
+    .thumbnailImageContainer {
+      justify-content: center;
     }
-    
+
     .cardInfo {
-    left: 0vw;
-    top: 0vh;
-  }
+      left: 0vw;
+      top: 0vh;
+    }
     .rs-page__field {
       flex-direction: column;
     }

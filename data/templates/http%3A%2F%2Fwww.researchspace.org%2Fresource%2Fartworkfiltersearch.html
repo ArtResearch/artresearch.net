@@ -189,12 +189,12 @@
               domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
               placeholder="Search for any field e.g. Michelangelo"
               escape-lucene-syntax="false"
-              default-query='
+              default-query="
               SELECT DISTINCT ?subject WHERE {
                 ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
                 ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
                 ?subject <https://pharos.artresearch.net/custom/has_provider>  <[[provider]]>.
-              }LIMIT 100'
+              }LIMIT 100"
               query='
                       SELECT DISTINCT ?subject WHERE {
                         ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
@@ -382,94 +382,7 @@
                 "
                 tuple-template="{{>tupleTemplate}}"
               >
-                <template id="tupleTemplate">
-                  <div
-                    class="rs-grid-element panel panel-default artwork-card fade-in-fwd"
-                  >
-                    <semantic-link uri="{{subject.value}}">
-                      <div class="panel-body">
-                        <bs-col
-                          class="thumbnailImageContainer"
-                          lg="4"
-                          md="12"
-                          xs="12"
-                        >
-                        <!-- Thumbnail for artwork -->
-                        {{#ifCond "[[type]]" "===" "http://vocab.getty.edu/aat/300133025" }}
-                          <semantic-query
-                            query='SELECT DISTINCT ?imgUrl WHERE{
-                                    bind("_" as ?default_imageUrl)
-                                    OPTIONAL{
-                                      <{{subject.value}}>  <http://www.cidoc-crm.org/cidoc-crm/P138i_is_represented_by> ?visual. 
-                                      ?visual crm:P128i_is_carried_by ?image .
-                                      ?image crm:P129i_is_subject_of ?fullsizeImgUrl.
-                                      BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/200,") AS ?smallerImgUrl).
-                                    }
-                                    BIND(coalesce(?smallerImgUrl, ?default_imageUrl) as ?imgUrl)      
-                                  }LIMIT 1'
-                            template="{{> imageThumbnail}}"
-                          >
-                            <template id="imageThumbnail">
-                              <img
-                                alt='   '
-                                class="thumbnailImage"
-                                src="{{bindings.0.imgUrl.value}}"
-                                />
-                            </template>
-                          </semantic-query>
-                        {{/ifCond}}
-                        <!-- Thumbnail for photo -->
-                        {{#ifCond "[[type]]" "===" "http://vocab.getty.edu/aat/300046300" }}
-                        <semantic-query
-                          query='SELECT DISTINCT ?imgUrl WHERE{
-                            bind("_" as ?default_imageUrl)
-                            OPTIONAL{
-                                ?artwork crm:P138i_is_represented_by ?visual_item.
-                                ?visual_item crm:P128i_is_carried_by <{{subject.value}}> .
-                                ?artwork <http://www.cidoc-crm.org/cidoc-crm/P138i_is_represented_by> ?visual. 
-                                ?visual crm:P128i_is_carried_by ?image .
-                                ?image crm:P129i_is_subject_of ?fullsizeImgUrl.
-                                FILTER(?image = <{{subject.value}}>).
-                                BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/200,") AS ?smallerImgUrl).
-                              }
-                              BIND(coalesce(?smallerImgUrl, ?default_imageUrl) as ?imgUrl)    
-                                }LIMIT 1'
-                          template="{{> imageThumbnail}}"
-                        >
-                          <template id="imageThumbnail">
-                            <img
-                            alt='   '
-                            class="thumbnailImage"
-                            src="{{bindings.0.imgUrl.value}}"
-                            />
-                          </template>
-                        </semantic-query>
-                      {{/ifCond}}
-                        </bs-col>
-                        <bs-col class="cardInfo" lg="7" md="10" xs="10">
-                          <div data-flex-layout="row md-column center-stretch">
-                            <bs-row class="cardInfoFields">
-                              <mp-field-visualization
-                                subject="{{subject.value}}"
-                                fields='[[fieldDefinitions  
-                              Title="https://pharos.artresearch.net/fieldDefinition/2"
-                              Creator="https://pharos.artresearch.net/fieldDefinition/1"  
-                              Repository="https://pharos.artresearch.net/fieldDefinition/Repository"
-                              ]]'
-                                template="{{>generalInfo}}"
-                              >
-                                <template id="generalInfo">
-                                  [[> rsp:ResourceFieldBasedVisualization
-                                  subject=[[this]] ]]
-                                </template>
-                              </mp-field-visualization>
-                            </bs-row>
-                          </div>
-                        </bs-col>
-                      </div>
-                    </semantic-link>
-                  </div>
-                </template>
+                <template id="tupleTemplate"> [[> rsp:artworkCard]] </template>
               </semantic-table>
             </semantic-search-result>
           </bs-tab>
@@ -484,17 +397,16 @@
 <style>
   .semantic-table-holder {
     width: 92% !important;
-}
+  }
 
-.visualizationValue {
+  .visualizationValue {
     font-size: medium !important;
     min-width: 20vw;
     max-width: 20vw;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-}
-
+  }
 
   .header-search {
     background-color: #f3f3f1;
@@ -581,7 +493,6 @@
 } */
 
   #header-search.search-page input {
-    
     border-radius: 0px 4px 4px 0px;
     width: 54vw;
     height: 5vh;
@@ -591,7 +502,6 @@
   }
 
   #header-search.home-page input {
-    
     border-radius: 0px 20px 20px 0px;
     width: 41vw;
     height: 5vh;
@@ -756,7 +666,6 @@
   }
 
   .clearable-input {
-    
     border-radius: 5px;
   }
 
@@ -809,12 +718,12 @@
   .cardInfo {
     position: relative;
     left: 8vw;
-    top: 0vh;
+    top: 1.5vh;
     background: #ffffffe8;
     border-radius: 0px 0px 4px 4px;
   }
 
-  .cardInfoFields{
+  .cardInfoFields {
     padding: 1vh;
   }
 
@@ -831,7 +740,7 @@
     min-height: 23vh;
   }
 
-.thumbnailImage {
+  .thumbnailImage {
     width: 100%;
     border-top: 0px !important;
     border-top-right-radius: 0px !important;
@@ -840,8 +749,8 @@
     max-height: unset;
     min-width: unset;
     object-fit: contain;
-   background: whitesmoke;
-}
+    background: whitesmoke;
+  }
 
   .drawingInfo {
     margin-bottom: 2vh;
@@ -892,12 +801,12 @@
 
   @media (max-width: 800px) {
     .thumbnailImageContainer {
-    justify-content: center;
+      justify-content: center;
     }
     .cardInfo {
-    left: 0vw;
-    top: 0vh;
-  }
+      left: 0vw;
+      top: 0vh;
+    }
     .rs-page__field {
       flex-direction: column;
     }
