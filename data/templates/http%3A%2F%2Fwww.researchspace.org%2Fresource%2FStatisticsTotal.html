@@ -1,0 +1,21 @@
+<semantic-query
+  query='
+    SELECT DISTINCT ?count WHERE {
+      {
+        SELECT (MAX(?d) AS ?date) WHERE {
+        ?a <https://pharos.artresearch.net/custom/has_date> ?d.
+        } 
+      }
+      GRAPH <https://pharos.artresearch.net/resource/statistics/namedgraphs/graph> {
+      ?x ?y ?z.
+      }
+      GRAPH ?z {
+      ?l <https://pharos.artresearch.net/custom/has_date> ?date.
+      ?l <https://pharos.artresearch.net/custom/consists_of> ?n
+      }
+      GRAPH ?n {
+      ?provider <[[property]]> ?count
+      }
+      FILTER(STRSTARTS(STR(?provider), "https://pharos.artresearch.net/resource/total"))
+    } ORDER BY desc(?n) limit 1'
+></semantic-query>

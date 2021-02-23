@@ -1,0 +1,35 @@
+<h3 style="margin-left: 1.1vw; color:#5a5a5a">
+  Timeline <small style="text-transform:lowercase">per provider</small>
+</h3>
+<mp-component-toolbar>
+  <mp-component-toolbar-actions>
+    <semantic-chart-type-selector
+      default="line"
+      types='["line","bar"]'
+    />
+  </mp-component-toolbar-actions>
+  <mp-component-toolbar-component>
+    <semantic-chart
+      type="pie"
+      query='
+     select DISTINCT ?provider ?count  ?date where {
+      ## This query returns the number of works for each provider
+      GRAPH <https://pharos.artresearch.net/resource/statistics/namedgraphs/graph> {
+      ?x ?y ?z.
+      }
+      GRAPH ?z {
+      ?l <https://pharos.artresearch.net/custom/has_date> ?date.
+      ?l <https://pharos.artresearch.net/custom/consists_of> ?n
+      
+      }
+      GRAPH ?n {
+        ?provider <[[property]]> ?count.
+      }
+      FILTER(!STRSTARTS(STR(?provider), "https://pharos.artresearch.net/resource/total"))
+    } ORDER BY ASC(?provider)
+      '
+      multi-data-set='{"dataSetVariable":"provider", "dataSetName": "[[datasetLabel]]", "category":"date", "value":"count" }'
+      >
+    </semantic-chart>
+  </mp-component-toolbar-component>
+</mp-component-toolbar>
