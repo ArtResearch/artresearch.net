@@ -11,484 +11,205 @@
     unmount-on-exit="true"
   >
     <bs-tab event-key="1" title="Artworks">
-      <div style="text-align: center; width: 100%">
+      <div class="totalLabel">
         <h1>
-          <div style="color: gray !important">Total number of Artworks:</div>
+          <div class="totalLabelDescription">Total number of Artworks:</div>
         </h1>
         <h1>
-          <semantic-query
-            query='
-            select DISTINCT ?count where {
-              GRAPH <https://pharos.artresearch.net/resource/statistics/namedgraphs/graph> {
-              ?x ?y ?z.
-              }
-              GRAPH ?z {
-              ?l ?m ?n
-              }
-              GRAPH ?n {
-              ?provider <https://pharos.artresearch.net/custom/numOfWorks> ?count
-              }
-              FILTER(STRSTARTS(STR(?provider), "https://pharos.artresearch.net/resource/total"))
-            } ORDER BY desc(?n) limit 1'
-          ></semantic-query>
+          [[> rsp:StatisticsTotal property="https://pharos.artresearch.net/custom/numOfWorks"]]
         </h1>
       </div>
-      <mp-component-toolbar>
-        <mp-component-toolbar-actions>
-          <semantic-chart-type-selector
-            default="donut"
-            types='["line", "bar", "radar", "pie", "donut"]'
-          />
-        </mp-component-toolbar-actions>
-        <mp-component-toolbar-component>
-          <semantic-chart
-            type="pie"
-            query='
-           select DISTINCT ?provider ?count where {
-            ## This query returns the number of works for each provider
-            GRAPH <https://pharos.artresearch.net/resource/statistics/namedgraphs/graph> {
-            ?x ?y ?z.
-            }
-            GRAPH ?z {
-            ?l ?m ?n
-            }
-            GRAPH ?n {
-              ?provider <https://pharos.artresearch.net/custom/numOfWorks> ?count
-            }
-            FILTER(!STRSTARTS(STR(?provider), "https://pharos.artresearch.net/resource/total"))
-          } ORDER BY ASC(?provider)
-            '
-            sets='[{"dataSetName": "Works", "category": "provider", "value": "count"}]'
-            styles='[{
-            "provider": "chartjs",
-            "style": {
-              "backgroundColor": [
-              "#ff6384",
-              "#ff6384",
-              "#ff6384",
-              "#ff6384",
-              "#ff6384",
-              "#ff6384",
-                    "#ff6384",
-              "#ff6384"
-              ]
-            }
-          }]'
-          >
-          </semantic-chart>
-        </mp-component-toolbar-component>
-      </mp-component-toolbar>
+      <div class="chartContainer">
+      <div class="chartObject">
+        [[> rsp:StatisticsEntity property="https://pharos.artresearch.net/custom/numOfWorks" datasetLabel="Works"]]
+     </div>
+      <div class="chartObject">
+        [[> rsp:StatisticsTimeline property="https://pharos.artresearch.net/custom/numOfWorks" datasetLabel="Works"]]
+      </div>
       <br />
       <br />
     </bs-tab>
     <bs-tab event-key="2" title="Photos">
-      <div style="text-align: center; width: 100%">
+      <div class="totalLabel">
         <h1>
-          <div style="color: gray !important">Total number of Artworks:</div>
+          <div class="totalLabelDescription">Total number of Photographs:</div>
         </h1>
         <h1>
-          <semantic-query
-            query='
-            select DISTINCT ?count where {
-              GRAPH <https://pharos.artresearch.net/resource/statistics/namedgraphs/graph> {
-              ?x ?y ?z.
-              }
-              GRAPH ?z {
-              ?l ?m ?n
-              }
-              GRAPH ?n {
-              ?provider <https://pharos.artresearch.net/custom/numOfPhotos> ?count
-              }
-              FILTER(STRSTARTS(STR(?provider), "https://pharos.artresearch.net/resource/total"))
-            } ORDER BY desc(?n) limit 1'
-          ></semantic-query>
+          [[> rsp:StatisticsTotal property="https://pharos.artresearch.net/custom/numOfPhotos"]]
         </h1>
       </div>
-      <mp-component-toolbar>
-        <mp-component-toolbar-actions>
-          <semantic-chart-type-selector
-            default="donut"
-            types='["line", "bar", "radar", "pie", "donut"]'
-          />
-        </mp-component-toolbar-actions>
-        <mp-component-toolbar-component>
-          <semantic-chart
-            type="pie"
-            query='
-           select DISTINCT ?provider ?count where {
-            ## This query returns the number of works for each provider
-            GRAPH <https://pharos.artresearch.net/resource/statistics/namedgraphs/graph> {
-            ?x ?y ?z.
-            }
-            GRAPH ?z {
-            ?l ?m ?n
-            }
-            GRAPH ?n {
-              ?provider <https://pharos.artresearch.net/custom/numOfPhotos> ?count
-            }
-            FILTER(!STRSTARTS(STR(?provider), "https://pharos.artresearch.net/resource/total"))
-          } ORDER BY ASC(?provider)'
-            sets='[{"dataSetName": "Photos", "category": "provider", "value": "count"}]'
-          >
-          </semantic-chart>
-        </mp-component-toolbar-component>
-      </mp-component-toolbar>
+      <div class="chartContainer">
+      <div class="chartObject">
+        [[> rsp:StatisticsEntity property="https://pharos.artresearch.net/custom/numOfPhotos" datasetLabel="Photos"]]
+     </div>
+      <div class="chartObject">
+        [[> rsp:StatisticsTimeline property="https://pharos.artresearch.net/custom/numOfPhotos" datasetLabel="Photos"]]
+      </div>
       <br />
     </bs-tab>
     <bs-tab event-key="3" title="Artists">
-      <div style="text-align: center; width: 100%;">
-        <h1><div style="color: gray !important">Total number of Artists:</div></h1>
-        <h1><semantic-query query='
-            select DISTINCT ?count where {
-              GRAPH <https://pharos.artresearch.net/resource/statistics/namedgraphs/graph> {
-              ?x ?y ?z.
-              }
-              GRAPH ?z {
-              ?l ?m ?n
-              }
-              GRAPH ?n {
-              ?provider <https://pharos.artresearch.net/custom/numOfArtists> ?count
-              }
-              FILTER(STRSTARTS(STR(?provider), "https://pharos.artresearch.net/resource/total"))
-            } ORDER BY desc(?n) limit 1' 
-        ></semantic-query></h1>
+      <div class="totalLabel">
+        <h1>
+          <div class="totalLabelDescription">Total number of Artists:</div>
+        </h1>
+        <h1>
+          [[> rsp:StatisticsTotal property="https://pharos.artresearch.net/custom/numOfArtists"]]
+        </h1>
       </div>
-      <mp-component-toolbar>
-        <mp-component-toolbar-actions>
-          <semantic-chart-type-selector
-            default="donut"
-            types='["line", "bar", "radar", "pie", "donut"]'
-          />
-        </mp-component-toolbar-actions>
-        <mp-component-toolbar-component>
-          <semantic-chart
-            type="pie"
-            query='
-            select DISTINCT ?provider ?count where {
-              ## This query returns the number of works for each provider
-              GRAPH <https://pharos.artresearch.net/resource/statistics/namedgraphs/graph> {
-              ?x ?y ?z.
-              }
-              GRAPH ?z {
-              ?l ?m ?n
-              }
-              GRAPH ?n {
-                ?provider <https://pharos.artresearch.net/custom/numOfArtists> ?count
-              }
-              FILTER(!STRSTARTS(STR(?provider), "https://pharos.artresearch.net/resource/total"))
-            } ORDER BY ASC(?provider)'
-              sets='[{"dataSetName": "Photos", "category": "provider", "value": "count"}]'
-            sets='[{"dataSetName": "Photos", "category": "person", "value": "count"}]'
-          >
-          </semantic-chart>
-        </mp-component-toolbar-component>
-      </mp-component-toolbar>
+      <div class="chartContainer">
+      <div class="chartObject">
+        [[> rsp:StatisticsEntity property="https://pharos.artresearch.net/custom/numOfArtists" datasetLabel="Artists"]]
+     </div>
+      <div class="chartObject">
+        [[> rsp:StatisticsTimeline property="https://pharos.artresearch.net/custom/numOfArtists" datasetLabel="Artists"]]
+      </div>
       <br />
     </bs-tab>
     <bs-tab event-key="4" title="Photographers">
-      <div style="text-align: center; width: 100%;">
-        <h1><div style="color: gray !important">Total number of Photographers:</div></h1>
-        <h1><semantic-query query='
-            select DISTINCT ?count where {
-              GRAPH <https://pharos.artresearch.net/resource/statistics/namedgraphs/graph> {
-              ?x ?y ?z.
-              }
-              GRAPH ?z {
-              ?l ?m ?n
-              }
-              GRAPH ?n {
-              ?provider <https://pharos.artresearch.net/custom/numOfPhotographers> ?count
-              }
-              FILTER(STRSTARTS(STR(?provider), "https://pharos.artresearch.net/resource/total"))
-            } ORDER BY desc(?n) limit 1' 
-        ></semantic-query></h1>
+      <div class="totalLabel">
+        <h1>
+          <div class="totalLabelDescription">
+            Total number of Photographers:
+          </div>
+        </h1>
+        <h1>
+          [[> rsp:StatisticsTotal property="https://pharos.artresearch.net/custom/numOfPhotographers"]]
+        </h1>
       </div>
-      <mp-component-toolbar>
-        <mp-component-toolbar-actions>
-          <semantic-chart-type-selector
-            default="donut"
-            types='["line", "bar", "radar", "pie", "donut"]'
-          />
-        </mp-component-toolbar-actions>
-        <mp-component-toolbar-component>
-          <semantic-chart
-            type="pie"
-            query='
-            select DISTINCT ?provider ?count where {
-              ## This query returns the number of works for each provider
-              GRAPH <https://pharos.artresearch.net/resource/statistics/namedgraphs/graph> {
-              ?x ?y ?z.
-              }
-              GRAPH ?z {
-              ?l ?m ?n
-              }
-              GRAPH ?n {
-                ?provider <https://pharos.artresearch.net/custom/numOfPhotographers> ?count
-              }
-              FILTER(!STRSTARTS(STR(?provider), "https://pharos.artresearch.net/resource/total"))
-            } ORDER BY ASC(?provider)'
-              sets='[{"dataSetName": "Photos", "category": "provider", "value": "count"}]'
-            sets='[{"dataSetName": "Photos", "category": "person", "value": "count"}]'
-          >
-          </semantic-chart>
-        </mp-component-toolbar-component>
-      </mp-component-toolbar>
+      <div class="chartContainer">
+      <div class="chartObject">
+        [[> rsp:StatisticsEntity property="https://pharos.artresearch.net/custom/numOfPhotographers" datasetLabel="Photographers"]]
+     </div>
+      <div class="chartObject">
+        [[> rsp:StatisticsTimeline property="https://pharos.artresearch.net/custom/numOfPhotographers" datasetLabel="Photographers"]]
+      </div>
       <br />
     </bs-tab>
     <bs-tab event-key="5" title="Repositories">
-      <div style="text-align: center; width: 100%;">
-        <h1><div style="color: gray !important">Total number of Repositories:</div></h1>
-        <h1><semantic-query query='
-            select DISTINCT ?count where {
-              GRAPH <https://pharos.artresearch.net/resource/statistics/namedgraphs/graph> {
-              ?x ?y ?z.
-              }
-              GRAPH ?z {
-              ?l ?m ?n
-              }
-              GRAPH ?n {
-              ?provider <https://pharos.artresearch.net/custom/numOfInstitutions> ?count
-              }
-              FILTER(STRSTARTS(STR(?provider), "https://pharos.artresearch.net/resource/total"))
-            } ORDER BY desc(?n) limit 1' 
-        ></semantic-query></h1>
+      <div class="totalLabel">
+        <h1>
+          <div class="totalLabelDescription">
+            Total number of Repositories:
+          </div>
+        </h1>
+        <h1>
+          [[> rsp:StatisticsTotal property="https://pharos.artresearch.net/custom/numOfInstitutions"]]
+        </h1>
       </div>
-      <mp-component-toolbar>
-        <mp-component-toolbar-actions>
-          <semantic-chart-type-selector
-            default="donut"
-            types='["line", "bar", "radar", "pie", "donut"]'
-          />
-        </mp-component-toolbar-actions>
-        <mp-component-toolbar-component>
-          <semantic-chart
-            type="pie"
-            query='
-            select DISTINCT ?provider ?count where {
-              ## This query returns the number of works for each provider
-              GRAPH <https://pharos.artresearch.net/resource/statistics/namedgraphs/graph> {
-              ?x ?y ?z.
-              }
-              GRAPH ?z {
-              ?l ?m ?n
-              }
-              GRAPH ?n {
-                ?provider <https://pharos.artresearch.net/custom/numOfInstitutions> ?count
-              }
-              FILTER(!STRSTARTS(STR(?provider), "https://pharos.artresearch.net/resource/total"))
-            } ORDER BY ASC(?provider)'
-              sets='[{"dataSetName": "Photos", "category": "provider", "value": "count"}]'
-            sets='[{"dataSetName": "Photos", "category": "person", "value": "count"}]'
-          >
-          </semantic-chart>
-        </mp-component-toolbar-component>
-      </mp-component-toolbar>
+      <div class="chartContainer">
+      <div class="chartObject">
+        [[> rsp:StatisticsEntity property="https://pharos.artresearch.net/custom/numOfInstitutions" datasetLabel="Institutions"]]
+     </div>
+      <div class="chartObject">
+        [[> rsp:StatisticsTimeline property="https://pharos.artresearch.net/custom/numOfInstitutions" datasetLabel="Institutions"]]
+      </div>
       <br />
     </bs-tab>
     <bs-tab event-key="6" title="Places">
-      <div style="text-align: center; width: 100%;">
-        <h1><div style="color: gray !important">Total number of Places:</div></h1>
-        <h1><semantic-query query='
-            select DISTINCT ?count where {
-              GRAPH <https://pharos.artresearch.net/resource/statistics/namedgraphs/graph> {
-              ?x ?y ?z.
-              }
-              GRAPH ?z {
-              ?l ?m ?n
-              }
-              GRAPH ?n {
-              ?provider <https://pharos.artresearch.net/custom/numOfPlaces> ?count
-              }
-              FILTER(STRSTARTS(STR(?provider), "https://pharos.artresearch.net/resource/total"))
-            } ORDER BY desc(?n) limit 1' 
-        ></semantic-query></h1>
+      <div class="totalLabel">
+        <h1>
+          <div class="totalLabelDescription">Total number of Places:</div>
+        </h1>
+        <h1>
+          [[> rsp:StatisticsTotal property="https://pharos.artresearch.net/custom/numOfPlaces"]]
+        </h1>
       </div>
-      <mp-component-toolbar>
-        <mp-component-toolbar-actions>
-          <semantic-chart-type-selector
-            default="donut"
-            types='["line", "bar", "radar", "pie", "donut"]'
-          />
-        </mp-component-toolbar-actions>
-        <mp-component-toolbar-component>
-          <semantic-chart
-            type="pie"
-            query='
-            select DISTINCT ?provider ?count where {
-              ## This query returns the number of works for each provider
-              GRAPH <https://pharos.artresearch.net/resource/statistics/namedgraphs/graph> {
-              ?x ?y ?z.
-              }
-              GRAPH ?z {
-              ?l ?m ?n
-              }
-              GRAPH ?n {
-                ?provider <https://pharos.artresearch.net/custom/numOfPlaces> ?count
-              }
-              FILTER(!STRSTARTS(STR(?provider), "https://pharos.artresearch.net/resource/total"))
-            } ORDER BY ASC(?provider)'
-              sets='[{"dataSetName": "Photos", "category": "provider", "value": "count"}]'
-            sets='[{"dataSetName": "Photos", "category": "person", "value": "count"}]'
-          >
-          </semantic-chart>
-        </mp-component-toolbar-component>
-      </mp-component-toolbar>
+      <div class="chartContainer">
+      <div class="chartObject">
+        [[> rsp:StatisticsEntity property="https://pharos.artresearch.net/custom/numOfPlaces" datasetLabel="Places"]]
+     </div>
+      <div class="chartObject">
+        [[> rsp:StatisticsTimeline property="https://pharos.artresearch.net/custom/numOfPlaces" datasetLabel="Places"]]
+      </div>
       <br />
     </bs-tab>
     <bs-tab event-key="7" title="Techniques">
-      <div style="text-align: center; width: 100%;">
-        <h1><div style="color: gray !important">Total number of Techniques:</div></h1>
-        <h1><semantic-query query='
-            select DISTINCT ?count where {
-              GRAPH <https://pharos.artresearch.net/resource/statistics/namedgraphs/graph> {
-              ?x ?y ?z.
-              }
-              GRAPH ?z {
-              ?l ?m ?n
-              }
-              GRAPH ?n {
-              ?provider <https://pharos.artresearch.net/custom/numOfTechniques> ?count
-              }
-              FILTER(STRSTARTS(STR(?provider), "https://pharos.artresearch.net/resource/total"))
-            } ORDER BY desc(?n) limit 1' 
-        ></semantic-query></h1>
+      <div class="totalLabel">
+        <h1>
+          <div class="totalLabelDescription">Total number of Techniques:</div>
+        </h1>
+        <h1>
+          [[> rsp:StatisticsTotal property="https://pharos.artresearch.net/custom/numOfTechniques"]]
+        </h1>
+        </h1>
       </div>
-      <mp-component-toolbar>
-        <mp-component-toolbar-actions>
-          <semantic-chart-type-selector
-            default="donut"
-            types='["line", "bar", "radar", "pie", "donut"]'
-          />
-        </mp-component-toolbar-actions>
-        <mp-component-toolbar-component>
-          <semantic-chart
-            type="pie"
-            query='
-            select DISTINCT ?provider ?count where {
-              ## This query returns the number of works for each provider
-              GRAPH <https://pharos.artresearch.net/resource/statistics/namedgraphs/graph> {
-              ?x ?y ?z.
-              }
-              GRAPH ?z {
-              ?l ?m ?n
-              }
-              GRAPH ?n {
-                ?provider <https://pharos.artresearch.net/custom/numOfTechniques> ?count
-              }
-              FILTER(!STRSTARTS(STR(?provider), "https://pharos.artresearch.net/resource/total"))
-            } ORDER BY ASC(?provider)'
-              sets='[{"dataSetName": "Photos", "category": "provider", "value": "count"}]'
-            sets='[{"dataSetName": "Photos", "category": "person", "value": "count"}]'
-          >
-          </semantic-chart>
-        </mp-component-toolbar-component>
-      </mp-component-toolbar>
+      <div class="chartContainer">
+      <div class="chartObject">
+        [[> rsp:StatisticsEntity property="https://pharos.artresearch.net/custom/numOfTechniques" datasetLabel="Techniques"]]
+     </div>
+      <div class="chartObject">
+        [[> rsp:StatisticsTimeline property="https://pharos.artresearch.net/custom/numOfTechniques" datasetLabel="Techniques"]]
+      </div>
       <br />
     </bs-tab>
     <bs-tab event-key="8" title="Materials">
-      <div style="text-align: center; width: 100%;">
-        <h1><div style="color: gray !important">Total number of Materials:</div></h1>
-        <h1><semantic-query query='
-            select DISTINCT ?count where {
-              GRAPH <https://pharos.artresearch.net/resource/statistics/namedgraphs/graph> {
-              ?x ?y ?z.
-              }
-              GRAPH ?z {
-              ?l ?m ?n
-              }
-              GRAPH ?n {
-              ?provider <https://pharos.artresearch.net/custom/numOfMaterials> ?count
-              }
-              FILTER(STRSTARTS(STR(?provider), "https://pharos.artresearch.net/resource/total"))
-            } ORDER BY desc(?n) limit 1' 
-        ></semantic-query></h1>
+      <div class="totalLabel">
+        <h1>
+          <div class="totalLabelDescription">Total number of Materials:</div>
+        </h1>
+        <h1>
+          [[> rsp:StatisticsTotal property="https://pharos.artresearch.net/custom/numOfMaterials"]]
+        </h1>
       </div>
-      <mp-component-toolbar>
-        <mp-component-toolbar-actions>
-          <semantic-chart-type-selector
-            default="donut"
-            types='["line", "bar", "radar", "pie", "donut"]'
-          />
-        </mp-component-toolbar-actions>
-        <mp-component-toolbar-component>
-          <semantic-chart
-            type="pie"
-            query='
-            select DISTINCT ?provider ?count where {
-              ## This query returns the number of works for each provider
-              GRAPH <https://pharos.artresearch.net/resource/statistics/namedgraphs/graph> {
-              ?x ?y ?z.
-              }
-              GRAPH ?z {
-              ?l ?m ?n
-              }
-              GRAPH ?n {
-                ?provider <https://pharos.artresearch.net/custom/numOfMaterials> ?count
-              }
-              FILTER(!STRSTARTS(STR(?provider), "https://pharos.artresearch.net/resource/total"))
-            } ORDER BY ASC(?provider)'
-              sets='[{"dataSetName": "Photos", "category": "provider", "value": "count"}]'
-            sets='[{"dataSetName": "Photos", "category": "person", "value": "count"}]'
-          >
-          </semantic-chart>
-        </mp-component-toolbar-component>
-      </mp-component-toolbar>
+      <div class="chartContainer">
+      <div class="chartObject">
+        [[> rsp:StatisticsEntity property="https://pharos.artresearch.net/custom/numOfMaterials" datasetLabel="Materials"]]
+     </div>
+      <div class="chartObject">
+        [[> rsp:StatisticsTimeline property="https://pharos.artresearch.net/custom/numOfMaterials" datasetLabel="Materials"]]
+      </div>
       <br />
     </bs-tab>
     <bs-tab event-key="9" title="Types">
-      <div style="text-align: center; width: 100%;">
-        <h1><div style="color: gray !important">Total number of Types:</div></h1>
-        <h1><semantic-query query='
-            select DISTINCT ?count where {
-              GRAPH <https://pharos.artresearch.net/resource/statistics/namedgraphs/graph> {
-              ?x ?y ?z.
-              }
-              GRAPH ?z {
-              ?l ?m ?n
-              }
-              GRAPH ?n {
-              ?provider <https://pharos.artresearch.net/custom/numOfTypes> ?count
-              }
-              FILTER(STRSTARTS(STR(?provider), "https://pharos.artresearch.net/resource/total"))
-            } ORDER BY desc(?n) limit 1' 
-        ></semantic-query></h1>
+      <div class="totalLabel">
+        <h1>
+          <div class="totalLabelDescription">Total number of Types:</div>
+        </h1>
+        <h1>
+          [[> rsp:StatisticsTotal property="https://pharos.artresearch.net/custom/numOfTypes"]]
+        </h1>
       </div>
-      <mp-component-toolbar>
-        <mp-component-toolbar-actions>
-          <semantic-chart-type-selector
-            default="donut"
-            types='["line", "bar", "radar", "pie", "donut"]'
-          />
-        </mp-component-toolbar-actions>
-        <mp-component-toolbar-component>
-          <semantic-chart
-            type="pie"
-            query='
-            select DISTINCT ?provider ?count where {
-              ## This query returns the number of works for each provider
-              GRAPH <https://pharos.artresearch.net/resource/statistics/namedgraphs/graph> {
-              ?x ?y ?z.
-              }
-              GRAPH ?z {
-              ?l ?m ?n
-              }
-              GRAPH ?n {
-                ?provider <https://pharos.artresearch.net/custom/numOfTypes> ?count
-              }
-              FILTER(!STRSTARTS(STR(?provider), "https://pharos.artresearch.net/resource/total"))
-            } ORDER BY ASC(?provider)'
-              sets='[{"dataSetName": "Photos", "category": "provider", "value": "count"}]'
-            sets='[{"dataSetName": "Photos", "category": "person", "value": "count"}]'
-          >
-          </semantic-chart>
-        </mp-component-toolbar-component>
-      </mp-component-toolbar>
+      <div class="chartContainer">
+      <div class="chartObject">
+        [[> rsp:StatisticsEntity property="https://pharos.artresearch.net/custom/numOfTypes" datasetLabel="Types"]]
+     </div>
+      <div class="chartObject">
+        [[> rsp:StatisticsTimeline property="https://pharos.artresearch.net/custom/numOfTypes" datasetLabel="Types"]]
+      </div>
       <br />
     </bs-tab>
   </bs-tabs>
 </div>
 <style>
-  .popover{color:black !important}
+  .page{
+    padding-top: 0  !important;
+  }
+  .totalLabel{
+    display: flex;
+    text-align: left; 
+    width: 100%;
+    margin-left: 0.4vw;
+    margin-bottom: 1vh;
+  }
+  .totalLabel h1{
+   margin-left: 0.7vw;
+  }
+
+  .totalLabel .totalLabelDescription{
+    color: #5a5a5a;
+  }
+
+  .chartContainer{
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .chartObject{
+    width: 49vw;
+    min-width: 460px;
+  }
+  .popover {
+    color: black !important;
+  }
   .jumbotron {
     padding-top: 15px !important;
     padding-bottom: 15px !important;
