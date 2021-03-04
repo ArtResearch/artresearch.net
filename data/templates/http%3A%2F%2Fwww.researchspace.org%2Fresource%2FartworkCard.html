@@ -18,6 +18,8 @@
                   <{{subject.value}}> <http://www.cidoc-crm.org/cidoc-crm/P138i_is_represented_by> ?visual. 
                   ?visual crm:P128i_is_carried_by ?image .
                   ?image crm:P129i_is_subject_of ?fullsizeImgUrl.
+                  ?fullsizeImgUrl <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ?type.
+                  ?type rdfs:label "recto"
                   BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/200,") AS ?smallerImgUrl).
                 }
                 UNION{
@@ -25,6 +27,8 @@
                   ?originalSubject <http://www.cidoc-crm.org/cidoc-crm/P138i_is_represented_by> ?visual. 
                   ?visual crm:P128i_is_carried_by ?image .
                   ?image crm:P129i_is_subject_of ?fullsizeImgUrl.
+                  ?fullsizeImgUrl <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ?type.
+                  ?type rdfs:label "recto"
                   BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/200,") AS ?smallerImgUrl).
                 }
           
