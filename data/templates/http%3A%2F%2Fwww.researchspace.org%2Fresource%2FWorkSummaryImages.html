@@ -36,14 +36,14 @@
     template="{{> imageThumbnail}}"
   >
     <template id="imageThumbnail">
-      <bs-tab-container id="imageViewTabs" default-active-key="grid">
+      <bs-tab-container id="imageViewTabs" default-active-key="single">
         <div>
           <bs-nav class="navbar-flex-end" bs-style="tabs">
-            <bs-nav-item event-key="grid">
-              <span class="fa fa-th"></span>
-            </bs-nav-item>
             <bs-nav-item event-key="single">
               <span class="fa fa-image"></span>
+            </bs-nav-item>
+            <bs-nav-item event-key="grid">
+              <span class="fa fa-th"></span>
             </bs-nav-item>
             <bs-nav-item event-key="timeline">
               <span class="fa fa-calendar"></span>
@@ -179,29 +179,44 @@
                               </div>
                             </template>
                           </semantic-query>
-
-                          <img
-                            class="imageThumbnail"
-                            alt="Issue with image"
-                            src="{{imgURL}}"
-                          />
+                          <semantic-query
+                            query='SELECT ?images WHERE{
+                              BIND(IRI(REPLACE(STR("{{imgURL}}"),"full/350,","full/full")) AS ?imgURL).
+                              ?photo crm:P129i_is_subject_of ?imgURL; 
+                              crm:P129i_is_subject_of ?rectoVerso;
+                              BIND(REPLACE(STR(?rectoVerso), "full/full", "full/350,") AS ?images)
+                          }'
+                            template="{{>rectoVerso}}"
+                          >
+                            <template id="rectoVerso">
+                              {{#each bindings}}
+                              <img
+                                class="imageThumbnailSingle"
+                                alt="Issue with image"
+                                src="{{images.value}}"
+                              />
+                              {{/each}}
+                            </template>
+                          </semantic-query>
                           {{/ifCond}} {{#ifCond imgURL "===" undefined}}
                           <semantic-query
-                            query='SELECT DISTINCT ?imageUrl ?iiifImage WHERE{
-                                BIND(REPLACE(STR("{{bindings.0.imgURL.value}}"),"full/350,","full/full") AS ?iiifImage).
+                            query='SELECT DISTINCT ?iiifImage ?images WHERE{
+                                BIND(iri(REPLACE(STR("{{bindings.0.imgURL.value}}"),"full/350,","full/full")) AS ?iiifImage).
                                 BIND(("{{bindings.0.imgURL.value}}") AS ?imageUrl).
-          
+                                ?photo crm:P129i_is_subject_of ?iiifImage;
+                                      crm:P129i_is_subject_of ?rectoVerso.
+                                BIND(REPLACE(STR(?rectoVerso), "full/full", "full/350,") AS ?images)   
                                 }'
                             template="{{> mediumImageSize}}"
                           >
                             <template id="mediumImageSize">
                               <semantic-query
                                 query="     
-                              SELECT ?providerLabel WHERE{    
-                                ?photo crm:P129i_is_subject_of <{{bindings.0.iiifImage.value}}>.
-                                ?photo <https://pharos.artresearch.net/custom/has_provider> ?provider.
-                                ?provider rdfs:label ?providerLabel.
-                              }limit 1
+                                SELECT ?providerLabel WHERE{    
+                                  ?photo crm:P129i_is_subject_of <{{bindings.0.iiifImage.value}}>.
+                                  ?photo <https://pharos.artresearch.net/custom/has_provider> ?provider.
+                                  ?provider rdfs:label ?providerLabel.
+                                }limit 1
                                 "
                                 template="{{> imageSourceIcon}}"
                               >
@@ -215,11 +230,13 @@
                                   </div>
                                 </template>
                               </semantic-query>
+                              {{#each bindings}}
                               <img
-                                class="imageThumbnail"
+                                class="imageThumbnailSingle"
                                 alt="Issue with image"
-                                src="{{bindings.0.imageUrl.value}}"
+                                src="{{images.value}}"
                               />
+                              {{/each}}
                             </template>
                           </semantic-query>
                           {{/ifCond}}
@@ -227,7 +244,7 @@
                       </mp-overlay-dialog-trigger>
                       <mp-overlay-dialog-content>
                         <semantic-query
-                          query='SELECT ?fullsizeImgUrl ?iiifServer WHERE {
+                          query='SELECT ?fullsizeImages ?iiifServer WHERE {
                                 OPTIONAL
                                 {
                                   { 
@@ -241,19 +258,30 @@
                                 }
                                 {{#ifCond imgURL "!==" undefined}}
                                 BIND(REPLACE(STR("{{imgURL}}"),"320px","2048px") AS ?fullsizeImgUrlHertziana).
-                                BIND(STR(?fullsizeImgUrlHertziana) AS ?fullsizeImgUrl).
+                                BIND(REPLACE(STR(?fullsizeImgUrlHertziana),"full/350,","full/full") AS ?fullsizeImgUrl).
+                                BIND(iri(?fullsizeImgUrl) AS ?fullsizeImgUrlIri).
+                                optional{
+                                  ?photo crm:P129i_is_subject_of ?fullsizeImgUrlIri;
+                                         crm:P129i_is_subject_of ?fullsizeImages.
+                                }
                                 {{/ifCond}}
                                 {{#ifCond imgURL "===" undefined}}
                                 BIND(REPLACE(STR("{{bindings.0.imgURL.value}}"),"320px","2048px") AS ?fullsizeImgUrlHertziana).
                                 BIND(REPLACE(STR(?fullsizeImgUrlHertziana),"full/350,","full/full") AS ?fullsizeImgUrl).
+                                BIND(iri(?fullsizeImgUrl) AS ?fullsizeImgUrlIri).
+                                optional{
+                                  ?photo crm:P129i_is_subject_of ?fullsizeImgUrlIri;
+                                         crm:P129i_is_subject_of ?fullsizeImages.
+                                }
                                 {{/ifCond}}
-                            }LIMIT 1'
+                            }LIMIT 2'
                           template="{{> fullSizeImageTemplate}}"
                         >
                           <template id="fullSizeImageTemplate">
-                            {{#each bindings}} {{#ifCond iiifServer.value "!=="
+                            {{#ifCond bindings.0.iiifServer.value "!=="
                             undefined}}
                             <div>
+                              {{#ifCond (objectLength bindings) "===" 1}}
                               <div style="width: 100vw; height: 86vh">
                                 <rs-iiif-mirador
                                   image-or-region="[[this]]"
@@ -262,16 +290,58 @@
                                             ?subject crm:P138i_is_represented_by ?visual_item.
                                             ?visual_item crm:P128i_is_carried_by ?photo.
                                             ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
-                                            ?photo crm:P129i_is_subject_of <{{fullsizeImgUrl.value}}>.
-                                            <{{fullsizeImgUrl.value}}> crm:P2_has_type <http://iiif.io/api/image>.
-                                            BIND(REPLACE(STR(REPLACE(STR("{{fullsizeImgUrl.value}}"),"/full/full/0/*","")), "(^.*)\\/(.*)$", "$2") AS ?idWithDefaultNative).
+                                            ?photo crm:P129i_is_subject_of <{{bindings.0.fullsizeImages.value}}>.
+                                            <{{bindings.0.fullsizeImages.value}}> crm:P2_has_type <http://iiif.io/api/image>.
+                                            BIND(REPLACE(STR(REPLACE(STR("{{bindings.0.fullsizeImages.value}}"),"/full/full/0/*","")), "(^.*)\\/(.*)$", "$2") AS ?idWithDefaultNative).
                                             BIND(REPLACE(?idWithDefaultNative,"default.jpg","") AS ?idWithNative).
                                             BIND(REPLACE(?idWithNative,"native.jpg","") AS ?imageID).
                                             '
-                                  iiif-server-url="{{iiifServer.value}}"
+                                  iiif-server-url="{{bindings.0.iiifServer.value}}"
                                 >
                                 </rs-iiif-mirador>
                               </div>
+                              {{else}}
+                              <div class="rectoVersoMirador">
+                                <div style="width: 50vw; height: 86vh">
+                                  <rs-iiif-mirador
+                                    id="rectoMirador"
+                                    image-or-region="[[this]]"
+                                    image-id-pattern='
+                                                BIND("image" AS ?type). BIND(?subject AS ?imageIRI). 
+                                                ?subject crm:P138i_is_represented_by ?visual_item.
+                                                ?visual_item crm:P128i_is_carried_by ?photo.
+                                                ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
+                                                ?photo crm:P129i_is_subject_of <{{bindings.0.fullsizeImages.value}}>.
+                                                <{{bindings.0.fullsizeImages.value}}> crm:P2_has_type <http://iiif.io/api/image>.
+                                                BIND(REPLACE(STR(REPLACE(STR("{{bindings.0.fullsizeImages.value}}"),"/full/full/0/*","")), "(^.*)\\/(.*)$", "$2") AS ?idWithDefaultNative).
+                                                BIND(REPLACE(?idWithDefaultNative,"default.jpg","") AS ?idWithNative).
+                                                BIND(REPLACE(?idWithNative,"native.jpg","") AS ?imageID).
+                                                '
+                                    iiif-server-url="{{bindings.0.iiifServer.value}}"
+                                  >
+                                  </rs-iiif-mirador>
+                                </div>
+                                <div style="width: 50vw; height: 86vh">
+                                  <rs-iiif-mirador
+                                    id="versoMirador"
+                                    image-or-region="[[this]]"
+                                    image-id-pattern='
+                                                BIND("image" AS ?type). BIND(?subject AS ?imageIRI). 
+                                                ?subject crm:P138i_is_represented_by ?visual_item.
+                                                ?visual_item crm:P128i_is_carried_by ?photo.
+                                                ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
+                                                ?photo crm:P129i_is_subject_of <{{bindings.1.fullsizeImages.value}}>.
+                                                <{{bindings.1.fullsizeImages.value}}> crm:P2_has_type <http://iiif.io/api/image>.
+                                                BIND(REPLACE(STR(REPLACE(STR("{{bindings.1.fullsizeImages.value}}"),"/full/full/0/*","")), "(^.*)\\/(.*)$", "$2") AS ?idWithDefaultNative).
+                                                BIND(REPLACE(?idWithDefaultNative,"default.jpg","") AS ?idWithNative).
+                                                BIND(REPLACE(?idWithNative,"native.jpg","") AS ?imageID).
+                                                '
+                                    iiif-server-url="{{bindings.0.iiifServer.value}}"
+                                  >
+                                  </rs-iiif-mirador>
+                                </div>
+                              </div>
+                              {{/ifCond}}
                             </div>
                             {{else}}
                             <img
@@ -280,9 +350,9 @@
                                 height: 100%;
                                 object-fit: contain;
                               "
-                              src="{{fullsizeImgUrl.value}}"
+                              src="{{bindings.0.fullsizeImages.value}}"
                             />
-                            {{/ifCond}} {{/each}}
+                            {{/ifCond}}
                           </template>
                         </semantic-query>
                       </mp-overlay-dialog-content>
@@ -291,17 +361,29 @@
                 </mp-event-target-template-render>
                 <div class="summary-image-thumbs">
                   {{#each bindings}}
-                  <mp-event-trigger
-                    id="event-trigger"
-                    type="Component.TemplateUpdate"
-                    data='{"imgURL":"{{imgURL.value}}"}'
-                    targets='["event-target"]'
+                  <semantic-query
+                    query='
+                   SELECT ?imgURL WHERE{ 
+                     {{image}} crm:P2_has_type ?imageType. 
+                      ?imageType rdfs:label ?label. 
+                      filter(?label != "verso")
+                    } '
+                    template="{{> onlyRectos}}"
                   >
-                    <img
-                      class="object-representations__image--rep"
-                      src="{{imgURL.value}}"
-                    />
-                  </mp-event-trigger>
+                    <template id="onlyRectos">
+                      <mp-event-trigger
+                        id="event-trigger"
+                        type="Component.TemplateUpdate"
+                        data='{"imgURL":"{{imgURL.value}}"}'
+                        targets='["event-target"]'
+                      >
+                        <img
+                          class="object-representations__image--rep smallThumbsSingle"
+                          src="{{imgURL.value}}"
+                        />
+                      </mp-event-trigger>
+                    </template>
+                  </semantic-query>
                   {{/each}}
                 </div>
               </div>
@@ -408,6 +490,10 @@
     opacity: 0.7;
   }
 
+  .rectoVersoMirador {
+    display: flex;
+  }
+
   .mirador .researchspace-mirador.mirador-container .mirador-viewer {
     background-color: #f5f5f5 !important;
   }
@@ -460,7 +546,17 @@
     flex-wrap: wrap;
     justify-content: center;
   }
-
+  .imageThumbnailSingle {
+    height: 45vh;
+    margin: 1vw;
+    cursor: pointer;
+    background-position: center;
+  }
+  .smallThumbsSingle {
+    height: 7vh;
+    max-width: unset;
+    max-height: unset;
+  }
   .imageThumbnail {
     height: 40vh;
     max-height: 400px;
@@ -468,7 +564,6 @@
     cursor: pointer;
     background-position: center;
   }
-
   .modal-content {
     background-color: #f5f5f5 !important;
   }
