@@ -227,8 +227,10 @@
                        ?og_type owl:sameAs ?suggestion.
                        ?pharos crm:P2_has_type ?suggestion.
                  }
-                 ?suggestion rdfs:label ?label ;
+                 OPTIONAL {
+                  ?suggestion rdfs:label ?label ;
                            a ?__range__ .
+                 }
               }
             }
             FILTER(EXISTS {
@@ -442,7 +444,9 @@
                              } UNION {
                                ?subject a <https://pharos.artresearch.net/resource/fc/photo>.
                              } UNION {
-                               ?subject a <https://pharos.artresearch.net/resource/fc/date>.
+                              ?subject a <https://pharos.artresearch.net/resource/fc/material>.
+                             } UNION {
+                               FILTER(STR(?subject)=?subject)
                              }
                       }GROUP BY(?subject) LIMIT 100'
                    tuple-template="{{>tupleTemplate}}"
@@ -471,7 +475,9 @@
                              } UNION {
                                ?subject a <https://pharos.artresearch.net/resource/fc/photo>.
                              } UNION {
-                               ?subject a <https://pharos.artresearch.net/resource/fc/date>.
+                              ?subject a <https://pharos.artresearch.net/resource/fc/material>.
+                             } UNION {
+                               FILTER(STR(?subject)=?subject)
                              }
                              
                            }"
