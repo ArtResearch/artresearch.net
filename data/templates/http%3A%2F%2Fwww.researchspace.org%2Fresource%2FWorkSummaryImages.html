@@ -278,8 +278,7 @@
                           template="{{> fullSizeImageTemplate}}"
                         >
                           <template id="fullSizeImageTemplate">
-                            {{#ifCond bindings.0.iiifServer.value "!=="
-                            undefined}}
+                            {{#ifCond bindings.0.iiifServer.value "!==" undefined}}
                             <div>
                               {{#ifCond (objectLength bindings) "===" 1}}
                               <div style="width: 100vw; height: 86vh">
