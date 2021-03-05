@@ -1,9 +1,33 @@
 
-<semantic-query
-query='  
-SELECT distinct ?photo ?photo_label ?keeper ?keeper_label ?rectoImage WHERE 
+
+<semantic-query query='  
+SELECT distinct ?photo 
 {
-    
+  {
+    ?? crm:P138i_is_represented_by ?visual_item.
+    ?visual_item crm:P128i_is_carried_by ?photo.
+  }UNION{
+    ?originalSubject owl:sameAs ??.
+      ?originalSubject crm:P138i_is_represented_by ?visual_item.
+      ?visual_item crm:P128i_is_carried_by ?photo.
+  }
+}LIMIT 1'
+template="{{> showTitle}}"
+  >
+<template id="showTitle">
+  <div style="margin-top:45px"> <h2>Photographs</h2></div>
+</template>
+</semantic-query>
+
+
+<semantic-table
+options='{
+  "showFilter":false
+}'
+number-of-displayed-rows="4"
+query='  
+SELECT distinct ?photo ?photo_label ?photographer ?keeper ?rectoImage WHERE 
+{
     {
       ?? crm:P138i_is_represented_by ?visual_item.
       ?visual_item crm:P128i_is_carried_by ?photo.
@@ -15,13 +39,11 @@ SELECT distinct ?photo ?photo_label ?keeper ?keeper_label ?rectoImage WHERE
       OPTIONAL
       {
         ?photo crm:P50_has_current_keeper ?keeper.
-        ?keeper rdfs:label ?keeper_label.
       }
       OPTIONAL
       {
         ?photo crm:P108i_was_produced_by ?production .
         ?production crm:P14_carried_out_by ?photographer.
-        ?photographer rdfs:label ?photographer_label.
       }
       ?photo crm:P129i_is_subject_of ?recto.
     }UNION{
@@ -36,24 +58,20 @@ SELECT distinct ?photo ?photo_label ?keeper ?keeper_label ?rectoImage WHERE
       OPTIONAL
       {
         ?photo crm:P50_has_current_keeper ?keeper.
-        ?keeper rdfs:label ?keeper_label.
       }
       OPTIONAL
       {
         ?photo crm:P108i_was_produced_by ?production .
         ?production crm:P14_carried_out_by ?photographer.
-        ?photographer rdfs:label ?photographer_label.
       }
       ?photo crm:P129i_is_subject_of ?recto.
     }
     BIND(REPLACE(STR(?recto),"full/full","full/100,") AS ?rectoImage).
-}LIMIT 4' 
-template='{{> photos}}'
+}' 
+tuple-template='{{> photos}}'
 >
      
 <template id='photos'>
-  <div style="margin-top:45px"> <h2>Photographs</h2></div>
-  {{#each bindings}}
   <div class="photographFieldView">
     <td>
        <semantic-link iri="{{photo.value}}"> 
@@ -70,30 +88,29 @@ template='{{> photos}}'
           </span>
         </td>
       </tr>
-      {{#ifCond photographer_label.value "!==" undefined}}
+      
+      {{#ifCond photographer.value "!==" undefined}}
       <tr>
         <td class="rs-page-resource__field-label">Photographer</td>
         <td>
           <span class="rs-page-resource__field-value">
             <div class="visualizationValue"> 
-              <semantic-link iri="{{photographer.value}}"> 
-              {{photographer_label.value}}
-             </semantic-link>
+              <semantic-query query='SELECT ?photographer WHERE{ BIND(({{photographer}}) as ?photographer)}'>
+              </semantic-query>
             </div>
           </span>
         </td>
       </tr>
       {{/ifCond}}
       
-      {{#ifCond keeper_label.value "!==" undefined}}
+      {{#ifCond keeper.value "!==" undefined}}
       <tr>
         <td class="rs-page-resource__field-label">Keeper</td>
         <td>
           <span class="rs-page-resource__field-value">
             <div class="visualizationValue"> 
-              <semantic-link iri="{{keeper.value}}"> 
-                {{keeper_label.value}}
-              </semantic-link>
+              <semantic-query query='SELECT ?keeper WHERE{ BIND(({{keeper}}) as ?keeper)}'>
+              </semantic-query>
             </div>
           </span>
         </td>
@@ -101,9 +118,8 @@ template='{{> photos}}'
       {{/ifCond}}
     </div>
 </div>
-{{/each}}
 </template>    
-</semantic-query>
+</semantic-table>
 <style>
   .photographFieldView{
     display: flex;
