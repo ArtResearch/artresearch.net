@@ -31,42 +31,19 @@ SELECT distinct ?photo ?photo_label ?photographer ?keeper WHERE
     {
       ?? crm:P138i_is_represented_by ?visual_item.
       ?visual_item crm:P128i_is_carried_by ?photo.
-      OPTIONAL
-      {
-      ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
-      ?photo rdfs:label ?photo_label.
-      }
-      OPTIONAL
-      {
-        ?photo crm:P50_has_current_keeper ?keeper.
-      }
-      OPTIONAL
-      {
-        ?photo crm:P108i_was_produced_by ?production .
-        ?production crm:P14_carried_out_by ?photographer.
-      }
-      ?photo crm:P129i_is_subject_of ?recto.
     }UNION{
       ?originalSubject owl:sameAs ??.
       ?originalSubject crm:P138i_is_represented_by ?visual_item.
       ?visual_item crm:P128i_is_carried_by ?photo.
-      ?photo crm:P2_has_type ?imageType. 
-      ?imageType rdfs:label ?label. 
-      filter(?label != "verso")
-      OPTIONAL
-      {
+    }
+    OPTIONAL {
       ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
       ?photo rdfs:label ?photo_label.
-      }
-      OPTIONAL
-      {
-        ?photo crm:P50_has_current_keeper ?keeper.
-      }
-      OPTIONAL
-      {
-        ?photo crm:P108i_was_produced_by ?production .
-        ?production crm:P14_carried_out_by ?photographer.
-      }
+    } OPTIONAL {
+      ?photo crm:P50_has_current_keeper ?keeper.
+    } OPTIONAL {
+      ?photo crm:P108i_was_produced_by ?production .
+      ?production crm:P14_carried_out_by ?photographer.
     }
 }' 
 tuple-template='{{> photos}}'
