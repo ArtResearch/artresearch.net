@@ -1,0 +1,13 @@
+<!-- Displays a list of similar artworks -->
+<div>
+  <semantic-query
+    query="SELECT ?subject WHERE { ?? ?similarTo ?subject}LIMIT 1"
+    template="{{>similarArtworkTemplate}}"
+  >
+    <template id="similarArtworkTemplate">
+      {{#each bindings}}
+      <!-- Artwork Card really needs a ?subject -->
+      [[> rsp:artworkCard]] {{/each}}
+    </template>
+  </semantic-query>
+</div>

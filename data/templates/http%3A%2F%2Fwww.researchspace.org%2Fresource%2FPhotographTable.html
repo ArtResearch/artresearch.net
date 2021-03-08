@@ -26,7 +26,7 @@ options='{
 }'
 number-of-displayed-rows="4"
 query='  
-SELECT distinct ?photo ?photo_label ?photographer ?keeper ?rectoImage WHERE 
+SELECT distinct ?photo ?photo_label ?photographer ?keeper WHERE 
 {
     {
       ?? crm:P138i_is_represented_by ?visual_item.
@@ -50,6 +50,9 @@ SELECT distinct ?photo ?photo_label ?photographer ?keeper ?rectoImage WHERE
       ?originalSubject owl:sameAs ??.
       ?originalSubject crm:P138i_is_represented_by ?visual_item.
       ?visual_item crm:P128i_is_carried_by ?photo.
+      ?photo crm:P2_has_type ?imageType. 
+      ?imageType rdfs:label ?label. 
+      filter(?label != "verso")
       OPTIONAL
       {
       ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
@@ -64,9 +67,7 @@ SELECT distinct ?photo ?photo_label ?photographer ?keeper ?rectoImage WHERE
         ?photo crm:P108i_was_produced_by ?production .
         ?production crm:P14_carried_out_by ?photographer.
       }
-      ?photo crm:P129i_is_subject_of ?recto.
     }
-    BIND(REPLACE(STR(?recto),"full/full","full/100,") AS ?rectoImage).
 }' 
 tuple-template='{{> photos}}'
 >
@@ -75,9 +76,47 @@ tuple-template='{{> photos}}'
   <div class="photographFieldView">
     <td>
        <semantic-link iri="{{photo.value}}"> 
-       <img src={{rectoImage.value}} style="max-height:70px; max-width:70px; margin: 0 auto;" class="img-rounded">
+       <img src={{rectoImage.value}} style="max-height:100px; max-width:70px; margin: 0 auto;" class="img-rounded">
        </semantic-link>
     </td>
+    <semantic-query query= '
+      SELECT  ?photoUri ?rectoImage where{
+        BIND(str({{photo.value}}) as ?photoUri).
+        <{{photo.value}}> crm:P129i_is_subject_of ?fullsizeImages.
+        BIND(REPLACE(STR(?fullsizeImages),"full/full","full/100,") AS ?rectoImage).
+        optional{
+          <{{photo.value}}> crm:P2_has_type ?imageType. 
+          ?imageType rdfs:label ?label. 
+          filter(?label != "verso")
+        }
+      }
+    ' template="{{>rectoImageThumb}}">
+      <template id="rectoImageThumb">
+        <td style="margin-right:12px;">
+          <semantic-link iri="{{photoUri.value}}"> 
+          <img src={{rectoImage.value}} style="max-height:70px; max-width:70px; margin: 0 auto;" class="img-rounded">
+          </semantic-link>
+      </td>
+    </template>
+  </semantic-query>
+  <semantic-query query= '
+  SELECT  ?photoUri ?versoImage where{
+    BIND(str({{photo.value}}) as ?photoUri).
+    <{{photo.value}}> crm:P129i_is_subject_of ?fullsizeImages.
+    BIND(REPLACE(STR(?fullsizeImages),"full/full","full/100,") AS ?versoImage).
+    <{{photo.value}}> crm:P2_has_type ?imageType. 
+    ?imageType rdfs:label ?label. 
+    filter(?label == "verso")
+  }
+' template="{{>versoImageThumb}}">
+  <template id="versoImageThumb">
+    <td>   
+     <semantic-link iri="{{photoUri.value}}"> 
+      <img src={{versoImage.value}} style="max-height:70px; max-width:70px; margin: 0 auto;" class="img-rounded">
+      </semantic-link>
+  </td>
+</template>
+</semantic-query>
     <div class="photographFieldViewData">
         <td class="rs-page-resource__field-label">Photograph</td>
         <td>

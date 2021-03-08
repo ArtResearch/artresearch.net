@@ -32,6 +32,7 @@
           [[#if (ask "ASK {?? a crm:E21_Person }") ]] 
            <bs-nav-item event-key="artworks">Artworks</bs-nav-item>
            [[/if]]
+           <bs-nav-item event-key="similar">Similar artworks</bs-nav-item>
           <!-- <bs-nav-item event-key="annotations">
             Annotations <semantic-context repository='assets'><semantic-query query="SELECT (COUNT(DISTINCT ?s) AS ?count) WHERE {
               ?s <http://www.ics.forth.gr/isl/CRMdig/L43_annotates> ??;
@@ -58,6 +59,10 @@
           </bs-tab-pane>
            <bs-tab-pane event-key="IIIF">
             [[> IIIF record=(this)]]
+          </bs-tab-pane>
+          <bs-tab-pane event-key="similar">
+            <!-- Show similar artworks -->
+              [[> rsp:SimilarArtworks]]
           </bs-tab-pane>
           <bs-tab-pane event-key="artworks">
             [[> Artworks]]
