@@ -7,31 +7,23 @@
           ?artwork crm:P138i_is_represented_by ?visual_item.
           ?visual_item crm:P128i_is_carried_by ?? .
           ?? crm:P129i_is_subject_of ?image.
-          OPTIONAL{
-            ?image crm:P2_has_type ?imageType.
-          }
-          BIND(REPLACE(STR(?image),"full/full","full/350,") AS ?imgURL).
         }UNION{
           # Artwork
           ?? crm:P138i_is_represented_by ?visual_item.
           ?visual_item crm:P128i_is_carried_by ?photo.
           ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
           ?photo crm:P129i_is_subject_of ?image.
-          OPTIONAL{
-            ?image crm:P2_has_type ?imageType.
-          }
-          BIND(REPLACE(STR(?image),"full/full","full/350,") AS ?imgURL).
         }UNION{ 
           # Pharos artwork
           ?originalSubject owl:sameAs ??.
           ?originalSubject crm:P138i_is_represented_by ?visual. 
           ?visual crm:P128i_is_carried_by ?photo .
           ?photo crm:P129i_is_subject_of ?image.
-          OPTIONAL{
-            ?image crm:P2_has_type ?imageType.
-          }
-          BIND(REPLACE(STR(?image),"full/full","full/350,") AS ?imgURL).
         }
+        OPTIONAL{
+          ?image crm:P2_has_type ?imageType.
+        }
+        BIND(REPLACE(STR(?image),"full/full","full/350,") AS ?imgURL).
      } ORDER BY str(?photo) DESC(?imageType)'
     template="{{> imageThumbnail}}"
   >
@@ -91,12 +83,11 @@
                         {
                           { 
                             ??  <https://pharos.artresearch.net/custom/has_provider> ?provider.
-                            ?provider <https://pharos.artresearch.net/custom/has_iiif_server> ?iiifServer.
                           }UNION{
                             ?originalSubject owl:sameAs ??.
                             ?originalSubject  <https://pharos.artresearch.net/custom/has_provider> ?provider.
-                            ?provider <https://pharos.artresearch.net/custom/has_iiif_server> ?iiifServer.
                           }
+                          ?provider <https://pharos.artresearch.net/custom/has_iiif_server> ?iiifServer.
                         }
                         BIND(str(REPLACE("{{image.value}}","320px","2048px")) as ?fullsizeImgUrlHertziana)
                         BIND(str(?fullsizeImgUrlHertziana) as ?fullsizeImgUrl)
@@ -398,25 +389,18 @@
                     {
                       # Artwork
                       ?? crm:P138i_is_represented_by ?visual_item.
-                      ?visual_item crm:P128i_is_carried_by ?photo.      
-                      ?photo crm:P129i_is_subject_of ?image.
-                      BIND(REPLACE(STR(?image),"full/full","full/150,") AS ?imgUrl).
-                      ?photo <https://pharos.artresearch.net/resource/fr/Photo_from_Date> ?timespan_from.
-                      ?timespan_from rdfs:label ?start.
-                      ?photo <https://pharos.artresearch.net/resource/fr/Photo_to_Date> ?timespan_to.
-                      ?timespan_to rdfs:label ?end.      
                     }UNION{ 
                       # Pharos artwork
                       ?originalSubject owl:sameAs ??.
-                      ?originalSubject crm:P138i_is_represented_by ?visual. 
-                      ?visual crm:P128i_is_carried_by ?photo.      
-                      ?photo crm:P129i_is_subject_of ?image.
-                      BIND(REPLACE(STR(?image),"full/full","full/150,") AS ?imgUrl).
-                      ?photo <https://pharos.artresearch.net/resource/fr/Photo_from_Date> ?timespan_from.
-                      ?timespan_from rdfs:label ?start.
-                      ?photo <https://pharos.artresearch.net/resource/fr/Photo_to_Date> ?timespan_to.
-                      ?timespan_to rdfs:label ?end.                  
+                      ?originalSubject crm:P138i_is_represented_by ?visual_item. 
                     }
+                    ?visual_item crm:P128i_is_carried_by ?photo.      
+                    ?photo crm:P129i_is_subject_of ?image.
+                    BIND(REPLACE(STR(?image),"full/full","full/150,") AS ?imgUrl).
+                    ?photo <https://pharos.artresearch.net/resource/fr/Photo_from_Date> ?timespan_from.
+                    ?timespan_from rdfs:label ?start.
+                    ?photo <https://pharos.artresearch.net/resource/fr/Photo_to_Date> ?timespan_to.
+                    ?timespan_to rdfs:label ?end.
                   }'
                     tuple-template="{{> template}}"
                     tuple-template-height="42"
