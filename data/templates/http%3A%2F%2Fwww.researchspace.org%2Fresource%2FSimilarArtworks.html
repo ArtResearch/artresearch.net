@@ -1,13 +1,36 @@
 <!-- Displays a list of similar artworks -->
 <div>
   <semantic-query
-    query="SELECT ?subject WHERE { ?? ?similarTo ?subject}LIMIT 1"
+    query='SELECT distinct ?subject WHERE { 
+      {
+        # Artwork
+        ?? crm:P138i_is_represented_by ?visual_item.
+        ?visual_item crm:P128i_is_carried_by ?photo.
+        ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
+        ?photo crm:P129i_is_subject_of ?image.
+      }UNION{ 
+        # Pharos artwork
+        ?originalSubject owl:sameAs ??.
+        ?originalSubject crm:P138i_is_represented_by ?visual. 
+        ?visual crm:P128i_is_carried_by ?photo .
+        ?photo crm:P129i_is_subject_of ?image.
+      }
+      OPTIONAL{
+        ?image crm:P2_has_type ?imageType.
+        FILTER NOT EXISTS { ?imageType rdfs:label "verso". }
+      }
+      SERVICE <https://vision.artresearch.net/sparql> {
+        ?image <http://purl.org/ontology/similarity/element> ?element.
+        ?imageB <http://purl.org/ontology/similarity/element> ?element.
+        ?subject <https://pharos.artresearch.net/custom/has_image> ?imageB.
+      }
+    }'
     template="{{>similarArtworkTemplate}}"
   >
-    <template id="similarArtworkTemplate">
-      {{#each bindings}}
-      <!-- Artwork Card really needs a ?subject -->
-      [[> rsp:artworkCard]] {{/each}}
-    </template>
+  <template id="similarArtworkTemplate">
+    {{#each bindings}}
+    <!-- Artwork Card really needs a ?subject -->
+    [[> rsp:artworkCard]] {{/each}}
+  </template>
   </semantic-query>
 </div>
