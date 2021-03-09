@@ -25,8 +25,7 @@
     template="{{>workInfo}}"
   >
     <template id="workInfo">
-      {{#if noData}}
-      {{else}}
+      {{#if noData}} {{else}}
       <div class="workInfoContainer">
         <h2>Work info</h2>
         [[> rsp:ResourceFieldBasedVisualization subject=[[this]]
@@ -37,10 +36,11 @@
   </mp-field-visualization>
 
   <!-- Fields for Production -->
-  <mp-field-visualization
-    subject="[[this]]"
-    additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
-    fields='[[fieldDefinitions  
+  <div class="productionInfoContainer">
+    <mp-field-visualization
+      subject="[[this]]"
+      additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
+      fields='[[fieldDefinitions  
   Creator="https://pharos.artresearch.net/fieldDefinition/1"
   Photographer="https://pharos.artresearch.net/fieldDefinition/123"
   ProductionParticipant="https://pharos.artresearch.net/fieldDefinition/73" 
@@ -56,32 +56,22 @@
   Attributions="https://pharos.artresearch.net/fieldDefinition/277" 
   ProductionType="https://pharos.artresearch.net/fieldDefinition/278" 
   ]]'
-    template="{{>productionInfo}}"
-  >
-    <template id="productionInfo">
-      {{#if noData}}
-      <div class="productionInfoContainer">
-      <!-- Photographs detailed information -->
-        [[> rsp:PhotographTable]]
-      </div>
-      {{else}}
-      <div class="productionInfoContainer">
+      template="{{>productionInfo}}"
+    >
+      <template id="productionInfo">
+        {{#if noData}}
+        <div></div>
+        {{else}}
         <h2>Production info</h2>
         [[> rsp:ResourceFieldBasedVisualization subject=[[this]]
-        showSourceIcon="true" ]]
-      [[> rsp:PhotographTable]]
-      </div>
-
-      {{/if}}
-        
-    </template>
-  </mp-field-visualization>
-
-  <!-- General fields -->
-  <mp-field-visualization
-    subject="[[this]]"
-    additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
-    fields='[[fieldDefinitions  
+        showSourceIcon="true" ]] {{/if}}
+      </template>
+    </mp-field-visualization>
+    <!-- General fields -->
+    <mp-field-visualization
+      subject="[[this]]"
+      additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
+      fields='[[fieldDefinitions  
   Identifiers="https://pharos.artresearch.net/fieldDefinition/19" 
   HistoryofOwnership="https://pharos.artresearch.net/fieldDefinition/39" 
   PastOwnership="https://pharos.artresearch.net/fieldDefinition/18" 
@@ -105,17 +95,15 @@
   IsPartOf="https://pharos.artresearch.net/fieldDefinition/94"
   WorkLocation = "https://pharos.artresearch.net/fieldDefinition/geonames_name"
   ]]'
-    template="{{>generalInfo}}"
-  >
-    <template id="generalInfo">
-      {{#if noData}}
-      {{else}}
-      <div class="workInfoContainer">
-        <h2>Other details</h2>
+      template="{{>generalInfo}}"
+    >
+      <template id="generalInfo">
+        {{#if noData}} {{else}}
+        <h2 style="margin-top: 4vh;">Other details</h2>
         [[> rsp:ResourceFieldBasedVisualization subject=[[this]]
         showSourceIcon="true" ]]
-        
-        <div style="height: 25vh;">
+
+        <div style="height: 25vh">
           <semantic-map
             query=" PREFIX osm: <http://www.metaphacts.com/ontologies/osm#>
     PREFIX wdt: <http://www.wikidata.org/prop/direct/>
@@ -136,10 +124,14 @@
 
     } LIMIT 1"
           >
-          </semantic-map> 
+          </semantic-map>
         </div>
-      </div>
-      {{/if}}
-    </template>
-  </mp-field-visualization>
+        {{/if}}
+      </template>
+    </mp-field-visualization>
+  </div>
+  <div style="width: 93.5%;" class="productionInfoContainer">
+    <!-- Photographs detailed information -->
+    [[> rsp:PhotographTable]]
+  </div>
 </div>
