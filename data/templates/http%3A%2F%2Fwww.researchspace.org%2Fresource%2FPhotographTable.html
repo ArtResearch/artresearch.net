@@ -1,5 +1,5 @@
 
-
+<div id="photoTable">
 <semantic-query query='  
 SELECT distinct ?photo 
 {
@@ -66,7 +66,7 @@ tuple-template='{{> photos}}'
     ' template="{{>rectoImageThumb}}">
       <template id="rectoImageThumb">
           <semantic-link iri="{{bindings.0.photoUri.value}}"> 
-            <img src={{bindings.0.rectoImage.value}} style="max-height:100px; max-width:70px; margin: 0 auto;" class="img-rounded">
+            <img src={{bindings.0.rectoImage.value}} style="max-height:100px; margin: 0 auto;" class="img-rounded">
           </semantic-link>
     </template>
   </semantic-query>
@@ -85,65 +85,113 @@ tuple-template='{{> photos}}'
       <img src={{bindings.0.versoImage.value}} style="max-height:70px; max-width:70px;" class="img-rounded vercoCell">
       </semantic-link>
 </template>
-</td>
 </semantic-query>
+    </td>
+
     <div class="photographFieldViewData">
-        <td class="rs-page-resource__field-label">Photograph</td>
-        <td>
-          <span class="rs-page-resource__field-value">
-            <div class="visualizationValue"> <semantic-link iri="{{photo.value}}"> 
-              {{photo_label.value}}
-             </semantic-link></div>
+      <tr class="rs-page-resource__field">
+        <td class="rs-page-resource__field-label-holder headLine centerTitle">
+          <span class="rs-page-resource__field-label">
+          Photograph
           </span>
         </td>
+        <table class="table table-hover">
+          <tbody>
+            <tr>
+              <td>
+                <span class="rs-page-resource__field-value">
+                  <div class="visualizationValue">
+                    <semantic-link iri="{{photo.value}}"> 
+                      {{photo_label.value}}
+                    </semantic-link>
+                  </div>
+                </span>
+              </td>
+           </tr>
+          </tbody>
+        </table>
       </tr>
       
       {{#ifCond photographer.value "!==" undefined}}
-      <tr>
-        <td class="rs-page-resource__field-label">Photographer</td>
-        <td>
-          <span class="rs-page-resource__field-value">
-            <div class="visualizationValue"> 
-              <semantic-query query='SELECT ?photographer WHERE{ BIND(({{photographer}}) as ?photographer)}'>
-              </semantic-query>
-            </div>
+      <tr class="rs-page-resource__field">
+        <td class="rs-page-resource__field-label-holder headLine centerTitle">
+          <span class="rs-page-resource__field-label">
+            Photographer
           </span>
         </td>
+        <table class="table table-hover">
+          <tbody>
+            <tr>
+              <td>
+                <span class="rs-page-resource__field-value">
+                  <div class="visualizationValue">
+                    <semantic-query query='SELECT ?photographer WHERE{ BIND(({{photographer}}) as ?photographer)}'>
+                    </semantic-query>
+                  </div>
+                </span>
+              </td>
+           </tr>
+          </tbody>
+        </table>
       </tr>
       {{/ifCond}}
       
       {{#ifCond keeper.value "!==" undefined}}
-      <tr>
-        <td class="rs-page-resource__field-label">Keeper</td>
-        <td>
-          <span class="rs-page-resource__field-value">
-            <div class="visualizationValue"> 
-              <semantic-query query='SELECT ?keeper WHERE{ BIND(({{keeper}}) as ?keeper)}'>
-              </semantic-query>
-            </div>
+      <tr class="rs-page-resource__field">
+        <td class="rs-page-resource__field-label-holder headLine centerTitle">
+          <span class="rs-page-resource__field-label">
+            Keeper
           </span>
         </td>
+        <table class="table table-hover">
+          <tbody>
+            <tr>
+              <td>
+                <span class="rs-page-resource__field-value">
+                  <div class="visualizationValue">
+                    <semantic-query query='SELECT ?keeper WHERE{ BIND(({{keeper}}) as ?keeper)}'>
+                    </semantic-query>
+                  </div>
+                </span>
+              </td>
+           </tr>
+          </tbody>
+        </table>
       </tr>
       {{/ifCond}}
     </div>
 </div>
 </template>    
 </semantic-table>
+</div>
 <style>
+  #photoTable .semantic-table-holder{
+    position: unset !important;
+    width: unset !important;
+    left: unset !important;
+  }
   .photographFieldView{
     display: flex;
-    margin-top: 25px;
+    border: 1px solid #f5f5f5;
+    width: 47%;
+    margin-right: 1vw;
+    margin-bottom: 15px;
+    transition: 0.5s;
   }
-  .photographFieldViewData{
-    display: flex;
-    flex-direction: column;
-    margin-left: 15px;
+  .photographFieldView:hover{
+    background: #fbfbfb;
   }
   .rectoVersoCell{
     display: flex;
-    min-width: 150px;
+    padding-left: 1vw;
+    justify-content: center;
+    align-items: center;
+    padding-right: 1vw;
   }
   .vercoCell{
     margin-left: 15px;
+  }
+  .centerTitle{
+    vertical-align: unset !important;
   }
 </style>
