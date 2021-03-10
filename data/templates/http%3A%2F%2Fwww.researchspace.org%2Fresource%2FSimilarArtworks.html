@@ -17,11 +17,35 @@
       FILTER(STR(?subject)!=STR(??))
     }'
     template="{{>similarArtworkTemplate}}"
+    no-result-template='<i style="text-align:center">
+      <h3>No similar artworks were found for this work.</h3></i>'
   >
-  <template id="similarArtworkTemplate">
-    {{#each bindings}}
-    <!-- Artwork Card really needs a ?subject -->
-    [[> rsp:artworkCard]] {{/each}}
-  </template>
+    <template id="similarArtworkTemplate">
+      <div class="similarArtworkCardContainer">
+        {{#each bindings}}
+        <div class="similarArtworkCard">
+          <!-- Artwork Card really needs a ?subject -->
+          [[> rsp:artworkCard]]
+        </div>
+        {{/each}}
+      </div>
+    </template>
   </semantic-query>
 </div>
+<style>
+  .similarArtworkCardContainer {
+    margin-top: 2vh;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  }
+  .similarArtworkCard {
+    width: 48.5%;
+  }
+  @media(max-width:1250px)
+  {
+    .similarArtworkCard {
+      width: 80%;
+    }
+  }
+</style>
