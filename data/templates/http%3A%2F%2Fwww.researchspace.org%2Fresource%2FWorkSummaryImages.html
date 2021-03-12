@@ -245,7 +245,7 @@
                                          crm:P129i_is_subject_of ?fullsizeImages.
                                 }UNION{
                                   # For Hertziana (non-iiif)
-                                  ?photo crm:P129i_is_subject_of <{{imgURL.value}}>;
+                                  ?photo crm:P129i_is_subject_of <{{imgURL}}>;
                                          crm:P129i_is_subject_of ?fullsize.
                                   BIND(REPLACE(STR(?fullsize),"320px","2048px") AS ?fullsizeImages)
                                 }
@@ -439,6 +439,9 @@
     width: 100px;
     height: 100px;
     object-fit: contain;
+  }
+  .modal-body .system-spinner{
+    display: block !important;
   }
   .system-spinner {
     display: none !important;
