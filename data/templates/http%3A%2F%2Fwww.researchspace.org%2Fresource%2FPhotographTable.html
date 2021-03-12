@@ -3,14 +3,7 @@
 <semantic-query query='  
 SELECT distinct ?photo 
 {
-  {
-    ?? crm:P138i_is_represented_by ?visual_item.
-    ?visual_item crm:P128i_is_carried_by ?photo.
-  }UNION{
-    ?originalSubject owl:sameAs ??.
-      ?originalSubject crm:P138i_is_represented_by ?visual_item.
-      ?visual_item crm:P128i_is_carried_by ?photo.
-  }
+  ?? <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo
 }LIMIT 1'
 template="{{> showTitle}}"
   >
@@ -28,14 +21,8 @@ number-of-displayed-rows="4"
 query='  
 SELECT distinct ?photo ?photo_label ?photographer ?keeper WHERE 
 {
-    {
-      ?? crm:P138i_is_represented_by ?visual_item.
-      ?visual_item crm:P128i_is_carried_by ?photo.
-    }UNION{
-      ?originalSubject owl:sameAs ??.
-      ?originalSubject crm:P138i_is_represented_by ?visual_item.
-      ?visual_item crm:P128i_is_carried_by ?photo.
-    }
+
+    ?? <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo
     OPTIONAL {
       ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
       ?photo rdfs:label ?photo_label.
@@ -57,10 +44,9 @@ tuple-template='{{> photos}}'
         BIND(str(<{{photo.value}}>) as ?photoUri).
         <{{photo.value}}> crm:P129i_is_subject_of ?fullsizeImages.
         BIND(REPLACE(STR(?fullsizeImages),"full/full","full/100,") AS ?rectoImage).
-        optional{
-          ?fullsizeImages crm:P2_has_type ?imageType. 
-          ?imageType rdfs:label ?label. 
-          filter(?label != "verso")
+        FILTER NOT EXISTS { 
+          ?fullsizeImages crm:P2_has_type ?type.
+          ?type rdfs:label "verso"
         }
       }
     ' template="{{>rectoImageThumb}}">
@@ -75,9 +61,10 @@ tuple-template='{{> photos}}'
     BIND(str(<{{photo.value}}>) as ?photoUri).
     <{{photo.value}}> crm:P129i_is_subject_of ?fullsizeImages.
     BIND(REPLACE(STR(?fullsizeImages),"full/full","full/100,") AS ?versoImage).
-    ?fullsizeImages crm:P2_has_type ?imageType. 
-    ?imageType rdfs:label ?label. 
-    filter(?label = "verso")
+    FILTER NOT EXISTS { 
+      ?fullsizeImages crm:P2_has_type ?type.
+      ?type rdfs:label "recto"
+    }
   }
 ' template="{{>versoImageThumb}}">
   <template id="versoImageThumb">
