@@ -4,20 +4,11 @@
     query='SELECT distinct ?imgURL ?image WHERE {
         {
           # Photo object
-          ?artwork crm:P138i_is_represented_by ?visual_item.
-          ?visual_item crm:P128i_is_carried_by ?? .
+          ?artwork <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?? .
           ?? crm:P129i_is_subject_of ?image.
         }UNION{
-          # Artwork
-          ?? crm:P138i_is_represented_by ?visual_item.
-          ?visual_item crm:P128i_is_carried_by ?photo.
-          ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
-          ?photo crm:P129i_is_subject_of ?image.
-        }UNION{ 
-          # Pharos artwork
-          ?originalSubject owl:sameAs ??.
-          ?originalSubject crm:P138i_is_represented_by ?visual. 
-          ?visual crm:P128i_is_carried_by ?photo .
+          # Original & Pharos Artwork
+          ?? <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo.
           ?photo crm:P129i_is_subject_of ?image.
         }
         OPTIONAL{
@@ -102,13 +93,12 @@
                               <rs-iiif-mirador
                                 image-or-region="[[this]]"
                                 image-id-pattern='
-                                    BIND("image" AS ?type). BIND(?subject AS ?imageIRI). 
-                                    ?subject crm:P138i_is_represented_by ?visual_item.
-                                    ?visual_item crm:P128i_is_carried_by ?photo.
-                                    ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
+                                    BIND("image" AS ?type). BIND(?subject AS ?imageIRI).
+                                    ?subject <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo.
                                     ?photo crm:P129i_is_subject_of <{{fullsizeImgUrl.value}}>.
                                     <{{fullsizeImgUrl.value}}> crm:P2_has_type <http://iiif.io/api/image>.
-                                    BIND(REPLACE(STR(REPLACE(STR("{{fullsizeImgUrl.value}}"),"/full/full/0/*","")), "(^.*)\\/(.*)$", "$2") AS ?idWithDefaultNative).
+                                    BIND(REPLACE(STR("{{bindings.1.fullsizeImages.value}}"), "full/!700,700", "full/full") AS ?fotoIndexId).
+                                    BIND(REPLACE(STR(REPLACE(STR(?fotoIndexId), "/full/full/0/*", "")), "(^.*)\\/(.*)$", "$2") AS ?idWithDefaultNative)
                                     BIND(REPLACE(?idWithDefaultNative,"default.jpg","") AS ?idWithNative).
                                     BIND(REPLACE(?idWithNative,"native.jpg","") AS ?imageID).
                                     '
@@ -248,21 +238,30 @@
                                   }
                                 }
                                 {{#ifCond imgURL "!==" undefined}}
-                                BIND(REPLACE(STR("{{imgURL}}"),"320px","2048px") AS ?fullsizeImgUrlHertziana).
-                                BIND(REPLACE(STR(?fullsizeImgUrlHertziana),"full/350,","full/full") AS ?fullsizeImgUrl).
-                                BIND(iri(?fullsizeImgUrl) AS ?fullsizeImgUrlIri).
-                                optional{
+                                {
+                                  BIND(REPLACE(STR("{{imgURL}}"),"full/350,","full/full") AS ?fullsizeImgUrl).
+                                  BIND(iri(?fullsizeImgUrl) AS ?fullsizeImgUrlIri).
                                   ?photo crm:P129i_is_subject_of ?fullsizeImgUrlIri;
                                          crm:P129i_is_subject_of ?fullsizeImages.
+                                }UNION{
+                                  # For Hertziana (non-iiif)
+                                  ?photo crm:P129i_is_subject_of <{{imgURL.value}}>;
+                                         crm:P129i_is_subject_of ?fullsize.
+                                  BIND(REPLACE(STR(?fullsize),"320px","2048px") AS ?fullsizeImages)
                                 }
                                 {{/ifCond}}
                                 {{#ifCond imgURL "===" undefined}}
-                                BIND(REPLACE(STR("{{bindings.0.imgURL.value}}"),"320px","2048px") AS ?fullsizeImgUrlHertziana).
-                                BIND(REPLACE(STR(?fullsizeImgUrlHertziana),"full/350,","full/full") AS ?fullsizeImgUrl).
-                                BIND(iri(?fullsizeImgUrl) AS ?fullsizeImgUrlIri).
-                                optional{
+                               .
+                                {
+                                  BIND(REPLACE(STR("{{bindings.0.imgURL.value}}"),"full/350,","full/full") AS ?fullsizeImgUrl).
+                                  BIND(iri(?fullsizeImgUrl) AS ?fullsizeImgUrlIri).
                                   ?photo crm:P129i_is_subject_of ?fullsizeImgUrlIri;
                                          crm:P129i_is_subject_of ?fullsizeImages.
+                                }UNION{
+                                  # For Hertziana (non-iiif)
+                                  ?photo crm:P129i_is_subject_of <{{bindings.0.imgURL.value}}>;
+                                         crm:P129i_is_subject_of ?fullsize.
+                                  BIND(REPLACE(STR(?fullsize),"320px","2048px") AS ?fullsizeImages)
                                 }
                                 {{/ifCond}}
                             }LIMIT 2'
@@ -277,13 +276,11 @@
                                   image-or-region="[[this]]"
                                   image-id-pattern='
                                             BIND("image" AS ?type). BIND(?subject AS ?imageIRI). 
-                                            ?subject crm:P138i_is_represented_by ?visual_item.
-                                            ?visual_item crm:P128i_is_carried_by ?photo.
-                                            ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
+                                            ?subject <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo.
                                             ?photo crm:P129i_is_subject_of <{{bindings.0.fullsizeImages.value}}>.
                                             <{{bindings.0.fullsizeImages.value}}> crm:P2_has_type <http://iiif.io/api/image>.
-                                            BIND(REPLACE(STR(REPLACE(STR("{{bindings.0.fullsizeImages.value}}"),"/full/full/0/*","")), "(^.*)\\/(.*)$", "$2") AS ?idWithDefaultNative).
-                                            BIND(REPLACE(?idWithDefaultNative,"default.jpg","") AS ?idWithNative).
+                                            BIND(REPLACE(STR("{{bindings.0.fullsizeImages.value}}"), "full/!700,700", "full/full") AS ?fotoIndexId).
+                                            BIND(REPLACE(STR(REPLACE(STR(?fotoIndexId), "/full/full/0/*", "")), "(^.*)\\/(.*)$", "$2") AS ?idWithDefaultNative)      BIND(REPLACE(?idWithDefaultNative,"default.jpg","") AS ?idWithNative).
                                             BIND(REPLACE(?idWithNative,"native.jpg","") AS ?imageID).
                                             '
                                   iiif-server-url="{{bindings.0.iiifServer.value}}"
@@ -298,13 +295,11 @@
                                     image-or-region="[[this]]"
                                     image-id-pattern='
                                                 BIND("image" AS ?type). BIND(?subject AS ?imageIRI). 
-                                                ?subject crm:P138i_is_represented_by ?visual_item.
-                                                ?visual_item crm:P128i_is_carried_by ?photo.
-                                                ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
+                                                ?subject <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo.
                                                 ?photo crm:P129i_is_subject_of <{{bindings.0.fullsizeImages.value}}>.
                                                 <{{bindings.0.fullsizeImages.value}}> crm:P2_has_type <http://iiif.io/api/image>.
-                                                BIND(REPLACE(STR(REPLACE(STR("{{bindings.0.fullsizeImages.value}}"),"/full/full/0/*","")), "(^.*)\\/(.*)$", "$2") AS ?idWithDefaultNative).
-                                                BIND(REPLACE(?idWithDefaultNative,"default.jpg","") AS ?idWithNative).
+                                                BIND(REPLACE(STR("{{bindings.0.fullsizeImages.value}}"), "full/!700,700", "full/full") AS ?fotoIndexId).
+                                                BIND(REPLACE(STR(REPLACE(STR(?fotoIndexId), "/full/full/0/*", "")), "(^.*)\\/(.*)$", "$2") AS ?idWithDefaultNative)    BIND(REPLACE(?idWithDefaultNative,"default.jpg","") AS ?idWithNative).
                                                 BIND(REPLACE(?idWithNative,"native.jpg","") AS ?imageID).
                                                 '
                                     iiif-server-url="{{bindings.0.iiifServer.value}}"
@@ -317,12 +312,11 @@
                                     image-or-region="[[this]]"
                                     image-id-pattern='
                                                 BIND("image" AS ?type). BIND(?subject AS ?imageIRI). 
-                                                ?subject crm:P138i_is_represented_by ?visual_item.
-                                                ?visual_item crm:P128i_is_carried_by ?photo.
-                                                ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
+                                                ?subject <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo.
                                                 ?photo crm:P129i_is_subject_of <{{bindings.1.fullsizeImages.value}}>.
                                                 <{{bindings.1.fullsizeImages.value}}> crm:P2_has_type <http://iiif.io/api/image>.
-                                                BIND(REPLACE(STR(REPLACE(STR("{{bindings.1.fullsizeImages.value}}"),"/full/full/0/*","")), "(^.*)\\/(.*)$", "$2") AS ?idWithDefaultNative).
+                                                BIND(REPLACE(STR("{{bindings.1.fullsizeImages.value}}"), "full/!700,700", "full/full") AS ?fotoIndexId).
+                                                BIND(REPLACE(STR(REPLACE(STR(?fotoIndexId), "/full/full/0/*", "")), "(^.*)\\/(.*)$", "$2") AS ?idWithDefaultNative)
                                                 BIND(REPLACE(?idWithDefaultNative,"default.jpg","") AS ?idWithNative).
                                                 BIND(REPLACE(?idWithNative,"native.jpg","") AS ?imageID).
                                                 '
@@ -353,10 +347,12 @@
                   {{#each bindings}}
                   <semantic-query
                     query='
-                   SELECT ?imgURL WHERE{ 
-                     {{image}} crm:P2_has_type ?imageType. 
-                      ?imageType rdfs:label ?label. 
-                      filter(?label != "verso")
+                   SELECT DISTINCT ?imgURL WHERE{ 
+                      BIND(({{image}}) as ?imgURL)
+                      FILTER NOT EXISTS { 
+                        ?imgURL crm:P2_has_type ?type.
+                        ?type rdfs:label "verso"
+                      }
                     } '
                     template="{{> onlyRectos}}"
                   >
@@ -386,15 +382,7 @@
                     options='{"height":"39vh"}'
                     query='PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
                     SELECT ?start ?end ?photo ?imgUrl WHERE {
-                    {
-                      # Artwork
-                      ?? crm:P138i_is_represented_by ?visual_item.
-                    }UNION{ 
-                      # Pharos artwork
-                      ?originalSubject owl:sameAs ??.
-                      ?originalSubject crm:P138i_is_represented_by ?visual_item. 
-                    }
-                    ?visual_item crm:P128i_is_carried_by ?photo.      
+                    ?? <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo.      
                     ?photo crm:P129i_is_subject_of ?image.
                     BIND(REPLACE(STR(?image),"full/full","full/150,") AS ?imgUrl).
                     ?photo <https://pharos.artresearch.net/resource/fr/Photo_from_Date> ?timespan_from.
