@@ -2,6 +2,37 @@
 <html lang="en">
 
 <head>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  <script type="text/javascript">
+    $("#btnPrint").live("click", function () {
+      var title = $("#printableTitle").html();
+      var images = $("#printableImages").html();
+      var info = $("#printableInfo").html();
+      var printWindow = window.open('', '', 'height=400,width=800');
+      printWindow.document.write('<html><head><title>' + window.document.URL + '</title>');
+      printWindow.document.write(`<style>
+.rs-page__summary-image{
+display:flex;
+flex-wrap:wrap;
+}
+.photographFieldView{
+  width:100% !important;
+}
+.imageSourceIcon,.multiValueTd,.rs-page__count--field-annotation,.rs-page__count--field-assertion,.sourceIcons{
+display:none !important;
+}
+            </style>`);
+      printWindow.document.write('</head><body>');
+      printWindow.document.write('<h2>' + title + '</h2>');
+      printWindow.document.write(info);
+      printWindow.document.write(images);
+      printWindow.document.write('</body>');
+      printWindow.document.write('</html>');
+
+      printWindow.document.close();
+      printWindow.print();
+    });
+  </script>
   <meta name="version" content="{{version}}" />
   <link href="../../assets/styles/global.css" rel="stylesheet" type="text/css">
 
@@ -26,10 +57,10 @@
 
   {{!-- To hide alert in start page --}}
   <script>
-    setTimeout(()=>{  
-      if(window.location.href.includes("start"))
-      document.getElementById("underDevAlert").style.display = "none"
-    },9000)
+    setTimeout(() => {
+      if (window.location.href.includes("start"))
+        document.getElementById("underDevAlert").style.display = "none"
+    }, 9000)
   </script>
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
