@@ -15,13 +15,13 @@
         options='{"showFilter": false}'
         column-configuration='[
                     {"variableName":"iri", "displayName":"Image", "cellTemplate": "{{> iriTemplate}}"},
-                    {"displayName":"Thumbnail", "cellTemplate": "<semantic-link uri=\"{{iri.value}}\">{{> rsp:IIIFThumbnail}}</semantic-link>"}
+                    {"displayName":"Thumbnail", "cellTemplate": "<semantic-link iri=\"{{iri.value}}\">{{> rsp:IIIFThumbnail}}</semantic-link>"}
                   ]'
       >
         <template id='iriTemplate'>
           <div>
             <mp-selection-toggle selection="my-images-selection-aggregator" tag="{{iri.value}}"></mp-selection-toggle>
-            <semantic-link style="margin-left: 10px;" uri='{{iri.value}}'></semantic-link>
+            <semantic-link style="margin-left: 10px;" iri='{{iri.value}}'></semantic-link>
           </div>
         </template>
         <template id="actions">

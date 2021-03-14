@@ -1,7 +1,7 @@
 <ol class="page-breadcrumb">
   <li><a title="Home" href="/">Home</a></li>
   <li>
-    <semantic-link uri='[[urlParam "subject"]]'></semantic-link>
+    <semantic-link iri='[[urlParam "subject"]]'></semantic-link>
   </li>
   <li class="active">
     Field: <semantic-context repository='assets'><mp-label iri='[[urlParam "field"]]'></mp-label></semantic-context>
@@ -47,7 +47,7 @@
                         {{#each bindings}}
                         <li>
                           <p>
-                            Assertion <semantic-context repository='assets'><semantic-link uri='{{assertion.value}}'></semantic-link></semantic-context> about <semantic-context repository='assets'><mp-label iri='[[urlParam "field"]]' class="field-type-title"></mp-label></semantic-context> by <mp-label iri='{{user.value}}'></mp-label>, {{dateTimeFormat time.value "LLL"}}
+                            Assertion <semantic-context repository='assets'><semantic-link iri='{{assertion.value}}'></semantic-link></semantic-context> about <semantic-context repository='assets'><mp-label iri='[[urlParam "field"]]' class="field-type-title"></mp-label></semantic-context> by <mp-label iri='{{user.value}}'></mp-label>, {{dateTimeFormat time.value "LLL"}}
                           <p>
                           <div>
                             <mp-field-visualization
