@@ -1,45 +1,34 @@
-
 <div id="photoTable">
-<semantic-query query='  
+  <semantic-query
+    query="  
 SELECT distinct ?photo 
 {
   ?? <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo
-}LIMIT 1'
-template="{{> showTitle}}"
+}LIMIT 1"
+    template="{{> showTitle}}"
   >
-<template id="showTitle">
-  <div style="margin-top:45px"> <h2>Photographs</h2></div>
-</template>
-</semantic-query>
+    <template id="showTitle">
+      <div style="margin-top: 45px"><h2>Photographs</h2></div>
+    </template>
+  </semantic-query>
 
-
-<semantic-table
-options='{
+  <semantic-table
+    options='{
   "showFilter":false
 }'
-number-of-displayed-rows="4"
-query='  
+    number-of-displayed-rows="4"
+    query="  
 SELECT distinct ?photo ?photo_label ?photographer ?keeper WHERE 
 {
-
     ?? <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo
-    OPTIONAL {
-      ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
-      ?photo rdfs:label ?photo_label.
-    } OPTIONAL {
-      ?photo crm:P50_has_current_keeper ?keeper.
-    } OPTIONAL {
-      ?photo crm:P108i_was_produced_by ?production .
-      ?production crm:P14_carried_out_by ?photographer.
-    }
-}' 
-tuple-template='{{> photos}}'
->
-     
-<template id='photos'>
-  <div class="photographFieldView">
-    <td class="rectoVersoCell">
-    <semantic-query query= '
+}"
+    tuple-template="{{> photos}}"
+  >
+    <template id="photos">
+      <semantic-link class="photographFieldView" iri="{{photo.value}}">
+          <td class="rectoVersoCell">
+            <semantic-query
+              query='
       SELECT  ?photoUri ?rectoImage where{
         BIND(str(<{{photo.value}}>) as ?photoUri).
         <{{photo.value}}> crm:P129i_is_subject_of ?fullsizeImages.
@@ -49,14 +38,21 @@ tuple-template='{{> photos}}'
           ?type rdfs:label "verso"
         }
       }
-    ' template="{{>rectoImageThumb}}">
-      <template id="rectoImageThumb">
-          <semantic-link iri="{{bindings.0.photoUri.value}}"> 
-            <img src={{bindings.0.rectoImage.value}} style="max-height:100px; margin: 0 auto;" class="img-rounded">
-          </semantic-link>
-    </template>
-  </semantic-query>
-  <semantic-query query= '
+    '
+              template="{{>rectoImageThumb}}"
+            >
+              <template id="rectoImageThumb">
+                <semantic-link iri="{{bindings.0.photoUri.value}}">
+                  <img
+                    src="{{bindings.0.rectoImage.value}}"
+                    style="max-height: 100px; margin: 0 auto"
+                    class="img-rounded"
+                  />
+                </semantic-link>
+              </template>
+            </semantic-query>
+            <semantic-query
+              query='
   SELECT ?photoUri ?versoImage where{
     BIND(str(<{{photo.value}}>) as ?photoUri).
     <{{photo.value}}> crm:P129i_is_subject_of ?fullsizeImages.
@@ -66,98 +62,49 @@ tuple-template='{{> photos}}'
       ?type rdfs:label "recto"
     }
   }
-' template="{{>versoImageThumb}}">
-  <template id="versoImageThumb">
-     <semantic-link iri="{{bindings.0.photoUri.value}}"> 
-      <img src={{bindings.0.versoImage.value}} style="max-height:70px; max-width:70px;" class="img-rounded vercoCell">
+'
+              template="{{>versoImageThumb}}"
+            >
+              <template id="versoImageThumb">
+                <semantic-link iri="{{bindings.0.photoUri.value}}">
+                  <img
+                    src="{{bindings.0.versoImage.value}}"
+                    style="max-height: 70px; max-width: 70px"
+                    class="img-rounded vercoCell"
+                  />
+                </semantic-link>
+              </template>
+            </semantic-query>
+          </td>
+          <div class="photographFieldViewData">
+            <mp-field-visualization
+              subject="{{photo.value}}"
+              fields='[[fieldDefinitions  
+              Title="https://pharos.artresearch.net/fieldDefinition/2" 
+              Photographer="https://pharos.artresearch.net/fieldDefinition/123"
+              Repository="https://pharos.artresearch.net/fieldDefinition/Repository" 
+            ]]'
+              template="{{>productionInfo}}"
+            >
+              <template id="productionInfo">
+                {{#if noData}}
+                <div></div>
+                {{else}} [[> rsp:ResourceFieldBasedVisualization
+                subject=[[this]] ]] {{/if}}
+              </template>
+            </mp-field-visualization>
+          </div>
       </semantic-link>
-</template>
-</semantic-query>
-    </td>
-
-    <div class="photographFieldViewData">
-      <tr class="rs-page-resource__field">
-        <td class="rs-page-resource__field-label-holder headLine centerTitle">
-          <span class="rs-page-resource__field-label">
-          Photograph
-          </span>
-        </td>
-        <table class="table table-hover">
-          <tbody>
-            <tr>
-              <td>
-                <span class="rs-page-resource__field-value">
-                  <div class="visualizationValue">
-                    <semantic-link iri="{{photo.value}}"> 
-                      {{photo_label.value}}
-                    </semantic-link>
-                  </div>
-                </span>
-              </td>
-           </tr>
-          </tbody>
-        </table>
-      </tr>
-      
-      {{#ifCond photographer.value "!==" undefined}}
-      <tr class="rs-page-resource__field">
-        <td class="rs-page-resource__field-label-holder headLine centerTitle">
-          <span class="rs-page-resource__field-label">
-            Photographer
-          </span>
-        </td>
-        <table class="table table-hover">
-          <tbody>
-            <tr>
-              <td>
-                <span class="rs-page-resource__field-value">
-                  <div class="visualizationValue">
-                    <semantic-query query='SELECT ?photographer WHERE{ BIND(({{photographer}}) as ?photographer)}'>
-                    </semantic-query>
-                  </div>
-                </span>
-              </td>
-           </tr>
-          </tbody>
-        </table>
-      </tr>
-      {{/ifCond}}
-      
-      {{#ifCond keeper.value "!==" undefined}}
-      <tr class="rs-page-resource__field">
-        <td class="rs-page-resource__field-label-holder headLine centerTitle">
-          <span class="rs-page-resource__field-label">
-            Keeper
-          </span>
-        </td>
-        <table class="table table-hover">
-          <tbody>
-            <tr>
-              <td>
-                <span class="rs-page-resource__field-value">
-                  <div class="visualizationValue">
-                    <semantic-query query='SELECT ?keeper WHERE{ BIND(({{keeper}}) as ?keeper)}'>
-                    </semantic-query>
-                  </div>
-                </span>
-              </td>
-           </tr>
-          </tbody>
-        </table>
-      </tr>
-      {{/ifCond}}
-    </div>
-</div>
-</template>    
-</semantic-table>
+    </template>
+  </semantic-table>
 </div>
 <style>
-  #photoTable .semantic-table-holder{
+  #photoTable .semantic-table-holder {
     position: unset !important;
     width: unset !important;
     left: unset !important;
   }
-  .photographFieldView{
+  .photographFieldView {
     display: flex;
     border: 1px solid #f5f5f5;
     width: 47%;
@@ -165,20 +112,21 @@ tuple-template='{{> photos}}'
     margin-bottom: 15px;
     transition: 0.5s;
   }
-  .photographFieldView:hover{
+  .photographFieldView:hover {
     background: #fbfbfb;
   }
-  .rectoVersoCell{
+  .rectoVersoCell {
     display: flex;
     padding-left: 1vw;
     justify-content: center;
     align-items: center;
     padding-right: 1vw;
+    min-width: 225px;
   }
-  .vercoCell{
+  .vercoCell {
     margin-left: 15px;
   }
-  .centerTitle{
+  .centerTitle {
     vertical-align: unset !important;
   }
 </style>

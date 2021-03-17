@@ -4,7 +4,7 @@
 <head>
 
   <script type="text/javascript">
-  // Script for print button
+    // Script for print button
 
     // This checks if an element is present at DOM
     const checkElement = async selector => {
@@ -15,17 +15,18 @@
     };
 
     // This is checked on load
-    window.onload = function(){ checkElement('#btnPrint').then((selector) => {
-      preparePrintButton()
-    });
+    window.onload = function () {
+      checkElement('#btnPrint').then((selector) => {
+        preparePrintButton()
+      });
     }
 
     // When a user clicks the button
     function preparePrintButton() {
       document.getElementById("btnPrint").onclick = function () {
-        var title = $("#printableTitle").html();
-        var images = $("#printableImages").html();
-        var info = $("#printableInfo").html();
+        var title = document.getElementById("printableTitle") ? document.getElementById("printableTitle").innerHTML : "";
+        var images = document.getElementById("printableImages") ? document.getElementById("printableImages").innerHTML : "";
+        var info = document.getElementById("printableInfo") ? document.getElementById("printableInfo").innerHTML : "";
         var printWindow = window.open('', '', 'height=400,width=800');
         printWindow.document.write('<html><head><title>' + window.document.URL + '</title>');
         printWindow.document.write(`<style>

@@ -7,7 +7,6 @@
 
          <mp-label iri='[[singleValueFromSelect 'SELECT distinct ?titleuri WHERE {{BIND(?? AS ?titleuri) FILTER NOT EXISTS{ ?? crm:P2_has_type <https://pharos.artresearch.net/resource/type/pharos>} } UNION {?subject owl:sameAs ??. ?subject crm:P1_is_identified_by ?titleuri. ?titleuri  crm:P2_has_type <http://vocab.getty.edu/aat/300417193> .}}']]' class='page__header-gripper-label'></mp-label>
 
-        <!--<mp-label iri="[[this]]" class="page__header-gripper-label"></mp-label>-->
       </h2>
     </mp-draggable>
   </div>
@@ -20,13 +19,21 @@
       query="
             SELECT DISTINCT ?providerRecord ?providerLabel WHERE {
              {
+              # Artwork
               ?originalSubject owl:sameAs ??.
               ?originalSubject <https://pharos.artresearch.net/custom/has_original_record> ?providerRecord.
-              ?originalSubject<https://pharos.artresearch.net/resource/fr/Work_has_provider_Institution> ?provider.
+              ?originalSubject <https://pharos.artresearch.net/resource/fr/Work_has_provider_Institution> ?provider.
               ?provider rdfs:label ?providerLabel
             }UNION{
+              # Pharos artwork
               ?? <https://pharos.artresearch.net/custom/has_original_record> ?providerRecord.
               ?? <https://pharos.artresearch.net/resource/fr/Work_has_provider_Institution> ?provider.
+              ?provider rdfs:label ?providerLabel
+            }UNION{
+              # Photograph
+              ?? <https://pharos.artresearch.net/resource/fr/Photo_depicts_Work>  ?subject.
+              ?subject <https://pharos.artresearch.net/custom/has_original_record> ?providerRecord.
+              ?subject <https://pharos.artresearch.net/resource/fr/Work_has_provider_Institution> ?provider.
               ?provider rdfs:label ?providerLabel
             }
             }
