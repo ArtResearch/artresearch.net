@@ -1,27 +1,9 @@
-<div  id="printableInfo"  class="workAndProductionInfo">
+<div id="printableInfo" class="workAndProductionInfo">
   <!-- Fields for Work (Artwork or photograph) -->
   <mp-field-visualization
     subject="[[this]]"
     additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
-    fields='[[fieldDefinitions  
-    Title="https://pharos.artresearch.net/fieldDefinition/2" 
-    Type="https://pharos.artresearch.net/fieldDefinition/550" 
-    Culture="https://pharos.artresearch.net/fieldDefinition/5" 
-    Subject="https://pharos.artresearch.net/fieldDefinition/46" 
-    SubjectDescription="https://pharos.artresearch.net/fieldDefinition/62" 
-    Collection="https://pharos.artresearch.net/fieldDefinition/4" 
-    Repository="https://pharos.artresearch.net/fieldDefinition/Repository" 
-    CurrentLocation="https://pharos.artresearch.net/fieldDefinition/93" 
-    MuseumCreditLine="https://pharos.artresearch.net/fieldDefinition/71" 
-    Dimensions="https://pharos.artresearch.net/fieldDefinition/6" 
-    ColorInformation="https://pharos.artresearch.net/fieldDefinition/67" 
-    Material="https://pharos.artresearch.net/fieldDefinition/44" 
-    Inscription="https://pharos.artresearch.net/fieldDefinition/33" 
-    StateofPreservation="https://pharos.artresearch.net/fieldDefinition/203" 
-    ConditionAssessmentDescription="https://pharos.artresearch.net/fieldDefinition/68" 
-    IconclassInformation="https://pharos.artresearch.net/fieldDefinition/92"
-    Artwork="https://pharos.artresearch.net/fieldDefinition/301"
-    ]]'
+    fields='[[ fieldDefinitionsFromQuery "SELECT ?field WHERE {    ?field <http://www.researchspace.org/resource/system/fields/category>  <http://www.researchspace.org/ontologies/platform/FieldCategories/work_info>.   OPTIONAL {?field <http://www.researchspace.org/resource/system/fields/order> ?w. BIND(xsd:integer(?w) as ?orderNo)}} ORDER BY ASC(?orderNo)"]]'
     template="{{>workInfo}}"
   >
     <template id="workInfo">
@@ -40,22 +22,7 @@
     <mp-field-visualization
       subject="[[this]]"
       additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
-      fields='[[fieldDefinitions  
-  Creator="https://pharos.artresearch.net/fieldDefinition/1"
-  Photographer="https://pharos.artresearch.net/fieldDefinition/123"
-  ProductionParticipant="https://pharos.artresearch.net/fieldDefinition/73" 
-  InfluencedBy="https://pharos.artresearch.net/fieldDefinition/20" 
-  AttributionReason="https://pharos.artresearch.net/fieldDefinition/204" 
-  AttributionNotes="https://pharos.artresearch.net/fieldDefinition/17" 
-  ProductionDate="https://pharos.artresearch.net/fieldDefinition/8" 
-  ProductionDateCentury="https://pharos.artresearch.net/fieldDefinition/78" 
-  ProductionDatePartofCentury="https://pharos.artresearch.net/fieldDefinition/79" 
-  ProductionDateAlternative="https://pharos.artresearch.net/fieldDefinition/146" 
-  ProductionPlace="https://pharos.artresearch.net/fieldDefinition/145" 
-  Technique="https://pharos.artresearch.net/fieldDefinition/42" 
-  Attributions="https://pharos.artresearch.net/fieldDefinition/277" 
-  ProductionType="https://pharos.artresearch.net/fieldDefinition/278" 
-  ]]'
+      fields='[[ fieldDefinitionsFromQuery "SELECT ?field WHERE {  ?field <http://www.researchspace.org/resource/system/fields/category>  <http://www.researchspace.org/ontologies/platform/FieldCategories/production_info>. OPTIONAL {?field <http://www.researchspace.org/resource/system/fields/order> ?w. BIND(xsd:integer(?w) as ?orderNo)} } ORDER BY ASC(?orderNo)" ]]'
       template="{{>productionInfo}}"
     >
       <template id="productionInfo">
@@ -71,35 +38,12 @@
     <mp-field-visualization
       subject="[[this]]"
       additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
-      fields='[[fieldDefinitions  
-  Identifiers="https://pharos.artresearch.net/fieldDefinition/19" 
-  HistoryofOwnership="https://pharos.artresearch.net/fieldDefinition/39" 
-  PastOwnership="https://pharos.artresearch.net/fieldDefinition/18" 
-  AcquisitionTimespan="https://pharos.artresearch.net/fieldDefinition/16" 
-  AcquisitionType="https://pharos.artresearch.net/fieldDefinition/56" 
-  Formerlocation="https://pharos.artresearch.net/fieldDefinition/205" 
-  Exhibition="https://pharos.artresearch.net/fieldDefinition/37" 
-  ExhibitionDescription="https://pharos.artresearch.net/fieldDefinition/34" 
-  Modification="https://pharos.artresearch.net/fieldDefinition/90" 
-  Destruction="https://pharos.artresearch.net/fieldDefinition/14" 
-  Transformation="https://pharos.artresearch.net/fieldDefinition/15" 
-  UseRestrictions="https://pharos.artresearch.net/fieldDefinition/201"
-  RightHolder="https://pharos.artresearch.net/fieldDefinition/140"
-  RightType="https://pharos.artresearch.net/fieldDefinition/45"
-  Bibliography="https://pharos.artresearch.net/fieldDefinition/69"
-  SourcedDocumentationDescription="https://pharos.artresearch.net/fieldDefinition/70"
-  RelatedWorksDescription="https://pharos.artresearch.net/fieldDefinition/74"
-  DescriptiveNotes="https://pharos.artresearch.net/fieldDefinition/128"
-  CuratorialNote="https://pharos.artresearch.net/fieldDefinition/81"
-  HasPart="https://pharos.artresearch.net/fieldDefinition/91"
-  IsPartOf="https://pharos.artresearch.net/fieldDefinition/94"
-  WorkLocation = "https://pharos.artresearch.net/fieldDefinition/geonames_name"
-  ]]'
+      fields='[[ fieldDefinitionsFromQuery "SELECT ?field WHERE {  ?field <http://www.researchspace.org/resource/system/fields/category>  <http://www.researchspace.org/ontologies/platform/FieldCategories/other_details>. OPTIONAL {?field <http://www.researchspace.org/resource/system/fields/order> ?w. BIND(xsd:integer(?w) as ?orderNo)} } ORDER BY ASC(?orderNo)" ]]'
       template="{{>generalInfo}}"
     >
       <template id="generalInfo">
         {{#if noData}} {{else}}
-        <h2 style="margin-top: 4vh;">Other details</h2>
+        <h2 style="margin-top: 4vh">Other details</h2>
         [[> rsp:ResourceFieldBasedVisualization subject=[[this]]
         showSourceIcon="true" ]]
 
@@ -130,7 +74,7 @@
       </template>
     </mp-field-visualization>
   </div>
-  <div style="width: 93.5%;" class="productionInfoContainer">
+  <div style="width: 93.5%" class="productionInfoContainer">
     <!-- Photographs detailed information -->
     [[> rsp:PhotographTable]]
   </div>
