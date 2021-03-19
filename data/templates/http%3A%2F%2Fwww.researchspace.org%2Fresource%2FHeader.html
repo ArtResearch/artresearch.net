@@ -4,9 +4,7 @@
     <mp-draggable iri="[[this]]">
       <h2 data-flex-layout="row center-left">
         <span class="page__header-gripper"></span>
-
-         <mp-label iri='[[singleValueFromSelect 'SELECT distinct ?titleuri WHERE {{BIND(?? AS ?titleuri) FILTER NOT EXISTS{ ?? crm:P2_has_type <https://pharos.artresearch.net/resource/type/pharos>} } UNION {?subject owl:sameAs ??. ?subject crm:P1_is_identified_by ?titleuri. ?titleuri  crm:P2_has_type <http://vocab.getty.edu/aat/300417193> .}}']]' class='page__header-gripper-label'></mp-label>
-
+         <mp-label iri="[[this]]" class='page__header-gripper-label'></mp-label>
       </h2>
     </mp-draggable>
   </div>

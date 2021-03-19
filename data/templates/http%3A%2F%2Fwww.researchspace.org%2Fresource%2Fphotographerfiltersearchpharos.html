@@ -1,144 +1,160 @@
 <semantic-search
   relations='{
-    "<https://pharos.artresearch.net/resource/field/Artist_Attribution>":[
-    {
-      "kind": "resource",
-      "queryPattern": "
-        {
-          $subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?__value__
-        }"
-    }
+  "<https://pharos.artresearch.net/resource/fr/Photographer_has_Gender>":[
+  {
+    "kind": "resource",
+    "queryPattern": "
+      {
+        $subject <https://pharos.artresearch.net/resource/fr/Photographer_has_Gender> ?__value__.
+      }"
+  }
 ],
-    "<https://pharos.artresearch.net/fieldDefinition/Repository>":[
-    {
-      "kind": "resource",
-      "queryPattern": "
-        {
-          $subject <http://www.cidoc-crm.org/cidoc-crm/P50_has_current_keeper> ?__value__.
-        }"
-    }],
-    "<https://pharos.artresearch.net/fieldDefinition/46>": [
-    {
-      "kind": "resource",
-      "queryPattern": "
-        {
-          $subject crm:P65_shows_visual_item ?__value__.
-          ?__value__ crm:P2_has_type <http://vocab.getty.edu/aat/300404126>
-        }"
-    }],
-    "<https://pharos.artresearch.net/fieldDefinition/44>": [
-    {
-      "kind": "resource",
-      "queryPattern": "
-        {
-          $subject crm:P45_consists_of ?__value__.
-          ?__value__ a crm:E57_Material.
-        }"
-    }],
-    "<https://pharos.artresearch.net/fieldDefinition/550>": [
-    {
-      "kind": "resource",
-      "queryPattern": "
-        {
-          $subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ?__value__ .
-        }"
-    }],
-    "<https://pharos.artresearch.net/fieldDefinition/42>": [
-    {
-      "kind": "resource",
-      "queryPattern": "
-        {
-          $subject crm:P108i_was_produced_by ?production.
-          ?production crm:P33_used_specific_technique ?__value__.
-        }"
-    }],
-    "<https://pharos.artresearch.net/fieldDefinition/93>": [
-    {
-      "kind": "resource",
-      "queryPattern": "
-        {
-          $subject crm:P55_has_current_location ?__value__.
-        }"
-    }]
-      }'
+  "<https://pharos.artresearch.net/resource/fr/Artist_has_Nationality>":[
+  {
+    "kind": "resource",
+    "queryPattern": "
+      {
+        $subject <https://pharos.artresearch.net/resource/fr/Artist_has_Nationality> ?__value__.
+      }"
+  }
+],
+  "<https://pharos.artresearch.net/resource/fr/Artist_has_Date_of_Birth>":[
+  {
+    "kind": "numeric-range",
+    "queryPattern": "
+      {
+        $subject <https://pharos.artresearch.net/resource/fr/Artist_has_Date_of_Birth> ?gYear .
+        FILTER(?literal >= ?__numericRangeBeginValue__) .
+        FILTER(?literal <= ?__numericRangeEndValue__) .
+        BIND(xsd:integer(str(?gYear)) as ?literal).
+      }"
+  }],
+  "<https://pharos.artresearch.net/resource/fr/Artist_has_Date_of_Death>": [
+  {
+    "kind": "numeric-range",
+    "queryPattern": "
+      {
+        $subject <https://pharos.artresearch.net/resource/fr/Artist_has_Date_of_Death> ?gYear .
+        FILTER(?literal >= ?__numericRangeBeginValue__) .
+        FILTER(?literal <= ?__numericRangeEndValue__) .
+        BIND(xsd:integer(str(?gYear)) as ?literal).
+      }"
+  }],
+  "<https://pharos.artresearch.net/resource/fr/Artist_has_Place_of_Birth>": [
+  {
+    "kind": "resource",
+    "queryPattern": "
+      {
+        $subject <https://pharos.artresearch.net/resource/fr/Artist_has_Place_of_Birth> ?__value__ .
+      }"
+  }],
+  "<https://pharos.artresearch.net/resource/fr/Artist_has_Place_of_Death>": [
+  {
+    "kind": "resource",
+    "queryPattern": "
+      {
+        $subject <https://pharos.artresearch.net/resource/fr/Artist_has_Place_of_Death> ?__value__ .
+      }"
+  }],
+  "<https://pharos.artresearch.net/resource/fr/Event_has_Type>": [
+  {
+    "kind": "resource",
+    "queryPattern": "
+      {
+        $subject <https://pharos.artresearch.net/resource/fr/Artist_has_Event> ?event.
+        ?event <https://pharos.artresearch.net/resource/fr/Event_has_Type> ?__value__ .
+      }"
+  }],
+  "<https://pharos.artresearch.net/resource/fr/Event_at_Place>": [
+  {
+    "kind": "resource",
+    "queryPattern": "
+      {
+        $subject <https://pharos.artresearch.net/resource/fr/Artist_has_Event> ?event.
+        ?event <https://pharos.artresearch.net/resource/fr/Event_at_Place> ?__value__ .
+      }"
+  }]
+    }'
   search-profile='{
-        "categories":  
-        [
-          {
-            "iri":"<http://www.cidoc-crm.org/cidoc-crm/E21_Person>",
-            "label":"Painter"
-          },
-          {
-            "iri":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
-            "label":"Creator"
-          },
-          {
-            "iri":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
-            "label":"Artwork"
-          },
-          {
-            "iri":"<http://www.cidoc-crm.org/cidoc-crm/E55_Type>",
-            "label":"Concept"
-          }, 
-          {
-            "iri":"<http://www.cidoc-crm.org/cidoc-crm/E57_Material>",
-            "label":"Material"
-          }, 
-          {
-            "iri":"<http://www.cidoc-crm.org/cidoc-crm/E29_Design_or_Procedure>",
-            "label":"Technique"
-          }, 
-          {
-            "iri":"<http://www.cidoc-crm.org/cidoc-crm/E53_Place>",
-            "label":"Location"
-          }
-        ],
-        "relations":
-        [
-          {
-            "iri": "<https://florentinedrawings.itatti.harvard.edu/resource/field/Artist_Attribution>",
-            "label":"Creator",
-            "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
-            "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E21_Person>"
-          },
-          {
-            "iri": "<https://pharos.artresearch.net/fieldDefinition/Repository>",
-            "label":"Repository",
-            "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
-            "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>"
-          },
-          {
-            "iri":"<https://pharos.artresearch.net/fieldDefinition/46>",
-            "label":"Subject",
-            "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
-            "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E55_Type>"
-          },
-          {
-            "iri":"<https://pharos.artresearch.net/fieldDefinition/44>",
-            "label":"Material",
-            "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
-            "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E57_Material>"
-          },
-          {
-            "iri":"<https://pharos.artresearch.net/fieldDefinition/550>",
-            "label":"Concept",
-            "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
-            "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E55_Type>"
-          },
-          {
-            "iri":"<https://pharos.artresearch.net/fieldDefinition/42>",
-            "label":"Technique",
-            "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
-            "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E29_Design_or_Procedure>"
-          },
-          {
-            "iri":"<https://pharos.artresearch.net/fieldDefinition/93>",
-            "label":"Location",
-            "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
-            "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E53_Place>"
-          }
-        ]
-      }'
+      "categories":  
+      [
+        {
+          "iri":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
+          "label":"Photographer"
+        },
+        {
+          "iri":"<https://pharos.artresearch.net/resource/nypl/type/gender>",
+          "label":"Gender"
+        }, 
+        {
+          "iri":"<http://www.cidoc-crm.org/cidoc-crm/E74_Group>",
+          "label":"Nationality"
+        }, 
+        {
+          "iri":"<http://www.w3.org/2001/XMLSchema#integer>",
+          "label":"Year"
+        }, 
+        {
+          "iri":"<https://pharos.artresearch.net/resource/fc/Type>",
+          "label":"Type"
+        }, 
+        {
+          "iri":"<https://pharos.artresearch.net/resource/fc/Place>",
+          "label":"Place"
+        }
+      ],
+      "relations":
+      [
+        {
+          "iri": "<https://pharos.artresearch.net/resource/fr/Photographer_has_Gender>",
+          "label":"Gender",
+          "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
+          "hasRange":"<https://pharos.artresearch.net/resource/nypl/type/gender>"
+        },
+        {
+          "iri": "<https://pharos.artresearch.net/resource/fr/Artist_has_Nationality>",
+          "label":"Nationality",
+          "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
+          "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E74_Group>"
+        },
+        {
+          "iri": "<https://pharos.artresearch.net/resource/fr/Artist_has_Date_of_Birth>",
+          "label":"Date of birth",
+          "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
+          "hasRange":"<http://www.w3.org/2001/XMLSchema#integer>"
+        },
+        {
+          "iri":"<https://pharos.artresearch.net/resource/fr/Artist_has_Date_of_Death>",
+          "label":"Date of death",
+          "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
+          "hasRange":"<http://www.w3.org/2001/XMLSchema#integer>"
+        },
+        {
+          "iri":"<https://pharos.artresearch.net/resource/fr/Artist_has_Place_of_Birth>",
+          "label":"Place of birth",
+          "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
+          "hasRange":"<https://pharos.artresearch.net/resource/fc/Place>"
+        },
+        {
+          "iri":"<https://pharos.artresearch.net/resource/fr/Artist_has_Place_of_Death>",
+          "label":"Place of death",
+          "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
+          "hasRange":"<https://pharos.artresearch.net/resource/fc/Place>"
+        },
+        {
+          "iri":"<https://pharos.artresearch.net/resource/fr/Event_has_Type>",
+          "label":"Event type",
+          "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
+          "hasRange":"<https://pharos.artresearch.net/resource/fc/Type>"
+        },
+        {
+          "iri":"<https://pharos.artresearch.net/resource/fr/Event_at_Place>",
+          "label":"Event place",
+          "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
+          "hasRange":"<https://pharos.artresearch.net/resource/fc/Place>"
+        }
+      ]
+    }'
 >
   <div id="header-search" class="search-page">
     <semantic-form
@@ -207,7 +223,8 @@
                       BIND( xsd:integer(substr(str(?value), 33)) as ?q)
                       } ORDER BY ?q
                     '
-            ></semantic-search-query-keyword>
+            ></semantic-search-query-keyword
+            >
           </semantic-form-composite-input>
         </semantic-form-switch-case>
       </semantic-form-switch>
@@ -215,7 +232,7 @@
   </div>
 
   <div class="row">
-    <!-- <bs-col
+    <bs-col
       lg="3"
       md="4"
       sm="5"
@@ -224,8 +241,8 @@
     >
       <div class="filter-title">Filters</div>
       <semantic-search-facet open-by-default="true"></semantic-search-facet>
-    </bs-col> -->
-    <bs-col lg="12">
+    </bs-col>
+    <bs-col lg="9" md="8" sm="7">
       <semantic-search-result-holder>
         <bs-tabs unmount-on-exit="true" id="search-results" animation="false">
           <bs-tab event-key="2" title="Grid">
@@ -407,7 +424,6 @@
 } */
 
   #header-search.search-page input {
-    
     border-radius: 0px 4px 4px 0px;
     width: 54vw;
     height: 5vh;
@@ -417,7 +433,6 @@
   }
 
   #header-search.home-page input {
-    
     border-radius: 0px 20px 20px 0px;
     width: 41vw;
     height: 5vh;
@@ -585,7 +600,6 @@
   }
 
   .clearable-input {
-    
     border-radius: 5px;
   }
 
