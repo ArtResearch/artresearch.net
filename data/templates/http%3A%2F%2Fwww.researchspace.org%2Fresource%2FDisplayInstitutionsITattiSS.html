@@ -1,5 +1,5 @@
 <div class="text-center panel panel-default" style="border:none;margin-right:20px;font-size:12px;height:20px;width: 33%;display:inline;">
-<div class="result-title">Repositories (Villa i Tatti FotoIndex)</div>
+<div class="result-title">Repositories (I Tatti SharedShelf)</div>
 </div>
 
  <semantic-table 
@@ -7,10 +7,12 @@
 											 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 		 									 PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 
-											 SELECT  $institution
+											 SELECT distinct $institution
 											 WHERE {
-     	                 $institution <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <http://vocab.getty.edu/aat/300264595> .
-                       ?institution <https://pharos.artresearch.net/custom/has_provider> <https://pharos.artresearch.net/resource/itatti/source/FotoIndex> .
+                        
+                       $subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <http://vocab.getty.edu/aat/300133025>.
+                       $subject <https://pharos.artresearch.net/custom/has_provider>  <https://pharos.artresearch.net/resource/itatti/source/SharedShelf>.
+     	                 $subject crm:P50_has_current_keeper $institution
 											 }' 
                  
                 id="table-result" 
