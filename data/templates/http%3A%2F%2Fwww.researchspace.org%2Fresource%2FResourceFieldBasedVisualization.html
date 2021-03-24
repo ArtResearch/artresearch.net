@@ -1,6 +1,6 @@
 <!-- To enable source icons, simply add showSourceIcon="true" -->
 {{#if noData}}
-<div class="table-responsive rs-table">
+<div id="rsbv" class="table-responsive rs-table">
   <table class="table table-hover">
     <tbody>
       <tr>
@@ -11,7 +11,7 @@
   </table>
 </div>
 {{else}}
-<div class="table-responsive rs-table">
+<div id="rsbv" class="table-responsive rs-table">
   <table class="table table-hover">
     [[#if showSourceIcon]]
     <thead role="header">
@@ -175,83 +175,3 @@
 </table>
 </div>
 {{/if}}
-<style>
-  .headLine {
-    border-bottom-color: #f4f4f4 !important;
-    border-bottom: 1px solid;
-  }
-
-  .rs-page-resource__field-label {
-    font-size: medium !important;
-    font-weight: 600;
-    color: #616161;
-  }
-
-  .sourceIcons {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .multivalueTd {
-    padding: 0 !important;
-  }
-
-  .visualizationValue {
-    font-size: medium !important;
-    min-width: 20vw;
-  }
-
-  #search-results .rs-grid-element a {
-    color: #6b0000 !important;
-  }
-
-  .visualizationValue a {
-    color: #6b0000 !important;
-    text-decoration: none !important;
-  }
-
-  .rs-page-resource__field-value {
-    white-space: normal !important;
-  }
-
-  .sourceIcon {
-    height: 18px;
-    width: 18px;
-    padding: 2px;
-    margin: 4px;
-    cursor: pointer;
-    border-radius: 100%;
-    box-shadow: 1px 1px 3px 1px #e7e7e7;
-  }
-
-  .icon--database {
-    margin-right: 2px;
-    font-weight: bold;
-  }
-
-  .icon--annotation {
-    margin-right: 0px !important;
-  }
-
-  .icon--assertion {
-    margin-right: 0px !important;
-  }
-
-  .badge {
-    background: #c5c5c5 !important;
-    width: 18px;
-    height: 18px;
-  }
-
-  .rs-page__count--title {
-    padding: 0 !important;
-  }
-
-  .rs-page__count--field-assertion a {
-    text-decoration: none !important;
-  }
-
-  .rs-page__count--field-annotation a {
-    text-decoration: none !important;
-  }
-</style>

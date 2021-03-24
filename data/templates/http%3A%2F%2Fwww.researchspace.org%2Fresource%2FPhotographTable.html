@@ -26,9 +26,9 @@ SELECT distinct ?photo ?photo_label ?photographer ?keeper WHERE
   >
     <template id="photos">
       <semantic-link class="photographFieldView" iri="{{photo.value}}">
-          <td class="rectoVersoCell">
-            <semantic-query
-              query='
+        <td class="rectoVersoCell">
+          <semantic-query
+            query='
       SELECT  ?photoUri ?rectoImage where{
         BIND(str(<{{photo.value}}>) as ?photoUri).
         <{{photo.value}}> crm:P129i_is_subject_of ?fullsizeImages.
@@ -39,20 +39,20 @@ SELECT distinct ?photo ?photo_label ?photographer ?keeper WHERE
         }
       }
     '
-              template="{{>rectoImageThumb}}"
-            >
-              <template id="rectoImageThumb">
-                <semantic-link iri="{{bindings.0.photoUri.value}}">
-                  <img
-                    src="{{bindings.0.rectoImage.value}}"
-                    style="max-height: 100px; margin: 0 auto"
-                    class="img-rounded"
-                  />
-                </semantic-link>
-              </template>
-            </semantic-query>
-            <semantic-query
-              query='
+            template="{{>rectoImageThumb}}"
+          >
+            <template id="rectoImageThumb">
+              <semantic-link iri="{{bindings.0.photoUri.value}}">
+                <img
+                  src="{{bindings.0.rectoImage.value}}"
+                  style="max-height: 100px; margin: 0 auto"
+                  class="img-rounded"
+                />
+              </semantic-link>
+            </template>
+          </semantic-query>
+          <semantic-query
+            query='
   SELECT ?photoUri ?versoImage where{
     BIND(str(<{{photo.value}}>) as ?photoUri).
     <{{photo.value}}> crm:P129i_is_subject_of ?fullsizeImages.
@@ -63,70 +63,41 @@ SELECT distinct ?photo ?photo_label ?photographer ?keeper WHERE
     }
   }
 '
-              template="{{>versoImageThumb}}"
-            >
-              <template id="versoImageThumb">
-                <semantic-link iri="{{bindings.0.photoUri.value}}">
-                  <img
-                    src="{{bindings.0.versoImage.value}}"
-                    style="max-height: 70px; max-width: 70px"
-                    class="img-rounded vercoCell"
-                  />
-                </semantic-link>
-              </template>
-            </semantic-query>
-          </td>
-          <div class="photographFieldViewData">
-            <mp-field-visualization
-              subject="{{photo.value}}"
-              fields='[[fieldDefinitions  
+            template="{{>versoImageThumb}}"
+          >
+            <template id="versoImageThumb">
+              <semantic-link iri="{{bindings.0.photoUri.value}}">
+                <img
+                  src="{{bindings.0.versoImage.value}}"
+                  style="max-height: 70px; max-width: 70px"
+                  class="img-rounded vercoCell"
+                />
+              </semantic-link>
+            </template>
+          </semantic-query>
+        </td>
+        <div class="photographFieldViewData">
+          <mp-field-visualization
+            subject="{{photo.value}}"
+            fields='[[fieldDefinitions  
               Title="https://pharos.artresearch.net/fieldDefinition/2" 
               Photographer="https://pharos.artresearch.net/fieldDefinition/123"
               Repository="https://pharos.artresearch.net/fieldDefinition/Repository" 
             ]]'
-              template="{{>productionInfo}}"
-            >
-              <template id="productionInfo">
-                {{#if noData}}
-                <div></div>
-                {{else}} [[> rsp:ResourceFieldBasedVisualization
-                subject=[[this]] ]] {{/if}}
-              </template>
-            </mp-field-visualization>
-          </div>
+            template="{{>productionInfo}}"
+          >
+            <template id="productionInfo">
+              {{#if noData}}
+              <div></div>
+              {{else}} [[> rsp:ResourceFieldBasedVisualization subject=[[this]]
+              ]] {{/if}}
+            </template>
+          </mp-field-visualization>
+        </div>
       </semantic-link>
     </template>
   </semantic-table>
 </div>
 <style>
-  #photoTable .semantic-table-holder {
-    position: unset !important;
-    width: unset !important;
-    left: unset !important;
-  }
-  .photographFieldView {
-    display: flex;
-    border: 1px solid #f5f5f5;
-    width: 47%;
-    margin-right: 1vw;
-    margin-bottom: 15px;
-    transition: 0.5s;
-  }
-  .photographFieldView:hover {
-    background: #fbfbfb;
-  }
-  .rectoVersoCell {
-    display: flex;
-    padding-left: 1vw;
-    justify-content: center;
-    align-items: center;
-    padding-right: 1vw;
-    min-width: 225px;
-  }
-  .vercoCell {
-    margin-left: 15px;
-  }
-  .centerTitle {
-    vertical-align: unset !important;
-  }
+
 </style>
