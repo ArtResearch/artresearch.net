@@ -1,5 +1,5 @@
 <!-- Displays a list of similar artworks -->
-<div>
+<div id="similar-artwork-list">
   <semantic-query
     query='SELECT distinct ?subject WHERE { 
       # Artwork
@@ -32,20 +32,3 @@
     </template>
   </semantic-query>
 </div>
-<style>
-  .similarArtworkCardContainer {
-    margin-top: 2vh;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-  }
-  .similarArtworkCard {
-    width: 48.5%;
-  }
-  @media(max-width:1250px)
-  {
-    .similarArtworkCard {
-      width: 80%;
-    }
-  }
-</style>
