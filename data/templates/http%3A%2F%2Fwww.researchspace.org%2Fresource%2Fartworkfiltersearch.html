@@ -202,13 +202,14 @@
                         ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
                         ?subject <https://pharos.artresearch.net/custom/has_provider>  <[[provider]]>.
                 
-                        ?entity ?p	?someLabel .
+                        ?subject ?p ?o.
+?o rdfs:label ?someLabel.
                         ?someLabel bds:search ?__token__  .
                         ?someLabel bds:minRelevance "0.3"^^xsd:double;
                         bds:matchAllTerms "true"  .
                       
                       
-                      } ORDER BY ?q
+                      } 
                     '
               ></semantic-search-query-keyword>
             </semantic-form-composite-input>
@@ -243,19 +244,14 @@
                       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
                       SELECT DISTINCT ?subject WHERE {
-                      ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
                       ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
                       ?subject <https://pharos.artresearch.net/custom/has_provider>  <[[provider]]>.
-                      ?subject crm:P108i_was_produced_by ?production .
-                      ?production crm:P01i_is_domain_of ?carried .
-                      ?carried a crm:PC14_carried_out_by .
-                      ?carried crm:P02_has_range ?value.
+                      ?subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?value.
                       ?value rdfs:label ?someLabel.
                       ?someLabel bds:search ?__token__ .
                       ?someLabel bds:minRelevance "0.3"^^xsd:double;
                       bds:matchAllTerms "true"  .
-                      BIND( xsd:integer(substr(str(?value), 33)) as ?q)
-                      } ORDER BY ?q
+                      } 
                     '
               ></semantic-search-query-keyword>
             </semantic-form-composite-input>
@@ -289,18 +285,14 @@
                 query='
                       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-                      SELECT DISTINCT ?subject WHERE {
-                      ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
+                      SELECT DISTINCT ?subject WHERE {                      
                       ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
                       ?subject <https://pharos.artresearch.net/custom/has_provider>  <[[provider]]>.
-                      ?subject crm:P1_is_identified_by ?value. 
-                      ?value crm:P2_has_type <http://vocab.getty.edu/aat/300417193> .   
-                      ?value rdfs:label ?someLabel.
+                      ?subject rdfs:label ?someLabel.
                       ?someLabel bds:search ?__token__ .
                       ?someLabel bds:minRelevance "0.3"^^xsd:double;
                       bds:matchAllTerms "true"  .
-                      BIND( xsd:integer(substr(str(?value), 33)) as ?q)
-                      } ORDER BY ?q
+                      } 
                     '
               ></semantic-search-query-keyword>
             </semantic-form-composite-input>
@@ -343,8 +335,8 @@
                       ?someLabel bds:search ?__token__ .
                       ?someLabel bds:minRelevance "0.3"^^xsd:double;
                       bds:matchAllTerms "true"  .
-                      BIND( xsd:integer(substr(str(?value), 33)) as ?q)
-                      } ORDER BY ?q
+                      
+                      } 
                     '
               ></semantic-search-query-keyword>
             </semantic-form-composite-input>
@@ -394,7 +386,7 @@
                             query="
                       SELECT DISTINCT ?subject
                        WHERE {
-                        ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
+                     
                        }LIMIT 100
                     "
                             tuple-template="{{>tupleTemplate}}"
@@ -414,7 +406,6 @@
                             query="
                       SELECT DISTINCT ?subject
                        WHERE {
-                        ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
                         ?subject <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo.
                        }LIMIT 100
                     "
