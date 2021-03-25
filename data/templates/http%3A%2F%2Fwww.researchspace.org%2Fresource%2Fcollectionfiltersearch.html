@@ -147,12 +147,13 @@
     }LIMIT 100' query='
             SELECT DISTINCT ?subject WHERE {
               [[searchQuery]]
-              ?entity ?p	?someLabel .
+              ?subject ?p ?o.
+?o rdfs:label ?someLabel.
               ?someLabel bds:search ?__token__  .
               ?someLabel bds:minRelevance "0.3"^^xsd:double;
               bds:matchAllTerms "true"  .
-              BIND( xsd:integer(substr(str(?value), 33)) as ?q)
-            } ORDER BY ?q
+              
+            } 
           '></semantic-search-query-keyword>
   </div>
 
@@ -180,7 +181,7 @@
                         }' number-of-displayed-rows="10" query="
                       SELECT DISTINCT ?subject
                        WHERE {
-                        ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
+                     
                        }LIMIT 100
                     " tuple-template="{{>tupleTemplate}}">
                           <template id="tupleTemplate"> [[> rsp:artworkCard]] </template>
@@ -192,7 +193,6 @@
                         }' number-of-displayed-rows="10" query="
                       SELECT DISTINCT ?subject
                        WHERE {
-                        ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
                         ?subject <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo.
                        }LIMIT 100
                     " tuple-template="{{>tupleTemplate}}">

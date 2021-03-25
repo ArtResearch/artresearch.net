@@ -221,11 +221,12 @@
                           ?subject crm:P55_has_current_location ??
                         }
                         ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
-                        ?entity ?p	?someLabel .
+                        ?subject ?p ?o.
+?o rdfs:label ?someLabel.
                         ?someLabel bds:search ?__token__  .
                         ?someLabel bds:minRelevance "0.3"^^xsd:double;
                         bds:matchAllTerms "true"  .
-                      } ORDER BY ?q
+                      } 
                     '
             ></semantic-search-query-keyword>
           </semantic-form-composite-input>
@@ -271,19 +272,14 @@
                       {
                         ?? <https://pharos.artresearch.net/resource/fr/Place_of_Work> ?subject.
                       }UNION{
-                        ?subject crm:P55_has_current_location ??
+                        ?subject crm:P55_has_current_location ??.
                       }
-                      ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
-                      
-                      
-                      ?subject crm:P1_is_identified_by ?value. 
-                      ?value crm:P2_has_type <http://vocab.getty.edu/aat/300417193> .   
-                      ?value rdfs:label ?someLabel.
+                      ?subject rdfs:label ?someLabel.
                       ?someLabel bds:search ?__token__ .
                       ?someLabel bds:minRelevance "0.3"^^xsd:double;
                       bds:matchAllTerms "true"  .
-                      BIND( xsd:integer(substr(str(?value), 33)) as ?q)
-                      } ORDER BY ?q
+                      
+                      } 
                     '
             ></semantic-search-query-keyword>
           </semantic-form-composite-input>
@@ -334,8 +330,8 @@
                       ?someLabel bds:search ?__token__ .
                       ?someLabel bds:minRelevance "0.3"^^xsd:double;
                       bds:matchAllTerms "true"  .
-                      BIND( xsd:integer(substr(str(?value), 33)) as ?q)
-                      } ORDER BY ?q
+                      
+                      } 
                     '
             ></semantic-search-query-keyword>
           </semantic-form-composite-input>
