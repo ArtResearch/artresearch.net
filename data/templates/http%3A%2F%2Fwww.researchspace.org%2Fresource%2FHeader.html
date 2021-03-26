@@ -1,5 +1,4 @@
 <div id="artwork-header"  class="page__header-body" data-flex-layout="row top-left">
-  [[#if notDraggable]] [[else]]
   <div class="page__header-draggable-title">
     <mp-draggable iri="[[this]]">
       <h2 data-flex-layout="row center-left">
@@ -8,11 +7,8 @@
       </h2>
     </mp-draggable>
   </div>
-  [[/if]]
   <div data-flex-layout='row center-left' class="page__header-tagline subtitleInfo">
-    [[#if fcLabel]]
     [[> rsp:TypeRepositoryInfo work=(urlParam "uri") ]]
-
     <semantic-query
       query="
             SELECT DISTINCT ?providerRecord ?providerLabel WHERE {
@@ -51,7 +47,5 @@
         </h4>
       </template>
     </semantic-query>
-    [[else]] [[#if subLabel]][[subLabel]][[/if]] [[#if labelChild]][[>
-    @partial-block]][[/if]] [[/if]]
   </div>
 </div>
