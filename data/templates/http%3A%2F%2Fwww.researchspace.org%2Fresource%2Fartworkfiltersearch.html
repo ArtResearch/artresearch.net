@@ -192,13 +192,13 @@
                 escape-lucene-syntax="false"
                 default-query="
               SELECT DISTINCT ?subject WHERE {
-                ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
+                
                 ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
                 ?subject <https://pharos.artresearch.net/custom/has_provider>  <[[provider]]>.
               }LIMIT 100"
                 query='
                       SELECT DISTINCT ?subject WHERE {
-                        ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
+                        
                         ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
                         ?subject <https://pharos.artresearch.net/custom/has_provider>  <[[provider]]>.
                 
@@ -327,7 +327,7 @@
                       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
                       SELECT DISTINCT ?subject ?someLabel WHERE {
-                      ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
+                      
                       ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
                       ?subject <https://pharos.artresearch.net/custom/has_provider>  <[[provider]]>.
                       ?subject crm:P50_has_current_keeper ?value.
