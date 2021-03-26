@@ -10,7 +10,8 @@ SELECT distinct ?photo
     <template id="showTitle">
       <div style="margin-top: 45px"><h2>Photographs</h2></div>
     </template>
-  </semantic-query>
+  </semantic-query> 
+  <!-- // TODO convert to ASK -->
 
   <semantic-table
     options='{
@@ -20,7 +21,8 @@ SELECT distinct ?photo
     query="  
 SELECT distinct ?photo ?photo_label ?photographer ?keeper WHERE 
 {
-    ?? <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo
+    ?? <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo 
+    # TODO add recto query, add optional verso query
 }"
     tuple-template="{{> photos}}"
   >
@@ -77,10 +79,11 @@ SELECT distinct ?photo ?photo_label ?photographer ?keeper WHERE
           </semantic-query>
         </td>
         <div class="photographFieldViewData">
+          <!-- //TODO make query -->
           <mp-field-visualization
             subject="{{photo.value}}"
             fields='[[fieldDefinitions  
-              Title="https://pharos.artresearch.net/fieldDefinition/2" 
+              Title="https://pharos.artresearch.net/fieldDefinition/2"  
               Photographer="https://pharos.artresearch.net/fieldDefinition/123"
               Repository="https://pharos.artresearch.net/fieldDefinition/Repository" 
             ]]'
