@@ -16,7 +16,7 @@
       "kind": "resource",
       "queryPattern": "
         {
-          $subject <http://www.cidoc-crm.org/cidoc-crm/P50_has_current_keeper> ?__value__.
+          $subject <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution> ?__value__.
         }"
     }],
     "<https://pharos.artresearch.net/fieldDefinition/46>": [
@@ -24,8 +24,7 @@
       "kind": "resource",
       "queryPattern": "
         {
-          $subject crm:P65_shows_visual_item ?__value__.
-          ?__value__ crm:P2_has_type <http://vocab.getty.edu/aat/300404126>
+          $subject <https://pharos.artresearch.net/resource/fr/Work_shows_Subject>  ?__value__.
         }"
     }],
     "<https://pharos.artresearch.net/fieldDefinition/44>": [
@@ -33,8 +32,7 @@
       "kind": "resource",
       "queryPattern": "
         {
-          $subject crm:P45_consists_of ?__value__.
-          ?__value__ a crm:E57_Material.
+          $subject <https://pharos.artresearch.net/resource/fr/Work_consists_of_Material> ?__value__.
         }"
     }],
     "<https://pharos.artresearch.net/fieldDefinition/550>": [
@@ -50,8 +48,7 @@
       "kind": "resource",
       "queryPattern": "
         {
-          $subject crm:P108i_was_produced_by ?production.
-          ?production crm:P33_used_specific_technique ?__value__.
+         $subject <https://pharos.artresearch.net/resource/fr/Work_produced_using_technique_Technique> ?__value__.
         }"
     }],
     "<https://pharos.artresearch.net/fieldDefinition/93>": [
@@ -59,7 +56,7 @@
       "kind": "resource",
       "queryPattern": "
         {
-          $subject crm:P55_has_current_location ?__value__.
+          $subject <https://pharos.artresearch.net/resource/fr/Work_from_Place> ?__value__
         }"
     }]
       }'
@@ -192,23 +189,18 @@
                 escape-lucene-syntax="false"
                 default-query="
               SELECT DISTINCT ?subject WHERE {
-                
                 ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
                 ?subject <https://pharos.artresearch.net/custom/has_provider>  <[[provider]]>.
               }LIMIT 100"
                 query='
                       SELECT DISTINCT ?subject WHERE {
-                        
                         ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
                         ?subject <https://pharos.artresearch.net/custom/has_provider>  <[[provider]]>.
-                
                         ?subject ?p ?o.
-?o rdfs:label ?someLabel.
+                        ?o rdfs:label ?someLabel.
                         ?someLabel bds:search ?__token__  .
                         ?someLabel bds:minRelevance "0.3"^^xsd:double;
                         bds:matchAllTerms "true"  .
-                      
-                      
                       } 
                     '
               ></semantic-search-query-keyword>
@@ -244,7 +236,6 @@
                       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
                       SELECT DISTINCT ?subject WHERE {
-                      ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
                       ?subject <https://pharos.artresearch.net/custom/has_provider>  <[[provider]]>.
                       ?subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?value.
                       ?value rdfs:label ?someLabel.

@@ -2,7 +2,7 @@
 <ol class="page-breadcrumb">
   <li class="active">Home</li>
 </ol>
-
+ <!-- //TODO improve performance, check components & times -->
 <mp-event-proxy
   id="clipboard-update-on-save-set"
   on-event-source="save-set-result-action"
@@ -426,6 +426,8 @@
               class="tabs-right"
             >
               <bs-tab event-key="1" title="Cards">
+             
+             <!-- //TODO check time -->
                 <semantic-search-result>
                    <!-- Table of Cards -->
                    <semantic-table
@@ -463,6 +465,8 @@
               <bs-tab event-key="2" title="Results">
                 <div id="tableView">
                 <semantic-search-result>
+             <!-- //TODO check time -->
+
                   <semantic-table
                     id="semantic-search-result-table"
                     query="SELECT DISTINCT ?subject ?originalSubject WHERE {
@@ -476,7 +480,7 @@
                               ?subject a <https://pharos.artresearch.net/resource/fc/material>.
                              } UNION {
                                FILTER(STR(?subject)=?subject)
-                             }
+                             } 
                              
                            }"
                     options='{"showFilter":false, "resultsPerPage":10}

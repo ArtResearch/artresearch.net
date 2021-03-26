@@ -38,7 +38,7 @@
       <bs-col class="cardInfo" lg="7" md="10" xs="10">
         <div data-flex-layout="row md-column center-stretch">
           <bs-row class="cardInfoFields">
-      <!-- Show information on subject & owl:sameAs -->
+      <!-- Show information on subject & owl:sameAs     //TODO change to query-->
             <semantic-query
             query='
             SELECT (GROUP_CONCAT(STR(?originalSubject);SEPARATOR=" , ") AS ?additionalSubjects) WHERE{
@@ -53,7 +53,7 @@
                 {{bindings.0.additionalSubjects.value}}
                 ]'
                 subject='{{subject.value}}'
-                //TODO change to query
+             
                   fields='[[fieldDefinitions  
                 Title="https://pharos.artresearch.net/fieldDefinition/2"
                 Creator="https://pharos.artresearch.net/fieldDefinition/1"  

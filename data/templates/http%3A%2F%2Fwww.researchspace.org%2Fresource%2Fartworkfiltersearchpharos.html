@@ -1,22 +1,21 @@
 <div id="artwork-filter-search">
 <semantic-search
   relations='{
-      "<https://pharos.artresearch.net/resource/field/Artist_Attribution>":[
-        {
-          "kind": "resource",
-          "queryPattern": "
-            {
-              $subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?__value__
-            }"
-        }
+    "<https://pharos.artresearch.net/resource/field/Artist_Attribution>":[
+      {
+        "kind": "resource",
+        "queryPattern": "
+          {
+            $subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?__value__.
+          }"
+      }
     ],
     "<https://pharos.artresearch.net/fieldDefinition/Repository>":[
     {
       "kind": "resource",
       "queryPattern": "
         {
-          ?original owl:sameAs $subject.
-          ?original <http://www.cidoc-crm.org/cidoc-crm/P50_has_current_keeper> ?__value__.
+          $subject <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution> ?__value__.
         }"
     }],
     "<https://pharos.artresearch.net/fieldDefinition/46>": [
@@ -24,9 +23,7 @@
       "kind": "resource",
       "queryPattern": "
         {
-          ?original owl:sameAs $subject.
-          ?original crm:P65_shows_visual_item ?__value__.
-          ?__value__ crm:P2_has_type <http://vocab.getty.edu/aat/300404126>
+          $subject <https://pharos.artresearch.net/resource/fr/Work_shows_Subject>  ?__value__.
         }"
     }],
     "<https://pharos.artresearch.net/fieldDefinition/44>": [
@@ -34,9 +31,7 @@
       "kind": "resource",
       "queryPattern": "
         {
-          ?original owl:sameAs $subject.
-          ?original crm:P45_consists_of ?__value__.
-          ?__value__ a crm:E57_Material.
+          $subject <https://pharos.artresearch.net/resource/fr/Work_consists_of_Material> ?__value__.
         }"
     }],
     "<https://pharos.artresearch.net/fieldDefinition/42>": [
@@ -44,9 +39,7 @@
       "kind": "resource",
       "queryPattern": "
         {
-          ?original owl:sameAs $subject.
-          ?original crm:P108i_was_produced_by ?production.
-          ?production crm:P33_used_specific_technique ?__value__.
+          $subject <https://pharos.artresearch.net/resource/fr/Work_produced_using_technique_Technique> ?__value__.
         }"
     }],
     "<https://pharos.artresearch.net/resource/fr/Work_from_Place>": [
@@ -269,24 +262,18 @@
     placeholder="Search for an artwork creator e.g. Michelangelo"
     escape-lucene-syntax="false"
     default-query="SELECT ?subject ?originalSubject WHERE{
-    ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
     ?originalSubject owl:sameAs ?subject.
-    ?originalSubject <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo .
     ?photo crm:P129i_is_subject_of ?image .
      }LIMIT 50 "
     query='
             SELECT DISTINCT ?subject ?originalSubject WHERE {
-            ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
-            ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
             ?originalSubject owl:sameAs ?subject.
-            ?originalSubject <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo .
             ?photo crm:P129i_is_subject_of ?image .
             ?subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?value.
             ?value rdfs:label ?someLabel.
             ?someLabel bds:search ?__token__ .
             ?someLabel bds:minRelevance "0.3"^^xsd:double;
             bds:matchAllTerms "true"  .
-            
             } LIMIT 50
           '
   ></semantic-search-query-keyword>
@@ -309,7 +296,7 @@
             <semantic-search-result>
               <div id="card-results">
                 <bs-tab-container id="tab-container" class="page__body-navtabs--borderless"
-                  default-active-key="all">
+                  default-active-key="photosOnly">
                   <div>
                     <bs-nav bs-style="tabs">
                       <bs-nav-item event-key="all">All</bs-nav-item>
