@@ -1,0 +1,14 @@
+{
+  "query": "
+     SELECT ?value ?label ?lat ?long WHERE {
+       ?value crm:P87_is_identified_by ?coord;
+              rso:displayLabel ?label.
+
+       ?coord wgs84_pos:lat ?lat;
+              wgs84_pos:long ?long.
+
+       ?label bds:search ?__token__ ;
+       bds:relevance ?score .
+      } ORDER BY DESC(?score)  LIMIT 20
+  "
+}

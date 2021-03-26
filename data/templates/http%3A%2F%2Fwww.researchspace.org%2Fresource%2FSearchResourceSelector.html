@@ -1,0 +1,67 @@
+{
+  "query":
+    [[#if solr]]
+      "
+      SELECT DISTINCT $suggestion $label WHERE {
+         {
+           { SELECT $suggestion ?score WHERE {
+         BIND(CONCAT(\"defType=edismax&ps=100&pf=suggestionSearchText&fl=id,score&rows=1000&q.op=AND&fq=fc:\", REPLACE(str(?__range__), \":\", \"\\\\\\\\:\"), \"&fq=frs:\", REPLACE(str(?__relation__), \":\", \"\\\\\\\\:\")) as ?sFC)
+         BIND(CONCAT(\"(\",LCASE(?__token__),\")\") as ?lcasetoken)
+         SERVICE <http://www.bigdata.com/rdf/fts#search> {
+            $suggestion fts:search ?lcasetoken .
+            $suggestion fts:endpoint \"[[solrEndpoint]]\" .
+            $suggestion fts:params ?sFC .
+            $suggestion fts:scoreField \"score\" .
+            $suggestion fts:score ?score .
+            $suggestion fts:fieldToSearch \"suggestionSearchText\" .
+            $suggestion fts:searchField \"id\" .
+            $suggestion fts:searchResultType \"URI\" .
+         } } }
+         <http://www.bigdata.com/queryHints#Prior> <http://www.bigdata.com/queryHints#runFirst> \"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>.
+         ?suggestion rdfs:label ?label .
+         BIND (STRLEN(?label) as ?len)
+        }
+      } ORDER BY DESC(?score) ?len LIMIT 10
+      "
+ [[else]]
+   "
+   SELECT DISTINCT $suggestion $label WHERE {
+         {
+           SELECT DISTINCT ?suggestion ?label ?score WHERE {
+             SERVICE <http://www.bigdata.com/rdf/search#search> {
+               $label bds:search ?__token__ ;
+               bds:relevance ?score ;
+               bds:minRelevance \"0.3\" ;
+               bds:matchAllTerms \"true\"  .
+             }
+             {
+               ?suggestion <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.
+             } UNION {
+               ?pharos <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.
+               ?pharos ?fcfr ?suggestion.
+             } UNION {
+                  ?pharos <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.
+                   ?og_type owl:sameAs ?suggestion.
+                   ?pharos crm:P2_has_type ?suggestion.
+             }
+             ?suggestion rdfs:label ?label ;
+                       a ?__range__ .
+
+          }
+        }
+        FILTER(EXISTS {
+          ?subject ?__relation__ $suggestion .
+          {
+            ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.
+          } UNION {
+            ?subject ?fcfr ?pharos.
+            ?pharos <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.        
+            ?subject a <https://pharos.artresearch.net/resource/fc/photo>.
+          }
+        })
+      } ORDER BY DESC(?score)  LIMIT 10
+   "
+ [[/if]],
+ "suggestionTupleTemplate": "<span title=\"{{label.value}}\">{{label.value}}</span>",
+ "noSuggestionsTemplate": "<div class=\"suggestion-no-matches\">no matches found</div>"
+}
