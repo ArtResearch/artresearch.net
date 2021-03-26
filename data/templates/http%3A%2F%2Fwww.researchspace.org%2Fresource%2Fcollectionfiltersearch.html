@@ -144,19 +144,17 @@
         domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
         placeholder="Search for any field (e.g. a creator or title)"
         escape-lucene-syntax="false"
-        default-query="
-    SELECT DISTINCT ?subject WHERE {
+        default-query="SELECT DISTINCT ?subject WHERE {
      [[searchQuery]]
     }LIMIT 100"
         query='
             SELECT DISTINCT ?subject WHERE {
               [[searchQuery]]
               ?subject ?p ?o.
-?o rdfs:label ?someLabel.
+              ?o rdfs:label ?someLabel.
               ?someLabel bds:search ?__token__  .
               ?someLabel bds:minRelevance "0.3"^^xsd:double;
-              bds:matchAllTerms "true"  .
-              
+              bds:matchAllTerms "true".
             } 
           '
       ></semantic-search-query-keyword>
@@ -188,7 +186,7 @@
                       <bs-nav bs-style="tabs">
                         <bs-nav-item event-key="all">All</bs-nav-item>
                         <bs-nav-item event-key="photosOnly"
-                          >With photographs only</bs-nav-item
+                          >Must include photograph</bs-nav-item
                         >
                       </bs-nav>
                       <bs-tab-content unmount-on-exit="true">
@@ -199,8 +197,7 @@
                           "showFilter":false
                         }'
                             number-of-displayed-rows="10"
-                            query="
-                      SELECT DISTINCT ?subject
+                            query="SELECT DISTINCT ?subject
                        WHERE {
                      
                        }LIMIT 100
@@ -243,7 +240,105 @@
       </bs-col>
     </div>
   </semantic-search>
-  [[else]] No provider enter a provider in your rsp:artworkfiltersearch
-  !!add!!>>>><b> searchQuery="?your ?query ?withoutSelect" </b>
+  [[else]] No search query, please enter searchQuery in your rsp:artworkfiltersearch (must include ?subject)
+  !!add!!>>>><b> searchQuery="?subject ?query ?withoutSelect" </b>
   [[/if]]
 </div>
+<style>
+  #header-search.search-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    background: white;
+    color: gray !important;
+    height: 12vh;
+    width: 100%;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 5vh;
+  }
+
+  #header-search.home-page {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    z-index: 100;
+    color: gray !important;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    flex-direction: column;
+  }
+
+  #header-search .semantic-form-input-decorator__header {
+    display: none;
+  }
+
+  #header-search .cardinality-support__remove-value {
+    display: none;
+  }
+
+  #header-search .cardinality-support__add-value {
+    display: none;
+  }
+
+  #header-search .form-switch {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #header-search .cardinality-support__group-instance {
+    padding: 0 !important;
+    box-shadow: none !important;
+  }
+
+  #header-search .form-switch__content {
+    margin: 0 !important;
+  }
+
+  #header-search .semantic-form-input-decorator {
+    margin: 0 !important;
+  }
+
+  #header-search .form-switch__select {
+    height: 5vh !important;
+    z-index: 100;
+    border: none !important;
+    border-radius: 4px 0px 0px 4px;
+    border-color: none;
+    outline: none;
+    box-shadow: 0px 0px 9px -10px #ababab;
+    text-transform: none !important;
+    cursor: pointer;
+  }
+
+  #header-search.search-page input {
+    
+    border-radius: 0px 4px 4px 0px;
+    width: 60vw;
+    height: 5vh;
+    align-self: center;
+    background: white;
+    box-shadow: 0px 0px 12px -5px #ababab;
+  }
+
+  #header-search.home-page input {
+    width: 41vw;
+    height: 5vh;
+    align-self: center;
+    background: white;
+    box-shadow: 0px 0px 12px -5px #ababab;
+  }
+
+  #header-search input:focus {
+    border: none !important;
+  }
+
+  #header-search .form-group {
+    margin: 0 !important;
+    display: flex;
+  }
+</style>
