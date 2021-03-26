@@ -1,0 +1,72 @@
+{
+  "<http://www.researchspace.org/ontology/Concept>": [
+    {
+      "kind": "hierarchy",
+      "queryPattern": "$subject $__relation__ ?__value__ ."
+    }
+  ],
+  "<http://www.researchspace.org/ontology/Place>": [
+    {
+      "kind": "hierarchy",
+      "queryPattern": "$subject ?__relation__ ?__value__ ."
+    }
+  ],
+  "<http://www.researchspace.org/ontology/Time>": [
+    {
+      "kind": "date-range",
+      "queryPattern": "
+         {
+           $subject ?__relation__ ?date .
+           ?date crm:P82a_begin_of_the_begin ?begin ;
+                 crm:P82b_end_of_the_end ?end .
+           FILTER(?begin <= ?__dateEndValue__) .
+           FILTER(?end >= ?__dateBeginValue__) .
+         }
+      "
+    }
+  ],
+  "<http://www.researchspace.org/ontology/Text>": [
+    {
+      "kind": "text",
+      [[#if solr]]
+        "queryPattern":
+        "
+           {
+           $subject a ?__domain__ .
+           $subject rso:displayLabel ?label .
+           { SELECT $subject WHERE {
+           BIND(CONCAT(\"defType=edismax&ps=100&pf=suggestionSearchText&fl=id,score&q.op=AND&rows=5000&fq=fc:\", REPLACE(str(?__domain__), \":\", \"\\\\\\\\:\")) as ?sFC)
+           BIND(CONCAT(\"(\",LCASE(?__value__),\")\") as ?lcasevalue)
+           SERVICE <http://www.bigdata.com/rdf/fts#search> {
+              $subject fts:search ?lcasevalue .
+              $subject fts:endpoint \"[[solrEndpoint]]\" .
+              $subject fts:params ?sFC .
+              $subject fts:scoreField \"score\" .
+              $subject fts:score ?score .
+              $subject fts:fieldToSearch \"suggestionSearchText\" .
+              $subject fts:searchField \"id\" .
+              $subject fts:searchResultType \"URI\" .
+           } } ORDER BY DESC(?score) }
+              <http://www.bigdata.com/queryHints#Prior> <http://www.bigdata.com/queryHints#runFirst> \"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>.
+         }
+        ",
+        "helpPage": "<http://help.metaphacts.com/resource/SolrFullTextSearchSyntax>",
+        "escapeLuceneSyntax": false
+      [[else]]
+        "queryPattern":
+        "
+           {
+             $subject a ?__domain__ .
+             $subject rso:displayLabel ?label .
+             SERVICE <http://www.bigdata.com/rdf/search#search> {
+               ?label bds:search ?__value__ ;
+                      bds:minRelevance \"0.3\" ;
+                      bds:matchAllTerms \"true\"  .
+             }
+           }
+        "
+      [[/if]]
+
+    }
+  ]
+}

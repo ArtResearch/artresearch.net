@@ -1,0 +1,29 @@
+<mp-event-proxy
+  id="clipboard-update-on-save-set"
+  on-event-source="save-set-result-action"
+  proxy-event-type="Component.Refresh"
+  proxy-targets='["clipboard-sidebar"]'
+></mp-event-proxy>
+
+<mp-event-proxy
+  id="clipboard-update-on-save-search"
+  on-event-source="save-search-result-action"
+  proxy-event-type="Component.Refresh"
+  proxy-targets='["clipboard-sidebar"]'
+></mp-event-proxy>
+
+<mp-event-proxy
+  id="clipboard-update-on-persisted-component"
+  on-event-source="persit-component-action"
+  proxy-event-type="Component.Refresh"
+  proxy-targets='["clipboard-sidebar"]'
+></mp-event-proxy>
+
+<mp-event-proxy
+  id="guided-tour-run"
+  on-event-type="Component.Loaded"
+  on-event-source="semantic-search"
+  proxy-event-type="GuidedTour.RunIfNotSeen"
+  proxy-targets='["guided-tour-search"]'
+>
+</mp-event-proxy>

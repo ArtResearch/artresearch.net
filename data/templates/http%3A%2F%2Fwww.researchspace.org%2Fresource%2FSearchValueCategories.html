@@ -1,0 +1,11 @@
+{
+  "<http://www.researchspace.org/ontology/Time>": {
+    "kind": "date-range",
+    "valuesQuery": "
+       SELECT ?dateBeginValue ?dateEndValue WHERE {
+          $subject ?__relation__ ?date .
+         ?date crm:P82a_begin_of_the_begin ?dateBeginValue ;
+               crm:P82b_end_of_the_end     ?dateEndValue .
+    } ORDER BY ?dateBeginValue"
+   }
+  }

@@ -1,0 +1,65 @@
+{
+  "defaultProfile": "<http://www.researchspace.org/profile/all>",
+  "categoriesQuery": "
+      SELECT DISTINCT ?profile ?category ?label ?thumbnail ?description WHERE {
+        {
+          SELECT ?category ?label ?profile ?description ?thumbnail {
+            ?profile rso:hasCategory ?hasCategory.
+            {
+              ?hasCategory rso:category ?category .
+              ?category rdf:type rso:FundamentalCategory ;
+                rdfs:label ?label ;
+                rdfs:label ?description .
+                ?category rso:hasThumbnail ?thumbnail .
+            } UNION {
+              BIND(<http://www.researchspace.org/ontology/Text> AS ?category)
+              BIND(\"sss\" AS ?label)
+              BIND(\"All\" AS ?description)
+            }
+          }
+        } UNION {
+          SELECT ?profile ?category ?label ?description ?thumbnail {
+            ?category rdf:type rso:FundamentalCategory ;
+              rdfs:label ?label ;
+              rdfs:label ?description .
+              ?category rso:hasThumbnail ?thumbnail .
+            BIND(<http://www.researchspace.org/profile/all> as ?profile) .
+          }
+        } UNION {
+          BIND(<http://www.researchspace.org/ontology/Text> as ?category) .
+          BIND(\"All\" as ?label) .
+          BIND(\"All\" as ?description) .
+          BIND(<http://www.researchspace.org/profile/all> AS ?profile)
+        }
+      }
+
+  ",
+  "relationsQuery": "
+      SELECT DISTINCT ?profile ?relation ?label ?description ?hasDomain ?hasRange ?order WHERE {
+        {
+          SELECT ?profile ?relation ?label ?hasDomain ?hasRange ?description ?orderLabel ?order {
+            ?profile rso:hasRelation/rso:relation ?relation.
+            ?relation rdfs:label ?label ;
+              rdfs:label ?description ;
+              rso:hasDomain ?hasDomain ;
+              rso:hasRange ?hasRange .
+            OPTIONAL { ?relation crm:P127_has_broader_term ?broader }.
+            BIND(IF(BOUND(?broader), CONCAT(STR(?broader), \"1\"), CONCAT(STR(?relation), \"0\")) AS ?orderLabel)
+            BIND(IF(BOUND(?broader), 15, 0) AS ?order)
+          }
+        } UNION {
+          SELECT ?profile ?relation ?label ?hasDomain ?hasRange ?description ?orderLabel ?order  {
+            ?relation rdfs:label ?label ;
+              rdfs:label ?description ;
+              rso:hasDomain ?hasDomain ;
+              rso:hasRange ?hasRange .
+              BIND(<http://www.researchspace.org/profile/all> as ?profile) .
+            OPTIONAL { ?relation crm:P127_has_broader_term ?broader }.
+            BIND(IF(BOUND(?broader), CONCAT(STR(?broader), \"1\"), CONCAT(STR(?relation), \"0\")) AS ?orderLabel)
+            BIND(IF(BOUND(?broader), 25, 0) AS ?order)
+          }
+        }
+      }
+      ORDER BY ?orderLabel ?label
+  "
+}
