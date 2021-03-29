@@ -1,6 +1,7 @@
 <!-- Displays a row of photographs that are clickable (full size image popup) -->
 <div id="institution-summary-images">
-    <semantic-query query='PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    <semantic-query query='
+      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
       PREFIX wd: <http://www.wikidata.org/entity/>
       PREFIX wdt: <http://www.wikidata.org/prop/direct/>
 			PREFIX wdtn: <http://www.wikidata.org/prop/direct-normalized/>
@@ -8,7 +9,7 @@
           SERVICE <https://query.wikidata.org/sparql> 
                   { 
                         ?person wdtn:P245 ??.
-                        ?person wdt:P18 ?personImage
+                        ?person wdt:P18 ?imgUrl
               }
             }LIMIT 1' template='{{> imageThumbnail}}'>
               <template id="imageThumbnail">
