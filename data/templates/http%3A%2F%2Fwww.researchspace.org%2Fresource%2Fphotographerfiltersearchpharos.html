@@ -210,18 +210,15 @@
               WHERE {
                 ?subject a <http://www.cidoc-crm.org/cidoc-crm/E39_Actor>.
                 ?subject a <https://pharos.artresearch.net/resource/fc/photographer>.
-                ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.
               }LIMIT 100"
               query='
                       SELECT ?subject WHERE {
                       ?subject a <http://www.cidoc-crm.org/cidoc-crm/E39_Actor>.
                       ?subject a <https://pharos.artresearch.net/resource/fc/photographer>.
-                      ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/type/pharos>.
                       ?subject rdfs:label ?someLabel.
                       ?someLabel bds:search ?__token__ .
                       ?someLabel bds:minRelevance "0.3"^^xsd:double;
                       bds:matchAllTerms "true"  .
-                      
                       } 
                     '
             ></semantic-search-query-keyword
