@@ -9,7 +9,6 @@
     <semantic-query query='PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
       PREFIX wd: <http://www.wikidata.org/entity/>
       PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-
       SELECT DISTINCT ?imgUrl WHERE{
           SERVICE <https://query.wikidata.org/sparql> 
             {
@@ -18,13 +17,13 @@
                 ?place wdt:P31 wd:Q6256. 
                 ?place wdt:P571 ?date. 
                 ?place rdfs:label "{{bindings.0.placeName.value}}"@en .
-                ?place wdt:P18 ?placeImage
+                ?place wdt:P18 ?imgUrl
               }UNION{
                 # It is part of a country
                 ?place wdt:P17 ?someCountry.
                 ?place wdt:P571 ?date. 
                 ?place rdfs:label "{{bindings.0.placeName.value}}"@en .
-                ?place wdt:P18 ?placeImage.
+                ?place wdt:P18 ?imgUrl.
               }
             }
             }LIMIT 1' template='{{> imageThumbnail}}'>

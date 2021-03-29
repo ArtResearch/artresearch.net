@@ -11,23 +11,22 @@
       PREFIX wdt: <http://www.wikidata.org/prop/direct/>
 
       SELECT DISTINCT ?imgUrl WHERE{
-                          SERVICE <https://query.wikidata.org/sparql> 
-                                   {
-                                      { ?person wdt:P31 wd:Q5 . 
-                                        ?person wdt:P106 wd:Q33231.
-                                        ?person rdfs:label "{{bindings.0.artistName.value}}"@en .
-                                        ?person wdt:P18 ?personImage}
-                                      UNION{
-                                        ?person wdt:P31 wd:Q672070 . 
-                                        ?person rdfs:label "{{bindings.0.artistName.value}}"@en .
-                                        ?person wdt:P18 ?personImage
-                                      } UNION{
-                                        ?person wdt:P31 wd:Q2085381 . 
-                                        ?person rdfs:label "{{bindings.0.artistName.value}}"@en .
-                                        ?person wdt:P18 ?personImage
-                                      }
-                            }
-            }LIMIT 1' template='{{> imageThumbnail}}'>
+        SERVICE <https://query.wikidata.org/sparql>{
+                    { ?person wdt:P31 wd:Q5 . 
+                      ?person wdt:P106 wd:Q33231.
+                      ?person rdfs:label "{{bindings.0.artistName.value}}"@en .
+                      ?person wdt:P18 ?imgUrl
+                    }UNION{
+                      ?person wdt:P31 wd:Q672070 . 
+                      ?person rdfs:label "{{bindings.0.artistName.value}}"@en .
+                      ?person wdt:P18 ?imgUrl
+                    }UNION{
+                      ?person wdt:P31 wd:Q2085381 . 
+                      ?person rdfs:label "{{bindings.0.artistName.value}}"@en .
+                      ?person wdt:P18 ?imgUrl
+                    }
+          }
+      }LIMIT 1' template='{{> imageThumbnail}}'>
               <template id="imageThumbnail">
                 <!-- Only show image if imgUrl !== the _ character (aka 1 character length) -->
                 {{#ifCond (objectLength bindings.0.imgUrl.value) "!==" 1}} 
