@@ -190,8 +190,6 @@
                 default-query="
               SELECT  ?subject  
               WHERE {
-                
-                ?artwork <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
                 ?artwork <https://pharos.artresearch.net/custom/has_provider> <[[provider]]>.
                 ?artwork  <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?subject.
                 ?subject  rdfs:label ?label .
@@ -199,18 +197,13 @@
                 query='
                       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-                      SELECT ?subject WHERE {
-                      
-                      ?artwork <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
+                      SELECT ?subject WHERE {                        
                       ?artwork <https://pharos.artresearch.net/custom/has_provider>  <[[provider]]>.
-                      ?artwork crm:P108i_was_produced_by ?production .
-                      ?production crm:P01i_is_domain_of ?carried.
-                      ?carried crm:P02_has_range ?subject.
+                      ?artwork <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?subject.
                       ?subject rdfs:label ?someLabel.
                       ?someLabel bds:search ?__token__ .
                       ?someLabel bds:minRelevance "0.3"^^xsd:double;
                       bds:matchAllTerms "true"  .
-                      
                       } 
                     '
               ></semantic-search-query-keyword>
@@ -245,10 +238,7 @@
                   query="
                   SELECT DISTINCT ?subject ?artistName (count(?artwork) as ?artworkCount)
                    WHERE {
-                    
-                    ?artwork <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <[[type]]>.
                     ?artwork <https://pharos.artresearch.net/custom/has_provider> <[[provider]]>.
-              
                     ?artwork crm:P108i_was_produced_by ?production.
                     ?production crm:P01i_is_domain_of ?carried.
                     ?carried crm:P02_has_range ?subject.

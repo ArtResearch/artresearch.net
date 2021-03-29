@@ -11,8 +11,6 @@
       PREFIX wdt: <http://www.wikidata.org/prop/direct/>
 
       SELECT DISTINCT ?imgUrl WHERE{
-        bind("_" as ?default_imageUrl)
-        OPTIONAL{
           SERVICE <https://query.wikidata.org/sparql> 
             {
               { 
@@ -29,8 +27,6 @@
                 ?place wdt:P18 ?placeImage.
               }
             }
-        }
-        BIND(coalesce(?placeImage, ?default_imageUrl) as ?imgUrl)    
             }LIMIT 1' template='{{> imageThumbnail}}'>
               <template id="imageThumbnail">
                 <!-- Only show image if imgUrl !== the _ character (aka 1 character length) -->
