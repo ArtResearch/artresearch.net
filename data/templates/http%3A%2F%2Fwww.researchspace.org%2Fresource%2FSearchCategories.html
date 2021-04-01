@@ -37,8 +37,7 @@
            { SELECT $subject WHERE {
            BIND(CONCAT(\"defType=edismax&ps=100&pf=suggestionSearchText&fl=id,score&q.op=AND&rows=5000&fq=fc:\", REPLACE(str(?__domain__), \":\", \"\\\\\\\\:\")) as ?sFC)
            BIND(CONCAT(\"(\",LCASE(?__value__),\")\") as ?lcasevalue)
-           SERVICE <http://www.bigdata.com/rdf/fts#search> {
-              $subject fts:search ?lcasevalue .
+           SERVICE <http://www.bigdata.com/rdf/fts#search> $subject fts:search ?lcasevalue .
               $subject fts:endpoint \"[[solrEndpoint]]\" .
               $subject fts:params ?sFC .
               $subject fts:scoreField \"score\" .

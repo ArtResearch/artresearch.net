@@ -6,58 +6,47 @@
         {
           "kind": "resource",
           "queryPattern": "
-            {
-              $subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?__value__
-            }"
+            $subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?__value__."
         }
     ],
     "<https://pharos.artresearch.net/fieldDefinition/Repository>":[
     {
       "kind": "resource",
       "queryPattern": "
-        {
-          $subject <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution> ?__value__.
-        }"
+        
+          $subject <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution> ?__value__."
     }],
     "<https://pharos.artresearch.net/fieldDefinition/46>": [
     {
       "kind": "resource",
       "queryPattern": "
-        {
-          $subject <https://pharos.artresearch.net/resource/fr/Work_shows_Subject>  ?__value__.
-        }"
+        
+          $subject <https://pharos.artresearch.net/resource/fr/Work_shows_Subject>  ?__value__."
     }],
     "<https://pharos.artresearch.net/fieldDefinition/44>": [
     {
       "kind": "resource",
       "queryPattern": "
-        {
-          $subject <https://pharos.artresearch.net/resource/fr/Work_consists_of_Material> ?__value__.
-        }"
+        
+          $subject <https://pharos.artresearch.net/resource/fr/Work_consists_of_Material> ?__value__."
     }],
     "<https://pharos.artresearch.net/fieldDefinition/550>": [
     {
       "kind": "resource",
       "queryPattern": "
-        {
-          $subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ?__value__ .
-        }"
+          $subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ?__value__ ."
     }],
     "<https://pharos.artresearch.net/fieldDefinition/42>": [
     {
       "kind": "resource",
       "queryPattern": "
-        {
-         $subject <https://pharos.artresearch.net/resource/fr/Work_produced_using_technique_Technique> ?__value__.
-        }"
+         $subject <https://pharos.artresearch.net/resource/fr/Work_produced_using_technique_Technique> ?__value__."
     }],
     "<https://pharos.artresearch.net/fieldDefinition/93>": [
     {
       "kind": "resource",
       "queryPattern": "
-        {
-          $subject <https://pharos.artresearch.net/resource/fr/Work_from_Place> ?__value__
-        }"
+          $subject <https://pharos.artresearch.net/resource/fr/Work_from_Place> ?__value__."
     }]
       }'
     search-profile='{
@@ -145,8 +134,8 @@
         placeholder="Search for any field (e.g. a creator or title)"
         escape-lucene-syntax="false"
         default-query="SELECT DISTINCT ?subject WHERE {
-     [[searchQuery]]
-    }LIMIT 100"
+          [[searchQuery]]
+        }"
         query='
             SELECT DISTINCT ?subject WHERE {
               [[searchQuery]]
@@ -196,15 +185,12 @@
                             options='{
                           "showFilter":false
                         }'
-                            number-of-displayed-rows="10"
-                            query="SELECT DISTINCT ?subject
-                       WHERE {
-                       }LIMIT 100
-                    "
+                            number-of-displayed-rows="15"
+                            query="SELECT DISTINCT ?subject WHERE {}LIMIT 100"
                             tuple-template="{{>tupleTemplate}}"
                           >
                             <template id="tupleTemplate">
-                              [[> rsp:artworkCard]]
+                              [[> :artworkCardCombined]]
                             </template>
                           </semantic-table>
                         </bs-tab-pane>
@@ -214,7 +200,7 @@
                             options='{
                           "showFilter":false
                         }'
-                            number-of-displayed-rows="10"
+                            number-of-displayed-rows="15"
                             query="
                       SELECT DISTINCT ?subject
                        WHERE {
@@ -224,7 +210,7 @@
                             tuple-template="{{>tupleTemplate}}"
                           >
                             <template id="tupleTemplate">
-                              [[> rsp:artworkCard]]
+                              [[> :artworkCardCombined]]
                             </template>
                           </semantic-table>
                         </bs-tab-pane>
@@ -244,98 +230,6 @@
   [[/if]]
 </div>
 <style>
-  #header-search.search-page {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 100;
-    background: white;
-    color: gray !important;
-    height: 12vh;
-    width: 100%;
-    position: sticky;
-    position: -webkit-sticky;
-    top: 5vh;
-  }
-
-  #header-search.home-page {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    z-index: 100;
-    color: gray !important;
-    margin-left: 20px;
-    margin-right: 20px;
-    margin-top: 2vh;
-    margin-bottom: 2vh;
-    flex-direction: column;
-  }
-
-  #header-search .semantic-form-input-decorator__header {
-    display: none;
-  }
-
-  #header-search .cardinality-support__remove-value {
-    display: none;
-  }
-
-  #header-search .cardinality-support__add-value {
-    display: none;
-  }
-
-  #header-search .form-switch {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  #header-search .cardinality-support__group-instance {
-    padding: 0 !important;
-    box-shadow: none !important;
-  }
-
-  #header-search .form-switch__content {
-    margin: 0 !important;
-  }
-
-  #header-search .semantic-form-input-decorator {
-    margin: 0 !important;
-  }
-
-  #header-search .form-switch__select {
-    height: 5vh !important;
-    z-index: 100;
-    border: none !important;
-    border-radius: 4px 0px 0px 4px;
-    border-color: none;
-    outline: none;
-    box-shadow: 0px 0px 9px -10px #ababab;
-    text-transform: none !important;
-    cursor: pointer;
-  }
-
-  #header-search.search-page input {
-    
-    border-radius: 0px 4px 4px 0px;
-    width: 60vw;
-    height: 5vh;
-    align-self: center;
-    background: white;
-    box-shadow: 0px 0px 12px -5px #ababab;
-  }
-
-  #header-search.home-page input {
-    width: 41vw;
-    height: 5vh;
-    align-self: center;
-    background: white;
-    box-shadow: 0px 0px 12px -5px #ababab;
-  }
-
-  #header-search input:focus {
-    border: none !important;
-  }
-
   #header-search .form-group {
     margin: 0 !important;
     display: flex;

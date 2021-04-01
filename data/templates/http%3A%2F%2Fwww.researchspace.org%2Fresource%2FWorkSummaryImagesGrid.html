@@ -1,0 +1,90 @@
+<div  id="printableImages"  class="summaryImages">
+  <div class="rs-page__summary-image">
+    {{#each bindings}}
+    <mp-overlay-dialog title="‎‎" type="lightbox">
+      <mp-overlay-dialog-trigger>
+        <div class="imageAndSourceContainer">
+          <semantic-query
+            query="     
+            SELECT ?providerLabel WHERE{    
+              ?photo crm:P129i_is_subject_of <{{image.value}}>.
+              ?photo <https://pharos.artresearch.net/custom/has_provider> ?provider.
+              ?provider rdfs:label ?providerLabel.
+            }limit 1
+              "
+            template="{{> imageSourceIcon}}"
+          >
+            <template id="imageSourceIcon">
+              <div class="imageSourceIcon fade-in">
+                <img
+                  title="{{bindings.0.providerLabel.value}}"
+                  class="sourceIcon"
+                  src="../../assets/images/{{bindings.0.providerLabel.value}}.ico"
+                />
+              </div>
+            </template>
+          </semantic-query>
+          <img
+            class="imageThumbnail"
+            alt="Issue with image provider"
+            src="{{imgURL.value}}"
+          />
+        </div>
+      </mp-overlay-dialog-trigger>
+      <mp-overlay-dialog-content>
+        <semantic-query
+          query='SELECT ?fullsizeImgUrl ?iiifServer WHERE {
+          OPTIONAL
+          {
+            { 
+              ??  <https://pharos.artresearch.net/custom/has_provider> ?provider.
+            }UNION{
+              ?originalSubject owl:sameAs ??.
+              ?originalSubject  <https://pharos.artresearch.net/custom/has_provider> ?provider.
+            }
+            ?provider <https://pharos.artresearch.net/custom/has_iiif_server> ?iiifServer.
+          }
+          BIND(str(REPLACE("{{image.value}}","320px","2048px")) as ?fullsizeImgUrlHertziana)
+          BIND(str(?fullsizeImgUrlHertziana) as ?fullsizeImgUrl)
+      }LIMIT 1'
+          template="{{> fullSizeImageTemplate}}"
+        >
+          <template id="fullSizeImageTemplate">
+            {{#each bindings}} {{#ifCond iiifServer.value "!=="
+            undefined}}
+            <div>
+              <div style="width: 100vw; height: 86vh">
+                <rs-iiif-mirador
+                  image-or-region="[[this]]"
+                  image-id-pattern='
+                      BIND("image" AS ?type). BIND(?subject AS ?imageIRI).
+                      ?subject <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo.
+                      ?photo crm:P129i_is_subject_of <{{fullsizeImgUrl.value}}>.
+                      <{{fullsizeImgUrl.value}}> crm:P2_has_type <http://iiif.io/api/image>.
+                      BIND(REPLACE(STR("{{bindings.1.fullsizeImages.value}}"), "full/!700,700", "full/full") AS ?fotoIndexId).
+                      BIND(REPLACE(STR(REPLACE(STR(?fotoIndexId), "/full/full/0/*", "")), "(^.*)\\/(.*)$", "$2") AS ?idWithDefaultNative)
+                      BIND(REPLACE(?idWithDefaultNative,"default.jpg","") AS ?idWithNative).
+                      BIND(REPLACE(?idWithNative,"native.jpg","") AS ?imageID).
+                      '
+                  iiif-server-url="{{iiifServer.value}}"
+                >
+                </rs-iiif-mirador>
+              </div>
+            </div>
+            {{else}}
+            <img
+              style="
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+              "
+              src="{{fullsizeImgUrl.value}}"
+            />
+            {{/ifCond}} {{/each}}
+          </template>
+        </semantic-query>
+      </mp-overlay-dialog-content>
+    </mp-overlay-dialog>
+    {{/each}}
+  </div>
+</div>

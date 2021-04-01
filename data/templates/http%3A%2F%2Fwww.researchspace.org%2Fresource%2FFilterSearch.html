@@ -1,0 +1,49 @@
+<div id="filter-search" class="row row-center no-margin">
+  <div id="main-containers" class="col-md-10">
+    <!-- Title -->
+    <div class="row">
+      <div class="col-sm-12">
+        <header style="margin-left: 10px">
+          [[> :Searchbar]]
+        </header>
+      </div>
+    </div>
+
+    <div id="simple-search-include">
+      <semantic-search
+        relations='[[> :FilterSearchRelations]]'
+        search-profile='[[> :FilterSearchProfile]]'
+      >
+        <bs-tab-container
+          id="tab-container"
+          class="page__body-navtabs--borderless"
+          default-active-key="artworkView"
+        >
+          <div>
+            <bs-nav bs-style="tabs">
+              <bs-nav-item event-key="artworkView">Artworks</bs-nav-item>
+              <bs-nav-item event-key="photoView">Photographs</bs-nav-item>
+              <bs-nav-item event-key="artistView">Artists</bs-nav-item>
+              <bs-nav-item event-key="photographerView">Photographers</bs-nav-item>
+            </bs-nav>
+
+            <bs-tab-content unmount-on-exit="true">
+              <bs-tab-pane event-key="artworkView">
+                [[> :FilterSearchArtworkView]]
+              </bs-tab-pane>
+              <bs-tab-pane event-key="photoView">
+                [[> :FilterSearchPhotoView]]
+              </bs-tab-pane>
+              <bs-tab-pane event-key="artistView">
+                [[> :FilterSearchArtistView]]
+              </bs-tab-pane>
+              <bs-tab-pane event-key="photographerView">
+                [[> :FilterSearchPhotographerView]]
+              </bs-tab-pane>
+            </bs-tab-content>
+          </div>
+        </bs-tab-container>
+      </semantic-search>
+    </div>
+  </div>
+</div>

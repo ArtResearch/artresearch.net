@@ -1,0 +1,34 @@
+<div class="summaryImages">
+  <div class="rs-page__summary-image">
+    <semantic-timeline
+      options='{"height":"39vh"}'
+      query='PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+      SELECT ?start ?end ?photo ?imgUrl WHERE {
+      ?? <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo.      
+      ?photo crm:P129i_is_subject_of ?image.
+      BIND(REPLACE(STR(?image),"full/full","full/150,") AS ?imgUrl).
+      ?photo <https://pharos.artresearch.net/resource/fr/Photo_from_Date> ?timespan_from.
+      ?timespan_from rdfs:label ?start.
+      ?photo <https://pharos.artresearch.net/resource/fr/Photo_to_Date> ?timespan_to.
+      ?timespan_to rdfs:label ?end.
+    }'
+      tuple-template="{{> template}}"
+      tuple-template-height="42"
+    >
+      <template id="template">
+        <div class="timeline-card">
+          <img
+            style="
+              height: 100px;
+              object-fit: contain;
+              width: 100px;
+            "
+            src="{{imgUrl.value}}"
+          />
+          <semantic-link iri="{{photo.value}}"></semantic-link>
+          <div>{{start.value}} - {{end.value}}</div>
+        </div>
+      </template>
+    </semantic-timeline>
+  </div>
+</div>

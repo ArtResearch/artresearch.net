@@ -94,44 +94,77 @@
                  >
                  
                    <template id="tupleTemplate">
-                     <a href="/resource/?uri={{subject.value}}">
+                     <semantic-link iri="{{subject.value}}">
                       <mp-draggable iri="{{subject.value}}">
-                        [[> rsp:artworkCard]]
+                        [[> rsp:artworkCardCombined]]
                       </mp-draggable>
-                    </a>
+                    </semantic-link>
                    </template>
                  </semantic-table>
                 </semantic-search-result>
               </bs-tab>
-              <bs-tab event-key="2" title="Results">
+              <bs-tab event-key="2" title="Tabular">
                 <div id="tableView">
                 <semantic-search-result>
-             <!-- //TODO check time -->
-
                   <semantic-table
                     id="semantic-search-result-table"
-                    query="SELECT DISTINCT ?subject ?originalSubject WHERE {
-                             {  
-                               ?originalSubject owl:sameAs ?subject.
-                             } UNION {
-                               ?subject a <https://pharos.artresearch.net/resource/fc/subject>.
-                             } UNION {
-                               ?subject a <https://pharos.artresearch.net/resource/fc/photo>.
-                             } UNION {
-                              ?subject a <https://pharos.artresearch.net/resource/fc/material>.
-                             } UNION {
-                               FILTER(STR(?subject)=?subject)
-                             } 
-                             
-                           }"
-                    options='{"showFilter":false, "resultsPerPage":10}
-                    '
+                    query="SELECT DISTINCT ?subject ?creator ?date ?repository ?provider WHERE {
+                      # Artworks
+                        OPTIONAL{
+                        ?subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?creator.
+                        }
+                        OPTIONAL{
+                        ?subject <https://pharos.artresearch.net/resource/fr/Work_from_Date> ?date.
+                        }
+                        OPTIONAL{
+                        ?subject <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution> ?repository.
+                        }
+                        OPTIONAL{
+                        ?subject <https://pharos.artresearch.net/resource/fr/Work_has_provider_Institution> ?provider.
+                        }
+                        ?subject a <https://pharos.artresearch.net/resource/fc/work>.
+                        #TODO UNIONS for artists & photographers  ?
+                    }LIMIT 100"
+                    options='{"showFilter":true, "resultsPerPage":10}'
                     column-configuration='[
-                    {"variableName": "subject", "displayName": "Enriched Record"},
-                    {"variableName": "originalSubject", "displayName": "Original record"}
+                    {"variableName": "subject", "displayName": "Title"},
+                    {"variableName": "date", "displayName": "Date"},
+                    {"variableName": "creator", "displayName": "Creator"},
+                    {"variableName": "repository", "displayName": "Repository"},
+                    {"variableName": "provider", "displayName": "Provider"}
                     ]'
                   >
                   </semantic-table>
+                  <semantic-table
+                  id="semantic-search-result-table"
+                  query="SELECT DISTINCT ?subject ?creator ?date ?repository ?provider WHERE {
+                    # Photographs
+                      
+                    OPTIONAL{
+                      ?work <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?subject.
+                    }
+                    OPTIONAL{
+                      ?work    <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?subject.
+                      ?work <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?creator.
+                    }
+                    OPTIONAL{
+                      ?subject <https://pharos.artresearch.net/resource/fr/Photo_kept_by_Institution> ?repository.
+                    }
+                    OPTIONAL{
+                      ?subject <https://pharos.artresearch.net/resource/fr/Photo_has_provider_Institution> ?provider.
+                    }
+                    ?subject a <https://pharos.artresearch.net/resource/fc/photo>.
+                  }LIMIT 100"
+                  options='{"showFilter":true, "resultsPerPage":10}'
+                  column-configuration='[
+                  {"variableName": "subject", "displayName": "Title"},
+                  {"variableName": "date", "displayName": "Date"},
+                  {"variableName": "creator", "displayName": "Creator"},
+                  {"variableName": "repository", "displayName": "Repository"},
+                  {"variableName": "provider", "displayName": "Provider"}
+                  ]'
+                >
+                </semantic-table>
                 </semantic-search-result>
               </div>
               </bs-tab>

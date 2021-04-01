@@ -5,75 +5,60 @@
   {
     "kind": "resource",
     "queryPattern": "
-      {
-        $subject <https://pharos.artresearch.net/resource/fr/Photographer_has_Gender> ?__value__.
-      }"
+      $subject <https://pharos.artresearch.net/resource/fr/Photographer_has_Gender> ?__value__.
+      "
   }
 ],
   "<https://pharos.artresearch.net/resource/fr/Artist_has_Nationality>":[
   {
     "kind": "resource",
     "queryPattern": "
-      {
-        $subject <https://pharos.artresearch.net/resource/fr/Artist_has_Nationality> ?__value__.
-      }"
+      $subject <https://pharos.artresearch.net/resource/fr/Artist_has_Nationality> ?__value__."
   }
 ],
   "<https://pharos.artresearch.net/resource/fr/Artist_has_Date_of_Birth>":[
   {
     "kind": "numeric-range",
     "queryPattern": "
-      {
-        $subject <https://pharos.artresearch.net/resource/fr/Artist_has_Date_of_Birth> ?gYear .
+      $subject <https://pharos.artresearch.net/resource/fr/Artist_has_Date_of_Birth> ?gYear .
         FILTER(?literal >= ?__numericRangeBeginValue__) .
         FILTER(?literal <= ?__numericRangeEndValue__) .
-        BIND(xsd:integer(str(?gYear)) as ?literal).
-      }"
+        BIND(xsd:integer(str(?gYear)) as ?literal)."
   }],
   "<https://pharos.artresearch.net/resource/fr/Artist_has_Date_of_Death>": [
   {
     "kind": "numeric-range",
     "queryPattern": "
-      {
-        $subject <https://pharos.artresearch.net/resource/fr/Artist_has_Date_of_Death> ?gYear .
+      $subject <https://pharos.artresearch.net/resource/fr/Artist_has_Date_of_Death> ?gYear .
         FILTER(?literal >= ?__numericRangeBeginValue__) .
         FILTER(?literal <= ?__numericRangeEndValue__) .
-        BIND(xsd:integer(str(?gYear)) as ?literal).
-      }"
+        BIND(xsd:integer(str(?gYear)) as ?literal)."
   }],
   "<https://pharos.artresearch.net/resource/fr/Artist_has_Place_of_Birth>": [
   {
     "kind": "resource",
     "queryPattern": "
-      {
-        $subject <https://pharos.artresearch.net/resource/fr/Artist_has_Place_of_Birth> ?__value__ .
-      }"
+      $subject <https://pharos.artresearch.net/resource/fr/Artist_has_Place_of_Birth> ?__value__ ."
   }],
   "<https://pharos.artresearch.net/resource/fr/Artist_has_Place_of_Death>": [
   {
     "kind": "resource",
     "queryPattern": "
-      {
-        $subject <https://pharos.artresearch.net/resource/fr/Artist_has_Place_of_Death> ?__value__ .
-      }"
+      $subject <https://pharos.artresearch.net/resource/fr/Artist_has_Place_of_Death> ?__value__ ."
   }],
   "<https://pharos.artresearch.net/resource/fr/Event_has_Type>": [
   {
     "kind": "resource",
     "queryPattern": "
-      {
-        $subject <https://pharos.artresearch.net/resource/fr/Artist_has_Event> ?event.
-        ?event <https://pharos.artresearch.net/resource/fr/Event_has_Type> ?__value__ .
-      }"
+      $subject <https://pharos.artresearch.net/resource/fr/Artist_has_Event> ?event.
+        ?event <https://pharos.artresearch.net/resource/fr/Event_has_Type> ?__value__ ."
   }],
   "<https://pharos.artresearch.net/resource/fr/Event_at_Place>": [
   {
     "kind": "resource",
     "queryPattern": "
-      {
-        $subject <https://pharos.artresearch.net/resource/fr/Artist_has_Event> ?event.
-        ?event <https://pharos.artresearch.net/resource/fr/Event_at_Place> ?__value__ .
-      }"
+      $subject <https://pharos.artresearch.net/resource/fr/Artist_has_Event> ?event.
+        ?event <https://pharos.artresearch.net/resource/fr/Event_at_Place> ?__value__ ."
   }]
     }'
   search-profile='{
@@ -158,49 +143,6 @@
     }'
 >
   <div id="header-search" class="search-page">
-    <semantic-form
-      new-subject-template="http://www.example.com/switch/actions/{{UUID}}"
-      post-action="redirect"
-      browser-persistence="true"
-      form-id="example-8"
-      fields='[
-          {
-            "id": "switch-action-type",
-            "label": "Switch",
-            "description": "Allows to select different forms",
-            "xsdDatatype": "xsd:anyURI",
-            "selectPattern": "SELECT $value WHERE { $subject <http://www.example.com/switch/has-action> $value }",
-            "insertPattern": "INSERT { $subject <http://www.example.com/switch/has-action> $value } WHERE {}",
-            "deletePattern": "DELETE { $subject <http://www.example.com/switch/has-action> $value } WHERE {}"
-          }
-        ]'
-    >
-      <semantic-form-switch
-        for="switch-action-type"
-        switch-on-field="switch-case-type"
-      >
-        <semantic-form-switch-case label="Photographer">
-          <semantic-form-composite-input
-            for="switch-action-type"
-            new-subject-template="http://www.example.com/switch/action/artist"
-            fields='[
-                {
-                  "id": "switch-case-type",
-                  "xsdDatatype": "xsd:anyURI",
-                  "minOccurs": "1",
-                  "maxOccurs": "1",
-                  "selectPattern": "SELECT ?value WHERE { $subject <http://www.example.com/switch/has-action-type> ?value }",
-                  "insertPattern": "INSERT { $subject <http://www.example.com/switch/has-action-type> ?value } WHERE {}",
-                  "deletePattern": "DELETE { $subject <http://www.example.com/switch/has-action-type> ?value } WHERE {}"
-                }
-              ]'
-          >
-            <semantic-form-hidden-input
-              for="switch-case-type"
-              default-value="http://www.example.com/switch/type/move"
-            >
-            </semantic-form-hidden-input>
-
             <semantic-search-query-keyword
               placeholder="Search for a photographer e.g. Fratelli Alinari"
               escape-lucene-syntax="false"
@@ -208,12 +150,12 @@
               default-query="
               SELECT  ?subject  
               WHERE {
-                ?subject a <http://www.cidoc-crm.org/cidoc-crm/E39_Actor>.
+                ?someOther owl:sameAs ?subject.
                 ?subject a <https://pharos.artresearch.net/resource/fc/photographer>.
               }LIMIT 100"
               query='
                       SELECT ?subject WHERE {
-                      ?subject a <http://www.cidoc-crm.org/cidoc-crm/E39_Actor>.
+                      ?someOther owl:sameAs ?subject.
                       ?subject a <https://pharos.artresearch.net/resource/fc/photographer>.
                       ?subject rdfs:label ?someLabel.
                       ?someLabel bds:search ?__token__ .
@@ -221,12 +163,7 @@
                       bds:matchAllTerms "true"  .
                       } 
                     '
-            ></semantic-search-query-keyword
-            >
-          </semantic-form-composite-input>
-        </semantic-form-switch-case>
-      </semantic-form-switch>
-    </semantic-form>
+            ></semantic-search-query-keyword>
   </div>
 
   <div class="row">
@@ -283,82 +220,7 @@
                           tuple-template="{{>tupleTemplate}}"
                         >
                           <template id="tupleTemplate">
-                            <div
-                              class="rs-grid-element panel panel-default artwork-card fade-in-fwd"
-                            >
-                              <semantic-link iri="{{subject.value}}">
-                                <div class="panel-body">
-                                  <bs-col
-                                    class="thumbnailImageContainer"
-                                    lg="4"
-                                    md="12"
-                                    xs="12"
-                                  >
-                                    <!-- Thumbnail for Person (fetch from wikidata (good luck)) -->
-                                    <semantic-query
-                                      query=' PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-                                                SELECT DISTINCT ?artistName WHERE {
-                                                      <{{subject.value}}> rdfs:label ?personName.
-                                                    BIND(REPLACE(?personName,"@en","") AS ?artistName)
-                                                } LIMIT 1'
-                                      template="{{> imageThumbnail}}"
-                                    >
-                                      <template id="imageThumbnail">
-                                        <semantic-query
-                                          query='
-                                          PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-                                          PREFIX wd: <http://www.wikidata.org/entity/>
-                                          PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-                                          PREFIX wdtn: <http://www.wikidata.org/prop/direct-normalized/>
-                                          SELECT DISTINCT ?imgUrl WHERE {
-                                            BIND("_" AS ?default_imageUrl)
-                                            OPTIONAL {
-                                              SERVICE <https://query.wikidata.org/sparql> {
-                                                {
-                                                  ?person wdt:P31 wd:Q5;
-                                                    wdt:P106 wd:Q483501;
-                                                    rdfs:label "{{bindings.0.artistName.value}}"@en;
-                                                    wdt:P18 ?personImage.
-                                                }
-                                                UNION
-                                                {
-                                                  ?person wdtn:P245 <{{subject.value}}>.
-                                                  ?person wdt:P18 ?personImage.
-                                                }
-                                              }
-                                            }
-                                            BIND(COALESCE(?personImage, ?default_imageUrl) AS ?imgUrl)
-                                          }
-                                          LIMIT 1'
-                                          template="{{> imageThumbnail}}"
-                                        >
-                                          <template id="imageThumbnail">
-                                            <img
-                                              alt="   "
-                                              class="thumbnailImage"
-                                              src="{{bindings.0.imgUrl.value}}"
-                                            />
-                                          </template>
-                                        </semantic-query>
-                                      </template>
-                                    </semantic-query>
-                                  </bs-col>
-                                  <bs-col class="cardInfo" lg="12">
-                                    <div
-                                      data-flex-layout="row md-column center-stretch"
-                                    >
-                                      <bs-row class="cardInfoFields">
-                                        <h4>
-                                          <semantic-link
-                                            iri="{{subject.value}}"
-                                          ></semantic-link>
-                                        </h4>
-                                      </bs-row>
-                                    </div>
-                                  </bs-col>
-                                </div>
-                              </semantic-link>
-                            </div>
+                            [[> :photographerCard]]
                           </template>
                         </semantic-table>
                       </bs-tab-pane>
