@@ -1,0 +1,82 @@
+<semantic-search-query-keyword
+placeholder='You searched for [[urlParam "keyword"]], but you can search for anything!'
+domain="<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>"
+default-query='
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX bds: <http://www.bigdata.com/rdf/search#>
+PREFIX hint: <http://www.bigdata.com/queryHints#>
+SELECT ?subject ?keywords  WHERE {                
+?subject a <https://pharos.artresearch.net/resource/fc/photographer>.
+hint:Prior hint:runLast true .
+?subject rdfs:label ?label .
+?label bds:search "[[urlParam "keyword"]]" ;
+bds:minRelevance "0.3" ;
+bds:relevance ?score ;
+bds:matchAllTerms "true" .
+BIND(str("[[urlParam "keyword"]]") as ?keywords)
+}ORDER BY DESC(?score) 
+'
+query='
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX bds: <http://www.bigdata.com/rdf/search#>
+PREFIX hint: <http://www.bigdata.com/queryHints#>
+SELECT ?subject ?keywords  WHERE {       
+?subject a <https://pharos.artresearch.net/resource/fc/photographer>.
+?subject rdfs:label ?label .
+?label bds:search ?__token__ ;
+bds:minRelevance "0.3" ;
+bds:relevance ?score ;
+bds:matchAllTerms "true" .
+ BIND(str(?__token__) as ?keywords)
+}ORDER BY DESC(?score) 
+'
+class="hiddenSearchbar"
+></semantic-search-query-keyword>
+<div class="row">
+<bs-col
+  lg="3"
+  md="4"
+  sm="5"
+  class="fade-in-fwd"
+  style="margin-top: 8px"
+  id="artwork-filter-search"
+>
+  <div class="filter-title">Filters</div>
+  <semantic-search-facet
+    open-by-default="true"
+  ></semantic-search-facet>
+</bs-col>
+<bs-col lg="9" md="8" sm="7">
+  <semantic-search-result-holder>
+    <semantic-search-result>
+      <semantic-query
+        id="view-more"
+        query="SELECT ?keywords WHERE {}"
+        template="{{>currentSearchText}}"
+      >
+        <template id="currentSearchText">
+          <h2>
+            Searched in photographers for:
+            <i>{{bindings.0.keywords.value}}</i>
+          </h2>
+        </template>
+      </semantic-query>
+      <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
+      <semantic-table
+        id="grid-result"
+        query="SELECT DISTINCT ?subject  WHERE {}LIMIT 100"
+        number-of-displayed-rows="12"
+        tuple-template="{{> subjectCellTemplate}}"
+        options='{"showTableHeading": false, "showFilter":false}'
+        no-result-template='<div style="text-align: center;">No photographer found! Please refine your search.</div>'
+      >
+        <template id="subjectCellTemplate">
+          [[> :photographerCard]]
+        </template>
+      </semantic-table>
+    </semantic-search-result>
+  </semantic-search-result-holder>
+</bs-col>
+</div>
