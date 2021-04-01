@@ -132,48 +132,7 @@
       }'
 >
   <div id="header-search" class="search-page">
-    <semantic-form
-      new-subject-template="http://www.example.com/switch/actions/{{UUID}}"
-      post-action="redirect"
-      browser-persistence="true"
-      form-id="example-8"
-      fields='[
-          {
-            "id": "switch-action-type",
-            "label": "Switch",
-            "description": "Allows to select different forms",
-            "xsdDatatype": "xsd:anyURI",
-            "selectPattern": "SELECT $value WHERE { $subject <http://www.example.com/switch/has-action> $value }",
-            "insertPattern": "INSERT { $subject <http://www.example.com/switch/has-action> $value } WHERE {}",
-            "deletePattern": "DELETE { $subject <http://www.example.com/switch/has-action> $value } WHERE {}"
-          }
-        ]'
-    >
-      <semantic-form-switch
-        for="switch-action-type"
-        switch-on-field="switch-case-type"
-      >
-        <semantic-form-switch-case label="Repository">
-          <semantic-form-composite-input
-            for="switch-action-type"
-            new-subject-template="http://www.example.com/switch/action/artist"
-            fields='[
-                {
-                  "id": "switch-case-type",
-                  "xsdDatatype": "xsd:anyURI",
-                  "minOccurs": "1",
-                  "maxOccurs": "1",
-                  "selectPattern": "SELECT ?value WHERE { $subject <http://www.example.com/switch/has-action-type> ?value }",
-                  "insertPattern": "INSERT { $subject <http://www.example.com/switch/has-action-type> ?value } WHERE {}",
-                  "deletePattern": "DELETE { $subject <http://www.example.com/switch/has-action-type> ?value } WHERE {}"
-                }
-              ]'
-          >
-            <semantic-form-hidden-input
-              for="switch-case-type"
-              default-value="http://www.example.com/switch/type/move"
-            >
-            </semantic-form-hidden-input>
+  
 
             <semantic-search-query-keyword
               placeholder="Search for a repository e.g. Royal Library"
@@ -195,10 +154,7 @@
                       } 
                     '
             ></semantic-search-query-keyword>
-          </semantic-form-composite-input>
-        </semantic-form-switch-case>
-      </semantic-form-switch>
-    </semantic-form>
+
   </div>
 
   <div class="row">
