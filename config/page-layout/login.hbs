@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <link rel="icon" href="/assets/no_auth/favicon.ico" type="image/x-icon">
+  <title>{{deploymentTitle}}</title>
+
+  {{#each assetsMap.app.css}}
+  <link href="{{this}}" rel="stylesheet" type="text/css">
+  {{/each}}
+
+</head>
+
+<body class="login-body backgroundColorAnim">
+
+  <div class="login-container" data-flex-layout="column center-center">
+
+    <div class="login-border">
+
+      
+      <div data-flex-layout="row center-center" class="login-title-row">
+        <img src="../../assets/images/ar.png" />
+        <h2>The Pharos Digital Collections</h2>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-body">
+          {{#if shiroLoginFailure}}
+          <div class="alert alert-danger">
+            <strong>{{shiroLoginFailure}}</strong>
+          </div>
+          {{/if}}
+          <form name="loginform" action="" method="POST" accept-charset="UTF-8" role="form">
+            <fieldset>
+              <div class="form-group">
+                <input class="form-control" placeholder="Username" name="username" type="text">
+              </div>
+              <div class="form-group">
+                <input class="form-control" placeholder="Password" name="password" type="password" value="">
+              </div>
+              <input class="btn btn-md btn-success btn-block loginBtn" type="submit" value="Login">
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="powered-by">
+      <a href="https://www.researchspace.org/" target="_blank"><img src="/assets/no_auth/researchspace_black.svg"
+          alt="Researchspace" /></a>
+    </div>
+
+  </div>
+
+</body>
+
+</html>
+<style>
+  h2{
+    color: black !important;
+  }
+  .login-title-row {
+    display: flex;
+    flex-direction: column !important;
+  }
+ .loginBtn{
+   background: #6b0000 !important;
+   border-color: #6b0000 !important ;
+ }
+
+ .form-control:focus{
+   border-color: #6b0000 !important;
+ }
+
+</style>
