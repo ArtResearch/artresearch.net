@@ -22,12 +22,13 @@
           template="{{>viewMoreButton}}"
         >
           <template id="viewMoreButton">
+            <click-element targetId="search-click" keyboardKey="Enter"></click-element>
             <semantic-link
               class="search-btn-activated"
               iri="rsp:FilterSearch"
               urlqueryparam-keyword="{{bindings.0.keywords.value}}"
             >
-              <div style="background: white; height: 39px" class="btn searchBtn">
+              <div id="search-click" style="background: white; height: 39px" class="btn searchBtn">
                 Search
                 <i class="rs-icon rs-icon-search"></i>
               </div>

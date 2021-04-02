@@ -1,16 +1,25 @@
 <!-- Displays a row of IIIF photographs that are clickable (iiif mirador popup) -->
 <div id="work-summary-images">
   <semantic-query
-    query='SELECT distinct ?imgURL ?image WHERE {
+    query='SELECT distinct ?imgURL ?image ?iiifServer WHERE {
         {
           # Photo object
-          ?artwork <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?? .
           ?? crm:P129i_is_subject_of ?image.
+          OPTIONAL{
+            ?? <https://pharos.artresearch.net/custom/has_provider> ?provider.
+            ?provider <https://pharos.artresearch.net/custom/has_iiif_server> ?iiifServer.
+          }
+          
         }UNION{
           # Original & Pharos Artwork
           ?? <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo.
           ?photo crm:P129i_is_subject_of ?image.
+          OPTIONAL{
+          ?photo <https://pharos.artresearch.net/custom/has_provider> ?provider.
+          ?provider <https://pharos.artresearch.net/custom/has_iiif_server> ?iiifServer.
         }
+        }
+
         OPTIONAL{
           ?image crm:P2_has_type ?imageType.
         }
@@ -28,9 +37,6 @@
             <bs-nav-item event-key="grid">
               <span class="fa fa-th"></span>
             </bs-nav-item>
-            <bs-nav-item event-key="timeline">
-              <span class="fa fa-calendar"></span>
-            </bs-nav-item>
           </bs-nav>
           <bs-tab-content animation="true">
             <bs-tab-pane event-key="grid">
@@ -39,10 +45,6 @@
 
             <bs-tab-pane event-key="single">
               [[> rsp:WorkSummaryImagesSingle]]
-            </bs-tab-pane>
-
-            <bs-tab-pane event-key="timeline">
-              [[> rsp:WorkSummaryImagesTimeline]]
             </bs-tab-pane>
           </bs-tab-content>
         </div>
