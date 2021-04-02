@@ -29,15 +29,7 @@ class="rs-grid-element panel panel-default personCard fade-in-fwd"
               BIND("_" AS ?default_imageUrl)
               OPTIONAL {
                 SERVICE <https://query.wikidata.org/sparql> {
-                  {
-                    ?person wdt:P31 wd:Q5;
-                      wdt:P106 wd:Q483501;
-                      rdfs:label "{{bindings.0.artistName.value}}"@en;
-                  }
-                  UNION
-                  {
-                    ?person wdtn:P245 <{{subject.value}}>.
-                  }
+                  ?person wdtn:P245 <{{subject.value}}>.
                   ?person wdt:P18 ?personImage.
                 }
               }
@@ -50,7 +42,7 @@ class="rs-grid-element panel panel-default personCard fade-in-fwd"
               <img
                 alt="   "
                 class="thumbnailImage"
-                src="{{bindings.0.imgUrl.value}}"
+                src="{{bindings.0.imgUrl.value}}?width=150"
               />
             </template>
           </semantic-query>

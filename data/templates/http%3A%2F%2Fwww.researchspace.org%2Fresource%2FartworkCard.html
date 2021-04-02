@@ -1,5 +1,5 @@
 <div
-  class="rs-grid-element panel panel-default artwork-card fade-in-fwd filter-artwork-card"
+  class="rs-grid-element panel panel-default artwork-card-big fade-in-fwd "
 >
   <semantic-link iri="{{subject.value}}">
     <div class="panel-body">
@@ -14,8 +14,12 @@
       query='SELECT DISTINCT ?imgUrl WHERE{
               BIND("_" as ?default_imageUrl)
               OPTIONAL {
+                {
                 <{{subject.value}}> <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo.
                 ?photo crm:P129i_is_subject_of ?fullsizeImgUrl.
+                }union{
+                  <{{subject.value}}> crm:P129i_is_subject_of ?fullsizeImgUrl.
+                }
                 FILTER NOT EXISTS { 
                   ?fullsizeImgUrl crm:P2_has_type ?type.
                   ?type rdfs:label "verso"
@@ -58,7 +62,6 @@
                 Title="https://pharos.artresearch.net/fieldDefinition/2"
                 Creator="https://pharos.artresearch.net/fieldDefinition/1"  
                 ProductionDate="https://pharos.artresearch.net/fieldDefinition/8"
-                Repository="https://pharos.artresearch.net/fieldDefinition/Repository"
               ]]'
                 template="{{>generalInfo}}"
               >
