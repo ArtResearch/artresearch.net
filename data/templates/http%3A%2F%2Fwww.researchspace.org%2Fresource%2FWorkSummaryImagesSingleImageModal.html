@@ -1,0 +1,28 @@
+<semantic-query
+query='SELECT ?fullsizeImages ?iiifServer WHERE {
+      {{#ifCond imgURL "!==" undefined}}
+        # For Hertziana (non-iiif)
+        ?photo crm:P129i_is_subject_of <{{imgURL}}>;
+               crm:P129i_is_subject_of ?fullsize.
+        BIND(REPLACE(STR(?fullsize),"320px","2048px") AS ?fullsizeImages)
+      {{/ifCond}}
+      {{#ifCond imgURL "===" undefined}}
+        # For Hertziana (non-iiif)
+        ?photo crm:P129i_is_subject_of <{{bindings.0.imgURL.value}}>;
+               crm:P129i_is_subject_of ?fullsize.
+        BIND(REPLACE(STR(?fullsize),"320px","2048px") AS ?fullsizeImages)
+      {{/ifCond}}
+  }LIMIT 2'
+template="{{> fullSizeImageTemplate}}"
+>
+<template id="fullSizeImageTemplate">
+  <img
+    style="
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    "
+    src="{{bindings.0.fullsizeImages.value}}"
+  />
+</template>
+</semantic-query>
