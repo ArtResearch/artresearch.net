@@ -16,6 +16,7 @@
               BIND(\"All\" AS ?label)
               BIND(\"All\" AS ?description)
             }
+            ?category <http://www.researchspace.org/ontology/hasOrder> ?order.
           }
         } UNION {
           SELECT ?profile ?category ?label ?description ?thumbnail {
@@ -31,7 +32,8 @@
           BIND(\"All\" as ?description) .
           BIND(<http://www.researchspace.org/profile/all> AS ?profile)
         }
-      }
+        ?category <http://www.researchspace.org/ontology/hasOrder> ?order.
+      }ORDER BY (?order)
 
   ",
   "relationsQuery": "
