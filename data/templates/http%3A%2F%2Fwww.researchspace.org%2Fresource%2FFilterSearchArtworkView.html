@@ -42,33 +42,6 @@ class="hiddenSearchbar"
 <bs-col lg="9" md="8" sm="7">
   <semantic-search-result-holder>
     <div>
-    <semantic-search-result id="semantic-search-result">
-      <mp-sparql-result-counts
-        id="semantic-search-result-count"
-        query="SELECT DISTINCT ?subject {}"
-        template="{{> template}}"
-      >
-        <template id="template">
-          {{#if hasLimit}}
-          <bs-alert bs-style="warning" class="search-results__alert">
-            <i
-              class="fa fa-exclamation-triangle"
-              aria-hidden="true"
-            ></i>
-            <span class="num-results"
-              >Found {{numberOfResults}} matches</span
-            >
-            of {{totalNumberOfResults}} matches.
-            <strong>Please, refine your search.</strong>
-          </bs-alert>
-          {{else}}
-          <span class="num-results"
-            >Found {{numberOfResults}} matches</span
-          >
-          {{/if}}
-        </template>
-      </mp-sparql-result-counts>
-    </semantic-search-result>
     <semantic-search-result>
       <semantic-query
         id="view-more"
