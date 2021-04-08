@@ -1,7 +1,6 @@
 <div class="text-center panel panel-default" style="border:none;margin-right:20px;font-size:12px;height:20px;width: 33%;display:inline;">
 <h4 align="center"><b>List of I Tatti artists matched with ULAN artists</b></h4>
 </div>
-
  <semantic-table  query='SELECT distinct * WHERE {
                           ?artist <https://pharos.artresearch.net/custom/has_provider> <https://pharos.artresearch.net/resource/itatti/source/ITatti>.
                           ?artist owl:sameAs ?ulan.
@@ -13,7 +12,7 @@
                           }
   												BIND(STR(?artist) AS ?artist_uri)
   												BIND(STR(?ulan) AS ?ulan_uri)
-                        } limit 1030' 
+                        } limit 2000' 
                 id="table-result" 
                 number-of-displayed-rows= 100
                 options='{"showFilter": false, "showTableHeading": true}'
@@ -25,6 +24,7 @@
                   {"variableName": "ID", "displayName": "ID"}
                 ]'>
 </semantic-table>
+
 
 <br>
 <br>
