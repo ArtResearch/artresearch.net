@@ -3,13 +3,13 @@
   <mp-field-visualization
     subject="[[this]]"
     additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
-    fields='[[ fieldDefinitionsFromQuery "SELECT ?field WHERE {    ?field <http://www.researchspace.org/resource/system/fields/category>  <http://www.researchspace.org/ontologies/platform/FieldCategories/work_info>.   OPTIONAL {?field <http://www.researchspace.org/resource/system/fields/order> ?w. BIND(xsd:integer(?w) as ?orderNo)}} ORDER BY ASC(?orderNo)"]]'
-    template="{{>workInfo}}"
+    fields='[[ fieldDefinitionsFromQuery "SELECT ?field WHERE {    ?field <http://www.researchspace.org/resource/system/fields/category>  <http://www.researchspace.org/ontologies/platform/FieldCategories/photograph_info>.   OPTIONAL {?field <http://www.researchspace.org/resource/system/fields/order> ?w. BIND(xsd:integer(?w) as ?orderNo)}} ORDER BY ASC(?orderNo)"]]'
+    template="{{>photographInfo}}"
   >
-    <template id="workInfo">
+    <template id="photographInfo">
       {{#if noData}} {{else}}
       <div class="workInfoContainer">
-        <h2>Work info</h2>
+        <h2>Photograph info</h2>
         [[> rsp:ResourceFieldBasedVisualization subject=[[this]]
         showSourceIcon="true" ]]
       </div>
@@ -49,9 +49,5 @@
         {{/if}}
       </template>
     </mp-field-visualization>
-  </div>
-  <div style="width: 93.5%" class="productionInfoContainer">
-    <!-- Photographs detailed information -->
-    [[> rsp:PhotographTable]]
   </div>
 </div>
