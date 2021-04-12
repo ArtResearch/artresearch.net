@@ -1,0 +1,31 @@
+<div id="printableInfo"  class="workAndProductionInfo">
+  <!-- Fields for Artist (other details) -->
+      <mp-field-visualization
+          subject="[[this]]"
+          additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
+          fields='[[ fieldDefinitionsFromQuery "SELECT ?field WHERE {  ?field <http://www.researchspace.org/resource/system/fields/category>  <http://www.researchspace.org/ontologies/platform/FieldCategories/person_info>. OPTIONAL {?field <http://www.researchspace.org/resource/system/fields/order> ?w. BIND(xsd:integer(?w) as ?orderNo)} } ORDER BY ASC(?orderNo)" ]]'
+          template='{{>workInfo}}'
+          >
+        <template id="workInfo">
+          <div class="workInfoContainer">
+          <h2>Institution info</h2>
+            [[> rsp:ResourceFieldBasedVisualization subject=[[this]] showSourceIcon="true" ]]
+          </div>
+        </template>
+        </mp-field-visualization>
+
+  <!-- Fields for Production -->
+        <mp-field-visualization
+        subject="[[this]]"
+        additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { {?s owl:sameAs ?resource}UNION{?resource owl:sameAs ?s} }" resource=this.iri)]]'
+        fields='[[ fieldDefinitionsFromQuery "SELECT ?field WHERE {  ?field <http://www.researchspace.org/resource/system/fields/category>  <http://www.researchspace.org/ontologies/platform/FieldCategories/external_info>. OPTIONAL {?field <http://www.researchspace.org/resource/system/fields/order> ?w. BIND(xsd:integer(?w) as ?orderNo)} } ORDER BY ASC(?orderNo)" ]]'
+        template='{{>productionInfo}}'
+        >
+      <template id="productionInfo">
+        <div class="productionInfoContainer">
+        <h2>External info</h2>
+          [[> rsp:ResourceFieldBasedVisualization subject=[[this]] showSourceIcon="true"  ]]
+        </div>
+      </template>
+    </mp-field-visualization>
+  </div>
