@@ -78,7 +78,7 @@ h2,
   text-align: center;
 }
 
-.no-margin{
+.no-margin {
   margin-bottom: 0 !important;
   margin-top: 0 !important;
   margin-left: 0 !important;
@@ -98,7 +98,7 @@ h2,
 }
 
 .rs-application .table > tbody > tr > td {
-  border-bottom-color: #f4f4f4 !important;
+  border-bottom-color: #ebebeb !important;
 }
 
 .semantic-table-holder {
@@ -349,16 +349,44 @@ input::placeholder {
   -webkit-animation: fade-in 1.2s cubic-bezier(0.39, 0.575, 0.565, 1) both;
   animation: fade-in 1.2s cubic-bezier(0.39, 0.575, 0.565, 1) both;
 }
+tbody tr:nth-child(odd) tbody tr {
+  background-color: #ffffff;
+}
+
+tr {
+  transition: 0.1s;
+}
+
+tr:hover {
+  font-weight: bold;
+}
 
 tbody tr:nth-child(even) {
-  background-color: #fdfdfd;
+  background-color: #f8f8f8;
+}
+tbody tr:nth-child(even) tbody tr {
+  background-color: #f8f8f8;
+}
+
+tbody tr:nth-child(even):hover {
+  background-color: #f8f8f8 !important;
+}
+tbody tr:nth-child(odd):hover {
+  background-color: #ffffff !important;
+}
+tbody tr:nth-child(odd) tbody tr:hover {
+  background-color: #ffffff !important;
+}
+
+tbody tr:nth-child(even) tbody tr:hover {
+  background-color: #f8f8f8 !important;
 }
 
 #search-results .rs-grid-element .visualizationValue a {
   color: var(--color-icon-primary) !important;
 }
 
-#logoutLink + #loginLink{
+#logoutLink + #loginLink {
   display: none;
 }
 
