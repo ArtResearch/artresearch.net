@@ -62,13 +62,13 @@
                 {{/each}}
               </td>
               [[#if showSourceIcon]]
-              <td>
+              <td class="sourceIcon-badge">
                 <div class="sourceIcons">
                   {{#each field.values as |value|}} [[> rsp:SourceIcon ]]
                   {{/each}}
                 </div>
               </td>
-              <td class="center ">
+              <td class="center sourceIcon-badge">
                 <div class="rs-page__count--field-annotation">
                   <semantic-link title="View existing annotations" iri="http://www.researchspace.org/resource/Field"
                     urlqueryparam-tab="annotations" urlqueryparam-field="{{field.iri}}"
@@ -86,7 +86,7 @@
                   </semantic-link>
                 </div>
               </td>
-              <td class="center ">
+              <td class="center sourceIcon-badge">
                 <div class="rs-page__count--field-assertion">
                   <semantic-link title="View existing assertions" iri="http://www.researchspace.org/resource/Field"
                     urlqueryparam-field="{{field.iri}}" urlqueryparam-subject="[[this]]">
