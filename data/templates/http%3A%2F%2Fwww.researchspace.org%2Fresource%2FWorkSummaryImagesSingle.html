@@ -82,13 +82,13 @@ class="rs-page__summary-image summaryImages summary-image-with-thumbs"
                   </div>
                 </template>
               </semantic-query>
-              {{#each bindings}}
-              <img
-                class="imageThumbnailSingle"
-                alt="Issue with image provider"
-                src="{{images.value}}"
-              />
-              {{/each}}
+                {{#each bindings}}
+                <img
+                  class="imageThumbnailSingle"
+                  alt="Issue with image provider"
+                  src="{{images.value}}"
+                />
+                {{/each}}
             </template>
           </semantic-query>
           {{/ifCond}}
@@ -105,32 +105,34 @@ class="rs-page__summary-image summaryImages summary-image-with-thumbs"
   </template>
 </mp-event-target-template-render>
 <div class="summary-image-thumbs">
-  {{#each bindings}}
-  <semantic-query
-    query='
-   SELECT DISTINCT ?imgURL WHERE{ 
-      BIND(({{image}}) as ?imgURL)
-      FILTER NOT EXISTS { 
-        ?imgURL crm:P2_has_type ?type.
-        ?type rdfs:label "verso"
-      }
-    } '
-    template="{{> onlyRectos}}"
-  >
-    <template id="onlyRectos">
-      <mp-event-trigger
-        id="event-trigger"
-        type="Component.TemplateUpdate"
-        data='{"imgURL":"{{imgURL.value}}"}'
-        targets='["event-target"]'
-      >
-        <img
-          class="object-representations__image--rep smallThumbsSingle"
-          src="{{imgURL.value}}"
-        />
-      </mp-event-trigger>
-    </template>
-  </semantic-query>
-  {{/each}}
+  {{#ifCond (objectLength bindings) ">" 1 }}
+    {{#each bindings}}
+    <semantic-query
+      query='
+    SELECT DISTINCT ?imgURL WHERE{ 
+        BIND(({{image}}) as ?imgURL)
+        FILTER NOT EXISTS { 
+          ?imgURL crm:P2_has_type ?type.
+          ?type rdfs:label "verso"
+        }
+      } '
+      template="{{> onlyRectos}}"
+    >
+      <template id="onlyRectos">
+        <mp-event-trigger
+          id="event-trigger"
+          type="Component.TemplateUpdate"
+          data='{"imgURL":"{{imgURL.value}}"}'
+          targets='["event-target"]'
+        >
+          <img
+            class="object-representations__image--rep smallThumbsSingle"
+            src="{{imgURL.value}}"
+          />
+        </mp-event-trigger>
+      </template>
+    </semantic-query>
+    {{/each}}
+  {{/ifCond}}
 </div>
 </div>
