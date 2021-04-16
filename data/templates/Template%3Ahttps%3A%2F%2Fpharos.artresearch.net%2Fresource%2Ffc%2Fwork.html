@@ -4,12 +4,12 @@
   <div class="page__header-navtabs">
     [[> rsp:Header ]]
   </div>
-    <bs-tab-container id="tab-container" class="page__body-navtabs--borderless" default-active-key="summary">
+    <bs-tab-container id="tab-container" class="page__body-navtabs--borderless" default-active-key="PhotographLightbox">
       <div>
         <bs-nav bs-style="tabs">
           <bs-nav-item event-key="summary">Summary</bs-nav-item>
-          [[#if (ask "ASK { {?? <https://pharos.artresearch.net/custom/has_provider> ?provider. ?provider <https://pharos.artresearch.net/custom/has_iiif_server> ?iiifServer. }UNION{?original owl:sameAs ??. ?original <https://pharos.artresearch.net/custom/has_provider> ?provider. ?provider <https://pharos.artresearch.net/custom/has_iiif_server> ?iiifServer.} }") ]] 
-              <bs-nav-item event-key="IIIFInspect">Image Lightbox</bs-nav-item>
+          [[#if (ask "ASK { {?? <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo}}") ]] 
+          <bs-nav-item event-key="PhotographLightbox">Photograph Lightbox</bs-nav-item>
           [[/if]]
            <bs-nav-item event-key="similar">Similar artworks</bs-nav-item>
         </bs-nav>
@@ -22,8 +22,8 @@
             <!-- Loads photographs with info (id, photographer, keeper) -->
               [[> rsp:WorkAndProductionInfo]]
           </bs-tab-pane>
-          <bs-tab-pane event-key="IIIFInspect">
-            [[> IIIFInspect record=(this)]]
+          <bs-tab-pane event-key="PhotographLightbox">
+            [[> PhotographLightbox record=(this)]]
           </bs-tab-pane>
           <bs-tab-pane event-key="similar">
             <!-- Show similar artworks -->
