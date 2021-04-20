@@ -30,7 +30,7 @@ SELECT distinct ?photo (GROUP_CONCAT(STR(?label);SEPARATOR=" , ") AS ?allLabels)
       SELECT  ?photoUri ?rectoImage ?fullsizeImages where{
         BIND(str(<{{photo.value}}>) as ?photoUri).
         <{{photo.value}}> crm:P129i_is_subject_of ?fullsizeImages.
-        BIND(REPLACE(STR(?fullsizeImages),"full/full","full/100,") AS ?rectoImage).
+        BIND(REPLACE(STR(?fullsizeImages),"full/full","full/!100,100") AS ?rectoImage).
         FILTER NOT EXISTS { 
           ?fullsizeImages crm:P2_has_type ?type.
           ?type rdfs:label "verso"
@@ -54,7 +54,7 @@ SELECT distinct ?photo (GROUP_CONCAT(STR(?label);SEPARATOR=" , ") AS ?allLabels)
   SELECT ?photoUri ?versoImage ?fullsizeImages where{
     BIND(str(<{{photo.value}}>) as ?photoUri).
     <{{photo.value}}> crm:P129i_is_subject_of ?fullsizeImages.
-    BIND(REPLACE(STR(?fullsizeImages),"full/full","full/100,") AS ?versoImage).
+    BIND(REPLACE(STR(?fullsizeImages),"full/full","full/!100,100") AS ?versoImage).
     FILTER NOT EXISTS { 
       ?fullsizeImages crm:P2_has_type ?type.
       ?type rdfs:label "recto"
