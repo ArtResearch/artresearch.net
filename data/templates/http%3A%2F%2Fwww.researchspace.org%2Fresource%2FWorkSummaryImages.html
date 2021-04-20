@@ -23,7 +23,7 @@
         OPTIONAL{
           ?image crm:P2_has_type ?imageType.
         }
-        BIND(REPLACE(STR(?image),"full/full","full/350,") AS ?imgURL).
+        BIND(REPLACE(STR(?image),"full/full","full/!350,350") AS ?imgURL).
      } ORDER BY str(?photo) DESC(?imageType)'
     template="{{> imageThumbnail}}"
   >

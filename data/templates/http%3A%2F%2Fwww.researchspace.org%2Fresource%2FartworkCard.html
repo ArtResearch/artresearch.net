@@ -24,7 +24,7 @@
                   ?fullsizeImgUrl crm:P2_has_type ?type.
                   ?type rdfs:label "verso"
                 }
-                BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/200,") AS ?smallerImgUrl).
+                BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/!200,200") AS ?smallerImgUrl).
               }
               BIND(coalesce(?smallerImgUrl, ?default_imageUrl) as ?imgUrl)
             }LIMIT 1'
