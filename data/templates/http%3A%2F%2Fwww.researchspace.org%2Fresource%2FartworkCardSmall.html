@@ -17,14 +17,14 @@
                                     # Artwork Image #
                                     <{{subject.value}}> <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo.
                                     ?photo crm:P129i_is_subject_of ?fullsizeImgUrl.
-                                    BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/200,") AS ?smallerImgUrl).
+                                    BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/!200,200") AS ?smallerImgUrl).
                                   }UNION{
                                     # Photo Image #
                                     ?artwork <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> <{{subject.value}}> .
                                     ?artwork <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo .
                                     ?photo crm:P129i_is_subject_of ?fullsizeImgUrl.
                                     FILTER(?photo = <{{subject.value}}>).
-                                    BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/200,") AS ?smallerImgUrl).
+                                    BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/!200,200") AS ?smallerImgUrl).
                                   }
                                   FILTER NOT EXISTS { 
                                     ?fullsizeImgUrl crm:P2_has_type ?type.

@@ -16,7 +16,7 @@ class="rs-page__summary-image summaryImages summary-image-with-thumbs"
             ?photo crm:P129i_is_subject_of ?image.
             ?photo <https://pharos.artresearch.net/custom/has_provider> ?provider.
             ?provider rdfs:label ?providerLabel.
-            BIND(IRI(REPLACE(STR("{{imgURL}}"),"full/350,","full/full")) AS ?image)
+            BIND(IRI(REPLACE(STR("{{imgURL}}"),"full/!350,350","full/full")) AS ?image)
           }limit 1
             '
             template="{{> imageSourceIcon}}"
@@ -33,10 +33,10 @@ class="rs-page__summary-image summaryImages summary-image-with-thumbs"
           </semantic-query>
           <semantic-query
             query='SELECT ?images WHERE{
-              BIND(IRI(REPLACE(STR("{{imgURL}}"),"full/350,","full/full")) AS ?imgURL).
+              BIND(IRI(REPLACE(STR("{{imgURL}}"),"full/!350,350","full/full")) AS ?imgURL).
               ?photo crm:P129i_is_subject_of ?imgURL; 
               crm:P129i_is_subject_of ?rectoVerso;
-              BIND(REPLACE(STR(?rectoVerso), "full/full", "full/350,") AS ?images)
+              BIND(REPLACE(STR(?rectoVerso), "full/full", "full/!350,350") AS ?images)
           }'
             template="{{>rectoVerso}}"
           >
@@ -53,11 +53,11 @@ class="rs-page__summary-image summaryImages summary-image-with-thumbs"
           {{/ifCond}} {{#ifCond imgURL "===" undefined}}
           <semantic-query
             query='SELECT DISTINCT ?iiifImage ?images WHERE{
-                BIND(iri(REPLACE(STR("{{bindings.0.imgURL.value}}"),"full/350,","full/full")) AS ?iiifImage).
+                BIND(iri(REPLACE(STR("{{bindings.0.imgURL.value}}"),"full/!350,350","full/full")) AS ?iiifImage).
                 BIND(("{{bindings.0.imgURL.value}}") AS ?imageUrl).
                 ?photo crm:P129i_is_subject_of ?iiifImage;
                       crm:P129i_is_subject_of ?rectoVerso.
-                BIND(REPLACE(STR(?rectoVerso), "full/full", "full/350,") AS ?images)   
+                BIND(REPLACE(STR(?rectoVerso), "full/full", "full/!350,350") AS ?images)   
                 }'
             template="{{> mediumImageSize}}"
           >
@@ -82,13 +82,13 @@ class="rs-page__summary-image summaryImages summary-image-with-thumbs"
                   </div>
                 </template>
               </semantic-query>
-              {{#each bindings}}
-              <img
-                class="imageThumbnailSingle"
-                alt="Issue with image provider"
-                src="{{images.value}}"
-              />
-              {{/each}}
+                {{#each bindings}}
+                <img
+                  class="imageThumbnailSingle"
+                  alt="Issue with image provider"
+                  src="{{images.value}}"
+                />
+                {{/each}}
             </template>
           </semantic-query>
           {{/ifCond}}
@@ -105,32 +105,34 @@ class="rs-page__summary-image summaryImages summary-image-with-thumbs"
   </template>
 </mp-event-target-template-render>
 <div class="summary-image-thumbs">
-  {{#each bindings}}
-  <semantic-query
-    query='
-   SELECT DISTINCT ?imgURL WHERE{ 
-      BIND(({{image}}) as ?imgURL)
-      FILTER NOT EXISTS { 
-        ?imgURL crm:P2_has_type ?type.
-        ?type rdfs:label "verso"
-      }
-    } '
-    template="{{> onlyRectos}}"
-  >
-    <template id="onlyRectos">
-      <mp-event-trigger
-        id="event-trigger"
-        type="Component.TemplateUpdate"
-        data='{"imgURL":"{{imgURL.value}}"}'
-        targets='["event-target"]'
-      >
-        <img
-          class="object-representations__image--rep smallThumbsSingle"
-          src="{{imgURL.value}}"
-        />
-      </mp-event-trigger>
-    </template>
-  </semantic-query>
-  {{/each}}
+  {{#ifCond (objectLength bindings) ">" 1 }}
+    {{#each bindings}}
+    <semantic-query
+      query='
+    SELECT DISTINCT ?imgURL WHERE{ 
+        BIND(({{image}}) as ?imgURL)
+        FILTER NOT EXISTS { 
+          ?imgURL crm:P2_has_type ?type.
+          ?type rdfs:label "verso"
+        }
+      } '
+      template="{{> onlyRectos}}"
+    >
+      <template id="onlyRectos">
+        <mp-event-trigger
+          id="event-trigger"
+          type="Component.TemplateUpdate"
+          data='{"imgURL":"{{imgURL.value}}"}'
+          targets='["event-target"]'
+        >
+          <img
+            class="object-representations__image--rep smallThumbsSingle"
+            src="{{imgURL.value}}"
+          />
+        </mp-event-trigger>
+      </template>
+    </semantic-query>
+    {{/each}}
+  {{/ifCond}}
 </div>
 </div>

@@ -3,12 +3,12 @@
         {{#ifCond imgURL "!==" undefined}}
         ?photo crm:P129i_is_subject_of ?fullsizeImgUrl.
         ?photo crm:P129i_is_subject_of ?fullsizeImages.
-        BIND(IRI(REPLACE(STR("{{imgURL}}"),"full/350,","full/full")) AS ?fullsizeImgUrl).
+        BIND(IRI(REPLACE(STR("{{imgURL}}"),"full/!350,350","full/full")) AS ?fullsizeImgUrl).
         {{/ifCond}}
         {{#ifCond imgURL "===" undefined}}
           ?photo crm:P129i_is_subject_of ?fullsizeImgUrl.
           ?photo crm:P129i_is_subject_of ?fullsizeImages.
-          BIND(IRI(REPLACE(STR("{{bindings.0.imgURL.value}}"),"full/350,","full/full")) AS ?fullsizeImgUrl).
+          BIND(IRI(REPLACE(STR("{{bindings.0.imgURL.value}}"),"full/!350,350","full/full")) AS ?fullsizeImgUrl).
         {{/ifCond}}
         BIND(<[[iiifServer]]> as ?iiifServer)
     }LIMIT 2'

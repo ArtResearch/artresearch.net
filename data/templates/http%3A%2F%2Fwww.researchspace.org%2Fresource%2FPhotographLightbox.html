@@ -1,0 +1,183 @@
+
+<div id="photograph-lightbox" data-flex-layout="row center-stretch">
+
+  <div>
+  <h1>All photographs</h1>
+  <h2>You can click on images to display in lightbox</h2>
+  <div id="photo-cards">
+
+    <semantic-table
+    options='{
+  "showFilter":true
+}'
+    number-of-displayed-rows="15"
+    query='  
+SELECT distinct ?photo (GROUP_CONCAT(STR(?label);SEPARATOR=" , ") AS ?allLabels) WHERE 
+{
+    ?? <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo.
+    ?photo ?a ?b.
+    ?b rdfs:label ?label
+}GROUP BY(?photo) '
+    tuple-template="{{> photos}}"
+  >
+    <template id="photos">
+        <div
+          class="card"
+        >
+        <td class="rectoVersoCell">
+          <semantic-query
+            query='
+      SELECT  ?photoUri ?rectoImage ?fullsizeImages where{
+        BIND(str(<{{photo.value}}>) as ?photoUri).
+        <{{photo.value}}> crm:P129i_is_subject_of ?fullsizeImages.
+        BIND(REPLACE(STR(?fullsizeImages),"full/full","full/!100,100") AS ?rectoImage).
+        FILTER NOT EXISTS { 
+          ?fullsizeImages crm:P2_has_type ?type.
+          ?type rdfs:label "verso"
+        }
+      }
+    '
+            template="{{>rectoImageThumb}}"
+          >
+            <template id="rectoImageThumb">
+              <mp-event-trigger id='event-trigger' type='Component.TemplateUpdate' data='{"imgURL":"{{bindings.0.fullsizeImages.value}}"}' targets='["event-target"]'>
+                <img
+                  src="{{bindings.0.rectoImage.value}}"
+                  style="max-height: 100px; margin: 0 auto"
+                  class="img-rounded"
+                />
+            </mp-event-trigger>
+            </template>
+          </semantic-query>
+          <semantic-query
+            query='
+  SELECT ?photoUri ?versoImage ?fullsizeImages where{
+    BIND(str(<{{photo.value}}>) as ?photoUri).
+    <{{photo.value}}> crm:P129i_is_subject_of ?fullsizeImages.
+    BIND(REPLACE(STR(?fullsizeImages),"full/full","full/!100,100") AS ?versoImage).
+    FILTER NOT EXISTS { 
+      ?fullsizeImages crm:P2_has_type ?type.
+      ?type rdfs:label "recto"
+    }
+  }
+'
+            template="{{>versoImageThumb}}"
+          >
+            <template id="versoImageThumb">
+              <mp-event-trigger id='event-trigger' type='Component.TemplateUpdate' data='{"imgURL":"{{bindings.0.fullsizeImages.value}}"}' targets='["event-target"]'>
+                <img
+                  src="{{bindings.0.versoImage.value}}"
+                  style="max-height: 70px; max-width: 70px"
+                  class="img-rounded vercoCell"
+                />
+              </mp-event-trigger>
+            </template>
+          </semantic-query>
+        </td>
+        <div class="photographFieldViewData">
+          <!-- //TODO make query -->
+          <mp-field-visualization
+            subject="{{photo.value}}"
+            fields='[[fieldDefinitions  
+              Title="https://pharos.artresearch.net/fieldDefinition/2"  
+              Photographer="https://pharos.artresearch.net/fieldDefinition/123"
+              Repository="https://pharos.artresearch.net/fieldDefinition/Repository" 
+            ]]'
+            template="{{>productionInfo}}"
+          >
+            <template id="productionInfo">
+              {{#if noData}}
+              <div></div>
+              {{else}} [[> rsp:ResourceFieldBasedVisualization subject=[[this]]
+              ]] {{/if}}
+            </template>
+          </mp-field-visualization>
+        </div>
+
+
+        <semantic-link iri="{{photo.value}}">
+          <div style="
+          position: absolute;
+          top: 0;
+          right: 0;
+      " class="btn"><h4>View photograph</h4></div>
+      </div>
+    </semantic-link>
+    </template>
+  </semantic-table>
+  </div>
+</div>
+<div class="grid-demo">
+  <div style="width: 50vw; height: 80vh">
+    <mp-event-target-template-render id='event-target' template='{{> mainImageTemplate}}'>
+      <template id='mainImageTemplate'>
+          <semantic-query query='SELECT DISTINCT ?imageUrl ?iiifServer WHERE{
+              {
+              ?? <https://pharos.artresearch.net/custom/has_provider> ?provider.
+              ?provider <https://pharos.artresearch.net/custom/has_iiif_server> ?iiifServer.
+              BIND(STR("{{imgURL}}") AS ?imageUrl).
+              }union{
+                ?original owl:sameAs ??.
+                ?original <https://pharos.artresearch.net/custom/has_provider> ?provider.
+                ?provider <https://pharos.artresearch.net/custom/has_iiif_server> ?iiifServer.
+                BIND(STR("{{imgURL}}") AS ?imageUrl).
+
+              }
+              }' template='{{> iiifViewer}}'>
+              <template id="iiifViewer">
+               
+                {{#ifCond  (objectLength bindings.0.imageUrl.value) "!==" 0}}  
+                  <rs-iiif-mirador
+                  image-or-region="[[this]]" 
+                  image-id-pattern='
+                  ?subject crm:P138i_is_represented_by ?visual_item.
+                  ?visual_item crm:P128i_is_carried_by ?photo.
+                  ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
+                  ?photo crm:P129i_is_subject_of <{{bindings.0.imageUrl.value}}>.
+                  <{{bindings.0.imageUrl.value}}> crm:P2_has_type <http://iiif.io/api/image>.
+                  BIND("image" AS ?type). 
+                  BIND(?subject AS ?imageIRI). 
+                  BIND(REPLACE(STR(REPLACE(STR("{{bindings.0.imageUrl.value}}"),"/full/full/0/*","")), "(^.*)\\/(.*)$", "$2") AS ?idWithDefaultNative).
+                  BIND(REPLACE(?idWithDefaultNative,"default.jpg","") AS ?idWithNative).
+                  BIND(REPLACE(?idWithNative,"native.jpg","") AS ?imageID).
+                  '                                                                       
+                  iiif-server-url="{{bindings.0.iiifServer.value}}" 
+                  >
+                  </rs-iiif-mirador>
+                {{/ifCond}}
+                {{#ifCond (objectLength bindings.0.imageUrl.value) "===" 0}}  
+                  <rs-iiif-mirador
+                  image-or-region="[[this]]" 
+                  image-id-pattern='
+                  {
+                    ?? crm:P138i_is_represented_by ?visual_item.
+                    ?visual_item crm:P128i_is_carried_by ?photo.
+                    ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
+                    ?photo crm:P129i_is_subject_of ?image.
+                    ?image crm:P2_has_type <http://iiif.io/api/image>.
+                    BIND(?? AS ?imageIRI). 
+                  }UNION{
+                    ?original owl:sameAs ??.
+                    ?original crm:P138i_is_represented_by ?visual_item.
+                    ?visual_item crm:P128i_is_carried_by ?photo.
+                    ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
+                    ?photo crm:P129i_is_subject_of ?image.
+                    ?image crm:P2_has_type <http://iiif.io/api/image>.
+                    BIND(?original AS ?imageIRI). 
+                  }
+                  BIND("image" AS ?type).
+                  BIND(REPLACE(STR(REPLACE(STR(?image),"/full/full/0/*","")), "(^.*)\\/(.*)$", "$2") AS ?idWithDefaultNative).
+                  BIND(REPLACE(?idWithDefaultNative,"default.jpg","") AS ?idWithNative).
+                  BIND(REPLACE(?idWithNative,"native.jpg","") AS ?imageID).
+                  '                                                                       
+                  iiif-server-url="{{bindings.0.iiifServer.value}}" 
+                  >
+                  </rs-iiif-mirador>
+                  {{/ifCond}}
+    </template>
+    </semantic-query>
+    </template>
+    </mp-event-target-template-render>
+  </div>
+</div>
+</div>
