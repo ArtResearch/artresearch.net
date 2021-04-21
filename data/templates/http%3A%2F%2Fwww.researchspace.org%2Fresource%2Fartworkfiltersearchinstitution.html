@@ -1,55 +1,41 @@
-<div id="artwork-filter-search">
+<div id="artwork-filter-search-inline">
 <semantic-search
-  limit="1000"
   relations='{
     "<https://pharos.artresearch.net/resource/field/Artist_Attribution>":[
-      {
-        "kind": "resource",
-        "queryPattern": "
-         
-            $subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?__value__.
-          "
-      }
-    ],
-    "<https://pharos.artresearch.net/fieldDefinition/Repository>":[
     {
       "kind": "resource",
       "queryPattern": "
-       
-          $subject <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution> ?__value__.
-       "
-    }],
+        
+          $subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?__value__."
+    }
+    ],
     "<https://pharos.artresearch.net/fieldDefinition/46>": [
     {
       "kind": "resource",
       "queryPattern": "
-       
-          $subject <https://pharos.artresearch.net/resource/fr/Work_shows_Subject>  ?__value__.
-        "
+        
+          $subject <https://pharos.artresearch.net/resource/fr/Work_shows_Subject>  ?__value__."
     }],
     "<https://pharos.artresearch.net/fieldDefinition/44>": [
     {
       "kind": "resource",
       "queryPattern": "
         
-          $subject <https://pharos.artresearch.net/resource/fr/Work_consists_of_Material> ?__value__.
-       "
+          $subject <https://pharos.artresearch.net/resource/fr/Work_consists_of_Material> ?__value__."
     }],
     "<https://pharos.artresearch.net/fieldDefinition/42>": [
     {
       "kind": "resource",
       "queryPattern": "
         
-          $subject <https://pharos.artresearch.net/resource/fr/Work_produced_using_technique_Technique> ?__value__.
-        "
+         $subject <https://pharos.artresearch.net/resource/fr/Work_produced_using_technique_Technique> ?__value__."
     }],
     "<https://pharos.artresearch.net/resource/fr/Work_from_Place>": [
     {
       "kind": "resource",
       "queryPattern": "
-       
-          $subject <https://pharos.artresearch.net/resource/fr/Work_from_Place> ?__value__
-        "
+        
+          $subject <https://pharos.artresearch.net/resource/fr/Work_from_Place> ?__value__."
     }]
       }'
   search-profile='{
@@ -138,40 +124,37 @@
       }'
 >
   <div id="header-search" class="search-page">
-    <semantic-search-query-keyword
-    domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
-    placeholder="Search for an artwork title"
-    escape-lucene-syntax="false"
-    default-query="SELECT ?subject WHERE{
-      ?originalSubject owl:sameAs ?subject.
-      ?subject a <https://pharos.artresearch.net/resource/fc/work>.
-     }"
-    query='
-            SELECT DISTINCT ?subject WHERE {
-            ?originalSubject owl:sameAs ?subject.
-            ?subject a <https://pharos.artresearch.net/resource/fc/work>.
-            ?subject rdfs:label ?someLabel.
-            ?someLabel bds:search ?__token__ .
-            ?someLabel bds:minRelevance "0.3"^^xsd:double;
-            bds:matchAllTerms "true" .
-            }
-          '
-  ></semantic-search-query-keyword>
+            <semantic-search-query-keyword
+              domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
+              placeholder="Search for any field, a title, repository or any other identifier"
+              escape-lucene-syntax="false"
+              default-query='
+              SELECT DISTINCT ?subject WHERE {
+                ?subject <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution> ??.
+              }LIMIT 100'
+              query='
+                      SELECT DISTINCT ?subject WHERE {
+                        ?subject <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution> ??.
+                        ?subject ?p ?o.
+                        ?o rdfs:label ?someLabel.
+                        ?someLabel bds:search ?__token__  .
+                        ?someLabel bds:minRelevance "0.3"^^xsd:double;
+                        bds:matchAllTerms "true"  .
+                      } 
+                    '
+            ></semantic-search-query-keyword>
   </div>
   <div class="row">
     <bs-col
-  lg="3"
-  md="4"
-  sm="5"
-  class="fade-in-fwd"
-  style="margin-top: 8px"
-  id="artwork-filter-search"
->
-  <div class="filter-title">Filters</div>
-  <semantic-search-facet
-    open-by-default="true"
-  ></semantic-search-facet>
-</bs-col>
+      lg="3"
+      md="4"
+      sm="5"
+      class="fade-in-fwd filters-container"
+      style="margin-top: 8px"
+    >
+      <div class="filter-title">Filters</div>
+      <semantic-search-facet open-by-default="true"></semantic-search-facet>
+    </bs-col>
     <bs-col lg="9" md="8" sm="7">
       <semantic-search-result-holder>
         <bs-tabs unmount-on-exit="true" id="search-results" animation="false">
@@ -179,7 +162,7 @@
             <semantic-search-result>
               <div id="card-results">
                 <bs-tab-container id="tab-container" class="page__body-navtabs--borderless"
-                  default-active-key="photosOnly">
+                  default-active-key="all">
                   <div>
                     <bs-nav bs-style="tabs">
                       <bs-nav-item event-key="all">All</bs-nav-item>
@@ -190,25 +173,30 @@
                       <bs-tab-pane event-key="all">
                         <semantic-table id="grid-result" options='{
                           "showFilter":false
-                        }' number-of-displayed-rows="16" query="
+                        }' number-of-displayed-rows="10" query="
                       SELECT DISTINCT ?subject
                        WHERE {
-                     
-                       }LIMIT 100
+                        {?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.   }
+                        UNION
+                        {?subject owl:sameAs ?another}
+                        }LIMIT 100
                     " tuple-template="{{>tupleTemplate}}">
-                          <template id="tupleTemplate"> [[> :artworkCard]] </template>
+                          <template id="tupleTemplate"> [[> rsp:artworkCardCombined]] </template>
                         </semantic-table>
                       </bs-tab-pane>
                       <bs-tab-pane event-key="photosOnly">
                         <semantic-table id="grid-result-2" options='{
                           "showFilter":false
-                        }' number-of-displayed-rows="16" query="
+                        }' number-of-displayed-rows="10" query="
                       SELECT DISTINCT ?subject
                        WHERE {
+                        {?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.   }
+                        UNION
+                        {?subject owl:sameAs ?another}
                         ?subject <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo.
                        }LIMIT 100
                     " tuple-template="{{>tupleTemplate}}">
-                          <template id="tupleTemplate"> [[> :artworkCard]] </template>
+                          <template id="tupleTemplate"> [[> rsp:artworkCardCombined]] </template>
                         </semantic-table>
                       </bs-tab-pane>
                     </bs-tab-content>

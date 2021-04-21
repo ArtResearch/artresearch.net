@@ -35,16 +35,21 @@
       template="{{> originalRecords}}"
     >
       <template id="originalRecords">
-        <h4 class="fc-label lowercase">
-          Original record links: {{#each bindings}}
+        <h2 class="fc-label">
+          {{#each bindings}}
           <a style="margin-left: 5px;" href="{{providerRecord.value}}" target="_null">
+            <div class="fc-label original-link">
             <img
               title="{{providerLabel.value}}"
               class="sourceIcon"
               src="../../assets/images/{{providerLabel.value}}.ico"
-          /></a>
+          />
+          <div class="text">View original record</div>
+        </div> 
+        </a>
+        
           {{/each}}
-        </h4>
+        </h2>
       </template>
     </semantic-query>
   </div>
