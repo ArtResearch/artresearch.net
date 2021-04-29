@@ -17,13 +17,10 @@
                 {
                 <{{subject.value}}> <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo.
                 ?photo crm:P129i_is_subject_of ?fullsizeImgUrl.
-                }union{
+                }UNION{
                   <{{subject.value}}> crm:P129i_is_subject_of ?fullsizeImgUrl.
                 }
-                FILTER NOT EXISTS { 
-                  ?fullsizeImgUrl crm:P2_has_type ?type.
-                  ?type rdfs:label "verso"
-                }
+                ?fullsizeImgUrl crm:P2_has_type <http://vocab.getty.edu/aat/300078817> #rectos
                 BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/!200,200") AS ?smallerImgUrl).
               }
               BIND(coalesce(?smallerImgUrl, ?default_imageUrl) as ?imgUrl)
