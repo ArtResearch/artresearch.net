@@ -11,18 +11,7 @@
       PREFIX wdt: <http://www.wikidata.org/prop/direct/>
 
       SELECT DISTINCT ?imgUrl WHERE{
-        SERVICE <https://query.wikidata.org/sparql>{
-                    { 
-                      ?person wdt:P31 wd:Q5 . 
-                      ?person wdt:P106 wd:Q33231.
-                    }UNION{
-                      ?person wdt:P31 wd:Q672070 . 
-                    }UNION{
-                      ?person wdt:P31 wd:Q2085381 . 
-                    }
-                    ?person rdfs:label "{{bindings.0.artistName.value}}"@en .
-                    ?person wdt:P18 ?imgUrl
-          }
+        ?? <https://pharos.artresearch.net/resource/fr/Person_depicted_by> ?imgUrl
       }LIMIT 1' template='{{> imageThumbnail}}'>
               <template id="imageThumbnail">
                 <!-- Only show image if imgUrl !== the _ character (aka 1 character length) -->
