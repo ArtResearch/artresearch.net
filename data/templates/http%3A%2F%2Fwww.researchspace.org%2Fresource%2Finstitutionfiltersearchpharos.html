@@ -18,11 +18,11 @@
         "categories":  
         [
           {
-            "iri":"<https://pharos.artresearch.net/resource/custom/fc/institution>",
+            "iri":"<https://pharos.artresearch.net/resource/fc/institution>",
             "label":"Repository"
           },
           {
-            "iri":"<https://pharos.artresearch.net/resource/custom/fc/place>",
+            "iri":"<https://pharos.artresearch.net/resource/fc/place>",
             "label":"Location"
           }
           ,
@@ -36,13 +36,13 @@
           {
             "iri": "<https://pharos.artresearch.net/resource/fr/Institution_from_Place>",
             "label":"Place",
-            "hasDomain":"<https://pharos.artresearch.net/resource/custom/fc/institution>",
-            "hasRange":"<https://pharos.artresearch.net/resource/custom/fc/place>"
+            "hasDomain":"<https://pharos.artresearch.net/resource/fc/institution>",
+            "hasRange":"<https://pharos.artresearch.net/resource/fc/place>"
           },
           {
             "iri": "<https://pharos.artresearch.net/custom/has_provider>",
             "label":"Provider",
-            "hasDomain":"<https://pharos.artresearch.net/resource/custom/fc/institution>",
+            "hasDomain":"<https://pharos.artresearch.net/resource/fc/institution>",
             "hasRange":"<https://pharos.artresearch.net/custom/Provider>"
           }
         ]
@@ -52,15 +52,15 @@
             <semantic-search-query-keyword
               placeholder="Search for a repository e.g. Royal Library"
               escape-lucene-syntax="false"
-              domain="<https://pharos.artresearch.net/resource/custom/fc/institution>"
+              domain="<https://pharos.artresearch.net/resource/fc/institution>"
               default-query="
               SELECT DISTINCT ?subject  
               WHERE {
-                ?subject a <https://pharos.artresearch.net/resource/custom/fc/institution>.        
+                ?subject a <https://pharos.artresearch.net/resource/fc/institution>.        
               }LIMIT 100"
               query='
                       SELECT DISTINCT ?subject WHERE {
-                      ?subject a <https://pharos.artresearch.net/resource/custom/fc/institution>.   
+                      ?subject a <https://pharos.artresearch.net/resource/fc/institution>.   
                       ?subject rdfs:label ?someLabel.
                       ?someLabel bds:search ?__token__ .
                       ?someLabel bds:minRelevance "0.3"^^xsd:double;
