@@ -8,7 +8,9 @@
                 SELECT DISTINCT ?imgUrl WHERE {
                   BIND("_" AS ?default_imageUrl)
                   OPTIONAL{
-                    <{{subject.value}}> <https://pharos.artresearch.net/resource/fr/Person_depicted_by> ?imgUrl
+                    ?wikiPerson rdfs:label ?photographerName.
+                    ?wikiPerson <https://pharos.artresearch.net/resource/fr/Person_depicted_by> ?imgUrl.
+                    <{{subject.value}}> rdfs:label ?photographerName.
                   }
                   BIND(COALESCE(?imgUrl, ?default_imageUrl) AS ?imgUrl)
                 }
