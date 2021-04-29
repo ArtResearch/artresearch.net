@@ -13,7 +13,6 @@
       </div>
     </div>
     <!-- Filter search component -->
-    [[> rsp:collectionfiltersearch  
-    searchQuery='?subject <https://pharos.artresearch.net/resource/fr/Work_from_Date> ?date.  ?subject <https://pharos.artresearch.net/resource/fr/Work_to_Date> ?date2. FILTER (?date > str(1500)). FILTER (?date2 <  str(1500)).' ]]
+    [[> rsp:collectionfiltersearch  searchQuery='?subject <https://pharos.artresearch.net/resource/fr/Work_from_Date> ?date.  ?subject <https://pharos.artresearch.net/resource/fr/Work_to_Date> ?date2. FILTER regex(?date,"^[0-9]+$").  FILTER regex(?date2,"^[0-9]+$").  FILTER (?date > "1300" && ?date2 <  "1600").' ]]
   </div>
 </div>  

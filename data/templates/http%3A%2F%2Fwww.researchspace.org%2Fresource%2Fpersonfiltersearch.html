@@ -213,15 +213,11 @@
                           SELECT DISTINCT ?imgUrl WHERE{
                             bind("_" as ?default_imageUrl)
                             OPTIONAL{
-                              SERVICE <https://query.wikidata.org/sparql> {
-                                       {
-                                          ?person wdt:P31 wd:Q5 . 
-                                          ?person rdfs:label "{{artistName.value}}"@en .
-                                          ?person wdt:P18 ?personImage
-                                        } UNION {
-                                          ?person wdtn:P245 <{{subject.value}}>.
-                                          ?person wdt:P18 ?personImage
-                                        }
+                                {
+                                  ?person rdfs:label "{{artistName.value}}"@en .
+                                  ?person <https://pharos.artresearch.net/resource/fr/Person_depicted_by> ?personImage
+                                } UNION {
+                                  <{{subject.value}}> <https://pharos.artresearch.net/resource/fr/Person_depicted_by> ?personImage
                                 }
                             }
                               BIND(coalesce(?personImage, ?default_imageUrl) as ?imgUrl)    
