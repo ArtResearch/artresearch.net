@@ -7,7 +7,6 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX bds: <http://www.bigdata.com/rdf/search#>
 PREFIX hint: <http://www.bigdata.com/queryHints#>
 SELECT ?subject ?keywords  WHERE {                
-  ?someSubject owl:sameAs ?subject.
   ?subject a <https://pharos.artresearch.net/resource/fc/work>.
   hint:Prior hint:runLast true .
   ?subject rdfs:label ?label .
@@ -17,18 +16,7 @@ SELECT ?subject ?keywords  WHERE {
   bds:matchAllTerms "true" .
   BIND(str("[[urlParam "keyword"]]") as ?keywords)
 }ORDER BY DESC(?score) 
-  #PREFIX fts: <http://www.bigdata.com/rdf/fts#>
-  #SELECT ?subject  ?keywords WHERE {
-  #?subject fts:search "[[urlParam "keyword"]]" .
-  #?subject fts:endpoint "http://213.171.209.34:8983/solr/artworks/select" .
-  #?subject fts:endpointType "SOLR" .
-  #?subject fts:params "rows=100" .
-  #?subject fts:searchField "id" .
-  #?subject fts:fieldToSearch "label_t" .
-  #?subject fts:snippetField "label_t" .
-  #?subject fts:searchResultType "URI" 
-  #BIND(str("[[urlParam "keyword"]]") as ?keywords)
-  #}
+
 '
 query='
 SELECT ?nothing WHERE{
