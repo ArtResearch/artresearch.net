@@ -6,12 +6,11 @@
   }LIMIT 1'
   template="{{> artistNameTemplate}}">
   <template id="artistNameTemplate">
-    <semantic-query query='PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-      PREFIX wd: <http://www.wikidata.org/entity/>
-      PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-
+    <semantic-query query='
       SELECT DISTINCT ?imgUrl WHERE{
-        ?? <https://pharos.artresearch.net/resource/fr/Person_depicted_by> ?imgUrl
+        ?wikiPerson rdfs:label ?photographerName.
+        ?wikiPerson <https://pharos.artresearch.net/resource/fr/Person_depicted_by> ?imgUrl.
+        ?? rdfs:label ?photographerName.
       }LIMIT 1' template='{{> imageThumbnail}}'>
               <template id="imageThumbnail">
                 <!-- Only show image if imgUrl !== the _ character (aka 1 character length) -->
