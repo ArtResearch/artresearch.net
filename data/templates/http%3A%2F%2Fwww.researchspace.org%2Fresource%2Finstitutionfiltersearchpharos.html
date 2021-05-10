@@ -24,8 +24,7 @@
           {
             "iri":"<https://pharos.artresearch.net/resource/fc/place>",
             "label":"Location"
-          }
-          ,
+          },
           {
             "iri":"<https://pharos.artresearch.net/custom/Provider>",
             "label":"Provider"
@@ -56,6 +55,7 @@
               default-query="
               SELECT DISTINCT ?subject  
               WHERE {
+                ?subject owl:sameAs ?wiki .
                 ?subject a <https://pharos.artresearch.net/resource/fc/institution>.        
               }LIMIT 100"
               query='
@@ -65,7 +65,6 @@
                       ?someLabel bds:search ?__token__ .
                       ?someLabel bds:minRelevance "0.3"^^xsd:double;
                       bds:matchAllTerms "true"  .
-                      
                       } 
                     '
             ></semantic-search-query-keyword>
@@ -115,6 +114,7 @@
                         query='
                           SELECT DISTINCT ?subject ?institutionName ?placeLabel
                            WHERE {
+                            ?subject owl:sameAs ?wiki .
                             ?subject rdfs:label ?name.
                             ?subject <https://pharos.artresearch.net/resource/fr/Institution_from_Place> ?place.
                             ?place rdfs:label ?placeLabel.
