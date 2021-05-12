@@ -1,19 +1,12 @@
 <semantic-table
 id="semantic-search-result-table"
 query="SELECT DISTINCT ?subject ?work ?creator ?photographer ?repository ?provider WHERE {
-  OPTIONAL{
     ?work <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?subject.
-  }
-  OPTIONAL{
+    ?subject <https://pharos.artresearch.net/resource/fr/Photo_created_by_Photographer> ?photographer.
     ?work <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?subject.
     ?work <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?creator.
-  }
-  OPTIONAL{
     ?subject <https://pharos.artresearch.net/resource/fr/Photo_has_provider_Institution> ?provider.
-  }
-  OPTIONAL{
-    ?subject <https://pharos.artresearch.net/resource/fr/Photo_created_by_Photographer> ?photographer.
-  }
+    ?subject a <https://pharos.artresearch.net/resource/custom/fc/photo>
   }LIMIT 100"
   options='{"showFilter":true, "resultsPerPage":10}'
   column-configuration='[
