@@ -35,7 +35,7 @@
             <semantic-search-result id="semantic-search-result">
               <mp-sparql-result-counts
                 id="semantic-search-result-count"
-                query="SELECT DISTINCT ?subject {?subjects owl:sameAs ?subject}"
+                query="SELECT DISTINCT ?subject WHERE {}"
                 template="{{> template}}"
               >
                 <template id="template">
@@ -77,36 +77,6 @@
                 <semantic-search-result>
                   [[> rsp:SearchResultTableWork]]
                   [[> rsp:SearchResultTablePhoto]]
-                  <semantic-table
-                  id="semantic-search-result-table"
-                  query="SELECT DISTINCT ?subject ?creator ?date ?repository ?provider WHERE {
-                    # Photographs
-                      
-                    OPTIONAL{
-                      ?work <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?subject.
-                    }
-                    OPTIONAL{
-                      ?work    <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?subject.
-                      ?work <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?creator.
-                    }
-                    OPTIONAL{
-                      ?subject <https://pharos.artresearch.net/resource/fr/Photo_kept_by_Institution> ?repository.
-                    }
-                    OPTIONAL{
-                      ?subject <https://pharos.artresearch.net/resource/fr/Photo_has_provider_Institution> ?provider.
-                    }
-                    ?subject a <https://pharos.artresearch.net/resource/fc/photo>.
-                  }LIMIT 100"
-                  options='{"showFilter":true, "resultsPerPage":10}'
-                  column-configuration='[
-                  {"variableName": "subject", "displayName": "Title"},
-                  {"variableName": "date", "displayName": "Date"},
-                  {"variableName": "creator", "displayName": "Creator"},
-                  {"variableName": "repository", "displayName": "Repository"},
-                  {"variableName": "provider", "displayName": "Provider"}
-                  ]'
-                >
-                </semantic-table>
                 </semantic-search-result>
               </div>
               </bs-tab>
@@ -124,7 +94,7 @@
                   <semantic-search-result>
                     <mp-sparql-result-counts
                       id="timeline-search-result-count"
-                      query="SELECT DISTINCT ?subject {} LIMIT 100"
+                      query="SELECT DISTINCT ?subject WHERE {}"
                       template="{{> template}}"
                     >
                       <template id="template">
