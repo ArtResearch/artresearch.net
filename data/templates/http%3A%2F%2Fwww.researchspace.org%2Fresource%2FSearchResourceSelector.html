@@ -39,6 +39,7 @@
           }
         }
         FILTER(EXISTS {
+          ?subject a ?__domain__.
           ?subject ?__relation__ $suggestion .
         })
       } ORDER BY DESC(?score)  LIMIT 10
