@@ -55,7 +55,6 @@
               default-query="
               SELECT DISTINCT ?subject  
               WHERE {
-                ?subject owl:sameAs ?wiki .
                 ?subject a <https://pharos.artresearch.net/resource/fc/institution>.        
               }LIMIT 100"
               query='
@@ -112,14 +111,7 @@
                             }'
                         number-of-displayed-rows="12"
                         query='
-                          SELECT DISTINCT ?subject ?institutionName ?placeLabel
-                           WHERE {
-                            ?subject owl:sameAs ?wiki .
-                            ?subject rdfs:label ?name.
-                            ?subject <https://pharos.artresearch.net/resource/fr/Institution_from_Place> ?place.
-                            ?place rdfs:label ?placeLabel.
-                            BIND(REPLACE(STR(?name),"@en","") AS ?institutionName).
-                           }LIMIT 100
+                          SELECT DISTINCT ?subject WHERE { ?subject a <https://pharos.artresearch.net/resource/fc/institution>. } LIMIT 100
                         '
                         tuple-template="{{>tupleTemplate}}"
                       >
@@ -131,9 +123,10 @@
                       <bs-tab-pane event-key="mapView">
                         <div class="mapContainer">
                           <semantic-map id="repository-map" query='SELECT ?subject ?label ?lat ?lng WHERE {
-                            ?subject <https://pharos.artresearch.net/resource/fr/Institution_has_Latitude> ?lat.
-                            ?subject <https://pharos.artresearch.net/resource/fr/Institution_has_Longitude> ?lng.
-                            ?subject rdfs:label ?label.
+                            ?og owl:sameAs ?subject.
+                            ?og <https://pharos.artresearch.net/resource/fr/Institution_has_Latitude> ?lat.
+                            ?og <https://pharos.artresearch.net/resource/fr/Institution_has_Longitude> ?lng.
+                            ?og rdfs:label ?label.
                           } LIMIT 1000'
                           tuple-template='<p></p><a style="text-decoration: none;"  href="https://artresearch.net/resource/?uri={{subject.value}}" target="_blank"><b style="color: #6b0000;">{{label.value}}</b><p></p><p></p></a><hr>'
                           >
