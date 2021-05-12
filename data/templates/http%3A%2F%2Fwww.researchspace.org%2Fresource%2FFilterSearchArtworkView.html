@@ -94,32 +94,7 @@ class="hiddenSearchbar"
     </bs-tab>
       <bs-tab event-key="3" title="Tabular">
         <div id="tableView">
-          <semantic-table
-            id="semantic-search-result-table"
-            query="SELECT DISTINCT ?subject ?creator ?date ?repository ?provider WHERE {
-              OPTIONAL{
-              ?subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?creator.
-              }
-              OPTIONAL{
-              ?subject <https://pharos.artresearch.net/resource/fr/Work_from_Date> ?date.
-              }
-              OPTIONAL{
-              ?subject <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution> ?repository.
-              }
-              OPTIONAL{
-              ?subject <https://pharos.artresearch.net/resource/fr/Work_has_provider_Institution> ?provider.
-              }
-            }LIMIT 100"
-            options='{"showFilter":true, "resultsPerPage":10}'
-            column-configuration='[
-            {"variableName": "subject", "displayName": "Title"},
-            {"variableName": "date", "displayName": "Date"},
-            {"variableName": "creator", "displayName": "Creator"},
-            {"variableName": "repository", "displayName": "Repository"},
-            {"variableName": "provider", "displayName": "Provider"}
-            ]'
-          >
-          </semantic-table>
+          [[> :SearchResultTableWork]]
       </div>
       </bs-tab>
       </bs-tabs>
