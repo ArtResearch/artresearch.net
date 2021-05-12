@@ -111,16 +111,16 @@
                     query="SELECT DISTINCT ?subject ?creator ?date ?repository ?provider WHERE {
                       # Artworks
                         OPTIONAL{
-                        ?subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?creator.
+                          ?subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?creator.
                         }
                         OPTIONAL{
-                        ?subject <https://pharos.artresearch.net/resource/fr/Work_from_Date> ?date.
+                          ?subject <https://pharos.artresearch.net/resource/fr/Work_from_Date> ?date.
                         }
                         OPTIONAL{
-                        ?subject <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution> ?repository.
+                          ?subject <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution> ?repository.
                         }
                         OPTIONAL{
-                        ?subject <https://pharos.artresearch.net/resource/fr/Work_has_provider_Institution> ?provider.
+                          ?subject <https://pharos.artresearch.net/resource/fr/Work_has_provider_Institution> ?provider.
                         }
                         ?subject a <https://pharos.artresearch.net/resource/fc/work>.
                         #TODO UNIONS for artists & photographers  ?
