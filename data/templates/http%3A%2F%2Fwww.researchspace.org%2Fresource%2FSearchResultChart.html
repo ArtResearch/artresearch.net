@@ -1,0 +1,31 @@
+<mp-component-toolbar>
+  <mp-component-toolbar-actions>
+    <semantic-chart-type-selector
+      id="search-result-chart-type-selector"
+      default="bar"
+      types='["line", "bar", "radar", "pie", "donut"]'
+      style="margin-right: 10px"
+    ></semantic-chart-type-selector>
+    <mp-component-toolbar-action-download></mp-component-toolbar-action-download>
+    <mp-component-toolbar-action-save
+      id="persit-component-action"
+      add-to-default-set="true"
+    ></mp-component-toolbar-action-save>
+  </mp-component-toolbar-actions>
+  <mp-component-toolbar-component>
+    <semantic-chart
+      id="search-result-chart"
+      query='
+        SELECT ?object (COUNT(DISTINCT ?subject) as ?count) WHERE {
+          OPTIONAL { ?subject ?__contextRelation__ ?object }
+          BIND(IF(BOUND(?object), ?object, "Unknown") as ?object)
+        } GROUP BY ?object ORDER BY DESC(?count)
+        '
+      sets='[{
+              "category": "object",
+              "value": "count"
+            }]'
+    >
+    </semantic-chart>
+  </mp-component-toolbar-component>
+</mp-component-toolbar>

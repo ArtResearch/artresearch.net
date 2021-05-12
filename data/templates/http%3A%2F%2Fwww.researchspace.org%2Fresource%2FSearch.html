@@ -35,7 +35,7 @@
             <semantic-search-result id="semantic-search-result">
               <mp-sparql-result-counts
                 id="semantic-search-result-count"
-                query="SELECT DISTINCT ?subject {}"
+                query="SELECT DISTINCT ?subject {?subjects owl:sameAs ?subject}"
                 template="{{> template}}"
               >
                 <template id="template">
@@ -67,74 +67,16 @@
               class="tabs-right"
             >
               <bs-tab event-key="1" title="Cards">
-             
-             <!-- //TODO check time -->
                 <semantic-search-result>
-                   <!-- Table of Cards -->
-                   <semantic-table
-                   id="grid-result"
-                   options='{
-                         "showFilter":false
-                       }'
-                   number-of-displayed-rows="10"
-                   query='
-                   SELECT DISTINCT ?subject (GROUP_CONCAT(STR(?subjects);SEPARATOR=" , ") AS ?originalSubject)
-                   WHERE {
-                             {  
-                               ?subjects owl:sameAs ?subject.
-                             } UNION {
-                               ?subject a <https://pharos.artresearch.net/resource/fc/subject>.
-                             } UNION {
-                               ?subject a <https://pharos.artresearch.net/resource/fc/photo>.
-                             } UNION {
-                              ?subject a <https://pharos.artresearch.net/resource/fc/material>.
-                             }
-                      }GROUP BY(?subject) LIMIT 100'
-                   tuple-template="{{>tupleTemplate}}"
-                 >
-                 
-                   <template id="tupleTemplate">
-                     <semantic-link iri="{{subject.value}}">
-                      <mp-draggable iri="{{subject.value}}">
-                        [[> rsp:artworkCardCombined]]
-                      </mp-draggable>
-                    </semantic-link>
-                   </template>
-                 </semantic-table>
-                </semantic-search-result>
+                  [[> rsp:SearchResultCardWork]]
+                  [[> rsp:SearchResultCardArtist]]
+               </semantic-search-result>
               </bs-tab>
               <bs-tab event-key="2" title="Tabular">
                 <div id="tableView">
                 <semantic-search-result>
-                  <semantic-table
-                    id="semantic-search-result-table"
-                    query="SELECT DISTINCT ?subject ?creator ?date ?repository ?provider WHERE {
-                      # Artworks
-                        OPTIONAL{
-                          ?subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?creator.
-                        }
-                        OPTIONAL{
-                          ?subject <https://pharos.artresearch.net/resource/fr/Work_from_Date> ?date.
-                        }
-                        OPTIONAL{
-                          ?subject <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution> ?repository.
-                        }
-                        OPTIONAL{
-                          ?subject <https://pharos.artresearch.net/resource/fr/Work_has_provider_Institution> ?provider.
-                        }
-                        ?subject a <https://pharos.artresearch.net/resource/fc/work>.
-                        #TODO UNIONS for artists & photographers  ?
-                    }LIMIT 100"
-                    options='{"showFilter":true, "resultsPerPage":10}'
-                    column-configuration='[
-                    {"variableName": "subject", "displayName": "Title"},
-                    {"variableName": "date", "displayName": "Date"},
-                    {"variableName": "creator", "displayName": "Creator"},
-                    {"variableName": "repository", "displayName": "Repository"},
-                    {"variableName": "provider", "displayName": "Provider"}
-                    ]'
-                  >
-                  </semantic-table>
+                  [[> rsp:SearchResultTableWork]]
+                  [[> rsp:SearchResultTablePhoto]]
                   <semantic-table
                   id="semantic-search-result-table"
                   query="SELECT DISTINCT ?subject ?creator ?date ?repository ?provider WHERE {
@@ -173,37 +115,7 @@
                   ranges='["http://www.researchspace.org/ontology/Concept", "http://www.researchspace.org/ontology/Place", "http://www.researchspace.org/ontology/Actor"]'
                 >
                   <semantic-search-result id="semantic-search-result-chart">
-                    <mp-component-toolbar>
-                      <mp-component-toolbar-actions>
-                        <semantic-chart-type-selector
-                          id="search-result-chart-type-selector"
-                          default="bar"
-                          types='["line", "bar", "radar", "pie", "donut"]'
-                          style="margin-right: 10px"
-                        ></semantic-chart-type-selector>
-                        <mp-component-toolbar-action-download></mp-component-toolbar-action-download>
-                        <mp-component-toolbar-action-save
-                          id="persit-component-action"
-                          add-to-default-set="true"
-                        ></mp-component-toolbar-action-save>
-                      </mp-component-toolbar-actions>
-                      <mp-component-toolbar-component>
-                        <semantic-chart
-                          id="search-result-chart"
-                          query='
-                                             SELECT ?object (COUNT(DISTINCT ?subject) as ?count) WHERE {
-                                               OPTIONAL { ?subject ?__contextRelation__ ?object }
-                                               BIND(IF(BOUND(?object), ?object, "Unknown") as ?object)
-                                             } GROUP BY ?object ORDER BY DESC(?count)
-                                             '
-                          sets='[{
-                                              "category": "object",
-                                              "value": "count"
-                                            }]'
-                        >
-                        </semantic-chart>
-                      </mp-component-toolbar-component>
-                    </mp-component-toolbar>
+                    [[> rsp:SearchResultChart]]
                   </semantic-search-result>
                 </semantic-search-result-context>
               </bs-tab>
@@ -239,52 +151,7 @@
                     ranges='["http://www.researchspace.org/ontology/Time"]'
                   >
                     <semantic-search-result>
-                      <mp-component-toolbar>
-                        <mp-component-toolbar-actions>
-                          <mp-component-toolbar-action-save
-                            id="persit-component-action"
-                            add-to-default-set="true"
-                          ></mp-component-toolbar-action-save>
-                        </mp-component-toolbar-actions>
-                        <mp-component-toolbar-component>
-                          <semantic-timeline
-                            id="search-result-timeline"
-                            query="PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
-                                 SELECT DISTINCT ?start ?end ?iri WHERE {
-                                    FILTER(?__contextRelationPattern__)
-                                    BIND(?__dateBeginValue__ AS ?start)
-                                    BIND(?__dateEndValue__ AS ?end)
-                                    BIND(?subject as ?iri) .
-                                 }
-                                 ORDER BY ?subject
-                                 LIMIT 100
-                                 "
-                            tuple-template="{{> timelineItem}}"
-                            tuple-template-height="50"
-                          >
-                            <template id="timelineItem">
-                              <mp-popover>
-                                <mp-popover-trigger
-                                  placement="top"
-                                  trigger='["hover"]'
-                                  root-close="false"
-                                >
-                                  <div data-flex-layout="column top-left">
-                                    <p>{{start.value}} - {{end.value}}</p>
-                                    <semantic-link
-                                      iri="{{iri.value}}"
-                                    ></semantic-link>
-                                  </div>
-                                </mp-popover-trigger>
-                                <mp-popover-content
-                                  >{{>
-                                  rsp:itemCardTemplate}}</mp-popover-content
-                                >
-                              </mp-popover>
-                            </template>
-                          </semantic-timeline>
-                        </mp-component-toolbar-component>
-                      </mp-component-toolbar>
+                      [[> rsp:SearchResultTimeline]]
                     </semantic-search-result>
                   </semantic-search-result-context>
                 </div>
