@@ -26,10 +26,9 @@
                                     FILTER(?photo = <{{subject.value}}>).
                                     BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/!200,200") AS ?smallerImgUrl).
                                   }
-                                  FILTER NOT EXISTS { 
-                                    ?fullsizeImgUrl crm:P2_has_type ?type.
-                                    ?type rdfs:label "verso"
-                                  }
+                                }
+                                OPTIONAL{
+                                  ?fullsizeImgUrl crm:P2_has_type <http://vocab.getty.edu/aat/300078817>
                                 }
                                 BIND(coalesce(?smallerImgUrl, ?default_imageUrl) as ?imgUrl)      
                               }LIMIT 1'

@@ -175,11 +175,7 @@
                           "showFilter":false
                         }' number-of-displayed-rows="10" query="
                       SELECT DISTINCT ?subject
-                       WHERE {
-                        {?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.   }
-                        UNION
-                        {?subject owl:sameAs ?another}
-                        }LIMIT 100
+                       WHERE {}LIMIT 100
                     " tuple-template="{{>tupleTemplate}}">
                           <template id="tupleTemplate"> [[> rsp:artworkCardCombined]] </template>
                         </semantic-table>
@@ -190,10 +186,7 @@
                         }' number-of-displayed-rows="10" query="
                       SELECT DISTINCT ?subject
                        WHERE {
-                        {?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.   }
-                        UNION
-                        {?subject owl:sameAs ?another}
-                        ?subject <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo.
+                         ?subject <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo.
                        }LIMIT 100
                     " tuple-template="{{>tupleTemplate}}">
                           <template id="tupleTemplate"> [[> rsp:artworkCardCombined]] </template>

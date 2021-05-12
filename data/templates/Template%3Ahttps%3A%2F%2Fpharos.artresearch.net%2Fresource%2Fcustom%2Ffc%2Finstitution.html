@@ -14,15 +14,18 @@
       <div>
         <bs-nav bs-style="tabs">
           <bs-nav-item event-key="summary">Summary</bs-nav-item>
+          <bs-nav-item event-key="artworks">Artworks</bs-nav-item>
         </bs-nav>
 
         <bs-tab-content unmount-on-exit=true>
           <bs-tab-pane event-key="summary">
             <!-- Loads all IIIF images as 500px thumbnails (clickable with mirador popup) -->
-             [[> rsp:PhotographerSummaryImages]]
-             [[> rsp:ArtistInfo]]
+             [[> rsp:InstitutionSummaryImages]]
+             [[> rsp:InstitutionInfo]]
           </bs-tab-pane>
-
+          <bs-tab-pane event-key="artworks">
+            [[> rsp:artworkfiltersearchinstitution]]
+          </bs-tab-pane>
         </bs-tab-content>
       </div>
     </bs-tab-container>

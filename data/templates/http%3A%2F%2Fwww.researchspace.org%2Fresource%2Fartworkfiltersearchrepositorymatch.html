@@ -1,0 +1,43 @@
+<div id="artwork-filter-search-inline">
+<semantic-search>
+  <div id="header-search" class="search-page">
+            <semantic-search-query-keyword
+              domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
+              placeholder="Search for any field, a title, repository or any other identifier"
+              escape-lucene-syntax="false"
+              default-query='
+              SELECT DISTINCT ?subject WHERE {
+                ?subject <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution> <[[repositoryIri]]>.
+              }LIMIT 100'
+              query='
+                  SELECT DISTINCT ?subject WHERE {
+                    ?subject <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution> <[[repositoryIri]]>.
+                  }'
+            ></semantic-search-query-keyword>
+  </div>
+      <semantic-search-result-holder>
+        <bs-tabs unmount-on-exit="true" id="search-results" animation="false">
+          <bs-tab event-key="2" title="Grid">
+            <semantic-search-result>
+                <semantic-table id="grid-result-2" options='{
+                  "showFilter":false
+                }' number-of-displayed-rows="4" query="
+              SELECT DISTINCT ?subject
+                WHERE {
+                  ?subject <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo.
+                }LIMIT 100
+            " tuple-template="{{>tupleTemplate}}">
+                  <template id="tupleTemplate"> [[> rsp:artworkCardCombined]] </template>
+                </semantic-table>
+            </semantic-search-result>
+      </semantic-search-result-holder>
+</semantic-search>
+</div>
+<style>
+  #header-search {
+    display: none !important;
+  }
+  .cardInfo {
+    top: unset !important;
+  }
+</style>

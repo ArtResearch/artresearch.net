@@ -4,18 +4,18 @@
     <bs-row class="style--main">
       <bs-col sm=8>
         [[#if (hasPermission "forms:ldp:*")]]
-        <rs-collapsible toggle-collapsible-template='
-              <div>
-                <i className="fa fa-pencil"></i>
-              <strong>
-                <a>Create new annotation...</a>
-              </strong>
-              </div>'
-                        class="create-new-annotation">
-          [[> rsp:FieldAnnotation create=true annotation=true]]
-        </rs-collapsible>
+          <rs-collapsible toggle-collapsible-template='
+                <div>
+                  <i className="fa fa-pencil"></i>
+                <strong>
+                  <a>Create new annotation...</a>
+                </strong>
+                </div>'
+                class="create-new-annotation">
+            [[> rsp:FieldAnnotation create=true annotation=true]]
+          </rs-collapsible>
         [[else]]
-        <p>No permission to create annotations. Please login.</p>
+          <p>No permission to create annotations. Please login.</p>
         [[/if]]
         <semantic-context repository='assets'>
           <semantic-table config='{

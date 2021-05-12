@@ -1,0 +1,136 @@
+<div id="start-page">
+  <!-- PHAROS SECTION -->
+  <div>
+    <div class="jumbotron">
+      <h1 style="margin-left: 13vw; display: flex" class="display-13">
+        <semantic-link iri="Default:testPartnerSelect">
+          <div class="btn btn-secondary">
+            <i class="fa fa-arrow-left"></i> Back
+          </div>
+        </semantic-link>
+        Select a matching or reconciliation category
+      </h1>
+    </div>
+
+    <div
+      title="Your selected provider"
+      style="
+        display: flex;
+        justify-content: center;
+        margin-top: 2vh;
+        margin-bottom: 2vh;
+      "
+    >
+      <img
+        style="height: 80px"
+        src='../../assets/images/logos/[[urlParam "partnerimage"]]'
+      />
+    </div>
+    <div style="margin-left: 13vw">
+      <h2 style="font-size: 22px">Create reconciliations</h2>
+      <hr />
+    </div>
+
+    <div class="card-list">
+      <semantic-link
+        urlqueryparam-partner='[[urlParam "partner"]]'
+        urlqueryparam-partnerimage='[[urlParam "partnerimage"]]'
+        iri="Default:testMatchingsArtist"
+      >
+        <div class="card" title="View artist matchings">
+          <img
+            class="matchingImage"
+            src="../../assets/images/media/artist_matchings.jpg"
+          />
+          <div class="title">Artist</div>
+        </div>
+      </semantic-link>
+
+      <semantic-link
+        urlqueryparam-partner='[[urlParam "partner"]]'
+        urlqueryparam-partnerimage='[[urlParam "partnerimage"]]'
+        iri="Default:testMatchingsPhotographer"
+      >
+        <div class="card" title="View photographer matchings">
+          <img
+            class="matchingImage"
+            src="../../assets/images/media/photographer_matchings.jpg"
+          />
+          <div class="title">Photographer</div>
+        </div>
+      </semantic-link>
+
+      <semantic-link
+        urlqueryparam-partner='[[urlParam "partner"]]'
+        urlqueryparam-partnerimage='[[urlParam "partnerimage"]]'
+        iri="Default:testMatchingsRepository"
+      >
+        <div class="card" title="View repository matchings">
+          <img
+            class="matchingImage"
+            src="../../assets/images/media/repository_matchings.jpg"
+          />
+          <div class="title">Repository</div>
+        </div>
+      </semantic-link>
+    </div>
+    <div style="margin-left: 13vw">
+      <h2 style="font-size: 22px">Confirm reconciliations</h2>
+      <hr />
+    </div>
+    <div class="card-list">
+      <semantic-link
+        urlqueryparam-partner='[[urlParam "partner"]]'
+        urlqueryparam-partnerimage='[[urlParam "partnerimage"]]'
+        iri="Default:testReconciliationView"
+      >
+        <div class="card" title="View artist reconciliations">
+          <img
+            class="matchingImage"
+            src="../../assets/images/media/artist_reconciliation.jpg"
+          />
+          <div class="title">Artist</div>
+        </div>
+      </semantic-link>
+
+      <semantic-link
+        urlqueryparam-partner='[[urlParam "partner"]]'
+        urlqueryparam-partnerimage='[[urlParam "partnerimage"]]'
+        iri="Default:testReconciliationView"
+      >
+        <div class="card" title="View photographer reconciliations">
+          <img
+            class="matchingImage"
+            src="../../assets/images/media/photographer_reconciliation.jpg"
+          />
+          <div class="title">Photographer</div>
+        </div>
+      </semantic-link>
+
+      <semantic-link
+        urlqueryparam-partner='[[urlParam "partner"]]'
+        urlqueryparam-partnerimage='[[urlParam "partnerimage"]]'
+        iri="Default:testReconciliationView"
+      >
+        <div class="card" title="View repository reconciliations">
+          <img
+            class="matchingImage"
+            src="../../assets/images/media/repository_reconciliation.jpg"
+          />
+          <div class="title">Repository</div>
+        </div>
+      </semantic-link>
+    </div>
+  </div>
+
+  <br />
+  <br />
+  <br />
+  <br />
+</div>
+<style>
+  .matchingImage {
+    height: 18vh !important;
+    margin: 0vw !important;
+  }
+</style>
