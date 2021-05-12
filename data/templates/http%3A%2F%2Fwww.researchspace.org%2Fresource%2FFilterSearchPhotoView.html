@@ -7,7 +7,7 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX bds: <http://www.bigdata.com/rdf/search#>
 PREFIX hint: <http://www.bigdata.com/queryHints#>
 SELECT ?subject ?keywords  WHERE {                
-?subject a <https://pharos.artresearch.net/resource/fc/photo>.
+?subject a <https://pharos.artresearch.net/resource/custom/fc/photo>.
 hint:Prior hint:runLast true .
 ?subject rdfs:label ?label .
 ?label bds:search "[[urlParam "keyword"]]" ;
@@ -94,33 +94,7 @@ class="hiddenSearchbar"
     </bs-tab>
       <bs-tab event-key="3" title="Tabular">
         <div id="tableView">
-          <semantic-table
-            id="semantic-search-result-table"
-            query="SELECT DISTINCT ?subject ?creator ?work ?repository ?provider WHERE {
-              OPTIONAL{
-                ?work    <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?subject.
-              }
-              OPTIONAL{
-                ?work    <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?subject.
-                ?work <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?creator.
-              }
-              OPTIONAL{
-                ?subject <https://pharos.artresearch.net/resource/fr/Photo_kept_by_Institution> ?repository.
-              }
-              OPTIONAL{
-                ?subject <https://pharos.artresearch.net/resource/fr/Photo_has_provider_Institution> ?provider.
-              }
-              }LIMIT 100"
-              options='{"showFilter":true, "resultsPerPage":10}'
-              column-configuration='[
-              {"variableName": "subject", "displayName": "Title"},
-              {"variableName": "work", "displayName": "Depicts"},
-              {"variableName": "creator", "displayName": "Creator"},
-              {"variableName": "repository", "displayName": "Repository"},
-              {"variableName": "provider", "displayName": "Provider"}
-              ]'
-            >
-          </semantic-table>
+          [[> :SearchResultTablePhoto]]
       </div>
       </bs-tab>
       </bs-tabs>
