@@ -1,0 +1,176 @@
+<div id="start-page">
+  <!-- PHAROS SECTION -->
+  <div>
+    <div class="jumbotron">
+      <h1 style="margin-left: 13vw; display: flex" class="display-13">
+        <semantic-link 
+        urlqueryparam-partner='[[urlParam "partner"]]'
+        urlqueryparam-partnerimage='[[urlParam "partnerimage"]]'
+        iri="Default:testPartnerCategorySelect">
+          <div class="btn btn-secondary">
+            <i class="fa fa-arrow-left"></i> Back
+          </div>
+        </semantic-link>
+        Repository matchings
+      </h1>
+    </div>
+
+    <div
+      title="Your selected provider"
+      style="
+        display: flex;
+        justify-content: center;
+        margin-top: 2vh;
+        margin-bottom: 2vh;
+      "
+    >
+      <img
+        style="height: 80px"
+        src='../../assets/images/logos/[[urlParam "partnerimage"]]'
+      />
+    </div>
+
+    <div class="matchingContainer" >
+      <div class="canditate">
+        <div style="display: flex;">
+          <img style="border-radius: 100%; object-fit: fill; height: 100px; width: 100px;"  src="../../assets/images/media/british_museum.jpg" />
+          <div style="display: flex; flex-direction: column; margin-left: 15px;">
+            <h1 style="font-size: 32px !important">  
+              <mp-label iri="https://www.wikidata.org/wiki/Q6373" ></mp-label>
+            </h1>
+            <a target="_recommendedPhotographer"  href="/resource/?uri=https://www.wikidata.org/wiki/Q6373">
+              <h2 class="recommendedText">
+              View recommended match
+              </h2>
+            </a>
+          </div>
+        </div>
+        <div>
+          [[> rsp:artworkfiltersearchrepositorymatch repositoryIri="https://pharos.artresearch.net/resource/itatti/actor/N00000355" ]]
+        </div>
+      </div>
+      <div class="separatingLine"></div>
+      <div class="canditate">
+        <h2 style="font-size: 22px; margin-bottom: 4vh;">Click on "Same" or "Not same" button to suggest a match</h2 style="font-size: 22px;">
+        <div class="matchingCard">
+          <div class="matchingCardHeader">
+            <div class="matchingCardHeaderInfo">
+              <h2  style="font-size: 24px; font-weight: bold;">
+                 <mp-label iri="https://www.wikidata.org/wiki/Q6373" ></mp-label>
+                </h2>
+                <h2>Source: WikiData</h2>
+            </div>
+            <div class="actions">
+              <button
+              name="submit"
+              class="btn btn-warning action reject"
+              title="The Photographer instance is not the same"
+            >
+              Not same
+            </button>
+
+                <button
+                  id="1234"
+                  name="submit"
+                  class="btn btn-default action approve"
+                  title="Click to identify two instances as the same"
+                >
+                  Same
+                </button>
+  
+       
+            </div>
+          </div>
+          <div class="matchingCardBody">
+            <mp-field-visualization
+            subject="https://www.wikidata.org/wiki/Q6373"
+            fields='[[ fieldDefinitionsFromQuery "SELECT ?field WHERE {  ?field <http://www.researchspace.org/resource/system/fields/category>  <http://www.researchspace.org/ontologies/platform/FieldCategories/person_info>. OPTIONAL {?field <http://www.researchspace.org/resource/system/fields/order> ?w. BIND(xsd:integer(?w) as ?orderNo)} } ORDER BY ASC(?orderNo)" ]]'
+            template='{{>workInfo}}'
+            >
+          <template id="workInfo">
+            <div class="workInfoContainer">
+              [[> rsp:ResourceFieldBasedVisualization subject="https://www.wikidata.org/wiki/Q6373" ]]
+            </div>
+          </template>
+          </mp-field-visualization>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+    
+   
+</div>
+<style>
+
+.separatingLine{
+  display: block;
+  border-left: 2px solid gainsboro;
+  height: 600px;
+}
+
+.matchingContainer{
+  display: flex;
+}
+.matchingContainer .canditate{
+  display: flex; 
+  flex-direction: column;
+  width: 45%;
+  margin-left: 5%;
+}
+
+  .matchingImage{
+    height: 18vh !important;
+    margin: 0vw !important;
+  }
+  .recommendedText{
+    color:darkblue !important;
+  }
+
+
+  .matchingCard{
+    width: 90%;
+    height: fit-content;
+    background: white;
+    border-radius: 4px;
+    padding: 2vh;
+    box-shadow: 1px 1px 8px 3px #ebebeb;
+  }
+  .matchingCard .matchingCardHeader{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  .matchingCard .matchingCardHeader .matchingCardHeaderInfo{
+    display: flex;
+    flex-direction: column;
+  }
+  .actions {
+    display: flex;
+    justify-content: center;
+    min-height: 65px;
+    height: fit-content;
+    align-items: center;
+  }
+
+  .actions .action {
+    color: white !important;
+    font-size: medium;
+    border: none !important;
+    min-height: 4vh;
+    width: 8vw;
+    margin-right: 2vw;
+    border-radius: 4px;
+    min-width: 80px;
+  }
+
+  .approve {
+    background-color: #007bff !important;
+  }
+  .reject {
+    background-color: #6c757d !important;
+    font-weight: normal !important;
+  }
+</style>

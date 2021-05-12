@@ -3,36 +3,14 @@
     <div class="panel-body">
       <bs-col class="thumbnailImageContainer" lg="4" md="12" xs="12">
         <!-- Thumbnail for Person (fetch from wikidata (good luck)) -->
-        <semantic-query
-          query=' PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-          SELECT DISTINCT ?artistName WHERE {
-                <{{subject.value}}> rdfs:label ?personName.
-              BIND(REPLACE(?personName,"@en","") AS ?artistName)
-          } LIMIT 1'
-          template="{{> imageThumbnail}}"
-        >
-          <template id="imageThumbnail">
             <semantic-query
               query='
-                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-                PREFIX wd: <http://www.wikidata.org/entity/>
-                PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-                PREFIX wdtn: <http://www.wikidata.org/prop/direct-normalized/>
                 SELECT DISTINCT ?imgUrl WHERE {
                   BIND("_" AS ?default_imageUrl)
-                  OPTIONAL {
-                    SERVICE <https://query.wikidata.org/sparql> {
-                      { 
-                        ?person wdt:P31 wd:Q5 . 
-                        ?person wdt:P106 wd:Q33231.
-                      }UNION{
-                        ?person wdt:P31 wd:Q672070 . 
-                      }UNION{
-                        ?person wdt:P31 wd:Q2085381 . 
-                      }
-                      ?person rdfs:label "{{bindings.0.artistName.value}}"@en .
-                      ?person wdt:P18 ?imgUrl
-                    }
+                  OPTIONAL{
+                    ?wikiPerson rdfs:label ?photographerName.
+                    ?wikiPerson <https://pharos.artresearch.net/resource/fr/Person_depicted_by> ?imgUrl.
+                    <{{subject.value}}> rdfs:label ?photographerName.
                   }
                   BIND(COALESCE(?imgUrl, ?default_imageUrl) AS ?imgUrl)
                 }
@@ -47,8 +25,6 @@
                 />
               </template>
             </semantic-query>
-          </template>
-        </semantic-query>
       </bs-col>
       <bs-col class="cardInfo" lg="12">
         <div data-flex-layout="row md-column center-stretch">
