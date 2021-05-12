@@ -1,28 +1,27 @@
 <semantic-table
 id="semantic-search-result-table"
-query="SELECT DISTINCT ?subject ?creator ?date ?repository ?provider WHERE {
-  # Artworks
-    OPTIONAL{
-      ?subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?creator.
-    }
-    OPTIONAL{
-      ?subject <https://pharos.artresearch.net/resource/fr/Work_from_Date> ?date.
-    }
-    OPTIONAL{
-      ?subject <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution> ?repository.
-    }
-    OPTIONAL{
-      ?subject <https://pharos.artresearch.net/resource/fr/Work_has_provider_Institution> ?provider.
-    }
-    ?subject a <https://pharos.artresearch.net/resource/fc/photo>.
-}LIMIT 100"
-options='{"showFilter":true, "resultsPerPage":10}'
-column-configuration='[
-{"variableName": "subject", "displayName": "Title"},
-{"variableName": "date", "displayName": "Date"},
-{"variableName": "creator", "displayName": "Creator"},
-{"variableName": "repository", "displayName": "Repository"},
-{"variableName": "provider", "displayName": "Provider"}
-]'
+query="SELECT DISTINCT ?subject ?work ?creator ?photographer ?repository ?provider WHERE {
+  OPTIONAL{
+    ?work <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?subject.
+  }
+  OPTIONAL{
+    ?work <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?subject.
+    ?work <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?creator.
+  }
+  OPTIONAL{
+    ?subject <https://pharos.artresearch.net/resource/fr/Photo_has_provider_Institution> ?provider.
+  }
+  OPTIONAL{
+    ?subject <https://pharos.artresearch.net/resource/fr/Photo_created_by_Photographer> ?photographer.
+  }
+  }LIMIT 100"
+  options='{"showFilter":true, "resultsPerPage":10}'
+  column-configuration='[
+  {"variableName": "subject", "displayName": "Title"},
+  {"variableName": "work", "displayName": "Depicts"},
+  {"variableName": "photographer", "displayName": "Photographer"},
+  {"variableName": "creator", "displayName": "Artist"},
+  {"variableName": "provider", "displayName": "Provider"}
+  ]'
 >
 </semantic-table>
