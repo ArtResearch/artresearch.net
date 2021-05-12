@@ -1,0 +1,46 @@
+<mp-component-toolbar>
+  <mp-component-toolbar-actions>
+    <mp-component-toolbar-action-save
+      id="persit-component-action"
+      add-to-default-set="true"
+    ></mp-component-toolbar-action-save>
+  </mp-component-toolbar-actions>
+  <mp-component-toolbar-component>
+    <semantic-timeline
+      id="search-result-timeline"
+      query="PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+           SELECT DISTINCT ?start ?end ?iri WHERE {
+              FILTER(?__contextRelationPattern__)
+              BIND(?__dateBeginValue__ AS ?start)
+              BIND(?__dateEndValue__ AS ?end)
+              BIND(?subject as ?iri) .
+           }
+           ORDER BY ?subject
+           LIMIT 100
+           "
+      tuple-template="{{> timelineItem}}"
+      tuple-template-height="50"
+    >
+      <template id="timelineItem">
+        <mp-popover>
+          <mp-popover-trigger
+            placement="top"
+            trigger='["hover"]'
+            root-close="false"
+          >
+            <div data-flex-layout="column top-left">
+              <p>{{start.value}} - {{end.value}}</p>
+              <semantic-link
+                iri="{{iri.value}}"
+              ></semantic-link>
+            </div>
+          </mp-popover-trigger>
+          <mp-popover-content
+            >{{>
+            rsp:itemCardTemplate}}</mp-popover-content
+          >
+        </mp-popover>
+      </template>
+    </semantic-timeline>
+  </mp-component-toolbar-component>
+</mp-component-toolbar>
