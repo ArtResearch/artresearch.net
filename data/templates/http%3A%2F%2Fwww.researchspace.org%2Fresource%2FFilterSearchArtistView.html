@@ -4,15 +4,15 @@ domain="<http://www.cidoc-crm.org/cidoc-crm/E21_Person>"
 default-query='
 PREFIX fts: <http://www.bigdata.com/rdf/fts#>
   SELECT ?subject ?keywords WHERE {
-    ?subject fts:search "[[urlParam "keyword"]]".
+    ?subject fts:search "label_t=[[urlParam "keyword"]]".
     ?subject fts:endpoint "http://213.171.209.34:8983/solr/artists/select".
     ?subject fts:endpointType "SOLR" .
-    ?subject fts:params "rows=10000&sort=field_score desc" .
+    ?subject fts:params "rows=10000" .
     ?subject fts:searchField "uri" .
     ?subject fts:fieldToSearch "label_t" .
     ?subject fts:snippetField "label_t" .
     ?subject fts:searchResultType "URI" .
-    BIND(str("[[urlParam "keyword"]]") as ?keywords)
+    BIND(REPLACE(str("[[urlParam "keyword"]]"),"&&"," ") as ?keywords)
   }
 '
 query='
