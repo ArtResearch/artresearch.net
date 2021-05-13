@@ -108,7 +108,10 @@
 "<https://pharos.artresearch.net/fieldDefinition/93>": [
 {
   "kind": "resource",
-  "queryPattern": "$subject <https://pharos.artresearch.net/resource/fr/Work_from_Place> ?__value__."
+  "queryPattern": "
+    ?original_subject owl:sameAs ?subject;
+      <https://pharos.artresearch.net/resource/fr/Work_from_Place> ?__value__.
+  "
 }],
 "<https://pharos.artresearch.net/resource/fr/Person_has_Gender>":[
 {
