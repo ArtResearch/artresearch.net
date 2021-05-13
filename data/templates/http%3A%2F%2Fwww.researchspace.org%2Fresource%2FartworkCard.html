@@ -48,6 +48,111 @@
         <div data-flex-layout="row md-column center-stretch">
           <bs-row class="cardInfoFields">
       <!-- Show information on subject & owl:sameAs     //TODO change to query-->
+      <div>
+        <div id="rsbv" class="table-responsive rs-table">
+            <table class="table table-hover">
+              <tbody>
+                <tr  class="rs-page-resource__field">
+                  <td class="rs-page-resource__field-label-holder headLine">
+                    <span class="rs-page-resource__field-label">
+                      Title
+                    </span>
+                  </td>
+                    <table class="table table-hover">
+                      <tbody>
+                        <tr>
+                          <td>
+                              <span class="rs-page-resource__field-value"
+                                >
+                                <semantic-link iri="{{subject.value}}">
+
+                                </semantic-link>
+                      
+                              </span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </tr>
+                <tr  class="rs-page-resource__field">
+                  <td class="rs-page-resource__field-label-holder headLine">
+                    <span class="rs-page-resource__field-label">
+                      Creator
+                    </span>
+                  </td>
+                    <table class="table table-hover">
+                      <tbody>
+                        <tr>
+                          <td>
+                              <span class="rs-page-resource__field-value"
+                                >
+                                <semantic-query 
+                                query='SELECT ?artist WHERE { 
+                                  {
+                                  <{{subject.value}}> <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?artist
+                                  }union{
+                                   ?original owl:sameAs <{{subject.value}}>.
+                                   ?original <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?artist 
+                                  }
+                                }LIMIT 1'
+                                >
+                                
+                                </semantic-query>
+                              </span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </tr>
+                <semantic-query 
+                query='SELECT ?institution WHERE { 
+                  {
+                  <{{subject.value}}> <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution> ?institution
+                  }union{
+                   ?original owl:sameAs <{{subject.value}}>.
+                   ?original <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution> ?institution 
+                  }
+                }LIMIT 1'
+                template="{{>repoTemplate}}"
+                >
+                <template id="repoTemplate">
+
+                <tr class="rs-page-resource__field">
+                  <td class="rs-page-resource__field-label-holder headLine">
+                    <span class="rs-page-resource__field-label">
+                      Repository
+                    </span>
+                  </td>
+                    <table class="table table-hover">
+                      <tbody>
+                        <tr>
+                          <td>
+                              <span class="rs-page-resource__field-value"
+                                >
+                                <semantic-query 
+                                query='SELECT ?institution WHERE { 
+                                  {
+                                  <{{subject.value}}> <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution> ?institution
+                                  }union{
+                                   ?original owl:sameAs <{{subject.value}}>.
+                                   ?original <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution> ?institution 
+                                  }
+                                }LIMIT 1'
+                                >
+                                
+                                </semantic-query>
+                                
+                              </span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </tr>
+              </template>
+
+              </tbody>
+            </table>
+        </div>
             <semantic-query
             query='
             SELECT (GROUP_CONCAT(STR(?originalSubject);SEPARATOR=" , ") AS ?additionalSubjects) WHERE{
@@ -57,24 +162,6 @@
               '
             template="{{> combinedFields}}">
               <template id="combinedFields">
-                <mp-field-visualization
-                additional-subjects='[
-                {{bindings.0.additionalSubjects.value}}
-                ]'
-                subject='{{subject.value}}'
-             
-                  fields='[[fieldDefinitions  
-                Title="https://pharos.artresearch.net/fieldDefinition/2"
-                Creator="https://pharos.artresearch.net/fieldDefinition/1"  
-                ProductionDate="https://pharos.artresearch.net/fieldDefinition/8"
-              ]]'
-                template="{{>generalInfo}}"
-              >
-                <template id="generalInfo">
-                  [[> rsp:ResourceFieldBasedVisualization
-                  subject=[[this]] ]]
-                </template>
-              </mp-field-visualization>
               <div>
                 <mp-field-visualization
                 additional-subjects='[
@@ -101,6 +188,7 @@
               </div>
               </template>
             </semantic-query>
+
           </bs-row>
         </div>
       </bs-col>
