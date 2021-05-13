@@ -1,19 +1,4 @@
 {
-  "<https://pharos.artresearch.net/resource/fr/Person_has_Gender>":[
-  {
-    "kind": "resource",
-    "queryPattern": "
-      $subject <https://pharos.artresearch.net/resource/fr/Person_has_Gender> ?__value__.
-      "
-  }
-],
-  "<https://pharos.artresearch.net/resource/fr/Person_has_Nationality>":[
-  {
-    "kind": "resource",
-    "queryPattern": "
-      $subject <https://pharos.artresearch.net/resource/fr/Person_has_Nationality> ?__value__."
-  }
-],
   "<https://pharos.artresearch.net/resource/fr/Person_has_Date_of_Birth>":[
   {
     "kind": "numeric-range",
@@ -32,18 +17,6 @@
         FILTER(?literal <= ?__numericRangeEndValue__) .
         BIND(xsd:integer(str(?gYear)) as ?literal)."
   }],
-  "<https://pharos.artresearch.net/resource/fr/Person_has_Place_of_Birth>": [
-  {
-    "kind": "resource",
-    "queryPattern": "
-      $subject <https://pharos.artresearch.net/resource/fr/Person_has_Place_of_Birth> ?__value__ ."
-  }],
-  "<https://pharos.artresearch.net/resource/fr/Person_has_Place_of_Death>": [
-  {
-    "kind": "resource",
-    "queryPattern": "
-      $subject <https://pharos.artresearch.net/resource/fr/Person_has_Place_of_Death> ?__value__ ."
-  }],
   "<https://pharos.artresearch.net/resource/fr/Event_has_Type>": [
   {
     "kind": "resource",
@@ -58,11 +31,6 @@
       $subject <https://pharos.artresearch.net/resource/fr/Person_has_Event> ?event.
         ?event <https://pharos.artresearch.net/resource/fr/Event_at_Place> ?__value__ ."
   }],
-"<https://pharos.artresearch.net/resource/field/Artist_Attribution>":[
-{
-  "kind": "resource",
-  "queryPattern": "$subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?__value__."
-}],
 "<https://pharos.artresearch.net/fieldDefinition/Repository>":[
 {
   "kind": "resource",
@@ -75,58 +43,14 @@
     }
   "
 }],
-"<https://pharos.artresearch.net/fieldDefinition/46>": [
-{
-  "kind": "resource",
-  "queryPattern": "$subject <https://pharos.artresearch.net/resource/fr/Work_shows_Subject>  ?__value__."
-}],
-"<https://pharos.artresearch.net/fieldDefinition/44>": [
-{
-  "kind": "resource",
-  "queryPattern": "$subject <https://pharos.artresearch.net/resource/fr/Work_consists_of_Material> ?__value__."
-}],
-"<https://pharos.artresearch.net/fieldDefinition/550>": [
-{
-  "kind": "resource",
-  "queryPattern": "$subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ?__value__ ."
-}],
-"<https://pharos.artresearch.net/fieldDefinition/42>": [
-{
-  "kind": "resource",
-  "queryPattern": "$subject <https://pharos.artresearch.net/resource/fr/Work_produced_using_technique_Technique> ?__value__."
-}],
-"<https://pharos.artresearch.net/resource/fr/Work_has_provider_Institution>": [
-{
-  "kind": "resource",
-  "queryPattern": "$subject <https://pharos.artresearch.net/resource/fr/Work_has_provider_Institution> ?__value__."
-}],
-"<https://pharos.artresearch.net/resource/fr/Photo_has_provider_Institution>": [
-{
-  "kind": "resource",
-  "queryPattern": "$subject <https://pharos.artresearch.net/resource/fr/Photo_has_provider_Institution> ?__value__."
-}],
 "<https://pharos.artresearch.net/fieldDefinition/93>": [
 {
   "kind": "resource",
   "queryPattern": "
     ?original_subject owl:sameAs ?subject;
-      <https://pharos.artresearch.net/resource/fr/Work_from_Place> ?__value__.
+    <https://pharos.artresearch.net/resource/fr/Work_from_Place> ?__value__.
   "
 }],
-"<https://pharos.artresearch.net/resource/fr/Person_has_Gender>":[
-{
-  "kind": "resource",
-  "queryPattern": "
-      $subject <https://pharos.artresearch.net/resource/fr/Person_has_Gender> ?__value__."
-}
-],
-"<https://pharos.artresearch.net/resource/fr/Person_has_Nationality>":[
-{
-  "kind": "resource",
-  "queryPattern": "
-      $subject <https://pharos.artresearch.net/resource/fr/Person_has_Nationality> ?__value__."
-}
-],
 "<https://pharos.artresearch.net/resource/fr/Person_has_Date_of_Birth>":[
 {
   "kind": "numeric-range",
@@ -144,18 +68,6 @@
       FILTER(?literal >= ?__numericRangeBeginValue__) .
       FILTER(?literal <= ?__numericRangeEndValue__) .
       BIND(xsd:integer(str(?gYear)) as ?literal)."
-}],
-"<https://pharos.artresearch.net/resource/fr/Person_has_Place_of_Birth>": [
-{
-  "kind": "resource",
-  "queryPattern": "
-      $subject <https://pharos.artresearch.net/resource/fr/Person_has_Place_of_Birth> ?__value__ ."
-}],
-"<https://pharos.artresearch.net/resource/fr/Person_has_Place_of_Death>": [
-{
-  "kind": "resource",
-  "queryPattern": "
-      $subject <https://pharos.artresearch.net/resource/fr/Person_has_Place_of_Death> ?__value__ ."
 }],
 "<https://pharos.artresearch.net/resource/fr/Event_has_Type>": [
 {
