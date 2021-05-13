@@ -1,35 +1,44 @@
-[[> rsp:Breadcrumb ]]
+[[> rsp:Breadcrumb]]
+
 <div class="page rs-page">
   [[#> rsp:ClipboardSidebar]]
   <div class="page__header-navtabs">
     [[> rsp:Header ]]
   </div>
+
+  [[#if (urlParam "tab")]]
+  <bs-tab-container id="tab-container" class="page__body-navtabs--borderless" default-active-key="[[urlParam 'tab']]">
+    [[else]]
     <bs-tab-container id="tab-container" class="page__body-navtabs--borderless" default-active-key="summary">
+      [[/if]]
       <div>
         <bs-nav bs-style="tabs">
           <bs-nav-item event-key="summary">Summary</bs-nav-item>
-          [[#if (ask "ASK { {?? <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo}}") ]] 
-          <bs-nav-item event-key="PhotographLightbox">Photograph Lightbox</bs-nav-item>
-          [[/if]]
-           <bs-nav-item event-key="similar">Similar artworks</bs-nav-item>
+          <bs-nav-item event-key="artworks">Artworks</bs-nav-item>
         </bs-nav>
 
         <bs-tab-content unmount-on-exit=true>
           <bs-tab-pane event-key="summary">
             <!-- Loads all IIIF images as 500px thumbnails (clickable with mirador popup) -->
-              [[> rsp:WorkSummaryImages]]
-            <!-- Loads two tables with information regarding work & production -->
-            <!-- Loads photographs with info (id, photographer, keeper) -->
-              [[> rsp:WorkAndProductionInfo]]
+             [[> rsp:PlaceSummaryImages]]
+             <div class="row-center">
+             <h1>Number of artworks related to this place:</h1>
+             <h1 style="margin-left:10px"><semantic-query query='
+             SELECT (COUNT(DISTINCT ?artwork) AS ?count) WHERE{
+               ?? <https://pharos.artresearch.net/resource/fr/Place_of_Work> ?artwork
+             }
+           '></semantic-query></h1>
+            </div>
+            <div class="row-center">
+            <small>
+              Click on the "Artworks" tab to view all artworks
+            </small>
+             </div>
+             [[> rsp:PlaceMap]]
           </bs-tab-pane>
-          <bs-tab-pane event-key="PhotographLightbox">
-            [[> PhotographLightbox record=(this)]]
+          <bs-tab-pane event-key="artworks">
+            [[> rsp:artworkfiltersearchplace type="https://pharos.artresearch.net/resource/type/pharos"]]
           </bs-tab-pane>
-          <bs-tab-pane event-key="similar">
-            <!-- Show similar artworks -->
-              [[> rsp:WorkSummaryImages]]
-              [[> rsp:SimilarArtworks]]
-          </bs-tab-pane>  
         </bs-tab-content>
       </div>
     </bs-tab-container>
@@ -37,7 +46,8 @@
 </div>
 
 <style>
-  button.close {
+
+button.close {
   opacity: 1;
   font-size: 55px !important;
 }
@@ -51,6 +61,9 @@
 
 
 .component-page-toolbar {
+    display: none !important;
+  }
+.system-spinner{
     display: none !important;
   }
   
@@ -73,5 +86,7 @@
     .mirador-osd-annotation-controls{
         display: none !important;
     }
+
+    
 
 </style>
