@@ -1,19 +1,22 @@
 <div id="artwork-filter-search-inline">
   <semantic-search
     relations='{
-    "<https://pharos.artresearch.net/fieldDefinition/Repository>":[
+    "<https://pharos.artresearch.net/resource/field/Artist_Attribution>":[
     {
       "kind": "resource",
       "queryPattern": "
-        
           $subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?__value__."
     }],
-    "<https://pharos.artresearch.net/fieldDefinition/46>": [
+    "<https://pharos.artresearch.net/fieldDefinition/Repository>":[
+      {
+        "kind": "resource",
+        "queryPattern": "
+            $subject <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution>?__value__."
+      }],
+    "<https://pharos.artresearch.net/resource/fr/Work_has_provider_Institution>": [
     {
-      "kind": "resource",
-      "queryPattern": "
-        
-          $subject <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution> ?__value__."
+    "kind": "resource",
+    "queryPattern": "$subject <https://pharos.artresearch.net/resource/fr/Work_has_provider_Institution> ?__value__."
     }],
     "<https://pharos.artresearch.net/fieldDefinition/44>": [
     {
@@ -45,8 +48,12 @@
             "label":"Painter"
           },
           {
+            "iri":"<https://pharos.artresearch.net/resource/fc/institution>",
+            "label":"Institution"
+          },
+          {
             "iri":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
-            "label":"Creator/Institution"
+            "label":"Repository"
           },
           {
             "iri":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
@@ -78,22 +85,16 @@
             "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E21_Person>"
           },
           {
-            "iri": "<https://pharos.artresearch.net/field/fcrs_Institution>",
+            "iri":"<https://pharos.artresearch.net/resource/fr/Work_has_provider_Institution>",
             "label":"Institution",
             "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
-            "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>"
+            "hasRange":"<https://pharos.artresearch.net/resource/fc/institution>"
           },
           {
             "iri": "<https://pharos.artresearch.net/fieldDefinition/Repository>",
             "label":"Repository",
             "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
             "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>"
-          },
-          {
-            "iri":"<https://pharos.artresearch.net/fieldDefinition/46>",
-            "label":"Subject",
-            "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
-            "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E55_Type>"
           },
           {
             "iri":"<https://pharos.artresearch.net/fieldDefinition/44>",
@@ -123,15 +124,15 @@
       }'
   >
     <div id="header-search" class="search-page">
-              <semantic-search-query-keyword
-                domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
-                placeholder="Search for any field, a title, repository or any other identifier.."
-                escape-lucene-syntax="false"
-                default-query="
+      <semantic-search-query-keyword
+        domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
+        placeholder="Search for any field, a title, repository or any other identifier.."
+        escape-lucene-syntax="false"
+        default-query="
               SELECT DISTINCT ?subject WHERE {
                 ?subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ??.
               }LIMIT 100"
-                query='
+        query='
                       SELECT DISTINCT ?subject WHERE {          
                         ?subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ??.
                         ?subject ?p ?o.
@@ -141,7 +142,7 @@
                         bds:matchAllTerms "true"  .
                       } 
                     '
-              ></semantic-search-query-keyword>
+      ></semantic-search-query-keyword>
     </div>
     <div class="row">
       <bs-col
