@@ -27,7 +27,6 @@
                   FILTER(?photo = <{{subject.value}}>).
                   BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/!200,200") AS ?smallerImgUrl).
                 }
-
               }
               OPTIONAL{
                 ?fullsizeImgUrl crm:P2_has_type <http://vocab.getty.edu/aat/300078817>
