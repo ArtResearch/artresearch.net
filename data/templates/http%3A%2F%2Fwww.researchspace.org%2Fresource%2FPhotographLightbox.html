@@ -87,7 +87,16 @@ SELECT distinct ?photo (GROUP_CONCAT(STR(?label);SEPARATOR=" , ") AS ?allLabels)
           >
             <template id="productionInfo">
               {{#if noData}}
-              <div></div>
+              <div id="rsbv" class="table-responsive rs-table">
+                <table class="table table-hover">
+                  <tbody>
+                    <tr>
+                      <td>No quick preview available. Click on the photo to view details.</td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
               {{else}} [[> rsp:ResourceFieldBasedVisualization subject=[[this]]
               ]] {{/if}}
             </template>
