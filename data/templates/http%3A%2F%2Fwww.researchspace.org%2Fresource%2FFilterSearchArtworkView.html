@@ -2,20 +2,18 @@
 placeholder='You searched for [[urlParam "keyword"]], but you can search for anything!'
 domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
 default-query='
-  PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-  PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-  PREFIX bds: <http://www.bigdata.com/rdf/search#>
-  PREFIX hint: <http://www.bigdata.com/queryHints#>
-  SELECT ?subject ?keywords  WHERE {                
-    ?subject a <https://pharos.artresearch.net/resource/fc/work>.
-    hint:Prior hint:runLast true .
-    ?subject rdfs:label ?label .
-    ?label bds:search "[[urlParam "keyword"]]" ;
-    bds:minRelevance "0.3" ;
-    bds:relevance ?score ;
-    bds:matchAllTerms "true" .
+PREFIX fts: <http://www.bigdata.com/rdf/fts#>
+  SELECT ?subject ?keywords WHERE {
+    ?subject fts:search "[[urlParam "keyword"]]".
+    ?subject fts:endpoint "http://213.171.209.34:8983/solr/artworks/select"  .
+    ?subject fts:endpointType "SOLR" .
+    ?subject fts:params "rows=10000&sort=field_score desc".
+    ?subject fts:searchField "uri" .
+    ?subject fts:fieldToSearch "label_t" .
+    ?subject fts:snippetField "label_t" .
+    ?subject fts:searchResultType "URI" .
     BIND(str("[[urlParam "keyword"]]") as ?keywords)
-  }ORDER BY DESC(?score) 
+  }
 '
 query='
 SELECT ?nothing WHERE{

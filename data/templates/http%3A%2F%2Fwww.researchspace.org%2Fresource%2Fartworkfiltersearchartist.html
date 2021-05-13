@@ -1,51 +1,11 @@
 <div id="artwork-filter-search-inline">
   <semantic-search
-    relations='{
-    "<https://pharos.artresearch.net/resource/field/Artist_Attribution>":[
-    {
-      "kind": "resource",
-      "queryPattern": "
-          $subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?__value__."
-    }],
-    "<https://pharos.artresearch.net/fieldDefinition/Repository>":[
-      {
-        "kind": "resource",
-        "queryPattern": "
-            $subject <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution>?__value__."
-      }],
-    "<https://pharos.artresearch.net/resource/fr/Work_has_provider_Institution>": [
-    {
-    "kind": "resource",
-    "queryPattern": "$subject <https://pharos.artresearch.net/resource/fr/Work_has_provider_Institution> ?__value__."
-    }],
-    "<https://pharos.artresearch.net/fieldDefinition/44>": [
-    {
-      "kind": "resource",
-      "queryPattern": "
-        
-          $subject <https://pharos.artresearch.net/resource/fr/Work_consists_of_Material> ?__value__."
-    }],
-    "<https://pharos.artresearch.net/fieldDefinition/42>": [
-    {
-      "kind": "resource",
-      "queryPattern": "
-        
-          $subject <https://pharos.artresearch.net/resource/fr/Work_produced_using_technique_Technique> ?__value__."
-    }],
-    "<https://pharos.artresearch.net/resource/fr/Work_from_Place>": [
-    {
-      "kind": "resource",
-      "queryPattern": "
-        
-          $subject <https://pharos.artresearch.net/resource/fr/Work_from_Place> ?__value__."
-    }]
-      }'
     search-profile='{
         "categories":  
         [
           {
             "iri":"<http://www.cidoc-crm.org/cidoc-crm/E21_Person>",
-            "label":"Painter"
+            "label":"Person"
           },
           {
             "iri":"<https://pharos.artresearch.net/resource/fc/institution>",
@@ -79,7 +39,7 @@
         "relations":
         [
           {
-            "iri": "<https://pharos.artresearch.net/resource/field/Artist_Attribution>",
+            "iri": "<https://pharos.artresearch.net/resource/fr/Work_created_from_Artist>",
             "label":"Creator",
             "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
             "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E21_Person>"
@@ -91,25 +51,25 @@
             "hasRange":"<https://pharos.artresearch.net/resource/fc/institution>"
           },
           {
-            "iri": "<https://pharos.artresearch.net/fieldDefinition/Repository>",
+            "iri": "<https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution>",
             "label":"Repository",
             "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
             "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>"
           },
           {
-            "iri":"<https://pharos.artresearch.net/fieldDefinition/44>",
+            "iri":"<https://pharos.artresearch.net/resource/fr/Work_consists_of_Material>",
             "label":"Material",
             "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
             "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E57_Material>"
           },
           {
-            "iri":"<https://pharos.artresearch.net/fieldDefinition/550>",
+            "iri":"<http://www.cidoc-crm.org/cidoc-crm/P2_has_type>",
             "label":"Concept",
             "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
             "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E55_Type>"
           },
           {
-            "iri":"<https://pharos.artresearch.net/fieldDefinition/42>",
+            "iri":"<https://pharos.artresearch.net/resource/fr/Work_produced_using_technique_Technique>",
             "label":"Technique",
             "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
             "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E29_Design_or_Procedure>"
