@@ -20,29 +20,28 @@
 }
 
 .artwork-card-big .thumbnailImage {
- height: 250px !important;
- width: 100%;
- border-top: 0px !important;
- border-top-right-radius: 0px !important;
- min-height: 23vh;
- max-height: unset;
- min-width: unset;
- object-fit: contain;
- background: whitesmoke;
+  height: 250px !important;
+  width: 100%;
+  border-top: 0px !important;
+  border-top-right-radius: 0px !important;
+  min-height: 23vh;
+  max-height: unset;
+  min-width: unset;
+  object-fit: contain;
+  background: whitesmoke;
 }
 
 .artwork-card-big .typeInfoValues {
   top: 0 !important;
 }
 
-.artwork-card-big  .cardInfoFields {
-  padding: 1vh;   
+.artwork-card-big .cardInfoFields {
+  padding: 1vh;
 }
 
-.artwork-card-big #rsbv .rs-page-resource__field-label{
+.artwork-card-big #rsbv .rs-page-resource__field-label {
   font-size: 14px !important;
 }
-
 
 .typeInfoValues {
   position: absolute;
@@ -75,37 +74,53 @@
   color: var(--color-icon-primary) !important;
 }
 
-
 .filter-artwork-card table td {
   padding: 1px 8px 1px 8px !important;
 }
 
 .filter-artwork-card #rsbv .rs-page-resource__field-label {
-  font-size: 14px !important
+  font-size: 14px !important;
 }
 
-.personCard{
-    width: 10vw !important;
-    border-radius: 100% !important;
-    height: 10vw !important;
-    min-width: 200px;
-    min-height: 200px;
-    max-width: 280px;
-    max-height: 280px;
+.personCard {
+  width: 10vw !important;
+  border-radius: 100% !important;
+  height: 10vw !important;
+  min-width: 200px;
+  min-height: 200px;
+  max-width: 280px;
+  max-height: 280px;
 }
-.personCard .thumbnailImageContainer{
+
+.personCard .thumbnailImage[alt]:after {
+  background-image: url("/assets/images/media/image_placeholder_person.jpg") !important;
+}
+
+.personCard .thumbnailImageContainer {
+  display: flex;
+  overflow: hidden;
+  height: 100%;
+  align-items: center;
+  padding: 0;
+  height: -moz-available;
+  height: -webkit-fill-available;
+  height: fill-available;
+  left: 0;
+  top: 0;
+  width: 100%;
+  position: absolute;
   border-radius: 100% !important;
   width: 100% !important;
-} 
-.personCard .thumbnailImage{
-  width: 100%;
-    min-height: 23vh;
-    height: unset;
-    max-height: unset;
-    min-width: unset;
-    object-fit: cover;
 }
-.personCard .cardInfo{
+.personCard .thumbnailImage {
+  width: 100%;
+  min-height: 23vh;
+  height: unset;
+  max-height: unset;
+  min-width: unset;
+  object-fit: cover;
+}
+.personCard .cardInfo {
   position: absolute;
   width: 100%;
   left: 0;
@@ -117,10 +132,9 @@
   justify-content: center;
   align-items: center;
   bottom: 25% !important;
-} 
+}
 
-
-.repositoryCard{
+.repositoryCard {
   width: 10vw !important;
   border-radius: 15px !important;
   height: 10vw !important;
@@ -128,4 +142,110 @@
   min-height: 200px;
   max-width: 280px;
   max-height: 280px;
+  overflow: hidden;
+
+}
+
+.repositoryCard .thumbnailImageContainer {
+  display: flex;
+  overflow: hidden;
+  height: 100%;
+  align-items: center;
+  border-radius: 5px 0px 0px 5px;
+  padding: 0;
+  height: -moz-available;
+  height: -webkit-fill-available;
+  height: fill-available;
+  left: 0;
+  top: 0;
+  min-height: 23vh;
+  width: 100%;
+  position: absolute;
+}
+
+.repositoryCard .thumbnailImage {
+  width: 100%;
+  min-height: 23vh;
+  height: unset;
+  max-height: unset;
+  min-width: unset;
+  object-fit: cover;
+}
+
+.repositoryCard .thumbnailImage[alt]:after {
+  background-image: url("/assets/images/media/image_placeholder_repo.jpg") !important;
+}
+
+.repositoryCard .cardInfo {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  text-align: center !important;
+  bottom: 0;
+  background: #ffffffe8;
+  border-radius: 0px 0px 4px 4px;
+}
+
+.repositoryCard .cardInfoFields {
+  padding: 1vh;
+}
+
+
+
+
+
+.placeCard {
+  width: 10vw !important;
+  border-radius: 15px !important;
+  height: 10vw !important;
+  min-width: 200px;
+  min-height: 200px;
+  max-width: 280px;
+  max-height: 280px;
+  overflow: hidden;
+
+}
+
+.placeCard .thumbnailImageContainer {
+  display: flex;
+  overflow: hidden;
+  height: 100%;
+  align-items: center;
+  border-radius: 5px 0px 0px 5px;
+  padding: 0;
+  height: -moz-available;
+  height: -webkit-fill-available;
+  height: fill-available;
+  left: 0;
+  top: 0;
+  min-height: 23vh;
+  width: 100%;
+  position: absolute;
+}
+
+.placeCard .thumbnailImage {
+  width: 100%;
+  min-height: 23vh;
+  height: unset;
+  max-height: unset;
+  min-width: unset;
+  object-fit: cover;
+}
+
+.placeCard .thumbnailImage[alt]:after {
+  background-image: url("/assets/images/media/image_placeholder_place.jpg") !important;
+}
+
+.placeCard .cardInfo {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  text-align: center !important;
+  bottom: 0;
+  background: #ffffffe8;
+  border-radius: 0px 0px 4px 4px;
+}
+
+.placeCard .cardInfoFields {
+  padding: 1vh;
 }
