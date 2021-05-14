@@ -1,106 +1,44 @@
 {
   "rootsQuery": "
-     select distinct ?item ?label ?hasChildren where {
-      <http://www.bigdata.com/queryHints#Query> <http://www.bigdata.com/queryHints#optimizer> \"None\".
-      BIND(?__range__ as ?range)
-      BIND(IF(?range = rso:Concept, rso:Concept_has_broader_Concept, rso:Place_is_part_of_Place)	AS ?broader) .
-       {
-         ?item a ?__range__ .
-         ?item skos:inScheme ?schema .
-         FILTER(EXISTS { ?subject ?__relation__ ?item . }) .
-         MINUS { ?item ?broader ?parent }
-         ?item rso:displayLabel ?label .
-       }
-       OPTIONAL { ?child ?broader ?item . }
-       BIND(bound(?child) as ?hasChildren)
-     } order by ?label",
+  SELECT DISTINCT ?item ?label where {
+    ?item a  ?__range__.
+    ?item rdfs:label ?label
+    FILTER(EXISTS { ?subject ?__relation__ ?item . }) .
+   }order by ?label",
+   
   "childrenQuery": "
-    select distinct ?item ?label ?hasChildren where {
-      <http://www.bigdata.com/queryHints#Query> <http://www.bigdata.com/queryHints#optimizer> \"None\".
-      BIND(?__range__ as ?range)
-      BIND(IF(?range = rso:Concept, rso:Concept_has_broader_Concept, rso:Place_is_part_of_Place)	AS ?broader) .
-      {
-        FILTER(EXISTS { ?subject ?__relation__ ?item . }) .
-        ?item ?broader ?parent .
-        ?item rso:displayLabel ?label .
+    SELECT distinct ?item ?label ?hasChildren WHERE {
+      OPTIONAL { 
+        ?item a  ?__range__.
+        SERVICE <http://213.171.209.34:10085/blazegraph/sparql> {
+          ?child  <http://www.geonames.org/ontology#parentCountry>  ?item.
+        }
       }
-      OPTIONAL { ?child ?broader ?item . }
+      FILTER(EXISTS { ?subject ?__relation__ ?item . }) .
       BIND(bound(?child) as ?hasChildren)
     } order by ?label",
   "parentsQuery": "
-    select distinct ?item ?parent ?parentLabel where {
-       <http://www.bigdata.com/queryHints#Query> <http://www.bigdata.com/queryHints#optimizer> \"None\".
-      BIND(?__range__ as ?range)
-      BIND(IF(?range = rso:Concept, rso:Concept_has_broader_Concept, rso:Place_is_part_of_Place)	AS ?broader) .
-      ?item ?broader ?parent .
-      ?parent rso:displayLabel ?parentLabel .
+  SELECT distinct ?item ?parent ?parentLabel WHERE {
+      ?item a  ?__range__.
+      SERVICE <http://213.171.209.34:10085/blazegraph/sparql> {
+        ?item  <http://www.geonames.org/ontology#parentCountry>  ?parent.
+        ?parent <http://www.geonames.org/ontology#name> ?parentLabel
+      }
     }",
-  "searchQuery": [[#if solr]]
-    "
-SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
-         BIND(?__range__ AS ?range)
-         BIND(IF(?range = rso:Concept, rso:Concept_has_broader_Concept, rso:Place_is_part_of_Place) AS ?broader)
-         {
-           SELECT DISTINCT ?item ?score ?label WHERE {
-             {
-               SELECT DISTINCT ?item ?score ?label WHERE {
-                 BIND(CONCAT(\"defType=edismax&ps=100&pf=suggestionSearchText&fl=id,score&rows=50&q.op=AND&fq=scheme:*&fq=fc:\", REPLACE(str(?__range__), \":\", \"\\\\\\\\:\"), \"&fq=frs:\", REPLACE(str(?__relation__), \":\", \"\\\\\\\\:\")) as ?sFC)
-                 BIND(CONCAT(\"(\",LCASE(?__token__),\")\") as ?lcasetoken)
-                 SERVICE <http://www.bigdata.com/rdf/fts#search> {
-                   ?item <http://www.bigdata.com/rdf/fts#search> ?lcasetoken.
-                   ?item <http://www.bigdata.com/rdf/fts#endpoint> \"[[solrEndpoint]]\".
-                   ?item <http://www.bigdata.com/rdf/fts#params> ?sFC.
-                   ?item <http://www.bigdata.com/rdf/fts#scoreField> \"score\".
-                   ?item <http://www.bigdata.com/rdf/fts#score> ?score.
-                   ?item <http://www.bigdata.com/rdf/fts#fieldToSearch> \"suggestionSearchText\".
-                   ?item <http://www.bigdata.com/rdf/fts#searchField> \"id\".
-                   ?item <http://www.bigdata.com/rdf/fts#searchResultType> \"URI\".
-                 }
-               }
-             }
-             <http://www.bigdata.com/queryHints#Prior> <http://www.bigdata.com/queryHints#runFirst> \"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>.
-             ?item rso:displayLabel ?label.
-             OPTIONAL {?item skos:inScheme ?schema .}
-           } LIMIT 500
-         }
-         OPTIONAL { ?child ?broader ?item. }
-         BIND(BOUND(?child) AS ?hasChildren)
-       }
-       ORDER BY DESC(?score) ?label
-       LIMIT 200
+  "searchQuery":"
+     SELECT DISTINCT ?hasChildren ?item ?label WHERE {
+       ?item a ?__range__.
+       ?item rdfs:label ?label.
+       ?label bds:search ?__token__ .
+       ?label bds:minRelevance \"0.3\"^^xsd:double.
+       ?label bds:matchAllTerms \"true\".
+       OPTIONAL { 
+         SERVICE <http://213.171.209.34:10085/blazegraph/sparql> {
+           ?item  <http://www.geonames.org/ontology#parentCountry>  ?child.
+          }
+        }
+      FILTER(EXISTS { ?subject ?__relation__ ?item . }) .
+      BIND(BOUND(?child) AS ?hasChildren)
+     }ORDER BY DESC (?label)
      "
-   [[else]]
-     "
-       SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
-         BIND(?__range__ AS ?range)
-         BIND(IF(?range = rso:Concept, rso:Concept_has_broader_Concept, rso:Place_is_part_of_Place) AS ?broader)
-         {
-           SELECT DISTINCT ?item ?score ?label WHERE {
-             {
-               SELECT DISTINCT ?item ?score ?label WHERE {
-                 SERVICE <http://www.bigdata.com/rdf/search#search> {
-                   ?label bds:search ?__token__ ;
-                   bds:relevance ?score ;
-                   bds:minRelevance \"0.3\" ;
-                   bds:maxRank \"50000\" ;
-                   bds:matchAllTerms \"true\"  .
-                 }
-                 ?item rso:displayLabel ?label.
-                 OPTIONAL {?item skos:inScheme ?schema .}
-               }
-             }
-             OPTIONAL {
-               ?subject ?__relation__ ?item .
-             }
-             FILTER(BOUND(?subject))
-           } LIMIT 500
-         }
-         OPTIONAL { ?child ?broader ?item. }
-         BIND(BOUND(?child) AS ?hasChildren)
-       }
-       ORDER BY DESC(?score) ?label
-       LIMIT 200
-     "
-   [[/if]],
-  "placeholder": "Search ... "
 }
