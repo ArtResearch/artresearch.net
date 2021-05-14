@@ -2,9 +2,8 @@
   class="rs-grid-element panel panel-default artwork-card-big fade-in-fwd "
 >
   <semantic-link iri="{{subject.value}}">
-    <div class="panel-body">
+    <bs-row>
       <bs-col
-        class="thumbnailImageContainer"
         lg="4"
         md="12"
         xs="12"
@@ -44,7 +43,7 @@
       </template>
     </semantic-query>
       </bs-col>
-      <bs-col class="cardInfo" lg="7" md="10" xs="10">
+      <bs-col class="cardInfo" lg="7" md="12" >
         <div data-flex-layout="row md-column center-stretch">
           <bs-row class="cardInfoFields">
       <!-- Show information on subject & owl:sameAs     //TODO change to query-->
@@ -153,45 +152,9 @@
               </tbody>
             </table>
         </div>
-            <semantic-query
-            query='
-            SELECT (GROUP_CONCAT(STR(?originalSubject);SEPARATOR=" , ") AS ?additionalSubjects) WHERE{
-              ?originalSubjects owl:sameAs <{{subject.value}}>.
-              BIND(CONCAT("\"",str(?originalSubjects),"\"") as ?originalSubject)
-              }
-              '
-            template="{{> combinedFields}}">
-              <template id="combinedFields">
-              <div>
-                <mp-field-visualization
-                additional-subjects='[
-                {{bindings.0.additionalSubjects.value}}
-                ]'
-                subject='{{subject.value}}'
-                  fields='[[fieldDefinitions  
-                  Type="https://pharos.artresearch.net/fieldDefinition/550" 
-              ]]'
-                template="{{>typeInfo}}"
-              >
-                <template id="typeInfo">
-                  <div class="typeInfoValues">
-                  {{#each fields as |field|}}
-                    {{#each field.values as |value|}}
-                    <span class="badge badge-pill">
-                      <semantic-link class="typeLink" iri="{{value.value.value}}"></semantic-link>
-                    </span>
-                    {{/each}}
-                  {{/each}}
-                </div>
-                </template>
-              </mp-field-visualization>
-              </div>
-              </template>
-            </semantic-query>
-
           </bs-row>
         </div>
       </bs-col>
-    </div>
+    </bs-row>
   </semantic-link\>
 </div>
