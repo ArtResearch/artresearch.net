@@ -1,5 +1,15 @@
 <div id="institution-filter-search">
 <semantic-search
+relations='{
+  "<https://pharos.artresearch.net/resource/fr/Institution_from_Place>":[
+  {
+    "kind": "resource",
+    "queryPattern": "
+      $subject <https://pharos.artresearch.net/resource/fr/Institution_from_Place>  ?__value__.
+      ?__value__ rdfs:label ?label"
+  }
+] 
+}'
   search-profile='{
         "categories":  
         [
@@ -23,12 +33,6 @@
             "label":"Place",
             "hasDomain":"<https://pharos.artresearch.net/resource/fc/institution>",
             "hasRange":"<https://pharos.artresearch.net/resource/fc/place>"
-          },
-          {
-            "iri": "<https://pharos.artresearch.net/custom/has_provider>",
-            "label":"Provider",
-            "hasDomain":"<https://pharos.artresearch.net/resource/fc/institution>",
-            "hasRange":"<https://pharos.artresearch.net/custom/Provider>"
           }
         ]
       }'
