@@ -8,11 +8,11 @@
       ?keywords a <http://no-result>
     }
   "
-      query="
+      query='
       SELECT ?keywords  WHERE {
-         BIND(str(?__token__) as ?keywords)
-      }
-    "
+         BIND(REPLACE(str(?__token__)," ","&&") as ?keys)
+         BIND(REPLACE(?keys,"\\*","") as ?keywords)
+      }'
     ></semantic-search-query-keyword>
     <semantic-search-result-holder>
       <semantic-search-result>

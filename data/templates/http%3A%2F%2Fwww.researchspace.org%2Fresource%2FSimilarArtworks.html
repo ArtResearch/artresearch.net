@@ -1,20 +1,12 @@
 <!-- Displays a list of similar artworks -->
 <div id="similar-artwork-list">
   <semantic-query
-    query='SELECT distinct ?subject WHERE { 
+    query='SELECT distinct ?thumb ?image WHERE { 
       # Artwork
       ?? <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo.
       ?photo crm:P129i_is_subject_of ?image.
-      OPTIONAL{
-        ?image crm:P2_has_type ?imageType.
-        FILTER NOT EXISTS { ?imageType rdfs:label "verso". }
-      }
-      SERVICE <https://vision.artresearch.net/sparql> {
-        ?image <http://purl.org/ontology/similarity/element> ?element.
-        ?imageB <http://purl.org/ontology/similarity/element> ?element.
-        ?subject <https://pharos.artresearch.net/custom/has_image> ?imageB.
-      }
-      FILTER(STR(?subject)!=STR(??))
+      BIND(REPLACE(STR(?image), "full/full", "full/!350,350") AS ?thumb)
+      
     }'
     template="{{>similarArtworkTemplate}}"
     no-result-template='<i style="text-align:center">
@@ -24,8 +16,25 @@
       <div class="similarArtworkCardContainer">
         {{#each bindings}}
         <div class="similarArtworkCard">
-          <!-- Artwork Card really needs a ?subject -->
-          [[> rsp:artworkCard]]
+        <div class="card" style="width: 36rem; padding: 1vh;">
+          <img
+            class="card-img-top"
+            src="{{thumb.value}}"
+            alt="Card image cap"
+          />
+          <div class="card-body">
+            <h5 class="card-title">View similar artworks</h5>
+            <p class="card-text">
+              Search for similar artworks on vision
+            </p>
+            <a href="https://vision.artresearch.net/resource/?image={{image.value}}&uri=rsp%3ASearch" target="_similar_artworks">
+              <div
+              class="btn btn-primary"
+            >
+              Go to site
+            </div>
+          </div>
+        </div>
         </div>
         {{/each}}
       </div>

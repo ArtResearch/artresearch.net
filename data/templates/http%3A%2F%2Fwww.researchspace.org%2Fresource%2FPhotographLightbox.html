@@ -10,7 +10,7 @@
     options='{
   "showFilter":true
 }'
-    number-of-displayed-rows="15"
+     number-of-displayed-rows="8"
     query='  
 SELECT distinct ?photo (GROUP_CONCAT(STR(?label);SEPARATOR=" , ") AS ?allLabels) WHERE 
 {
@@ -81,13 +81,22 @@ SELECT distinct ?photo (GROUP_CONCAT(STR(?label);SEPARATOR=" , ") AS ?allLabels)
             fields='[[fieldDefinitions  
               Title="https://pharos.artresearch.net/fieldDefinition/2"  
               Photographer="https://pharos.artresearch.net/fieldDefinition/123"
-              Repository="https://pharos.artresearch.net/fieldDefinition/Repository" 
+              Repository="https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution" 
             ]]'
             template="{{>productionInfo}}"
           >
             <template id="productionInfo">
               {{#if noData}}
-              <div></div>
+              <div id="rsbv" class="table-responsive rs-table">
+                <table class="table table-hover">
+                  <tbody>
+                    <tr>
+                      <td>No quick preview available. Click on the photo to view details.</td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
               {{else}} [[> rsp:ResourceFieldBasedVisualization subject=[[this]]
               ]] {{/if}}
             </template>

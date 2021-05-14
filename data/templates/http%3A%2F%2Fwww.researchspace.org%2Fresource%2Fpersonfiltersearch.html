@@ -2,7 +2,7 @@
   [[#if provider]]
   <semantic-search
     relations='{
-    "<https://pharos.artresearch.net/resource/field/Artist_Attribution>":[
+    "<https://pharos.artresearch.net/resource/fr/Work_created_from_Artist>":[
     {
       "kind": "resource",
       "queryPattern": "
@@ -10,42 +10,42 @@
           $subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?__value__."
     }
 ],
-    "<https://pharos.artresearch.net/fieldDefinition/Repository>":[
+    "<https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution>":[
     {
       "kind": "resource",
       "queryPattern": "
         
           $subject <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution> ?__value__."
     }],
-    "<https://pharos.artresearch.net/fieldDefinition/46>": [
+    "<https://pharos.artresearch.net/resource/fr/Work_shows_Subject>": [
     {
       "kind": "resource",
       "queryPattern": "
         
           $subject <https://pharos.artresearch.net/resource/fr/Work_shows_Subject>  ?__value__."
     }],
-    "<https://pharos.artresearch.net/fieldDefinition/44>": [
+    "<https://pharos.artresearch.net/resource/fr/Work_consists_of_Material>": [
     {
       "kind": "resource",
       "queryPattern": "
         
           $subject <https://pharos.artresearch.net/resource/fr/Work_consists_of_Material> ?__value__."
     }],
-    "<https://pharos.artresearch.net/fieldDefinition/550>": [
+    "<http://www.cidoc-crm.org/cidoc-crm/P2_has_type>": [
     {
       "kind": "resource",
       "queryPattern": "
         
           $subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ?__value__ ."
     }],
-    "<https://pharos.artresearch.net/fieldDefinition/42>": [
+    "<https://pharos.artresearch.net/resource/fr/Work_produced_using_technique_Technique>": [
     {
       "kind": "resource",
       "queryPattern": "
         
          $subject <https://pharos.artresearch.net/resource/fr/Work_produced_using_technique_Technique> ?__value__."
     }],
-    "<https://pharos.artresearch.net/fieldDefinition/93>": [
+    "<https://pharos.artresearch.net/resource/fr/Work_from_Place>": [
     {
       "kind": "resource",
       "queryPattern": "
@@ -94,37 +94,37 @@
             "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E21_Person>"
           },
           {
-            "iri": "<https://pharos.artresearch.net/fieldDefinition/Repository>",
+            "iri": "<https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution>",
             "label":"Repository",
             "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
             "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>"
           },
           {
-            "iri":"<https://pharos.artresearch.net/fieldDefinition/46>",
+            "iri":"<https://pharos.artresearch.net/resource/fr/Work_shows_Subject>",
             "label":"Subject",
             "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
             "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E55_Type>"
           },
           {
-            "iri":"<https://pharos.artresearch.net/fieldDefinition/44>",
+            "iri":"<https://pharos.artresearch.net/resource/fr/Work_consists_of_Material>",
             "label":"Material",
             "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
             "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E57_Material>"
           },
           {
-            "iri":"<https://pharos.artresearch.net/fieldDefinition/550>",
+            "iri":"<http://www.cidoc-crm.org/cidoc-crm/P2_has_type>",
             "label":"Concept",
             "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
             "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E55_Type>"
           },
           {
-            "iri":"<https://pharos.artresearch.net/fieldDefinition/42>",
+            "iri":"<https://pharos.artresearch.net/resource/fr/Work_produced_using_technique_Technique>",
             "label":"Technique",
             "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
             "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E29_Design_or_Procedure>"
           },
           {
-            "iri":"<https://pharos.artresearch.net/fieldDefinition/93>",
+            "iri":"<https://pharos.artresearch.net/resource/fr/Work_from_Place>",
             "label":"Location",
             "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
             "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E53_Place>"
@@ -180,7 +180,7 @@
                   options='{
                       "showFilter":false
                     }'
-                  number-of-displayed-rows="12"
+                  number-of-displayed-rows="8"
                   query="
                   SELECT DISTINCT ?subject ?artistName (count(?artwork) as ?artworkCount)
                    WHERE {
