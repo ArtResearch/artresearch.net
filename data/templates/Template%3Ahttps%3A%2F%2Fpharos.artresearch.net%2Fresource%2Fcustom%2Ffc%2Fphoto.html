@@ -4,31 +4,21 @@
   <div class="page__header-navtabs">
     [[> rsp:Header ]]
   </div>
+
     <bs-tab-container id="tab-container" class="page__body-navtabs--borderless" default-active-key="summary">
       <div>
         <bs-nav bs-style="tabs">
           <bs-nav-item event-key="summary">Summary</bs-nav-item>
-          [[#if (ask "ASK { {?? <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo}}") ]] 
-          <bs-nav-item event-key="PhotographLightbox">Photograph Lightbox</bs-nav-item>
-          [[/if]]
-           <bs-nav-item event-key="similar">Similar artworks</bs-nav-item>
         </bs-nav>
 
         <bs-tab-content unmount-on-exit=true>
           <bs-tab-pane event-key="summary">
             <!-- Loads all IIIF images as 500px thumbnails (clickable with mirador popup) -->
               [[> rsp:WorkSummaryImages]]
-            <!-- Loads two tables with information regarding work & production -->
-            <!-- Loads photographs with info (id, photographer, keeper) -->
-              [[> rsp:WorkAndProductionInfo]]
+            <!-- Loads two tables with information regarding photo, production & other details -->
+              [[> rsp:PhotoAndProductionInfo]]
           </bs-tab-pane>
-          <bs-tab-pane event-key="PhotographLightbox">
-            [[> PhotographLightbox record=(this)]]
-          </bs-tab-pane>
-          <bs-tab-pane event-key="similar">
-            <!-- Show similar artworks -->
-              [[> rsp:SimilarArtworks]]
-          </bs-tab-pane>  
+  
         </bs-tab-content>
       </div>
     </bs-tab-container>

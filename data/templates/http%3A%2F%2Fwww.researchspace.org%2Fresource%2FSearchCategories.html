@@ -11,20 +11,15 @@
       "queryPattern": "$subject ?__relation__ ?__value__ ."
     }
   ],
-  "<http://www.researchspace.org/ontology/Time>": [
-    {
-      "kind": "date-range",
-      "queryPattern": "
-         {
-           $subject ?__relation__ ?date .
-           ?date crm:P82a_begin_of_the_begin ?begin ;
-                 crm:P82b_end_of_the_end ?end .
-           FILTER(?begin <= ?__dateEndValue__) .
-           FILTER(?end >= ?__dateBeginValue__) .
-         }
-      "
-    }
-  ],
+  "<http://www.w3.org/2001/XMLSchema#date>": [{
+    "kind": "date-range",
+    "datatype": "http://www.w3.org/2001/XMLSchema#date",
+    "queryPattern": "
+      $subject ?__relation__ ?date .
+      FILTER(?date <= ?__dateEndValue__) .
+      FILTER(?date >= ?__dateBeginValue__) .
+    "
+  }],
   "<http://www.researchspace.org/ontology/Text>": [
     {
       "kind": "text",

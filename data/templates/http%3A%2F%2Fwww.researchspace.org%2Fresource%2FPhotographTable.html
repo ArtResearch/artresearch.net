@@ -24,6 +24,7 @@ SELECT distinct ?photo ?photo_label ?photographer ?keeper WHERE
     ?? <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo 
     # TODO add recto query, add optional verso query
 }"
+
     tuple-template="{{> photos}}"
   >
     <template id="photos">
@@ -85,13 +86,22 @@ SELECT distinct ?photo ?photo_label ?photographer ?keeper WHERE
             fields='[[fieldDefinitions  
               Title="https://pharos.artresearch.net/fieldDefinition/2"  
               Photographer="https://pharos.artresearch.net/fieldDefinition/123"
-              Repository="https://pharos.artresearch.net/fieldDefinition/Repository" 
+              Repository="https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution" 
             ]]'
             template="{{>productionInfo}}"
           >
             <template id="productionInfo">
               {{#if noData}}
-              <div></div>
+              <div id="rsbv" class="table-responsive rs-table">
+                <table class="table table-hover">
+                  <tbody>
+                    <tr>
+                      <td>No quick preview available. Click on the photo to view details.</td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
               {{else}} [[> rsp:ResourceFieldBasedVisualization subject=[[this]]
               ]] {{/if}}
             </template>

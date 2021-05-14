@@ -187,15 +187,44 @@ a:focus {
 .modal-backdrop {
   background-color: #816e4225;
 }
+/* Table pagination */
 
 .pagination {
   margin-bottom: 2vh !important ;
   justify-content: center !important;
 }
 
+.griddle-footer .pagination > .active > a {
+  background: #007bff !important;
+}
+.griddle-footer .pagination > li > a,
+.griddle-footer .pagination > li > span,
+.pagination > li > a,
+.pagination > li > span {
+  color: var(--color-dark, #1d0a6e);
+  font-size: 12px;
+  line-height: 1.2;
+  text-decoration: none;
+  font-style: italic;
+  border: none;
+  background: #ebebeb;
+  font-size: 20px !important;
+  margin: 4px;
+  padding: 3px 8px;
+}
+.griddle-footer .pagination > li > a:focus,
+.griddle-footer .pagination > li > a:hover,
+.griddle-footer .pagination > li > span:focus,
+.griddle-footer .pagination > li > span:hover,
+.pagination > li > a:focus,
+.pagination > li > a:hover,
+.pagination > li > span:focus,
+.pagination > li > span:hover {
+  background: #d2d2d2 !important;
+}
+
 .pagination > li.active,
 .pagination > li.active > a {
-  background-color: #000000 !important;
   color: white !important;
   text-decoration: none !important;
 }
@@ -388,6 +417,13 @@ input::placeholder {
 
 #logoutLink + #loginLink {
   display: none;
+}
+
+@media (max-width: 767px)
+{
+.navbar {
+ height: 0 !important; 
+}
 }
 
 /**

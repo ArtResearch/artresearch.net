@@ -1,41 +1,17 @@
 <semantic-query
   query='
-  SELECT ?dataset ?repositoryLabel WHERE {
-    {
-      {
-        <[[work]]> crm:P50_has_current_keeper ?repo.
-        ?repo rdfs:label ?repositoryLabel
-      }union{
-        <[[work]]> <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution> ?repo.
-        ?repo rdfs:label ?repositoryLabel
-      }
-      OPTIONAL {
-      <[[work]]> <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ?type .
-      ?type rdfs:label ?type_label.
-      ?type <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/vocab/maintype>}
-  
-    }UNION{
-      ?originalSubject owl:sameAs <[[work]]>
-      {
-        ?originalSubject crm:P50_has_current_keeper ?repo.
-        ?repo rdfs:label ?repositoryLabel
-      }union{
-        ?originalSubject <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution> ?repo.
-        ?repo rdfs:label ?repositoryLabel
-      }
-      OPTIONAL {
-      ?originalSubject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ?type .
-      ?type rdfs:label ?type_label.
-      ?type <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> <https://pharos.artresearch.net/resource/vocab/maintype>}
-    }
-    BIND(IF(BOUND(?repo), concat(?type_label," (Repository: ",str(?repositoryLabel),")"), "(Repository: Unknown)") as ?dataset) .
-  } LIMIT 1
-                       '
+  SELECT  ?repo WHERE {
+    ?? <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution> ?repo.
+  } LIMIT 1'
+  no-result-template="<h4>Repository: Unknown </h4>"
   template="{{> fcLabelTemplate}}"
 >
   <template id="fcLabelTemplate">
-    <h4 class="fc-label">{{bindings.0.dataset.value}}</h4>
+
+    <h4 class="fc-label">    
+      {{#each bindings}}
+      Repository:<semantic-link iri="{{repo.value}}"></semantic-link></h4>
+      {{/each}}
   </template>
 </semantic-query>
-
 
