@@ -1,6 +1,14 @@
 <mp-sparql-result-counts
 id="semantic-search-result-count"
-query="SELECT DISTINCT ?subject WHERE {?subjects owl:sameAs ?subject.}"
+query="SELECT DISTINCT ?subject WHERE {
+        {
+          ?subjects owl:sameAs ?subject. 
+        } UNION {
+          ?subject a <https://pharos.artresearch.net/resource/custom/fc/photo>.  
+        } UNION { 
+          ?subject a <https://pharos.artresearch.net/resource/custom/fc/photographer>.  
+        }
+      }"
 template="{{> template}}"
 >
 <template id="template">
