@@ -7,7 +7,7 @@
   query='
     SELECT DISTINCT ?subject (GROUP_CONCAT(STR(?subjects);SEPARATOR=" , ") AS ?originalSubject)
     WHERE {
-        ?subjects owl:sameAs ?subject.
+        #?subjects owl:sameAs ?subject.
         ?subject a <https://pharos.artresearch.net/resource/fc/artist>
         }GROUP BY(?subject) LIMIT 100'
   tuple-template="{{>tupleTemplate}}"
