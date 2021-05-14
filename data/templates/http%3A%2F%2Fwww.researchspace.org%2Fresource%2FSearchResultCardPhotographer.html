@@ -1,0 +1,21 @@
+<semantic-table
+  id="grid-result"
+  options='{
+              "showFilter":false
+            }'
+  number-of-displayed-rows="10"
+  query='
+    SELECT DISTINCT ?subject (GROUP_CONCAT(STR(?subjects);SEPARATOR=" , ") AS ?originalSubject)
+    WHERE {
+        #?subjects owl:sameAs ?subject
+        # to be changed after reconciliation
+        ?subject a <https://pharos.artresearch.net/resource/custom/fc/photographer>.
+        }GROUP BY(?subject) LIMIT 100'
+  tuple-template="{{>tupleTemplate}}"
+>
+  <template id="tupleTemplate">
+    <semantic-link iri="{{subject.value}}">
+      <mp-draggable iri="{{subject.value}}"> [[> :photographerCard]] </mp-draggable>
+    </semantic-link>
+  </template>
+</semantic-table>
