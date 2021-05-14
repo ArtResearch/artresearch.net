@@ -13,7 +13,7 @@
         "categories":  
         [
           {
-            "iri":"<http://www.cidoc-crm.org/cidoc-crm/E21_Person>",
+            "iri":"<https://pharos.artresearch.net/resource/fc/artist>",
             "label":"Painter"
           },
           {
@@ -21,7 +21,7 @@
             "label":"Creator"
           },
           {
-            "iri":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
+            "iri":"<https://pharos.artresearch.net/resource/fc/work>",
             "label":"Artwork"
           },
           {
@@ -46,37 +46,37 @@
           {
             "iri": "<https://pharos.artresearch.net/resource/fr/Work_created_from_Artist>",
             "label":"Creator",
-            "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
-            "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E21_Person>"
+            "hasDomain":"<https://pharos.artresearch.net/resource/fc/work>",
+            "hasRange":"<https://pharos.artresearch.net/resource/fc/artist>"
           },
           {
             "iri": "<https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution>",
             "label":"Repository",
-            "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
+            "hasDomain":"<https://pharos.artresearch.net/resource/fc/work>",
             "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>"
           },
           {
             "iri":"<https://pharos.artresearch.net/resource/fr/Work_shows_Subject>",
             "label":"Subject",
-            "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
+            "hasDomain":"<https://pharos.artresearch.net/resource/fc/work>",
             "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E55_Type>"
           },
           {
             "iri":"<https://pharos.artresearch.net/resource/fr/Work_consists_of_Material>",
             "label":"Material",
-            "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
+            "hasDomain":"<https://pharos.artresearch.net/resource/fc/work>",
             "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E57_Material>"
           },
           {
             "iri":"<https://pharos.artresearch.net/resource/fr/Work_produced_using_technique_Technique>",
             "label":"Technique",
-            "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
+            "hasDomain":"<https://pharos.artresearch.net/resource/fc/work>",
             "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E29_Design_or_Procedure>"
           },
           {
             "iri":"<https://pharos.artresearch.net/resource/fr/Work_from_Place>",
             "label":"Location",
-            "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
+            "hasDomain":"<https://pharos.artresearch.net/resource/fc/work>",
             "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E53_Place>"
           }
         ]
@@ -84,7 +84,7 @@
   >
     <div id="header-search" class="search-page">
       <semantic-search-query-keyword
-        domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
+        domain="<https://pharos.artresearch.net/resource/fc/work>"
         placeholder="Search for any field (e.g. a creator or title)"
         escape-lucene-syntax="false"
         default-query='SELECT DISTINCT ?subject WHERE {
@@ -137,7 +137,7 @@
                             options='{
                           "showFilter":false
                         }'
-                             number-of-displayed-rows="8"
+                              number-of-displayed-rows="5"
                             query="SELECT DISTINCT ?subject WHERE {}LIMIT 100"
                             tuple-template="{{>tupleTemplate}}"
                           >
@@ -152,7 +152,7 @@
                             options='{
                           "showFilter":false
                         }'
-                             number-of-displayed-rows="8"
+                              number-of-displayed-rows="5"
                             query="
                       SELECT DISTINCT ?subject
                        WHERE {

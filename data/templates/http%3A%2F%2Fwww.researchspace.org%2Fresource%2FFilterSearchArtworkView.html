@@ -54,27 +54,13 @@ class="hiddenSearchbar"
       </semantic-query>
       <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
       <bs-tabs
-      default-active-key="2"
+      default-active-key="1"
       unmount-on-exit="true"
       id="search-results"
       animation="false"
       class="tabs-right"
     >
-      <bs-tab event-key="1" title="Cards">
-          <semantic-table
-          id="grid-result"
-          query="SELECT DISTINCT ?subject  WHERE {}LIMIT 100"
-          number-of-displayed-rows="8"
-          tuple-template="{{> subjectCellTemplate}}"
-          options='{"showTableHeading": false, "showFilter":false}'
-          no-result-template='[[> :noResultCard ]]'
-        >
-          <template id="subjectCellTemplate">
-            [[> :artworkCard]]
-          </template>
-        </semantic-table>
-      </bs-tab>
-      <bs-tab event-key="2" title="List">
+      <bs-tab event-key="1" title="List">
         <div id='artwork-filter-search-inline'>
         <semantic-table
         id="grid-result"
@@ -90,7 +76,7 @@ class="hiddenSearchbar"
       </div>
       </semantic-table>
     </bs-tab>
-      <bs-tab event-key="3" title="Tabular">
+      <bs-tab event-key="2" title="Tabular">
         <div id="tableView">
           [[> :SearchResultTableWork]]
       </div>

@@ -8,7 +8,7 @@
       (document.querySelector(selector) === null) { await new Promise(resolve =>
       requestAnimationFrame(resolve)) } return document.querySelector(selector);
       }; // This is checked on load window.onload = function () {
-      checkElement('#btnPrint').then((selector) => { preparePrintButton() }); }
+      checkElement('#btnPrint').then((selector) => { preparePrintButton();}); 
       // When a user clicks the button function preparePrintButton() {
       document.getElementById("btnPrint").onclick = function () { var title =
       document.getElementById("printableTitle") ?
@@ -29,7 +29,7 @@
       printWindow.document.write(info); printWindow.document.write(images);
       printWindow.document.write('</body>');
       printWindow.document.write('</html>'); printWindow.document.close();
-      printWindow.print(); }; }
+      printWindow.print(); };
     </script>
     <meta name="version" content="{{version}}" />
     <link
