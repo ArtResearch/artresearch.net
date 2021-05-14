@@ -138,6 +138,42 @@
                     </table>
                 </tr>
                 </template>
+                </semantic-query>
+                <semantic-query 
+                query='SELECT ?date WHERE { 
+                  {
+                  <{{subject.value}}> <https://pharos.artresearch.net/resource/fr/Work_from_Date> ?date
+                  }union{
+                   ?original owl:sameAs <{{subject.value}}>.
+                   ?original <https://pharos.artresearch.net/resource/fr/Work_from_Date> ?date 
+                  }
+                }LIMIT 1'
+                template="{{>repoTemplate}}"
+                >
+                <template id="repoTemplate">
+
+                <tr class="rs-page-resource__field">
+                  <td class="rs-page-resource__field-label-holder headLine">
+                    <span class="rs-page-resource__field-label">
+                      Date
+                    </span>
+                  </td>
+                    <table class="table table-hover">
+                      <tbody>
+                        <tr>
+                          <td>
+                              <span class="rs-page-resource__field-value">
+                                <div style="width:25vw;">
+                                  {{bindings.0.date.value}}
+                                </div>
+                              </span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </tr>
+                </template>
+                </semantic-query>
               </tbody>
             </table>
         </div>
