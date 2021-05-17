@@ -1,0 +1,18 @@
+<div class="row row-center">
+  <div
+    id="main-containers"
+    style="max-width: 1300px"
+    class="col-md-10 col-xs-10"
+  >
+    <!-- Title -->
+    <div class="row">
+      <div class="col-sm-7">
+        <header>
+          <h1>Artworks from Italian Renaissance</h1>
+        </header>
+      </div>
+    </div>
+    <!-- Filter for Italian Renaissance search component -->
+    [[> rsp:collectionfiltersearch  searchQuery='?subject a <https://pharos.artresearch.net/resource/fc/work>. ?subject <https://pharos.artresearch.net/resource/fr/Work_from_Date> ?date.  ?subject <https://pharos.artresearch.net/resource/fr/Work_to_Date> ?date2. FILTER regex(?date,"^[0-9]+$").  FILTER regex(?date2,"^[0-9]+$").  FILTER (?date > "1300" && ?date2 <  "1600").' ]]
+  </div>
+</div>  
