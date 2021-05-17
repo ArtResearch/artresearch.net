@@ -22,21 +22,7 @@ class="rs-grid-element panel panel-default repositoryCard fade-in-fwd"
       SELECT DISTINCT ?imgUrl WHERE{
         bind("_" as ?default_imageUrl)
         OPTIONAL{
-          SERVICE <https://query.wikidata.org/sparql> 
-            {
-              {
-                ?institution wdt:P31 wd:Q33506 . 
-                ?institution rdfs:label "{{institutionName.value}}"@en .
-                ?institution wdt:P18 ?institutionImage
-              }UNION{
-                ?institution wdt:P31 wd:Q207694.
-                ?institution rdfs:label "{{institutionName.value}}"@en .
-                ?institution wdt:P18 ?institutionImage.
-              } UNION {
-                  ?institution wdtn:P245 <{{subject.value}}>.
-                  ?institution wdt:P18 ?institutionImage.
-                }
-            }
+          <{{subject.value}}> <https://pharos.artresearch.net/resource/fr/Institution_depicted_by> ?institutionImage
         }
         BIND(coalesce(?institutionImage, ?default_imageUrl) as ?imgUrl)    
             }LIMIT 1'

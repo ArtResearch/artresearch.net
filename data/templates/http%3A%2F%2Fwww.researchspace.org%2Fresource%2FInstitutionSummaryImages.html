@@ -14,21 +14,7 @@
       PREFIX wdt: <http://www.wikidata.org/prop/direct/>
       PREFIX wdtn: <http://www.wikidata.org/prop/direct-normalized/>
       SELECT DISTINCT ?imgUrl WHERE{
-        SERVICE <https://query.wikidata.org/sparql> 
-        {
-          {
-            ?institution wdt:P31 wd:Q33506 . 
-            ?institution rdfs:label "{{bindings.0.institutionName.value}}"@en .
-            ?institution wdt:P18 ?imgUrl
-          }UNION{
-            ?institution wdt:P31 wd:Q207694.
-            ?institution rdfs:label "{{bindings.0.institutionName.value}}"@en .
-            ?institution wdt:P18 ?imgUrl.
-          } UNION {
-            ?institution wdtn:P245 ??.
-            ?institution wdt:P18 ?imgUrl.
-          }
-        }
+       ?? <https://pharos.artresearch.net/resource/fr/Institution_depicted_by> ?imgUrl
       }LIMIT 1'
         template="{{> imageThumbnail}}"
       >
@@ -41,7 +27,7 @@
                   <img
                     class="imageThumbnail"
                     alt="Issue with image provider"
-                    src="{{bindings.0.imgUrl.value}}"
+                    src="{{bindings.0.imgUrl.value}}?width=500"
                   />
                 </mp-overlay-dialog-trigger>
                 <mp-overlay-dialog-content>
