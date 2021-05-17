@@ -1,6 +1,6 @@
 <div id="institution-filter-search">
-<semantic-search
-relations='{
+  <semantic-search
+    relations='{
   "<https://pharos.artresearch.net/resource/fr/Institution_from_Place>":[
   {
     "kind": "resource",
@@ -10,7 +10,7 @@ relations='{
   }
 ] 
 }'
-  search-profile='{
+    search-profile='{
         "categories":  
         [
           {
@@ -36,18 +36,18 @@ relations='{
           }
         ]
       }'
->
-  <div id="header-search" class="search-page">
-            <semantic-search-query-keyword
-              placeholder="Search for a repository e.g. Royal Library"
-              escape-lucene-syntax="false"
-              domain="<https://pharos.artresearch.net/resource/fc/institution>"
-              default-query="
-              SELECT DISTINCT ?subject  
+  >
+    <div id="header-search" class="search-page">
+      <semantic-search-query-keyword
+        placeholder="Search for a repository e.g. Royal Library"
+        escape-lucene-syntax="false"
+        domain="<https://pharos.artresearch.net/resource/fc/institution>"
+        default-query="
+              SELECT DISTINCT ?subject ?institutionImage
               WHERE {
-                ?subject a <https://pharos.artresearch.net/resource/fc/institution>.        
+                ?subject a <https://pharos.artresearch.net/resource/fc/institution>.   
               }LIMIT 100"
-              query='
+        query='
                       SELECT DISTINCT ?subject WHERE {
                       ?subject a <https://pharos.artresearch.net/resource/fc/institution>.   
                       ?subject rdfs:label ?someLabel.
@@ -56,82 +56,87 @@ relations='{
                       bds:matchAllTerms "true"  .
                       } 
                     '
-            ></semantic-search-query-keyword>
+      ></semantic-search-query-keyword>
+    </div>
 
-  </div>
+    <div class="row">
+      <bs-col
+        lg="3"
+        md="4"
+        sm="5"
+        class="fade-in-fwd filters-container"
+        style="margin-top: 8px"
+      >
+        <div class="filter-title">Filters</div>
+        <semantic-search-facet open-by-default="true"></semantic-search-facet>
+      </bs-col>
+      <bs-col lg="9" md="8" sm="7">
+        <semantic-search-result-holder>
+          <bs-tabs unmount-on-exit="true" id="search-results" animation="false">
+            <bs-tab event-key="2" title="Grid">
+              <semantic-search-result>
+                <div id="card-results">
+                  <bs-tab-container
+                    id="tab-container"
+                    class="page__body-navtabs--borderless"
+                    default-active-key="defaultView"
+                  >
+                    <div>
+                      <bs-nav bs-style="tabs">
+                        <bs-nav-item event-key="defaultView">
+                          Default view
+                        </bs-nav-item>
+                        <bs-nav-item event-key="mapView">
+                          Map view
+                        </bs-nav-item>
+                      </bs-nav>
 
-  <div class="row">
-    <bs-col
-      lg="3"
-      md="4"
-      sm="5"
-      class="fade-in-fwd filters-container"
-      style="margin-top: 8px"
-    >
-      <div class="filter-title">Filters</div>
-      <semantic-search-facet open-by-default="true"></semantic-search-facet>
-    </bs-col>
-    <bs-col lg="9" md="8" sm="7">
-      <semantic-search-result-holder>
-        <bs-tabs unmount-on-exit="true" id="search-results" animation="false">
-          <bs-tab event-key="2" title="Grid">
-            <semantic-search-result>
-              <div id="card-results">
-                <bs-tab-container
-                  id="tab-container"
-                  class="page__body-navtabs--borderless"
-                  default-active-key="defaultView"
-                >
-                  <div>
-                    <bs-nav bs-style="tabs">
-                      <bs-nav-item event-key="defaultView">
-                        Default view
-                      </bs-nav-item>
-                      <bs-nav-item event-key="mapView">
-                        Map view
-                      </bs-nav-item>
-                    </bs-nav>
-
-                    <bs-tab-content unmount-on-exit="true">
-                      <bs-tab-pane event-key="defaultView">
-                        <semantic-table
-                        id="grid-result"
-                        options='{
+                      <bs-tab-content unmount-on-exit="true">
+                        <bs-tab-pane event-key="defaultView">
+                          <semantic-table
+                            id="grid-result"
+                            options='{
                               "showFilter":false
                             }'
-                         number-of-displayed-rows="9"
-                        query='
-                          SELECT DISTINCT ?subject WHERE { ?subject a <https://pharos.artresearch.net/resource/fc/institution>. } LIMIT 100
-                        '
-                        tuple-template="{{>tupleTemplate}}"
-                      >
-                        <template id="tupleTemplate">
-                          [[> :institutionCard]]
-                        </template>
-                      </semantic-table>
-                      </bs-tab-pane>
-                      <bs-tab-pane event-key="mapView">
-                        <div class="mapContainer">
-                          <semantic-map id="repository-map" query='SELECT ?subject ?label ?lat ?lng WHERE {
+                            number-of-displayed-rows="9"
+                            query="
+                          SELECT DISTINCT ?subject WHERE {
+                             OPTIONAL{
+                              ?subject <https://pharos.artresearch.net/resource/fr/Institution_depicted_by> ?institutionImage
+                            }     
+                          }ORDER BY DESC(?institutionImage) LIMIT 100
+                        "
+                            tuple-template="{{>tupleTemplate}}"
+                          >
+                            <template id="tupleTemplate">
+                              [[> :institutionCard]]
+                            </template>
+                          </semantic-table>
+                        </bs-tab-pane>
+                        <bs-tab-pane event-key="mapView">
+                          <div class="mapContainer">
+                            <semantic-map
+                              id="repository-map"
+                              query="SELECT ?subject ?label ?lat ?lng WHERE {
                             ?og owl:sameAs ?subject.
                             ?og <https://pharos.artresearch.net/resource/fr/Institution_has_Latitude> ?lat.
                             ?og <https://pharos.artresearch.net/resource/fr/Institution_has_Longitude> ?lng.
                             ?og rdfs:label ?label.
-                          } LIMIT 1000'
-                          tuple-template='<p></p><a style="text-decoration: none;"  href="https://artresearch.net/resource/?uri={{subject.value}}" target="_blank"><b style="color: #6b0000;">{{label.value}}</b><p></p><p></p></a><hr>'
-                          >
-                          </semantic-map> 
-                        </div>
-                      </bs-tab-pane>
-                    </bs-tab-content>
-                  </div>
-                </bs-tab-container>
-              </div>
-            </semantic-search-result>
-          </bs-tab>
-        </bs-tabs>
-      </semantic-search-result-holder>
-    </bs-col>
-  </div>
-</semantic-search>
+                          } LIMIT 1000"
+                              tuple-template='<p></p><a style="text-decoration: none;"  href="https://artresearch.net/resource/?uri={{subject.value}}" target="_blank"><b style="color: #6b0000;">{{label.value}}</b><p></p><p></p></a><hr>'
+                            >
+                            </semantic-map>
+                          </div>
+                        </bs-tab-pane>
+                      </bs-tab-content>
+                    </div>
+                  </bs-tab-container>
+                </div>
+              </semantic-search-result>
+            </bs-tab>
+          </bs-tabs>
+        </semantic-search-result-holder>
+      </bs-col>
+    </div>
+  </semantic-search>
 </div>
