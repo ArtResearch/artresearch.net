@@ -194,9 +194,6 @@
                       <bs-nav-item event-key="defaultView"
                         >Default view</bs-nav-item
                       >
-                      <bs-nav-item event-key="eventsMap"
-                        >Events map</bs-nav-item
-                      >
                       <bs-nav-item event-key="birthplaceMap"
                         >Birthplace map</bs-nav-item
                       >
@@ -253,13 +250,10 @@
                           <semantic-map
                             id="birthplace-map"
                             query="SELECT DISTINCT ?subject ?place ?lat ?lng WHERE {
-                              ?subject <https://pharos.artresearch.net/resource/fr/Person_has_Place_of_Birth> ?place .
-                                ?place a <https://pharos.artresearch.net/resource/fc/place> .
-                                SERVICE <http://213.171.209.34:10085/blazegraph/sparql> {
-                                ?place <http://www.geonames.org/ontology#name> ?name.
-                                ?place <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat.
-                                ?place <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng.
-                                }
+                                    ?subject <https://pharos.artresearch.net/resource/fr/Person_has_Place_of_Birth> ?place .
+                                    ?place a <https://pharos.artresearch.net/resource/fc/place> .
+                                    ?place <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat.
+                                    ?place <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng.
                             }"
                             no-result-template='<h3>No results were found to be visualized on map</h3>'
                             tuple-template='<div style="width:20vw">
@@ -277,9 +271,10 @@
                           <semantic-map
                             id="deathplace-map"
                             query="SELECT DISTINCT ?subject ?place ?lat ?lng WHERE {
-                              ?subject <https://pharos.artresearch.net/resource/fr/Person_has_Place_of_Death> ?place .
-                              ?place <http://pharos.artresearch.net/resource/fr/Place_has_Latitude> ?lat.
-                              ?place <http://pharos.artresearch.net/resource/fr/Place_has_Longitude> ?lng.
+                                    ?subject <https://pharos.artresearch.net/resource/fr/Person_has_Place_of_Death> ?place .
+                                    ?place a <https://pharos.artresearch.net/resource/fc/place> .
+                                    ?place <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat.
+                                    ?place <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng.
                             }"
                             no-result-template='<h3>No results were found to be visualized on map</h3>'
                             tuple-template='<div style="width:20vw">
