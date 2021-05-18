@@ -5,9 +5,11 @@
     template="{{> tabSelect}}"
   >
     <template id="tabSelect">
-      {{#if selectedTab}} [[> rsp:SearchbarDropdown
-      dropdownTitle="{{selectedTab}}"]] {{else}} [[> rsp:SearchbarDropdown
-      dropdownTitle="Artworks"]] {{/if}}
+      {{#if selectedTab}} 
+         [[> rsp:SearchbarDropdown dropdownTitle="{{selectedTab}}"]]
+       {{else}} 
+         [[> rsp:SearchbarDropdown dropdownTitle=selectedCategory ]] 
+      {{/if}}
     </template>
   </mp-event-target-template-render>
 
@@ -43,7 +45,8 @@
                   targetId="search-click"
                   keyboardKey="Enter"
                 ></click-element>
-
+                {{#if selectedTab}}
+                <!-- If the user selected a tab -->
                 <semantic-link
                   class="search-btn-activated"
                   iri="rsp:FilterSearch"
@@ -59,6 +62,43 @@
                     <i class="rs-icon rs-icon-search"></i>
                   </div>
                 </semantic-link>
+                {{else}}
+                 <!-- If there is url paramater selectedtab -->
+                  {{#ifCond (objectLength "[[urlParam "selectedtab"]]") "!==" 0}}
+                    <semantic-link
+                    class="search-btn-activated"
+                    iri="rsp:FilterSearch"
+                    urlqueryparam-selectedTab='[[urlParam "selectedtab"]]'
+                    urlqueryparam-keyword="{{bindings.0.keywords.value}}"
+                    >
+                      <div
+                        id="search-click"
+                        style="background: white; height: 39px"
+                        class="btn searchBtn"
+                      >
+                        Search
+                        <i class="rs-icon rs-icon-search"></i>
+                      </div>
+                    </semantic-link>
+                  {{else}}
+                  <!--Else default to the artworks tab -->
+                    <semantic-link
+                    class="search-btn-activated"
+                    iri="rsp:FilterSearch"
+                    urlqueryparam-selectedTab='Artworks'
+                    urlqueryparam-keyword="{{bindings.0.keywords.value}}"
+                    >
+                    <div
+                      id="search-click"
+                      style="background: white; height: 39px"
+                      class="btn searchBtn"
+                    >
+                      Search
+                      <i class="rs-icon rs-icon-search"></i>
+                    </div>
+                    </semantic-link>
+                  {{/ifCond}}
+                {{/if}}
               </template>
             </semantic-query>
             <semantic-link iri="rsp:start" class="search-btn-disabled">

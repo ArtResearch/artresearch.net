@@ -4,7 +4,19 @@
     <div class="row">
       <div class="col-sm-12">
         <header style="margin-left: 10px">
-          [[> :Searchbar]]
+          <semantic-query
+          query='SELECT ?tab WHERE{
+            BIND("[[urlParam "selectedtab"]]" as ?tab)
+          }LIMIT 1'
+          template="{{>searchbarTemplate}}">
+<template id="searchbarTemplate">
+  [[> :Searchbar 
+  selectedCategory="{{bindings.0.tab.value}}"
+   ]]
+</template>
+
+          </semantic-query>
+      
         </header>
       </div>
     </div>
