@@ -213,7 +213,10 @@
                           query="
                               SELECT DISTINCT ?subject
                                WHERE {
-                               }LIMIT 100
+                                OPTIONAL{
+                                   ?subject <https://pharos.artresearch.net/resource/fr/Person_depicted_by> ?withImage
+                                 }
+                               }ORDER BY DESC (?withImage) LIMIT 100
                             "
                           tuple-template="{{>tupleTemplate}}"
                         >
