@@ -17,27 +17,27 @@
         <bs-tab-container
           id="tab-container"
           class="page__body-navtabs--borderless"
-          default-active-key="artworkView"
+          default-active-key='[[urlParam "selectedtab"]]'
         >
           <div>
             <bs-nav bs-style="tabs">
-              <bs-nav-item event-key="artworkView">Artworks</bs-nav-item>
-              <bs-nav-item event-key="photoView">Photographs</bs-nav-item>
-              <bs-nav-item event-key="artistView">Artists</bs-nav-item>
-              <bs-nav-item event-key="photographerView">Photographers</bs-nav-item>
+              <bs-nav-item event-key="Artworks">Artworks</bs-nav-item>
+              <bs-nav-item event-key="Photographs">Photographs</bs-nav-item>
+              <bs-nav-item event-key="Artists">Artists</bs-nav-item>
+              <bs-nav-item event-key="Photographers">Photographers</bs-nav-item>
             </bs-nav>
 
             <bs-tab-content unmount-on-exit="true">
-              <bs-tab-pane event-key="artworkView">
+              <bs-tab-pane event-key="Artworks">
                 [[> :FilterSearchArtworkView]]
               </bs-tab-pane>
-              <bs-tab-pane event-key="photoView">
+              <bs-tab-pane event-key="Photographs">
                 [[> :FilterSearchPhotoView]]
               </bs-tab-pane>
-              <bs-tab-pane event-key="artistView">
+              <bs-tab-pane event-key="Artists">
                 [[> :FilterSearchArtistView]]
               </bs-tab-pane>
-              <bs-tab-pane event-key="photographerView">
+              <bs-tab-pane event-key="Photographers">
                 [[> :FilterSearchPhotographerView]]
               </bs-tab-pane>
             </bs-tab-content>
