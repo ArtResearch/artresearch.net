@@ -1,4 +1,16 @@
 <div id="search-bar">
+  <mp-event-target-template-render
+    id="event-target-tab-select"
+    ]
+    template="{{> tabSelect}}"
+  >
+    <template id="tabSelect">
+      {{#if selectedTab}} [[> rsp:SearchbarDropdown
+      dropdownTitle="{{selectedTab}}"]] {{else}} [[> rsp:SearchbarDropdown
+      dropdownTitle="Artworks"]] {{/if}}
+    </template>
+  </mp-event-target-template-render>
+
   <semantic-search>
     <semantic-search-query-keyword
       placeholder="Search the collection - Type at least 3 characters"
@@ -15,38 +27,53 @@
       }'
     ></semantic-search-query-keyword>
     <semantic-search-result-holder>
-      <semantic-search-result>
-        <semantic-query
-          id="view-more"
-          query="SELECT ?keywords WHERE {}"
-          template="{{>viewMoreButton}}"
-        >
-          <template id="viewMoreButton">
-            <click-element targetId="search-click" keyboardKey="Enter"></click-element>
-            <semantic-link
-              class="search-btn-activated"
-              iri="rsp:FilterSearch"
-              urlqueryparam-keyword="{{bindings.0.keywords.value}}"
+      <mp-event-target-template-render
+        id="event-target-search-btn"
+        template="{{> searchButton}}"
+      >
+        <template id="searchButton">
+          <semantic-search-result>
+            <semantic-query
+              id="view-more"
+              query="SELECT ?keywords WHERE {}"
+              template="{{>viewMoreButton}}"
             >
-              <div id="search-click" style="background: white; height: 39px" class="btn searchBtn">
+              <template id="viewMoreButton">
+                <click-element
+                  targetId="search-click"
+                  keyboardKey="Enter"
+                ></click-element>
+
+                <semantic-link
+                  class="search-btn-activated"
+                  iri="rsp:FilterSearch"
+                  urlqueryparam-selectedTab="{{selectedTab}}"
+                  urlqueryparam-keyword="{{bindings.0.keywords.value}}"
+                >
+                  <div
+                    id="search-click"
+                    style="background: white; height: 39px"
+                    class="btn searchBtn"
+                  >
+                    Search
+                    <i class="rs-icon rs-icon-search"></i>
+                  </div>
+                </semantic-link>
+              </template>
+            </semantic-query>
+            <semantic-link iri="rsp:start" class="search-btn-disabled">
+              <div
+                title="Provide a keyword! (at least 3 characters long)"
+                style="background: white; height: 39px"
+                class="btn searchBtn"
+              >
                 Search
                 <i class="rs-icon rs-icon-search"></i>
               </div>
             </semantic-link>
-          </template>
-        </semantic-query>
-        <semantic-link
-        iri="rsp:start"
-        class="search-btn-disabled"
-      >
-        <div 
-        title="Provide a keyword! (at least 3 characters long)"
-        style="background: white; height: 39px" class="btn searchBtn">
-          Search
-          <i class="rs-icon rs-icon-search"></i>
-        </div>
-      </semantic-link>
-      </semantic-search-result>
+          </semantic-search-result>
+        </template>
+      </mp-event-target-template-render>
     </semantic-search-result-holder>
   </semantic-search>
 </div>
