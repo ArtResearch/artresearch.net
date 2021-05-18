@@ -1,51 +1,23 @@
 <div>
-  <semantic-query query='SELECT ?placeName WHERE{
-    ?? rdfs:label ?name.
-    BIND(REPLACE(str(?name),"@en","") as ?placeName)
-  }LIMIT 1'
-  template="{{> placeNameTemplate}}">
-  <template id="placeNameTemplate">
-    <semantic-query query='
-    PREFIX wd: <http://www.wikidata.org/entity/>
-    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-    SELECT ?placeName ?coordinates WHERE{
-      SERVICE <https://query.wikidata.org/sparql> 
-      {
-        { 
-          # It is a country
-          ?place wdt:P31 wd:Q6256. 
-          ?place wdt:P571 ?date. 
-          ?place rdfs:label "{{bindings.0.placeName.value}}"@it .
-          ?place wdt:P625 ?coordinates
-        }UNION{
-          # It is part of a country
-          ?place wdt:P17 ?someCountry.
-          ?place wdt:P571 ?date. 
-          ?place rdfs:label "{{bindings.0.placeName.value}}"@it .
-          ?place wdt:P625 ?coordinates.
-        }
-      }
-      BIND("{{bindings.0.placeName.value}}" as ?placeName).
-    }LIMIT 1'
-    template="{{> placeLocationTemplate}}">
-    <template id="placeLocationTemplate">
       <h2>Location on Map:</h2>
       <small>
         external source: Wikidata
       </small>
       <semantic-map query='
-  
-        SELECT ?subject ?label ?wkt WHERE {
-                BIND("{{bindings.0.coordinates.value}}" as ?wkt).
-                BIND("{{bindings.0.placeName.value}}" as ?label).
-                BIND(?? as ?subject).
-        } LIMIT 1'
-      tuple-template='<p></p><b style="color: #6b0000;">{{wkt.value}}</b><p></p><p></p>'
+              SELECT ?placeName ?lat ?lng WHERE{
+                {
+                  SERVICE <http://213.171.209.34:10085/blazegraph/sparql> {
+                    ?? <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat.
+                    ?? <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng.
+                    ?? <http://www.geonames.org/ontology#name> ?placeName.
+                  }
+                } UNION {
+                  ?? <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat.
+                  ?? <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng.
+                  ?? rdfs:label ?placeName.
+                }
+              }LIMIT 1'
+      tuple-template='<p></p><b style="color: #6b0000;">{{placeName.value}}</b><p></p><p></p>'
       >
       </semantic-map> 
-      </template>
-    </semantic-query>
-
-</template>
-</semantic-query>
 </div>
