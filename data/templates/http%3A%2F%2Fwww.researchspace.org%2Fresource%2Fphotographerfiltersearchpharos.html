@@ -212,9 +212,12 @@
                            number-of-displayed-rows="8"
                           query='SELECT DISTINCT ?subject ?artistName
                           WHERE {
-                           ?subject rdfs:label ?personName.
-                           BIND(REPLACE(STR(?personName),"@en","") AS ?artistName).
-                          }LIMIT 100'
+                            OPTIONAL{
+                              ?wikiPerson rdfs:label ?photographerName.
+                              ?wikiPerson <https://pharos.artresearch.net/resource/fr/Person_depicted_by> ?withImage.
+                              ?subject rdfs:label ?photographerName.
+                            }
+                          }ORDER BY DESC (?withImage) LIMIT 100'
                           tuple-template="{{>tupleTemplate}}"
                         >
                           <template id="tupleTemplate">
