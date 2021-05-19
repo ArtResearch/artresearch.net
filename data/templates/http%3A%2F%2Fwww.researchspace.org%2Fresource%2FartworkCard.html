@@ -15,14 +15,14 @@
               OPTIONAL{
                 {
                   # Artwork Image #
-                  <{{subject.value}}> <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo.
+                  <{{subject.value}}> pharosfr:Work_depicted_by_Photo ?photo.
                   ?photo crm:P129i_is_subject_of ?fullsizeImgUrl.
                   BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/!200,200") AS ?smallerImgUrl).
                   ?fullsizeImgUrl crm:P2_has_type <http://vocab.getty.edu/aat/300078817>
                 }UNION{
                   # Photo Image #
-                  ?artwork <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> <{{subject.value}}> .
-                  ?artwork <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo .
+                  ?artwork pharosfr:Work_depicted_by_Photo <{{subject.value}}> .
+                  ?artwork pharosfr:Work_depicted_by_Photo ?photo .
                   ?photo crm:P129i_is_subject_of ?fullsizeImgUrl.
                   FILTER(?photo = <{{subject.value}}>).
                   BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/!200,200") AS ?smallerImgUrl).
@@ -73,10 +73,10 @@
                 <semantic-query 
                 query='SELECT ?artist WHERE { 
                   {
-                  <{{subject.value}}> <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?artist
+                  <{{subject.value}}> pharosfr:Work_created_from_Artist ?artist
                   }union{
                    ?original owl:sameAs <{{subject.value}}>.
-                   ?original <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?artist 
+                   ?original pharosfr:Work_created_from_Artist ?artist 
                   }
                 }LIMIT 1'
                 template="{{> artistTemplate}}"
@@ -107,10 +107,10 @@
                 <semantic-query 
                 query='SELECT ?institution WHERE { 
                   {
-                  <{{subject.value}}> <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution> ?institution
+                  <{{subject.value}}> pharosfr:Work_kept_by_Institution ?institution
                   }union{
                    ?original owl:sameAs <{{subject.value}}>.
-                   ?original <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution> ?institution 
+                   ?original pharosfr:Work_kept_by_Institution ?institution 
                   }
                 }LIMIT 1'
                 template="{{>repoTemplate}}"
@@ -142,10 +142,10 @@
                 <semantic-query 
                 query='SELECT ?date WHERE { 
                   {
-                  <{{subject.value}}> <https://pharos.artresearch.net/resource/fr/Work_from_Date> ?date
+                  <{{subject.value}}> pharosfr:Work_from_Date ?date
                   }union{
                    ?original owl:sameAs <{{subject.value}}>.
-                   ?original <https://pharos.artresearch.net/resource/fr/Work_from_Date> ?date 
+                   ?original pharosfr:Work_from_Date ?date 
                   }
                 }LIMIT 1'
                 template="{{>repoTemplate}}"

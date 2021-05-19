@@ -2,15 +2,15 @@
 id="semantic-search-result-table"
 query="SELECT DISTINCT ?subject ?creator ?date ?repository ?provider WHERE {
     OPTIONAL{
-      ?subject <https://pharos.artresearch.net/resource/fr/Work_from_Date> ?date.
+      ?subject pharosfr:Work_from_Date ?date.
     }
     OPTIONAL{
       ?originalSubject owl:sameAs ?subject.
       ?originalSubject  crm:P50_has_current_keeper ?repository.
     }
-    ?subject <https://pharos.artresearch.net/resource/fr/Work_has_provider_Institution> ?provider.
-    ?subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?creator.
-    ?subject a <https://pharos.artresearch.net/resource/fc/work>.
+    ?subject pharosfr:Work_has_provider_Institution ?provider.
+    ?subject pharosfr:Work_created_from_Artist ?creator.
+    ?subject a pharosfc:work.
 }LIMIT 100"
 options='{"showFilter":true, "resultsPerPage":10}'
 column-configuration='[

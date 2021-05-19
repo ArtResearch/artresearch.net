@@ -7,7 +7,7 @@
       "kind": "resource",
       "queryPattern": "
         
-          $subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?__value__."
+          $subject pharosfr:Work_created_from_Artist ?__value__."
     }
 ],
     "<https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution>":[
@@ -15,21 +15,21 @@
       "kind": "resource",
       "queryPattern": "
         
-          $subject <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution> ?__value__."
+          $subject pharosfr:Work_kept_by_Institution ?__value__."
     }],
     "<https://pharos.artresearch.net/resource/fr/Work_shows_Subject>": [
     {
       "kind": "resource",
       "queryPattern": "
         
-          $subject <https://pharos.artresearch.net/resource/fr/Work_shows_Subject>  ?__value__."
+          $subject pharosfr:Work_shows_Subject  ?__value__."
     }],
     "<https://pharos.artresearch.net/resource/fr/Work_consists_of_Material>": [
     {
       "kind": "resource",
       "queryPattern": "
         
-          $subject <https://pharos.artresearch.net/resource/fr/Work_consists_of_Material> ?__value__."
+          $subject pharosfr:Work_consists_of_Material ?__value__."
     }],
     "<http://www.cidoc-crm.org/cidoc-crm/P2_has_type>": [
     {
@@ -43,14 +43,14 @@
       "kind": "resource",
       "queryPattern": "
         
-         $subject <https://pharos.artresearch.net/resource/fr/Work_produced_using_technique_Technique> ?__value__."
+         $subject pharosfr:Work_produced_using_technique_Technique ?__value__."
     }],
     "<https://pharos.artresearch.net/resource/fr/Work_from_Place>": [
     {
       "kind": "resource",
       "queryPattern": "
         
-          $subject <https://pharos.artresearch.net/resource/fr/Work_from_Place> ?__value__."
+          $subject pharosfr:Work_from_Place ?__value__."
     }]
       }'
     search-profile='{
@@ -141,7 +141,7 @@
               SELECT  ?subject  
               WHERE {
                 ?artwork <https://pharos.artresearch.net/custom/has_provider> <[[provider]]>.
-                ?artwork  <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?subject.
+                ?artwork  pharosfr:Work_created_from_Artist ?subject.
                 ?subject  rdfs:label ?label .
               }LIMIT 100"
                 query='
@@ -149,7 +149,7 @@
                       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
                       SELECT ?subject WHERE {                        
                       ?artwork <https://pharos.artresearch.net/custom/has_provider>  <[[provider]]>.
-                      ?artwork <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?subject.
+                      ?artwork pharosfr:Work_created_from_Artist ?subject.
                       ?subject rdfs:label ?someLabel.
                       ?someLabel bds:search ?__token__ .
                       ?someLabel bds:minRelevance "0.3"^^xsd:double;
@@ -185,7 +185,7 @@
                   SELECT DISTINCT ?subject ?artistName (count(?artwork) as ?artworkCount)
                    WHERE {
                     ?artwork <https://pharos.artresearch.net/custom/has_provider> <[[provider]]>.
-                    ?artwork <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ?subject.
+                    ?artwork pharosfr:Work_created_from_Artist ?subject.
                     ?subject rdfs:label ?artistName
                    }GROUP BY ?subject ?artistName ORDER BY DESC(?artworkCount) LIMIT 100
                 "
@@ -210,7 +210,7 @@
                           SELECT DISTINCT ?imgUrl WHERE{
                             bind("_" as ?default_imageUrl)
                               OPTIONAL{
-                                <{{subject.value}}> <https://pharos.artresearch.net/resource/fr/Person_depicted_by> ?personImage
+                                <{{subject.value}}> pharosfr:Person_depicted_by ?personImage
                               }
                                 BIND(coalesce(?personImage, ?default_imageUrl) as ?imgUrl)    
 

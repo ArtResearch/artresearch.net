@@ -4,12 +4,12 @@
       options='{"height":"39vh"}'
       query='PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
       SELECT ?start ?end ?photo ?imgUrl WHERE {
-      ?? <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo.      
+      ?? pharosfr:Work_depicted_by_Photo ?photo.      
       ?photo crm:P129i_is_subject_of ?image.
       BIND(REPLACE(STR(?image),"full/full","full/!150,150") AS ?imgUrl).
-      ?photo <https://pharos.artresearch.net/resource/fr/Photo_from_Date> ?timespan_from.
+      ?photo pharosfr:Photo_from_Date ?timespan_from.
       ?timespan_from rdfs:label ?start.
-      ?photo <https://pharos.artresearch.net/resource/fr/Photo_to_Date> ?timespan_to.
+      ?photo pharosfr:Photo_to_Date ?timespan_to.
       ?timespan_to rdfs:label ?end.
     }'
       tuple-template="{{> template}}"

@@ -5,7 +5,7 @@
   {
     "kind": "resource",
     "queryPattern": "
-      $subject <https://pharos.artresearch.net/resource/fr/Institution_from_Place>  ?__value__.
+      $subject pharosfr:Institution_from_Place  ?__value__.
       ?__value__ rdfs:label ?label"
   }
 ] 
@@ -45,11 +45,11 @@
         default-query="
               SELECT DISTINCT ?subject ?institutionImage
               WHERE {
-                ?subject a <https://pharos.artresearch.net/resource/fc/institution>.   
+                ?subject a pharosfc:institution.   
               }LIMIT 100"
         query='
                       SELECT DISTINCT ?subject WHERE {
-                      ?subject a <https://pharos.artresearch.net/resource/fc/institution>.   
+                      ?subject a pharosfc:institution.   
                       ?subject rdfs:label ?someLabel.
                       ?someLabel bds:search ?__token__ .
                       ?someLabel bds:minRelevance "0.3"^^xsd:double;
@@ -102,7 +102,7 @@
                             query="
                           SELECT DISTINCT ?subject WHERE {
                              OPTIONAL{
-                              ?subject <https://pharos.artresearch.net/resource/fr/Institution_depicted_by> ?institutionImage
+                              ?subject pharosfr:Institution_depicted_by ?institutionImage
                             }     
                           }ORDER BY DESC(?institutionImage) LIMIT 100
                         "
@@ -120,8 +120,8 @@
                               id="repository-map"
                               query="SELECT ?subject ?label ?lat ?lng WHERE {
                             ?og owl:sameAs ?subject.
-                            ?og <https://pharos.artresearch.net/resource/fr/Institution_has_Latitude> ?lat.
-                            ?og <https://pharos.artresearch.net/resource/fr/Institution_has_Longitude> ?lng.
+                            ?og pharosfr:Institution_has_Latitude ?lat.
+                            ?og pharosfr:Institution_has_Longitude ?lng.
                             ?og rdfs:label ?label.
                           } LIMIT 1000"
                               tuple-template='<p></p><a style="text-decoration: none;"  href="https://artresearch.net/resource/?uri={{subject.value}}" target="_blank"><b style="color: #6b0000;">{{label.value}}</b><p></p><p></p></a><hr>'

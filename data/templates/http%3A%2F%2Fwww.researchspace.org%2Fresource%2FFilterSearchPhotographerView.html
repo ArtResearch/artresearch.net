@@ -7,7 +7,7 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX bds: <http://www.bigdata.com/rdf/search#>
 PREFIX hint: <http://www.bigdata.com/queryHints#>
 SELECT ?subject ?keywords  WHERE {                
-?subject a <https://pharos.artresearch.net/resource/fc/photographer>.
+?subject a pharosfc:photographer.
 hint:Prior hint:runLast true .
 ?subject rdfs:label ?label .
 ?label bds:search "[[urlParam "keyword"]]" ;

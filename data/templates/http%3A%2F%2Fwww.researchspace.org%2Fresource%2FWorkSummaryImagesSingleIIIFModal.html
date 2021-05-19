@@ -22,7 +22,7 @@
           image-or-region="[[this]]"
           image-id-pattern='
                     BIND("image" AS ?type). BIND(?subject AS ?imageIRI). 
-                    ?subject <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo.
+                    ?subject pharosfr:Work_depicted_by_Photo ?photo.
                     ?photo crm:P129i_is_subject_of <{{bindings.0.fullsizeImages.value}}>.
                     <{{bindings.0.fullsizeImages.value}}> crm:P2_has_type <http://iiif.io/api/image>.
                     BIND(REPLACE(STR("{{bindings.0.fullsizeImages.value}}"), "full/!700,700", "full/full") AS ?fotoIndexId).
@@ -41,7 +41,7 @@
             image-or-region="[[this]]"
             image-id-pattern='
                         BIND("image" AS ?type). BIND(?subject AS ?imageIRI). 
-                        ?subject <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo.
+                        ?subject pharosfr:Work_depicted_by_Photo ?photo.
                         ?photo crm:P129i_is_subject_of <{{bindings.0.fullsizeImages.value}}>.
                         <{{bindings.0.fullsizeImages.value}}> crm:P2_has_type <http://iiif.io/api/image>.
                         BIND(REPLACE(STR("{{bindings.0.fullsizeImages.value}}"), "full/!700,700", "full/full") AS ?fotoIndexId).
@@ -58,7 +58,7 @@
             image-or-region="[[this]]"
             image-id-pattern='
                         BIND("image" AS ?type). BIND(?subject AS ?imageIRI). 
-                        ?subject <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo.
+                        ?subject pharosfr:Work_depicted_by_Photo ?photo.
                         ?photo crm:P129i_is_subject_of <{{bindings.1.fullsizeImages.value}}>.
                         <{{bindings.1.fullsizeImages.value}}> crm:P2_has_type <http://iiif.io/api/image>.
                         BIND(REPLACE(STR("{{bindings.1.fullsizeImages.value}}"), "full/!700,700", "full/full") AS ?fotoIndexId).

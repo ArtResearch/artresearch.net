@@ -15,14 +15,14 @@
                                 OPTIONAL{
                                   {
                                     # Artwork Image #
-                                    <{{subject.value}}> <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo.
+                                    <{{subject.value}}> pharosfr:Work_depicted_by_Photo ?photo.
                                     ?photo crm:P129i_is_subject_of ?fullsizeImgUrl.
                                     ?fullsizeImgUrl crm:P2_has_type <http://vocab.getty.edu/aat/300078817>.
                                     BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/!200,200") AS ?smallerImgUrl).
                                   }UNION{
                                     # Photo Image #
-                                    ?artwork <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> <{{subject.value}}> .
-                                    ?artwork <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo .
+                                    ?artwork pharosfr:Work_depicted_by_Photo <{{subject.value}}> .
+                                    ?artwork pharosfr:Work_depicted_by_Photo ?photo .
                                     ?photo crm:P129i_is_subject_of ?fullsizeImgUrl.
                                     ?fullsizeImgUrl crm:P2_has_type <http://vocab.getty.edu/aat/300078817>.
                                     FILTER(?photo = <{{subject.value}}>).

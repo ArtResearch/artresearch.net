@@ -22,7 +22,7 @@ class="rs-grid-element panel panel-default repositoryCard fade-in-fwd"
       SELECT DISTINCT ?imgUrl WHERE{
         bind("_" as ?default_imageUrl)
         OPTIONAL{
-          <{{subject.value}}> <https://pharos.artresearch.net/resource/fr/Institution_depicted_by> ?institutionImage
+          <{{subject.value}}> pharosfr:Institution_depicted_by ?institutionImage
         }
         BIND(coalesce(?institutionImage, ?default_imageUrl) as ?imgUrl)    
             }LIMIT 1'
