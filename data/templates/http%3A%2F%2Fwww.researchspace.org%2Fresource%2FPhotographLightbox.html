@@ -19,6 +19,7 @@ SELECT distinct ?photo (GROUP_CONCAT(STR(?label);SEPARATOR=" , ") AS ?allLabels)
     ?b rdfs:label ?label
 }GROUP BY(?photo) '
     tuple-template="{{> photos}}"
+    no-result-template='<h2>No photographs found</h2>'
   >
     <template id="photos">
         <div
