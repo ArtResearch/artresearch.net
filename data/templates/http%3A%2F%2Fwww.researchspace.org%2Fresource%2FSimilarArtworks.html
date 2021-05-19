@@ -1,7 +1,9 @@
 <!-- Displays a list of similar artworks -->
 <div id="similar-artwork-list">
+  <h1>Search for similar artworks</h1>
+  <h2>Click on search to go to vision.artresearch.net</h2>
   <semantic-query
-    query='SELECT distinct ?thumb ?image WHERE { 
+    query='SELECT distinct ?photo ?thumb ?image WHERE { 
       # Artwork
       ?? <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo.
       ?photo crm:P129i_is_subject_of ?image.
@@ -23,15 +25,12 @@
             alt="Card image cap"
           />
           <div class="card-body">
-            <h5 class="card-title">View similar artworks</h5>
-            <p class="card-text">
-              Search for similar artworks on vision
-            </p>
+            <h3 class="card-title"><semantic-link iri="{{photo.value}}"></semantic-link></h3>
             <a href="https://vision.artresearch.net/resource/?image={{image.value}}&uri=rsp%3ASearch" target="_similar_artworks">
               <div
-              class="btn btn-primary"
+              class="btn btn-info"
             >
-              Go to site
+              Search
             </div>
           </div>
         </div>
