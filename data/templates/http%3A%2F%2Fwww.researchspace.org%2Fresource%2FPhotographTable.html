@@ -26,6 +26,8 @@ SELECT distinct ?photo ?photo_label ?photographer ?keeper WHERE
 }"
 
     tuple-template="{{> photos}}"
+    no-result-template='<h2>No photographs found</h2>'
+
   >
     <template id="photos">
       <semantic-link class="photographFieldView" iri="{{photo.value}}">

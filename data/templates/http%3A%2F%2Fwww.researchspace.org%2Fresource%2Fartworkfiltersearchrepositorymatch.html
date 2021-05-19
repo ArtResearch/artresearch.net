@@ -26,7 +26,9 @@
                 WHERE {
                   ?subject <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo.
                 }LIMIT 100
-            " tuple-template="{{>tupleTemplate}}">
+            " tuple-template="{{>tupleTemplate}}"
+              no-result-template='[[> :noResultCard ]]'
+            >
                   <template id="tupleTemplate"> [[> rsp:artworkCard]] </template>
                 </semantic-table>
             </semantic-search-result>

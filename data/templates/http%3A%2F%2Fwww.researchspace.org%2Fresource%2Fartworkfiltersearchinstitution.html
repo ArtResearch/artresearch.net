@@ -138,7 +138,9 @@
                         }' number-of-displayed-rows="5" query="
                       SELECT DISTINCT ?subject
                        WHERE {}LIMIT 100
-                    " tuple-template="{{>tupleTemplate}}">
+                    " tuple-template="{{>tupleTemplate}}"
+                    no-result-template='[[> :noResultCard ]]'
+                    >
                           <template id="tupleTemplate"> [[> rsp:artworkCard]] </template>
                         </semantic-table>
                       </bs-tab-pane>
@@ -150,7 +152,9 @@
                        WHERE {
                          ?subject <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo.
                        }LIMIT 100
-                    " tuple-template="{{>tupleTemplate}}">
+                    " tuple-template="{{>tupleTemplate}}"
+                    no-result-template='[[> :noResultCard ]]'
+                    >
                           <template id="tupleTemplate"> [[> rsp:artworkCard]] </template>
                         </semantic-table>
                       </bs-tab-pane>

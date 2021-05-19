@@ -182,7 +182,9 @@
                        WHERE {
                           ?? <https://pharos.artresearch.net/resource/fr/Place_of_Work> ?subject.
                        }LIMIT 100
-                    " tuple-template="{{>tupleTemplate}}">
+                    " tuple-template="{{>tupleTemplate}}"
+                      no-result-template='[[> :noResultCard ]]'
+                    >
                           <template id="tupleTemplate"> [[> rsp:artworkCard]] </template>
                         </semantic-table>
                       </bs-tab-pane>
@@ -195,7 +197,9 @@
                           ?? <https://pharos.artresearch.net/resource/fr/Place_of_Work> ?subject.
                           ?subject <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo.
                        }LIMIT 100
-                    " tuple-template="{{>tupleTemplate}}">
+                    " tuple-template="{{>tupleTemplate}}"
+                      no-result-template='[[> :noResultCard ]]'
+                    >
                           <template id="tupleTemplate"> [[> rsp:artworkCard]] </template>
                         </semantic-table>
                       </bs-tab-pane>

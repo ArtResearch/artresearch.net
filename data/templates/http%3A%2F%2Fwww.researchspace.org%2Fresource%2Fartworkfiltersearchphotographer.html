@@ -183,6 +183,7 @@
                             number-of-displayed-rows="5"
                             query=" SELECT DISTINCT ?subject WHERE {}LIMIT 100"
                             tuple-template="{{>tupleTemplate}}"
+                            no-result-template='[[> :noResultCard ]]'
                           >
                             <template id="tupleTemplate">
                               [[> rsp:artworkCard]]
@@ -203,6 +204,7 @@
                        }LIMIT 100
                     "
                             tuple-template="{{>tupleTemplate}}"
+                            no-result-template='[[> :noResultCard ]]'
                           >
                             <template id="tupleTemplate">
                               [[> rsp:artworkCard]]
