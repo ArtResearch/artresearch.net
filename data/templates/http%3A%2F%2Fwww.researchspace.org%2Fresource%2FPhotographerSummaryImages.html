@@ -9,7 +9,7 @@
     <semantic-query query='
       SELECT DISTINCT ?imgUrl WHERE{
         ?wikiPerson rdfs:label ?photographerName.
-        ?wikiPerson <https://pharos.artresearch.net/resource/fr/Person_depicted_by> ?imgUrl.
+        ?wikiPerson pharosfr:Person_depicted_by ?imgUrl.
         ?? rdfs:label ?photographerName.
       }LIMIT 1' template='{{> imageThumbnail}}'>
               <template id="imageThumbnail">

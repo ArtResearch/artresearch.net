@@ -3,7 +3,7 @@
     query="  
 SELECT distinct ?photo 
 {
-  ?? <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo
+  ?? pharosfr:Work_depicted_by_Photo ?photo
 }LIMIT 1"
     template="{{> showTitle}}"
   >
@@ -21,7 +21,7 @@ SELECT distinct ?photo
     query="  
 SELECT distinct ?photo ?photo_label ?photographer ?keeper WHERE 
 {
-    ?? <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo 
+    ?? pharosfr:Work_depicted_by_Photo ?photo 
     # TODO add recto query, add optional verso query
 }"
 

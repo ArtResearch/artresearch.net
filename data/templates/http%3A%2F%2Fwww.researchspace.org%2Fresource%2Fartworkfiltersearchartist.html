@@ -90,12 +90,12 @@
         escape-lucene-syntax="false"
         default-query="
               SELECT DISTINCT ?subject WHERE {
-                ?subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ??.
+                ?subject pharosfr:Work_created_from_Artist ??.
               }LIMIT 100"
         query='
         PREFIX fts: <http://www.bigdata.com/rdf/fts#>
         SELECT DISTINCT ?subject WHERE {          
-            ?subject <https://pharos.artresearch.net/resource/fr/Work_created_from_Artist> ??.
+            ?subject pharosfr:Work_created_from_Artist ??.
             ?subject fts:search ?__token__.
             ?subject fts:endpoint "http://213.171.209.34:8983/solr/artworks/select"  .
             ?subject fts:endpointType "SOLR" .
@@ -166,7 +166,7 @@
                             query="
                       SELECT DISTINCT ?subject
                        WHERE {
-                        ?subject <https://pharos.artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo.
+                        ?subject pharosfr:Work_depicted_by_Photo ?photo.
                        }LIMIT 100
                     "
                             tuple-template="{{>tupleTemplate}}"
