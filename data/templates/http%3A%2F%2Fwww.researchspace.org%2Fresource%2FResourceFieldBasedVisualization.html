@@ -52,7 +52,7 @@
               <td>
                 {{#each field.values as |value|}}
                   <span class="rs-page-resource__field-value"
-                    >{{> rsp:ResourceFieldValueVisualization field=field
+                    >{{> :ResourceFieldValueVisualization field=field
                     value=value }}
                   </span>
                 {{/each}}
@@ -79,7 +79,7 @@
               </td>
               <td class="sourceIcon-badge">
                 <div class="sourceIcons">
-                  {{#each field.values as |value|}} [[> rsp:SourceIcon ]]
+                  {{#each field.values as |value|}} [[> :SourceIcon ]]
                   {{/each}}
                 </div>
               </td>
@@ -97,7 +97,7 @@
                 <div style="display: flex; flex-direction: column">
                   <td>
                     <span class="rs-page-resource__field-value"
-                      >{{> rsp:ResourceFieldValueVisualization field=field
+                      >{{> :ResourceFieldValueVisualization field=field
                       value=value }}
                     </span>
                   </td>
@@ -124,7 +124,7 @@
                 </div>
               </td>
               <td>
-                <div class="sourceIcons">[[> rsp:SourceIcon ]]</div>
+                <div class="sourceIcons">[[> :SourceIcon ]]</div>
               </td>
 
               [[/if]]

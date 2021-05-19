@@ -73,7 +73,6 @@
 {
   "kind": "resource",
   "queryPattern": "
-    
       $subject pharosfr:Person_has_Event ?event.
       ?event pharosfr:Event_has_Type ?__value__ ."
 }],
@@ -84,5 +83,12 @@
     
       $subject pharosfr:Person_has_Event ?event.
       ?event pharosfr:Event_at_Place ?__value__ ."
-}]
+}],
+"<https://pharos.artresearch.net/resource/fr/Work_from_Date>": [{
+  "kind": "date-range",
+  "datatype": "http://www.w3.org/2001/XMLSchema#date",
+  "queryPattern": "
+  $subject pharosfr:Work_from_Date ?dateBeginValue.
+  $subject pharosfr:Work_from_Date ?dateEndValue .
+  "}]
 }

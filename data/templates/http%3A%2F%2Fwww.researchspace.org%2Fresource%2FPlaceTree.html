@@ -1,0 +1,11 @@
+<semantic-tree query="
+        PREFIX : <http://help.metaphacts.com/resource/>
+        SELECT ?node ?parent WHERE {
+          {
+        ??  <http://www.geonames.org/ontology#parentCountry>  ?parent.
+        BIND(?? as ?node)}UNION{
+            ?node  <http://www.geonames.org/ontology#parentCountry>  ??.
+            BIND(?? as ?parent)
+        }
+      }">
+</semantic-tree>

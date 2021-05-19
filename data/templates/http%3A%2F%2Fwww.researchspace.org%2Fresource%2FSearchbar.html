@@ -5,9 +5,9 @@
   >
     <template id="tabSelect">
       {{#if selectedTab}} 
-         [[> rsp:SearchbarDropdown dropdownTitle="{{selectedTab}}"]]
+         [[> :SearchbarDropdown dropdownTitle="{{selectedTab}}"]]
        {{else}} 
-         [[> rsp:SearchbarDropdown dropdownTitle=selectedCategory ]] 
+         [[> :SearchbarDropdown dropdownTitle=selectedCategory ]] 
       {{/if}}
     </template>
   </mp-event-target-template-render>
@@ -48,7 +48,7 @@
                 <!-- If the user selected a tab -->
                 <semantic-link
                   class="search-btn-activated"
-                  iri="rsp:FilterSearch"
+                  iri="Default:FilterSearch"
                   urlqueryparam-selectedTab="{{selectedTab}}"
                   urlqueryparam-keyword="{{bindings.0.keywords.value}}"
                 >
@@ -66,7 +66,7 @@
                   {{#ifCond (objectLength "[[urlParam "selectedtab"]]") "!==" 0}}
                     <semantic-link
                     class="search-btn-activated"
-                    iri="rsp:FilterSearch"
+                    iri="Default:FilterSearch"
                     urlqueryparam-selectedTab='[[urlParam "selectedtab"]]'
                     urlqueryparam-keyword="{{bindings.0.keywords.value}}"
                     >
@@ -83,7 +83,7 @@
                   <!--Else default to the artworks tab -->
                     <semantic-link
                     class="search-btn-activated"
-                    iri="rsp:FilterSearch"
+                    iri="Default:FilterSearch"
                     urlqueryparam-selectedTab='Artworks'
                     urlqueryparam-keyword="{{bindings.0.keywords.value}}"
                     >
@@ -100,7 +100,7 @@
                 {{/if}}
               </template>
             </semantic-query>
-            <semantic-link iri="rsp:start" class="search-btn-disabled">
+            <semantic-link iri="Default:start" class="search-btn-disabled">
               <div
                 title="Provide a keyword! (at least 3 characters long)"
                 style="background: white; height: 39px"

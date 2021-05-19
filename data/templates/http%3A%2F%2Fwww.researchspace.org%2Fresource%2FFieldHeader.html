@@ -1,11 +1,11 @@
 <div class='page__header-thumbnail'>
-  <semantic-table query='SELECT (<[[urlParam "subject"]]> as ?iri) {}' tuple-template='{{> rsp:RecordThumbnail imageWidth=100 imageHeight=100}}' options='{"showFilter": false}'></semantic-table>
+  <semantic-table query='SELECT (<[[urlParam "subject"]]> as ?iri) {}' tuple-template='{{> :RecordThumbnail imageWidth=100 imageHeight=100}}' options='{"showFilter": false}'></semantic-table>
 </div>
 <div class='page__header-body' data-flex-layout='row columns-left'>
   <h4 data-flex-layout='flex-column align-items-center flex-wrap'>
     <mp-label iri='[[urlParam "subject"]]' class='page__header-gripper-label'></mp-label>
     <small style='margin-left: 10px;'>
-      [[> rsp:TypeRepositoryInfo work=(urlParam "subject") ]]
+      [[> :TypeRepositoryInfo work=(urlParam "subject") ]]
     </small>
   </h4>
   <h2>
