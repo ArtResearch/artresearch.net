@@ -2,37 +2,37 @@
 <ol class="page-breadcrumb">
   <li class="active">Structured Search</li>
 </ol>
-[[> rsp:SearchEventProxies]]
+[[> :SearchEventProxies]]
 <div class="page">
-  [[#>rsp:ClipboardSidebar]]
+  [[#>:ClipboardSidebar]]
   <div class="page__body--borderless">
     <semantic-search
       id="semantic-search"
       limit="50000"
       optimizer="blazegraph"
-      categories='[[> rsp:SearchCategories]]'
-      search-profile='[[> rsp:SearchProfile]]'
+      categories='[[> :SearchCategories]]'
+      search-profile='[[> :SearchProfile]]'
     >
       <semantic-search-query-builder
         id="semantic-query-builder"
         relation-template=' <div style="margin-left: {{order.value}}px">{{label}}</div> '
-        resource-selector='[[> rsp:SearchResourceSelector]]'
-        tree-selector='[[> rsp:SearchTreeSelector]]'
-        geo-selector='[[> rsp:SearchGeoSelector]]'
+        resource-selector='[[> :SearchResourceSelector]]'
+        tree-selector='[[> :SearchTreeSelector]]'
+        geo-selector='[[> :SearchGeoSelector]]'
       >
       </semantic-search-query-builder>
       <div data-flex-layout="row stretch-stretch">
         <div data-flex-self="size-1of3" style="flex: 0 0 0">
           <semantic-search-facet
             id="semantic-search-facet"
-            value-categories='[[> rsp:SearchValueCategories]]'
+            value-categories='[[> :SearchValueCategories]]'
           ></semantic-search-facet>
         </div>
         <semantic-search-result-holder>
           <div data-flex-self="md-full">
             <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
             <semantic-search-result id="semantic-search-result">
-              [[> rsp:SearchResultCount]]
+              [[> :SearchResultCount]]
             </semantic-search-result>
             <bs-tabs
               default-active-key="1"
@@ -43,19 +43,19 @@
             >
               <bs-tab event-key="1" title="List">
                 <semantic-search-result>
-                  [[> rsp:SearchResultCardWork]]
-                  [[> rsp:SearchResultCardPhoto]]
-                  [[> rsp:SearchResultCardPlace]]
-                  [[> rsp:SearchResultCardArtist]]
-                  [[> rsp:SearchResultCardPhotographer]]
-                  [[> rsp:SearchResultCardInstitution]]
+                  [[> :SearchResultCardWork]]
+                  [[> :SearchResultCardPhoto]]
+                  [[> :SearchResultCardPlace]]
+                  [[> :SearchResultCardArtist]]
+                  [[> :SearchResultCardPhotographer]]
+                  [[> :SearchResultCardInstitution]]
                </semantic-search-result>
               </bs-tab>
               <bs-tab event-key="2" title="Tabular">
                 <div id="tableView">
                 <semantic-search-result>
-                  [[> rsp:SearchResultTableWork]]
-                  [[> rsp:SearchResultTablePhoto]]
+                  [[> :SearchResultTableWork]]
+                  [[> :SearchResultTablePhoto]]
                 </semantic-search-result>
               </div>
               </bs-tab>
@@ -64,7 +64,7 @@
                   ranges='["http://www.researchspace.org/ontology/Concept", "http://www.researchspace.org/ontology/Place", "http://www.researchspace.org/ontology/Actor"]'
                 >
                   <semantic-search-result id="semantic-search-result-chart">
-                    [[> rsp:SearchResultChart]]
+                    [[> :SearchResultChart]]
                   </semantic-search-result>
                 </semantic-search-result-context>
               </bs-tab>
@@ -74,7 +74,7 @@
                     ranges='["http://www.researchspace.org/ontology/Time"]'
                   >
                     <semantic-search-result>
-                      [[> rsp:SearchResultTimeline]]
+                      [[> :SearchResultTimeline]]
                     </semantic-search-result>
                   </semantic-search-result-context>
                 </div>
@@ -140,6 +140,6 @@
       </div>
     </semantic-search>
   </div>
-  [[/rsp:ClipboardSidebar]]
+  [[/:ClipboardSidebar]]
 </div>
 </div>

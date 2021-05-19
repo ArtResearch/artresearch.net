@@ -1,21 +1,13 @@
 <div>
       <h2>Location on Map:</h2>
       <small>
-        external source: Wikidata
+        external source: GeoNames
       </small>
       <semantic-map query='
               SELECT ?placeName ?lat ?lng WHERE{
-                {
-                  SERVICE <http://213.171.209.34:10085/blazegraph/sparql> {
-                    ?? <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat.
-                    ?? <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng.
-                    ?? <http://www.geonames.org/ontology#name> ?placeName.
-                  }
-                } UNION {
                   ?? <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat.
                   ?? <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng.
                   ?? rdfs:label ?placeName.
-                }
               }LIMIT 1'
       tuple-template='<p></p><b style="color: #6b0000;">{{placeName.value}}</b><p></p><p></p>'
       >

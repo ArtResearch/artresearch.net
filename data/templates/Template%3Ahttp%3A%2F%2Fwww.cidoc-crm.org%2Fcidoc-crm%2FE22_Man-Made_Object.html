@@ -1,8 +1,8 @@
-[[> rsp:Breadcrumb ]]
+[[> :Breadcrumb ]]
 <div class="page rs-page">
-  [[#> rsp:ClipboardSidebar]]
+  [[#> :ClipboardSidebar]]
   <div class="page__header-navtabs">
-    [[> rsp:Header ]]
+    [[> :Header ]]
   </div>
 
   [[#if (urlParam "tab")]]
@@ -29,26 +29,26 @@
         <bs-tab-content unmount-on-exit=true>
           <bs-tab-pane event-key="summary">
             <!-- Loads all IIIF images as 500px thumbnails (clickable with mirador popup) -->
-              [[> rsp:WorkSummaryImages]]
+              [[> :WorkSummaryImages]]
             <!-- Loads two tables with information regarding work & production -->
             <!-- Loads photographs with info (id, photographer, keeper) -->
-              [[> rsp:WorkAndProductionInfo]]
+              [[> :WorkAndProductionInfo]]
           </bs-tab-pane>
           <bs-tab-pane event-key="PhotographLightbox">
             [[> PhotographLightbox record=(this)]]
           </bs-tab-pane>
           <bs-tab-pane event-key="similar">
             <!-- Show similar artworks -->
-              [[> rsp:SimilarArtworks]]
+              [[> :SimilarArtworks]]
           </bs-tab-pane>
           <bs-tab-pane event-key="annotations">
-            [[> rsp:EntityAnnotations]]
+            [[> :EntityAnnotations]]
           </bs-tab-pane>
   
         </bs-tab-content>
       </div>
     </bs-tab-container>
-    [[/rsp:ClipboardSidebar]]
+    [[/:ClipboardSidebar]]
 </div>
 
 <style>

@@ -53,7 +53,7 @@
                             <mp-field-visualization
                               subject='[[urlParam "subject"]]'
                               fields='[[fieldDefinitions field=(urlParam "field")]]'
-                              template='{{> rsp:FieldBasedAssertedValueVisualization}}'
+                              template='{{> :FieldBasedAssertedValueVisualization}}'
                             ></mp-field-visualization>
                           </div>
                           <mp-event-trigger id='assert-new-value' type='Component.TemplateUpdate' targets='["assertion"]' data='{"assertion": "{{assertion.value}}"}'>
@@ -80,14 +80,14 @@
         <template id='template'>
           {{#if assertion}}
           <rs-assertion assertion='{{assertion}}'
-            value-template='{{> rsp:FieldValueVisualization}}'
-            form-template='{{> rsp:AssertionFormTemplate}}'>
+            value-template='{{> :FieldValueVisualization}}'
+            form-template='{{> :AssertionFormTemplate}}'>
           </rs-assertion>
           {{else}}
           <rs-assertion target='[[urlParam "subject"]]'
             fields='[[fieldDefinitions field=(urlParam "field")]]'
-            value-template='{{> rsp:FieldValueVisualization}}'
-            form-template='{{> rsp:AssertionFormTemplate}}'>
+            value-template='{{> :FieldValueVisualization}}'
+            form-template='{{> :AssertionFormTemplate}}'>
           </rs-assertion>
           {{/if}}
         </template>
@@ -99,9 +99,9 @@
 
 
 <div class="page rs-page">
-  [[#> rsp:ClipboardSidebar]]
+  [[#> :ClipboardSidebar]]
   <div class="page__header-navtabs">
-    [[> rsp:FieldHeader]]
+    [[> :FieldHeader]]
   </div>
 
   [[#if (urlParam "tab")]]
@@ -125,11 +125,11 @@
             [[> assertions]]
           </bs-tab-pane>
           <bs-tab-pane event-key="annotations">
-            [[> rsp:FieldAnnotations]]
+            [[> :FieldAnnotations]]
           </bs-tab-pane>
         </bs-tab-content>
       </div>
     </bs-tab-container>
 
-    [[/rsp:ClipboardSidebar]]
+    [[/:ClipboardSidebar]]
 </div>

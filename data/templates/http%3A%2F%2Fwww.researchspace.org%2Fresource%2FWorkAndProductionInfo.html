@@ -10,7 +10,7 @@
       {{#if noData}} {{else}}
       <div class="workInfoContainer">
         <h2>Work info</h2>
-        [[> rsp:ResourceFieldBasedVisualization subject=[[this]]
+        [[> :ResourceFieldBasedVisualization subject=[[this]]
         showSourceIcon="true" ]]
       </div>
       {{/if}}
@@ -30,7 +30,7 @@
         <div></div>
         {{else}}
         <h2>Production info</h2>
-        [[> rsp:ResourceFieldBasedVisualization subject=[[this]]
+        [[> :ResourceFieldBasedVisualization subject=[[this]]
         showSourceIcon="true" ]] {{/if}}
       </template>
     </mp-field-visualization>
@@ -44,7 +44,7 @@
       <template id="generalInfo">
         {{#if noData}} {{else}}
         <h2 style="margin-top: 4vh">Other details</h2>
-        [[> rsp:ResourceFieldBasedVisualization subject=[[this]]
+        [[> :ResourceFieldBasedVisualization subject=[[this]]
         showSourceIcon="true" ]]
         {{/if}}
       </template>
@@ -52,6 +52,6 @@
   </div>
   <div style="width: 93.5%" class="productionInfoContainer">
     <!-- Photographs detailed information -->
-    [[> rsp:PhotographTable]]
+    [[> :PhotographTable]]
   </div>
 </div>

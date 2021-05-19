@@ -6,7 +6,7 @@
     [[#if (ask 'ASK { ?iri a crmdig:D35_Area; crmdig:L49_is_primary_area_of ?? . }')]]
     <mp-selection-group>
     <div>
-      [[> rsp:ImageActions selection="my-images-selection-aggregator"]]
+      [[> :ImageActions selection="my-images-selection-aggregator"]]
       <semantic-table
         query='SELECT ?iri WHERE {
                     ?iri a crmdig:D35_Area;
@@ -15,7 +15,7 @@
         options='{"showFilter": false}'
         column-configuration='[
                     {"variableName":"iri", "displayName":"Image", "cellTemplate": "{{> iriTemplate}}"},
-                    {"displayName":"Thumbnail", "cellTemplate": "<semantic-link iri=\"{{iri.value}}\">{{> rsp:IIIFThumbnail}}</semantic-link>"}
+                    {"displayName":"Thumbnail", "cellTemplate": "<semantic-link iri=\"{{iri.value}}\">{{> :IIIFThumbnail}}</semantic-link>"}
                   ]'
       >
         <template id='iriTemplate'>
