@@ -46,7 +46,44 @@
       <div>
         <bs-nav bs-style="tabs">
           <bs-nav-item event-key="summary">Summary</bs-nav-item>
-          <bs-nav-item event-key="artworks">Artworks</bs-nav-item>
+          <bs-nav-item event-key="artworks"><div style="display:flex;">Artworks (
+            <semantic-query query='  SELECT DISTINCT ?count WHERE {
+                {
+                SELECT ?graph ?date WHERE {
+                      ?graph <https://pharos.artresearch.net/custom/has_date> ?date.
+                      BIND(strbefore(STR(?date),"-") as ?day)
+                      BIND(strafter(STR(?date),"-") as ?tmp)
+                      BIND(strbefore(?tmp,"-") as ?month)
+                      BIND(strafter(STR(?tmp),"-") as ?year)
+                    } order by DESC(?year) DESC(?month) DESC(?day) LIMIT 1
+                }
+                ?graph <https://pharos.artresearch.net/custom/consists_of> ?n
+                GRAPH ?n {
+                  ?? <https://pharos.artresearch.net/custom/numOfWorks> ?count
+                }
+                FILTER(!STRSTARTS(STR(??), "https://pharos.artresearch.net/resource/total"))
+              }'></semantic-query>)
+            </div>
+          </bs-nav-item>
+          <bs-nav-item event-key="photographs"><div style="display:flex;">Photographs (
+            <semantic-query query='  SELECT DISTINCT ?count WHERE {
+                {
+                SELECT ?graph ?date WHERE {
+                      ?graph <https://pharos.artresearch.net/custom/has_date> ?date.
+                      BIND(strbefore(STR(?date),"-") as ?day)
+                      BIND(strafter(STR(?date),"-") as ?tmp)
+                      BIND(strbefore(?tmp,"-") as ?month)
+                      BIND(strafter(STR(?tmp),"-") as ?year)
+                    } order by DESC(?year) DESC(?month) DESC(?day) LIMIT 1
+                }
+                ?graph <https://pharos.artresearch.net/custom/consists_of> ?n
+                GRAPH ?n {
+                  ?? <https://pharos.artresearch.net/custom/numOfPhotos> ?count
+                }
+                FILTER(!STRSTARTS(STR(??), "https://pharos.artresearch.net/resource/total"))
+              }'></semantic-query>)
+            </div>
+          </bs-nav-item>
         </bs-nav>
 
         <bs-tab-content unmount-on-exit=true>
@@ -83,7 +120,10 @@
             </div>
           </bs-tab-pane>
           <bs-tab-pane event-key="artworks">
-            [[> rsp:artworkfiltersearchinstitution]]
+            [[> rsp:artworkfiltersearch provider=this ]]
+          </bs-tab-pane>
+          <bs-tab-pane event-key="photographs">
+            [[> rsp:photofiltersearch provider=this ]]
           </bs-tab-pane>
         </bs-tab-content>
       </div>
