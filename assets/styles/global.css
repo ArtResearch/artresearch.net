@@ -42,7 +42,7 @@ header h1 {
 
 .rs-header-logo {
   font-size: 0 !important;
-  width: 10vw;
+  width: 100% !important;
 }
 
 .navbar-header {
@@ -194,6 +194,7 @@ a:focus {
 .pagination {
   margin-bottom: 2vh !important ;
   justify-content: center !important;
+  flex-wrap: wrap;
 }
 
 .griddle-footer .pagination > .active > a {
@@ -444,24 +445,74 @@ input::placeholder {
 .navbar-default .navbar-toggle {
   background: gray;
 }
-.collapse.navbar-collapse, .navbar-header, .navbar-nav, .navbar-nav>li, .navbar-nav>li>a, .rs-header{
+.collapse.navbar-collapse,
+.navbar-header,
+.navbar-nav,
+.navbar-nav > li,
+.navbar-nav > li > a,
+.rs-header {
   line-height: 3.2 !important;
 }
+
 .fa-sign-in:before {
   margin-right: 8px;
 }
 .fa-sign-out:before {
   margin-right: 8px;
 }
+.page {
+  padding-top: var(--breadcrumb-height, 0px) !important;
+}
 
 @media (max-width: 767px) {
+  .workAndProductionInfo {
+    justify-content: unset !important;
+  }
+  .workAndProductionInfo .workInfoContainer {
+    width: 100vw !important;
+    min-width: unset !important;
+    margin: 0 !important;
+    padding: 10px !important;
+  }
+  .workAndProductionInfo .productionInfoContainer {
+    width: 100vw !important;
+    min-width: unset !important;
+    margin: 0 !important;
+    padding: 10px !important;
+  }
+  #main-containers {
+    padding: 0 !important;
+    width: 95vw !important;
+  }
+
+  .component-page-toolbar {
+    display: none !important;
+  }
+  /* The sidebar */
+  .Pane1 {
+    display: none !important;
+  }
+  .Pane2 {
+    width: 100%;
+  }
+  .page__body-navtabs--borderless > .tab-content > .tab-pane {
+    padding: 0 !important;
+  }
   .navbar {
     height: 0 !important;
+    width: 100vw !important;
   }
   .navbar-default .navbar-nav > li > a,
   .navbar-nav .btn {
     border-radius: 0 !important;
     background: whitesmoke !important;
+  }
+  .navbar .container {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .navbar-header {
+    padding: 5px 0 !important;
   }
 }
 
