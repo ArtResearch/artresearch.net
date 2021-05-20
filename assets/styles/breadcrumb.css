@@ -1,14 +1,31 @@
+
+#breadcrumb{
+  height: fit-content !important;
+}
 #breadcrumb .notifications-wrapper > div {
-    width: fit-content !important;
-  }
+  width: fit-content !important;
+}
 
 #breadcrumb .breadlinks {
-    display: flex;
-  }
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
 #breadcrumb .breadlinks div {
-    cursor: pointer;
-    margin-right: 1vw;
-  }
+  cursor: pointer;
+  margin-right: 1vw;
+  width: fit-content;
+  min-height: 20px;
+}
+#breadcrumb .page-breadcrumb{
+  height: fit-content !important;
+  position: relative !important;
+}
 #breadcrumb .rs-body-m-M:hover {
-    text-decoration: underline;
+  text-decoration: underline;
+}
+@media (max-width: 767px) {
+  #breadcrumb .breadlinks div {
+    margin: 10px;
   }
+}
