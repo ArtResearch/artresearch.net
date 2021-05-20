@@ -49,6 +49,7 @@ header h1 {
   background: url(/assets/images/ar.png);
   font-size: 0 !important;
   width: 10vw;
+  min-width: 120px;
   margin-left: 1vw;
   background-position: center;
   background-size: contain;
@@ -431,11 +432,32 @@ input::placeholder {
 .system-spinner__message{
   display: none !important;
 }
+.navbar .container {
+width: 100%;
+}
+ .navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover{
+    background: whitesmoke !important;
+    text-shadow: 0 0 0.5px #fff;
+    filter: none !important;
+}
+
+.fa-sign-in:before {
+  margin-right: 8px;
+}
+.fa-sign-out:before {
+  margin-right: 8px;
+}
+
+
 
 @media (max-width: 767px)
 {
 .navbar {
  height: 0 !important; 
+}
+ .navbar-default .navbar-nav>li>a, .navbar-nav .btn {
+  border-radius: 0 !important;
+  background: whitesmoke !important;
 }
 }
 
