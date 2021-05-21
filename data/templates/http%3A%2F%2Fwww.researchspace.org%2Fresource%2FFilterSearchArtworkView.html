@@ -7,7 +7,7 @@ PREFIX fts: <http://www.bigdata.com/rdf/fts#>
     ?subject fts:search "label_t=[[urlParam "keyword"]]".
     ?subject fts:endpoint "http://213.171.209.34:8983/solr/artworks/select"  .
     ?subject fts:endpointType "SOLR" .
-    ?subject fts:params "rows=10000".
+    ?subject fts:params "rows=10000&field_score asc".
     ?subject fts:searchField "uri" .
     ?subject fts:fieldToSearch "label_t" .
     ?subject fts:snippetField "label_t" .
