@@ -53,6 +53,21 @@ class="hiddenSearchbar"
           
         </template>
       </semantic-query>
+      <semantic-query
+        id="view-more"
+        query="SELECT DISTINCT (COUNT(?subject) as ?count) WHERE {}"
+        template="{{>currentResultCount}}"
+      >
+        <template id="currentResultCount">
+          <h2>
+            {{#ifCond bindings.0.count.value "==" 10000}}
+            Found more than 10000 matches, please refine your search using filters
+            {{else}}
+              Found {{bindings.0.count.value}} matches
+            {{/ifCond}}
+          </h2>
+        </template>
+      </semantic-query>
       <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
       <bs-tabs
       default-active-key="1"
