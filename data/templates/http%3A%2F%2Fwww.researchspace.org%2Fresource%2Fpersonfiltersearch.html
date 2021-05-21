@@ -133,18 +133,18 @@
       }'
   >
     <div id="header-search" class="search-page">
-              <semantic-search-query-keyword
-                placeholder="Search for a creator e.g. Michelangelo"
-                escape-lucene-syntax="false"
-                domain="<http://www.cidoc-crm.org/cidoc-crm/E21_Person>"
-                default-query="
+      <semantic-search-query-keyword
+        placeholder="Search for a creator e.g. Michelangelo"
+        escape-lucene-syntax="false"
+        domain="<http://www.cidoc-crm.org/cidoc-crm/E21_Person>"
+        default-query="
               SELECT  ?subject  
               WHERE {
                 ?artwork <https://pharos.artresearch.net/custom/has_provider> <[[provider]]>.
                 ?artwork  pharosfr:Work_created_from_Artist ?subject.
                 ?subject  rdfs:label ?label .
               }LIMIT 100"
-                query='
+        query='
                       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
                       SELECT ?subject WHERE {                        
@@ -156,7 +156,7 @@
                       bds:matchAllTerms "true"  .
                       } 
                     '
-              ></semantic-search-query-keyword>
+      ></semantic-search-query-keyword>
     </div>
 
     <div class="row">
@@ -167,8 +167,9 @@
       class="fade-in-fwd filters-container"
       style="margin-top: 8px"
     >
-      <div class="filter-title">Filters</div>
+          <bs-panel id="filter-panel" header="Filters"  collapsible="true" default-expanded="true">
       <semantic-search-facet open-by-default="true"></semantic-search-facet>
+    </bs-panel>
     </bs-col> -->
       <bs-col lg="12">
         <semantic-search-result-holder>
@@ -180,7 +181,7 @@
                   options='{
                       "showFilter":false
                     }'
-                   number-of-displayed-rows="8"
+                  number-of-displayed-rows="8"
                   query="
                   SELECT DISTINCT ?subject ?artistName (count(?artwork) as ?artworkCount)
                    WHERE {
@@ -190,11 +191,16 @@
                    }GROUP BY ?subject ?artistName ORDER BY DESC(?artworkCount) LIMIT 100
                 "
                   tuple-template="{{>tupleTemplate}}"
-                  no-result-template='[[> :noResultCard ]]'
+                  no-result-template="[[> :noResultCard ]]"
                 >
                   <template id="tupleTemplate">
                     <div
-                      class="rs-grid-element panel panel-default artwork-card fade-in-fwd"
+                      class="
+                        rs-grid-element
+                        panel panel-default
+                        artwork-card
+                        fade-in-fwd
+                      "
                     >
                       <semantic-link iri="{{subject.value}}">
                         <div class="panel-body">
