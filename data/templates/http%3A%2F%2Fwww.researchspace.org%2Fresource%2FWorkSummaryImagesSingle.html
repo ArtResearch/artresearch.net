@@ -33,11 +33,14 @@ class="rs-page__summary-image summaryImages summary-image-with-thumbs"
           </semantic-query>
           <semantic-query
             query='SELECT ?images WHERE{
-              BIND(IRI(REPLACE(STR("{{imgURL}}"),"full/!350,350","full/full")) AS ?imgURL).
               ?photo crm:P129i_is_subject_of ?imgURL; 
-              crm:P129i_is_subject_of ?rectoVerso;
+              crm:P129i_is_subject_of ?rectoVerso.
+              ?rectoVerso crm:P2_has_type ?type.
+              ?type rdfs:label ?typeLabel.
+              FILTER(?typeLabel = "verso" || ?typeLabel = "recto"  )  
+              BIND(IRI(REPLACE(STR("{{imgURL}}"),"full/!350,350","full/full")) AS ?imgURL)
               BIND(REPLACE(STR(?rectoVerso), "full/full", "full/!350,350") AS ?images)
-          }'
+          }ORDER BY ASC(?typeLabel)'
             template="{{>rectoVerso}}"
           >
             <template id="rectoVerso">
@@ -53,12 +56,15 @@ class="rs-page__summary-image summaryImages summary-image-with-thumbs"
           {{/ifCond}} {{#ifCond imgURL "===" undefined}}
           <semantic-query
             query='SELECT DISTINCT ?iiifImage ?images WHERE{
-                BIND(iri(REPLACE(STR("{{bindings.0.imgURL.value}}"),"full/!350,350","full/full")) AS ?iiifImage).
-                BIND(("{{bindings.0.imgURL.value}}") AS ?imageUrl).
-                ?photo crm:P129i_is_subject_of ?iiifImage;
-                      crm:P129i_is_subject_of ?rectoVerso.
-                BIND(REPLACE(STR(?rectoVerso), "full/full", "full/!350,350") AS ?images)   
-                }'
+              BIND(("{{bindings.0.imgURL.value}}") AS ?imageUrl).
+              ?photo crm:P129i_is_subject_of ?iiifImage;
+              crm:P129i_is_subject_of ?rectoVerso.
+              ?rectoVerso crm:P2_has_type ?type.
+              ?type rdfs:label ?typeLabel.
+              FILTER(?typeLabel = "verso" || ?typeLabel = "recto"  )  
+              BIND(iri(REPLACE(STR("{{bindings.0.imgURL.value}}"),"full/!350,350","full/full")) AS ?iiifImage).
+              BIND(REPLACE(STR(?rectoVerso), "full/full", "full/!350,350") AS ?images)
+            }ORDER BY ASC(?typeLabel)'
             template="{{> mediumImageSize}}"
           >
             <template id="mediumImageSize">
