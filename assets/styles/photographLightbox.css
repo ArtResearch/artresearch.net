@@ -24,6 +24,7 @@
 
 #photograph-lightbox #photo-cards .card img {
   height: 6vw;
+  min-height: 120px;
   max-height: 170px;
   max-width: 170px;
   object-fit: contain;
@@ -96,4 +97,17 @@
   top: 0;
   z-index: 1;
   background: white;
+}
+
+@media (max-width: 800px) {
+  #photograph-lightbox {
+    flex-wrap: wrap !important;
+  }
+  #photograph-lightbox #photo-cards .card{
+    flex-wrap: wrap;
+    padding-top: 75px !important;
+  }
+  #photograph-lightbox-viewer{
+    width: 100vw !important;
+  }
 }

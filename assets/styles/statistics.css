@@ -1,39 +1,57 @@
-#statistics  .page{
-    padding-top: 0  !important;
-  }
-#statistics  .totalLabel{
-    display: flex;
-    text-align: left; 
-    width: 100%;
-    margin-left: 0.4vw;
-    margin-bottom: 1vh;
-  }
-#statistics  .totalLabel h1{
+#statistics .page {
+  padding-top: 0 !important;
+}
+#statistics .totalLabel {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: left;
+  width: 100%;
+  margin-left: 0.4vw;
+  margin-bottom: 1vh;
+}
+#statistics .totalLabel h1 {
   margin-left: 0.7vw;
-  }
+}
 
-#statistics  .totalLabel .totalLabelDescription{
-    color: #5a5a5a;
-  }
+#statistics .totalLabel .totalLabelDescription {
+  color: #5a5a5a;
+}
 
-#statistics  .chartContainer{
-    display: flex;
-    flex-wrap: wrap;
+#statistics .chartContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+#statistics .chartObject {
+  width: 49vw;
+  min-width: 364px;
+}
+#statistics .popover {
+  color: black !important;
+}
+#statistics .jumbotron {
+  padding-top: 15px !important;
+  padding-bottom: 15px !important;
+}
+#statistics .jumbotron h1 {
+  font-size: 48px;
+}
+#statistics .ComponentToolbar--actions {
+  margin-left: 1vw;
+}
+
+@media (max-width: 800px) {
+  #statistics .totalLabel {
+    justify-content: center;
   }
-#statistics  .chartObject{
-    width: 49vw;
-    min-width: 460px;
+  #statistics .totalLabel h1 {
+    text-align: center;
+    margin-left: 0;
   }
-#statistics  .popover {
-    color: black !important;
+  #statistics .chartContainer {
+    justify-content: center;
   }
-#statistics  .jumbotron {
-    padding-top: 15px !important;
-    padding-bottom: 15px !important;
+  #statistics .chartObject {
+    min-width: 95vw !important;
+    margin-bottom: 4vh;
   }
-#statistics  .jumbotron h1 {
-    font-size: 48px;
-  }
-#statistics  .ComponentToolbar--actions {
-    margin-left: 1vw;
-  }
+}
