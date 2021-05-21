@@ -12,7 +12,7 @@ PREFIX fts: <http://www.bigdata.com/rdf/fts#>
     ?subject fts:fieldToSearch "label_t" .
     ?subject fts:snippetField "label_t" .
     ?subject fts:searchResultType "URI" .
-    BIND(REPLACE(str("[[urlParam "keyword"]]"),"&&"," ") as ?keywords)
+    BIND(REPLACE(str("[[urlParam "keyword"]]"),"&&"," " as ?keywords)
   }
 '
 query='

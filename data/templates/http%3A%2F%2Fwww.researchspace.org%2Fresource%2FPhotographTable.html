@@ -34,16 +34,16 @@ SELECT distinct ?photo ?photo_label ?photographer ?keeper WHERE
         <td class="rectoVersoCell">
           <semantic-query
             query='
-      SELECT  ?photoUri ?rectoImage where{
-        BIND(str(<{{photo.value}}>) as ?photoUri).
-        <{{photo.value}}> crm:P129i_is_subject_of ?fullsizeImages.
-        BIND(REPLACE(STR(?fullsizeImages),"full/full","full/!100,100") AS ?rectoImage).
-        FILTER NOT EXISTS { 
-          ?fullsizeImages crm:P2_has_type ?type.
-          ?type rdfs:label "verso"
-        }
-      }
-    '
+              SELECT  ?photoUri ?rectoImage where{
+                BIND(str(<{{photo.value}}>) as ?photoUri).
+                <{{photo.value}}> crm:P129i_is_subject_of ?fullsizeImages.
+                BIND(REPLACE(STR(?fullsizeImages),"full/full","full/!100,100") AS ?rectoImage).
+                FILTER NOT EXISTS { 
+                  ?fullsizeImages crm:P2_has_type ?type.
+                  ?type rdfs:label "verso"
+                }
+              }
+            '
             template="{{>rectoImageThumb}}"
           >
             <template id="rectoImageThumb">
@@ -58,16 +58,16 @@ SELECT distinct ?photo ?photo_label ?photographer ?keeper WHERE
           </semantic-query>
           <semantic-query
             query='
-  SELECT ?photoUri ?versoImage where{
-    BIND(str(<{{photo.value}}>) as ?photoUri).
-    <{{photo.value}}> crm:P129i_is_subject_of ?fullsizeImages.
-    BIND(REPLACE(STR(?fullsizeImages),"full/full","full/!100,100") AS ?versoImage).
-    FILTER NOT EXISTS { 
-      ?fullsizeImages crm:P2_has_type ?type.
-      ?type rdfs:label "recto"
-    }
-  }
-'
+              SELECT ?photoUri ?versoImage where{
+                BIND(str(<{{photo.value}}>) as ?photoUri).
+                <{{photo.value}}> crm:P129i_is_subject_of ?fullsizeImages.
+                BIND(REPLACE(STR(?fullsizeImages),"full/full","full/!100,100") AS ?versoImage).
+                FILTER NOT EXISTS { 
+                  ?fullsizeImages crm:P2_has_type ?type.
+                  ?type rdfs:label "recto"
+                }
+              }
+            '
             template="{{>versoImageThumb}}"
           >
             <template id="versoImageThumb">
@@ -104,8 +104,9 @@ SELECT distinct ?photo ?photo_label ?photographer ?keeper WHERE
                   </tbody>
                 </table>
               </div>
-              {{else}} [[> :ResourceFieldBasedVisualization subject=[[this]]
-              ]] {{/if}}
+              {{else}} 
+              [[> :ResourceFieldBasedVisualization subject=[[this]] ]]
+               {{/if}}
             </template>
           </mp-field-visualization>
         </div>
