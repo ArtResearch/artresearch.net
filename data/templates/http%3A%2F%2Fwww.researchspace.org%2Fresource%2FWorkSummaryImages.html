@@ -9,7 +9,9 @@
             ?? <https://pharos.artresearch.net/custom/has_provider> ?provider.
             ?provider <https://pharos.artresearch.net/custom/has_iiif_server> ?iiifServer.
           }
-          
+          ?image crm:P2_has_type ?imageType.
+          ?imageType rdfs:label ?typeLabel.
+          FILTER(?typeLabel = "verso" || ?typeLabel = "recto"  )  
         }UNION{
           # Original & Pharos Artwork
           ?? pharosfr:Work_depicted_by_Photo ?photo.
@@ -17,14 +19,13 @@
           OPTIONAL{
           ?photo <https://pharos.artresearch.net/custom/has_provider> ?provider.
           ?provider <https://pharos.artresearch.net/custom/has_iiif_server> ?iiifServer.
-        }
-        }
-
-        OPTIONAL{
+          }
           ?image crm:P2_has_type ?imageType.
+          ?imageType rdfs:label ?typeLabel.
+          FILTER(?typeLabel = "verso" || ?typeLabel = "recto"  )  
         }
         BIND(REPLACE(STR(?image),"full/full","full/!350,350") AS ?imgURL).
-     } ORDER BY str(?photo) DESC(?imageType)'
+     } ORDER BY str(?photo) ASC(?typeLabel)'
     template="{{> imageThumbnail}}"
   >
     <template id="imageThumbnail">
