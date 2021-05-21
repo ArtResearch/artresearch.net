@@ -118,7 +118,7 @@ SELECT distinct ?photo (GROUP_CONCAT(STR(?label);SEPARATOR=" , ") AS ?allLabels)
   </div>
 </div>
 <div class="grid-demo">
-  <div style="width: 50vw; height: 80vh">
+  <div id="photograph-lightbox-viewer"  style="width: 50vw; height: 80vh">
     <mp-event-target-template-render id='event-target' template='{{> mainImageTemplate}}'>
       <template id='mainImageTemplate'>
           <semantic-query query='SELECT DISTINCT ?imageUrl ?iiifServer WHERE{

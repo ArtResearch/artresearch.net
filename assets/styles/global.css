@@ -98,6 +98,32 @@ h2,
 .navbar-default .navbar-toggle.collapsed .icon-bar {
   background-color: #1c252c;
 }
+.navbar-toggle .icon-bar{
+  transition: 0.6s;
+}
+.navbar-toggle .icon-bar:nth-of-type(2){
+  transform: rotate(40deg) translate3d(4px, 5px, 0px);
+}
+.navbar-toggle .icon-bar:nth-of-type(3){
+  transition: 0s;
+  visibility:hidden;
+}
+.navbar-toggle .icon-bar:nth-of-type(4){
+  transform:rotate(-40deg) translate3d(4px, -4px, 0px);
+}
+.navbar-toggle.collapsed .icon-bar{
+  visibility: unset;
+  transform: unset;
+}
+.navbar-toggle{
+  height: 40px;
+}
+.navbar-toggle.collapsed {
+  transition: 0.3s;
+  background-color:  white !important;
+}
+
+
 
 .rs-application .table > tbody > tr > td {
   border-bottom-color: #ebebeb !important;

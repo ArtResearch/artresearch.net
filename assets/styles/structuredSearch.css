@@ -10,11 +10,13 @@
 #structured-search .QueryBuilder--addDisjunctButton {
   visibility: initial !important;
   height: 5vh !important;
+  min-height: 50px;
   margin-top: 8px;
 }
 #structured-search .QueryBuilder--addConjunctButton {
   visibility: initial !important;
   height: 5vh !important;
+  min-height: 50px;
   margin-top: 8px;
 }
 
@@ -64,6 +66,13 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+}
+
+#structured-search
+  i.QueryBuilder--searchExpand.QueryBuilder--searchCollapseExpand.QueryBuilder--searchCollapseExpand
+  + .search-summary
+  .SearchSummary--start {
+  display: none !important;
 }
 
 #structured-search .search-summary .SearchSummary--start {
@@ -174,8 +183,6 @@
 #structured-search .QueryBuilder--searchAreaHolder {
   display: flex;
   justify-content: flex-start;
-  align-items: top;
-  width: 90;
   width: 83%;
   position: relative;
   left: 10%;
@@ -204,6 +211,7 @@
 }
 #structured-search .QueryBuilder--nestedSearchButton {
   width: 5vw;
+  min-width: 60px;
 }
 #structured-search .QueryBuilder--nestedSearchButton img {
   display: none !important;
@@ -270,6 +278,7 @@
 }
 #structured-search .QueryBuilder--removeConjunctButton {
   height: 6.5vh !important;
+  min-height: 60px;
 }
 #structured-search .Select-control {
   border-bottom-color: #79323660 !important;
@@ -328,5 +337,93 @@
   width: 16vw !important;
 }
 
+#structured-search .semantic-search-results-actions {
+  display: flex;
+  justify-content: space-evenly;
+  padding-bottom: 8vh;
+}
+
+#structured-search .artwork-card-big .table-responsive > .table > tbody > tr > td{
+  padding: 15px 8px !important;
+}
+
 @media (max-width: 800px) {
+  #structured-search .QueryBuilder--domainSelection {
+    top: 20vh;
+    width: 98vw;
+  }
+  #structured-search .QueryBuilder--searchAreaHolder {
+    left: 0%;
+    top: 10vh;
+  }
+  #structured-search .QueryBuilder--searchBasedTermSelectorHolder {
+    margin-left: 0 !important;
+  }
+  #structured-search .QueryBuilder--resourceSelector {
+    width: 60vw !important;
+  }
+  #structured-search .QueryBuilder--searchClauseHolder {
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 80vw !important;
+  }
+  #structured-search .QueryBuilder--itemHolder {
+    margin-top: 20px;
+  }
+  #structured-search .QueryBuilder--relationPlaceholder {
+    margin-top: 20px;
+  }
+  #structured-search .DateFormatSelector--holder,
+  .DateFormatSelector--inputHolder.DateFormatSelector--holder,
+  .DateFormatSelector--inputHolder.DateFormatSelector--holder,
+  .DateFormatSelector--inputHolder {
+    flex-wrap: wrap;
+  }
+  #structured-search .show-facet-button__show {
+    margin-top: 2vh;
+    margin-bottom: 18vh;
+  }
+
+  #structured-search .semantic-facet-holder{
+    margin-top: 14vh;
+  }
+
+  #structured-search .facet-relations {
+    margin-bottom: 40px;
+  }
+  #structured-search .facet__category-selector-holder {
+    width: 80vw;
+  }
+  #structured-search [data-flex-layout*="column"][data-flex-layout*="-stretch"],
+  [data-flex-layout*="row"][data-flex-layout*="stretch-"] {
+    flex-wrap: wrap;
+  }
+  #structured-search .search-summary {
+    position: unset;
+    top: unset;
+    left: unset;
+  }
+  #structured-search .search-summary .SearchSummary--start {
+    top: unset;
+    left: 10vw;
+  }
+  #structured-search .semantic-table-holder {
+    width: 100%;
+    left: 0;
+  }
+  #sturctured-search .SemanticSearchContextualizedResult--contextSelector {
+    width: 100vw;
+  }
+  #structured-search
+    .researchspace-table-widget-holder
+    .griddle-filter
+    .filter-container
+    .form-control {
+    width: 70% !important;
+  }
+  #structured-search #tableView {
+    margin: 0;
+    padding: 0;
+    overflow-x: scroll;
+  }
 }
