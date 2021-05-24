@@ -1,0 +1,226 @@
+<div id="artwork-filter-search-inline">
+  <semantic-search
+    relations='{
+    "<https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution>":[
+    {
+      "kind": "resource",
+      "queryPattern": "
+        
+          $subject pharosfr:Work_created_from_Artist ?__value__."
+    }],
+    "<https://pharos.artresearch.net/resource/fr/Work_shows_Subject>": [
+    {
+      "kind": "resource",
+      "queryPattern": "
+        
+          $subject pharosfr:Work_kept_by_Institution ?__value__."
+    }],
+    "<https://pharos.artresearch.net/resource/fr/Work_consists_of_Material>": [
+    {
+      "kind": "resource",
+      "queryPattern": "
+        
+          $subject pharosfr:Work_consists_of_Material ?__value__."
+    }],
+    "<https://pharos.artresearch.net/resource/fr/Work_produced_using_technique_Technique>": [
+    {
+      "kind": "resource",
+      "queryPattern": "
+        
+          $subject pharosfr:Work_produced_using_technique_Technique ?__value__."
+    }],
+    "<https://pharos.artresearch.net/resource/fr/Work_from_Place>": [
+    {
+      "kind": "resource",
+      "queryPattern": "
+        
+          $subject pharosfr:Work_from_Place ?__value__."
+    }]
+      }'
+    search-profile='{
+        "categories":  
+        [
+          {
+            "iri":"<http://www.cidoc-crm.org/cidoc-crm/E21_Person>",
+            "label":"Painter"
+          },
+          {
+            "iri":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
+            "label":"Creator/Institution"
+          },
+          {
+            "iri":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
+            "label":"Artwork"
+          },
+          {
+            "iri":"<http://www.cidoc-crm.org/cidoc-crm/E55_Type>",
+            "label":"Concept"
+          }, 
+          {
+            "iri":"<http://www.cidoc-crm.org/cidoc-crm/E57_Material>",
+            "label":"Material"
+          }, 
+          {
+            "iri":"<http://www.cidoc-crm.org/cidoc-crm/E29_Design_or_Procedure>",
+            "label":"Technique"
+          }, 
+          {
+            "iri":"<http://www.cidoc-crm.org/cidoc-crm/E53_Place>",
+            "label":"Location"
+          }
+        ],
+        "relations":
+        [
+          {
+            "iri": "<https://pharos.artresearch.net/resource/fr/Work_created_from_Artist>",
+            "label":"Creator",
+            "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
+            "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E21_Person>"
+          },
+          {
+            "iri": "<https://pharos.artresearch.net/field/fcrs_Institution>",
+            "label":"Institution",
+            "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
+            "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>"
+          },
+          {
+            "iri": "<https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution>",
+            "label":"Repository",
+            "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
+            "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>"
+          },
+          {
+            "iri":"<https://pharos.artresearch.net/resource/fr/Work_shows_Subject>",
+            "label":"Subject",
+            "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
+            "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E55_Type>"
+          },
+          {
+            "iri":"<https://pharos.artresearch.net/resource/fr/Work_consists_of_Material>",
+            "label":"Material",
+            "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
+            "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E57_Material>"
+          },
+          {
+            "iri":"<http://www.cidoc-crm.org/cidoc-crm/P2_has_type>",
+            "label":"Concept",
+            "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
+            "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E55_Type>"
+          },
+          {
+            "iri":"<https://pharos.artresearch.net/resource/fr/Work_produced_using_technique_Technique>",
+            "label":"Technique",
+            "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
+            "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E29_Design_or_Procedure>"
+          },
+          {
+            "iri":"<https://pharos.artresearch.net/resource/fr/Work_from_Place>",
+            "label":"Location",
+            "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
+            "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E53_Place>"
+          }
+        ]
+      }'
+  >
+    <div id="header-search" class="search-page">
+              <semantic-search-query-keyword
+                domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
+                placeholder="Search for any field, a title, repository or any other identifier.."
+                escape-lucene-syntax="false"
+                default-query="
+                SELECT DISTINCT ?subject WHERE {
+                  ?? pharosfr:Photographer_created_Photo ?subject
+                }LIMIT 100"
+                  query='
+                        SELECT DISTINCT ?subject WHERE {          
+                          ?? pharosfr:Photographer_created_Photo ?subject.
+                          ?subject ?p ?o.
+                          ?o rdfs:label ?someLabel.
+                          ?someLabel bds:search ?__token__  .
+                          ?someLabel bds:minRelevance "0.3"^^xsd:double;
+                          bds:matchAllTerms "true"  .
+                        } 
+                      '
+              ></semantic-search-query-keyword>
+    </div>
+    <div class="row">
+      <bs-col
+        lg="3"
+        md="4"
+        sm="5"
+        class="fade-in-fwd filters-container"
+        style="margin-top: 8px"
+      >
+      <bs-panel id="filter-panel" header="Filters"  collapsible="true" default-expanded="true">
+        <semantic-search-facet open-by-default="true"></semantic-search-facet>
+      </bs-panel>
+      </bs-col>
+      <bs-col lg="9" md="8" sm="7">
+        <semantic-search-result-holder>
+          <bs-tabs unmount-on-exit="true" id="search-results" animation="false">
+            <bs-tab event-key="2" title="Grid">
+              <semantic-search-result>
+                <div id="card-results">
+                  <bs-tab-container
+                    id="tab-container"
+                    class="page__body-navtabs--borderless"
+                    default-active-key="all"
+                  >
+                    <div>
+                      <bs-nav bs-style="tabs">
+                        <bs-nav-item event-key="all">All</bs-nav-item>
+                        <bs-nav-item event-key="photosOnly"
+                          >Must include photograph</bs-nav-item
+                        >
+                      </bs-nav>
+
+                      <bs-tab-content unmount-on-exit="true">
+                        <bs-tab-pane event-key="all">
+                          <semantic-table
+                            id="grid-result"
+                            options='{
+                          "showFilter":false
+                        }'
+                            number-of-displayed-rows="5"
+                            query=" SELECT DISTINCT ?subject WHERE {}LIMIT 100"
+                            tuple-template="{{>tupleTemplate}}"
+                            no-result-template='[[> :CardNoResult ]]'
+                          >
+                            <template id="tupleTemplate">
+                              [[> :CardArtwork]]
+                            </template>
+                          </semantic-table>
+                        </bs-tab-pane>
+                        <bs-tab-pane event-key="photosOnly">
+                          <semantic-table
+                            id="grid-result-2"
+                            options='{
+                          "showFilter":false
+                        }'
+                            number-of-displayed-rows="5"
+                            query="
+                      SELECT DISTINCT ?subject
+                       WHERE {
+                        ?subject pharosfr:Work_depicted_by_Photo ?photo.
+                       }LIMIT 100
+                    "
+                            tuple-template="{{>tupleTemplate}}"
+                            no-result-template='[[> :CardNoResult ]]'
+                          >
+                            <template id="tupleTemplate">
+                              [[> :CardArtwork]]
+                            </template>
+                          </semantic-table>
+                        </bs-tab-pane>
+                      </bs-tab-content>
+                    </div>
+                  </bs-tab-container>
+                </div>
+              </semantic-search-result>
+            </bs-tab>
+          </bs-tabs>
+        </semantic-search-result-holder>
+      </bs-col>
+    </div>
+  </semantic-search>
+</div>

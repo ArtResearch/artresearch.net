@@ -1,0 +1,104 @@
+<semantic-search-query-keyword
+placeholder='You searched for [[urlParam "keyword"]], but you can search for anything!'
+domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
+default-query='
+PREFIX fts: <http://www.bigdata.com/rdf/fts#>
+  SELECT ?subject ?keywords WHERE {
+    ?subject fts:search "label_t=[[urlParam "keyword"]]".
+    ?subject fts:endpoint "http://213.171.209.34:8983/solr/artworks/select"  .
+    ?subject fts:endpointType "SOLR" .
+    ?subject fts:params "rows=10000".
+    ?subject fts:searchField "uri" .
+    ?subject fts:fieldToSearch "label_t" .
+    ?subject fts:snippetField "label_t" .
+    ?subject fts:searchResultType "URI" .
+    BIND(REPLACE(str("[[urlParam "keyword"]]"),"&&"," ") as ?keywords)
+  }
+'
+query='
+SELECT ?nothing WHERE{
+  ?nothing a <http://this_is_hidden_and_will_never_run>
+}
+'
+class="hiddenSearchbar"
+></semantic-search-query-keyword>
+<div class="row">
+<bs-col
+  lg="3"
+  md="4"
+  sm="5"
+  class="fade-in-fwd filters-container"
+  style="margin-top: 8px"
+  id="artwork-filter-search"
+>
+<bs-panel id="filter-panel" header="Filters"  collapsible="true" default-expanded="true">
+  <semantic-search-facet open-by-default="true"></semantic-search-facet>
+</bs-panel>
+</bs-col>
+<bs-col lg="9" md="8" sm="7">
+  <semantic-search-result-holder>
+    <div>
+
+    <semantic-search-result>
+      <semantic-query
+        id="view-more"
+        query="SELECT ?keywords WHERE {}"
+        template="{{>currentSearchText}}"
+      >
+        <template id="currentSearchText">
+          <h2>
+            Searched in artworks for:
+            <i>{{bindings.0.keywords.value}}</i>
+          </h2>
+        </template>
+      </semantic-query>
+      <semantic-query
+        id="view-more"
+        query="SELECT (COUNT( DISTINCT ?subject) as ?count) WHERE {}"
+        template="{{>currentResultCount}}"
+      >
+        <template id="currentResultCount">
+          <h2>
+            {{#ifCond bindings.0.count.value "==" 10000}}
+            Found more than 10000 matches, please refine your search using filters
+            {{else}}
+              Found {{bindings.0.count.value}} matches
+            {{/ifCond}}
+          </h2>
+        </template>
+      </semantic-query>
+      <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
+      <bs-tabs
+      default-active-key="1"
+      unmount-on-exit="true"
+      id="search-results"
+      animation="false"
+      class="tabs-right"
+    >
+      <bs-tab event-key="1" title="List">
+        <div id='artwork-filter-search-inline'>
+        <semantic-table
+        id="grid-result"
+        query="SELECT DISTINCT ?subject  WHERE {}LIMIT 100"
+        number-of-displayed-rows="5"
+        tuple-template="{{> subjectCellTemplate}}"
+        options='{"showTableHeading": false, "showFilter":false}'
+        no-result-template='[[> :CardNoResult ]]'
+      >
+        <template id="subjectCellTemplate">
+          [[> :CardArtwork]]
+        </template>
+      </div>
+      </semantic-table>
+    </bs-tab>
+      <bs-tab event-key="2" title="Tabular">
+        <div id="tableView">
+          [[> :SearchResultTableWork]]
+      </div>
+      </bs-tab>
+      </bs-tabs>
+    </semantic-search-result>
+    </div>
+  </semantic-search-result-holder>
+</bs-col>
+</div>

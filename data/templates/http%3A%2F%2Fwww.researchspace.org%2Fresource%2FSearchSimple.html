@@ -1,0 +1,73 @@
+<div id="filter-search" class="row row-center no-margin">
+  <div id="main-containers" class="col-md-10">
+    <!-- Title -->
+    <div class="row">
+      <div class="col-sm-12">
+        <header style="margin-left: 10px">
+          <semantic-query
+            query='SELECT ?tab WHERE{
+              BIND("[[urlParam "selectedtab"]]" as ?tab)
+            }LIMIT 1'
+            template="{{>searchbarTemplate}}">
+              <template id="searchbarTemplate">
+                [[> :Searchbar selectedCategory="{{bindings.0.tab.value}}" ]]
+              </template>
+          </semantic-query>
+        </header>
+      </div>
+    </div>
+
+    <div id="simple-search-include"  class="super-tabs">
+
+        <bs-tab-container
+          id="tab-container"
+          class="page__body-navtabs--borderless"
+          default-active-key='[[urlParam "selectedtab"]]'
+        >
+          <div>
+            <bs-nav bs-style="tabs">
+              <bs-nav-item event-key="Artworks">Artworks</bs-nav-item>
+              <bs-nav-item event-key="Photographs">Photographs</bs-nav-item>
+              <bs-nav-item event-key="Artists">Artists</bs-nav-item>
+              <bs-nav-item event-key="Photographers">Photographers</bs-nav-item>
+            </bs-nav>
+
+            <bs-tab-content unmount-on-exit="true">
+              <bs-tab-pane event-key="Artworks">
+                <semantic-search
+                relations='[[> :SearchSimpleRelations]]'
+                search-profile='[[> :SearchSimpleProfile]]'
+              >
+                [[> :SearchSimpleArtworkView ]]
+                  </semantic-search>
+              </bs-tab-pane>
+              <bs-tab-pane event-key="Photographs">
+                <semantic-search
+                relations='[[> :SearchSimpleRelations]]'
+                search-profile='[[> :SearchSimpleProfile]]'
+              >
+                [[> :SearchSimplePhotoView]]
+                </semantic-search>
+              </bs-tab-pane>
+              <bs-tab-pane event-key="Artists">
+                <semantic-search
+                relations='[[> :SearchSimpleRelations]]'
+                search-profile='[[> :SearchSimpleProfile]]'
+              >
+                [[> :SearchSimpleArtistView]]
+                </semantic-search>
+              </bs-tab-pane>
+              <bs-tab-pane event-key="Photographers">
+                <semantic-search
+                relations='[[> :SearchSimpleRelations]]'
+                search-profile='[[> :SearchSimpleProfile]]'
+              >
+                [[> :SearchSimplePhotographerView]]
+                </semantic-search>
+              </bs-tab-pane>
+            </bs-tab-content>
+          </div>
+        </bs-tab-container>
+    </div>
+  </div>
+</div>
