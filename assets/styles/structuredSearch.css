@@ -339,7 +339,7 @@
 
 #structured-search .semantic-search-results-actions {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   padding-bottom: 8vh;
 }
 
@@ -348,6 +348,10 @@
 }
 
 @media (max-width: 800px) {
+  #structured-search .semantic-search-results-actions.pull-right {
+    float: unset !important;
+  }
+
   #structured-search .QueryBuilder--domainSelection {
     top: 20vh;
     width: 98vw;
