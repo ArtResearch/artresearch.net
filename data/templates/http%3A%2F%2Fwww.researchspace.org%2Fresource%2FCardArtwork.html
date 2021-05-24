@@ -65,33 +65,61 @@
                   </td>
                 </tr>
                 <semantic-query 
-                query='SELECT ?artist WHERE { 
+                query='SELECT ?photographer WHERE { 
                   {
-                  <{{subject.value}}> pharosfr:Work_created_from_Artist ?artist
+                  <{{subject.value}}> pharosfr:Photo_created_by_Photographer ?photographer
                   }union{
                    ?original owl:sameAs <{{subject.value}}>.
-                   ?original pharosfr:Work_created_from_Artist ?artist 
+                   ?original pharosfr:Photo_created_by_Photographer ?photographer 
                   }
                 }LIMIT 1'
-                template="{{> artistTemplate}}"
+                template="{{> photographerTemplate}}"
                 >
-                <template id="artistTemplate">
+                <template id="photographerTemplate">
                 <tr  class="rs-page-resource__field">
                   <td class="rs-page-resource__field-label-holder headLine">
                     <span class="rs-page-resource__field-label">
-                      Creator
+                      Photographer
                     </span>
                   </td>
                   <td>
                       <span class="rs-page-resource__field-value">
                         <div style="width:25vw;">
-                          <semantic-link iri="{{bindings.0.artist.value}}"></semantic-link>
+                          <semantic-link iri="{{bindings.0.photographer.value}}"></semantic-link>
                         </div>
                       </span>
                     </td>
                     </tr>
                   </template>
                   </semantic-query>
+                <semantic-query 
+                  query='SELECT ?artist WHERE { 
+                    {
+                    <{{subject.value}}> pharosfr:Work_created_from_Artist ?artist
+                    }union{
+                    ?original owl:sameAs <{{subject.value}}>.
+                    ?original pharosfr:Work_created_from_Artist ?artist 
+                    }
+                  }LIMIT 1'
+                  template="{{> artistTemplate}}"
+                  >
+                  <template id="artistTemplate">
+                  <tr  class="rs-page-resource__field">
+                    <td class="rs-page-resource__field-label-holder headLine">
+                      <span class="rs-page-resource__field-label">
+                        Creator
+                      </span>
+                    </td>
+                    <td>
+                        <span class="rs-page-resource__field-value">
+                          <div style="width:25vw;">
+                            <semantic-link iri="{{bindings.0.artist.value}}"></semantic-link>
+                          </div>
+                        </span>
+                      </td>
+                      </tr>
+                  </template>
+                </semantic-query>
                 <semantic-query 
                 query='SELECT ?institution WHERE { 
                   {
