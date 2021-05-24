@@ -49,7 +49,7 @@
                 <!-- If the user selected a tab -->
                 <semantic-link
                   class="search-btn-activated"
-                  iri="Default:FilterSearch"
+                  iri="Default:SearchSimple"
                   urlqueryparam-selectedTab="{{selectedTab}}"
                   urlqueryparam-keyword="{{bindings.0.keywords.value}}"
                 >
@@ -67,7 +67,7 @@
                   {{#ifCond (objectLength "[[urlParam "selectedtab"]]") "!==" 0}}
                     <semantic-link
                     class="search-btn-activated"
-                    iri="Default:FilterSearch"
+                    iri="Default:SearchSimple"
                     urlqueryparam-selectedTab='[[urlParam "selectedtab"]]'
                     urlqueryparam-keyword="{{bindings.0.keywords.value}}"
                     >
@@ -84,7 +84,7 @@
                   <!--Else default to the artworks tab -->
                     <semantic-link
                     class="search-btn-activated"
-                    iri="Default:FilterSearch"
+                    iri="Default:SearchSimple"
                     urlqueryparam-selectedTab='Artworks'
                     urlqueryparam-keyword="{{bindings.0.keywords.value}}"
                     >

@@ -20,7 +20,7 @@
         <bs-tab-content unmount-on-exit=true>
           <bs-tab-pane event-key="summary">
             <!-- Loads all IIIF images as 500px thumbnails (clickable with mirador popup) -->
-             [[> :PlaceSummaryImages]]
+             [[> :SummaryImagesPlace]]
              <div class="row-center">
              <h1>Number of artworks related to this place:</h1>
              <h1 style="margin-left:10px"><semantic-query query='
@@ -44,7 +44,7 @@
             </bs-row>
           </bs-tab-pane>
           <bs-tab-pane event-key="artworks">
-            [[> :artworkfiltersearchplace type="https://pharos.artresearch.net/resource/type/pharos"]]
+            [[> :TabSearchArtworkPlace type="https://pharos.artresearch.net/resource/type/pharos"]]
           </bs-tab-pane>
         </bs-tab-content>
       </div>
@@ -68,9 +68,6 @@ button.close {
 
 
 .component-page-toolbar {
-    display: none !important;
-  }
-.system-spinner{
     display: none !important;
   }
   

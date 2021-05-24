@@ -20,11 +20,11 @@
         <bs-tab-content unmount-on-exit=true>
           <bs-tab-pane event-key="summary">
             <!-- Loads all IIIF images as 500px thumbnails (clickable with mirador popup) -->
-             [[> :InstitutionSummaryImages]]
-             [[> :InstitutionInfo]]
+             [[> :SummaryImagesInstitution]]
+             [[> :InfoInstitution]]
           </bs-tab-pane>
           <bs-tab-pane event-key="artworks">
-            [[> :artworkfiltersearchinstitution]]
+            [[> :TabSearchArtworkInstitution]]
           </bs-tab-pane>
         </bs-tab-content>
       </div>
@@ -50,10 +50,6 @@ button.close {
     display: none !important;
   }
   
-.system-spinner{
-    display: none !important;
-  }
-    
   .miradorViewerPopup .grid-demo{
     height: 92vh;
 }
