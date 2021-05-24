@@ -18,10 +18,7 @@
     </div>
 
     <div id="simple-search-include"  class="super-tabs">
-      <semantic-search
-        relations='[[> :FilterSearchRelations]]'
-        search-profile='[[> :FilterSearchProfile]]'
-      >
+
         <bs-tab-container
           id="tab-container"
           class="page__body-navtabs--borderless"
@@ -37,21 +34,40 @@
 
             <bs-tab-content unmount-on-exit="true">
               <bs-tab-pane event-key="Artworks">
+                <semantic-search
+                relations='[[> :FilterSearchRelations]]'
+                search-profile='[[> :FilterSearchProfile]]'
+              >
                 [[> :FilterSearchArtworkView]]
+                  </semantic-search>
               </bs-tab-pane>
               <bs-tab-pane event-key="Photographs">
+                <semantic-search
+                relations='[[> :FilterSearchRelations]]'
+                search-profile='[[> :FilterSearchProfile]]'
+              >
                 [[> :FilterSearchPhotoView]]
+                </semantic-search>
               </bs-tab-pane>
               <bs-tab-pane event-key="Artists">
+                <semantic-search
+                relations='[[> :FilterSearchRelations]]'
+                search-profile='[[> :FilterSearchProfile]]'
+              >
                 [[> :FilterSearchArtistView]]
+                </semantic-search>
               </bs-tab-pane>
               <bs-tab-pane event-key="Photographers">
+                <semantic-search
+                relations='[[> :FilterSearchRelations]]'
+                search-profile='[[> :FilterSearchProfile]]'
+              >
                 [[> :FilterSearchPhotographerView]]
+                </semantic-search>
               </bs-tab-pane>
             </bs-tab-content>
           </div>
         </bs-tab-container>
-      </semantic-search>
     </div>
   </div>
 </div>

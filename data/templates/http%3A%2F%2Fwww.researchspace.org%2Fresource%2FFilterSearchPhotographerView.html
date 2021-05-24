@@ -38,10 +38,10 @@ class="hiddenSearchbar"
 </bs-panel>
 </bs-col>
 <bs-col lg="9" md="8" sm="7">
-  <semantic-search-result-holder>
-    <semantic-search-result>
+  <semantic-search-result-holder id="photographer-results-holder">
+    <semantic-search-result id="photographer-results">
       <semantic-query
-        id="view-more"
+        id="keyword-display-photographer"
         query="SELECT ?keywords WHERE {}"
         template="{{>currentSearchText}}"
       >
@@ -53,8 +53,8 @@ class="hiddenSearchbar"
         </template>
       </semantic-query>
       <semantic-query
-        id="view-more"
-        query="SELECT DISTINCT (COUNT(?subject) as ?count) WHERE {}"
+        id="count-photographer"
+        query="SELECT (COUNT( DISTINCT ?subject) as ?count) WHERE {}"
         template="{{>currentResultCount}}"
       >
         <template id="currentResultCount">

@@ -55,7 +55,7 @@ class="hiddenSearchbar"
       </semantic-query>
       <semantic-query
         id="view-more"
-        query="SELECT DISTINCT (COUNT(?subject) as ?count) WHERE {}"
+        query="SELECT (COUNT( DISTINCT ?subject) as ?count) WHERE {}"
         template="{{>currentResultCount}}"
       >
         <template id="currentResultCount">
