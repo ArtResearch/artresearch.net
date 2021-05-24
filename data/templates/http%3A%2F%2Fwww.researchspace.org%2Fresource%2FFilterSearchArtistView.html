@@ -39,7 +39,7 @@ class="hiddenSearchbar"
   <semantic-search-result-holder>
     <semantic-search-result>
       <semantic-query
-        id="view-more"
+        id="keyword-display-artist"
         query="SELECT ?keywords WHERE {}"
         template="{{>currentSearchText}}"
       >
@@ -51,8 +51,8 @@ class="hiddenSearchbar"
         </template>
       </semantic-query>
       <semantic-query
-        id="view-more"
-        query="SELECT DISTINCT (COUNT(?subject) as ?count) WHERE {}"
+        id="count-artist"
+        query="SELECT (COUNT( DISTINCT ?subject) as ?count) WHERE {}"
         template="{{>currentResultCount}}"
       >
         <template id="currentResultCount">
