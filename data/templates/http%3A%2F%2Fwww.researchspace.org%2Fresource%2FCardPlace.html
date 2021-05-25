@@ -10,36 +10,26 @@ class="rs-grid-element panel panel-default placeCard fade-in-fwd"
       md="12"
       xs="12"
     >
-
-      <!-- Thumbnail for Institution (fetch from wikidata (good luck)) -->
-        <semantic-query
-        query='
-      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+  <semantic-query query='SELECT ?geonamesID WHERE{
+    BIND(REPLACE("{{subject.value}}", "https://sws.geonames.org/", "") AS ?removePrefix)
+    BIND(REPLACE(STR(?removePrefix), "/", "") AS ?geonamesID)
+  }LIMIT 1'
+  template="{{> geonamesIdTemplate}}">
+  <template id="geonamesIdTemplate">
+    <semantic-query query='PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
       PREFIX wd: <http://www.wikidata.org/entity/>
       PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-      PREFIX wdtn: <http://www.wikidata.org/prop/direct-normalized/>
-
       SELECT DISTINCT ?imgUrl WHERE{
         bind("_" as ?default_imageUrl)
         OPTIONAL{
           SERVICE <https://query.wikidata.org/sparql> 
             {
-              { 
-                # It is a country
-                ?place wdt:P31 wd:Q6256. 
-                ?place wdt:P571 ?date. 
-                ?place rdfs:label "{{placeName.value}}"@en .
+              #Query Wikidata‎‎ using GeoNames ID (P1566)
+                ?place wdt:P1566 "{{bindings.0.geonamesID.value}}". 
                 ?place wdt:P18 ?imgUrl
-              }UNION{
-                # It is part of a country
-                ?place wdt:P17 ?someCountry.
-                ?place wdt:P571 ?date. 
-                ?place rdfs:label "{{placeName.value}}"@en .
-                ?place wdt:P18 ?imgUrl.
-              }
             }
-        }
-        BIND(coalesce(?imgUrl, ?default_imageUrl) as ?imgUrl)    
+          }
+          BIND(coalesce(?imgUrl, ?default_imageUrl) as ?imgUrl)    
             }LIMIT 1'
         template="{{> imageThumbnail}}"
       >
