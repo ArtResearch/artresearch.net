@@ -1,11 +1,36 @@
-<semantic-tree query="
+<semantic-context repository="geonames">
+  <div>
+  <h2>Related locations:</h2>
+  <semantic-tree
+    query="
         PREFIX : <http://help.metaphacts.com/resource/>
         SELECT ?node ?parent WHERE {
           {
-        ??  <http://www.geonames.org/ontology#parentCountry>  ?parent.
-        BIND(?? as ?node)}UNION{
-            ?node  <http://www.geonames.org/ontology#parentCountry>  ??.
-            BIND(?? as ?parent)
-        }
-      }">
-</semantic-tree>
+            ??  <http://www.geonames.org/ontology#parentCountry>  ?parent.
+            BIND(?? as ?node)}
+          UNION
+          {
+            ?node  <http://www.geonames.org/ontology#parentFeature>  ??.
+            BIND(?? as ?parent).
+          }
+      }"
+    tuple-template="{{> treeLeafTemplate}}"
+  >
+    <template id="treeLeafTemplate">
+      <h2>
+        <semantic-context repository="default">
+        <semantic-link iri="{{node.value}}">
+          <semantic-context repository="geonames">
+        <semantic-query
+          query="
+        SELECT ?name WHERE{
+           <{{node.value}}> <http://www.geonames.org/ontology#name> ?name.}"
+        ></semantic-query>
+      </semantic-context>
+      </semantic-link>
+    </semantic-context>
+      </h2>
+    </template>
+  </semantic-tree>
+</div>
+</semantic-context>
