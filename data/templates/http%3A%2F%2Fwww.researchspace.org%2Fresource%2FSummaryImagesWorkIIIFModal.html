@@ -1,0 +1,30 @@
+<div>
+  {{#ifCond (objectLength bindings) "===" 1}}
+  <div style="width: 96vw; height: 80vh">
+    <rs-iiif-mirador
+      image-or-region="[[this]]"
+      image-api-manifest-pattern="BIND(<{{bindings.0.imageManifest.value}}> as ?manifestUrl)"
+    >
+    </rs-iiif-mirador>
+  </div>
+  {{else}}
+  <div class="rectoVersoMirador">
+    <div style="width: 50vw; height: 80vh">
+      <rs-iiif-mirador
+        id="rectoMirador"
+        image-or-region="[[this]]"
+        image-api-manifest-pattern="BIND(<{{bindings.0.imageManifest.value}}> as ?manifestUrl)"
+      >
+      </rs-iiif-mirador>
+    </div>
+    <div style="width: 50vw; height: 80vh">
+      <rs-iiif-mirador
+        id="versoMirador"
+        image-or-region="[[this]]"
+        image-api-manifest-pattern="BIND(<{{bindings.1.imageManifest.value}}> as ?manifestUrl)"
+      >
+      </rs-iiif-mirador>
+    </div>
+  </div>
+  {{/ifCond}}
+</div>
