@@ -121,69 +121,22 @@ SELECT distinct ?photo (GROUP_CONCAT(STR(?label);SEPARATOR=" , ") AS ?allLabels)
   <div id="photograph-lightbox-viewer"  style="width: 50vw; height: 80vh">
     <mp-event-target-template-render id='event-target' template='{{> mainImageTemplate}}'>
       <template id='mainImageTemplate'>
-          <semantic-query query='SELECT DISTINCT ?imageUrl ?iiifServer WHERE{
-              {
-              ?? <https://pharos.artresearch.net/custom/has_provider> ?provider.
-              ?provider <https://pharos.artresearch.net/custom/has_iiif_server> ?iiifServer.
-              BIND(STR("{{imgURL}}") AS ?imageUrl).
-              }union{
-                ?original owl:sameAs ??.
-                ?original <https://pharos.artresearch.net/custom/has_provider> ?provider.
-                ?provider <https://pharos.artresearch.net/custom/has_iiif_server> ?iiifServer.
-                BIND(STR("{{imgURL}}") AS ?imageUrl).
-
-              }
-              }' template='{{> iiifViewer}}'>
-              <template id="iiifViewer">
-               
-                {{#ifCond  (objectLength bindings.0.imageUrl.value) "!==" 0}}  
-                  <rs-iiif-mirador
-                  image-or-region="[[this]]" 
-                  image-id-pattern='
-                  ?subject crm:P138i_is_represented_by ?visual_item.
-                  ?visual_item crm:P128i_is_carried_by ?photo.
-                  ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
-                  ?photo crm:P129i_is_subject_of <{{bindings.0.imageUrl.value}}>.
-                  <{{bindings.0.imageUrl.value}}> crm:P2_has_type <http://iiif.io/api/image>.
-                  BIND("image" AS ?type). 
-                  BIND(?subject AS ?imageIRI). 
-                  BIND(REPLACE(STR(REPLACE(STR("{{bindings.0.imageUrl.value}}"),"/full/full/0/*","")), "(^.*)\\/(.*)$", "$2") AS ?idWithDefaultNative).
-                  BIND(REPLACE(?idWithDefaultNative,"default.jpg","") AS ?idWithNative).
-                  BIND(REPLACE(?idWithNative,"native.jpg","") AS ?imageID).
-                  '                                                                       
-                  iiif-server-url="{{bindings.0.iiifServer.value}}" 
-                  >
-                  </rs-iiif-mirador>
-                {{/ifCond}}
-                {{#ifCond (objectLength bindings.0.imageUrl.value) "===" 0}}  
-                  <rs-iiif-mirador
-                  image-or-region="[[this]]" 
-                  image-id-pattern='
-                  {
-                    ?? crm:P138i_is_represented_by ?visual_item.
-                    ?visual_item crm:P128i_is_carried_by ?photo.
-                    ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
-                    ?photo crm:P129i_is_subject_of ?image.
-                    ?image crm:P2_has_type <http://iiif.io/api/image>.
-                    BIND(?? AS ?imageIRI). 
-                  }UNION{
-                    ?original owl:sameAs ??.
-                    ?original crm:P138i_is_represented_by ?visual_item.
-                    ?visual_item crm:P128i_is_carried_by ?photo.
-                    ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
-                    ?photo crm:P129i_is_subject_of ?image.
-                    ?image crm:P2_has_type <http://iiif.io/api/image>.
-                    BIND(?original AS ?imageIRI). 
-                  }
-                  BIND("image" AS ?type).
-                  BIND(REPLACE(STR(REPLACE(STR(?image),"/full/full/0/*","")), "(^.*)\\/(.*)$", "$2") AS ?idWithDefaultNative).
-                  BIND(REPLACE(?idWithDefaultNative,"default.jpg","") AS ?idWithNative).
-                  BIND(REPLACE(?idWithNative,"native.jpg","") AS ?imageID).
-                  '                                                                       
-                  iiif-server-url="{{bindings.0.iiifServer.value}}" 
-                  >
-                  </rs-iiif-mirador>
-                  {{/ifCond}}
+        <rs-iiif-mirador
+        image-or-region="[[this]]" 
+        image-api-manifest-pattern='
+          {{#ifCond imgURL "!==" undefined}}
+            <{{imgURL}}> crm:P129i_is_subject_of ?manifestUrl
+          {{else}}
+            ?? pharosfr:Work_depicted_by_Photo ?photo.
+            ?photo crm:P129i_is_subject_of ?fullsizeImgUrl.
+            ?fullsizeImgUrl crm:P129i_is_subject_of ?manifestUrl.
+            ?fullsizeImgUrl crm:P2_has_type ?imageType.
+            ?imageType rdfs:label ?typeLabel.
+            FILTER(?typeLabel = "recto")  
+          {{/ifCond}}
+        '
+        >
+        </rs-iiif-mirador>
     </template>
     </semantic-query>
     </template>
