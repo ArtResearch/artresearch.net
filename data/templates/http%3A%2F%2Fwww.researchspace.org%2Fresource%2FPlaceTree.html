@@ -1,18 +1,14 @@
 <semantic-context repository="geonames">
   <div>
-  <h2>Related locations:</h2>
+  <h2>Country:</h2>
   <semantic-tree
     query="
         PREFIX : <http://help.metaphacts.com/resource/>
         SELECT ?node ?parent WHERE {
-          {
-            ??  <http://www.geonames.org/ontology#parentCountry>  ?parent.
-            BIND(?? as ?node)}
-          UNION
-          {
-            ?node  <http://www.geonames.org/ontology#parentCountry>  ??.
-            BIND(?? as ?parent).
-          }
+            OPTIONAL{
+              ??  <http://www.geonames.org/ontology#parentCountry>  ?parent.
+            }
+            BIND(?? as ?node)
       }"
     tuple-template="{{> treeLeafTemplate}}"
   >
