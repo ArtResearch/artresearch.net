@@ -10,24 +10,13 @@ class="rs-grid-element panel panel-default placeCard fade-in-fwd"
       md="12"
       xs="12"
     >
-  <semantic-query query='SELECT ?geonamesID WHERE{
-    BIND(REPLACE("{{subject.value}}", "https://sws.geonames.org/", "") AS ?removePrefix)
-    BIND(REPLACE(STR(?removePrefix), "/", "") AS ?geonamesID)
-  }LIMIT 1'
-  template="{{> geonamesIdTemplate}}">
-  <template id="geonamesIdTemplate">
     <semantic-query query='PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
       PREFIX wd: <http://www.wikidata.org/entity/>
       PREFIX wdt: <http://www.wikidata.org/prop/direct/>
       SELECT DISTINCT ?imgUrl WHERE{
         bind("_" as ?default_imageUrl)
         OPTIONAL{
-          SERVICE <https://query.wikidata.org/sparql> 
-            {
-              #Query Wikidata‎‎ using GeoNames ID (P1566)
-                ?place wdt:P1566 "{{bindings.0.geonamesID.value}}". 
-                ?place wdt:P18 ?imgUrl
-            }
+          <{{subject.value}}> pharosfr:Place_depicted_by ?imgUrl
           }
           BIND(coalesce(?imgUrl, ?default_imageUrl) as ?imgUrl)    
             }LIMIT 1'
@@ -37,7 +26,7 @@ class="rs-grid-element panel panel-default placeCard fade-in-fwd"
           <img
             alt="   "
             class="thumbnailImage"
-            src="{{bindings.0.imgUrl.value}}?width=150"
+            src="{{bindings.0.imgUrl.value}}?width=350"
           />
         </template>
     </semantic-query>
