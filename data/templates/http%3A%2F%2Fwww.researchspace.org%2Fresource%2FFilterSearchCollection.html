@@ -40,8 +40,21 @@
           {
             "iri":"<http://www.cidoc-crm.org/cidoc-crm/E53_Place>",
             "label":"Location"
+          },
+          {
+            "iri":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
+            "label":"Artwork"
+          },
+          {
+            "iri":"<https://pharos.artresearch.net/resource/custom/fc/photographer>",
+            "label":"Photographer"
+          },
+          {
+            "iri":"<https://pharos.artresearch.net/resource/custom/fc/institution>",
+            "label":"Institution"
           }
-        ],
+         
+          ],
         "relations":
         [
           {
@@ -79,13 +92,31 @@
             "label":"Location",
             "hasDomain":"<https://pharos.artresearch.net/resource/fc/work>",
             "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E53_Place>"
+          }, 
+          {
+            "iri":"<https://pharos.artresearch.net/resource/fr/Photo_created_by_Photographer>",
+            "label":"Photographer",
+            "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
+            "hasRange":"<https://pharos.artresearch.net/resource/custom/fc/photographer>"
+          },
+          {
+            "iri":"<https://pharos.artresearch.net/resource/fr/Photo_depicts_Work>",
+            "label":"Depicts work",
+            "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
+            "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
+          },
+          {
+            "iri":"<https://pharos.artresearch.net/custom/has_provider>",
+            "label":"Institution",
+            "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
+            "hasRange":"<https://pharos.artresearch.net/resource/custom/fc/institution>"
           }
         ]
       }'
   >
     <div id="header-search" class="search-page">
       <semantic-search-query-keyword
-        domain="<https://pharos.artresearch.net/resource/fc/work>"
+        domain="[[domain]]"
         placeholder="Search for any field (e.g. a creator or title)"
         escape-lucene-syntax="false"
         default-query='SELECT DISTINCT ?subject WHERE {
@@ -159,7 +190,11 @@
                             query="
                       SELECT DISTINCT ?subject
                        WHERE {
-                        ?subject pharosfr:Work_depicted_by_Photo ?photo.
+                         {
+                            ?subject pharosfr:Work_depicted_by_Photo ?photo.
+                         }UNION{
+                            ?work pharosfr:Work_depicted_by_Photo ?subject.
+                         }
                        }LIMIT 100
                     "
                             tuple-template="{{>tupleTemplate}}"
