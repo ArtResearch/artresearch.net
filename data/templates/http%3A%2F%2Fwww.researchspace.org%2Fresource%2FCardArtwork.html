@@ -30,7 +30,7 @@
                 }
               }
               BIND(coalesce(?smallerImgUrl, ?default_imageUrl) as ?imgUrl)
-            }LIMIT 1'
+            }ORDER BY ASC(?imgUrl) LIMIT 1'
       template="{{> imageThumbnail}}"
     >
       <template id="imageThumbnail">
