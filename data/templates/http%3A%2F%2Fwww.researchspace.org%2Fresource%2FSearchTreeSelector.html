@@ -31,11 +31,11 @@
        ?label bds:minRelevance \"0.3\"^^xsd:double.
        ?label bds:matchAllTerms \"true\".
        OPTIONAL { 
-           ?item  <http://www.geonames.org/ontology#parentCountry>  ?child.
-           ?child crm:P2_has_type <http://vocab.getty.edu/aat/300387506>.
-           FILTER(EXISTS { ?subject ?__relation__ ?item . }) .
+          ?item  <http://www.geonames.org/ontology#parentCountry>  ?child.
+          ?child crm:P2_has_type <http://vocab.getty.edu/aat/300387506>.
         }
       BIND(BOUND(?child) AS ?hasChildren)
+      FILTER(EXISTS { ?subject ?__relation__ ?item . }) 
      }ORDER BY DESC (?label)
      "
 }
