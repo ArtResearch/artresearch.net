@@ -1,0 +1,18 @@
+<div class="row row-center">
+  <div
+    id="main-containers"
+    style="max-width: 1300px"
+    class="col-md-10 col-xs-10"
+  >
+    <!-- Title -->
+    <div class="row">
+      <div class="col-sm-7">
+        <header>
+          <h1>Photographs dated between 1800 and 1900</h1>
+        </header>
+      </div>
+    </div>
+    <!-- Filter search component -->
+    [[> :FilterSearchCollection domain="<https://pharos.artresearch.net/resource/fc/photo>"  searchQuery='?subject pharosfr:Photo_from_Date ?s. ?subject pharosfr:Photo_to_Date ?e. BIND(xsd:date(?s) AS ?start) BIND(xsd:date(?e) AS ?end) FILTER(?start>"1800"^^xsd:date) FILTER(?end<"1900"^^xsd:date)']]
+  </div>
+</div>  
