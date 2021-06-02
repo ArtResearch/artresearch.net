@@ -25,7 +25,7 @@
       SELECT ?keywords  WHERE {
          BIND(REPLACE(?__token__,"\\*","") as ?keys).
          BIND(REPLACE(str(?keys),"[-!$%^&*()_+|~=`{}\\[\\]:\";<>?,.\\/\\\\]"," ") as ?normalized).
-         BIND(REPLACE(?normalized," ","&&") as ?keywords)
+         BIND(REPLACE(?normalized," ","+") as ?keywords)
       }'
     ></semantic-search-query-keyword>
     <semantic-search-result-holder>
