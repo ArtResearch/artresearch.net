@@ -11,8 +11,11 @@ PREFIX fts: <http://www.bigdata.com/rdf/fts#>
     ?subject fts:searchField "uri" .
     ?subject fts:fieldToSearch "label_t" .
     ?subject fts:snippetField "label_t" .
-    ?subject fts:searchResultType "URI" .
-    BIND(REPLACE(str("[[urlParam "keyword"]]"),"&&"," ") as ?keywords)
+    ?subject fts:searchResultType "URI" ;
+    <http://www.bigdata.com/rdf/fts#scoreField>    "field_score";
+    <http://www.bigdata.com/rdf/fts#score>   ?score.
+   
+    BIND(REPLACE(str("[[urlParam "keyword"]]"),"\\+"," ") as ?keywords)
   }
 '
 query='
@@ -68,7 +71,7 @@ class="hiddenSearchbar"
       <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
       <semantic-table
         id="grid-result"
-        query="SELECT DISTINCT ?subject  WHERE {}LIMIT 100"
+        query="SELECT DISTINCT ?subject  WHERE {}ORDER BY ASC(?score) LIMIT 100"
         number-of-displayed-rows="10"
         tuple-template="{{> subjectCellTemplate}}"
         options='{"showTableHeading": false, "showFilter":false}'
