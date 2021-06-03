@@ -1,6 +1,9 @@
 <semantic-table
 id="semantic-search-result-table"
 query="SELECT DISTINCT ?subject ?creator ?date ?repository ?provider WHERE {
+    ?subject pharosfr:Work_has_provider_Institution ?provider.
+    ?subject pharosfr:Work_created_from_Artist ?creator.
+    ?subject a pharosfc:work.
     OPTIONAL{
       ?subject pharosfr:Work_from_Date ?date.
     }
@@ -8,9 +11,6 @@ query="SELECT DISTINCT ?subject ?creator ?date ?repository ?provider WHERE {
       ?originalSubject owl:sameAs ?subject.
       ?originalSubject  crm:P50_has_current_keeper ?repository.
     }
-    ?subject pharosfr:Work_has_provider_Institution ?provider.
-    ?subject pharosfr:Work_created_from_Artist ?creator.
-    ?subject a pharosfc:work.
 }LIMIT 100"
 options='{"showFilter":true, "resultsPerPage":10}'
 column-configuration='[
