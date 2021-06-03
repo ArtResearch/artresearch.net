@@ -1,15 +1,5 @@
 <div id="institution-filter-search">
   <semantic-search
-    relations='{
-  "<https://pharos.artresearch.net/resource/fr/Institution_from_Place>":[
-  {
-    "kind": "hierarchy",
-    "queryPattern": "
-      $subject pharosfr:Institution_from_Place  ?__value__.
-      ?__value__ rdfs:label ?label"
-  }
-] 
-}'
     search-profile='{
         "categories":  
         [
@@ -38,27 +28,77 @@
       }'
   >
     <div id="header-search" class="search-page">
-      <semantic-search-query-keyword
-        placeholder="Search for a repository e.g. Royal Library"
-        escape-lucene-syntax="false"
-        domain="<https://pharos.artresearch.net/resource/fc/institution>"
-        default-query="
-              SELECT DISTINCT ?subject ?institutionImage
-              WHERE {
-                ?subject a pharosfc:institution.   
-              }LIMIT 100"
-        query='
-                      SELECT DISTINCT ?subject WHERE {
+        <mp-event-target-template-render
+          id="event-target-place"
+          template="{{> placeEventTargetTemplate}}"
+        >
+          <template id="placeEventTargetTemplate">
+            {{#if placeIri}}
+            <div style="width:100%;display: flex; flex-direction: column;" > 
+              <semantic-search-query-keyword
+              placeholder="Search for a repository e.g. Royal Library"
+              escape-lucene-syntax="false"
+              domain="<https://pharos.artresearch.net/resource/fc/institution>"
+              default-query="
+                    SELECT DISTINCT ?subject ?institutionImage
+                    WHERE {
                       ?subject a pharosfc:institution.   
-                      ?subject rdfs:label ?someLabel.
-                      ?someLabel bds:search ?__token__ .
-                      ?someLabel bds:minRelevance "0.3"^^xsd:double;
-                      bds:matchAllTerms "true"  .
-                      } 
-                    '
-      ></semantic-search-query-keyword>
-    </div>
+                      ?subject pharosfr:Institution_from_Place <{{placeIri}}>
+                    }LIMIT 100"
+              query='
+                            SELECT DISTINCT ?subject WHERE {
+                            ?subject a pharosfc:institution.   
+                            ?subject rdfs:label ?someLabel.
+                            ?someLabel bds:search ?__token__ .
+                            ?someLabel bds:minRelevance "0.3"^^xsd:double;
+                            bds:matchAllTerms "true"  .
+                            } 
+                          '
+              ></semantic-search-query-keyword>
+              <semantic-query
+              id="view-more"
+              query="SELECT (COUNT( DISTINCT ?subject) as ?count) WHERE {
+                ?subject a pharosfc:institution.   
+                ?subject pharosfr:Institution_from_Place <{{placeIri}}>
+              }"
+              template="{{>currentResultCount}}"
+            >
+              <template id="currentResultCount">
+                <h2>
+                  {{#ifCond bindings.0.count.value "==" 1}}
+                  Found 1 repository in <mp-label iri="{{placeIri}}"></mp-label>
+                  {{else}}
+                  Found {{bindings.0.count.value}} repositories in <mp-label iri="{{placeIri}}"></mp-label>
+                  {{/ifCond}}
+                </h2>
+              </template>
+              </semantic-query>
+            </div>
+            {{else}}
+              <semantic-search-query-keyword
+              placeholder="Search for a repository e.g. Royal Library"
+              escape-lucene-syntax="false"
+              domain="<https://pharos.artresearch.net/resource/fc/institution>"
+              default-query="
+                    SELECT DISTINCT ?subject ?institutionImage
+                    WHERE {
+                      ?subject a pharosfc:institution.   
+                    }LIMIT 100"
+              query='
+                            SELECT DISTINCT ?subject WHERE {
+                            ?subject a pharosfc:institution.   
+                            ?subject rdfs:label ?someLabel.
+                            ?someLabel bds:search ?__token__ .
+                            ?someLabel bds:minRelevance "0.3"^^xsd:double;
+                            bds:matchAllTerms "true"  .
+                            } 
+                          '
+            ></semantic-search-query-keyword>
+            {{/if}}
 
+        </template>
+      </mp-event-target-template-render>
+    </div>
     <div class="row">
       <bs-col
         lg="3"
@@ -68,7 +108,32 @@
         style="margin-top: 8px"
       >
       <bs-panel id="filter-panel" header="Filters"  collapsible="true" default-expanded="true">
-        <semantic-search-facet open-by-default="true"></semantic-search-facet>
+        <semantic-tree 
+        collapsed="true"
+        query="
+        PREFIX : <http://help.metaphacts.com/resource/>
+        SELECT ?node ?parent WHERE {
+          ?subject a pharosfc:institution. 
+          ?subject pharosfr:Institution_from_Place ?parent.
+          ?parent rdfs:label ?label.
+          ?subject pharosfr:Institution_from_Place ?node. 
+          ?parent crm:P2_has_type <http://vocab.getty.edu/aat/300387506>.
+          ?node <http://www.geonames.org/ontology#parentCountry> ?parent.
+        }order by(?label)"
+        tuple-template="{{>placeTuple}}"
+        >
+        <template id="placeTuple">
+            <mp-event-trigger
+            id="event-trigger-place"
+            type="Component.TemplateUpdate"
+            data='{"placeIri":"{{node.value}}"}'
+            targets='["event-target-place"]'>
+            <div>
+            <mp-label iri='{{node.value}}'></mp-label>
+            </div>
+          </mp-event-trigger>
+        </template>
+      </semantic-tree>
       </bs-panel>
       </bs-col>
       <bs-col lg="9" md="8" sm="7">
