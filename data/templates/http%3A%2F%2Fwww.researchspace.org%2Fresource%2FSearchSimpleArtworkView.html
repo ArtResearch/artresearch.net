@@ -4,13 +4,12 @@ domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
 default-query='
 PREFIX fts: <http://www.bigdata.com/rdf/fts#>
   SELECT ?subject ?keywords WHERE {
-    ?subject fts:search "label_t=[[urlParam "keyword"]]".
-    ?subject fts:endpoint "http://213.171.209.34:8983/solr/artworks/select"  .
+    ?subject fts:search "[[urlParam "keyword"]]".
+    ?subject fts:endpoint "http://213.171.209.34:8983/solr/artworks_weighted/select"  .
     ?subject fts:endpointType "SOLR" .
-    ?subject fts:params "rows=10000".
+    ?subject fts:params "defType=dismax".
     ?subject fts:searchField "uri" .
-    ?subject fts:fieldToSearch "label_t" .
-    ?subject fts:snippetField "label_t" .
+    ?subject fts:fieldToSearch "*" .
     ?subject fts:searchResultType "URI" ;
     <http://www.bigdata.com/rdf/fts#scoreField>    "field_score";
     <http://www.bigdata.com/rdf/fts#score>   ?score.
@@ -56,7 +55,7 @@ class="hiddenSearchbar"
       </semantic-query>
       <semantic-query
         id="view-more"
-        query="SELECT (COUNT( DISTINCT ?subject) as ?count) WHERE {}"
+        query="SELECT (COUNT( DISTINCT ?subject) as ?count) WHERE {}ORDER BY DESC(?score)"
         template="{{>currentResultCount}}"
       >
         <template id="currentResultCount">
@@ -97,7 +96,7 @@ class="hiddenSearchbar"
         <div id='artwork-filter-search-inline'>
         <semantic-table
         id="grid-result"
-        query="SELECT DISTINCT ?subject  WHERE {?subject pharosfr:Work_depicted_by_Photo ?photo}ORDER BY ASC(?score)LIMIT 100"
+        query="SELECT DISTINCT ?subject  WHERE {?subject pharosfr:Work_depicted_by_Photo ?photo}ORDER BY DESC(?score)LIMIT 100"
         number-of-displayed-rows="5"
         tuple-template="{{> subjectCellTemplate}}"
         options='{"showTableHeading": false, "showFilter":false}'
