@@ -1,7 +1,6 @@
 <!-- Displays a list of similar artworks -->
 <div id="similar-artwork-list">
-  <h1>Search for similar artworks</h1>
-  <h2>Click on search to go to vision.artresearch.net</h2>
+  <h1>Search for visually similar artworks</h1>
   <semantic-query
     query='SELECT distinct ?photo ?thumb ?image WHERE { 
       # Artwork
@@ -26,12 +25,19 @@
           />
           <div class="card-body">
             <h3 class="card-title"><semantic-link iri="{{photo.value}}"></semantic-link></h3>
-            <a href="https://vision.artresearch.net/resource/?image={{image.value}}&uri=rsp%3ASearch" target="_similar_artworks">
-              <div
-              class="btn btn-info"
-            >
-              Search
-            </div>
+            <mp-overlay-dialog title="‎‎{{match.value}} " type="lightbox">
+              <mp-overlay-dialog-trigger
+                >
+                <div
+                class="btn btn-info"
+              >
+                Search
+              </div>
+              </mp-overlay-dialog-trigger>
+              <mp-overlay-dialog-content>
+                <iframe src="https://vision.artresearch.net/resource/?image={{image.value}}&uri=rsp%3ASearch&inlineView=true"></iframe>
+              </mp-overlay-dialog-content>
+            </mp-overlay-dialog>
           </div>
         </div>
         </div>
@@ -40,3 +46,9 @@
     </template>
   </semantic-query>
 </div>
+<style>
+  iframe{
+  border-radius: 5px;
+  border: 1px solid #d8d8d8;
+}
+</style>

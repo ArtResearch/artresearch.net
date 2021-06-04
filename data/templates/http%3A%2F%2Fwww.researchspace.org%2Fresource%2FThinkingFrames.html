@@ -1,0 +1,130 @@
+<ol class="page-breadcrumb">
+  <li>
+    <mp-link title="Home" url="/">Home</mp-link>
+  </li>
+  <li class="active">
+    <mp-label iri='[[this]]'></mp-label>
+  </li>
+</ol>
+
+<style>
+  #tabs .tab-ontodia {
+    margin: 0px;
+    padding: 2px 0px 0px;
+    width: 100%;
+    height: calc(100vh - 300px);
+  }
+</style>
+
+<div class="page">
+	[[#if (ask "ASK { {SELECT * WHERE {?? ?p ?o}LIMIT 1}UNION {SELECT * WHERE {?s ?? ?o}LIMIT 1}UNION {SELECT * WHERE {?s ?p ??}LIMIT 1}UNION{ {SELECT * WHERE {?a ?p ?o. FILTER(??=<Template:http://www.w3.org/2000/01/rdf-schema#Resource> )} LIMIT 1} } }")]]
+    <div class='page__header-navtabs'>
+      [[> Platform:DefaultResourceHeader]]
+    </div>
+    <bs-tabs id="tabs" class='page__body-navtabs' unmount-on-exit=true>
+      <bs-tab event-key="0" class="tab-ontodia" title="Knowledge Graph">
+        <ontodia id='ontodia' hide-toolbar=true hide-panels=true hide-scroll-bars=true hide-navigation-confirmation=true auto-zoom=true settings=nostats iri='[[this]]'></ontodia>
+      </bs-tab>
+      <bs-tab event-key="1" title="Source">
+        [[> Platform:SourceStatements]]
+      </bs-tab>
+    </bs-tabs>
+  [[else]]
+  <div class='page__body'>
+    <semantic-query query="SELECT ?rand WHERE{ 
+      BIND(str(RAND()) AS ?rand)
+    }LIMIT 1"
+    template="{{> randomNotFoundPage}}"
+
+    >
+<template id="randomNotFoundPage">
+    <div class="row row-center" id="not-found-container">
+      <div class="col-md-10 col-xs-10">
+       <semantic-link iri="rsp:start"><i style="color:white !important; font-size: 16px;" class="fa fa-arrow-left">Go home</i></semantic-link>
+     <h1>404 - The page you are looking for was not found..</h1>
+    {{#ifCond bindings.0.rand.value ">" "0.8" }}
+    <h2>but you can always search for something</h2>
+    <div id="start-page">
+      <div class="search-actions">
+        <div>
+          [[> :Searchbar selectedCategory="Artworks"]]
+        </div>
+        <div style="margin-top: 15px"> or use </div>
+      <div style="margin-top: 15px">
+        <div data-flex-layout="row center-center">
+          <semantic-link iri='Default:Search'>
+            <div title="Make use of the artresearch full power!" class="btn btn-primary advancedBtn">
+              Advanced Search
+            </div>
+          </semantic-link>
+        </div>
+      </div>
+    </div>
+    </div>
+    {{else}}
+    {{#ifCond bindings.0.rand.value ">" "0.6" }}
+     <h2>but here is a nice map with artwork repositories!</h2>
+     <div class="mapContainer">
+    <semantic-map
+      id="repository-map"
+      query="SELECT ?subject ?label ?lat ?lng WHERE {
+        ?subject pharosfr:Institution_from_Place ?place.
+        ?place <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat.
+        ?place <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng.
+        ?subject rdfs:label ?label.
+      } LIMIT 1000"
+      tuple-template='<p></p><a style="text-decoration: none;"  href="https://artresearch.net/resource/?uri={{subject.value}}" target="_blank"><b style="color: #6b0000;">{{label.value}}</b><p></p><p></p></a><hr>'
+    >
+    </semantic-map>
+    </div>
+    {{else}}
+    {{#ifCond bindings.0.rand.value ">" "0.4" }}
+    <h2>in the meantime, discover our photographs collection highlights:</h2>
+    <div id="start-page">
+    <div class="card-list">
+      <semantic-link iri='Default:DisplayCollectionCarbonPrints'>
+        <div class="card">
+          <img class="photo photo-3" src="../../assets/images/media/carbon_print.jpg" />
+          <div class="title">Carbon prints</div>
+        </div>
+      </semantic-link>
+
+      <semantic-link iri='Default:DisplayCollectionPhotoDatedBetween'>
+        <div class="card">
+          <img class="photo photo-2" src="../../assets/images/media/datedphotographs.jpg" />
+          <div class="title">Photographs 1800-1900</div>
+        </div>
+      </semantic-link>
+
+      <semantic-link iri='Default:DisplayCollectionAlinari'>
+        <div class="card">
+          <img class="photo photo-1" src="../../assets/images/media/alinari.jpg" />
+          <div class="title">Photographs by Fratelli Alinari</div>
+        </div>
+      </semantic-link>
+
+    </div>
+    </div>
+    {{else}}
+    {{#ifCond bindings.0.rand.value ">" "0.2" }}
+    <h2>in the meantime, you can take a closer look to artworks created by women artists</h2>
+    [[> :FilterSearchCollection domain="<https://pharos.artresearch.net/resource/fc/work>"  searchQuery='?subject a pharosfc:work. ?subject pharosfr:Work_created_from_Artist ?artist. ?artist pharosfr:Person_has_Gender <http://vocab.getty.edu/aat/300189557>.'  ]]
+    {{else}}
+    {{#ifCond bindings.0.rand.value ">" "0.0" }}
+    <h2>in the meantime, feel free to discover artists:</h2>
+    [[> :FilterSearchPersonPharos]]
+    {{else}}
+    {{/ifCond}}
+    {{/ifCond}}
+    {{/ifCond}}
+    {{/ifCond}}
+    {{/ifCond}}
+  </div>
+</div>
+</template>
+
+    </semantic-query>
+    
+  </div>
+  [[/if]]
+</div>

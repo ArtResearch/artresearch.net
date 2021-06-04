@@ -16,76 +16,11 @@
 
 <!-- Card Image -->
 <div class="rs-default-card__img-container {{getValueByKey entityBgColor allTypes 'rs-entity-bg-thing'}}">
-  {{#if props}}
-
-    [[!-- We are inside knowledge map --]]
-    {{#if props.[http://www.researchspace.org/ontology/PX_has_video]}}
-      <iframe src='{{props.[http://www.researchspace.org/ontology/PX_has_video].values.0.value}}' frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    
-      {{else if props.[http://www.ics.forth.gr/isl/CRMdig/L49_is_primary_area_of]}}
-        <rs-iiif-image-thumbnail height='480' width='640' style='height: 100%; width: 100%;'
-          image-or-region='{{props.[http://www.ics.forth.gr/isl/CRMdig/L49_is_primary_area_of].values.0.value}}' 
-          bbox='{{props.[http://www.researchspace.org/ontology/boundingBox].values.0.value}}'
-          viewport='{{props.[http://www.researchspace.org/ontology/viewport].values.0.value}}'
-          svg='{{props.[http://www.w3.org/1999/02/22-rdf-syntax-ns#value].values.0.value}}'
-
-          [[> :IIIFConfig]]
-        >
-        </rs-iiif-image-thumbnail>
-
-    {{else if imgUrl}}
-
-        <mp-resource-thumbnail fixed-key='image-{{imgUrl}}' iri='{{imgUrl}}' class='rs-default-card__img'>
-          <mp-resource-thumbnail-fallback>
-            <mp-resource-thumbnail iri='{{iri}}' class='rs-default-card__img'>
-                <mp-resource-thumbnail-fallback>
-                  <span class="rs-icon {{getValueByKey typeToImage allTypes 'rs-icon-entity_no-image'}} {{getValueByKey entityIconColor allTypes 'rs-icon-entity_no-image'}}"></span>
-                </mp-resource-thumbnail-fallback>
-            </mp-resource-thumbnail>
-          </mp-resource-thumbnail-fallback>
-        </mp-resource-thumbnail>
-
-    {{else}}
-
-      {{#if (hasKey allTypes "http://www.researchspace.org/ontology/EX_Digital_Image_Region")}}
-        <rs-iiif-image-thumbnail height='480' width='640' style='height: 100%; width: 100%;'
-          image-or-region='{{iri}}'
-          [[> :IIIFConfig]]
-        >
-        </rs-iiif-image-thumbnail>
-
-      {{else if (hasKey allTypes "http://www.researchspace.org/ontology/EX_Digital_Image")}}
-            <mp-resource-thumbnail iri='{{iri}}' class='rs-default-card__img'>
-                <mp-resource-thumbnail-fallback>
-                  <span class="rs-icon {{getValueByKey typeToImage allTypes 'rs-icon-entity_no-image'}} {{getValueByKey entityIconColor allTypes 'rs-entity-icon-thing'}}"></span>
-                </mp-resource-thumbnail-fallback>
-            </mp-resource-thumbnail>
-
-      {{else}}
-      <span class="rs-icon {{getValueByKey typeToImage allTypes 'rs-icon-entity_no-image'}} {{getValueByKey entityIconColor allTypes 'rs-entity-icon-thing'}}"></span>
-      {{/if}}
-
-    {{/if}}
-
-  {{else}}
-
-    {{#if (hasKey allTypes "http://www.researchspace.org/ontology/EX_Digital_Image_Region")}}
-        <rs-iiif-image-thumbnail height='480' width='640' style='height: 100%; width: 100%;'
-          image-or-region='{{iri}}'      
-          [[> :IIIFConfig]]
-        >
-        </rs-iiif-image-thumbnail>
-
-    {{else}}
-      <mp-resource-thumbnail iri='{{iri}}' class='rs-default-card__img'>
-          <mp-resource-thumbnail-fallback>
-            <span class="rs-icon {{getValueByKey typeToImage allTypes 'rs-icon-entity_no-image'}} {{getValueByKey entityIconColor allTypes 'rs-entity-icon-thing'}}"></span>
-          </mp-resource-thumbnail-fallback>
-      </mp-resource-thumbnail>
-    {{/if}}       
-
-  {{/if}}
-  
+  <mp-resource-thumbnail iri='{{iri}}' class='rs-default-card__img'>
+      <mp-resource-thumbnail-fallback>
+        <span class="rs-icon {{getValueByKey typeToImage allTypes 'rs-icon-entity_no-image'}} {{getValueByKey entityIconColor allTypes 'rs-entity-icon-thing'}}"></span>
+      </mp-resource-thumbnail-fallback>
+  </mp-resource-thumbnail>
 </div>
 <div class="rs-default-card__hover">
   <div class="rs-default-card__hover-DigImg">
@@ -95,55 +30,53 @@
   [[/if]]
 
     <div class="rs-default-card__hover-options">
-  [[!--      <mp-draggable iri='{{iri}}'>
-            <div class="rs-default-card__hover-icon">
-                <button type="button" class="rs-button" title="Drag and drop the Item">
-                  <i class="rs-icon rs-icon-drag_arrow"></i>
-                </button>
-            </div>
-        </mp-draggable> --]]
+      {{#if (hasKey allTypes "http://spinrdf.org/sp#Query")}}
+      <div class="rs-default-card__hover-icon">
+        <semantic-query query="SELECT ?searchState WHERE{
+          <{{iri}}> <http://www.researchspace.org/resource/system/searchState> ?searchState 
+        }limit 1"
+        template="{{>linkWithSearchState}}"
+        >
+      <template id="linkWithSearchState">
+        <semantic-link urlqueryparam-semantic-Search="{{bindings.0.searchState.value}}" iri="{{iri}}" >
+            <button type="button" class="rs-button" title="View search">
+              <i class="rs-icon rs-icon-page"></i>
+            </button>
+        </semantic-link>
+      </template>
+    </semantic-query>
+    
+      </div>
+      {{else if (hasKey allTypes "http://www.cidoc-crm.org/cidoc-crm/E21_Person")}}
+      <div class="rs-default-card__hover-icon">
 
-        <div class="rs-default-card__hover-icon">
-            <mp-event-trigger id='details-view-trigger' type='Component.TemplateUpdate'
-                data='{"iri": "{{iri}}"}' targets='["details-view", "open-details-sidebar"]'>
-                <button type="button" class="rs-button" title="Resource Details">
-                  <i class="rs-icon rs-icon-sidebar_right"></i>
-                </button>
-            </mp-event-trigger>
-        </div>
+        <semantic-link  iri="{{iri}}" >
+            <button type="button" class="rs-button" title="View person">
+              <i class="rs-icon rs-icon-page"></i>
+            </button>
+        </semantic-link>
+    </semantic-query>
+    
+      </div>
+      {{else if (hasKey allTypes "http://www.cidoc-crm.org/cidoc-crm/E39_Actor")}}
+      <div class="rs-default-card__hover-icon">
 
+        <semantic-link  iri="{{iri}}" >
+            <button type="button" class="rs-button" title="View person">
+              <i class="rs-icon rs-icon-page"></i>
+            </button>
+        </semantic-link>
+    </semantic-query>
+    
+      </div>
+      {{else}}
         <div class="rs-default-card__hover-icon">
-            <semantic-link-container iri="{{iri}}">
-                <button type="button" class="rs-button" title="Explore Resource">
+            <semantic-link iri="{{iri}}">
+                <button type="button" class="rs-button" title="Resource page">
                   <i class="rs-icon rs-icon-page"></i>
                 </button>
-            </semantic-link-container>
+            </semantic-link>
         </div>
-
-        [[!-- is shown only when we are not in the frames view, hidden by css --]]
-        <div class="rs-default-card__hover-icon rs-default-card-action__km-navigate">
-            <semantic-link-container iri='[[resolvePrefix ":ThinkingFrames"]]'
-                urlqueryparam-view='knowledge-map' urlqueryparam-resource='{{iri}}'>
-                <button type="button" class="rs-button" title="Explore Knowledge Map">
-                  <i class="rs-icon rs-icon-diagram"></i>
-                </button>
-            </semantic-link-container>
-        </div>
-      
-        [[!-- is shown only when we are in the frames view, hidden by css --]]
-        <div class="rs-default-card__hover-icon rs-default-card-action__km-add-frame">
-            <mp-event-trigger id='set-action__km-add-frame' type='Dashboard.AddFrame' 
-                              data='{"resourceIri": "{{iri}}", "viewId": "knowledge-map"}' 
-                              targets='["thinking-frames"]'>
-                <button type="button" class="rs-button" title="Explore Knowledge Map">
-                  <i class="rs-icon rs-icon-diagram"></i>
-                </button>
-            </mp-event-trigger>
-        </div>
-
-        {{#if (hasKey allTypes "http://www.researchspace.org/ontology/EX_Digital_Image_Region")}}
-          [[!-- don't show resource media icon for image regions --]]
-        {{else}}
         <mp-overlay-dialog title="Resource Media" type="modal" class="modal-xlSize">
             <mp-overlay-dialog-trigger>
                 <div class="rs-default-card__hover-icon">
@@ -153,66 +86,10 @@
                 </div>
             </mp-overlay-dialog-trigger>
             <mp-overlay-dialog-content>
-              <mp-page-loader urlqueryparam-frame=true iri='http://www.researchspace.org/resource/ItemCardMedia' context='{{iri}}'>
-              </mp-page-loader>
+              [[> :SummaryImagesWorkPopup subject="{{iri}}"]]
             </mp-overlay-dialog-content>
         </mp-overlay-dialog>
-        {{/if}}
-
-        [[!-- is shown only when we are not in the frames view, hidden by css --]]
-        <div class="rs-default-card__hover-icon rs-default-card-action__image-navigate">
-          <semantic-link-container iri='[[resolvePrefix ":ThinkingFrames"]]'
-                                    urlqueryparam-view='iiif' urlqueryparam-resource='{{iri}}'>
-            <button type="button" class="rs-button" title="Explore Images in high resolution Viewer">
-              <i class="rs-icon rs-icon-image"></i>
-            </button>
-          </semantic-link-container>
-        </div>
-
-        [[!-- is shown only when we are in the frames view, hidden by css --]]
-        <div class="rs-default-card__hover-icon rs-default-card-action__image-add-frame">
-          <mp-event-trigger id='set-action__km-add-frame' type='Dashboard.AddFrame' 
-                            data='{"resourceIri": "{{iri}}", "viewId": "iiif"}'
-                            targets='["thinking-frames"]'>
-            <button type="button" class="rs-button" title="Explore Images in high resolution Viewer">
-              <i class="rs-icon rs-icon-image"></i>
-            </button>
-          </mp-event-trigger>
-        </div>
-
-        [[#if (hasPermission "forms:ldp:*")]]
-          {{#if (hasKey allTypes "http://www.cidoc-crm.org/cidoc-crm/E18_Physical_Thing")}}
-
-            {{#if (hasKey allTypes "http://www.researchspace.org/ontology/EX_Digital_Image_Region")}}
-              [[!-- don't show annotation icon for image regions --]]
-            {{else}}
-
-            [[!-- is shown only when we are not in the frames view, hidden by css --]]
-            <div class="rs-default-card__hover-icon rs-default-card-action__image-navigate">
-              <semantic-link-container iri='[[resolvePrefix ":ThinkingFrames"]]'
-                                      urlqueryparam-view='objectImageObservation' 
-                                      urlqueryparam-resource='{{iri}}'>
-                <button type="button" class="rs-button" title="Annotate Images">
-                  <i class="rs-icon rs-icon-area_annotation"></i>
-                </button>
-              </semantic-link-container>
-            </div>
-
-            [[!-- is shown only when we are in the frames view, hidden by css --]]
-            <div class="rs-default-card__hover-icon rs-default-card-action__image-add-frame">
-              <mp-event-trigger id='set-action__km-add-frame' 
-                                type='Dashboard.AddFrame' 
-                                data='{"resourceIri": "{{iri}}", "viewId": "objectImageObservation", "objectIri": "{{iri}}"}' 
-                                targets='["thinking-frames"]'>
-                <button type="button" class="rs-button" title="Annotate Images">
-                  <i class="rs-icon rs-icon-area_annotation"></i>
-                </button>
-              </mp-event-trigger>
-            </div>
-            {{/if}}
-          {{/if}}
-        [[/if]]
-
+      {{/if}}
     </div>
   </div> 
 </div> 
