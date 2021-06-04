@@ -8,7 +8,7 @@
         <mp-draggable iri="[[this]]">
           <h2 data-flex-layout="row center-left">
             <span class="page__header-gripper"></span>
-             <mp-label iri="[[this]]" class='page__header-gripper-label'></mp-label>
+             <div class='page__header-gripper-label'>[[providerLabel]]</div>
           </h2>
         </mp-draggable>
       </div>
@@ -46,6 +46,7 @@
       <div>
         <bs-nav bs-style="tabs">
           <bs-nav-item event-key="summary">Summary</bs-nav-item>
+          [[#if dataAvailable]]
           <bs-nav-item event-key="artworks"><div style="display:flex;">Artworks (
             <semantic-query query='  SELECT DISTINCT ?count WHERE {
                 {
@@ -84,10 +85,12 @@
               }'></semantic-query>)
             </div>
           </bs-nav-item>
+          [[/if]]
         </bs-nav>
 
         <bs-tab-content unmount-on-exit=true>
           <bs-tab-pane event-key="summary">
+            [[#if image]]
             <div id="work-summary-images">
               <div  id="printableImages"  class="summaryImages">
                 <div class="rs-page__summary-image">
@@ -101,6 +104,7 @@
                 </div>
               </div>
             </div>
+            [[/if]]
             <div id="printableInfo" class="workAndProductionInfo">
               <!-- Fields for Work (Artwork or photograph) -->
       

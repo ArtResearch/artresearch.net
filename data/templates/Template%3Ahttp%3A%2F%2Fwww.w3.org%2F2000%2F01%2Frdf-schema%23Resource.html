@@ -107,7 +107,7 @@
     </div>
     {{else}}
     {{#ifCond bindings.0.rand.value ">" "0.2" }}
-    <h2>in the meantime, you can take a closer look to artworks created by female artists</h2>
+    <h2>in the meantime, you can take a closer look to artworks created by women artists</h2>
     [[> :FilterSearchCollection domain="<https://pharos.artresearch.net/resource/fc/work>"  searchQuery='?subject a pharosfc:work. ?subject pharosfr:Work_created_from_Artist ?artist. ?artist pharosfr:Person_has_Gender <http://vocab.getty.edu/aat/300189557>.'  ]]
     {{else}}
     {{#ifCond bindings.0.rand.value ">" "0.0" }}
