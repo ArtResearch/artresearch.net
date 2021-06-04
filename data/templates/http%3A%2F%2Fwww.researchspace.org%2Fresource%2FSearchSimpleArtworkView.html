@@ -55,7 +55,7 @@ class="hiddenSearchbar"
       </semantic-query>
       <semantic-query
         id="view-more"
-        query="SELECT (COUNT( DISTINCT ?subject) as ?count) WHERE {}ORDER BY DESC(?score)"
+        query="SELECT (COUNT( DISTINCT ?subject) as ?count) WHERE {}ORDER BY ASC(?score)"
         template="{{>currentResultCount}}"
       >
         <template id="currentResultCount">
@@ -96,7 +96,7 @@ class="hiddenSearchbar"
         <div id='artwork-filter-search-inline'>
         <semantic-table
         id="grid-result"
-        query="SELECT DISTINCT ?subject  WHERE {?subject pharosfr:Work_depicted_by_Photo ?photo}ORDER BY DESC(?score)LIMIT 100"
+        query="SELECT DISTINCT ?subject  WHERE {?subject pharosfr:Work_depicted_by_Photo ?photo}ORDER BY ASC(?score)LIMIT 100"
         number-of-displayed-rows="5"
         tuple-template="{{> subjectCellTemplate}}"
         options='{"showTableHeading": false, "showFilter":false}'
