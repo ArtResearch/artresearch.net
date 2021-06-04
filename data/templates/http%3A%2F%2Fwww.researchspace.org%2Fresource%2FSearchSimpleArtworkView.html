@@ -4,13 +4,13 @@ domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
 default-query='
 PREFIX fts: <http://www.bigdata.com/rdf/fts#>
   SELECT ?subject ?keywords WHERE {
-    ?subject fts:search "[[urlParam "keyword"]]".
-    ?subject fts:endpoint "http://213.171.209.34:8983/solr/artworks_weighted/select"  .
-    ?subject fts:endpointType "SOLR" .
-    ?subject fts:params "defType=dismax".
-    ?subject fts:searchField "uri" .
-    ?subject fts:fieldToSearch "*" .
-    ?subject fts:searchResultType "URI" ;
+    ?subject fts:search "[[urlParam "keyword"]]";
+    fts:endpoint "http://213.171.209.34:8983/solr/artworks_weighted/select"  ;
+    fts:endpointType "SOLR" ;
+    fts:params "defType=dismax";
+    fts:searchField "uri" ;
+    fts:fieldToSearch "*" ;
+    fts:searchResultType "URI" ;
     <http://www.bigdata.com/rdf/fts#scoreField>    "field_score";
     <http://www.bigdata.com/rdf/fts#score>   ?score.
     BIND(REPLACE(str("[[urlParam "keyword"]]"),"\\+"," ") as ?keywords)
