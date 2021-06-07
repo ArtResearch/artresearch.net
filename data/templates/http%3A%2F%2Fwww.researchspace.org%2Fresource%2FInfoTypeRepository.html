@@ -16,9 +16,9 @@
       {{#each bindings}}Repository:<div class="repoLink"><semantic-link
         iri="{{repo.value}}"
       ></semantic-link>
-      </div>
+    </div>
+     {{/each}}
     </h4>
-    {{/each}}
   </template>
   <template id="noRepoResult">
     <semantic-query
@@ -31,12 +31,12 @@
     >
       <template id="fcLabelTemplate_second">
         <h4 class="fc-label">
-          <div class="repoLink">
           {{#each bindings}}
+          <div class="repoLink">
           <semantic-link iri="{{repo.value}}"></semantic-link>
-        </div>
+          </div>
+          {{/each}}
         </h4>
-        {{/each}}
       </template>
     </semantic-query>
   </template>
