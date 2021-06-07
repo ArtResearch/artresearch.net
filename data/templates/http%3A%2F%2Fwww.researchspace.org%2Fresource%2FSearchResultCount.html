@@ -1,27 +1,22 @@
-<mp-sparql-result-counts
-id="semantic-search-result-count"
-query="SELECT DISTINCT ?subject WHERE {
-
-      }"
-template="{{> template}}"
+<semantic-query
+id="count-artist"
+query="SELECT (COUNT( DISTINCT ?subject) as ?count) WHERE {
+  {
+    ?subject crm:P2_has_type <https://pharos.artresearch.net/resource/type/pharos>.
+  } UNION {
+    ?subject a pharoscustom:photo.
+  }
+  FILTER NOT EXISTS{?subject a pharoscustom:photographer}.
+}"
+template="{{>currentResultCount}}"
 >
-<template id="template">
-  {{#if hasLimit}}
-  <bs-alert bs-style="warning" class="search-results__alert">
-    <i
-      class="fa fa-exclamation-triangle"
-      aria-hidden="true"
-    ></i>
-    <span class="num-results"
-      >Found {{numberOfResults}} matches</span
-    >
-    of {{totalNumberOfResults}} matches.
-    <strong>Please, refine your search.</strong>
-  </bs-alert>
-  {{else}}
-  <span class="num-results"
-    >Found {{numberOfResults}} matches</span
-  >
-  {{/if}}
+<template id="currentResultCount">
+  <h2>
+    {{#ifCond bindings.0.count.value "==" 10000}}
+    Found more than 10000 matches, please refine your search using filters
+    {{else}}
+      Found {{bindings.0.count.value}} matches
+    {{/ifCond}}
+  </h2>
 </template>
-</mp-sparql-result-counts>
+</semantic-query>
