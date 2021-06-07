@@ -1,21 +1,43 @@
 <semantic-query
-  query='
+  query="
   SELECT  ?repo WHERE {
     {
       ?? pharosfr:Work_kept_by_Institution ?repo.
     }UNION{
       ?? pharosfr:Work_kept_by_Institution ?repo.
     }
-  } LIMIT 1'
-  no-result-template="<h4>Repository: Unknown </h4>"
+    ?? a pharosfc:work.
+  } LIMIT 1"
+  no-result-template="{{> noRepoResult}}"
   template="{{> fcLabelTemplate}}"
 >
   <template id="fcLabelTemplate">
-
-    <h4 class="fc-label">    
-      {{#each bindings}}
-      Repository:<semantic-link iri="{{repo.value}}"></semantic-link></h4>
-      {{/each}}
+    <h4 class="fc-label">
+      {{#each bindings}}Repository:<div class="repoLink"><semantic-link
+        iri="{{repo.value}}"
+      ></semantic-link>
+      </div>
+    </h4>
+    {{/each}}
+  </template>
+  <template id="noRepoResult">
+    <semantic-query
+      query="
+    SELECT  ?repo WHERE {
+      ?? pharosfr:Photo_has_provider_Institution ?repo.
+      ?? a pharoscustom:photo.
+    } LIMIT 1"
+      template="{{> fcLabelTemplate_second}}"
+    >
+      <template id="fcLabelTemplate_second">
+        <h4 class="fc-label">
+          <div class="repoLink">
+          {{#each bindings}}
+          <semantic-link iri="{{repo.value}}"></semantic-link>
+        </div>
+        </h4>
+        {{/each}}
+      </template>
+    </semantic-query>
   </template>
 </semantic-query>
-
