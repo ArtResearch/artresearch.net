@@ -5,6 +5,38 @@
   height: fit-content;
   padding: 2vh !important;
 }
+.thumbnailImageContainerTabular{
+  display: flex;
+  overflow: hidden;
+  align-items: center;
+  border-radius: 5px 0px 0px 5px;
+  padding: 0;
+  height: 100%;
+  max-width: 100px;
+  justify-content: center;
+  background: whitesmoke;
+}
+
+.thumbnailImageTabular{
+  height: 100px;
+  object-fit: contain;
+}
+
+.thumbnailImageTabular[alt]:after {
+  background-image: url(/assets/images/media/image_placeholder.jpg);
+  display: block;
+  width: 100px;
+  position: relative;
+  height: 100px;
+  background-color: #fff;
+  font-family: "Helvetica";
+  font-weight: 300;
+  line-height: 2;
+  text-align: center;
+  content: attr(alt);
+  background-size: contain;
+}
+
 
 .artwork-card-big .thumbnailImageContainer {
   display: flex;

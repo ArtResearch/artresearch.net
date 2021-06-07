@@ -14,7 +14,6 @@ PREFIX fts: <http://www.bigdata.com/rdf/fts#>
     ?subject fts:searchResultType "URI" ;
     <http://www.bigdata.com/rdf/fts#scoreField>    "field_score";
     <http://www.bigdata.com/rdf/fts#score>   ?score.
-   
     BIND(REPLACE(str("[[urlParam "keyword"]]"),"\\+"," ") as ?keywords)
   }
 '
