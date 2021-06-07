@@ -14,7 +14,7 @@ hint:Prior hint:runLast true .
 bds:minRelevance "0.3" ;
 bds:relevance ?score ;
 bds:matchAllTerms "true" .
-BIND(str("[[urlParam "keyword"]]") as ?keywords)
+BIND(REPLACE(str("[[urlParam "keyword"]]"),"\\+"," ") as ?keywords)
 } 
 '
 query='

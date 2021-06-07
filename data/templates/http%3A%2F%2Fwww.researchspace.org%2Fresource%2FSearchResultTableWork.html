@@ -1,6 +1,6 @@
 <semantic-table
 id="semantic-search-result-table"
-query="SELECT DISTINCT ?subject ?creator ?date ?repository ?provider WHERE {
+query='SELECT DISTINCT ?image ?subject ?creator ?date ?repository ?provider WHERE {
     ?subject pharosfr:Work_has_provider_Institution ?provider.
     ?subject pharosfr:Work_created_from_Artist ?creator.
     ?subject a pharosfc:work.
@@ -11,9 +11,21 @@ query="SELECT DISTINCT ?subject ?creator ?date ?repository ?provider WHERE {
       ?originalSubject owl:sameAs ?subject.
       ?originalSubject  crm:P50_has_current_keeper ?repository.
     }
-}LIMIT 100"
+    OPTIONAL{
+      ?subject pharosfr:Work_depicted_by_Photo ?photo.
+      ?photo crm:P129i_is_subject_of ?fullsizeImgUrl.
+      ?fullsizeImgUrl crm:P2_has_type <http://vocab.getty.edu/aat/300078817>.
+      BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/!100,100") as ?smallerImgUrl)
+    }
+    BIND("_" as ?default_imageUrl)
+    BIND(coalesce(?smallerImgUrl, ?default_imageUrl) as ?image)
+}LIMIT 100'
 options='{"showFilter":true, "resultsPerPage":10}'
 column-configuration='[
+{
+  "displayName": "Image", 
+  "cellTemplate": "<div class=\"thumbnailImageContainerTabular\"> <img  alt=\"   \"  class=\"thumbnailImageTabular\" src=\"{{image.value}}\"/></div>" 
+},
 {"variableName": "subject", "displayName": "Title"},
 {"variableName": "date", "displayName": "Date"},
 {"variableName": "creator", "displayName": "Creator"},
@@ -21,4 +33,5 @@ column-configuration='[
 {"variableName": "provider", "displayName": "Provider"}
 ]'
 >
+
 </semantic-table>
