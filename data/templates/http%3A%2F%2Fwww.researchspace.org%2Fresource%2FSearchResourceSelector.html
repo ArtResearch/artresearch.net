@@ -25,19 +25,21 @@
       "
  [[else]]
    "
-   SELECT DISTINCT $suggestion  WHERE {
+   SELECT DISTINCT $suggestion (SAMPLE($label) AS $label)   WHERE {
               $suggestion a ?__range__.
-              $suggestion rdfs:label ?label.
-              ?label bds:search ?__token__ ;
+              $suggestion rdfs:label $label.
+              $label bds:search ?__token__ ;
               bds:relevance ?score ;
               bds:minRelevance \"0.3\" ;
               bds:matchAllTerms \"true\"  .
         FILTER(EXISTS {
           ?subject ?__relation__ $suggestion .
         })
-      } ORDER BY DESC(?score)  LIMIT 10
+      }GROUP BY (?suggestion) ORDER BY DESC(?score)  LIMIT 10
    "
  [[/if]],
- "suggestionTupleTemplate": "<mp-label iri=\"{{suggestion.value}}\"></mp-label>",
+ "suggestionTupleTemplate": "
+ <span>{{label.value}}</span>
+ ",
  "noSuggestionsTemplate": "<div class=\"suggestion-no-matches\">no matches found</div>"
 }
