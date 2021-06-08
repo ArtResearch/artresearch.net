@@ -192,9 +192,6 @@
                       <bs-nav-item event-key="defaultView"
                         >Default view</bs-nav-item
                       >
-                      <bs-nav-item event-key="eventsMap"
-                        >Events map</bs-nav-item
-                      >
                       <bs-nav-item event-key="birthplaceMap"
                         >Birthplace map</bs-nav-item
                       >
@@ -227,37 +224,15 @@
                           </template>
                         </semantic-table>
                       </bs-tab-pane>
-                      <bs-tab-pane event-key="eventsMap">
-                        <div class="mapContainer">
-                          <semantic-map
-                            id="event-map"
-                            query="SELECT DISTINCT ?subject ?place ?typeLabel ?lat ?lng WHERE {
-                              ?subject pharosfr:Person_has_Event ?event.
-                              ?event pharosfr:Event_has_Type ?eventType.
-                              ?eventType rdfs:label ?typeLabel.
-                              ?event pharosfr:Event_at_Place ?place .
-                              ?place <http://pharos.artresearch.net/resource/fr/Place_has_Latitude> ?lat.
-                              ?place <http://pharos.artresearch.net/resource/fr/Place_has_Longitude> ?lng.
-                            }"
-                            no-result-template='<h3>No results were found to be visualized on map</h3>'
-                            tuple-template='<div style="width:20vw">
-                              <h4> 
-                                <semantic-link style="color:#6b0000;" iri="{{subject.value}}"></semantic-link>,
-                                {{typeLabel.value}}, <semantic-query query="SELECT ?label WHERE { <{{place.value}}> rdfs:label ?label }LIMIT 1"></semantic-query>  
-                              </h4>
-                            </div>'
-                          >
-                          </semantic-map>
-                        </div>
-                      </bs-tab-pane>
                       <bs-tab-pane event-key="birthplaceMap">
                         <div class="mapContainer">
                           <semantic-map
                             id="birthplace-map"
                             query="SELECT DISTINCT ?subject ?place ?lat ?lng WHERE {
                               ?subject pharosfr:Person_has_Place_of_Birth ?place .
-                              ?place <http://pharos.artresearch.net/resource/fr/Place_has_Latitude> ?lat.
-                              ?place <http://pharos.artresearch.net/resource/fr/Place_has_Longitude> ?lng.
+                              ?place crm:P2_has_type <http://vocab.getty.edu/aat/300008389>.
+                              ?place <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat.
+                              ?place <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng.
                             }"
                             no-result-template='<h3>No results were found to be visualized on map</h3>'
                             tuple-template='<div style="width:20vw">
@@ -276,8 +251,9 @@
                             id="deathplace-map"
                             query="SELECT DISTINCT ?subject ?place ?lat ?lng WHERE {
                               ?subject pharosfr:Person_has_Place_of_Death ?place .
-                              ?place <http://pharos.artresearch.net/resource/fr/Place_has_Latitude> ?lat.
-                              ?place <http://pharos.artresearch.net/resource/fr/Place_has_Longitude> ?lng.
+                              ?place crm:P2_has_type <http://vocab.getty.edu/aat/300008389>.
+                              ?place <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat.
+                              ?place <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng.
                             }"
                             no-result-template='<h3>No results were found to be visualized on map</h3>'
                             tuple-template='<div style="width:20vw">
