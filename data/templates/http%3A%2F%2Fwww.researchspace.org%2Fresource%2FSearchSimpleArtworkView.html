@@ -5,7 +5,7 @@ default-query='
 PREFIX fts: <http://www.bigdata.com/rdf/fts#>
   SELECT ?subject ?keywords WHERE {
     ?subject fts:search "[[urlParam "keyword"]]";
-    fts:endpoint "http://213.171.209.34:8983/solr/artworks_weighted/select"  ;
+    fts:endpoint "http://213.171.209.34:8983/solr/artworks_v3/select"  ;
     fts:endpointType "SOLR" ;
     fts:params "defType=dismax";
     fts:searchField "uri" ;
@@ -55,7 +55,7 @@ class="hiddenSearchbar"
       </semantic-query>
       <semantic-query
         id="view-more"
-        query="SELECT (COUNT( DISTINCT ?subject) as ?count) WHERE {}ORDER BY ASC(?score)"
+        query="SELECT (COUNT( DISTINCT ?subject) as ?count) WHERE {}ORDER BY (?score)"
         template="{{>currentResultCount}}"
       >
         <template id="currentResultCount">
@@ -96,7 +96,7 @@ class="hiddenSearchbar"
         <div id='artwork-filter-search-inline'>
         <semantic-table
         id="grid-result"
-        query="SELECT DISTINCT ?subject  WHERE {?subject pharosfr:Work_depicted_by_Photo ?photo}ORDER BY ASC(?score)LIMIT 100"
+        query="SELECT DISTINCT ?subject  WHERE {?subject pharosfr:Work_depicted_by_Photo ?photo}ORDER BY (?score)LIMIT 100"
         number-of-displayed-rows="5"
         tuple-template="{{> subjectCellTemplate}}"
         options='{"showTableHeading": false, "showFilter":false}'
