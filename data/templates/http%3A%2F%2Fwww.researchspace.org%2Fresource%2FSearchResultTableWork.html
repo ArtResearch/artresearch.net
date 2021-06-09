@@ -20,7 +20,7 @@ query='SELECT DISTINCT ?image ?subject ?creator ?date ?repository ?provider WHER
     BIND("_" as ?default_imageUrl)
     BIND(coalesce(?smallerImgUrl, ?default_imageUrl) as ?image)
 }ORDER BY DESC (?score) LIMIT 100'
-options='{"showFilter":true, "resultsPerPage":10}'
+options='{"showFilter":true, "pageSizeSelection": true,"resultsPerPage":10}'
 column-configuration='[
 {
   "displayName": "Image", 
@@ -31,6 +31,7 @@ column-configuration='[
 {"variableName": "creator", "displayName": "Creator"},
 {"variableName": "repository", "displayName": "Repository"},
 {"variableName": "provider", "displayName": "Photo archive"}
+
 ]'
 >
 
