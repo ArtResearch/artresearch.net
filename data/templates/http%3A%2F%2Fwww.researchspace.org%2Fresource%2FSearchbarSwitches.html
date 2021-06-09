@@ -1,0 +1,183 @@
+<mp-event-target-template-render
+id="event-target-search-switches-container"
+template="{{> switchContainer}}"
+>
+<template id="switchContainer"> 
+
+<div id="switches">
+  <mp-text-truncate lines="1" expand='<span style="color: gray;"><a>Additional options</a></span>' collapse='<span style="color: gray;">(<a>hide</a>)</span>'>
+    <div>
+      <br>
+      <br>
+      <mp-event-target-template-render
+      id="event-target-search-switches"
+      template="{{> switches}}"
+    >
+      <template id="switches">
+        {{#if selectedTab}}
+                 {{#ifCond withImages "===" "true"}}
+                    <label class="switch">   
+                      <mp-event-trigger
+                      id="event-trigger-tab-photograph"
+                      type="Component.TemplateUpdate"
+                      data='{"selectedTab":"{{selectedTab}}","withImages":"false"}'
+                      targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select"]'
+                      >
+                      <div>        
+                        <input checked type="checkbox">
+                        <span class="slider round"></span>
+                      </div>
+                      </mp-event-trigger>
+                    </label>
+                 {{else}}
+                 {{#ifCond withImages "===" "false"}}
+                 <label class="switch">   
+                  <mp-event-trigger
+                  id="event-trigger-tab-photograph"
+                  type="Component.TemplateUpdate"
+                  data='{"selectedTab":"{{selectedTab}}","withImages":"true"}'
+                  targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select"]'
+                  >
+                  <div>        
+                    <input type="checkbox">
+                    <span class="slider round"></span>
+                  </div>
+                  </mp-event-trigger>
+                </label>
+                 {{else}}
+                 {{#ifCond "[[urlParam "withimages"]]" "===" "true"}}
+                 <label class="switch">   
+                   <mp-event-trigger
+                   id="event-trigger-tab-photograph"
+                   type="Component.TemplateUpdate"
+                   data='{"selectedTab":"{{selectedTab}}","withImages":"false"}'
+                   targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select"]'
+                   >
+                   <div>
+                     bbb
+                     <input checked type="checkbox">
+                     <span class="slider round"></span>
+                   </div>
+                   </mp-event-trigger>
+                 </label>
+                 {{else}}
+                 <label class="switch">   
+                   <mp-event-trigger
+                   id="event-trigger-tab-photograph"
+                   type="Component.TemplateUpdate"
+                   data='{"selectedTab":"{{selectedTab}}","withImages":"true"}'
+                   targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select"]'
+                   >
+                     <div>
+                       <input type="checkbox">
+                       <span class="slider round"></span>
+                     </div>
+                   </mp-event-trigger>
+                 </label>
+                 {{/ifCond}}
+                  {{/ifCond}}
+                
+                {{/ifCond}}
+          {{else}}
+            {{#ifCond (objectLength "[[urlParam "selectedtab"]]") "!==" 0}}
+              {{#ifCond withImages "===" "true"}}
+                <label class="switch">   
+                  <mp-event-trigger
+                  id="event-trigger-tab-photograph"
+                  type="Component.TemplateUpdate"
+                  data='{"selectedTab":"[[urlParam "selectedtab"]]","withImages":"false"}'
+                  targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select"]'
+                  >
+                  <div>
+                    <input checked type="checkbox">
+                    <span class="slider round"></span>
+                  </div>
+                  </mp-event-trigger>
+                </label>
+                {{else}}
+                  {{#ifCond "[[urlParam "withimages"]]" "===" "true"}}
+                    <label class="switch">   
+                      <mp-event-trigger
+                      id="event-trigger-tab-photograph"
+                      type="Component.TemplateUpdate"
+                      data='{"selectedTab":"[[urlParam "selectedtab"]]","withImages":"false"}'
+                      targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select"]'
+                      >
+                      <div>
+                        <input checked type="checkbox">
+                        <span class="slider round"></span>
+                      </div>
+                      </mp-event-trigger>
+                    </label>
+                    {{else}}
+                    <label class="switch">   
+                      <mp-event-trigger
+                      id="event-trigger-tab-photograph"
+                      type="Component.TemplateUpdate"
+                      data='{"selectedTab":"[[urlParam "selectedtab"]]","withImages":"true"}'
+                      targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select"]'
+                      >
+                        <div>
+                          <input type="checkbox">
+                          <span class="slider round"></span>
+                        </div>
+                      </mp-event-trigger>
+                    </label>
+                    {{/ifCond}}
+                {{/ifCond}}
+            {{else}}
+                {{#ifCond withImages "===" "true"}}
+                  <label class="switch">   
+                    <mp-event-trigger
+                    id="event-trigger-tab-photograph"
+                    type="Component.TemplateUpdate"
+                    data='{"selectedTab":"Artworks","withImages":"false"}'
+                    targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select"]'
+                    >
+                    <div>
+                      <input checked type="checkbox">
+                      <span class="slider round"></span>
+                    </div>
+                    </mp-event-trigger>
+                  </label>
+                {{else}}
+                  {{#ifCond "[[urlParam "withimages"]]" "===" "true"}}
+                    <label class="switch">   
+                      <mp-event-trigger
+                      id="event-trigger-tab-photograph"
+                      type="Component.TemplateUpdate"
+                      data='{"selectedTab":"Artworks","withImages":"false"}'
+                      targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select"]'
+                      >
+                      <div>
+                        <input checked type="checkbox">
+                        <span class="slider round"></span>
+                      </div>
+                      </mp-event-trigger>
+                    </label>
+                  {{else}}
+                    <label class="switch">   
+                      <mp-event-trigger
+                      id="event-trigger-tab-photograph"
+                      type="Component.TemplateUpdate"
+                      data='{"selectedTab":"Artworks","withImages":"true"}'
+                      targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select"]'
+                      >
+                        <div>
+                          <input type="checkbox">
+                          <span class="slider round"></span>
+                        </div>
+                      </mp-event-trigger>
+                    </label>
+                  {{/ifCond}}
+              {{/ifCond}}
+            {{/ifCond}}
+        {{/if}}    
+      </template>
+      </mp-event-target-template-render>
+      <h4>Must include image</h4>
+    </div>
+  </mp-text-truncate>
+</div>
+</template>
+</mp-event-target-template-render>

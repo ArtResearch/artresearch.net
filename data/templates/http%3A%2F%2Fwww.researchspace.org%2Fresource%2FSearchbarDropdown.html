@@ -2,8 +2,8 @@
   <mp-event-trigger
     id="event-trigger-tab-artwork"
     type="Component.TemplateUpdate"
-    data='{"selectedTab":"Artworks"}'
-    targets='["event-target-search-btn","event-target-tab-select"]'
+    data='{"selectedTab":"Artworks","withImages":"{{#if withImages}}{{withImages}}{{else}}{{#ifCond (objectLength "[[urlParam "withimages"]]") "!==" 0}}[[urlParam "withimages"]]{{else}}false{{/ifCond}}{{/if}}"}'
+    targets='["event-target-search-btn","event-target-search-switches","event-target-search-switches-container","event-target-tab-select"]'
   >
     <bs-menu-item active event-key="artwork">
       <h2>Artworks</h2>
@@ -13,8 +13,8 @@
   <mp-event-trigger
     id="event-trigger-tab-photograph"
     type="Component.TemplateUpdate"
-    data='{"selectedTab":"Photographs"}'
-    targets='["event-target-search-btn","event-target-tab-select"]'
+    data='{"selectedTab":"Photographs","withImages":"{{#if withImages}}{{withImages}}{{else}}{{#ifCond (objectLength "[[urlParam "withimages"]]") "!==" 0}}[[urlParam "withimages"]]{{else}}false{{/ifCond}}{{/if}}"}'
+    targets='["event-target-search-btn","event-target-search-switches","event-target-search-switches-container","event-target-tab-select"]'
   >
     <bs-menu-item event-key="photograph">
       <h2>Photographs</h2>
@@ -24,8 +24,8 @@
   <mp-event-trigger
     id="event-trigger-tab-artist"
     type="Component.TemplateUpdate"
-    data='{"selectedTab":"Artists"}'
-    targets='["event-target-search-btn","event-target-tab-select"]'
+    data='{"selectedTab":"Artists","withImages":"{{#if withImages}}{{withImages}}{{else}}{{#ifCond (objectLength "[[urlParam "withimages"]]") "!==" 0}}[[urlParam "withimages"]]{{else}}false{{/ifCond}}{{/if}}"}'
+    targets='["event-target-search-btn","event-target-search-switches","event-target-search-switches-container","event-target-tab-select"]'
   >
     <bs-menu-item event-key="artist"> 
       <h2>Artists</h2>
@@ -36,7 +36,7 @@
     id="event-trigger-tab-photographer"
     type="Component.TemplateUpdate"
     data='{"selectedTab":"Photographers"}'
-    targets='["event-target-search-btn","event-target-tab-select"]'
+    targets='["event-target-search-btn","event-target-search-switches","event-target-search-switches-container","event-target-tab-select"]'
   >
     <bs-menu-item event-key="photographer"> 
       <h2>Photographers</h2>
