@@ -6,6 +6,19 @@
          <mp-label iri="[[this]]" class='page__header-gripper-label'></mp-label>
       </h2>
     </mp-draggable>
+    <semantic-query query='SELECT ?title WHERE{
+      ?? rdfs:label ?title. 
+    }' template="{{>copyTemplate}}">
+    <template id="copyTemplate">
+      <mp-copy-to-clipboard
+      text="{{bindings.0.title.value}}"
+      message="Copied title"
+      >
+      <li class="titleCopy fa fa-copy"></li>
+    </mp-copy-to-clipboard>
+  </template>
+  </semantic-query>
+   
   </div>
   <div data-flex-layout='row center-left' class="page__header-tagline subtitleInfo">
     [[> :InfoTypeRepository work=(urlParam "uri") ]]

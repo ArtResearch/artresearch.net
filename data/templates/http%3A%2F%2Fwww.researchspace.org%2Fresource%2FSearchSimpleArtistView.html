@@ -5,7 +5,7 @@ default-query='
 PREFIX fts: <http://www.bigdata.com/rdf/fts#>
   SELECT ?subject ?keywords WHERE {
     ?subject fts:search "label_t=[[urlParam "keyword"]]".
-    ?subject fts:endpoint "http://213.171.209.34:8983/solr/artists/select".
+    ?subject fts:endpoint "http://213.171.209.34:8983/solr/artists_weighted/select".
     ?subject fts:endpointType "SOLR" .
     ?subject fts:params "rows=10000" .
     ?subject fts:searchField "uri" .
@@ -17,6 +17,8 @@ PREFIX fts: <http://www.bigdata.com/rdf/fts#>
     BIND(REPLACE(str("[[urlParam "keyword"]]"),"\\+"," ") as ?keywords)
   }
 '
+
+
 query='
 SELECT ?nothing WHERE{
   ?nothing a <http://this_is_hidden_and_will_never_run>

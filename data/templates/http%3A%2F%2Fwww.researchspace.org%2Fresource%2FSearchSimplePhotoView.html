@@ -2,20 +2,27 @@
 placeholder='You searched for [[urlParam "keyword"]], but you can search for anything!'
 domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
 default-query='
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-PREFIX bds: <http://www.bigdata.com/rdf/search#>
-PREFIX hint: <http://www.bigdata.com/queryHints#>
-SELECT ?subject ?keywords  WHERE {                
-?subject a pharoscustom:photo.
-hint:Prior hint:runLast true .
-?subject rdfs:label ?label .
-?label bds:search "[[urlParam "keyword"]]" ;
-bds:minRelevance "0.3" ;
-bds:relevance ?score ;
-bds:matchAllTerms "true" .
-BIND(REPLACE(str("[[urlParam "keyword"]]"),"\\+"," ") as ?keywords)
-} 
+
+PREFIX fts: <http://www.bigdata.com/rdf/fts#>
+  SELECT ?subject ?keywords WHERE {
+    ?subject fts:search "[[urlParam "keyword"]]";
+    fts:endpoint "http://213.171.209.34:8983/solr/photos_v3/select"  ;
+    fts:endpointType "SOLR" ;
+    fts:params "defType=dismax&rows=10000";
+    fts:searchField "uri" ;
+    fts:fieldToSearch "*" ;
+    fts:searchResultType "URI" ;
+    <http://www.bigdata.com/rdf/fts#scoreField>    "field_score";
+    <http://www.bigdata.com/rdf/fts#score>   ?score.
+    BIND(
+      COALESCE(
+        IF("[[urlParam "withimages"]]" = "true",  crm:P129i_is_subject_of, 1/0),
+        rdf:type
+      ) AS ?withImageOption
+    )
+    FILTER(EXISTS{?subject ?withImageOption ?something})
+    BIND(REPLACE(str("[[urlParam "keyword"]]"),"\\+"," ") as ?keywords)
+  }
 '
 query='
 SELECT ?nothing WHERE{

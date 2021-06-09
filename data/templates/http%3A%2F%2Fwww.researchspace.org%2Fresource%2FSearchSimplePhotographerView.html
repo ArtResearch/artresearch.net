@@ -14,6 +14,13 @@ hint:Prior hint:runLast true .
 bds:minRelevance "0.3" ;
 bds:relevance ?score ;
 bds:matchAllTerms "true" .
+BIND(
+  COALESCE(
+    IF("[[urlParam "withimages"]]" = "true", pharosfr:Work_depicted_by, 1/0),
+    rdfs:label
+  ) AS ?withImageOption
+)
+FILTER(EXISTS{?subject ?withImageOption ?something})
 BIND(REPLACE(str("[[urlParam "keyword"]]"),"\\+"," ") as ?keywords)
 }ORDER BY DESC(?score) 
 '

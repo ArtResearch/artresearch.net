@@ -9,22 +9,12 @@ class="rs-grid-element panel panel-default personCard fade-in-fwd"
       md="12"
       xs="12"
     >
-      <!-- Thumbnail for Person (fetch from wikidata (good luck)) -->
-      <semantic-query
-        query=' PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-                  SELECT DISTINCT ?artistName WHERE {
-                        <{{subject.value}}> rdfs:label ?personName.
-                      BIND(REPLACE(?personName,"@en","") AS ?artistName)
-                  } LIMIT 1'
-        template="{{> imageThumbnail}}"
-      >
-        <template id="imageThumbnail">
           <semantic-query
             query='
             SELECT DISTINCT ?imgUrl WHERE {
-              BIND("_" AS ?default_imageUrl)
+              BIND("../../assets/images/media/image_placeholder_person.jpg" AS ?default_imageUrl)
               OPTIONAL {
-                  <{{subject.value}}> pharosfr:Person_depicted_by ?personImage.
+                  <{{subject.value}}> pharosfr:Person_depicted_by ?personImage
               }
               BIND(COALESCE(?personImage, ?default_imageUrl) AS ?imgUrl)
             }
@@ -39,8 +29,6 @@ class="rs-grid-element panel panel-default personCard fade-in-fwd"
               />
             </template>
           </semantic-query>
-        </template>
-      </semantic-query>
     </bs-col>
     <bs-col class="cardInfo" lg="12">
       <div

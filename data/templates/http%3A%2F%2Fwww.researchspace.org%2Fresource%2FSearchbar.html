@@ -45,12 +45,12 @@
                   targetId="search-click"
                   keyboardKey="Enter"
                 ></click-element>
-                {{#if selectedTab}}
-                <!-- If the user selected a tab -->
+          
                 <semantic-link
                   class="search-btn-activated"
                   iri="Default:SearchSimple"
-                  urlqueryparam-selectedTab="{{selectedTab}}"
+                  urlqueryparam-withImages='{{#if withImages}}{{withImages}}{{else}}{{#ifCond (objectLength "[[urlParam "withimages"]]") "!==" 0}}[[urlParam "withimages"]]{{else}}false{{/ifCond}}{{/if}}'
+                  urlqueryparam-selectedTab='{{#if selectedTab}}{{selectedTab}}{{else}}{{#ifCond (objectLength "[[urlParam "selectedtab"]]") "!==" 0}}[[urlParam "selectedtab"]]{{else}}Artworks{{/ifCond}}{{/if}}'
                   urlqueryparam-keyword="{{bindings.0.keywords.value}}"
                 >
                   <div
@@ -62,43 +62,7 @@
                     <i class="rs-icon rs-icon-search"></i>
                   </div>
                 </semantic-link>
-                {{else}}
-                 <!-- If there is url paramater selectedtab -->
-                  {{#ifCond (objectLength "[[urlParam "selectedtab"]]") "!==" 0}}
-                    <semantic-link
-                    class="search-btn-activated"
-                    iri="Default:SearchSimple"
-                    urlqueryparam-selectedTab='[[urlParam "selectedtab"]]'
-                    urlqueryparam-keyword="{{bindings.0.keywords.value}}"
-                    >
-                      <div
-                        id="search-click"
-                        style="background: white; height: 39px"
-                        class="btn searchBtn"
-                      >
-                        Search
-                        <i class="rs-icon rs-icon-search"></i>
-                      </div>
-                    </semantic-link>
-                  {{else}}
-                  <!--Else default to the artworks tab -->
-                    <semantic-link
-                    class="search-btn-activated"
-                    iri="Default:SearchSimple"
-                    urlqueryparam-selectedTab='Artworks'
-                    urlqueryparam-keyword="{{bindings.0.keywords.value}}"
-                    >
-                    <div
-                      id="search-click"
-                      style="background: white; height: 39px"
-                      class="btn searchBtn"
-                    >
-                      Search
-                      <i class="rs-icon rs-icon-search"></i>
-                    </div>
-                    </semantic-link>
-                  {{/ifCond}}
-                {{/if}}
+            
               </template>
             </semantic-query>
               <div
@@ -114,4 +78,5 @@
       </mp-event-target-template-render>
     </semantic-search-result-holder>
   </semantic-search>
+  [[> :SearchbarSwitches]]
 </div>

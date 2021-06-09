@@ -20,7 +20,7 @@ class="rs-grid-element panel panel-default repositoryCard fade-in-fwd"
       PREFIX wdtn: <http://www.wikidata.org/prop/direct-normalized/>
 
       SELECT DISTINCT ?imgUrl WHERE{
-        bind("_" as ?default_imageUrl)
+        bind("/assets/images/media/image_placeholder_repo.jpg" as ?default_imageUrl)
         OPTIONAL{
           <{{subject.value}}> pharosfr:Institution_depicted_by ?institutionImage
         }
