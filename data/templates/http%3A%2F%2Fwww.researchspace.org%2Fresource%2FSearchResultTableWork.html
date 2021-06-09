@@ -19,7 +19,7 @@ query='SELECT DISTINCT ?image ?subject ?creator ?date ?repository ?provider WHER
     }
     BIND("_" as ?default_imageUrl)
     BIND(coalesce(?smallerImgUrl, ?default_imageUrl) as ?image)
-}LIMIT 100'
+}ORDER BY DESC (?score) LIMIT 100'
 options='{"showFilter":true, "resultsPerPage":10}'
 column-configuration='[
 {
