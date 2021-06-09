@@ -2,7 +2,8 @@
   class="rs-grid-element panel panel-default artwork-card-big fade-in-fwd "
 >
   <semantic-link iri="{{subject.value}}">
-    <bs-row>
+    <bs-row style="    display: flex;
+    align-items: center;">
       <bs-col
         lg="4"
         md="12"
@@ -145,6 +146,38 @@
                       <span class="rs-page-resource__field-value">
                         <div style="width:25vw; max-width: 450px;">
                           <semantic-link iri="{{bindings.0.institution.value}}"></semantic-link>
+                        </div>
+                      </span>
+                  </td>
+                </tr>
+                </template>
+                </semantic-query>
+                <semantic-query 
+                query='SELECT ?provider WHERE { 
+                  {
+                  <{{subject.value}}> pharosfr:Work_has_provider_Institution ?provider
+                  }union{
+                   ?original owl:sameAs <{{subject.value}}>.
+                   ?original pharosfr:Work_has_provider_Institution ?provider 
+                  }union{
+                    <{{subject.value}}> pharosfr:Photo_depicts_Work  ?work.
+                    ?work pharosfr:Work_has_provider_Institution ?provider.
+                  }
+                }LIMIT 1'
+                template="{{>archiveTemplate}}"
+                >
+                <template id="archiveTemplate">
+
+                <tr class="rs-page-resource__field">
+                  <td class="rs-page-resource__field-label-holder headLine">
+                    <span class="rs-page-resource__field-label">
+                      Photo archive
+                    </span>
+                  </td>
+                  <td>
+                      <span class="rs-page-resource__field-value">
+                        <div style="width:25vw; max-width: 450px;">
+                          <semantic-link iri="{{bindings.0.provider.value}}"></semantic-link>
                         </div>
                       </span>
                   </td>
