@@ -14,13 +14,15 @@ PREFIX fts: <http://www.bigdata.com/rdf/fts#>
     fts:searchResultType "URI" ;
     <http://www.bigdata.com/rdf/fts#scoreField>    "field_score";
     <http://www.bigdata.com/rdf/fts#score>   ?score.
-    BIND(
-      COALESCE(
-        IF("[[urlParam "withimages"]]" = "true",  crm:P129i_is_subject_of, 1/0),
-        rdf:type
-      ) AS ?withImageOption
-    )
-    FILTER(EXISTS{?subject ?withImageOption ?something})
+    # To be re-enabled when frick includes images for photographs
+    #BIND(
+    # COALESCE(
+    #   IF("[[urlParam "withimages"]]" = "true",  crm:P129i_is_subject_of, 1/0),
+    #   rdf:type
+    #  ) AS ?withImageOption
+    #)
+    #FILTER(EXISTS{?subject ?withImageOption ?something})
+    ?subject crm:P129i_is_subject_of ?fullsizeImgUrl
     BIND(REPLACE(str("[[urlParam "keyword"]]"),"\\+"," ") as ?keywords)
   }
 '
@@ -87,7 +89,7 @@ class="hiddenSearchbar"
         <div id='artwork-filter-search-inline'>
         <semantic-table
         id="grid-result"
-        query="SELECT DISTINCT ?subject  WHERE {?subject crm:P129i_is_subject_of ?image}LIMIT 100"
+        query="SELECT DISTINCT ?subject  WHERE {}ORDER BY DESC (?score)LIMIT 100"
         number-of-displayed-rows="5"
         tuple-template="{{> subjectCellTemplate}}"
         options='{"showTableHeading": false, "showFilter":false}'
