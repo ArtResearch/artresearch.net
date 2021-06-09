@@ -87,7 +87,7 @@ class="hiddenSearchbar"
         <div id='artwork-filter-search-inline'>
         <semantic-table
         id="grid-result"
-        query="SELECT DISTINCT ?subject  WHERE {}LIMIT 100"
+        query="SELECT DISTINCT ?subject  WHERE {?subject crm:P129i_is_subject_of ?image}LIMIT 100"
         number-of-displayed-rows="5"
         tuple-template="{{> subjectCellTemplate}}"
         options='{"showTableHeading": false, "showFilter":false}'

@@ -6,9 +6,9 @@ query='SELECT DISTINCT ?image ?subject ?work ?creator ?photographer ?repository 
     ?work pharosfr:Work_depicted_by_Photo ?subject.
     ?work pharosfr:Work_created_from_Artist ?creator.
     ?subject pharosfr:Photo_has_provider_Institution ?provider.
-    ?subject a pharoscustom:photo
-    OPTIONAL{
-      ?subject crm:P129i_is_subject_of ?fullsizeImgUrl.
+    ?subject a pharoscustom:photo.
+    ?subject crm:P129i_is_subject_of ?fullsizeImgUrl.
+   OPTIONAL{ #^^^^^^^^^^^^^^^^^^ due to frick not including images in photographs
       ?fullsizeImgUrl crm:P2_has_type <http://vocab.getty.edu/aat/300078817>.
       BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/!100,100") as ?smallerImgUrl)
     }
