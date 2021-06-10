@@ -141,7 +141,7 @@
                   ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ??.
                 }union{
                   ?subject pharosfr:Work_depicted_by_Photo ?photo.
-                  ?photo pharosfr:Photo_produced_using_Technique ??
+                  ?photo pharosfr:Photo_produced_using_Technique|crm:P45_consists_of ??
                 }
                 ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
               }LIMIT 100'
@@ -152,7 +152,7 @@
                           ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ??.
                         }union{
                           ?subject pharosfr:Work_depicted_by_Photo ?photo.
-                          ?photo pharosfr:Photo_produced_using_Technique ??
+                          ?photo pharosfr:Photo_produced_using_Technique|crm:P45_consists_of ??
                         }
                         ?subject ?p ?o.
                         ?o rdfs:label ?someLabel.

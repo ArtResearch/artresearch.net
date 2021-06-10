@@ -35,7 +35,7 @@
                   <semantic-query
                   query='
                   select (count(?subject) as ?count) where {
-                      ?subject pharosfr:Photo_produced_using_Technique ??
+                      ?subject pharosfr:Photo_produced_using_Technique|crm:P33_used_specific_technique|pharosfr:Work_produced_using_technique_Technique|crm:P2_has_type|crm:P45_consists_of  ??
                   }'
                 ></semantic-query>
                 </h2>
@@ -48,8 +48,8 @@
                   <semantic-query
                   query='
                   select DISTINCT  ?type where {
-                      ?subject pharosfr:Photo_produced_using_Technique ??.
-                      ?subject crm:P2_has_type ?type
+                      ?subject pharosfr:Photo_produced_using_Technique|crm:P33_used_specific_technique|pharosfr:Work_produced_using_technique_Technique|crm:P2_has_type|crm:P45_consists_of  ??.
+                      ?subject pharosfr:Photo_produced_using_Technique|crm:P33_used_specific_technique|pharosfr:Work_produced_using_technique_Technique|crm:P2_has_type|crm:P45_consists_of  ?type
                       FILTER(?type != ??)
                   }LIMIT 100'
                 ></semantic-query>
