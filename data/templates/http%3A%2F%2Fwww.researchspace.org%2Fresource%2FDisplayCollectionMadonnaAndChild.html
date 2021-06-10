@@ -13,6 +13,6 @@
       </div>
     </div>
     <!-- Filter search component -->
-    [[> :FilterSearchCollection domain="<https://pharos.artresearch.net/resource/fc/work>"  searchQuery='?subject pharosfr:Work_shows_Subject <https://pharos.artresearch.net/resource/itatti/subject/11305645>.' ]]
+    [[> :FilterSearchCollection domain="<https://pharos.artresearch.net/resource/fc/work>"  searchQuery='?subject pharosfr:Work_shows_Subject ?suggestion. ?suggestion a pharoscustom:subject. ?subject a pharosfc:work. ?suggestion rdfs:label ?label. FILTER REGEX(?label,"madonna.*(child|bambino)","i")' ]]
   </div>
 </div>
