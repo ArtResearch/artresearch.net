@@ -47,7 +47,7 @@
     </semantic-query>
     
       </div>
-      {{else if (hasKey allTypes "http://www.cidoc-crm.org/cidoc-crm/E21_Person")}}
+      {{else if (hasKey allTypes "https://pharos.artresearch.net/resource/fc/person")}}
       <div class="rs-default-card__hover-icon">
 
         <semantic-link  iri="{{iri}}" >
@@ -55,29 +55,27 @@
               <i class="rs-icon rs-icon-page"></i>
             </button>
         </semantic-link>
-    </semantic-query>
     
       </div>
-      {{else if (hasKey allTypes "http://www.cidoc-crm.org/cidoc-crm/E39_Actor")}}
+      {{else if (hasKey allTypes "https://pharos.artresearch.net/resource/fc/place")}}
       <div class="rs-default-card__hover-icon">
 
         <semantic-link  iri="{{iri}}" >
-            <button type="button" class="rs-button" title="View person">
+            <button type="button" class="rs-button" title="View place">
               <i class="rs-icon rs-icon-page"></i>
             </button>
         </semantic-link>
-    </semantic-query>
     
       </div>
       {{else}}
         <div class="rs-default-card__hover-icon">
             <semantic-link iri="{{iri}}">
-                <button type="button" class="rs-button" title="Resource page">
+                <button type="button" class="rs-button" title="View page">
                   <i class="rs-icon rs-icon-page"></i>
                 </button>
             </semantic-link>
         </div>
-        <mp-overlay-dialog title="Resource Media" type="modal" class="modal-xlSize">
+        <mp-overlay-dialog title="View images" type="modal" class="modal-xlSize">
             <mp-overlay-dialog-trigger>
                 <div class="rs-default-card__hover-icon">
                     <button type="button" class="rs-button" title="Explore Media">
