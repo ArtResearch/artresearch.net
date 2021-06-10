@@ -22,15 +22,15 @@
               [[else]]                      
               {
                 ?someOther owl:sameAs ?subject.
-                ?subject a pharosfc:work.
+                ?subject a fc:work.
               }union{
-                ?subject a pharoscustom:photo.
-              }union{
-                ?someOther owl:sameAs ?subject.
-                ?subject a pharosfc:artist.
+                ?subject a custom:photo.
               }union{
                 ?someOther owl:sameAs ?subject.
-                ?subject a pharosfc:photographer.
+                ?subject a fc:artist.
+              }union{
+                ?someOther owl:sameAs ?subject.
+                ?subject a fc:photographer.
               }
               ?subject rdfs:label ?label .
               ?label bds:search ?__token__ ;
@@ -73,13 +73,13 @@
                                 OPTIONAL{
                                   {
                                     # Artwork Image #
-                                    <{{subject.value}}> pharosfr:Work_depicted_by_Photo ?photo.
+                                    <{{subject.value}}> fr:Work_depicted_by_Photo ?photo.
                                     ?photo crm:P129i_is_subject_of ?fullsizeImgUrl.
                                     BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/!200,200") AS ?smallerImgUrl).
                                   }UNION{
                                     # Photo Image #
-                                    ?artwork pharosfr:Work_depicted_by_Photo <{{subject.value}}> .
-                                    ?artwork pharosfr:Work_depicted_by_Photo ?photo .
+                                    ?artwork fr:Work_depicted_by_Photo <{{subject.value}}> .
+                                    ?artwork fr:Work_depicted_by_Photo ?photo .
                                     ?photo crm:P129i_is_subject_of ?fullsizeImgUrl.
                                     FILTER(?photo = <{{subject.value}}>).
                                     BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/!200,200") AS ?smallerImgUrl).

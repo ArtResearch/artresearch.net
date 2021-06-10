@@ -4,9 +4,9 @@ query="SELECT (COUNT( DISTINCT ?subject) as ?count) WHERE {
   {
     ?subject crm:P2_has_type <https://pharos.artresearch.net/resource/type/pharos>.
   } UNION {
-    ?subject a pharoscustom:photo.
+    ?subject a custom:photo.
   }
-  FILTER NOT EXISTS{?subject a pharoscustom:photographer}.
+  FILTER NOT EXISTS{?subject a custom:photographer}.
 }"
 template="{{>currentResultCount}}"
 >

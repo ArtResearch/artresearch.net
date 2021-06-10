@@ -16,14 +16,14 @@
               OPTIONAL{
                 {
                   # Artwork Image #
-                  <{{subject.value}}> pharosfr:Work_depicted_by_Photo ?photo.
+                  <{{subject.value}}> fr:Work_depicted_by_Photo ?photo.
                   ?photo crm:P129i_is_subject_of ?fullsizeImgUrl.
                   BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/!200,200") AS ?smallerImgUrl).
                   ?fullsizeImgUrl crm:P2_has_type <http://vocab.getty.edu/aat/300078817>
                 }UNION{
                   # Photo Image #
-                  ?artwork pharosfr:Work_depicted_by_Photo <{{subject.value}}> .
-                  ?artwork pharosfr:Work_depicted_by_Photo ?photo .
+                  ?artwork fr:Work_depicted_by_Photo <{{subject.value}}> .
+                  ?artwork fr:Work_depicted_by_Photo ?photo .
                   ?photo crm:P129i_is_subject_of ?fullsizeImgUrl.
                   FILTER(?photo = <{{subject.value}}>).
                   BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/!200,200") AS ?smallerImgUrl).
@@ -70,10 +70,10 @@
                 <semantic-query 
                 query='SELECT ?photographer WHERE { 
                   {
-                  <{{subject.value}}> pharosfr:Photo_created_by_Photographer ?photographer
+                  <{{subject.value}}> fr:Photo_created_by_Photographer ?photographer
                   }union{
                    ?original owl:sameAs <{{subject.value}}>.
-                   ?original pharosfr:Photo_created_by_Photographer ?photographer 
+                   ?original fr:Photo_created_by_Photographer ?photographer 
                   }
                 }LIMIT 1'
                 template="{{> photographerTemplate}}"
@@ -98,10 +98,10 @@
                 <semantic-query 
                   query='SELECT ?artist WHERE { 
                     {
-                    <{{subject.value}}> pharosfr:Work_created_from_Artist ?artist
+                    <{{subject.value}}> fr:Work_created_from_Artist ?artist
                     }union{
                     ?original owl:sameAs <{{subject.value}}>.
-                    ?original pharosfr:Work_created_from_Artist ?artist 
+                    ?original fr:Work_created_from_Artist ?artist 
                     }
                   }LIMIT 1'
                   template="{{> artistTemplate}}"
@@ -126,10 +126,10 @@
                 <semantic-query 
                 query='SELECT ?institution WHERE { 
                   {
-                  <{{subject.value}}> pharosfr:Work_kept_by_Institution ?institution
+                  <{{subject.value}}> fr:Work_kept_by_Institution ?institution
                   }union{
                    ?original owl:sameAs <{{subject.value}}>.
-                   ?original pharosfr:Work_kept_by_Institution ?institution 
+                   ?original fr:Work_kept_by_Institution ?institution 
                   }
                 }LIMIT 1'
                 template="{{>repoTemplate}}"
@@ -155,13 +155,13 @@
                 <semantic-query 
                 query='SELECT ?provider WHERE { 
                   {
-                  <{{subject.value}}> pharosfr:Work_has_provider_Institution ?provider
+                  <{{subject.value}}> fr:Work_has_provider_Institution ?provider
                   }union{
                    ?original owl:sameAs <{{subject.value}}>.
-                   ?original pharosfr:Work_has_provider_Institution ?provider 
+                   ?original fr:Work_has_provider_Institution ?provider 
                   }union{
-                    <{{subject.value}}> pharosfr:Photo_depicts_Work  ?work.
-                    ?work pharosfr:Work_has_provider_Institution ?provider.
+                    <{{subject.value}}> fr:Photo_depicts_Work  ?work.
+                    ?work fr:Work_has_provider_Institution ?provider.
                   }
                 }LIMIT 1'
                 template="{{>archiveTemplate}}"
@@ -187,10 +187,10 @@
                 <semantic-query 
                 query='SELECT ?date WHERE { 
                   {
-                  <{{subject.value}}> pharosfr:Work_from_Date ?date
+                  <{{subject.value}}> fr:Work_from_Date ?date
                   }union{
                    ?original owl:sameAs <{{subject.value}}>.
-                   ?original pharosfr:Work_from_Date ?date 
+                   ?original fr:Work_from_Date ?date 
                   }
                 }LIMIT 1'
                 template="{{>repoTemplate}}"

@@ -92,11 +92,11 @@
               escape-lucene-syntax="false"
               default-query='
               SELECT DISTINCT ?subject WHERE {
-                ?subject pharosfr:Work_kept_by_Institution ??.
+                ?subject fr:Work_kept_by_Institution ??.
               }LIMIT 100'
               query='
                       SELECT DISTINCT ?subject WHERE {
-                        ?subject pharosfr:Work_kept_by_Institution ??.
+                        ?subject fr:Work_kept_by_Institution ??.
                         ?subject ?p ?o.
                         ?o rdfs:label ?someLabel.
                         ?someLabel bds:search ?__token__  .
@@ -153,7 +153,7 @@
                           number-of-displayed-rows="5" query="
                             SELECT DISTINCT ?subject
                             WHERE {
-                              ?subject pharosfr:Work_depicted_by_Photo ?photo.
+                              ?subject fr:Work_depicted_by_Photo ?photo.
                             }LIMIT 100
                           " 
                           tuple-template="{{>tupleTemplate}}"

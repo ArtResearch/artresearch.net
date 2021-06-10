@@ -89,16 +89,16 @@
                 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
                 SELECT DISTINCT ?subject WHERE {
-                ?subject a pharosfc:work.
-                ?subject pharosfr:Work_has_provider_Institution <[[provider]]>.
+                ?subject a fc:work.
+                ?subject fr:Work_has_provider_Institution <[[provider]]>.
                 }
                 '
                 query='
                       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
                       SELECT DISTINCT ?subject WHERE {
-                      ?subject a pharosfc:work.
-                      ?subject pharosfr:Work_has_provider_Institution <[[provider]]>.
+                      ?subject a fc:work.
+                      ?subject fr:Work_has_provider_Institution <[[provider]]>.
                       ?subject ?a ?value.
                       ?value rdfs:label ?someLabel.
                       ?someLabel bds:search ?__token__ .
@@ -172,7 +172,7 @@
                             query="
                       SELECT DISTINCT ?subject
                        WHERE {
-                        ?subject pharosfr:Work_depicted_by_Photo ?photo.
+                        ?subject fr:Work_depicted_by_Photo ?photo.
                        }LIMIT 100
                     "
                             no-result-template='[[> :CardNoResult ]]'

@@ -14,7 +14,7 @@
           FILTER(?typeLabel = "verso" || ?typeLabel = "recto"  )  
         }UNION{
           # Original & Pharos Artwork
-          ?? pharosfr:Work_depicted_by_Photo ?photo.
+          ?? fr:Work_depicted_by_Photo ?photo.
           ?photo crm:P129i_is_subject_of ?image.
           OPTIONAL{
           ?photo <https://pharos.artresearch.net/custom/has_provider> ?provider.

@@ -3,7 +3,7 @@
   {
     "kind": "numeric-range",
     "queryPattern": "
-      $subject pharosfr:Person_has_Date_of_Birth ?gYear .
+      $subject fr:Person_has_Date_of_Birth ?gYear .
         FILTER(?literal >= ?__numericRangeBeginValue__) .
         FILTER(?literal <= ?__numericRangeEndValue__) .
         BIND(xsd:integer(str(?gYear)) as ?literal)."
@@ -12,7 +12,7 @@
   {
     "kind": "numeric-range",
     "queryPattern": "
-      $subject pharosfr:Person_has_Date_of_Death ?gYear .
+      $subject fr:Person_has_Date_of_Death ?gYear .
         FILTER(?literal >= ?__numericRangeBeginValue__) .
         FILTER(?literal <= ?__numericRangeEndValue__) .
         BIND(xsd:integer(str(?gYear)) as ?literal)."
@@ -21,22 +21,22 @@
   {
     "kind": "resource",
     "queryPattern": "
-      $subject pharosfr:Person_has_Event ?event.
-        ?event pharosfr:Event_has_Type ?__value__ ."
+      $subject fr:Person_has_Event ?event.
+        ?event fr:Event_has_Type ?__value__ ."
   }],
   "<https://pharos.artresearch.net/resource/fr/Event_at_Place>": [
   {
     "kind": "resource",
     "queryPattern": "
-      $subject pharosfr:Person_has_Event ?event.
-        ?event pharosfr:Event_at_Place ?__value__ ."
+      $subject fr:Person_has_Event ?event.
+        ?event fr:Event_at_Place ?__value__ ."
   }],
 "<https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution>":[
 {
   "kind": "resource",
   "queryPattern": "
     {
-      $subject pharosfr:Work_kept_by_Institution ?__value__.
+      $subject fr:Work_kept_by_Institution ?__value__.
     } UNION {
       ?original_subject owl:sameAs ?subject;
         crm:P50_has_current_keeper ?__value__.
@@ -48,7 +48,7 @@
   "kind": "resource",
   "queryPattern": "
     ?original_subject owl:sameAs ?subject;
-    pharosfr:Work_from_Place ?__value__.
+    fr:Work_from_Place ?__value__.
     FILTER NOT EXISTS {?__value__ crm:P2_has_type <https://pharos.artresearch.net/resource/hertziana/type/D58E7680-364A-3F1C-A8BF-3DFBACEC79F8>. }
     FILTER NOT EXISTS {?__value__ crm:P2_has_type <https://pharos.artresearch.net/resource/khi/type/D58E7680-364A-3F1C-A8BF-3DFBACEC79F8>. }
     FILTER NOT EXISTS {?__value__ crm:P2_has_type <https://pharos.artresearch.net/resource/marburg/type/D58E7680-364A-3F1C-A8BF-3DFBACEC79F8>. }
@@ -61,7 +61,7 @@
 {
   "kind": "numeric-range",
   "queryPattern": "
-      $subject pharosfr:Person_has_Date_of_Birth ?gYear .
+      $subject fr:Person_has_Date_of_Birth ?gYear .
       FILTER(?literal >= ?__numericRangeBeginValue__) .
       FILTER(?literal <= ?__numericRangeEndValue__) .
       BIND(xsd:integer(str(?gYear)) as ?literal)."
@@ -70,7 +70,7 @@
 {
   "kind": "numeric-range",
   "queryPattern": "
-      $subject pharosfr:Person_has_Date_of_Death ?gYear .
+      $subject fr:Person_has_Date_of_Death ?gYear .
       FILTER(?literal >= ?__numericRangeBeginValue__) .
       FILTER(?literal <= ?__numericRangeEndValue__) .
       BIND(xsd:integer(str(?gYear)) as ?literal)."
@@ -79,22 +79,22 @@
 {
   "kind": "resource",
   "queryPattern": "
-      $subject pharosfr:Person_has_Event ?event.
-      ?event pharosfr:Event_has_Type ?__value__ ."
+      $subject fr:Person_has_Event ?event.
+      ?event fr:Event_has_Type ?__value__ ."
 }],
 "<https://pharos.artresearch.net/resource/fr/Event_at_Place>": [
 {
   "kind": "resource",
   "queryPattern": "
     
-      $subject pharosfr:Person_has_Event ?event.
-      ?event pharosfr:Event_at_Place ?__value__ ."
+      $subject fr:Person_has_Event ?event.
+      ?event fr:Event_at_Place ?__value__ ."
 }],
 "<https://pharos.artresearch.net/resource/fr/Work_from_Date>": [{
   "kind": "date-range",
   "datatype": "http://www.w3.org/2001/XMLSchema#date",
   "queryPattern": "
-  $subject pharosfr:Work_from_Date ?dateBeginValue.
-  $subject pharosfr:Work_from_Date ?dateEndValue .
+  $subject fr:Work_from_Date ?dateBeginValue.
+  $subject fr:Work_from_Date ?dateEndValue .
   "}]
 }

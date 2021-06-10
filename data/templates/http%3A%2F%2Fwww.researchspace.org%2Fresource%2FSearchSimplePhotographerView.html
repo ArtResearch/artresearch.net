@@ -7,7 +7,7 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX bds: <http://www.bigdata.com/rdf/search#>
 PREFIX hint: <http://www.bigdata.com/queryHints#>
 SELECT ?subject ?keywords  WHERE {                
-?subject a pharosfc:photographer.
+?subject a fc:photographer.
 hint:Prior hint:runLast true .
 ?subject rdfs:label ?label .
 ?label bds:search "[[urlParam "keyword"]]" ;
@@ -16,7 +16,7 @@ bds:relevance ?score ;
 bds:matchAllTerms "true" .
 BIND(
   COALESCE(
-    IF("[[urlParam "withimages"]]" = "true", pharosfr:Work_depicted_by, 1/0),
+    IF("[[urlParam "withimages"]]" = "true", fr:Work_depicted_by, 1/0),
     rdfs:label
   ) AS ?withImageOption
 )

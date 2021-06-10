@@ -51,16 +51,16 @@
                 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
                 SELECT DISTINCT ?subject WHERE {
-                ?subject a pharoscustom:photo.
-                ?subject pharosfr:Photo_has_provider_Institution <[[provider]]>.
+                ?subject a custom:photo.
+                ?subject fr:Photo_has_provider_Institution <[[provider]]>.
                 }
                 '
                 query='
                       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
                       SELECT DISTINCT ?subject WHERE {
-                      ?subject a pharoscustom:photo.
-                      ?subject pharosfr:Photo_has_provider_Institution <[[provider]]>.
+                      ?subject a custom:photo.
+                      ?subject fr:Photo_has_provider_Institution <[[provider]]>.
                       ?subject ?a ?value.
                       ?value rdfs:label ?someLabel.
                       ?someLabel bds:search ?__token__ .

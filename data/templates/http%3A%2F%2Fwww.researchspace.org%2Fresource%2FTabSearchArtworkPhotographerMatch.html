@@ -6,35 +6,35 @@
       "kind": "resource",
       "queryPattern": "
         
-          $subject pharosfr:Work_created_from_Artist ?__value__."
+          $subject fr:Work_created_from_Artist ?__value__."
     }],
     "<https://pharos.artresearch.net/resource/fr/Work_shows_Subject>": [
     {
       "kind": "resource",
       "queryPattern": "
         
-          $subject pharosfr:Work_kept_by_Institution ?__value__."
+          $subject fr:Work_kept_by_Institution ?__value__."
     }],
     "<https://pharos.artresearch.net/resource/fr/Work_consists_of_Material>": [
     {
       "kind": "resource",
       "queryPattern": "
         
-          $subject pharosfr:Work_consists_of_Material ?__value__."
+          $subject fr:Work_consists_of_Material ?__value__."
     }],
     "<https://pharos.artresearch.net/resource/fr/Work_produced_using_technique_Technique>": [
     {
       "kind": "resource",
       "queryPattern": "
         
-          $subject pharosfr:Work_produced_using_technique_Technique ?__value__."
+          $subject fr:Work_produced_using_technique_Technique ?__value__."
     }],
     "<https://pharos.artresearch.net/resource/fr/Work_from_Place>": [
     {
       "kind": "resource",
       "queryPattern": "
         
-          $subject pharosfr:Work_from_Place ?__value__."
+          $subject fr:Work_from_Place ?__value__."
     }]
       }'
     search-profile='{
@@ -129,11 +129,11 @@
                 escape-lucene-syntax="false"
                 default-query="
                 SELECT DISTINCT ?subject WHERE {
-                  ?? pharosfr:Photographer_created_Photo ?subject
+                  ?? fr:Photographer_created_Photo ?subject
                 }LIMIT 100"
                   query='
                         SELECT DISTINCT ?subject WHERE {          
-                          ?? pharosfr:Photographer_created_Photo ?subject.
+                          ?? fr:Photographer_created_Photo ?subject.
                           ?subject ?p ?o.
                           ?o rdfs:label ?someLabel.
                           ?someLabel bds:search ?__token__  .
@@ -201,7 +201,7 @@
                             query="
                       SELECT DISTINCT ?subject
                        WHERE {
-                        ?subject pharosfr:Work_depicted_by_Photo ?photo.
+                        ?subject fr:Work_depicted_by_Photo ?photo.
                        }LIMIT 100
                     "
                             tuple-template="{{>tupleTemplate}}"

@@ -7,7 +7,7 @@ number-of-displayed-rows="10"
 query='
 SELECT DISTINCT ?subject (SAMPLE(?placeName) AS ?placeName)
 WHERE {
-  ?subject a pharosfc:place.
+  ?subject a fc:place.
   ?subject rdfs:label ?placeName
 } GROUP BY (?subject) LIMIT 100'
 tuple-template="{{>tupleTemplate}}"

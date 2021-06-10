@@ -14,7 +14,7 @@ class="rs-grid-element panel panel-default personCard fade-in-fwd"
             SELECT DISTINCT ?imgUrl WHERE {
               BIND("../../assets/images/media/image_placeholder_person.jpg" AS ?default_imageUrl)
               OPTIONAL {
-                  <{{subject.value}}> pharosfr:Person_depicted_by ?personImage
+                  <{{subject.value}}> fr:Person_depicted_by ?personImage
               }
               BIND(COALESCE(?personImage, ?default_imageUrl) AS ?imgUrl)
             }

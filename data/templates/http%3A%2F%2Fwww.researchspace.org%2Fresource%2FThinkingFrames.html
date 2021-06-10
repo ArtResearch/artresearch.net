@@ -68,7 +68,7 @@
     <semantic-map
       id="repository-map"
       query="SELECT ?subject ?label ?lat ?lng WHERE {
-        ?subject pharosfr:Institution_from_Place ?place.
+        ?subject fr:Institution_from_Place ?place.
         ?place <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat.
         ?place <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng.
         ?subject rdfs:label ?label.
@@ -108,7 +108,7 @@
     {{else}}
     {{#ifCond bindings.0.rand.value ">" "0.2" }}
     <h2>in the meantime, you can take a closer look to artworks created by women artists</h2>
-    [[> :FilterSearchCollection domain="<https://pharos.artresearch.net/resource/fc/work>"  searchQuery='?subject a pharosfc:work. ?subject pharosfr:Work_created_from_Artist ?artist. ?artist pharosfr:Person_has_Gender <http://vocab.getty.edu/aat/300189557>.'  ]]
+    [[> :FilterSearchCollection domain="<https://pharos.artresearch.net/resource/fc/work>"  searchQuery='?subject a fc:work. ?subject fr:Work_created_from_Artist ?artist. ?artist fr:Person_has_Gender <http://vocab.getty.edu/aat/300189557>.'  ]]
     {{else}}
     {{#ifCond bindings.0.rand.value ">" "0.0" }}
     <h2>in the meantime, feel free to discover artists:</h2>

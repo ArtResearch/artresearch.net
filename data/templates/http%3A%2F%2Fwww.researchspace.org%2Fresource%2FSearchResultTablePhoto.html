@@ -1,11 +1,11 @@
 <semantic-table
 id="semantic-search-result-table"
 query='SELECT DISTINCT ?image ?subject ?work ?creator ?photographer ?repository ?provider WHERE {
-    ?work pharosfr:Work_depicted_by_Photo ?subject.
-    ?subject pharosfr:Photo_created_by_Photographer ?photographer.
-    ?work pharosfr:Work_created_from_Artist ?creator.
-    ?subject pharosfr:Photo_has_provider_Institution ?provider.
-    ?subject a pharoscustom:photo.
+    ?work fr:Work_depicted_by_Photo ?subject.
+    ?subject fr:Photo_created_by_Photographer ?photographer.
+    ?work fr:Work_created_from_Artist ?creator.
+    ?subject fr:Photo_has_provider_Institution ?provider.
+    ?subject a custom:photo.
     OPTIONAL{
       # see PhotoView template
       # ?subject crm:P129i_is_subject_of ?fullsizeImgUrl.

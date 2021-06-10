@@ -7,11 +7,11 @@
         escape-lucene-syntax="false"
         default-query="
               SELECT DISTINCT ?subject WHERE {
-                      ?subject pharosfr:Work_created_from_Artist <[[artistIri]]>.
+                      ?subject fr:Work_created_from_Artist <[[artistIri]]>.
               }LIMIT 100"
         query='
                       SELECT DISTINCT ?subject WHERE {          
-                        ?subject pharosfr:Work_created_from_Artist <[[artistIri]]>.
+                        ?subject fr:Work_created_from_Artist <[[artistIri]]>.
                         ?subject ?p ?o.
                         ?o rdfs:label ?someLabel.
                         ?someLabel bds:search ?__token__  .
@@ -36,7 +36,7 @@
                   query="
                             SELECT DISTINCT ?subject
                             WHERE {
-                              ?subject pharosfr:Work_depicted_by_Photo ?photo.
+                              ?subject fr:Work_depicted_by_Photo ?photo.
                             }LIMIT 100
                           "
                   tuple-template="{{>tupleTemplate}}"

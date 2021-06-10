@@ -42,12 +42,12 @@
               default-query="
                     SELECT DISTINCT ?subject ?institutionImage
                     WHERE {
-                      ?subject a pharosfc:institution.   
-                      ?subject pharosfr:Institution_from_Place <{{placeIri}}>
+                      ?subject a fc:institution.   
+                      ?subject fr:Institution_from_Place <{{placeIri}}>
                     }LIMIT 100"
               query='
                             SELECT DISTINCT ?subject WHERE {
-                            ?subject a pharosfc:institution.   
+                            ?subject a fc:institution.   
                             ?subject rdfs:label ?someLabel.
                             ?someLabel bds:search ?__token__ .
                             ?someLabel bds:minRelevance "0.3"^^xsd:double;
@@ -58,8 +58,8 @@
               <semantic-query
               id="view-more"
               query="SELECT (COUNT( DISTINCT ?subject) as ?count) WHERE {
-                ?subject a pharosfc:institution.   
-                ?subject pharosfr:Institution_from_Place <{{placeIri}}>
+                ?subject a fc:institution.   
+                ?subject fr:Institution_from_Place <{{placeIri}}>
               }"
               template="{{>currentResultCount}}"
             >
@@ -82,11 +82,11 @@
               default-query="
                     SELECT DISTINCT ?subject ?institutionImage
                     WHERE {
-                      ?subject a pharosfc:institution.   
+                      ?subject a fc:institution.   
                     }LIMIT 100"
               query='
                             SELECT DISTINCT ?subject WHERE {
-                            ?subject a pharosfc:institution.   
+                            ?subject a fc:institution.   
                             ?subject rdfs:label ?someLabel.
                             ?someLabel bds:search ?__token__ .
                             ?someLabel bds:minRelevance "0.3"^^xsd:double;
@@ -113,10 +113,10 @@
         query="
         PREFIX : <http://help.metaphacts.com/resource/>
         SELECT ?node ?parent WHERE {
-          ?subject a pharosfc:institution. 
-          ?subject pharosfr:Institution_from_Place ?parent.
+          ?subject a fc:institution. 
+          ?subject fr:Institution_from_Place ?parent.
           ?parent rdfs:label ?label.
-          ?subject pharosfr:Institution_from_Place ?node. 
+          ?subject fr:Institution_from_Place ?node. 
           ?parent crm:P2_has_type <http://vocab.getty.edu/aat/300387506>.
           ?node <http://www.geonames.org/ontology#parentCountry> ?parent.
         }order by(?label)"
@@ -168,7 +168,7 @@
                             query="
                           SELECT DISTINCT ?subject WHERE {
                              OPTIONAL{
-                              ?subject pharosfr:Institution_depicted_by ?institutionImage
+                              ?subject fr:Institution_depicted_by ?institutionImage
                             }     
                           }ORDER BY DESC(?institutionImage) LIMIT 100
                         "
@@ -185,7 +185,7 @@
                             <semantic-map
                               id="repository-map"
                               query="SELECT ?subject ?label ?lat ?lng WHERE {
-                                ?subject pharosfr:Institution_from_Place ?place.
+                                ?subject fr:Institution_from_Place ?place.
                                 ?place <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat.
                                 ?place <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng.
                                 ?subject rdfs:label ?label.
