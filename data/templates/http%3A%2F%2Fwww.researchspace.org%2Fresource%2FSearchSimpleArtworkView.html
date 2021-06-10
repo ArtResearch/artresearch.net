@@ -15,7 +15,7 @@ PREFIX fts: <http://www.bigdata.com/rdf/fts#>
     <http://www.bigdata.com/rdf/fts#score>   ?score.
     BIND(
       COALESCE(
-        IF("[[urlParam "withimages"]]" = "true", pharosfr:Work_depicted_by_Photo, 1/0),
+        IF("[[urlParam "withimages"]]" = "true", fr:Work_depicted_by_Photo, 1/0),
         rdfs:label
       ) AS ?withImageOption
     )
@@ -104,7 +104,7 @@ class="hiddenSearchbar"
         <div id='artwork-filter-search-inline'>
         <semantic-table
         id="grid-result"
-        query="SELECT DISTINCT ?subject  WHERE {?subject pharosfr:Work_depicted_by_Photo ?photo}ORDER BY DESC (?score)LIMIT 100"
+        query="SELECT DISTINCT ?subject  WHERE {?subject fr:Work_depicted_by_Photo ?photo}ORDER BY DESC (?score)LIMIT 100"
         number-of-displayed-rows="5"
         tuple-template="{{> subjectCellTemplate}}"
         options='{"showTableHeading": false, "showFilter":false}'

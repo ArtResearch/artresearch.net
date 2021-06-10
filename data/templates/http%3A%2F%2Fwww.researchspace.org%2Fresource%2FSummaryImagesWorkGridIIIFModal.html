@@ -5,7 +5,7 @@
         image-or-region="[[this]]"
         image-id-pattern='
             BIND("image" AS ?type). BIND(?subject AS ?imageIRI).
-            ?subject pharosfr:Work_depicted_by_Photo ?photo.
+            ?subject fr:Work_depicted_by_Photo ?photo.
             ?photo crm:P129i_is_subject_of <{{image.value}}>.
             <{{image.value}}> crm:P2_has_type <http://iiif.io/api/image>.
             BIND(REPLACE(STR("{{image.value}}"), "full/!700,700", "full/full") AS ?fotoIndexId).

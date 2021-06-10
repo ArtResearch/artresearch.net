@@ -6,7 +6,7 @@
       "kind": "resource",
       "queryPattern": "
         
-          $subject pharosfr:Work_created_from_Artist ?__value__."
+          $subject fr:Work_created_from_Artist ?__value__."
     }
 ],
     "<https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution>":[
@@ -14,35 +14,35 @@
       "kind": "resource",
       "queryPattern": "
         
-          $subject pharosfr:Work_kept_by_Institution ?__value__."
+          $subject fr:Work_kept_by_Institution ?__value__."
     }],
     "<https://pharos.artresearch.net/resource/fr/Work_shows_Subject>": [
     {
       "kind": "resource",
       "queryPattern": "
         
-          $subject pharosfr:Work_shows_Subject  ?__value__."
+          $subject fr:Work_shows_Subject  ?__value__."
     }],
     "<https://pharos.artresearch.net/resource/fr/Work_consists_of_Material>": [
     {
       "kind": "resource",
       "queryPattern": "
         
-          $subject pharosfr:Work_consists_of_Material ?__value__."
+          $subject fr:Work_consists_of_Material ?__value__."
     }],
     "<https://pharos.artresearch.net/resource/fr/Work_produced_using_technique_Technique>": [
     {
       "kind": "resource",
       "queryPattern": "
         
-         $subject pharosfr:Work_produced_using_technique_Technique ?__value__."
+         $subject fr:Work_produced_using_technique_Technique ?__value__."
     }],
     "<https://pharos.artresearch.net/resource/fr/Work_from_Place>": [
     {
       "kind": "resource",
       "queryPattern": "
         
-          $subject pharosfr:Work_from_Place ?__value__."
+          $subject fr:Work_from_Place ?__value__."
     }]
       }'
   search-profile='{
@@ -140,8 +140,8 @@
                 {
                   ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ??.
                 }union{
-                  ?subject pharosfr:Work_depicted_by_Photo ?photo.
-                  ?photo pharosfr:Photo_produced_using_Technique|crm:P45_consists_of ??
+                  ?subject fr:Work_depicted_by_Photo ?photo.
+                  ?photo fr:Photo_produced_using_Technique|crm:P45_consists_of ??
                 }
                 ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
               }LIMIT 100'
@@ -151,8 +151,8 @@
                         {
                           ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ??.
                         }union{
-                          ?subject pharosfr:Work_depicted_by_Photo ?photo.
-                          ?photo pharosfr:Photo_produced_using_Technique|crm:P45_consists_of ??
+                          ?subject fr:Work_depicted_by_Photo ?photo.
+                          ?photo fr:Photo_produced_using_Technique|crm:P45_consists_of ??
                         }
                         ?subject ?p ?o.
                         ?o rdfs:label ?someLabel.
@@ -215,7 +215,7 @@
                         {?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.   }
                         UNION
                         {?subject owl:sameAs ?another}
-                        ?subject pharosfr:Work_depicted_by_Photo ?photo.
+                        ?subject fr:Work_depicted_by_Photo ?photo.
                        }LIMIT 100
                     " tuple-template="{{>tupleTemplate}}"
                       no-result-template='[[> :CardNoResult ]]'

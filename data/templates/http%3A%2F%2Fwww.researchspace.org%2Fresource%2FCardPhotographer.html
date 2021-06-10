@@ -9,7 +9,7 @@
                   BIND("_" AS ?default_imageUrl)
                   OPTIONAL{
                     ?wikiPerson rdfs:label ?photographerName.
-                    ?wikiPerson pharosfr:Person_depicted_by ?imgUrl.
+                    ?wikiPerson fr:Person_depicted_by ?imgUrl.
                     <{{subject.value}}> rdfs:label ?photographerName.
                   }
                   BIND(COALESCE(?imgUrl, ?default_imageUrl) AS ?imgUrl)

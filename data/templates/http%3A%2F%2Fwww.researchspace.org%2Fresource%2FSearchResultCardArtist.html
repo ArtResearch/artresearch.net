@@ -8,7 +8,7 @@
     SELECT DISTINCT ?subject (GROUP_CONCAT(STR(?subjects);SEPARATOR=" , ") AS ?originalSubject)
     WHERE {
         #?subjects owl:sameAs ?subject.
-        ?subject a pharosfc:artist
+        ?subject a fc:artist
         }GROUP BY(?subject) LIMIT 100'
   tuple-template="{{>tupleTemplate}}"
 >

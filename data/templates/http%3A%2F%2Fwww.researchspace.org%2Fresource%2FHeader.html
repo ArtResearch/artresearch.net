@@ -28,19 +28,19 @@
              {
               # Artwork
               ?originalSubject owl:sameAs ??.
-              ?originalSubject pharosfr:Work_has_provider_Institution ?provider.
+              ?originalSubject fr:Work_has_provider_Institution ?provider.
               ?originalSubject <https://pharos.artresearch.net/custom/has_original_record> ?providerRecord.
               ?provider rdfs:label ?providerLabel
             }UNION{
               # Pharos artwork
-              ?? pharosfr:Work_has_provider_Institution ?provider.
+              ?? fr:Work_has_provider_Institution ?provider.
               ?? <https://pharos.artresearch.net/custom/has_original_record> ?providerRecord.
               ?provider rdfs:label ?providerLabel
             }UNION{
               # Photograph
-              ?? pharosfr:Photo_depicts_Work  ?subject.
+              ?? fr:Photo_depicts_Work  ?subject.
               ?subject <https://pharos.artresearch.net/custom/has_original_record> ?providerRecord.
-              ?subject pharosfr:Work_has_provider_Institution ?provider.
+              ?subject fr:Work_has_provider_Institution ?provider.
               ?provider rdfs:label ?providerLabel
             }
             }

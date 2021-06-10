@@ -16,7 +16,7 @@ class="rs-grid-element panel panel-default placeCard fade-in-fwd"
       SELECT DISTINCT ?imgUrl WHERE{
         bind("_" as ?default_imageUrl)
         OPTIONAL{
-          <{{subject.value}}> pharosfr:Place_depicted_by ?imgUrl
+          <{{subject.value}}> fr:Place_depicted_by ?imgUrl
           }
           BIND(coalesce(?imgUrl, ?default_imageUrl) as ?imgUrl)    
             }LIMIT 1'

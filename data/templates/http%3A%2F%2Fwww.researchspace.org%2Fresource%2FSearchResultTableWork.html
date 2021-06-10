@@ -1,18 +1,18 @@
 <semantic-table
 id="semantic-search-result-table"
 query='SELECT DISTINCT ?image ?subject ?creator ?date ?repository ?provider WHERE {
-    ?subject pharosfr:Work_has_provider_Institution ?provider.
-    ?subject pharosfr:Work_created_from_Artist ?creator.
-    ?subject a pharosfc:work.
+    ?subject fr:Work_has_provider_Institution ?provider.
+    ?subject fr:Work_created_from_Artist ?creator.
+    ?subject a fc:work.
     OPTIONAL{
-      ?subject pharosfr:Work_from_Date ?date.
+      ?subject fr:Work_from_Date ?date.
     }
     OPTIONAL{
       ?originalSubject owl:sameAs ?subject.
       ?originalSubject  crm:P50_has_current_keeper ?repository.
     }
     OPTIONAL{
-      ?subject pharosfr:Work_depicted_by_Photo ?photo.
+      ?subject fr:Work_depicted_by_Photo ?photo.
       ?photo crm:P129i_is_subject_of ?fullsizeImgUrl.
       ?fullsizeImgUrl crm:P2_has_type <http://vocab.getty.edu/aat/300078817>.
       BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/!100,100") as ?smallerImgUrl)

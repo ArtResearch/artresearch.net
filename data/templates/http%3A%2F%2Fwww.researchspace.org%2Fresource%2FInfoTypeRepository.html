@@ -2,11 +2,11 @@
   query="
   SELECT  ?repo WHERE {
     {
-      ?? pharosfr:Work_kept_by_Institution ?repo.
+      ?? fr:Work_kept_by_Institution ?repo.
     }UNION{
-      ?? pharosfr:Work_kept_by_Institution ?repo.
+      ?? fr:Work_kept_by_Institution ?repo.
     }
-    ?? a pharosfc:work.
+    ?? a fc:work.
   } LIMIT 1"
   no-result-template="{{> noRepoResult}}"
   template="{{> fcLabelTemplate}}"
@@ -24,8 +24,8 @@
     <semantic-query
       query="
     SELECT  ?repo WHERE {
-      ?? pharosfr:Photo_has_provider_Institution ?repo.
-      ?? a pharoscustom:photo.
+      ?? fr:Photo_has_provider_Institution ?repo.
+      ?? a custom:photo.
     } LIMIT 1"
       template="{{> fcLabelTemplate_second}}"
     >
