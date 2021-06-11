@@ -202,6 +202,7 @@
                       SELECT DISTINCT ?subject
                        WHERE {
                         ?subject fr:Work_depicted_by_Photo ?photo.
+                        ?photo crm:P129i_is_subject_of ?image.
                        }LIMIT 100
                     "
                             tuple-template="{{>tupleTemplate}}"
