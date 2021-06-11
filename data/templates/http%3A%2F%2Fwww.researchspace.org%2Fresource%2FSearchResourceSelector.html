@@ -33,6 +33,7 @@
               bds:minRelevance \"0.3\" ;
               bds:matchAllTerms \"true\"  .
         FILTER(EXISTS {
+          ?subject a ?__domain__.
           ?subject ?__relation__ $suggestion .
         })
       }GROUP BY (?suggestion) ORDER BY DESC(?score)  LIMIT 10
