@@ -7,7 +7,8 @@
       </h2>
     </mp-draggable>
     <semantic-query query='SELECT ?title WHERE{
-      ?? rdfs:label ?title. 
+      ?? rdfs:label ?label. 
+      BIND(REPLACE(str(?label),"[-!$%^&*()_+|~=`{}\\[\\]:\";<>?,.\\/\\\\]"," ") as ?title).
     }' template="{{>copyTemplate}}">
     <template id="copyTemplate">
       <mp-copy-to-clipboard
