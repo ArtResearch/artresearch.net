@@ -1,6 +1,12 @@
 <semantic-table
 id="semantic-search-result-table"
-query='SELECT DISTINCT ?image ?subject ?creator ?date ?repository ?provider WHERE {
+query='SELECT DISTINCT 
+?subject
+(SAMPLE(?image) as ?image)  
+(SAMPLE(?creator) as ?creator) 
+(SAMPLE(?date) as ?date) 
+(SAMPLE(?repository) as ?repository) 
+(SAMPLE(?provider) as ?provider) WHERE {
     ?subject fr:Work_has_provider_Institution ?provider.
     ?subject fr:Work_created_from_Artist ?creator.
     ?subject a fc:work.
@@ -19,7 +25,7 @@ query='SELECT DISTINCT ?image ?subject ?creator ?date ?repository ?provider WHER
     }
     BIND("_" as ?default_imageUrl)
     BIND(coalesce(?smallerImgUrl, ?default_imageUrl) as ?image)
-}ORDER BY DESC (?score) LIMIT 100'
+}GROUP BY(?subject) ORDER BY DESC (?score) LIMIT 100'
 options='{"showFilter":true, "pageSizeSelection": true,"resultsPerPage":10}'
 column-configuration='[
 {
