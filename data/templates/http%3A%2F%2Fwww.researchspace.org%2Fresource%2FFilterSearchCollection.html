@@ -202,8 +202,10 @@
                        WHERE {
                          {
                             ?subject fr:Work_depicted_by_Photo ?photo.
+                            ?photo crm:P129i_is_subject_of ?image.
                          }UNION{
                             ?work fr:Work_depicted_by_Photo ?subject.
+                            ?subject crm:P129i_is_subject_of ?image.
                          }
                        }LIMIT 100
                     "
