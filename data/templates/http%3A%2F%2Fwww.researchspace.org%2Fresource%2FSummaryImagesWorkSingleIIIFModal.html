@@ -19,7 +19,7 @@
       {{#ifCond (objectLength bindings) "===" 1}}
       <div style="width: 96vw; height: 80vh">
         <rs-iiif-mirador
-          image-or-region="[[this]]"
+          image-or-region="{{bindings.0.fullsizeImages.value}}"
           image-id-pattern='
                     BIND("image" AS ?type). BIND(?subject AS ?imageIRI). 
                     ?subject fr:Work_depicted_by_Photo ?photo.
@@ -38,7 +38,7 @@
         <div style="width: 50vw; height: 80vh">
           <rs-iiif-mirador
             id="rectoMirador"
-            image-or-region="[[this]]"
+            image-or-region="{{bindings.0.fullsizeImages.value}}"
             image-id-pattern='
                         BIND("image" AS ?type). BIND(?subject AS ?imageIRI). 
                         ?subject fr:Work_depicted_by_Photo ?photo.
@@ -55,7 +55,7 @@
         <div style="width: 50vw; height: 80vh">
           <rs-iiif-mirador
             id="versoMirador"
-            image-or-region="[[this]]"
+            image-or-region="{{bindings.1.fullsizeImages.value}}"
             image-id-pattern='
                         BIND("image" AS ?type). BIND(?subject AS ?imageIRI). 
                         ?subject fr:Work_depicted_by_Photo ?photo.

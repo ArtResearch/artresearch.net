@@ -14,7 +14,7 @@ class="rs-grid-element panel panel-default placeCard fade-in-fwd"
       PREFIX wd: <http://www.wikidata.org/entity/>
       PREFIX wdt: <http://www.wikidata.org/prop/direct/>
       SELECT DISTINCT ?imgUrl WHERE{
-        bind("_" as ?default_imageUrl)
+        bind("../../assets/images/media/image_placeholder_place.jpg" as ?default_imageUrl)
         OPTIONAL{
           <{{subject.value}}> fr:Place_depicted_by ?imgUrl
           }
