@@ -1,82 +1,55 @@
 <div id="search-bar">
-  <mp-event-target-template-render
-    id="event-target-tab-select"
-    template="{{> tabSelect}}"
-  >
-    <template id="tabSelect">
-      {{#if selectedTab}} 
-         [[> :SearchbarDropdown dropdownTitle="{{selectedTab}}"]]
-       {{else}} 
-         [[> :SearchbarDropdown dropdownTitle=selectedCategory ]] 
-      {{/if}}
-    </template>
-  </mp-event-target-template-render>
-
-  <semantic-search>
-    <semantic-search-query-keyword
-      placeholder="Search the collection - Type at least 3 characters"
-      domain="<http://www.w3.org/2000/01/rdf-schema#Resource>"
-      default-query="
-    SELECT ?keywords  WHERE {
-      ?keywords a <http://no-result>
-    }
-  "
-      query='
-      SELECT ?keywords  WHERE {
-         BIND(REPLACE(?__token__,"\\*","") as ?keys).
-         BIND(REPLACE(str(?keys),"[-!$%^&*()_+|~=`{}\\[\\]:\";<>?,.\\/\\\\]"," ") as ?normalized).
-         BIND(REPLACE(?normalized," ","+") as ?keywords)
-      }'
-    ></semantic-search-query-keyword>
-    <semantic-search-result-holder>
-      <mp-event-target-template-render
-        id="event-target-search-btn"
-        template="{{> searchButton}}"
-      >
-        <template id="searchButton">
-          <semantic-search-result>
-            <semantic-query
-              id="view-more"
-              query="SELECT ?keywords WHERE {}"
-              template="{{>viewMoreButton}}"
-            >
-              <template id="viewMoreButton">
-                <click-element
-                  targetId="search-click"
-                  keyboardKey="Enter"
-                ></click-element>
-          
-                <semantic-link
-                  class="search-btn-activated"
-                  iri="Default:SearchSimple"
-                  urlqueryparam-withImages='{{#if withImages}}{{withImages}}{{else}}{{#ifCond (objectLength "[[urlParam "withimages"]]") "!==" 0}}[[urlParam "withimages"]]{{else}}false{{/ifCond}}{{/if}}'
-                  urlqueryparam-selectedTab='{{#if selectedTab}}{{selectedTab}}{{else}}{{#ifCond (objectLength "[[urlParam "selectedtab"]]") "!==" 0}}[[urlParam "selectedtab"]]{{else}}Artworks{{/ifCond}}{{/if}}'
-                  urlqueryparam-keyword="{{bindings.0.keywords.value}}"
-                >
-                  <div
-                    id="search-click"
-                    style="background: white; height: 39px"
-                    class="btn searchBtn"
-                  >
-                    Search
-                    <i class="rs-icon rs-icon-search"></i>
-                  </div>
-                </semantic-link>
-            
-              </template>
-            </semantic-query>
-              <div
-                title="Provide a keyword! (at least 3 characters long)"
-                style="background: white; height: 39px"
-                class="btn searchBtn search-btn-disabled" 
-              >
-                Search
-                <i class="rs-icon rs-icon-search"></i>
-              </div>
-          </semantic-search-result>
-        </template>
-      </mp-event-target-template-render>
-    </semantic-search-result-holder>
-  </semantic-search>
+  <div class="form-group">
+    <mp-event-target-template-render
+      id="event-target-tab-select"
+      template="{{> tabSelect}}"
+    >
+      <template id="tabSelect">
+        {{#if selectedTab}} [[> :SearchbarDropdown
+        dropdownTitle="{{selectedTab}}"]] {{else}} [[> :SearchbarDropdown
+        dropdownTitle=selectedCategory ]] {{/if}}
+      </template>
+    </mp-event-target-template-render>
+    <mp-event-target-template-render
+      id="event-target-search-btn"
+      template="{{> searchButton}}"
+    >
+      <template id="searchButton">
+        <form>
+          <input
+            type="hidden"
+            name="withimages"
+            value='{{#if withImages}}{{withImages}}{{else}}{{#ifCond (objectLength "[[urlParam "withimages"]]") "!==" 0}}[[urlParam "withimages"]]{{else}}false{{/ifCond}}{{/if}}'
+          />
+          <input
+            type="hidden"
+            name="selectedtab"
+            value='{{#if selectedTab}}{{selectedTab}}{{else}}{{#ifCond (objectLength "[[urlParam "selectedtab"]]") "!==" 0}}[[urlParam "selectedtab"]]{{else}}Artworks{{/ifCond}}{{/if}}'
+          />
+          <input
+            required
+            minlength="2"
+            spellcheck="true"
+            class="form-control"
+            pattern="[A-Za-z0-9\s]+"
+            placeholder="Search the collection"
+            type="search"
+            title="Type at least 2 characters, only alphanumeric e.g. (Mona Lisa 1503)"
+            id="site-search"
+            name="keyword"
+            aria-label="Search through site content"
+          />
+          <input type="hidden" name="uri" value="Default:SearchSimple" />
+          <button
+            type="submit"
+            style="background: white; height: 39px"
+            class="btn searchBtn"
+          >
+            Search<i class="fa fa-search"></i>
+          </button>
+        </form>
+      </template>
+    </mp-event-target-template-render>
+  </div>
   [[> :SearchbarSwitches]]
 </div>
