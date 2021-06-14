@@ -1,11 +1,6 @@
 <semantic-query
 id="count-artist"
 query="SELECT (COUNT( DISTINCT ?subject) as ?count) WHERE {
-  {
-    ?subject crm:P2_has_type <https://pharos.artresearch.net/resource/type/pharos>.
-  } UNION {
-    ?subject a custom:photo.
-  }
   FILTER NOT EXISTS{?subject a custom:photographer}.
 }"
 template="{{>currentResultCount}}"
