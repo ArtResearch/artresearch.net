@@ -2,7 +2,7 @@
   "rootsQuery": "
   SELECT DISTINCT ?item ?label where {
     ?item a  ?__range__.
-    ?item rdfs:label ?label.
+    ?item <http://www.geonames.org/ontology#name> ?label.
     ?item crm:P2_has_type <http://vocab.getty.edu/aat/300387506>.
     FILTER(EXISTS { ?subject ?__relation__ ?item . }) .
    }order by ?label",
@@ -12,7 +12,7 @@
       OPTIONAL { 
         ?item a  ?__range__.
         ?item  <http://www.geonames.org/ontology#parentCountry>  ?parent.
-        ?item rdfs:label ?label.
+        ?item <http://www.geonames.org/ontology#name> ?label.
         FILTER(EXISTS { ?subject ?__relation__ ?item . }) .
       }
       BIND(bound(?child) as ?hasChildren)
@@ -26,7 +26,7 @@
   "searchQuery":"
      SELECT DISTINCT ?hasChildren ?item ?label WHERE {
        ?item a ?__range__.
-       ?item rdfs:label ?label.
+       ?item <http://www.geonames.org/ontology#name> ?label.
        ?label bds:search ?__token__ .
        ?label bds:minRelevance \"0.3\"^^xsd:double.
        ?label bds:matchAllTerms \"true\".

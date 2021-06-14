@@ -66,7 +66,6 @@ customElements.define("click-element", ClickIt);
     let elements = document.querySelectorAll(querySelector);
     for (let index = 0; index < elements.length; index++) {
       const element = elements[index];
-      console.log("Setting scroll-to-top for:",element)
       element.addEventListener("click", function (event) {
         window.scrollTo({
           top: 0,
