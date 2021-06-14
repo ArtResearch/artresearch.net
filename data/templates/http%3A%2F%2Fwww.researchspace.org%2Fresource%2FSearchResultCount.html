@@ -1,22 +1,12 @@
 <semantic-query
 id="count-artist"
-query="SELECT (COUNT( DISTINCT ?subject) as ?count) WHERE {
-  {
-    ?subject crm:P2_has_type <https://pharos.artresearch.net/resource/type/pharos>.
-  } UNION {
-    ?subject a custom:photo.
-  }
-  FILTER NOT EXISTS{?subject a custom:photographer}.
+query="SELECT (COUNT(DISTINCT ?subject) as ?count) WHERE {
 }"
 template="{{>currentResultCount}}"
 >
 <template id="currentResultCount">
   <h2>
-    {{#ifCond bindings.0.count.value "==" 10000}}
-    Found more than 10000 matches, please refine your search using filters
-    {{else}}
       Found {{bindings.0.count.value}} matches
-    {{/ifCond}}
   </h2>
 </template>
 </semantic-query>
