@@ -5,11 +5,10 @@
       }'
   number-of-displayed-rows="5"
   query='
-  SELECT DISTINCT ?subject (GROUP_CONCAT(STR(?subjects);SEPARATOR=" , ") AS ?originalSubject)
+  SELECT DISTINCT ?subject
   WHERE {
-    ?subjects owl:sameAs ?subject.
     ?subject a fc:work
-  }GROUP BY(?subject) LIMIT 100'
+  }LIMIT 100'
   tuple-template="{{>tupleTemplate}}"
 >
 
