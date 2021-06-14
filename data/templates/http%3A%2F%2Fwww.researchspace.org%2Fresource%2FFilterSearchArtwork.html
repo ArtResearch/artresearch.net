@@ -125,6 +125,11 @@
         <semantic-search-result-holder>
           <bs-tabs unmount-on-exit="true" id="search-results" animation="false">
             <bs-tab event-key="2" title="Grid">
+              <div>
+                <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
+                <semantic-search-result id="semantic-search-result">
+                  [[> :SearchResultCount]]
+                </semantic-search-result>
               <semantic-search-result>
                 <div id="card-results">
                   <bs-tab-container
@@ -189,6 +194,7 @@
                   </bs-tab-container>
                 </div>
               </semantic-search-result>
+              </div>
             </bs-tab>
           </bs-tabs>
         </semantic-search-result-holder>
