@@ -40,7 +40,10 @@
           }
         }
       BIND(BOUND(?child) AS ?hasChildren)
-      FILTER(EXISTS { ?subject ?__relation__ ?item . }) 
+      FILTER(EXISTS { 
+        ?subject a ?__domain__. 
+        ?subject ?__relation__ ?item . 
+      }) 
      }ORDER BY DESC (?label)
      "
 }
