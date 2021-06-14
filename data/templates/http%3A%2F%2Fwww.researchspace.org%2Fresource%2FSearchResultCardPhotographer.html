@@ -7,11 +7,9 @@
   query='
     SELECT DISTINCT ?subject
     WHERE {
-        #?subjects owl:sameAs ?subject
-        # to be changed after reconciliation
         ?subject a fc:photographer.
         ?subject crm:P2_has_type <https://pharos.artresearch.net/resource/type/pharos>.
-        }GROUP BY(?subject) LIMIT 100'
+        } LIMIT 100'
   tuple-template="{{>tupleTemplate}}"
 >
   <template id="tupleTemplate">
