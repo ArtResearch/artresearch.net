@@ -7,8 +7,12 @@ query='SELECT DISTINCT
 (SAMPLE(?date) as ?date) 
 (SAMPLE(?repository) as ?repository) 
 (SAMPLE(?provider) as ?provider) WHERE {
+  OPTIONAL{
     ?subject fr:Work_has_provider_Institution ?provider.
+  }
+  OPTIONAL{
     ?subject fr:Work_created_from_Artist ?creator.
+  }
     ?subject a fc:work.
     OPTIONAL{
       ?subject fr:Work_from_Date ?date.

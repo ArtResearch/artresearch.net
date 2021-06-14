@@ -1,20 +1,29 @@
 <semantic-table
 id="semantic-search-result-table"
-query='SELECT DISTINCT ?image ?subject ?work ?creator ?photographer ?repository ?provider WHERE {
-    ?work fr:Work_depicted_by_Photo ?subject.
-    ?subject fr:Photo_created_by_Photographer ?photographer.
-    ?work fr:Work_created_from_Artist ?creator.
-    ?subject fr:Photo_has_provider_Institution ?provider.
+query='SELECT DISTINCT 
+?subject 
+(SAMPLE(?photographer) AS ?photographer)
+(SAMPLE(?provider) AS ?provider) 
+(SAMPLE(?image) AS ?image) 
+WHERE {
     ?subject a custom:photo.
     OPTIONAL{
+      ?subject fr:Photo_created_by_Photographer ?photographer.
+    }
+    OPTIONAL{
+      ?subject fr:Photo_has_provider_Institution ?provider.
+    }
+    OPTIONAL{
+      [[#if advancedSearch ]]
       # see PhotoView template
-      # ?subject crm:P129i_is_subject_of ?fullsizeImgUrl.
+       ?subject crm:P129i_is_subject_of ?fullsizeImgUrl.
+      [[/if]]
       ?fullsizeImgUrl crm:P2_has_type <http://vocab.getty.edu/aat/300078817>.
       BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/!100,100") as ?smallerImgUrl)
     }
     BIND("_" as ?default_imageUrl)
     BIND(coalesce(?smallerImgUrl, ?default_imageUrl) as ?image)
-  }ORDER BY DESC (?score) LIMIT 100'
+  }GROUP BY(?subject) ORDER BY DESC (?score) LIMIT 100'
   options='{"showFilter":true, "resultsPerPage":10}'
   column-configuration='[
   {
@@ -22,9 +31,7 @@ query='SELECT DISTINCT ?image ?subject ?work ?creator ?photographer ?repository 
     "cellTemplate": "<div class=\"thumbnailImageContainerTabular\"> <img  alt=\"   \"  class=\"thumbnailImageTabular\" src=\"{{image.value}}\"/></div>" 
   },
   {"variableName": "subject", "displayName": "Title"},
-  {"variableName": "work", "displayName": "Depicts"},
   {"variableName": "photographer", "displayName": "Photographer"},
-  {"variableName": "creator", "displayName": "Artist"},
   {"variableName": "provider", "displayName": "Photo archive"}
   ]'
 >
