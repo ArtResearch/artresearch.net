@@ -1,6 +1,60 @@
 <h3 style="margin-left: 1.1vw; color:#5a5a5a">
   Timeline <small style="text-transform:lowercase">per provider</small>
 </h3>
+<div class="download-options"> 
+  <mp-sparql-download
+  id="csv-result"
+  query='
+  select DISTINCT ?provider ?count  ?date where {
+      ## This query returns the number of works for each provider
+      GRAPH <https://pharos.artresearch.net/resource/statistics/namedgraphs/graph> {
+      ?x ?y ?z.
+      }
+      GRAPH ?z {
+      ?l <https://pharos.artresearch.net/custom/has_date> ?date.
+      ?l <https://pharos.artresearch.net/custom/consists_of> ?n
+      
+      }
+      GRAPH ?n {
+        ?provider <[[property]]> ?count.
+      }
+      FILTER(!STRSTARTS(STR(?provider), "https://pharos.artresearch.net/resource/total"))
+    } ORDER BY ASC(?provider)
+  '
+  header="text/xml"
+  filename="[[datasetLabel]]_timeline_artresearch.xml"
+  >
+  <button class="btn btn-default fa fa-download" style="margin-right: 10px">
+    XML
+  </button>
+  </mp-sparql-download>
+  <mp-sparql-download
+  id="csv-result"
+  query='
+  select DISTINCT ?provider ?count  ?date where {
+      ## This query returns the number of works for each provider
+      GRAPH <https://pharos.artresearch.net/resource/statistics/namedgraphs/graph> {
+      ?x ?y ?z.
+      }
+      GRAPH ?z {
+      ?l <https://pharos.artresearch.net/custom/has_date> ?date.
+      ?l <https://pharos.artresearch.net/custom/consists_of> ?n
+      
+      }
+      GRAPH ?n {
+        ?provider <[[property]]> ?count.
+      }
+      FILTER(!STRSTARTS(STR(?provider), "https://pharos.artresearch.net/resource/total"))
+    } ORDER BY ASC(?provider)
+  '
+  header="text/csv"
+  filename="[[datasetLabel]]_timeline_artresearch.csv"
+  >
+  <button class="btn btn-default fa fa-download" style="margin-right: 10px">
+    CSV
+  </button>
+  </mp-sparql-download>
+</div>
 <mp-component-toolbar>
   <mp-component-toolbar-actions>
     <semantic-chart-type-selector
