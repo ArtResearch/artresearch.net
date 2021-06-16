@@ -1,44 +1,58 @@
 <div  id="printableImages"  class="summaryImages">
   <div class="rs-page__summary-image">
-    {{#each bindings}}
-    <mp-overlay-dialog title="‎‎" type="lightbox">
-      <mp-overlay-dialog-trigger>
-        <div class="imageAndSourceContainer">
-          <semantic-query
-            query="     
-            SELECT ?providerLabel WHERE{    
-              ?photo crm:P129i_is_subject_of <{{image.value}}>.
-              ?photo <https://pharos.artresearch.net/custom/has_provider> ?provider.
-              ?provider rdfs:label ?providerLabel.
-            }limit 1
-              "
-            template="{{> imageSourceIcon}}"
-          >
-            <template id="imageSourceIcon">
-              <div class="imageSourceIcon fade-in">
+{{#each bindings}} 
+  <semantic-query query='
+    SELECT ?image ?mediumThumbnail ?imageManifest WHERE{
+      OPTIONAL{
+        <{{image.value}}> crm:P129i_is_subject_of ?imageManifest.
+      }
+      BIND("{{image.value}}" AS ?image).
+      BIND(REPLACE("{{image.value}}","full/full","full/!350,350") AS ?mediumThumbnail).
+    }
+  '
+  template="{{> gridImagesTemplate}}"
+  >
+    <template id="gridImagesTemplate">
+          <mp-overlay-dialog title="‎‎" type="lightbox">
+            <mp-overlay-dialog-trigger>
+              <div class="imageAndSourceContainer">
+                <semantic-query
+                  query="     
+                  SELECT ?providerLabel WHERE{    
+                    ?photo crm:P129i_is_subject_of <{{bindings.0.image.value}}>.
+                    ?photo <https://pharos.artresearch.net/custom/has_provider> ?provider.
+                    ?provider rdfs:label ?providerLabel.
+                  }limit 1
+                    "
+                  template="{{> imageSourceIcon}}"
+                >
+                  <template id="imageSourceIcon">
+                    <div class="imageSourceIcon fade-in">
+                      <img
+                        title="{{bindings.0.providerLabel.value}}"
+                        class="sourceIcon"
+                        src="../../assets/images/{{bindings.0.providerLabel.value}}.ico"
+                      />
+                    </div>
+                  </template>
+                </semantic-query>
                 <img
-                  title="{{bindings.0.providerLabel.value}}"
-                  class="sourceIcon"
-                  src="../../assets/images/{{bindings.0.providerLabel.value}}.ico"
+                  class="imageThumbnail"
+                  alt="Issue with image provider"
+                  src="{{bindings.0.mediumThumbnail.value}}"
                 />
               </div>
-            </template>
-          </semantic-query>
-          <img
-            class="imageThumbnail"
-            alt="Issue with image provider"
-            src="{{imgURL.value}}"
-          />
-        </div>
-      </mp-overlay-dialog-trigger>
-      <mp-overlay-dialog-content>
-      {{#ifCond  iiifServer.value "!==" undefined}}
-          [[> :SummaryImagesWorkGridIIIFModal iiifServer="{{iiifServer.value}}"]]
-        {{else}}
-          [[> :SummaryImagesWorkGridImageModal]]
-      {{/ifCond}}
-      </mp-overlay-dialog-content>
-    </mp-overlay-dialog>
-    {{/each}}
-  </div>
+            </mp-overlay-dialog-trigger>
+            <mp-overlay-dialog-content>
+            {{#ifCond  bindings.0.imageManifest.value "!==" undefined}}
+                [[> :SummaryImagesWorkIIIFModal]]
+              {{else}}
+                [[> :SummaryImagesWorkImageModal]]
+            {{/ifCond}}
+            </mp-overlay-dialog-content>
+          </mp-overlay-dialog>
+    </template>
+  </semantic-query>
+{{/each}}
+</div>
 </div>

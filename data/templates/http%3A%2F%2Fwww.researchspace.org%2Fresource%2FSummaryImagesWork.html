@@ -1,30 +1,19 @@
 <!-- Displays a row of IIIF photographs that are clickable (iiif mirador popup) -->
 <div id="work-summary-images">
   <semantic-query
-    query='SELECT distinct ?imgURL ?image ?iiifServer WHERE {
+    query='SELECT distinct ?thumbnail ?image  WHERE {
         {
           # Photo object
           ?? crm:P129i_is_subject_of ?image.
-          OPTIONAL{
-            ?? <https://pharos.artresearch.net/custom/has_provider> ?provider.
-            ?provider <https://pharos.artresearch.net/custom/has_iiif_server> ?iiifServer.
-          }
-          ?image crm:P2_has_type ?imageType.
-          ?imageType rdfs:label ?typeLabel.
-          FILTER(?typeLabel = "verso" || ?typeLabel = "recto"  )  
         }UNION{
           # Original & Pharos Artwork
           ?? fr:Work_depicted_by_Photo ?photo.
           ?photo crm:P129i_is_subject_of ?image.
-          OPTIONAL{
-          ?photo <https://pharos.artresearch.net/custom/has_provider> ?provider.
-          ?provider <https://pharos.artresearch.net/custom/has_iiif_server> ?iiifServer.
-          }
-          ?image crm:P2_has_type ?imageType.
-          ?imageType rdfs:label ?typeLabel.
-          FILTER(?typeLabel = "verso" || ?typeLabel = "recto"  )  
         }
-        BIND(REPLACE(STR(?image),"full/full","full/!350,350") AS ?imgURL).
+        ?image crm:P2_has_type ?imageType.
+        ?imageType rdfs:label ?typeLabel.
+        FILTER(?typeLabel = "recto")  
+        BIND(REPLACE(STR(?image),"full/full","full/!100,100") AS ?thumbnail).
      } ORDER BY str(?photo) ASC(?typeLabel)'
     template="{{> imageThumbnail}}"
   >
