@@ -31,6 +31,7 @@ query='SELECT DISTINCT
     BIND(coalesce(?smallerImgUrl, ?default_imageUrl) as ?image)
 }GROUP BY(?subject) ORDER BY DESC (?score) LIMIT 100'
 options='{"showFilter":true, "pageSizeSelection": true,"resultsPerPage":10}'
+number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
 column-configuration='[
 {
   "displayName": "Image", 

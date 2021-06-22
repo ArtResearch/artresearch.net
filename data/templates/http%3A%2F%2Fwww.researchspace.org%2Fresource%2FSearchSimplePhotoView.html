@@ -48,6 +48,11 @@ class="hiddenSearchbar"
 </bs-col>
 <bs-col lg="9" md="8" sm="7">
   <semantic-search-result-holder>
+    <mp-event-target-template-render
+    id="event-target-tables"
+    template="{{> tableEventTargetTemplate}}"
+  >
+    <template id="tableEventTargetTemplate">
     <semantic-search-result>
       <semantic-query
         id="view-more"
@@ -90,7 +95,7 @@ class="hiddenSearchbar"
         <semantic-table
         id="grid-result"
         query="SELECT DISTINCT ?subject  WHERE {}ORDER BY DESC (?score)LIMIT 100"
-        number-of-displayed-rows="5"
+        number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
         tuple-template="{{> subjectCellTemplate}}"
         options='{"showTableHeading": false, "showFilter":false}'
         no-result-template='[[> :CardNoResult ]]'
@@ -108,6 +113,9 @@ class="hiddenSearchbar"
       </bs-tab>
       </bs-tabs>
     </semantic-search-result>
+    [[> :NumberOfRowsSelector]]
+  </template>
+    </mp-event-target-template-render>
   </semantic-search-result-holder>
 </bs-col>
 </div>
