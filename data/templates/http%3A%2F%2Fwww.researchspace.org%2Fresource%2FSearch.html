@@ -44,6 +44,11 @@
               animation="false"
               class="tabs-right"
             >
+            <mp-event-target-template-render
+            id="event-target-tables"
+            template="{{> tableEventTargetTemplate}}"
+          >
+            <template id="tableEventTargetTemplate">
               <bs-tab event-key="1" title="List">
                 <semantic-search-result>
                   [[> :SearchResultCardWork]]
@@ -82,6 +87,9 @@
                   </semantic-search-result-context>
                 </div>
               </bs-tab>
+              [[> :NumberOfRowsSelector]]
+            </template>
+              </mp-event-target-template-render>
             </bs-tabs>
 
             <hr />

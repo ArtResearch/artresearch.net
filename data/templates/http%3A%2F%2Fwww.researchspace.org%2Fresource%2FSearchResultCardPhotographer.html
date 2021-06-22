@@ -3,7 +3,7 @@
   options='{
               "showFilter":false
             }'
-  number-of-displayed-rows="10"
+  number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
   query='
     SELECT DISTINCT ?subject
     WHERE {

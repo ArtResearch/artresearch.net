@@ -173,7 +173,11 @@
       </bs-col>
       <bs-col lg="9" md="8" sm="7">
         <semantic-search-result-holder>
-
+          <mp-event-target-template-render
+          id="event-target-tables"
+          template="{{> tableEventTargetTemplate}}"
+        >
+          <template id="tableEventTargetTemplate">
               <semantic-search-result>
                 <div id="card-results">
                   <bs-tab-container
@@ -196,7 +200,7 @@
                             options='{
                           "showFilter":false
                         }'
-                             number-of-displayed-rows="10"
+                             number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
                             query="
                             SELECT DISTINCT ?subject
                             WHERE {
@@ -217,7 +221,7 @@
                             options='{
                            "showFilter":false
                             }'
-                             number-of-displayed-rows="10"
+                             number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
                             query="
                             SELECT DISTINCT ?subject
                             WHERE {
@@ -233,12 +237,14 @@
                             </template>
                           </semantic-table>
                         </bs-tab-pane>
+                          [[> :NumberOfRowsSelector]]
                       </bs-tab-content>
                     </div>
                   </bs-tab-container>
                 </div>
               </semantic-search-result>
-  
+            </template>
+          </mp-event-target-template-render>
         </semantic-search-result-holder>
       </bs-col>
     </div>
