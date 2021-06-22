@@ -5,7 +5,7 @@
 
   <script type="text/javascript">
     // Script for print button
-    // This checks if an element is present at DOM
+    // This checks if an element is present at DOM\
     const checkElement = async selector => {
       while (document.querySelector(selector) === null) {
         await new Promise(resolve => requestAnimationFrame(resolve))
@@ -57,10 +57,15 @@ display:none !important;
   <!-- the following header makes IE select latest document mode -->
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
 
-  <link rel="icon" href="/assets/no_auth/favicon.ico" type="image/x-icon">
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.1.0/intro.min.js" integrity="sha512-vpRYyG0wwpTzFdMa1fWEV6GLWfJiiKG1W7dCPuIuvm2kbZMUA8jnokV84rdUft8AF6ih83/ItbmP/fDzNjVxsA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.1.0/introjs.min.css" integrity="sha512-631ugrjzlQYCOP9P8BOLEMFspr5ooQwY3rgt8SMUa+QqtVMbY/tniEUOcABHDGjK50VExB4CNc61g5oopGqCEw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <link rel="icon" href="/assets/no_auth/favicon.ico" type="image/x-icon">
   <link href="/assets/css_variables.css" rel="stylesheet" type="text/css">
   <script type='text/javascript' src='../../assets/scripts/advanceScripts.js'></script>
+  <link href="../../assets/scripts/chardinjs.css" rel="stylesheet">
+  <script src="../../assets/scripts/chardinjs.min.js"></script>
   {{#each assetsMap.app.css}}
   <link href="{{this}}" rel="stylesheet" type="text/css">
   {{/each}}
@@ -86,9 +91,17 @@ display:none !important;
     gtag('js', new Date());
     gtag('config', 'G-GH63C664PX');
   </script>
+  <script src="jquery.min.js"></script>
+    <script type="text/javascript">
+$('body').chardinJs();
+$('body').on('click', 'button[data-toggle="chardinjs"]', function (e) {
+    e.preventDefault();
+    return ($('body').data('chardinJs')).toggle();
+});
+</script>
 </head>
 
-<body>
+<body data-chardin-sequenced="true" data-chardin-auto="false" data-chardin-delay="800" >
   <div id="application" class='rs-application'></div>
 </body>
 
