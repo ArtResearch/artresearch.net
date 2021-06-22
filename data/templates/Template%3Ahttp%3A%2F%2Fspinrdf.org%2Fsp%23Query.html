@@ -1,148 +1,159 @@
 <div id="structured-search">
-    <ol class="page-breadcrumb">
-      <li class="active">Advanced Search</li>
-    </ol>
-    [[> :SearchEventProxies]]
-    <div class="page">
-      [[#>:ClipboardSidebar]]
-      <div class="page__body--borderless">
-        <semantic-search
-          id="semantic-search"
-          limit="50000"
-          optimizer="blazegraph"
-          categories='[[> :SearchCategories]]'
-          search-profile='[[> :SearchProfile]]'
+  <ol class="page-breadcrumb">
+    <li>
+      <mp-link title="Home" url="/">Home</mp-link>
+    </li>
+    <li class="active">Advanced Search</li>
+  </ol>
+  [[> :SearchEventProxies]]
+  <div class="page">
+    [[#>:ClipboardSidebar]]
+    <div class="page__body--borderless">
+      <semantic-search
+        id="semantic-search"
+        limit="50000"
+        optimizer="blazegraph"
+        categories='[[> :SearchCategories]]'
+        search-profile='[[> :SearchProfile]]'
+      >
+        <semantic-search-query-builder
+          id="semantic-query-builder"
+          relation-template=' <div style="margin-left: {{order.value}}px">{{label}}</div> '
+          resource-selector='[[> :SearchResourceSelector]]'
+          tree-selector='[[> :SearchTreeSelector]]'
+          geo-selector='[[> :SearchGeoSelector]]'
         >
-          <semantic-search-query-builder
-            id="semantic-query-builder"
-            relation-template=' <div style="margin-left: {{order.value}}px">{{label}}</div> '
-            resource-selector='[[> :SearchResourceSelector]]'
-            tree-selector='[[> :SearchTreeSelector]]'
-            geo-selector='[[> :SearchGeoSelector]]'
-          >
-          </semantic-search-query-builder>
-          <div data-flex-layout="row stretch-stretch">
-            <div data-flex-self="size-1of3" style="flex: 0 0 0">
-              <semantic-search-facet
-                id="semantic-search-facet"
-                value-categories='[[> :SearchValueCategories]]'
-              ></semantic-search-facet>
-            </div>
-            <semantic-search-result-holder>
-              <div data-flex-self="md-full">
-                <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
-                <semantic-search-result id="semantic-search-result">
-                  [[> :SearchResultCountAdvancedSearch]]
-                </semantic-search-result>
-                <bs-tabs
-                  default-active-key="1"
-                  unmount-on-exit="true"
-                  id="search-results"
-                  animation="false"
-                  class="tabs-right"
-                >
-                  <bs-tab event-key="1" title="List">
-                    <semantic-search-result>
-                      [[> :SearchResultCardWork]]
-                      [[> :SearchResultCardPhoto]]
-                      [[> :SearchResultCardPlace]]
-                      [[> :SearchResultCardArtist]]
-                      [[> :SearchResultCardPhotographer]]
-                      [[> :SearchResultCardInstitution]]
-                   </semantic-search-result>
-                  </bs-tab>
-                  <bs-tab event-key="2" title="Tabular">
-                    <div id="tableView">
-                    <semantic-search-result>
-                      [[> :SearchResultTableWork]]
-                      [[> :SearchResultTablePhoto]]
-                    </semantic-search-result>
-                  </div>
-                  </bs-tab>
-                  <bs-tab event-key="3" title="Chart">
-                    <semantic-search-result-context
-                      ranges='["http://www.researchspace.org/ontology/Concept", "http://www.researchspace.org/ontology/Place", "http://www.researchspace.org/ontology/Actor"]'
-                    >
-                      <semantic-search-result id="semantic-search-result-chart">
-                        [[> :SearchResultChart]]
-                      </semantic-search-result>
-                    </semantic-search-result-context>
-                  </bs-tab>
-                  <bs-tab event-key="4" title="Timeline">
-                    <div>
-                      <semantic-search-result-context
-                        ranges='["http://www.researchspace.org/ontology/Time"]'
-                      >
-                        <semantic-search-result>
-                          [[> :SearchResultTimeline]]
-                        </semantic-search-result>
-                      </semantic-search-result-context>
-                    </div>
-                  </bs-tab>
-                </bs-tabs>
-    
-                <hr />
-                <div
-                  class="semantic-search-results-actions pull-right"
-                >
+        </semantic-search-query-builder>
+        <div data-flex-layout="row stretch-stretch">
+          <div data-flex-self="size-1of3" style="flex: 0 0 0">
+            <semantic-search-facet
+              id="semantic-search-facet"
+              value-categories='[[> :SearchValueCategories]]'
+            ></semantic-search-facet>
+          </div>
+          <semantic-search-result-holder>
+            <div data-flex-self="md-full">
+              <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
+              <semantic-search-result id="semantic-search-result">
+                [[> :SearchResultCountAdvancedSearch]]
+              </semantic-search-result>
+              <bs-tabs
+                default-active-key="1"
+                unmount-on-exit="true"
+                id="search-results"
+                animation="false"
+                class="tabs-right"
+              >
+              <mp-event-target-template-render
+              id="event-target-tables"
+              template="{{> tableEventTargetTemplate}}"
+            >
+              <template id="tableEventTargetTemplate">
+                <bs-tab event-key="1" title="List">
                   <semantic-search-result>
-                    <mp-sparql-download
-                      id="csv-result"
-                      query="SELECT ?subject WHERE { }"
-                      header="text/csv"
-                      filename="csv-result.csv"
-                    >
-                      <button class="btn btn-default" style="margin-right: 10px">
-                        Download CSV
-                      </button>
-                    </mp-sparql-download>
-                  </semantic-search-result>
+                    [[> :SearchResultCardWork]]
+                    [[> :SearchResultCardPhoto]]
+                    [[> :SearchResultCardPlace]]
+                    [[> :SearchResultCardArtist]]
+                    [[> :SearchResultCardPhotographer]]
+                    [[> :SearchResultCardInstitution]]
+                 </semantic-search-result>
+                </bs-tab>
+                <bs-tab event-key="2" title="Tabular">
+                  <div id="tableView">
                   <semantic-search-result>
-                    <mp-sparql-download
-                      id="json-result"
-                      query="SELECT ?subject WHERE { }"
-                      header="application/sparql-results+json"
-                      filename="json-result.json"
-                    >
-                      <button class="btn btn-default" style="margin-right: 10px">
-                        Download JSON
-                      </button>
-                    </mp-sparql-download>
+                    [[> :SearchResultTableWork]]
+                    [[> :SearchResultTablePhoto advancedSearch="true"]]
                   </semantic-search-result>
                 </div>
-                <div
-                class="semantic-search-results-actions"
+                </bs-tab>
+                <bs-tab event-key="3" title="Chart">
+                  <semantic-search-result-context
+                    ranges='["http://www.researchspace.org/ontology/Concept", "http://www.researchspace.org/ontology/Place", "http://www.researchspace.org/ontology/Actor"]'
+                  >
+                    <semantic-search-result id="semantic-search-result-chart">
+                      [[> :SearchResultChart]]
+                    </semantic-search-result>
+                  </semantic-search-result-context>
+                </bs-tab>
+                <bs-tab event-key="4" title="Timeline">
+                  <div>
+                    <semantic-search-result-context
+                      ranges='["http://www.researchspace.org/ontology/Time"]'
+                    >
+                      <semantic-search-result>
+                        [[> :SearchResultTimeline]]
+                      </semantic-search-result>
+                    </semantic-search-result-context>
+                  </div>
+                </bs-tab>
+                [[> :NumberOfRowsSelector]]
+              </template>
+                </mp-event-target-template-render>
+              </bs-tabs>
+  
+              <hr />
+              <div
+                class="semantic-search-results-actions pull-right"
               >
-                <semantic-search-action-use-result-in-extended-search>
+                <semantic-search-result>
+                  <mp-sparql-download
+                    id="csv-result"
+                    query="SELECT ?subject WHERE { }"
+                    header="text/csv"
+                    filename="csv-result.csv"
+                  >
+                    <button class="btn btn-default" style="margin-right: 10px">
+                      Download CSV
+                    </button>
+                  </mp-sparql-download>
+                </semantic-search-result>
+                <semantic-search-result>
+                  <mp-sparql-download
+                    id="json-result"
+                    query="SELECT ?subject WHERE { }"
+                    header="application/sparql-results+json"
+                    filename="json-result.json"
+                  >
+                    <button class="btn btn-default" style="margin-right: 10px">
+                      Download JSON
+                    </button>
+                  </mp-sparql-download>
+                </semantic-search-result>
+              </div>
+              <div
+              class="semantic-search-results-actions"
+            >
+              <semantic-search-action-use-result-in-extended-search>
+                <button class="btn btn-default" style="margin-right: 10px">
+                  Use in Search
+                </button>
+              </semantic-search-action-use-result-in-extended-search>
+              <mp-anonymous-hidden>
+                <semantic-search-action-save-set-result
+                  id="save-set-result-action"
+                >
                   <button class="btn btn-default" style="margin-right: 10px">
-                    Use in Search
+                    Save As Set
                   </button>
-                </semantic-search-action-use-result-in-extended-search>
-                <mp-anonymous-hidden>
-                  <semantic-search-action-save-set-result
-                    id="save-set-result-action"
-                  >
-                    <button class="btn btn-default" style="margin-right: 10px">
-                      Save As Set
-                    </button>
-                  </semantic-search-action-save-set-result>
-                </mp-anonymous-hidden>
-                <mp-anonymous-hidden>
-                  <semantic-search-action-save-search-result
-                    id="save-search-result-action"
-                    add-to-default-set="true"
-                  >
-                    <button class="btn btn-default" style="margin-right: 10px">
-                      Save As Search
-                    </button>
-                  </semantic-search-action-save-search-result>
-                </mp-anonymous-hidden>
-              </div>
-              </div>
-            </semantic-search-result-holder>
-          </div>
-        </semantic-search>
-      </div>
-      [[/:ClipboardSidebar]]
+                </semantic-search-action-save-set-result>
+              </mp-anonymous-hidden>
+              <mp-anonymous-hidden>
+                <semantic-search-action-save-search-result
+                  id="save-search-result-action"
+                  add-to-default-set="true"
+                >
+                  <button class="btn btn-default" style="margin-right: 10px">
+                    Save As Search
+                  </button>
+                </semantic-search-action-save-search-result>
+              </mp-anonymous-hidden>
+            </div>
+            </div>
+          </semantic-search-result-holder>
+        </div>
+      </semantic-search>
     </div>
-    </div>
+    [[/:ClipboardSidebar]]
+  </div>
+  </div>
