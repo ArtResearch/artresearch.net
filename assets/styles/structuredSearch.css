@@ -155,7 +155,7 @@
   align-items: flex-start;
   justify-content: flex-start;
   height: -moz-fit-content;
-height: fit-content;
+  height: fit-content;
   position: relative;
   border: none !important;
 }
@@ -264,10 +264,10 @@ height: fit-content;
   color: var(--color-dark--op50, rgba(29, 10, 112, 0.5));
   border: none !important;
 }
-#structured-search .facet-relations {
+/* #structured-search .facet-relations {
   margin-left: 17%;
   margin-top: 5%;
-}
+} */
 #structured-search .facet__relation__values__value:focus,
 #structured-search .facet__relation__values__value:hover {
   background-color: #d1323915 !important;
@@ -345,17 +345,46 @@ height: fit-content;
   padding-bottom: 8vh;
 }
 
-#structured-search .artwork-card-big .table-responsive > .table > tbody > tr > td{
+#structured-search
+  .artwork-card-big
+  .table-responsive
+  > .table
+  > tbody
+  > tr
+  > td {
   padding: 15px 8px !important;
 }
 
-.Select.DateFormatSelector--dateFormatSelect.Select--single.is-searchable .Select-option{
+#structured-search .filters-container {
+  display: block;
+  margin-top: 8px;
+  position: sticky;
+  padding: 1vh;
+  top: 14vh;
+  margin-left: 2vw;
+  z-index: 1;
+  background: white;
+}
+div#artwork-filter-search:only-child {
   display: none !important;
 }
-.Select.DateFormatSelector--dateFormatSelect.Select--single.is-searchable .Select-option:nth-child(5){
+
+.Select.DateFormatSelector--dateFormatSelect.Select--single.is-searchable
+  .Select-option {
+  display: none !important;
+}
+.Select.DateFormatSelector--dateFormatSelect.Select--single.is-searchable
+  .Select-option:nth-child(5) {
   display: block !important;
 }
+
 @media (max-width: 800px) {
+  #structured-search .filters-container {
+    margin-top: 10vh !important;
+    top: unset !important;
+
+    position: relative !important;
+  }
   #structured-search .semantic-search-results-actions.pull-right {
     float: unset !important;
   }
@@ -396,7 +425,7 @@ height: fit-content;
     margin-bottom: 18vh;
   }
 
-  #structured-search .semantic-facet-holder{
+  #structured-search .semantic-facet-holder {
     margin-top: 14vh;
   }
 

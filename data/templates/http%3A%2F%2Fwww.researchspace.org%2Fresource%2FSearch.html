@@ -24,15 +24,21 @@
         geo-selector='[[> :SearchGeoSelector]]'
       >
       </semantic-search-query-builder>
-      <div data-flex-layout="row stretch-stretch">
-        <div data-flex-self="size-1of3" style="flex: 0 0 0">
-          <semantic-search-facet
-            id="semantic-search-facet"
-            value-categories='[[> :SearchValueCategories]]'
-          ></semantic-search-facet>
-        </div>
+      <div class="row">
+        <bs-col
+          lg="3"
+          md="4"
+          sm="5"
+          class="fade-in-fwd filters-container"
+          style="margin-top: 8px"
+          id="artwork-filter-search"
+        >
+        <bs-panel id="filter-panel" header="Filters"  collapsible="true" default-expanded="true">
+          <semantic-search-facet open-by-default="true" value-categories='[[> :SearchValueCategories]]'></semantic-search-facet>
+        </bs-panel>
+        </bs-col>
         <semantic-search-result-holder>
-          <div data-flex-self="md-full">
+        <bs-col lg="8" md="7" sm="6">
             <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
             <semantic-search-result id="semantic-search-result">
               [[> :SearchResultCountAdvancedSearch]]
@@ -148,8 +154,9 @@
               </semantic-search-action-save-search-result>
             </mp-anonymous-hidden>
           </div>
-          </div>
-        </semantic-search-result-holder>
+   
+        </bs-col>
+      </semantic-search-result-holder>
       </div>
     </semantic-search>
   </div>
