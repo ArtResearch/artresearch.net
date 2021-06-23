@@ -54,6 +54,14 @@
         <div id="rsbv" class="table-responsive rs-table">
             <table class="table table-hover">
               <tbody>
+                <semantic-query 
+                query='SELECT ?subject WHERE { 
+                  <{{subject.value}}> a fc:work
+                  BIND(<{{subject.value}}> as ?subject)
+                }LIMIT 1'
+                template="{{> workTitleTemplate}}"
+                >
+                <template id="workTitleTemplate">
                 <tr  class="rs-page-resource__field">
                   <td class="rs-page-resource__field-label-holder headLine">
                     <span class="rs-page-resource__field-label">
@@ -63,11 +71,37 @@
                   <td>
                       <span class="rs-page-resource__field-value">
                         <div style="width:25vw; max-width: 450px;">
-                          <semantic-link iri="{{subject.value}}"></semantic-link>
+                          <semantic-link iri="{{bindings.0.subject.value}}"></semantic-link>
                         </div>
                       </span>
-                  </td>
-                </tr>
+                    </td>
+                    </tr>
+                  </template>
+                  </semantic-query>
+                  <semantic-query 
+                  query='SELECT ?subject WHERE { 
+                    <{{subject.value}}> a custom:photo
+                    BIND(<{{subject.value}}> as ?subject)
+                  }LIMIT 1'
+                  template="{{> photoTitleTemplate}}"
+                  >
+                  <template id="photoTitleTemplate">
+                  <tr  class="rs-page-resource__field">
+                    <td class="rs-page-resource__field-label-holder headLine">
+                      <span class="rs-page-resource__field-label">
+                        Photo ID
+                      </span>
+                    </td>
+                    <td>
+                        <span class="rs-page-resource__field-value">
+                          <div style="width:25vw; max-width: 450px;">
+                            <semantic-link iri="{{bindings.0.subject.value}}"></semantic-link>
+                          </div>
+                        </span>
+                      </td>
+                      </tr>
+                </template>
+                </semantic-query>
                 <semantic-query 
                 query='SELECT ?photographer WHERE { 
                   {
@@ -95,7 +129,7 @@
                     </td>
                     </tr>
                   </template>
-                  </semantic-query>
+                </semantic-query>
                 <semantic-query 
                   query='SELECT ?artist WHERE { 
                     {
@@ -185,6 +219,61 @@
                 </tr>
                 </template>
                 </semantic-query>
+
+                <semantic-query 
+                query='SELECT ?work WHERE { 
+                  <{{subject.value}}> fr:Photo_depicts_Work ?work.
+                }LIMIT 1'
+                template="{{>artworkTitleTemplate}}"
+                >
+                <template id="artworkTitleTemplate">
+
+                <tr class="rs-page-resource__field">
+                  <td class="rs-page-resource__field-label-holder headLine">
+                    <span class="rs-page-resource__field-label">
+                      Artwork title
+                    </span>
+                  </td>
+                  <td>
+                      <span class="rs-page-resource__field-value">
+                        <div style="width:25vw; max-width: 450px;">
+                          <semantic-link iri="{{bindings.0.work.value}}"></semantic-link>
+                        </div>
+                      </span>
+                  </td>
+                </tr>
+                </template>
+                </semantic-query>
+
+
+
+                <semantic-query 
+                query='SELECT ?creator WHERE { 
+
+                  <{{subject.value}}> fr:Photo_depicts_Work ?work.
+                  ?work fr:Work_created_from_Artist ?creator
+                }LIMIT 1'
+                template="{{>artworkCreatorTemplate}}"
+                >
+                <template id="artworkCreatorTemplate">
+
+                <tr class="rs-page-resource__field">
+                  <td class="rs-page-resource__field-label-holder headLine">
+                    <span class="rs-page-resource__field-label">
+                      Artist
+                    </span>
+                  </td>
+                  <td>
+                      <span class="rs-page-resource__field-value">
+                        <div style="width:25vw; max-width: 450px;">
+                          <semantic-link iri="{{bindings.0.creator.value}}"></semantic-link>
+                        </div>
+                      </span>
+                  </td>
+                </tr>
+                </template>
+                </semantic-query>
+
                 <semantic-query 
                 query='SELECT ?date WHERE { 
                   {
