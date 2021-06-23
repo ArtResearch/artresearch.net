@@ -37,6 +37,11 @@
             <semantic-search-result id="semantic-search-result">
               [[> :SearchResultCountAdvancedSearch]]
             </semantic-search-result>
+            <mp-event-target-template-render
+            id="event-target-tables"
+            template="{{> tableEventTargetTemplate}}"
+          >
+            <template id="tableEventTargetTemplate">
             <bs-tabs
               default-active-key="1"
               unmount-on-exit="true"
@@ -44,11 +49,6 @@
               animation="false"
               class="tabs-right"
             >
-            <mp-event-target-template-render
-            id="event-target-tables"
-            template="{{> tableEventTargetTemplate}}"
-          >
-            <template id="tableEventTargetTemplate">
               <bs-tab event-key="1" title="List">
                 <semantic-search-result>
                   [[> :SearchResultCardWork]]
@@ -88,10 +88,9 @@
                 </div>
               </bs-tab>
               [[> :NumberOfRowsSelector]]
-            </template>
-              </mp-event-target-template-render>
             </bs-tabs>
-
+          </template>
+        </mp-event-target-template-render>
             <hr />
             <div
               class="semantic-search-results-actions pull-right"
@@ -155,5 +154,70 @@
     </semantic-search>
   </div>
   [[/:ClipboardSidebar]]
+  <rs-guided-tour id='guided-tour' steps='[{
+    "text": "Welcome to the Advanced Search page tour. 
+    In this tour you will learn how to formulate complex queries and use the advanced search functionality.
+    Click on Next to begin.
+    ",
+    "selector": ".ItemSelector--itemSelector.QueryBuilder--domainSelection",
+    "position": "bottom"
+  }, {
+    "text": "For this tour we are going to create the following query:
+    \"Works that were made using paper and that were created by female artists \".Click on next to view the next step.
+    ",
+    "selector": ".SearchSummary--start",
+    "position": "bottom"
+  }, {
+    "text": "First you must select the category you are about search. Click on the Work option. Click on next to view the next step.
+    ",
+    "selector": ".btn.ItemSelector--itemHolder.QueryBuilder--categorySelectionItem",
+    "position": "right"
+  }, {
+    "text": "Since we want to search for works that were made using paper, we should select the Material option.  Click on next to view the next step.",
+    "selector": "li[aria-label=\"Material\"]",
+    "position": "right"
+  },{
+    "text": "To search for that material, simply type in \"paper\" in this section. Select the paper (fiber-product) option. Click on next to view the next step.",
+    "selector": ".Select.QueryBuilder--resourceSelector.Select--single.is-clearable.is-searchable",
+    "position": "left"
+  },{
+    "text": "A first set of results will load.. to continue click next.",
+    "selector": "div[data-flex-self=\"md-full\"]",
+    "position": "top"
+  },{
+    "text": "To continue with our query, we must now limit the query to artworks created by female artists. Select the and option.  Click on next to view the next step.",
+    "selector": ".QueryBuilder--addConjunctButton.QueryBuilder--selectedItem.QueryBuilder--actionableItem",
+    "position": "right"
+  },{
+    "text": "This time, select the Artist option. Click on next to view the next step.",
+    "selector": "li[aria-label=\"Artist\"]",
+    "position": "right"
+  },{
+    "text": "For Work related to Artist the are three options available. Select the created by option. Click on next to view the next step.",
+    "selector": "li[aria-label=\"created by\"]",
+    "position": "right"
+  },{
+    "text": "Since we want to include all women artists we must furtherly refine this relation. To do so, select the + additional relation button. Click on next to view the next step.",
+    "selector": ".btn.btn-default.QueryBuilder--nestedSearchButton",
+    "position": "right"
+  },{
+    "text": "All relation options for Artists have now appeared. Select the Gender option. Click on next to view the next step.",
+    "selector": "li[aria-label=\"Gender\"]",
+    "position": "right"
+  },{
+    "text": "Type in \"female\" to search for the female option. Then select \"female\" from the results. Click on next to view the next step.",
+    "selector": ".QueryBuilder--searchBasedTermSelector",
+    "position": "right"
+  }]'></rs-guided-tour>
+ 
+  <!-- use `mp-event-trigger` component to start guided tour -->
+  <mp-event-trigger id='guided-tour-start' type='GuidedTour.Start' targets='["guided-tour"]'>
+    <button class="help-button fa fa-question"></button>
+  </mp-event-trigger>
+ 
+  <!-- use `mp-event-proxy` component to run guided tour if it wasn't seen -->
+  <mp-event-proxy id='guided-tour-run' on-event-type='Component.Loaded' on-event-source='source-id'
+    proxy-event-type='GuidedTour.RunIfNotSeen' proxy-targets='["guided-tour"]'>
+  </mp-event-proxy>
 </div>
 </div>

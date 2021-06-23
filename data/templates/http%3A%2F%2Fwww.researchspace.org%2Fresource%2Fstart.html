@@ -20,7 +20,9 @@ artresearch.net provides open and consolidated access to images and metadata fro
     </div>
 
     <div class="search-actions">
-        <div>
+        <div  
+        data-intro="This is the search-bar. Use this to make simple queries by keywords"
+        data-position="top"> 
           [[> :Searchbar selectedCategory="Artworks"]]
         </div>
         <div style="margin-top: 15px"> or use </div>
@@ -28,7 +30,10 @@ artresearch.net provides open and consolidated access to images and metadata fro
         <div data-flex-layout="row center-center">
           <semantic-link iri='Default:Search'>
          
-            <div title="Make use of the artresearch full power!" class="advancedBtn">
+            <div title="Make use of the artresearch full power!" class="advancedBtn"
+              data-intro="Click here to go to the Advanced Search page. There you can create complex queries and explore data in new-found ways."
+              data-position="right"
+            >
               <li class="fa"><img src="../../assets/images/icons/concept.svg"></li>   Advanced Search
             </div>
           </semantic-link>
@@ -48,13 +53,13 @@ artresearch.net provides open and consolidated access to images and metadata fro
     <div style="margin-bottom: 10vh;"  class="card-list">
       <semantic-link iri='Default:DisplayPharosArtists'>
         <div class="card">
-          <img  class="photo photo-2" src="../../assets/images/media/michelangelo_portrait.jpg" data-intro="An awesome 18th-century painter, who found beauty in everyday, common things." data-position="right" />
+          <img  class="photo photo-2" src="../../assets/images/media/michelangelo_portrait.jpg" />
           <div class="title">Artists</div>
         </div>
       </semantic-link>
 
       <semantic-link iri='Default:DisplayPharosPhotographers'>
-        <div class="card">
+        <div class="card"  >
           <img class="photo photo-3" src="../../assets/images/media/fratelli.jpg" />
           <div class="title">Photographers</div>
         </div>
@@ -153,9 +158,9 @@ artresearch.net provides open and consolidated access to images and metadata fro
 
     </div>
   </div>
-
   <br />
   <br />
   <br />
   <br />
+  <button id="help-button" class="help-button fa fa-question" data-toggle="chardinjs"></button>
 </div>
