@@ -306,23 +306,16 @@ input::placeholder {
   max-height: 185px;
   background-position: center;
 }
-
-.thumbnailImage::after {
-  background-image: url("/assets/images/media/image_placeholder.jpg");
-  top: 0;
-  left: 0;
-  display: block;
-  width: 12.5vw;
-  /* min-width: 253px; */
-  height: 100%;
-  content: "";
-  border: none;
-  background-position: center;
-  background-size: cover;
+.thumbnailImage:-moz-broken {
+  background-image: url(/assets/images/media/image_placeholder_broken.jpg) !important;
+  position: relative;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
 }
 
 .thumbnailImage[alt]:after {
-  background-image: url(/assets/images/media/image_placeholder_broken.jpg);
+  background-image: url(/assets/images/media/image_placeholder_broken.jpg) !important;
   position: absolute;
   display: block;
   width: 100%;
@@ -585,7 +578,7 @@ button.set-management__show-filters.btn.btn-default {
   font-size: 20px;
 }
 
-.help-button{
+.help-button {
   position: fixed;
   right: 2vw;
   bottom: 2vh;
@@ -597,17 +590,16 @@ button.set-management__show-filters.btn.btn-default {
   outline: none;
   box-shadow: 1px 1px 9px 10px rgb(228 228 228);
   transition: 0.4s;
-  border:0px;
+  border: 0px;
 }
 
-.help-button::before{
+.help-button::before {
   font-size: 24px;
-  color: rgb(60, 126, 247)
+  color: rgb(60, 126, 247);
 }
 
-.help-button:hover{
+.help-button:hover {
   box-shadow: 1px 1px 19px 10px rgb(228 228 228);
-
 }
 
 @media (max-width: 1400) {
