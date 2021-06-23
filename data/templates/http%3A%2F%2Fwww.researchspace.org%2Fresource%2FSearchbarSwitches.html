@@ -8,8 +8,9 @@ template="{{> switchContainer}}"
 data-intro="Expand this to see additional search options"
 data-position="right"
 >
-  <mp-text-truncate lines="1" expand='<span style="color: gray;"><a>Additional options</a></span>' collapse='<span style="color: gray;">(<a>hide</a>)</span>'>
-    <div>
+    <div style="
+    display: flex;
+">
       <br>
       <br>
       <mp-event-target-template-render
@@ -24,7 +25,7 @@ data-position="right"
                       id="event-trigger-tab-photograph"
                       type="Component.TemplateUpdate"
                       data='{"selectedTab":"{{selectedTab}}","withImages":"false"}'
-                      targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select"]'
+                      targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select","event-target-tables"]'
                       >
                       <div>        
                         <input checked type="checkbox">
@@ -39,7 +40,7 @@ data-position="right"
                   id="event-trigger-tab-photograph"
                   type="Component.TemplateUpdate"
                   data='{"selectedTab":"{{selectedTab}}","withImages":"true"}'
-                  targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select"]'
+                  targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select","event-target-tables"]'
                   >
                   <div>        
                     <input type="checkbox">
@@ -54,7 +55,7 @@ data-position="right"
                    id="event-trigger-tab-photograph"
                    type="Component.TemplateUpdate"
                    data='{"selectedTab":"{{selectedTab}}","withImages":"false"}'
-                   targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select"]'
+                   targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select","event-target-tables"]'
                    >
                    <div>
                      bbb
@@ -69,7 +70,7 @@ data-position="right"
                    id="event-trigger-tab-photograph"
                    type="Component.TemplateUpdate"
                    data='{"selectedTab":"{{selectedTab}}","withImages":"true"}'
-                   targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select"]'
+                   targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select","event-target-tables"]'
                    >
                      <div>
                        <input type="checkbox">
@@ -89,7 +90,7 @@ data-position="right"
                   id="event-trigger-tab-photograph"
                   type="Component.TemplateUpdate"
                   data='{"selectedTab":"[[urlParam "selectedtab"]]","withImages":"false"}'
-                  targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select"]'
+                  targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select","event-target-tables"]'
                   >
                   <div>
                     <input checked type="checkbox">
@@ -104,7 +105,7 @@ data-position="right"
                       id="event-trigger-tab-photograph"
                       type="Component.TemplateUpdate"
                       data='{"selectedTab":"[[urlParam "selectedtab"]]","withImages":"false"}'
-                      targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select"]'
+                      targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select","event-target-tables"]'
                       >
                       <div>
                         <input checked type="checkbox">
@@ -118,7 +119,7 @@ data-position="right"
                       id="event-trigger-tab-photograph"
                       type="Component.TemplateUpdate"
                       data='{"selectedTab":"[[urlParam "selectedtab"]]","withImages":"true"}'
-                      targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select"]'
+                      targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select","event-target-tables"]'
                       >
                         <div>
                           <input type="checkbox">
@@ -135,7 +136,7 @@ data-position="right"
                     id="event-trigger-tab-photograph"
                     type="Component.TemplateUpdate"
                     data='{"selectedTab":"Artworks","withImages":"false"}'
-                    targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select"]'
+                    targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select","event-target-tables"]'
                     >
                     <div>
                       <input checked type="checkbox">
@@ -150,7 +151,7 @@ data-position="right"
                       id="event-trigger-tab-photograph"
                       type="Component.TemplateUpdate"
                       data='{"selectedTab":"Artworks","withImages":"false"}'
-                      targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select"]'
+                      targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select","event-target-tables"]'
                       >
                       <div>
                         <input checked type="checkbox">
@@ -164,7 +165,7 @@ data-position="right"
                       id="event-trigger-tab-photograph"
                       type="Component.TemplateUpdate"
                       data='{"selectedTab":"Artworks","withImages":"true"}'
-                      targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select"]'
+                      targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select","event-target-tables"]'
                       >
                         <div>
                           <input type="checkbox">
@@ -180,7 +181,6 @@ data-position="right"
       </mp-event-target-template-render>
       <h4>Must include image</h4>
     </div>
-  </mp-text-truncate>
 </div>
 </template>
 </mp-event-target-template-render>

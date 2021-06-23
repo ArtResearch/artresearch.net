@@ -22,7 +22,6 @@ PREFIX fts: <http://www.bigdata.com/rdf/fts#>
     #  ) AS ?withImageOption
     #)
     #FILTER(EXISTS{?subject ?withImageOption ?something})
-    ?subject crm:P129i_is_subject_of ?fullsizeImgUrl
     BIND(REPLACE(str("[[urlParam "keyword"]]"),"\\+"," ") as ?keywords)
   }
 '
@@ -69,7 +68,11 @@ class="hiddenSearchbar"
       </semantic-query>
       <semantic-query
         id="view-more"
-        query="SELECT (COUNT( DISTINCT ?subject) as ?count) WHERE {}"
+        query='SELECT (COUNT( DISTINCT ?subject) as ?count) WHERE {
+          {{#ifCond withImages "===" "true"}}
+            ?subject crm:P129i_is_subject_of ?fullsizeImgUrl.
+          {{/ifCond}}
+        }'
         template="{{>currentResultCount}}"
       >
         <template id="currentResultCount">
@@ -83,6 +86,7 @@ class="hiddenSearchbar"
         </template>
       </semantic-query>
       <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
+      [[> :SearchbarSwitches]]
       <bs-tabs
       default-active-key="1"
       unmount-on-exit="true"
@@ -94,7 +98,11 @@ class="hiddenSearchbar"
         <div id='artwork-filter-search-inline'>
         <semantic-table
         id="grid-result"
-        query="SELECT DISTINCT ?subject  WHERE {}ORDER BY DESC (?score)LIMIT 100"
+        query='SELECT DISTINCT ?subject  WHERE { 
+          {{#ifCond withImages "===" "true"}}
+            ?subject crm:P129i_is_subject_of ?fullsizeImgUrl.
+          {{/ifCond}}
+         }ORDER BY DESC (?score)LIMIT 100'
         number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
         tuple-template="{{> subjectCellTemplate}}"
         options='{"showTableHeading": false, "showFilter":false}'
