@@ -1,108 +1,116 @@
-<!DOCTYPE html>
 <html lang="en">
 
-<head>
+  <head>
+    <script
+      src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+    ></script>
 
-  <script type="text/javascript">
-    // Script for print button
-    // This checks if an element is present at DOM\
-    const checkElement = async selector => {
-      while (document.querySelector(selector) === null) {
-        await new Promise(resolve => requestAnimationFrame(resolve))
-      }
-      return document.querySelector(selector);
-    };
-    // This is checked on load
-    window.onload = function () {
-      checkElement('#btnPrint').then((selector) => {
-        preparePrintButton()
-      });
-    }
-    // When a user clicks the button
-    function preparePrintButton() {
-      document.getElementById("btnPrint").onclick = function () {
-        var title = document.getElementById("printableTitle") ? document.getElementById("printableTitle").innerHTML : "";
-        var images = document.getElementById("printableImages") ? document.getElementById("printableImages").innerHTML : "";
-        var info = document.getElementById("printableInfo") ? document.getElementById("printableInfo").innerHTML : "";
-        var printWindow = window.open('', '', 'height=400,width=800');
-        printWindow.document.write('<html><head><title>' + window.document.URL + '</title>');
-        printWindow.document.write(`<style>
-.rs-page__summary-image{
-display:flex;
-flex-wrap:wrap;
-}
-.photographFieldView{
-  width:100% !important;
-}
-.imageSourceIcon,.multiValueTd,.rs-page__count--field-annotation,.rs-page__count--field-assertion,.sourceIcons{
-display:none !important;
-}
-            </style>`);
-        printWindow.document.write('</head><body>');
-        printWindow.document.write('<h2>' + title + '</h2>');
-        printWindow.document.write(info);
-        printWindow.document.write(images);
-        printWindow.document.write('</body>');
-        printWindow.document.write('</html>');
-        printWindow.document.close();
-        printWindow.print();
-      };
-    }
-  </script>
-  <meta name="version" content="{{version}}" />
-  <link href="../../assets/styles/global.css" rel="stylesheet" type="text/css">
-
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <!-- the following header makes IE select latest document mode -->
-  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.1.0/intro.min.js" integrity="sha512-vpRYyG0wwpTzFdMa1fWEV6GLWfJiiKG1W7dCPuIuvm2kbZMUA8jnokV84rdUft8AF6ih83/ItbmP/fDzNjVxsA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.1.0/introjs.min.css" integrity="sha512-631ugrjzlQYCOP9P8BOLEMFspr5ooQwY3rgt8SMUa+QqtVMbY/tniEUOcABHDGjK50VExB4CNc61g5oopGqCEw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-  <link rel="icon" href="/assets/no_auth/favicon.ico" type="image/x-icon">
-  <link href="/assets/css_variables.css" rel="stylesheet" type="text/css">
-  <script type='text/javascript' src='../../assets/scripts/advanceScripts.js'></script>
-  <link href="../../assets/scripts/chardinjs.css" rel="stylesheet">
-  <script src="../../assets/scripts/chardinjs.min.js"></script>
-  {{#each assetsMap.app.css}}
-  <link href="{{this}}" rel="stylesheet" type="text/css">
-  {{/each}}
-
-  {{{html-head}}}
-  {{#each assetsMap.app.js}}
-  <script defer type='text/javascript' src='{{this}}'></script>
-  {{/each}}
-
-  {{!-- To hide alert in start page --}}
-  <script>
-    setTimeout(() => {
-      if (window.location.href.includes("start"))
-        document.getElementById("underDevAlert").style.display = "none"
-    }, 9000)
-  </script>
-
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GH63C664PX"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-GH63C664PX');
-  </script>
-  <script src="jquery.min.js"></script>
     <script type="text/javascript">
-$('body').chardinJs();
-$('body').on('click', 'button[data-toggle="chardinjs"]', function (e) {
-    e.preventDefault();
-    return ($('body').data('chardinJs')).toggle();
-});
-</script>
-</head>
+      // Script for print button // This checks if an element is present at DOM
+      const checkElement = async selector => {
+      while(document.querySelector(selector) === null) { await new
+      Promise(resolve => requestAnimationFrame(resolve)) } return
+      document.querySelector(selector); }; // This is checked on load
+      window.onload = function () { checkElement('#btnPrint').then((selector) =>
+      { preparePrintButton() }); } // When a user clicks the button function
+      preparePrintButton() { document.getElementById("btnPrint").onclick =
+      function () { var title = document.getElementById("printableTitle") ?
+      document.getElementById("printableTitle").innerHTML : ""; var images =
+      document.getElementById("printableImages") ?
+      document.getElementById("printableImages").innerHTML : ""; var info =
+      document.getElementById("printableInfo") ?
+      document.getElementById("printableInfo").innerHTML : ""; var printWindow =
+      window.open('', '', 'height=400,width=800');
+      printWindow.document.write('<html><head><title>' + window.document.URL +
+      '</title>'); printWindow.document.write(`<style> .rs-page__summary-image{
+      display:flex; flex-wrap:wrap; } .photographFieldView{ width:100%
+      !important; }
+      .imageSourceIcon,.multiValueTd,.rs-page__count--field-annotation,.rs-page__count--field-assertion,.sourceIcons{
+      display:none !important; } </style>`);
+      printWindow.document.write('</head><body>');
+      printWindow.document.write('<h2>' + title + '</h2>');
+      printWindow.document.write(info); printWindow.document.write(images);
+      printWindow.document.write('</body>');
+      printWindow.document.write('</html>'); printWindow.document.close();
+      printWindow.print(); }; }
+    </script>
+    <meta name="version" content="{{version}}" />
+    <link
+      href="../../assets/styles/global.css"
+      rel="stylesheet"
+      type="text/css"
+    />
 
-<body data-chardin-sequenced="true" data-chardin-auto="false" data-chardin-delay="800" >
-  <div id="application" class='rs-application'></div>
-</body>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!-- the following header makes IE select latest document mode -->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.1.0/intro.min.js"
+      integrity="sha512-vpRYyG0wwpTzFdMa1fWEV6GLWfJiiKG1W7dCPuIuvm2kbZMUA8jnokV84rdUft8AF6ih83/ItbmP/fDzNjVxsA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.1.0/introjs.min.css"
+      integrity="sha512-631ugrjzlQYCOP9P8BOLEMFspr5ooQwY3rgt8SMUa+QqtVMbY/tniEUOcABHDGjK50VExB4CNc61g5oopGqCEw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <link rel="icon" href="/assets/no_auth/favicon.ico" type="image/x-icon" />
+    <link href="/assets/css_variables.css" rel="stylesheet" type="text/css" />
+    <script
+      type="text/javascript"
+      src="../../assets/scripts/advanceScripts.js"
+    ></script>
+    <link href="../../assets/scripts/chardinjs.css" rel="stylesheet" />
+    <script src="../../assets/scripts/chardinjs.min.js"></script>
+    {{#each assetsMap.app.css}}
+      <link href="{{this}}" rel="stylesheet" type="text/css" />
+    {{/each}}
+
+    {{{html-head}}}
+    {{#each assetsMap.app.js}}
+      <script defer type="text/javascript" src="{{this}}"></script>
+    {{/each}}
+
+    {{! To hide alert in start page }}
+    <script>
+      setTimeout(() => { if (window.location.href.includes("start"))
+      document.getElementById("underDevAlert").style.display = "none" }, 9000)
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-GH63C664PX"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || []; function gtag() {
+      dataLayer.push(arguments); } gtag('js', new Date()); gtag('config',
+      'G-GH63C664PX');
+    </script>
+    <script type="text/javascript">
+
+     const checkElement = async selector => {
+      while(document.querySelector(selector) === null) { await new
+      Promise(resolve => requestAnimationFrame(resolve)) } return
+      document.querySelector(selector); }; // This is checked on load
+      window.onload = function () {
+      checkElement('#help-button').then((selector)=> {
+      $('#help-button').on('click', function() { 
+        $('body').chardinJs('start') ;
+      }); })}
+    </script>
+  </head>
+
+  <body data-chardin-sequenced="false"
+data-chardin-auto="false"
+data-chardin-delay="800">
+    <div id="application" class="rs-application"></div>
+  </body>
 
 </html>

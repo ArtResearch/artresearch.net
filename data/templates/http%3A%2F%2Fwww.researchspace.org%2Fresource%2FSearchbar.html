@@ -5,9 +5,16 @@
       template="{{> tabSelect}}"
     >
       <template id="tabSelect">
+        <div
+        data-intro="Click on here to select a search category (Artworks, Photographs, Artists)"
+data-position="left"
+        >
+
+    
         {{#if selectedTab}} [[> :SearchbarDropdown
         dropdownTitle="{{selectedTab}}"]] {{else}} [[> :SearchbarDropdown
         dropdownTitle=selectedCategory ]] {{/if}}
+      </div>
       </template>
     </mp-event-target-template-render>
     <mp-event-target-template-render
