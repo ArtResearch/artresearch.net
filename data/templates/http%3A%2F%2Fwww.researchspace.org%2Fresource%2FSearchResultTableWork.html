@@ -27,7 +27,7 @@ query='SELECT DISTINCT
       ?fullsizeImgUrl crm:P2_has_type <http://vocab.getty.edu/aat/300078817>.
       BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/!100,100") as ?smallerImgUrl)
     }
-    BIND("_" as ?default_imageUrl)
+    BIND("/assets/images/media/image_placeholder.jpg" as ?default_imageUrl)
     BIND(coalesce(?smallerImgUrl, ?default_imageUrl) as ?image)
 }GROUP BY(?subject) ORDER BY DESC (?score) LIMIT 100'
 options='{"showFilter":true, "pageSizeSelection": true,"resultsPerPage":10}'
