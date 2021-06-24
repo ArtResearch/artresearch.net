@@ -13,6 +13,6 @@
       </div>
     </div>
     <!-- Filter search component -->
-    [[> :FilterSearchCollection domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"  searchQuery='?subject fr:Photo_from_Date ?s. FILTER (xsd:date("1800") < ?s && xsd:date("1900") > ?s)']]
+    [[> :FilterSearchCollection domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"  searchQuery='GRAPH <https://artresearch.net/resource/collection/dated_between/graph> { ?subject fr:Photo_from_Date ?s.}']]
   </div>
 </div>  
