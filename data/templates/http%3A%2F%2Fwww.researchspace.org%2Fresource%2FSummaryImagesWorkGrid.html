@@ -5,6 +5,9 @@
     SELECT ?image ?mediumThumbnail ?imageManifest WHERE{
       OPTIONAL{
         <{{image.value}}> crm:P129i_is_subject_of ?imageManifest.
+        FILTER NOT EXISTS{
+          ?imageManifest crm:P2_has_type <https://pharos.artresearch.net/resource/hertziana/type/presentation_api_manifest>
+        }
       }
       BIND("{{image.value}}" AS ?image).
       BIND(REPLACE("{{image.value}}","full/full","full/!350,350") AS ?mediumThumbnail).
