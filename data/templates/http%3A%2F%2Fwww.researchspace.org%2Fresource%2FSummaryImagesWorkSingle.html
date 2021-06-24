@@ -19,9 +19,10 @@ class="rs-page__summary-image summaryImages summary-image-with-thumbs"
             ?rectoVersoImage crm:P2_has_type ?type.
             ?type rdfs:label ?typeLabel.
             OPTIONAL{
-              ?rectoVersoImage crm:P129i_is_subject_of ?imageManifestOriginal.
-              BIND(REPLACE(STR(?imageManifestOriginal),"https://foto.biblhertz.it/exist/foto/","https://img.biblhertz.it/digilib/Scaler/IIIF/fototeca!2048px!im!") AS ?imageManifestHertziana).
-              BIND(REPLACE(STR(?imageManifestHertziana),"/manifest.json","/info.json") AS ?imageManifest).
+              ?rectoVersoImage crm:P129i_is_subject_of ?imageManifest.
+              FILTER NOT EXISTS{
+                ?imageManifest crm:P2_has_type <https://pharos.artresearch.net/resource/hertziana/type/presentation_api_manifest>
+              }
             }
             FILTER(?typeLabel = "verso" || ?typeLabel = "recto"  ).
             BIND(REPLACE(STR(?rectoVersoImage),"full/full","full/!350,350") AS ?rectoVersoImageThumbnail).
