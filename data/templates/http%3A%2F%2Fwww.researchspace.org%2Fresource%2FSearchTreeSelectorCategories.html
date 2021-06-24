@@ -1,0 +1,210 @@
+
+{
+  "<https://pharos.artresearch.net/resource/fc/place>": {
+    "rootsQuery": "
+    SELECT DISTINCT ?item ?label where {
+      ?item a  ?__range__.
+      ?item crm:P2_has_type <http://vocab.getty.edu/aat/300387506>.
+      ?item rdfs:label ?label.
+      FILTER(EXISTS { ?subject a ?__domain__.  ?subject ?__relation__ ?item . }) .
+     }order by ?label",
+     
+    "childrenQuery": "
+      SELECT distinct ?item ?label ?hasChildren WHERE {
+        ?item a  ?__range__.
+        ?item <http://www.geonames.org/ontology#parentCountry>  ?parent.
+        ?item rdfs:label ?label.
+        FILTER(EXISTS { ?subject a ?__domain__. ?subject ?__relation__ ?item . }) .
+        BIND(bound(?item) as ?hasChildren)
+      } order by ?label",
+    "parentsQuery": "
+    SELECT distinct ?item ?parent ?parentLabel WHERE {
+      ?item a ?__range__.
+      ?item  <http://www.geonames.org/ontology#parentCountry>  ?parent.
+      ?parent rdfs:label ?parentLabel
+    }",
+    "searchQuery":"
+      SELECT DISTINCT ?hasChildren ?item ?label WHERE {
+        ?item a ?__range__.
+        ?item rdfs:label ?label.
+        ?label bds:search ?__token__ .
+        ?label bds:minRelevance \"0.3\"^^xsd:double.
+        ?label bds:matchAllTerms \"true\".
+        {
+          ?item  <http://www.geonames.org/ontology#parentCountry>  ?child.
+          ?child crm:P2_has_type <http://vocab.getty.edu/aat/300387506>.
+        }UNION{
+          ?child  <http://www.geonames.org/ontology#parentCountry>  ?item.
+          ?item crm:P2_has_type <http://vocab.getty.edu/aat/300387506>.
+        }
+        BIND(BOUND(?child) AS ?hasChildren)
+        FILTER(EXISTS { 
+          ?subject a ?__domain__. 
+          ?subject ?__relation__ ?item . 
+        }) 
+       }ORDER BY DESC (?label)
+       "
+  },
+  "<https://pharos.artresearch.net/resource/fc/material>": {
+    "rootsQuery": "
+    SELECT DISTINCT ?item ?label where {
+      ?item a  ?__range__.
+      ?item a <http://vocab.getty.edu/ontology#Facet>.
+      ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+      FILTER(EXISTS { ?subject a ?__domain__.  ?subject ?__relation__ ?item . }) .
+     }order by ?label",
+     
+    "childrenQuery": "
+      SELECT distinct ?item ?label ?hasChildren WHERE {
+        ?item a  ?__range__.
+        ?item <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
+        ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+        FILTER(EXISTS { ?subject a ?__domain__. ?subject ?__relation__ ?item . }) .
+        BIND(bound(?item) as ?hasChildren)
+      } order by ?label",
+    "parentsQuery": "
+    SELECT distinct ?item ?parent ?parentLabel WHERE {
+      ?item a ?__range__.
+      ?item a <http://www.w3.org/2004/02/skos/core#ConceptScheme>.
+      ?item  <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
+      ?parent <http://www.w3.org/2004/02/skos/core#prefLabel> ?label
+    }",
+    "searchQuery":"
+      SELECT DISTINCT ?hasChildren ?item ?label WHERE {
+        ?item a ?__range__.
+        ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+        ?label bds:search ?__token__ .
+        ?label bds:minRelevance \"0.3\"^^xsd:double.
+        ?label bds:matchAllTerms \"true\".
+        ?child  <http://vocab.getty.edu/ontology#broaderPreferred> ?item.
+        BIND(BOUND(?child) AS ?hasChildren)
+        FILTER(EXISTS { 
+          ?subject a ?__domain__. 
+          ?subject ?__relation__ ?item . 
+        }) 
+       }ORDER BY DESC (?label)
+       "
+  },
+  "<https://pharos.artresearch.net/resource/fc/technique>":{
+    "rootsQuery": "
+    SELECT DISTINCT ?item ?label where {
+      ?item a  ?__range__.
+      ?item a <http://vocab.getty.edu/ontology#Facet>.
+      ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+      FILTER(EXISTS { ?subject a ?__domain__.  ?subject ?__relation__ ?item . }) .
+     }order by ?label",
+     
+    "childrenQuery": "
+      SELECT distinct ?item ?label ?hasChildren WHERE {
+        ?item a  ?__range__.
+        ?item <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
+        ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+        FILTER(EXISTS { ?subject a ?__domain__. ?subject ?__relation__ ?item . }) .
+        BIND(bound(?item) as ?hasChildren)
+      } order by ?label",
+    "parentsQuery": "
+    SELECT distinct ?item ?parent ?parentLabel WHERE {
+      ?item a ?__range__.
+      ?item a <http://www.w3.org/2004/02/skos/core#ConceptScheme>.
+      ?item  <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
+      ?parent <http://www.w3.org/2004/02/skos/core#prefLabel> ?label
+    }",
+    "searchQuery":"
+      SELECT DISTINCT ?hasChildren ?item ?label WHERE {
+        ?item a ?__range__.
+        ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+        ?label bds:search ?__token__ .
+        ?label bds:minRelevance \"0.3\"^^xsd:double.
+        ?label bds:matchAllTerms \"true\".
+        ?child  <http://vocab.getty.edu/ontology#broaderPreferred> ?item.
+        BIND(BOUND(?child) AS ?hasChildren)
+        FILTER(EXISTS { 
+          ?subject a ?__domain__. 
+          ?subject ?__relation__ ?item . 
+        }) 
+       }ORDER BY DESC (?label)
+       "
+  },
+  "<https://pharos.artresearch.net/resource/custom/fc/technique>": {
+    "rootsQuery": "
+    SELECT DISTINCT ?item ?label where {
+      ?item a  ?__range__.
+      ?item a <http://vocab.getty.edu/ontology#Facet>.
+      ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+      FILTER(EXISTS { ?subject a ?__domain__.  ?subject ?__relation__ ?item . }) .
+     }order by ?label",
+     
+    "childrenQuery": "
+      SELECT distinct ?item ?label ?hasChildren WHERE {
+        ?item a  ?__range__.
+        ?item <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
+        ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+        FILTER(EXISTS { ?subject a ?__domain__. ?subject ?__relation__ ?item . }) .
+        BIND(bound(?item) as ?hasChildren)
+      } order by ?label",
+    "parentsQuery": "
+    SELECT distinct ?item ?parent ?parentLabel WHERE {
+      ?item a ?__range__.
+      ?item a <http://www.w3.org/2004/02/skos/core#ConceptScheme>.
+      ?item  <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
+      ?parent <http://www.w3.org/2004/02/skos/core#prefLabel> ?label
+    }",
+    "searchQuery":"
+      SELECT DISTINCT ?hasChildren ?item ?label WHERE {
+        ?item a ?__range__.
+        ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+        ?label bds:search ?__token__ .
+        ?label bds:minRelevance \"0.3\"^^xsd:double.
+        ?label bds:matchAllTerms \"true\".
+        ?child  <http://vocab.getty.edu/ontology#broaderPreferred> ?item.
+        BIND(BOUND(?child) AS ?hasChildren)
+        FILTER(EXISTS { 
+          ?subject a ?__domain__. 
+          ?subject ?__relation__ ?item . 
+        }) 
+       }ORDER BY DESC (?label)
+       "
+  },
+  "<http://www.cidoc-crm.org/cidoc-crm/E55_Type>": {
+    "rootsQuery": "
+    SELECT DISTINCT ?item ?label where {
+      ?item a  ?__range__.
+      ?item a <http://vocab.getty.edu/ontology#Facet>.
+      ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+      FILTER(EXISTS { ?subject a ?__domain__.  ?subject ?__relation__ ?item . }) .
+     }order by ?label",
+     
+    "childrenQuery": "
+      SELECT distinct ?item ?label ?hasChildren WHERE {
+        ?item a  ?__range__.
+        ?item <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
+        ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+        BIND(bound(?item) as ?hasChildren)
+        FILTER(EXISTS { ?subject a ?__domain__. ?subject ?__relation__ ?item . }) .
+      } order by ?label",
+    "parentsQuery": "
+    SELECT distinct ?item ?parent ?parentLabel WHERE {
+      ?item a ?__range__.
+      ?item a <http://www.w3.org/2004/02/skos/core#ConceptScheme>.
+      ?item  <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
+      ?parent <http://www.w3.org/2004/02/skos/core#prefLabel> ?label
+    }",
+    "searchQuery":"
+      SELECT DISTINCT ?hasChildren ?item ?label WHERE {
+        ?item a ?__range__.
+        ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+        ?label bds:search ?__token__ .
+        ?label bds:minRelevance \"0.3\"^^xsd:double.
+        ?label bds:matchAllTerms \"true\".
+        ?child  <http://vocab.getty.edu/ontology#broaderPreferred> ?item.
+        BIND(BOUND(?child) AS ?hasChildren)
+        FILTER(EXISTS { 
+          ?subject a ?__domain__. 
+          ?subject ?__relation__ ?item . 
+        }) 
+       }ORDER BY DESC (?label)
+       "
+  }
+}
+
+
