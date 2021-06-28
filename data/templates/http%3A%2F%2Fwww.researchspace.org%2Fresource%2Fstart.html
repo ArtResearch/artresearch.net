@@ -223,7 +223,28 @@
     <div class="section-title">Contextualized & connected histories</div>
     <div class="section-body">
       <div class="text-with-image column">
-        <img src="/assets/images/media/contextualized.png" class="banner"/>
+        <div class="info-circle-container">
+          <div class="info-circle">
+            <div class="info-circle-title">Digitize</div>
+            <div class="info-circle-subtitle">Collections</div>
+          </div>
+          <div class="info-circle">
+            <div class="info-circle-title">Explore</div>
+            <div class="info-circle-subtitle">New technologies</div>
+          </div>
+          <div class="info-circle">
+            <div class="info-circle-title">Enrich</div>
+            <div class="info-circle-subtitle">Data</div>
+          </div>
+          <div class="info-circle">
+            <div class="info-circle-title">Convert</div>
+            <div class="info-circle-subtitle">Metadata to the CIDOC-CRM ontology</div>
+          </div>
+          <div class="info-circle">
+            <div class="info-circle-title">Discover</div>
+            <div class="info-circle-subtitle">Linked open data</div>
+          </div>
+        </div>
         <div class="text">
           <div>
             We are committed to creating an open and freely accessible digital research platform allowing for comprehensive consolidated access to photo archive images and their associated scholarly documentation. 
@@ -270,6 +291,421 @@
             </div>
           </a>
         </div>
+      </div>
+    </div>
+  </section>
+  <section class="cool-background" title="Compare images in great detail">
+    <div class="section-title">Compare images in great detail</div>
+    <div class="section-subtitle">Using a <img src="/assets/images/logos/iiif.png"> viewer you can view, analyze, compare & annotate images </div>
+    <div class="section-body">
+      <div class="mirador-container">
+        <div class="mirador">
+    <rs-iiif-mirador
+                     id="candidateAmirador"
+                     image-or-region="https://pharos.artresearch.net/resource/marburg/work/22000601" 
+                     image-api-manifest-pattern='
+                                       BIND(<https://iiif.artresearch.net/iiif/2/marburg!fmc660037.jpg/info.json> AS ?manifestUrl)'
+                     >
+    </rs-iiif-mirador>
+  </div>
+  <div class="mirador">
+    <rs-iiif-mirador
+                     id="candidateBmirador"
+                     image-or-region="https://pharos.artresearch.net/resource/zeri/work/69005" 
+                     image-api-manifest-pattern='
+                     BIND(<https://iiif.artresearch.net/iiif/2/zeri!127200%21127189_g.jpg/info.json> AS ?manifestUrl)'
+   >
+    </rs-iiif-mirador>
+  </div>
+  </div>
+    </div>
+  </section>
+  <section title="Explore visually similar artworks">
+    <div class="section-title">Explore visually similar artworks</div>
+    <div class="section-subtitle">Use machine learning and computer vision to explore similarities between artworks</div>
+    <div class="section-body">
+      <div id="featured-selections">
+        <a target="vision_new_tab" href="https://vision.artresearch.net/resource/Similarity/35545767782677875982682646">
+          <div id="zeri-itatti" class="flip-card-feature">
+            <div class="content">
+              <div class="front">
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    background: white;
+                    height: 75%;
+                  "
+                >
+                  <img
+                    src="https://iiif.artresearch.net/iiif/2/zeri!71200%2170925_g.jpg/full/!500,500/0/default.jpg"
+                  />
+                  <div class="title">Nascita di Maria Vergine</div>
+                  <small>Zeri</small>
+                </div>
+              </div>
+              <div class="back">
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    background: white;
+                    height: 75%;
+                  "
+                >
+                  <img
+                    src="https://ids.lib.harvard.edu/ids/iiif/42662040/full/!500,500/0/native.jpg"
+                  />
+                  <div class="title">Birth of the Virgin</div>
+                  <small>I Tatti</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+        <a target="vision_new_tab" href="https://vision.artresearch.net/resource/Similarity/8629648561661113822347745901">
+          <div id="hertziana-itatti" class="flip-card-feature">
+            <div class="content">
+              <div class="front">
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    background: white;
+                    height: 75%;
+                  "
+                >
+                  <img
+                    src="http://fotothek.biblhertz.it/bh/320px/bh002968.jpg"
+                  />
+                  <div class="title">Profilbildnis einer jungen Frau</div>
+                  <small>Hertziana</small>
+                </div>
+              </div>
+              <div class="back">
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    background: white;
+                    height: 75%;
+                  "
+                >
+                  <img
+                    src="https://iiif.itatti.harvard.edu/iiif/2/fotoindex!028_recto_d!028_recto_box01_d!028_recto_box01_d_00022.jpg/full/!500,500/0/default.jpg"
+                  />
+                  <div class="title">W00012940</div>
+                  <small>I Tatti</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+    
+        <a target="vision_new_tab" href="https://vision.artresearch.net/resource/Similarity/6895545511920936845294872">
+          <div id="khi-hertziana" class="flip-card-feature">
+            <div class="content">
+              <div class="front">
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    background: white;
+                    height: 75%;
+                  "
+                >
+                  <img
+                    src="https://iiif.khi.fi.it/iiif/2/thumbnails%2Ffld0006864x_p.jpg/full/!500,500/0/default.jpg"
+                  />
+                  <div class="title">	Maria mit dem Christuskind</div>
+                  <small>KHI</small>
+                </div>
+              </div>
+              <div class="back">
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    background: white;
+                    height: 75%;
+                  "
+                >
+                  <img
+                    src="http://fotothek.biblhertz.it/bh/320px/bh355316.jpg"
+                  />
+                  <div class="title">Madonna Colonna</div>
+                  <small>Marburg</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+        <a target="vision_new_tab" href="https://vision.artresearch.net/resource/Similarity/1464636217048902274786897">
+          <div id="itatti-zeri" class="flip-card-feature">
+            <div class="content">
+              <div class="front">
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    background: white;
+                    height: 75%;
+                  "
+                >
+                  <img
+                    src="https://ids.lib.harvard.edu/ids/iiif/474707461/full/!500,500/0/native.jpg"
+                  />
+                  <div class="title">Portrait of a youth</div>
+                  <small>I Tatti</small>
+                </div>
+              </div>
+              <div class="back">
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    background: white;
+                    height: 75%;
+                  "
+                >
+                  <img
+                    src="https://iiif.artresearch.net/iiif/2/zeri!74000%2173954_g.jpg/full/!500,500/0/default.jpg"
+                  />
+                  <div class="title">Ritratto maschile</div>
+                  <small>Zeri</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+        <a target="vision_new_tab" href="https://vision.artresearch.net/resource/Similarity/8629648561661113822347745901">
+          <div id="marburg-itatti" class="flip-card-feature">
+            <div class="content">
+              <div class="front">
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    background: white;
+                    height: 75%;
+                  "
+                >
+                  <img
+                    src="https://iiif.artresearch.net/iiif/2/marburg!mi07407f01.jpg/full/!500,500/0/default.jpg"
+                  />
+                  <div class="title">	Bildnis einer Dame</div>
+                  <small>Marburg</small>
+                </div>
+              </div>
+              <div class="back">
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    background: white;
+                    height: 75%;
+                  "
+                >
+                  <img
+                    src="https://iiif.itatti.harvard.edu/iiif/2/fotoindex!105_recto_d!105_recto_box04_d!105_recto_box04_d_00119.jpg/full/!500,500/0/default.jpg"
+                  />
+                  <div class="title">W00026410</div>
+                  <small>I Tatti</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+        <a target="vision_new_tab" href="https://vision.artresearch.net/resource/Similarity/41017735062430712915292637959">
+          <div id="itatti-zeri-2" class="flip-card-feature">
+            <div class="content">
+              <div class="front">
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    background: white;
+                    height: 75%;
+                  "
+                >
+                  <img
+                    src="https://ids.lib.harvard.edu/ids/iiif/25091201/full/!500,500/0/native.jpg"
+                  />
+                  <div class="title">Portrait of a gentleman</div>
+                  <small>I Tatti</small>
+                </div>
+              </div>
+              <div class="back">
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    background: white;
+                    height: 75%;
+                  "
+                >
+                  <img
+                    src="https://iiif.artresearch.net/iiif/2/zeri!85200%2184998_g.jpg/full/!500,500/0/default.jpg"
+                  />
+                  <div class="title">Ritratto di gentiluomo</div>
+                  <small>Zeri</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+        <a target="vision_new_tab" href="https://vision.artresearch.net/resource/Similarity/6461928343777462435063">
+          <div id="marburg-zeri" class="flip-card-feature">
+            <div class="content">
+              <div class="front">
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    background: white;
+                    height: 75%;
+                  "
+                >
+                  <img
+                    src="https://iiif.artresearch.net/iiif/2/marburg!mi02293b08.jpg/full/!500,500/0/default.jpg"
+                  />
+                  <div class="title">Paris</div>
+                  <small>Marburg</small>
+                </div>
+              </div>
+              <div class="back">
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    background: white;
+                    height: 75%;
+                  "
+                >
+                  <img
+                    src="https://iiif.artresearch.net/iiif/2/zeri!150800%21150760_g.jpg/full/!500,500/0/default.jpg"
+                  />
+                  <div class="title">Paride</div>
+                  <small>Zeri</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+        <a target="vision_new_tab" href="https://vision.artresearch.net/resource/Similarity/8629648561661113822347745901">
+          <div id="hertziana-itatti" class="flip-card-feature">
+            <div class="content">
+              <div class="front">
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    background: white;
+                    height: 75%;
+                  "
+                >
+                  <img
+                    src="http://fotothek.biblhertz.it/bh/320px/bhfc152e24.jpg"
+                  />
+                  <div class="title">Porträt des Kardinals Radzielowski</div>
+                  <small>Hertziana</small>
+                </div>
+              </div>
+              <div class="back">
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    background: white;
+                    height: 75%;
+                  "
+                >
+                  <img
+                    src="https://iiif.artresearch.net/iiif/2/marburg!mi10015g09.jpg/full/!500,500/0/default.jpg"
+                  />
+                  <div class="title">Bildnis des Kardinal-Erzbischo..</div>
+                  <small>Marburg</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+        <a target="vision_new_tab" href="https://vision.artresearch.net/resource/Similarity/38912142686404744152404428041">
+          <div id="zeri-mar" class="flip-card-feature">
+            <div class="content">
+              <div class="front">
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    background: white;
+                    height: 75%;
+                  "
+                >
+                  <img
+                    src="https://iiif.artresearch.net/iiif/2/zeri!127200%21127189_g.jpg/full/!500,500/0/default.jpg"
+                  />
+                  <div class="title">Scena pastorale</div>
+                  <small>Zeri</small>
+                </div>
+              </div>
+              <div class="back">
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    background: white;
+                    height: 75%;
+                  "
+                >
+                  <img
+                    src="https://iiif.artresearch.net/iiif/2/marburg!fmc660037.jpg/full/!500,500/0/default.jpg"
+                  />
+                  <div class="title">Ländlicher Spaziergang / Strandidylle</div>
+                  <small>Marburg</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+        <a target="vision_new_tab" href="https://vision.artresearch.net/resource/Similarity/16602138696205028208464330">
+          <div id="khi-marburg" class="flip-card-feature">
+            <div class="content">
+              <div class="front">
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    background: white;
+                    height: 75%;
+                  "
+                >
+                  <img
+                    src="https://iiif.khi.fi.it/iiif/2/thumbnails%2Fflc0584693z_p.jpg/full/!500,500/0/default.jpg"
+                  />
+                  <div class="title">Tod des heiligen Franziskus</div>
+                  <small>KHI</small>
+                </div>
+              </div>
+              <div class="back">
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    background: white;
+                    height: 75%;
+                  "
+                >
+                  <img
+                    src="https://iiif.artresearch.net/iiif/2/zeri!12400%2112030_g.jpg/full/!500,500/0/default.jpg"
+                  />
+                  <div class="title">	Morte e verifica delle sti..</div>
+                  <small>Zeri</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
       </div>
     </div>
   </section>
