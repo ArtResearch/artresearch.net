@@ -29,11 +29,17 @@ WHERE {
   column-configuration='[
   {
     "displayName": "Image", 
-    "cellTemplate": "<div class=\"thumbnailImageContainerTabular\"> <scroll-to-top querySelector=\".pagination li\"></scroll-to-top> <img  alt=\"   \"  class=\"thumbnailImageTabular\" src=\"{{image.value}}\"/></div>" 
+    "cellTemplate": "{{>tableImageTemplate}}"
   },
   {"variableName": "subject", "displayName": "Title"},
   {"variableName": "photographer", "displayName": "Photographer"},
   {"variableName": "provider", "displayName": "Photo archive"}
   ]'
 >
+<template id="tableImageTemplate">
+  <div class="thumbnailImageContainerTabular">
+    <scroll-to-top querySelector=".pagination li"></scroll-to-top>
+    <img alt="   " class="thumbnailImageTabular" src="{{image.value}}" />
+  </div>
+</template>
 </semantic-table>
