@@ -12,12 +12,13 @@
           <bs-nav-item event-key="PhotographLightbox">Photograph Lightbox</bs-nav-item>
           [[/if]]
            <bs-nav-item event-key="similar">Visually similar artworks</bs-nav-item>
-        </bs-nav>
-
+        </bs-nav>        
+        
+        [[> :SummaryImagesWork]]
         <bs-tab-content unmount-on-exit=true>
           <bs-tab-pane event-key="summary">
             <!-- Loads all IIIF images as 500px thumbnails (clickable with mirador popup) -->
-              [[> :SummaryImagesWork]]
+     
             <!-- Loads two tables with information regarding work & production -->
             <!-- Loads photographs with info (id, photographer, keeper) -->
               [[> :InfoWorkAndProduction]]
