@@ -1,0 +1,99 @@
+<mp-event-target-template-render
+id="event-target-miradors"
+template="{{> miradorsTemplate}}"
+>
+<template id="miradorsTemplate">
+
+
+
+
+  <div style="      display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  height: 85vh;
+  gap: 0.5em 1em;
+  width: 100vw;" class="miradors-container">
+
+
+
+
+
+    {{#each images as |image|}}
+      <div style="width:100%; height: 100%">
+        <mp-event-trigger
+        id="event-trigger-add-mirador"
+        type="Component.TemplateUpdate"
+        targets='["event-target-miradors","event-target-add-mirador"]'>
+        <div
+        class="no-option">
+          Remove one [[> :MiradorTriggerRemover  ]]
+        </div>
+        </mp-event-trigger>
+
+
+        <rs-iiif-mirador
+        id="mira-{{@index}}"
+          image-or-region="{{image}}"
+          image-api-manifest-pattern="           
+            <{{image}}> crm:P129i_is_subject_of ?manifestUrl.
+        FILTER NOT EXISTS{
+          ?manifestUrl crm:P2_has_type <https://pharos.artresearch.net/resource/hertziana/type/presentation_api_manifest>
+        }
+          "
+        >
+        </rs-iiif-mirador>
+      </div>
+    {{/each}}
+  </div>
+  </template>
+  </mp-event-target-template-render>
+
+<br>
+<br>
+<br>
+
+  <mp-event-target-template-render
+id="event-target-add-mirador"
+template="{{> addaMiradorTemplate}}"
+>
+<template id="addaMiradorTemplate">
+  <mp-event-trigger
+  id="event-trigger-add-mirador"
+  type="Component.TemplateUpdate"
+data='[[> :MiradorTriggerAdder myImage="https://ids.lib.harvard.edu/ids/iiif/45821908/full/full/0/native.jpg"]]'
+  targets='["event-target-miradors","event-target-add-mirador"]'>
+  <div
+  class="no-option">
+    Add one
+  
+  </div>
+  </mp-event-trigger>
+</template>
+</mp-event-target-template-render>
+
+
+<mp-event-target-template-render
+id="event-target-add-mirador"
+template="{{> addaMiradorTemplateSec}}"
+>
+<template id="addaMiradorTemplateSec">
+  <mp-event-trigger
+  id="event-trigger-add-mirador"
+  type="Component.TemplateUpdate"
+data='[[> :MiradorTriggerAdder myImage="https://iiif.itatti.harvard.edu/iiif/2/fotoindex!158_recto_d!158_recto_box01_d!158_recto_box01_d_00158.jpg/full/full/0/default.jpg"]]'
+  targets='["event-target-miradors","event-target-add-mirador"]'>
+  <div
+  class="no-option">
+    Add anOTHER one
+  
+  </div>
+  </mp-event-trigger>
+</template>
+</mp-event-target-template-render>
+
+
+
+
+
+
+
+  

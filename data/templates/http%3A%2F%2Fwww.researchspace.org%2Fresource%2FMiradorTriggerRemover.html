@@ -1,0 +1,11 @@
+{"images":[
+{{#each ../images as |imageToRemove|}}
+ {{#ifCond imageToRemove "!==" image}}
+   "{{imageToRemove}}"
+ {{/ifCond}}
+ {{#ifCond @index "===" (objectLength ../images)}}
+ {{else}}
+  ,
+ {{/ifCond}}
+{{/each}} 
+]}
