@@ -20,6 +20,7 @@ query='SELECT (COUNT( DISTINCT ?subject) as ?count) WHERE {
     }
    {{/ifCond}}
   FILTER NOT EXISTS{?subject a custom:photographer}.
+  FILTER NOT EXISTS{?subject a custom:institution}.
   }'
 template="{{>currentResultCount}}"
 >
