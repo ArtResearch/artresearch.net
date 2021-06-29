@@ -7,6 +7,9 @@ number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
 query='
 SELECT DISTINCT ?subject (SAMPLE(?placeName) AS ?placeName)
 WHERE {
+  {{#ifCond withImages "===" "true"}}
+    ?subject fr:Place_depicted_by ?photo.
+  {{/ifCond}}
   ?subject a fc:place.
   ?subject rdfs:label ?placeName
 } GROUP BY (?subject) LIMIT 100'

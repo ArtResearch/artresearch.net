@@ -7,6 +7,16 @@ query='SELECT (COUNT( DISTINCT ?subject) as ?count) WHERE {
       ?subject fr:Work_depicted_by_Photo ?photo.
     }UNION{
       ?subject fr:Work_depicted_by_Photo ?photo.
+    }UNION{
+      ?subject fr:Place_depicted_by ?photo.
+    }UNION{
+      ?subject fr:Institution_depicted_by ?photo.
+    }UNION{
+      ?subject fr:Person_depicted_by ?photo.
+    }UNION{
+      ?wikiPerson rdfs:label ?photographerName.
+      ?wikiPerson fr:Person_depicted_by ?imgUrl.
+      ?subject  rdfs:label ?photographerName.
     }
    {{/ifCond}}
   FILTER NOT EXISTS{?subject a custom:photographer}.

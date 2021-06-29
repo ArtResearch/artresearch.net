@@ -7,6 +7,11 @@
   query='
     SELECT DISTINCT ?subject
     WHERE {
+        {{#ifCond withImages "===" "true"}}
+          ?wikiPerson rdfs:label ?photographerName.
+          ?wikiPerson fr:Person_depicted_by ?imgUrl.
+          ?subject  rdfs:label ?photographerName.
+        {{/ifCond}}
         ?subject a fc:photographer.
         ?subject <https://pharos.artresearch.net/custom/has_type> <https://pharos.artresearch.net/resource/type/pharos>.
         } LIMIT 100'
