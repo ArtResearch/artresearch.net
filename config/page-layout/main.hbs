@@ -5,35 +5,7 @@
       src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
     ></script>
 
-    <script type="text/javascript">
-      // Script for print button // This checks if an element is present at DOM
-      const checkElement = async selector => {
-      while(document.querySelector(selector) === null) { await new
-      Promise(resolve => requestAnimationFrame(resolve)) } return
-      document.querySelector(selector); }; // This is checked on load
-      window.onload = function () { checkElement('#btnPrint').then((selector) =>
-      { preparePrintButton() }); } // When a user clicks the button function
-      preparePrintButton() { document.getElementById("btnPrint").onclick =
-      function () { var title = document.getElementById("printableTitle") ?
-      document.getElementById("printableTitle").innerHTML : ""; var images =
-      document.getElementById("printableImages") ?
-      document.getElementById("printableImages").innerHTML : ""; var info =
-      document.getElementById("printableInfo") ?
-      document.getElementById("printableInfo").innerHTML : ""; var printWindow =
-      window.open('', '', 'height=400,width=800');
-      printWindow.document.write('<html><head><title>' + window.document.URL +
-      '</title>'); printWindow.document.write(`<style> .rs-page__summary-image{
-      display:flex; flex-wrap:wrap; } .photographFieldView{ width:100%
-      !important; }
-      .imageSourceIcon,.multiValueTd,.rs-page__count--field-annotation,.rs-page__count--field-assertion,.sourceIcons{
-      display:none !important; } </style>`);
-      printWindow.document.write('</head><body>');
-      printWindow.document.write('<h2>' + title + '</h2>');
-      printWindow.document.write(info); printWindow.document.write(images);
-      printWindow.document.write('</body>');
-      printWindow.document.write('</html>'); printWindow.document.close();
-      printWindow.print(); }; }
-    </script>
+
     <meta name="version" content="{{version}}" />
     <link
       href="../../assets/styles/global.css"
