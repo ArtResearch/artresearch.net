@@ -39,15 +39,17 @@
         </bs-col>
         <semantic-search-result-holder>
         <bs-col lg="8" md="7" sm="6">
-            <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
-            <semantic-search-result id="semantic-search-result">
-              [[> :SearchResultCountAdvancedSearch]]
-            </semantic-search-result>
+
             <mp-event-target-template-render
             id="event-target-tables"
             template="{{> tableEventTargetTemplate}}"
           >
             <template id="tableEventTargetTemplate">
+              <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
+              <semantic-search-result id="semantic-search-result">
+                [[> :SearchResultCountAdvancedSearch]]
+              </semantic-search-result>
+              [[> :SearchbarSwitches]]
             <bs-tabs
               default-active-key="1"
               unmount-on-exit="true"
