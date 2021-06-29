@@ -7,6 +7,9 @@
   query='
     SELECT DISTINCT ?subject
     WHERE {
+        {{#ifCond withImages "===" "true"}}
+          ?subject fr:Institution_depicted_by ?photo.
+        {{/ifCond}}
         ?subject a fc:institution.
         } LIMIT 100'
   tuple-template="{{>tupleTemplate}}"
