@@ -38,6 +38,25 @@
   padding-top: 18px;
 }
 
+#new-start-page .section-subtitle a {
+  color: #3b7698 !important;
+  text-decoration: none;
+  width: fit-content;
+  transition: 0.4s;
+  display: flex;
+  flex-direction: column;
+}
+#new-start-page .section-subtitle a > .underline {
+  transition: 0.4s;
+  height: 2px;
+  width: 0px;
+}
+#new-start-page .section-subtitle a:hover > .underline {
+  background: #3b7698 !important;
+  width: 100%;
+  height: 2px;
+}
+
 #new-start-page .section-body {
   margin-top: 20px;
 }
@@ -203,6 +222,70 @@
   height: 17vh;
   object-fit: cover;
   border-radius: 5px;
+}
+#new-start-page .just-image {
+  display: flex;
+  justify-content: center;
+}
+#new-start-page .just-image img {
+  height: 55vh;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+#new-start-page .just-image .just-image-button {
+  font-weight: bold;
+  left: 29%;
+  position: relative;
+  padding: 15px;
+  border-radius: 4px;
+  bottom: 25%;
+  border: 1px solid #d6d6d6 !important;
+  font-size: 14px !important;
+  transition: 0.7s;
+}
+
+#new-start-page .infiniteCarousel {
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  flex-wrap: nowrap;
+}
+
+#new-start-page .images {
+  transform: translate3d(0, 0, 0);
+  display: flex;
+  width: 100%;
+  animation: slideshow 250s linear infinite;
+  animation-direction: alternate;
+}
+
+#new-start-page .infiniteCarousel .carousel-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#new-start-page .infiniteCarousel .carousel-item > small {
+  width: 73%;
+  margin-top: 23px;
+  text-align: center;
+}
+#new-start-page .infiniteCarousel img {
+  height: 35vh;
+  margin-left: 1vw;
+}
+
+@keyframes slideshow {
+  0% {
+    -webkit-transform: translateX(0%);
+  }
+  50% {
+    -webkit-transform: translateX(-120%);
+  }
+  100% {
+    -webkit-transform: translateX(0%);
+  }
 }
 
 #underDevAlert {
@@ -548,6 +631,16 @@
 }
 
 @media (max-width: 800px) {
+  #new-start-page .infiniteCarousel {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  }
+  #new-start-page .infiniteCarousel img {
+    margin-top: 2vh;
+  }
+
+
   .info-circle {
     width: 100px;
     height: 100px;
@@ -623,6 +716,10 @@
   }
   #new-start-page .text-with-image img {
     height: 100px;
+  }
+
+  #new-start-page .just-image img {
+    height: 25vh;
   }
 
   #new-start-page .tall-card-list .tall-card {
