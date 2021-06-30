@@ -19,6 +19,7 @@ query='SELECT (COUNT( DISTINCT ?subject) as ?count) WHERE {
       ?subject  rdfs:label ?photographerName.
     }
    {{/ifCond}}
+  FILTER NOT EXISTS{?subject a custom:work}.
   FILTER NOT EXISTS{?subject a custom:photographer}.
   FILTER NOT EXISTS{?subject a custom:institution}.
   }'
