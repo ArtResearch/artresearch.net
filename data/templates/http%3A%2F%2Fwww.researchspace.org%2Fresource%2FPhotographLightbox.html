@@ -1,202 +1,215 @@
 
 <div id="photograph-lightbox" data-flex-layout="row center-stretch">
 
-  <div>
-  <h1>All photographs</h1>
-  <h2>You can click on images to display in lightbox</h2>
-  <div id="photo-cards">
 
-    <semantic-table
-    options='{
-  "showFilter":true
-}'
-      number-of-displayed-rows="10"
-    query='  
-SELECT distinct ?photo (GROUP_CONCAT(STR(?label);SEPARATOR=" , ") AS ?allLabels) WHERE 
-{
-    ?? fr:Work_depicted_by_Photo ?photo.
-    ?photo ?a ?b.
-    ?b rdfs:label ?label
-}GROUP BY(?photo) '
-    tuple-template="{{> photos}}"
-    no-result-template='<h2>No photographs found</h2>'
-  >
-    <template id="photos">
-        <div
-          class="card"
+
+
+
+
+<mp-splitpane min-size="20"  max-size="600" default-size="50vw" default-open="true"  always-render="true" persist-resize="false">
+  <div data-flex-layout='column top-stretch' style="border-right: 1px solid #a2a2a2; background: white !important;">
+    <mp-splitpane-sidebar-open style='display: flex; flex-direction: column; flex: auto; background: white !important ;' >
+      <div style="background: white;">
+        <h1>All photographs</h1>
+        <h2>You can click on images to display in lightbox</h2>
+        <div id="photo-cards">
+      
+          <semantic-table
+          options='{
+        "showFilter":true
+      }'
+            number-of-displayed-rows="200"
+          query='  
+      SELECT distinct ?photo (GROUP_CONCAT(STR(?label);SEPARATOR=" , ") AS ?allLabels) WHERE 
+      {
+          ?? fr:Work_depicted_by_Photo ?photo.
+          ?photo ?a ?b.
+          ?b rdfs:label ?label
+      }GROUP BY(?photo) '
+          tuple-template="{{> photos}}"
+          no-result-template='<h2>No photographs found</h2>'
         >
-        <td class="rectoVersoCell">
-          <semantic-query
-            query='
-      SELECT  ?photoUri ?rectoImage ?fullsizeImages where{
-        BIND(str(<{{photo.value}}>) as ?photoUri).
-        <{{photo.value}}> crm:P129i_is_subject_of ?fullsizeImages.
-        BIND(REPLACE(STR(?fullsizeImages),"full/full","full/!100,100") AS ?rectoImage).
-        FILTER NOT EXISTS { 
-          ?fullsizeImages crm:P2_has_type ?type.
-          ?type rdfs:label "verso"
-        }
-      }
-    '
-            template="{{>rectoImageThumb}}"
-          >
-            <template id="rectoImageThumb">
-              <mp-event-target-template-render
-              id="event-target-add-mirador"
-              template="{{> addaMiradorTemplateSec}}"
+          <template id="photos">
+              <div
+                class="card"
               >
-                <template id="addaMiradorTemplateSec">
-                  <mp-event-trigger
-                    id="event-trigger-add-mirador"
-                    type="Component.TemplateUpdate"
-                    data='[[> :MiradorTriggerAdder myImage="{{bindings.0.fullsizeImages.value}}"]]'
-                    targets='["event-target-miradors","event-target-add-mirador"]'>
-                  <img
-                    src="{{bindings.0.rectoImage.value}}"
-                    style="max-height: 100px; margin: 0 auto"
-                    class="img-rounded"
-                  />
-                  </mp-event-trigger>
-                </template>
-              </mp-event-target-template-render>
-            </template>
-          </semantic-query>
-          <semantic-query
-            query='
-  SELECT ?photoUri ?versoImage ?fullsizeImages where{
-    BIND(str(<{{photo.value}}>) as ?photoUri).
-    <{{photo.value}}> crm:P129i_is_subject_of ?fullsizeImages.
-    BIND(REPLACE(STR(?fullsizeImages),"full/full","full/!100,100") AS ?versoImage).
-    FILTER NOT EXISTS { 
-      ?fullsizeImages crm:P2_has_type ?type.
-      ?type rdfs:label "recto"
-    }
-  }
-'
-            template="{{>versoImageThumb}}"
-          >
-            <template id="versoImageThumb">
-
-              <mp-event-target-template-render
-              id="event-target-add-mirador"
-              template="{{> addaMiradorTemplateSec}}"
-              >
-                <template id="addaMiradorTemplateSec">
-                  <mp-event-trigger
-                    id="event-trigger-add-mirador"
-                    type="Component.TemplateUpdate"
-                    data='[[> :MiradorTriggerAdder myImage="{{bindings.0.fullsizeImages.value}}"]]'
-                    targets='["event-target-miradors","event-target-add-mirador"]'>
-                  <img
-                    src="{{bindings.0.versoImage.value}}"
-                    style="max-height: 70px; max-width: 70px"
-                    class="vercoCell img-rounded"
-                  />
-                  </mp-event-trigger>
-                </template>
-              </mp-event-target-template-render>
-            </template>
-          </semantic-query>
-        </td>
-        <div class="photographFieldViewData">
-          <!-- //TODO make query -->
-          <mp-field-visualization
-            subject="{{photo.value}}"
-            fields='[[fieldDefinitions  
-              Title="https://pharos.artresearch.net/fieldDefinition/2"  
-              Photographer="https://pharos.artresearch.net/fieldDefinition/123"
-              Repository="https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution" 
-            ]]'
-            template="{{>productionInfo}}"
-          >
-            <template id="productionInfo">
-              {{#if noData}}
-              <div id="rsbv" class="table-responsive rs-table">
-                <table class="table table-hover">
-                  <tbody>
-                    <tr>
-                      <td>No quick preview available. Click on the photo to view details.</td>
-                      <td></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              {{else}} [[> :ResourceFieldBasedVisualization subject=[[this]]
-              ]] {{/if}}
-            </template>
-          </mp-field-visualization>
-        </div>
-
-
-        <semantic-link iri="{{photo.value}}">
-          <div style="
-          position: absolute;
-          top: 0;
-          right: 0;
-      " class="btn"><h4>View photograph</h4></div>
-      </div>
-    </semantic-link>
-    </template>
-  </semantic-table>
-  </div>
-</div>
-<div class="grid-demo">
-  <div id="photograph-lightbox-viewer"  style="width: 50vw; height: 80vh">
-    <mp-event-target-template-render
-    id="event-target-miradors"
-    template="{{> miradorsTemplate}}"
-    >
-    <template id="miradorsTemplate">
-     {{#if images}}
-      {{#ifCond (objectLength images) "===" 1 }}
-      <div style="display: grid;
-      grid-template-columns: repeat(1, 1fr);
-      gap: 0.2em 0.2em;
-      width: inherit;
-      height: inherit;
-      margin-top: 10px;
-      " class="miradors-container">
-      {{else}}
-      <div style="display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.2em 0.2em;
-      width: inherit;
-      height: inherit;
-      margin-top: 10px;
-      " class="miradors-container">
-      {{/ifCond}}
-        {{#each images as |image|}}
-          <div style="width:100%; height: 100%">
-            <rs-iiif-mirador
-            id="mira-{{@index}}"
-              image-or-region="{{image}}"
-              image-api-manifest-pattern="           
-                <{{image}}> crm:P129i_is_subject_of ?manifestUrl.
-            FILTER NOT EXISTS{
-              ?manifestUrl crm:P2_has_type <https://pharos.artresearch.net/resource/hertziana/type/presentation_api_manifest>
+              <td class="rectoVersoCell">
+                <semantic-query
+                  query='
+            SELECT  ?photoUri ?rectoImage ?fullsizeImages where{
+              BIND(str(<{{photo.value}}>) as ?photoUri).
+              <{{photo.value}}> crm:P129i_is_subject_of ?fullsizeImages.
+              BIND(REPLACE(STR(?fullsizeImages),"full/full","full/!100,100") AS ?rectoImage).
+              FILTER NOT EXISTS { 
+                ?fullsizeImages crm:P2_has_type ?type.
+                ?type rdfs:label "verso"
+              }
             }
-              "
-            >
-            </rs-iiif-mirador>
-          </div>
-        {{/each}}
+          '
+                  template="{{>rectoImageThumb}}"
+                >
+                  <template id="rectoImageThumb">
+                    <mp-event-target-template-render
+                    id="event-target-add-mirador"
+                    template="{{> addaMiradorTemplateSec}}"
+                    >
+                      <template id="addaMiradorTemplateSec">
+                        <mp-event-trigger
+                          id="event-trigger-add-mirador"
+                          type="Component.TemplateUpdate"
+                          data='[[> :MiradorTriggerAdder myImage="{{bindings.0.fullsizeImages.value}}"]]'
+                          targets='["event-target-miradors","event-target-add-mirador"]'>
+                        <img
+                          src="{{bindings.0.rectoImage.value}}"
+                          style="max-height: 100px; margin: 0 auto"
+                          class="img-rounded"
+                        />
+                        </mp-event-trigger>
+                      </template>
+                    </mp-event-target-template-render>
+                  </template>
+                </semantic-query>
+                <semantic-query
+                  query='
+        SELECT ?photoUri ?versoImage ?fullsizeImages where{
+          BIND(str(<{{photo.value}}>) as ?photoUri).
+          <{{photo.value}}> crm:P129i_is_subject_of ?fullsizeImages.
+          BIND(REPLACE(STR(?fullsizeImages),"full/full","full/!100,100") AS ?versoImage).
+          FILTER NOT EXISTS { 
+            ?fullsizeImages crm:P2_has_type ?type.
+            ?type rdfs:label "recto"
+          }
+        }
+      '
+                  template="{{>versoImageThumb}}"
+                >
+                  <template id="versoImageThumb">
+      
+                    <mp-event-target-template-render
+                    id="event-target-add-mirador"
+                    template="{{> addaMiradorTemplateSec}}"
+                    >
+                      <template id="addaMiradorTemplateSec">
+                        <mp-event-trigger
+                          id="event-trigger-add-mirador"
+                          type="Component.TemplateUpdate"
+                          data='[[> :MiradorTriggerAdder myImage="{{bindings.0.fullsizeImages.value}}"]]'
+                          targets='["event-target-miradors","event-target-add-mirador"]'>
+                        <img
+                          src="{{bindings.0.versoImage.value}}"
+                          style="max-height: 70px; max-width: 70px"
+                          class="vercoCell img-rounded"
+                        />
+                        </mp-event-trigger>
+                      </template>
+                    </mp-event-target-template-render>
+                  </template>
+                </semantic-query>
+              </td>
+              <div class="photographFieldViewData">
+                <!-- //TODO make query -->
+                <mp-field-visualization
+                  subject="{{photo.value}}"
+                  fields='[[fieldDefinitions  
+                    Title="https://pharos.artresearch.net/fieldDefinition/2"  
+                    Photographer="https://pharos.artresearch.net/fieldDefinition/123"
+                    Repository="https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution" 
+                  ]]'
+                  template="{{>productionInfo}}"
+                >
+                  <template id="productionInfo">
+                    {{#if noData}}
+                    <div id="rsbv" class="table-responsive rs-table">
+                      <table class="table table-hover">
+                        <tbody>
+                          <tr>
+                            <td>No quick preview available. Click on the photo to view details.</td>
+                            <td></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    {{else}} [[> :ResourceFieldBasedVisualization subject=[[this]]
+                    ]] {{/if}}
+                  </template>
+                </mp-field-visualization>
+              </div>
+      
+      
+              <semantic-link iri="{{photo.value}}">
+                <div style="
+                position: absolute;
+                top: 0;
+                right: 0;
+            " class="btn"><h4>View photograph</h4></div>
+            </div>
+          </semantic-link>
+          </template>
+        </semantic-table>
+        </div>
       </div>
-      <mp-event-trigger
-      id="event-trigger-add-mirador"
-      type="Component.TemplateUpdate"
-      data='{"images":[]}'
-      targets='["event-target-miradors","event-target-add-mirador"]'>
-      <div
-      class="clear-miradors fa fa-repeat">
-        Clear
-      </div>
-      </mp-event-trigger>
-      {{/if}}
-      </template>
-      </mp-event-target-template-render>
+    </mp-splitpane-sidebar-open>
   </div>
+  <div>
+    <div id="photograph-lightbox-viewer"  style="width: 100%; height: 80vh">
+      <mp-event-target-template-render
+      id="event-target-miradors"
+      template="{{> miradorsTemplate}}"
+      >
+      <template id="miradorsTemplate">
+       {{#if images}}
+        {{#ifCond (objectLength images) "===" 1 }}
+        <div style="display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 0.2em 0.2em;
+        width: inherit;
+        height: inherit;
+        margin-top: 10px;
+        " class="miradors-container">
+        {{else}}
+        <div style="display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.2em 0.2em;
+        width: inherit;
+        height: inherit;
+        margin-top: 10px;
+        " class="miradors-container">
+        {{/ifCond}}
+          {{#each images as |image|}}
+            <div style="width:100%; height: 100%">
+              <rs-iiif-mirador
+              id="mira-{{@index}}"
+                image-or-region="{{image}}"
+                image-api-manifest-pattern="           
+                  <{{image}}> crm:P129i_is_subject_of ?manifestUrl.
+              FILTER NOT EXISTS{
+                ?manifestUrl crm:P2_has_type <https://pharos.artresearch.net/resource/hertziana/type/presentation_api_manifest>
+              }
+                "
+              >
+              </rs-iiif-mirador>
+            </div>
+          {{/each}}
+        </div>
+        <mp-event-trigger
+        id="event-trigger-add-mirador"
+        type="Component.TemplateUpdate"
+        data='{"images":[]}'
+        targets='["event-target-miradors","event-target-add-mirador"]'>
+        <div
+        class="clear-miradors fa fa-repeat">
+          Clear
+        </div>
+        </mp-event-trigger>
+        {{/if}}
+        </template>
+        </mp-event-target-template-render>
+    </div>
+  </div>
+</mp-splitpane>
+
 </div>
-</div>
+
 <style>
 .mirador-btn.mirador-icon-metadata-view.mirador-tooltip{
   display: none;
@@ -215,6 +228,13 @@ SELECT distinct ?photo (GROUP_CONCAT(STR(?label);SEPARATOR=" , ") AS ?allLabels)
 
 #photograph-lightbox .researchspace-table-widget-holder .griddle-filter .filter-container{
   justify-content:flex-start;
+}
+#photograph-lightbox .photo-cards{
+  background: white !important;
+}
+#photograph-lightbox .mirador .researchspace-mirador.mirador-container .layout-slot {
+  width: 100% !important;
+  height: 100% !important;
 }
 
 </style>
