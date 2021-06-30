@@ -41,13 +41,24 @@ SELECT distinct ?photo (GROUP_CONCAT(STR(?label);SEPARATOR=" , ") AS ?allLabels)
             template="{{>rectoImageThumb}}"
           >
             <template id="rectoImageThumb">
-              <mp-event-trigger id='event-trigger' type='Component.TemplateUpdate' data='{"imgURL":"{{bindings.0.fullsizeImages.value}}"}' targets='["event-target"]'>
-                <img
-                  src="{{bindings.0.rectoImage.value}}"
-                  style="max-height: 100px; margin: 0 auto"
-                  class="img-rounded"
-                />
-            </mp-event-trigger>
+              <mp-event-target-template-render
+              id="event-target-add-mirador"
+              template="{{> addaMiradorTemplateSec}}"
+              >
+                <template id="addaMiradorTemplateSec">
+                  <mp-event-trigger
+                    id="event-trigger-add-mirador"
+                    type="Component.TemplateUpdate"
+                    data='[[> :MiradorTriggerAdder myImage="{{bindings.0.fullsizeImages.value}}"]]'
+                    targets='["event-target-miradors","event-target-add-mirador"]'>
+                  <img
+                    src="{{bindings.0.rectoImage.value}}"
+                    style="max-height: 100px; margin: 0 auto"
+                    class="img-rounded"
+                  />
+                  </mp-event-trigger>
+                </template>
+              </mp-event-target-template-render>
             </template>
           </semantic-query>
           <semantic-query
@@ -65,13 +76,25 @@ SELECT distinct ?photo (GROUP_CONCAT(STR(?label);SEPARATOR=" , ") AS ?allLabels)
             template="{{>versoImageThumb}}"
           >
             <template id="versoImageThumb">
-              <mp-event-trigger id='event-trigger' type='Component.TemplateUpdate' data='{"imgURL":"{{bindings.0.fullsizeImages.value}}"}' targets='["event-target"]'>
-                <img
-                  src="{{bindings.0.versoImage.value}}"
-                  style="max-height: 70px; max-width: 70px"
-                  class="img-rounded vercoCell"
-                />
-              </mp-event-trigger>
+
+              <mp-event-target-template-render
+              id="event-target-add-mirador"
+              template="{{> addaMiradorTemplateSec}}"
+              >
+                <template id="addaMiradorTemplateSec">
+                  <mp-event-trigger
+                    id="event-trigger-add-mirador"
+                    type="Component.TemplateUpdate"
+                    data='[[> :MiradorTriggerAdder myImage="{{bindings.0.fullsizeImages.value}}"]]'
+                    targets='["event-target-miradors","event-target-add-mirador"]'>
+                  <img
+                    src="{{bindings.0.versoImage.value}}"
+                    style="max-height: 70px; max-width: 70px"
+                    class="vercoCell img-rounded"
+                  />
+                  </mp-event-trigger>
+                </template>
+              </mp-event-target-template-render>
             </template>
           </semantic-query>
         </td>
@@ -119,75 +142,79 @@ SELECT distinct ?photo (GROUP_CONCAT(STR(?label);SEPARATOR=" , ") AS ?allLabels)
 </div>
 <div class="grid-demo">
   <div id="photograph-lightbox-viewer"  style="width: 50vw; height: 80vh">
-    <mp-event-target-template-render id='event-target' template='{{> mainImageTemplate}}'>
-      <template id='mainImageTemplate'>
-          <semantic-query query='SELECT DISTINCT ?imageUrl ?iiifServer WHERE{
-              {
-              ?? <https://pharos.artresearch.net/custom/has_provider> ?provider.
-              ?provider <https://pharos.artresearch.net/custom/has_iiif_server> ?iiifServer.
-              BIND(STR("{{imgURL}}") AS ?imageUrl).
-              }union{
-                ?original owl:sameAs ??.
-                ?original <https://pharos.artresearch.net/custom/has_provider> ?provider.
-                ?provider <https://pharos.artresearch.net/custom/has_iiif_server> ?iiifServer.
-                BIND(STR("{{imgURL}}") AS ?imageUrl).
-
-              }
-              }' template='{{> iiifViewer}}'>
-              <template id="iiifViewer">
-               
-                {{#ifCond  (objectLength bindings.0.imageUrl.value) "!==" 0}}  
-                  <rs-iiif-mirador
-                  image-or-region="[[this]]" 
-                  image-id-pattern='
-                  ?subject crm:P138i_is_represented_by ?visual_item.
-                  ?visual_item crm:P128i_is_carried_by ?photo.
-                  ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
-                  ?photo crm:P129i_is_subject_of <{{bindings.0.imageUrl.value}}>.
-                  <{{bindings.0.imageUrl.value}}> crm:P2_has_type <http://iiif.io/api/image>.
-                  BIND("image" AS ?type). 
-                  BIND(?subject AS ?imageIRI). 
-                  BIND(REPLACE(STR(REPLACE(STR("{{bindings.0.imageUrl.value}}"),"/full/full/0/*","")), "(^.*)\\/(.*)$", "$2") AS ?idWithDefaultNative).
-                  BIND(REPLACE(?idWithDefaultNative,"default.jpg","") AS ?idWithNative).
-                  BIND(REPLACE(?idWithNative,"native.jpg","") AS ?imageID).
-                  '                                                                       
-                  iiif-server-url="{{bindings.0.iiifServer.value}}" 
-                  >
-                  </rs-iiif-mirador>
-                {{/ifCond}}
-                {{#ifCond (objectLength bindings.0.imageUrl.value) "===" 0}}  
-                  <rs-iiif-mirador
-                  image-or-region="[[this]]" 
-                  image-id-pattern='
-                  {
-                    ?? crm:P138i_is_represented_by ?visual_item.
-                    ?visual_item crm:P128i_is_carried_by ?photo.
-                    ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
-                    ?photo crm:P129i_is_subject_of ?image.
-                    ?image crm:P2_has_type <http://iiif.io/api/image>.
-                    BIND(?? AS ?imageIRI). 
-                  }UNION{
-                    ?original owl:sameAs ??.
-                    ?original crm:P138i_is_represented_by ?visual_item.
-                    ?visual_item crm:P128i_is_carried_by ?photo.
-                    ?photo crm:P2_has_type <http://vocab.getty.edu/aat/300046300>.
-                    ?photo crm:P129i_is_subject_of ?image.
-                    ?image crm:P2_has_type <http://iiif.io/api/image>.
-                    BIND(?original AS ?imageIRI). 
-                  }
-                  BIND("image" AS ?type).
-                  BIND(REPLACE(STR(REPLACE(STR(?image),"/full/full/0/*","")), "(^.*)\\/(.*)$", "$2") AS ?idWithDefaultNative).
-                  BIND(REPLACE(?idWithDefaultNative,"default.jpg","") AS ?idWithNative).
-                  BIND(REPLACE(?idWithNative,"native.jpg","") AS ?imageID).
-                  '                                                                       
-                  iiif-server-url="{{bindings.0.iiifServer.value}}" 
-                  >
-                  </rs-iiif-mirador>
-                  {{/ifCond}}
-    </template>
-    </semantic-query>
-    </template>
-    </mp-event-target-template-render>
+    <mp-event-target-template-render
+    id="event-target-miradors"
+    template="{{> miradorsTemplate}}"
+    >
+    <template id="miradorsTemplate">
+     {{#if images}}
+      {{#ifCond (objectLength images) "===" 1 }}
+      <div style="display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 0.2em 0.2em;
+      width: inherit;
+      height: inherit;
+      margin-top: 10px;
+      " class="miradors-container">
+      {{else}}
+      <div style="display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.2em 0.2em;
+      width: inherit;
+      height: inherit;
+      margin-top: 10px;
+      " class="miradors-container">
+      {{/ifCond}}
+        {{#each images as |image|}}
+          <div style="width:100%; height: 100%">
+            <rs-iiif-mirador
+            id="mira-{{@index}}"
+              image-or-region="{{image}}"
+              image-api-manifest-pattern="           
+                <{{image}}> crm:P129i_is_subject_of ?manifestUrl.
+            FILTER NOT EXISTS{
+              ?manifestUrl crm:P2_has_type <https://pharos.artresearch.net/resource/hertziana/type/presentation_api_manifest>
+            }
+              "
+            >
+            </rs-iiif-mirador>
+          </div>
+        {{/each}}
+      </div>
+      <mp-event-trigger
+      id="event-trigger-add-mirador"
+      type="Component.TemplateUpdate"
+      data='{"images":[]}'
+      targets='["event-target-miradors","event-target-add-mirador"]'>
+      <div
+      class="clear-miradors fa fa-repeat">
+        Clear
+      </div>
+      </mp-event-trigger>
+      {{/if}}
+      </template>
+      </mp-event-target-template-render>
   </div>
 </div>
 </div>
+<style>
+.mirador-btn.mirador-icon-metadata-view.mirador-tooltip{
+  display: none;
+}
+.miradors-container:empty + .clear-miradors {
+    display: none;
+}
+
+.clear-miradors {
+  cursor: pointer;
+  position: absolute;
+  top: 8px;
+  right: 40px;
+  font-size: 19px;
+}
+
+#photograph-lightbox .researchspace-table-widget-holder .griddle-filter .filter-container{
+  justify-content:flex-start;
+}
+
+</style>

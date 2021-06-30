@@ -12,24 +12,18 @@ template="{{> miradorsTemplate}}"
   height: 85vh;
   gap: 0.5em 1em;
   width: 100vw;" class="miradors-container">
-
-
-
-
-
-    {{#each images as |image|}}
-      <div style="width:100%; height: 100%">
         <mp-event-trigger
         id="event-trigger-add-mirador"
         type="Component.TemplateUpdate"
+        data='{"images":[]}'
         targets='["event-target-miradors","event-target-add-mirador"]'>
         <div
         class="no-option">
-          Remove one [[> :MiradorTriggerRemover  ]]
+          Clear
         </div>
         </mp-event-trigger>
-
-
+    {{#each images as |image|}}
+      <div style="width:100%; height: 100%">
         <rs-iiif-mirador
         id="mira-{{@index}}"
           image-or-region="{{image}}"
