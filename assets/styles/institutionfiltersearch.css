@@ -292,7 +292,10 @@ header h1 {
   height: 5vh;
   margin-top: 5px;
 }
-
+#institution-filter-search #search-results .griddle-custom-row {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr);
+}
 #institution-filter-search .clearable-input__clear {
   border: none !important;
   border-radius: 5px !important;
@@ -372,9 +375,12 @@ header h1 {
 }
 
 @media (max-width: 800px) {
+  #institution-filter-search #search-results .griddle-custom-row {
+    display: flex !important;
+  }
   #institution-filter-search .filters-container {
-    margin-top:  10vh !important;
-    top:unset !important;
+    margin-top: 10vh !important;
+    top: unset !important;
     position: relative !important;
   }
 
@@ -396,3 +402,8 @@ header h1 {
   }
 }
 
+@media (max-width: 1300px) {
+  #institution-filter-search #search-results .griddle-custom-row {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
