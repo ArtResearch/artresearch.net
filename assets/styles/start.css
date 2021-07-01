@@ -41,6 +41,7 @@
 #new-start-page .section-subtitle a {
   color: #3b7698 !important;
   text-decoration: none;
+  width: -moz-fit-content;
   width: fit-content;
   transition: 0.4s;
   display: flex;
@@ -162,11 +163,11 @@
 
 #new-start-page .tall-card-body .tall-card-button {
   font-weight: bold;
-  left: 29%;
+  left: 33.5%;
   position: relative;
   padding: 15px;
   border-radius: 4px;
-  bottom: 25%;
+  bottom: 30%;
   transition: 0.7s;
   font-size: 0px;
 }
@@ -227,23 +228,19 @@
   display: flex;
   justify-content: center;
 }
+
+#new-start-page .just-image img:hover {
+  filter: brightness(0.7);
+}
+
 #new-start-page .just-image img {
   height: 55vh;
   object-fit: cover;
   border-radius: 5px;
-}
-
-#new-start-page .just-image .just-image-button {
-  font-weight: bold;
-  left: 29%;
-  position: relative;
-  padding: 15px;
-  border-radius: 4px;
-  bottom: 25%;
-  border: 1px solid #d6d6d6 !important;
-  font-size: 14px !important;
+  cursor: pointer;
   transition: 0.7s;
 }
+
 
 #new-start-page .infiniteCarousel {
   display: flex;
@@ -274,6 +271,12 @@
 #new-start-page .infiniteCarousel img {
   height: 35vh;
   margin-left: 1vw;
+  transition: 0.7s;
+  border-radius: 5px;
+  box-shadow: 0px 0px 12px 1px #4d4d4d;
+}
+#new-start-page .infiniteCarousel img:hover {
+  filter: brightness(0.7);
 }
 
 @keyframes slideshow {
@@ -574,8 +577,8 @@
 }
 
 #new-start-page #featured-selections {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
   margin-top: 40px;
 }
 #new-start-page .flip-card-feature {
@@ -601,7 +604,7 @@
   transition: transform 0.5s;
 }
 #new-start-page .flip-card-feature img {
-  height: 100% !important;
+  height: 75% !important;
   object-fit: cover;
   object-position: top;
   border-radius: 5px;
@@ -613,9 +616,15 @@
   background: white;
   text-align: center;
   border-radius: 5px;
+  backface-visibility: -webkit-backface-visibility;
   backface-visibility: hidden;
 }
-
+#new-start-page .flip-card-feature .front-back-img-holder {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: white;
+}
 #new-start-page .flip-card-feature .back {
   position: absolute;
   top: 0;
@@ -690,11 +699,28 @@
     height: 50vh;
   }
   #new-start-page .flip-card-feature {
-    width: 90vw;
+    width: 66vw;
+    height: 30vh;
+    margin-left: 15%;
   }
 }
-
+@media (max-width: 1600px) {
+  #new-start-page #featured-selections {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
 @media (max-width: 1300px) {
+  .info-circle {
+    width: 160px;
+    height: 160px;
+  }
+  .info-circle-container:hover .info-circle {
+    margin-left: -15px !important;
+  }
+  #new-start-page #featured-selections {
+    display: flex;
+    flex-wrap: wrap;
+  }
   #new-start-page .bubble-card-list {
     display: flex;
     flex-wrap: wrap;

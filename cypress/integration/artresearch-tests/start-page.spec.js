@@ -22,7 +22,10 @@
 
   describe('Start page links & basic content for each', () => {
     beforeEach(() => {
-        cy.visit('http://localhost:10224/resource/start')
+        cy.visit('http://localhost:10224/login')
+        cy.get('input[name="username"]').click().type("admin")
+        cy.get('input[name="password"]').click().type("admin")
+        cy.get('input[type="submit"]').click().url().should('eq', 'http://localhost:10224/resource/start') 
     })
     
     it('Simple search works', () => {
@@ -110,7 +113,7 @@
         cy.get('.artwork-card-big').should("have.length",10)
         cy.get('.facet__relation').should('have.length',3)
     })
-    it.only('Italian Renaissance works', () => {
+    it('Italian Renaissance works', () => {
         cy.contains('Italian Renaissance').click();
         cy.wait(8000)
         cy.contains("Found 53055 matches")
