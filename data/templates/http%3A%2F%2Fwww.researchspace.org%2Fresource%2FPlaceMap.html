@@ -1,4 +1,5 @@
 <semantic-context repository="geonames">
+  [[#if (ask "ASK {?? <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat }") ]] 
     <div style="width: 100%; height: 400px;">
       <semantic-map query='
               SELECT  ?lat ?lng WHERE{
@@ -8,6 +9,6 @@
       tuple-template='<p></p><b style="color: #6b0000;"><semantic-link iri="[[this]]"></semantic-link></b><p></p><p></p><small> external source: GeoNames </small>'
       >
       </semantic-map> 
-  
     </div>
+    [[/if]]
 </semantic-context>
