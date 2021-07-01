@@ -24,7 +24,12 @@
              <h1>Number of artworks related to this place:</h1>
              <h1 style="margin-left:10px"><semantic-query query='
              SELECT (COUNT(DISTINCT ?artwork) AS ?count) WHERE{
-               ?? fr:Place_of_Work ?artwork
+               {
+                 ?? fr:Place_of_Work ?artwork
+               }UNION{
+                ?work owl:sameAs ?artwork.
+                ?work crm:P55_has_current_location ??
+               }
              }
            '></semantic-query></h1>
             </div>

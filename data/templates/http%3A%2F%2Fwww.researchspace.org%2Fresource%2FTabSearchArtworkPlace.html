@@ -134,11 +134,22 @@
               escape-lucene-syntax="false"
               default-query='
               SELECT DISTINCT ?subject WHERE {
+                {
                   ?? fr:Place_of_Work ?subject.
+                }union{
+                  ?work owl:sameAs ?subject.
+                  ?work crm:P55_has_current_location ??
+                }
               }LIMIT 100'
               query='
                       SELECT DISTINCT ?subject WHERE {
-                        ?? fr:Place_of_Work ?subject.
+                        {
+                          ?? fr:Place_of_Work ?subject.
+                        }union{
+                          ?work owl:sameAs ?subject.
+                          ?work crm:P55_has_current_location ??
+                        }
+
                         ?subject ?p ?o.
                         ?o rdfs:label ?someLabel.
                         ?someLabel bds:search ?__token__  .
@@ -181,7 +192,6 @@
                         }' number-of-displayed-rows="9" query="
                       SELECT DISTINCT ?subject
                        WHERE {
-                          ?? fr:Place_of_Work ?subject.
                        }LIMIT 100
                     " tuple-template="{{>tupleTemplate}}"
                       no-result-template='[[> :CardNoResult ]]'
@@ -195,7 +205,6 @@
                         }' number-of-displayed-rows="9" query="
                       SELECT DISTINCT ?subject
                        WHERE {
-                          ?? fr:Place_of_Work ?subject.
                           ?subject fr:Work_depicted_by_Photo ?photo.
                           ?photo crm:P129i_is_subject_of ?image.
                        }LIMIT 100
