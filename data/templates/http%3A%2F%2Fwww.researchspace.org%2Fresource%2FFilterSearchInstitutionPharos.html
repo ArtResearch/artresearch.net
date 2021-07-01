@@ -33,8 +33,8 @@
           template="{{> placeEventTargetTemplate}}"
         >
           <template id="placeEventTargetTemplate">
-            {{#if placeIri}}
             <div style="width:100%;display: flex; flex-direction: column;" > 
+            {{#if placeIri}}
               <semantic-search-query-keyword
               placeholder="Search for a repository e.g. Royal Library"
               escape-lucene-syntax="false"
@@ -73,7 +73,6 @@
                 </h2>
               </template>
               </semantic-query>
-            </div>
             {{else}}
               <semantic-search-query-keyword
               placeholder="Search for a repository e.g. Royal Library"
@@ -94,7 +93,11 @@
                             } 
                           '
             ></semantic-search-query-keyword>
-            {{/if}}
+            <semantic-search-result id="semantic-search-result">
+                    [[> :SearchResultCount]]
+                  </semantic-search-result>
+                  {{/if}}
+                </div>
 
         </template>
       </mp-event-target-template-render>
@@ -156,7 +159,6 @@
                           Map view
                         </bs-nav-item>
                       </bs-nav>
-
                       <bs-tab-content unmount-on-exit="true">
                         <bs-tab-pane event-key="defaultView">
                           <semantic-table
@@ -164,7 +166,7 @@
                             options='{
                               "showFilter":false
                             }'
-                            number-of-displayed-rows="9"
+                            number-of-displayed-rows="8"
                             query="
                           SELECT DISTINCT ?subject WHERE {
                              OPTIONAL{
