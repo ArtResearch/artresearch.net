@@ -1,7 +1,17 @@
 <div class="visualizationValue">
   {{#ifCond field.label.0.value "===" "Description"}}
   <mp-text-truncate lines="3" expand='<span style="color: gray;">...<a>read more</a></span>' collapse='<span style="color: gray;">(<a>show less</a>)</span>'>
-  {{/ifCond}}
+  {{else}}
+
+  {{#ifCond field.label.0.value "===" "Production Date"}}
+  <div date="{{dateTimeFormat value.value.value "MMM DD, YYYY"}}">
+    {{dateTimeFormat value.value.value "MMM DD, YYYY"}}
+  </div>
+  <span>
+    {{value.value.value}}
+  </span>
+  {{else}}
+
   {{#ifCond field.xsdDatatype.value "=="  "http://www.w3.org/2001/XMLSchema#string"}}
     {{value.value.value}}
   {{/ifCond}}
@@ -9,12 +19,14 @@
     {{value.value.value}}{{#if value.value.language}} - {{value.value.language}}{{/if}}
   {{/ifCond}}
   {{#ifCond field.xsdDatatype.value "==" "http://www.w3.org/2001/XMLSchema#dateTime"}}
-    {{value.value.value}}
+  {{value.value.value}}
+  {{/ifCond}}
+  {{#ifCond field.xsdDatatype.value "==" "http://www.w3.org/2001/XMLSchema#date"}}
+    {{dateTimeFormat value.value.value "MMM DD, YYYY"}}
   {{/ifCond}}
   {{#ifCond field.xsdDatatype.value "=="  "http://www.w3.org/2001/XMLSchema#anyURI"}}
     {{#if value.value.datatype}}
       [[!-- in the messy data it can happen that field is anyURI but actual data is literal --]]
-        {{value.value.value}}
     {{else}}
     <semantic-link iri="{{value.value.value}}"></semantic-link>
     {{/if}}
@@ -22,6 +34,10 @@
   {{#ifCond field.label.0.value "===" "Description"}}
   </mp-text-truncate>
   {{/ifCond}}
+    
+  {{/ifCond}}
+  {{/ifCond}}
+
 <!-- <mp-copy-to-clipboard
 text="{{value.value.value}}"
 message="Text copied"
