@@ -19,78 +19,24 @@
 
             <bs-tab-content unmount-on-exit="true">
               <bs-tab-pane event-key="Artworks">
-                <semantic-search>
 
-                  <semantic-search-form-query
-                    query-template='{
-                      "queryString": "
-                        PREFIX ex: <http://example.com/resource/>
-                        SELECT ?subject WHERE {
-                          OPTIONAL{
-                            ?subject rdfs:label ?title .
-                          }
-                          OPTIONAL{
-                            ?subject fr:Work_created_from_Artist ?creator .
-                          }
-                        }
-                      ",
-                      "arguments": {
-                        "creator": {"type": "xsd:anyURI", "optional": true},
-                        "title": {"type": "xsd:string", "optional": true}
-                      }
-                    }'
-                    fields='[
-                        {
-                          "id": "creator",
-                          "label": "Creator",
-                          "xsdDatatype": "xsd:anyURI",
-                          "autosuggestionPattern": "
-                            PREFIX fts: <http://www.bigdata.com/rdf/fts#>
-                            SELECT DISTINCT ?value ?label  WHERE {
-                              ?value fts:search ?__token__ .
-                              ?value fts:endpoint \"http://213.171.209.34:8983/solr/artists_weighted/select\".
-                              ?value fts:endpointType \"SOLR\" .
-                              ?value fts:params \"rows=10\" .
-                              ?value fts:searchField \"uri\" .
-                              ?value fts:fieldToSearch \"*\" .
-                              ?value fts:snippetField \"*\" .
-                              ?value fts:searchResultType \"URI\" ;
-                              <http://www.bigdata.com/rdf/fts#scoreField>    \"field_score\";
-                              <http://www.bigdata.com/rdf/fts#score>   ?score;
-                              rdfs:label ?label.
-                            }"
-                        },
-                        {
-                          "id": "title",
-                          "label": "Title",
-                          "xsdDatatype": "xsd:string",
-                          "selectPattern": "
-                            PREFIX fts: <http://www.bigdata.com/rdf/fts#>
-                            SELECT DISTINCT ?value ?label  WHERE {
-                              ?value fts:search ?__token__ .
-                              ?value fts:endpoint \"http://213.171.209.34:8983/solr/artworks_weighted/select\".
-                              ?value fts:endpointType \"SOLR\" .
-                              ?value fts:params \"rows=10\" .
-                              ?value fts:searchField \"uri\" .
-                              ?value fts:fieldToSearch \"*\" .
-                              ?value fts:snippetField \"*\" .
-                              ?value fts:searchResultType \"URI\" ;
-                              <http://www.bigdata.com/rdf/fts#scoreField>    \"field_score\";
-                              <http://www.bigdata.com/rdf/fts#score>   ?score;
-                              rdfs:label ?label.
-                            }"
-                        }
-                    ]'
-            >
+                <h1>Search for Artworks</h1>
+                <h2>Click on any option to add to the advanced search form</h2>
 
-                      <semantic-form-text-input  for='title'></semantic-form-text-input>
-                      <semantic-form-autocomplete-input for='creator'></semantic-form-autocomplete-input>
-                      <button type='button' name='submit' class='btn btn-secondary'>Search</button>
-                   </semantic-search-form-query>
+                <mp-event-trigger id='agsdlue' data='{"creator":"true"}' targets='["event-target-form-query"]'>
+                    <span style="margin-left:6px;"><strong>Creator</strong></span>
+                </mp-event-trigger>
 
-                   
-                [[> :SearchSimpleArtworkView]]
-                  </semantic-search>
+                
+                <mp-event-target-template-render
+                id="event-target-form-query"
+                template="{{> tableEventTargetFormQueryTemplate}}"
+              >
+                <template id="tableEventTargetFormQueryTemplate">
+                {{creator}}s
+                </template>
+              </mp-event-target-template-render>
+            
               </bs-tab-pane>
               <bs-tab-pane event-key="Photographs">
                 <semantic-search
