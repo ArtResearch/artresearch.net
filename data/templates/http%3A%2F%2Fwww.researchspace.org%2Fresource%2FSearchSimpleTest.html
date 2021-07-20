@@ -1,0 +1,71 @@
+[[#>:ClipboardSidebar]]
+<div id="filter-search" class="row row-center no-margin">
+  <div id="main-containers" class="col-md-10">
+    <!-- Title -->
+    <div class="row">
+      <div class="col-sm-12">
+
+      </div>
+    </div>
+
+    <div id="simple-search-include"  class="super-tabs">
+
+        <bs-tab-container
+          id="tab-container"
+          class="page__body-navtabs--borderless"
+          default-active-key='[[urlParam "selectedtab"]]'
+        >
+          <div>
+            <bs-nav bs-style="tabs">
+              <bs-nav-item event-key="Artworks">Artworks</bs-nav-item>
+
+              <!-- <bs-nav-item event-key="Photographers">Photographers</bs-nav-item> -->
+            </bs-nav>
+
+            <bs-tab-content unmount-on-exit="true">
+              <bs-tab-pane event-key="Artworks">
+                <semantic-context repository='ephedra'>
+                <semantic-search
+                  relations='[[> :SearchSimpleRelations]]'
+                  search-profile='[[> :SearchSimpleProfile]]'
+                >
+                [[> :SearchSimpleArtworkViewTest]]
+                  </semantic-search>
+                </semantic-context>
+              </bs-tab-pane>
+              <bs-tab-pane event-key="Photographs">
+                <semantic-search
+                relations='[[> :SearchSimpleRelations]]'
+                search-profile='[[> :SearchSimpleProfile]]'
+              >
+                [[> :SearchSimplePhotoView]]
+                </semantic-search>
+              </bs-tab-pane>
+              <bs-tab-pane event-key="Artists">
+                <semantic-search
+                relations='[[> :SearchSimpleRelations]]'
+                search-profile='[[> :SearchSimpleProfile]]'
+              >
+                [[> :SearchSimpleArtistView]]
+                </semantic-search>
+              </bs-tab-pane>
+              <bs-tab-pane event-key="Photographers">
+                <semantic-search
+                relations='[[> :SearchSimpleRelations]]'
+                search-profile='[[> :SearchSimpleProfile]]'
+              >
+                [[> :SearchSimplePhotographerView]]
+                </semantic-search>
+              </bs-tab-pane>
+            </bs-tab-content>
+          </div>
+        </bs-tab-container>
+    </div>
+  </div>
+</div>
+[[/:ClipboardSidebar]]
+<style>
+  .navbar-default {
+  box-shadow: none !important
+}
+</style>

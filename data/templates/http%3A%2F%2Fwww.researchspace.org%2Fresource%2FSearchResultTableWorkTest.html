@@ -1,0 +1,78 @@
+<semantic-table
+  id="semantic-search-result-table"
+  query='SELECT?subject WHERE {
+   
+} LIMIT 100'
+  options='{"showFilter":true, "pageSizeSelection": true,"resultsPerPage":10}'
+  number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
+  column-configuration='[
+{
+  "displayName": "Image", 
+  "cellTemplate": "{{>tableImageTemplate}}"
+},
+{"variableName": "subject", "displayName": "Title"},
+{ "displayName": "Date",  "cellTemplate": "{{>tableDateTemplate}}"},
+{ "displayName": "Creator",  "cellTemplate": "{{>tableCreatorTemplate}}"},
+{ "displayName": "Repository",  "cellTemplate": "{{>tableRepositoryTemplate}}"},
+{ "displayName": "Photo archive",  "cellTemplate": "{{>tableProviderTemplate}}"}
+]'
+>
+  <template id="tableImageTemplate">
+    <div class="thumbnailImageContainerTabular">
+      <scroll-to-top querySelector=".pagination li"></scroll-to-top>
+      <semantic-query
+      query='
+      SELECT ?image WHERE{
+        OPTIONAL{
+          {{subject}} fr:Work_depicted_by_Photo ?photo.
+          ?photo crm:P129i_is_subject_of ?fullsizeImgUrl.
+          ?fullsizeImgUrl crm:P2_has_type <http://vocab.getty.edu/aat/300078817>.
+          BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/!100,100") as ?smallerImgUrl)
+        }
+        BIND("/assets/images/media/image_placeholder.jpg" as ?default_imageUrl)
+        BIND(coalesce(?smallerImgUrl, ?default_imageUrl) as ?image)
+      }LIMIT 1
+      '
+      
+      
+      template="{{>tableImage}}">
+        <template id="tableImage">
+          <img alt="   " class="thumbnailImageTabular" src="{{bindings.0.image.value}}" />
+        </template>
+      </semantic-query>
+    </div>
+  </template>
+  <template id="tableDateTemplate">
+    <semantic-query
+    query='
+    SELECT ?date WHERE{
+      {{subject}} fr:Work_from_Date ?date.    
+    }LIMIT 1
+    '></semantic-query>
+  </template>
+  <template id="tableCreatorTemplate">
+    <semantic-query
+    query='
+    SELECT ?creator WHERE{
+      {{subject}} fr:Work_created_from_Artist ?creator.
+    }LIMIT 1
+    '></semantic-query>
+  </template>
+  <template id="tableRepositoryTemplate">
+    <semantic-query
+    query='
+    SELECT ?repository WHERE{
+      ?originalSubject owl:sameAs {{subject}}.
+      ?originalSubject  crm:P50_has_current_keeper ?repository.  
+    }LIMIT 1
+    '></semantic-query>
+  </template>
+  <template id="tableProviderTemplate">
+    <semantic-query
+    query='
+    SELECT ?provider WHERE{
+      {{subject}} fr:Work_has_provider_Institution ?provider.    
+    }LIMIT 1
+    '></semantic-query>
+  </template>
+</semantic-table>
