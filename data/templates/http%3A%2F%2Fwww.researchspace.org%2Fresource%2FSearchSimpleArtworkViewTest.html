@@ -1,7 +1,7 @@
   <semantic-context repository='ephedra'>
 <semantic-query query='
 SELECT ?token WHERE{
-  BIND(REPLACE("[[urlParam "keyword"]]"," ", " AND ") as ?token)
+  BIND(REPLACE("[[urlParam "keyword"]]","(?<!^)(?<!\\s)\\s+(?!\\s+)(?!$)", " AND ") as ?token)
 }
 '
 template="{{>addAndTemplate}}"
