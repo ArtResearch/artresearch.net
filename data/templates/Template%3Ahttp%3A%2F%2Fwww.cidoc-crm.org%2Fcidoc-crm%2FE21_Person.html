@@ -15,7 +15,17 @@
       <div>
         <bs-nav bs-style="tabs">
           <bs-nav-item event-key="summary">Summary</bs-nav-item>
-           <bs-nav-item event-key="artworks">Artworks</bs-nav-item>
+          [[#if (ask "ASK {?work fr:Work_created_from_Artist ?? }") ]] 
+          <bs-nav-item event-key="artworks"><div style="display:flex;">Artworks
+            (
+              <semantic-query query='
+               SELECT (COUNT(DISTINCT ?artwork) AS ?count) WHERE{
+                ?? fr:Artist_created_Work ?artwork
+               }
+             '></semantic-query>)
+            </div>
+           </bs-nav-item>
+           [[/if]]
           <!-- <bs-nav-item event-key="annotations">
             Annotations <semantic-context repository='assets'><semantic-query query="SELECT (COUNT(DISTINCT ?s) AS ?count) WHERE {
               ?s <http://www.ics.forth.gr/isl/CRMdig/L43_annotates> ??;
