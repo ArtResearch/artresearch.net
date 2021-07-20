@@ -5,21 +5,12 @@ default-query='
 PREFIX fts: <http://www.bigdata.com/rdf/fts#>
   SELECT ?subject ?keywords WHERE {
     ?subject fts:search "[[urlParam "keyword"]]";
-    fts:endpoint "http://213.171.209.34:8983/solr/artworks_weighted/select"  ;
+    fts:endpoint "http://213.171.209.34:8983/solr/artworks/select"  ;
     fts:endpointType "SOLR" ;
-    fts:params "defType=dismax&rows=10000";
-    fts:searchField "uri" ;
+    fts:params "defType=dismax";
+    fts:searchField "id" ;
     fts:fieldToSearch "*" ;
-    fts:searchResultType "URI" ;
-    <http://www.bigdata.com/rdf/fts#scoreField>    "field_score";
-    <http://www.bigdata.com/rdf/fts#score>   ?score.
-    BIND(
-      COALESCE(
-        IF("[[urlParam "withimages"]]" = "true", fr:Work_depicted_by_Photo, 1/0),
-        rdfs:label
-      ) AS ?withImageOption
-    )
-    FILTER(EXISTS{?subject ?withImageOption ?something})
+    fts:searchResultType "URI".
     BIND(REPLACE(str("[[urlParam "keyword"]]"),"\\+"," ") as ?keywords)
   }
 '
