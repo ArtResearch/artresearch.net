@@ -1,20 +1,13 @@
-
+  <semantic-context repository='ephedra'>
 <semantic-query query='
-PREFIX solr: <http://custom.solr/ontology#>
-  SELECT ?subject WHERE {
-    SERVICE <http://www.researchspace.org/resource/system/service/custom#solrworks>{
-      ?solrApi solr:setQuery "[[urlParam "keyword"]]";
-                solr:setDefType "dismax";
-                solr:setFilter "id";
-                solr:setRowsNumber [[urlParam "selectedlimit"]];
-                solr:hasResults ?subject
-    }
-  }
-'   
-  template='{{>templateah}}'
+SELECT ?token WHERE{
+  BIND(REPLACE("[[urlParam "keyword"]]"," ", " AND ") as ?token)
+}
+'
+template="{{>addAndTemplate}}"
 >
-<template id="templateah">
-  <semantic-context repository='default'>
+<template id="addAndTemplate">
+
 <div>
     <semantic-search-query-keyword
 placeholder='You searched for [[urlParam "keyword"]], but you can search for anything!'
@@ -22,13 +15,15 @@ domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
 default-query='
 PREFIX solr: <http://custom.solr/ontology#>
   SELECT ?subject WHERE {
-    VALUES ?subject
-    {
-        {{#each bindings}}
-            {{subject}}
-        {{/each}}
+    SERVICE <http://www.researchspace.org/resource/system/service/custom#solrworks>{
+      ?solrApi solr:setQuery "{{bindings.0.token.value}}";
+                solr:setDefType "dismax";
+                solr:setFilter "id";
+                solr:setRowsNumber [[urlParam "selectedlimit"]];
+                solr:hasResults ?subject
     }
-  }'
+  }
+  '
 query='
 SELECT ?nothing WHERE{
   ?nothing a <http://this_is_hidden_and_will_never_run>
@@ -138,7 +133,8 @@ class="hiddenSearchbar"
 </bs-col>
 </div>
 </div>
-</semantic-context>
+
 </template>
 </semantic-query>
+</semantic-context>
 
