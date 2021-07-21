@@ -20,7 +20,8 @@
             (
               <semantic-query query='
                SELECT (COUNT(DISTINCT ?artwork) AS ?count) WHERE{
-                ?? fr:Place_of_Work ?subject.
+                ?? fr:Place_of_Work ?artwork.
+                ?artwork a fc:work
                }
              '></semantic-query>)
             </div>
@@ -35,8 +36,10 @@
              <h1 style="margin-left:10px"><semantic-query query='
              SELECT (COUNT(DISTINCT ?artwork) AS ?count) WHERE{
                {
-                 ?? fr:Place_of_Work ?artwork
+                 ?? fr:Place_of_Work ?artwork.
+                 ?artwork a fc:work
                }UNION{
+                ?artwork a fc:work.
                 ?work owl:sameAs ?artwork.
                 ?work crm:P55_has_current_location ??
                }

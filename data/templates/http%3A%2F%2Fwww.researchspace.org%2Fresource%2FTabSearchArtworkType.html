@@ -138,12 +138,19 @@
                 default-query='
                 SELECT DISTINCT ?subject WHERE {
                   {
-                    ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ??.
+                    ?subject crm:P33_used_specific_technique  ??.
+                  }union {
+                    ?subject crm:P45_consists_of  ??.
+                  }union 
+                  {
+                    ?subject crm:P2_has_type ??.
+                  }union{
+                    ?subject fr:Work_produced_using_technique_Technique ??.
                   }union{
                     ?subject fr:Work_depicted_by_Photo ?photo.
                     ?photo fr:Photo_produced_using_Technique|crm:P45_consists_of ??
                   }
-                  ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
+                  ?subject a fc:work.
                 }LIMIT 100'
                 query='
                         SELECT DISTINCT ?subject WHERE {

@@ -21,7 +21,8 @@
               <semantic-query query='
                SELECT (COUNT(DISTINCT ?artwork) AS ?count) WHERE{
                 ?? fr:Artist_created_Work ?artwork
-               }
+                ?artwork a fc:work
+              }
              '></semantic-query>)
             </div>
            </bs-nav-item>
