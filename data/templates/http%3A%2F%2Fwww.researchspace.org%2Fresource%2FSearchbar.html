@@ -25,11 +25,6 @@ data-position="bottom"
         <form>
           <input
             type="hidden"
-            name="withimages"
-            value='{{#if withImages}}{{withImages}}{{else}}{{#ifCond (objectLength "[[urlParam "withimages"]]") "!==" 0}}[[urlParam "withimages"]]{{else}}false{{/ifCond}}{{/if}}'
-          />
-          <input
-            type="hidden"
             name="selectedtab"
             value='{{#if selectedTab}}{{selectedTab}}{{else}}{{#ifCond (objectLength "[[urlParam "selectedtab"]]") "!==" 0}}[[urlParam "selectedtab"]]{{else}}Artworks{{/ifCond}}{{/if}}'
           />
