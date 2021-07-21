@@ -1,76 +1,154 @@
-[[#>:ClipboardSidebar]]
 <div id="filter-search" class="row row-center no-margin">
   <div id="main-containers" class="col-md-10">
+<h1>Search for Artworks</h1>
+<h2>All options must be filled. If you do not need one option simply click on remove.</h2>
 
-    <div id="simple-search-include"  class="super-tabs">
 
-        <bs-tab-container
-          id="tab-container"
-          class="page__body-navtabs--borderless"
-          default-active-key='Artworks'
-        >
-          <div>
-            <bs-nav bs-style="tabs">
-              <bs-nav-item event-key="Artworks">Artworks</bs-nav-item>
-              <bs-nav-item event-key="Photographs">Photographs</bs-nav-item>
-              <bs-nav-item event-key="Artists">Artists</bs-nav-item>
-              <!-- <bs-nav-item event-key="Photographers">Photographers</bs-nav-item> -->
-            </bs-nav>
+<mp-event-trigger
+id="reset-form"
+data='{}'
+type="Component.TemplateUpdate"
+targets='["event-target-form-query"]'
+>
+<span style="margin-left: 6px"><strong>Reset form</strong></span>
+</mp-event-trigger>
+    <mp-event-target-template-render
+  id="event-target-form-query"
+  template="{{> tableEventTargetFormQueryTemplate}}"
+>  <template id="tableEventTargetFormQueryTemplate"> 
+    <semantic-search-form-query
+      query-template='{
+                      "queryString": "
+                        PREFIX ex: <http://example.com/resource/>
+                        SELECT ?subject WHERE {
+                        {{#ifCond titleHidden "!==" "true" }}
+                            ?subject rdfs:label ?title .
+                        {{/ifCond}}
+                        {{#ifCond creatorHidden "!==" "true" }}
+                            ?subject fr:Work_created_from_Artist ?creator .
+                        {{/ifCond}}
+                        }
+                      ",
+                      "arguments": {
+                        "secretInput":{"type": "xsd:string", "optional": true}
+                       {{#ifCond creatorHidden "!==" "true" }}
+                       ,"creator": {"type": "xsd:anyURI"}
+                        {{/ifCond}}
+                        {{#ifCond titleHidden "!==" "true" }}
+                        ,"title": {"type": "xsd:string"}
+                        {{/ifCond}}
+                      }
+                    }'
+      fields='[
+        { "id": "secretInput",
+        "label": "Secret Input",
+        "xsdDatatype": "xsd:string",
+        "autosuggestionPattern": "
+          PREFIX fts: <http://www.bigdata.com/rdf/fts#>
+          SELECT DISTINCT ?value ?label  WHERE {
+            ?value rdfs:label ?label
+          }LIMIT 1"
+        }
+        {{#ifCond creatorHidden "!==" "true" }}
+        ,{
+          "id": "creator",
+          "label": "Creator",
+          "minOccurs":1,
+          "xsdDatatype": "xsd:anyURI",
+          "autosuggestionPattern": "
+            PREFIX fts: <http://www.bigdata.com/rdf/fts#>
+            SELECT DISTINCT ?value ?label  WHERE {
+              ?value fts:search ?__token__ .
+              ?value fts:endpoint \"http://213.171.209.34:8983/solr/artists_weighted/select\".
+              ?value fts:endpointType \"SOLR\" .
+              ?value fts:params \"rows=10\" .
+              ?value fts:searchField \"uri\" .
+              ?value fts:fieldToSearch \"*\" .
+              ?value fts:snippetField \"*\" .
+              ?value fts:searchResultType \"URI\" ;
+              <http://www.bigdata.com/rdf/fts#scoreField>    \"field_score\";
+              <http://www.bigdata.com/rdf/fts#score>   ?score;
+              rdfs:label ?label.
+            }"
+        }
+        {{/ifCond}}
+        {{#ifCond titleHidden "!==" "true" }}
+        ,{
+          "id": "title",
+          "label": "Title",
+          "minOccurs":1,
+          "xsdDatatype": "xsd:string",
+          "selectPattern": "
+            PREFIX fts: <http://www.bigdata.com/rdf/fts#>
+            SELECT DISTINCT ?value ?label  WHERE {
+              ?value fts:search ?__token__ .
+              ?value fts:endpoint \"http://213.171.209.34:8983/solr/artworks_weighted/select\".
+              ?value fts:endpointType \"SOLR\" .
+              ?value fts:params \"rows=10\" .
+              ?value fts:searchField \"uri\" .
+              ?value fts:fieldToSearch \"*\" .
+              ?value fts:snippetField \"*\" .
+              ?value fts:searchResultType \"URI\" ;
+              <http://www.bigdata.com/rdf/fts#scoreField>    \"field_score\";
+              <http://www.bigdata.com/rdf/fts#score>   ?score;
+              rdfs:label ?label.
+            }"
+        }
+        {{/ifCond}}
+    ]'
+    >
 
-            <bs-tab-content unmount-on-exit="true">
-              <bs-tab-pane event-key="Artworks">
-
-                <h1>Search for Artworks</h1>
-                <h2>Click on any option to add to the advanced search form</h2>
-
-                <mp-event-trigger id='agsdlue' data='{"creator":"true"}' targets='["event-target-form-query"]'>
-                    <span style="margin-left:6px;"><strong>Creator</strong></span>
-                </mp-event-trigger>
-
-                
-                <mp-event-target-template-render
-                id="event-target-form-query"
-                template="{{> tableEventTargetFormQueryTemplate}}"
-              >
-                <template id="tableEventTargetFormQueryTemplate">
-                {{creator}}s
-                </template>
-              </mp-event-target-template-render>
-            
-              </bs-tab-pane>
-              <bs-tab-pane event-key="Photographs">
-                <semantic-search
-                relations='[[> :SearchSimpleRelations]]'
-                search-profile='[[> :SearchSimpleProfile]]'
-              >
-                [[> :SearchSimplePhotoView]]
-                </semantic-search>
-              </bs-tab-pane>
-              <bs-tab-pane event-key="Artists">
-                <semantic-search
-                relations='[[> :SearchSimpleRelations]]'
-                search-profile='[[> :SearchSimpleProfile]]'
-              >
-                [[> :SearchSimpleArtistView]]
-                </semantic-search>
-              </bs-tab-pane>
-              <bs-tab-pane event-key="Photographers">
-                <semantic-search
-                relations='[[> :SearchSimpleRelations]]'
-                search-profile='[[> :SearchSimpleProfile]]'
-              >
-                [[> :SearchSimplePhotographerView]]
-                </semantic-search>
-              </bs-tab-pane>
-            </bs-tab-content>
-          </div>
-        </bs-tab-container>
-    </div>
+    {{#ifCond titleHidden "!==" "true" }}
+      <semantic-form-text-input for="title"></semantic-form-text-input>
+      <mp-event-trigger
+      id="remove-title"
+      data='{"titleHidden":"true",
+      "creatorHidden":"{{#if creatorHidden}}{{creatorHidden}}{{else}}false{{/if}}",
+      "materialHidden":"{{#if materialHidden}}{{materialHidden}}{{else}}false{{/if}}",
+      "techniqueHidden":"{{#if techniqueHidden}}{{techniqueHidden}}{{else}}false{{/if}}",
+      "typeHidden":"{{#if typeHidden}}{{typeHidden}}{{else}}false{{/if}}",
+      "creationDateHidden":"{{#if creationDateHidden}}{{creationDateHidden}}{{else}}false{{/if}}",
+      "subjectHidden":"{{#if subjectHidden}}{{subjectHidden}}{{else}}false{{/if}}",
+      "repositoryHidden":"{{#if repositoryHidden}}{{repositoryHidden}}{{else}}false{{/if}}",
+      "historyHidden":"{{#if historyHidden}}{{historyHidden}}{{else}}false{{/if}}"}'
+      type="Component.TemplateUpdate"
+      targets='["event-target-form-query"]'
+    >
+      <span style="margin-left: 6px"><strong>Remove title</strong></span>
+    </mp-event-trigger>
+    {{/ifCond}}
+    {{#ifCond creatorHidden "!==" "true" }}
+      <semantic-form-autocomplete-input
+        for="creator"
+      ></semantic-form-autocomplete-input>
+      <mp-event-trigger
+      id="remove-title"
+      data='{"titleHidden":"{{#if titleHidden}}{{titleHidden}}{{else}}false{{/if}}",
+      "creatorHidden":"true",
+      "materialHidden":"{{#if materialHidden}}{{materialHidden}}{{else}}false{{/if}}",
+      "techniqueHidden":"{{#if techniqueHidden}}{{techniqueHidden}}{{else}}false{{/if}}",
+      "typeHidden":"{{#if typeHidden}}{{typeHidden}}{{else}}false{{/if}}",
+      "creationDateHidden":"{{#if creationDateHidden}}{{creationDateHidden}}{{else}}false{{/if}}",
+      "subjectHidden":"{{#if subjectHidden}}{{subjectHidden}}{{else}}false{{/if}}",
+      "repositoryHidden":"{{#if repositoryHidden}}{{repositoryHidden}}{{else}}false{{/if}}",
+      "historyHidden":"{{#if historyHidden}}{{historyHidden}}{{else}}false{{/if}}"}'
+      type="Component.TemplateUpdate"
+      targets='["event-target-form-query"]'
+    >
+      <span style="margin-left: 6px"><strong>Remove creator</strong></span>
+    </mp-event-trigger>
+    {{/ifCond}}
+    <semantic-form-hidden-input for="secretInput" default-value='nope'></semantic-form-hidden-input>
+      <button type="button" name="submit" class="btn btn-secondary">
+        Search
+      </button>
+    </semantic-search-form-query>
+  </template>
+  </mp-event-target-template-render>
   </div>
 </div>
-[[/:ClipboardSidebar]]
 <style>
   .navbar-default {
-  box-shadow: none !important
-}
+    box-shadow: none !important;
+  }
 </style>
