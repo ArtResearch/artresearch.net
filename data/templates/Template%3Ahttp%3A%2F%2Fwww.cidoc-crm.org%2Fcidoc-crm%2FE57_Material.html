@@ -18,6 +18,7 @@
               (
                 <semantic-query query='
                  SELECT (COUNT(DISTINCT ?artwork) AS ?count) WHERE{
+                  ?artwork a fc:work.
                   ?artwork <http://www.cidoc-crm.org/cidoc-crm/P45_consists_of> ??.
                  }
                '></semantic-query>)

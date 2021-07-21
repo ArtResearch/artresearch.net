@@ -18,6 +18,7 @@
               (
                 <semantic-query query='
                  SELECT (COUNT(DISTINCT ?artwork) AS ?count) WHERE{
+                  ?artwork a fc:work.
                   ?artwork fr:Photo_produced_using_Technique|crm:P33_used_specific_technique|fr:Work_produced_using_technique_Technique|crm:P2_has_type|crm:P45_consists_of  ??
                  }
                '></semantic-query>)

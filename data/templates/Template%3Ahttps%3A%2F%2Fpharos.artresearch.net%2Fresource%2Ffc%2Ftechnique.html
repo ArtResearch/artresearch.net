@@ -2,7 +2,7 @@
   <div class="page rs-page">
     [[#> :ClipboardSidebar]]
     <div class="page__header-navtabs">
-      [[> :Header ]]
+      [[> :Header ]]sss
     </div>
   
     [[#if (urlParam "tab")]]
@@ -13,11 +13,12 @@
         <div>
           <bs-nav bs-style="tabs">
             <bs-nav-item event-key="summary">Summary</bs-nav-item>
-            [[#if (ask "ASK {  { ?artwork <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ??.}union{?artwork fr:Work_depicted_by_Photo ?photo. ?photo fr:Photo_produced_using_Technique|crm:P45_consists_of ??} ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>. }") ]] 
+            [[#if (ask "ASK {  { ?artwork <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ??.}union{?artwork fr:Work_depicted_by_Photo ?photo. ?photo fr:Photo_produced_using_Technique|crm:P45_consists_of ??}union{ ?artwork fr:Work_produced_using_technique_Technique ??} ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>. }") ]] 
             <bs-nav-item event-key="artworks"><div style="display:flex;">Artworks
               (
                 <semantic-query query='
                  SELECT (COUNT(DISTINCT ?artwork) AS ?count) WHERE{
+                  ?artwork a fc:work.
                   ?artwork fr:Photo_produced_using_Technique|crm:P33_used_specific_technique|fr:Work_produced_using_technique_Technique|crm:P2_has_type|crm:P45_consists_of  ??
                  }
                '></semantic-query>)

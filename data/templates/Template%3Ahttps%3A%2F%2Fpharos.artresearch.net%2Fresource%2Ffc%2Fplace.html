@@ -18,7 +18,8 @@
           <bs-nav-item event-key="artworks"><div style="display:flex;">Artworks(
             <semantic-query query='
              SELECT (COUNT(DISTINCT ?artwork) AS ?count) WHERE{
-               ?? fr:Place_of_Work ?artwork
+              ?artwork a fc:work. 
+              ?? fr:Place_of_Work ?artwork
              }
            '></semantic-query>)</div>
           </bs-nav-item>

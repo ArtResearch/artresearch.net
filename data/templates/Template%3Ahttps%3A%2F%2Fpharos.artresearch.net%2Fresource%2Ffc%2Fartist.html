@@ -20,6 +20,7 @@
             (
               <semantic-query query='
                SELECT (COUNT(DISTINCT ?artwork) AS ?count) WHERE{
+                ?artwork a fc:work.
                 ?? fr:Artist_created_Work ?artwork
                }
              '></semantic-query>)
