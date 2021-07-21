@@ -9,6 +9,11 @@
   <template id="addAndTemplate">
   
   <div>
+    <mp-event-target-template-render
+    id="event-target-tables"
+    template="{{> tableEventTargetTemplate}}"
+  >
+    <template id="tableEventTargetTemplate">
       <semantic-search-query-keyword
   placeholder='You searched for [[urlParam "keyword"]], but you can search for anything!'
   domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
@@ -22,6 +27,12 @@
                   solr:setRowsNumber 1000;
                   solr:hasResults ?subject
       }
+      {{#ifCond withImages "===" "true"}}
+        ?subject fr:Work_depicted_by_Photo ?photo.
+        ?photo crm:P129i_is_subject_of ?fullsizeImgUrl.
+        ?fullsizeImgUrl crm:P2_has_type <http://vocab.getty.edu/aat/300078817>.
+        BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/!100,100") as ?smallerImgUrl)
+      {{/ifCond}}
     }
     '
   query='
@@ -31,7 +42,7 @@
   '
   class="hiddenSearchbar"
   ></semantic-search-query-keyword>
-  
+  </template></mp-event-target-template-render>
   <div class="row">
   <bs-col
     lg="3"
@@ -48,11 +59,6 @@
   <bs-col lg="9" md="8" sm="7">
     <semantic-search-result-holder>
       <div>
-        <mp-event-target-template-render
-        id="event-target-tables"
-        template="{{> tableEventTargetTemplate}}"
-      >
-        <template id="tableEventTargetTemplate">
       <semantic-search-result>
         <semantic-query
           id="view-more"
@@ -71,10 +77,6 @@
         <semantic-query
           id="view-more"
           query='SELECT (COUNT(DISTINCT ?subject) as ?count) WHERE {
-            {{#ifCond withImages "===" "true"}}
-              ?subject fr:Work_depicted_by_Photo ?photo.
-              ?photo crm:P129i_is_subject_of ?fullsizeImgUrl.
-            {{/ifCond}}
           } LIMIT 1'
           template="{{>currentResultCount}}"
         >
@@ -98,10 +100,6 @@
           <semantic-table
           id="grid-result"
           query='SELECT DISTINCT  ?subject  WHERE {
-            {{#ifCond withImages "===" "true"}}
-              ?subject fr:Work_depicted_by_Photo ?photo.
-              ?photo crm:P129i_is_subject_of ?fullsizeImgUrl.
-            {{/ifCond}}
           }LIMIT 100'
           number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
           tuple-template="{{> subjectCellTemplate}}"
@@ -122,8 +120,6 @@
         </bs-tabs>
       </semantic-search-result>
       [[> :NumberOfRowsSelector]]
-    </template>
-      </mp-event-target-template-render>
       </div>
     </semantic-search-result-holder>
   </bs-col>
