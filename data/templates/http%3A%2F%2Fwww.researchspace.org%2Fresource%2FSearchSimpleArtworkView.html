@@ -28,10 +28,9 @@
                   solr:hasResults ?subject
       }
       {{#ifCond withImages "===" "true"}}
-        ?subject fr:Work_depicted_by_Photo ?photo.
-        ?photo crm:P129i_is_subject_of ?fullsizeImgUrl.
-        ?fullsizeImgUrl crm:P2_has_type <http://vocab.getty.edu/aat/300078817>.
-        BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/!100,100") as ?smallerImgUrl)
+        ?subject fr:Work_depicted_by_Photo ?photograph.
+        ?photograph crm:P129i_is_subject_of ?images.
+        ?images crm:P2_has_type <http://vocab.getty.edu/aat/300078817>.
       {{/ifCond}}
     }
     '
