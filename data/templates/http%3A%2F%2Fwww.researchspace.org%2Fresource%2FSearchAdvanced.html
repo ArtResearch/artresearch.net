@@ -1,42 +1,52 @@
 <div id="filter-search" class="row row-center no-margin">
   <div id="main-containers" class="col-md-10">
 <h1>Search for Artworks</h1>
-<h2>All options must be filled. If you do not need one option simply click on remove.</h2>
-
-
-<mp-event-trigger
-id="reset-form"
-data='{}'
-type="Component.TemplateUpdate"
-targets='["event-target-form-query"]'
+<h2>All form options must be filled. If you do not need one option simply click on remove.</h2>
+<semantic-context repository='ephedra'>
+<semantic-search
+relations='[[> :SearchSimpleRelations]]'
+search-profile='[[> :SearchSimpleProfile]]'
 >
-<span style="margin-left: 6px"><strong>Reset form</strong></span>
-</mp-event-trigger>
-    <mp-event-target-template-render
+
+  <mp-event-trigger
+  id="reset-form"
+  data='{}'
+  type="Component.TemplateUpdate"
+  targets='["event-target-form-query"]'
+  >
+  <span style="margin-left: 6px"><strong>Reset form</strong></span>
+  </mp-event-trigger>
+  <mp-event-target-template-render
   id="event-target-form-query"
   template="{{> tableEventTargetFormQueryTemplate}}"
 >  <template id="tableEventTargetFormQueryTemplate"> 
     <semantic-search-form-query
       query-template='{
                       "queryString": "
-                        PREFIX ex: <http://example.com/resource/>
+                        PREFIX solr: <http://custom.solr/ontology#>
                         SELECT ?subject WHERE {
                         {{#ifCond titleHidden "!==" "true" }}
-                            ?subject rdfs:label ?title .
+                        SERVICE <http://www.researchspace.org/resource/system/service/custom#solrworks>{
+                          ?solrApi solr:setQuery ?title;
+                                  solr:setDefType \"dismax\";
+                                  solr:setFilter \"id\";
+                                  solr:setRowsNumber 1000;
+                                  solr:hasResults ?subject.
+                        }
                         {{/ifCond}}
                         {{#ifCond creatorHidden "!==" "true" }}
                             ?subject fr:Work_created_from_Artist ?creator .
                         {{/ifCond}}
-                        }
+                        }LIMIT 1000
                       ",
                       "arguments": {
-                        "secretInput":{"type": "xsd:string", "optional": true}
-                       {{#ifCond creatorHidden "!==" "true" }}
-                       ,"creator": {"type": "xsd:anyURI"}
-                        {{/ifCond}}
-                        {{#ifCond titleHidden "!==" "true" }}
-                        ,"title": {"type": "xsd:string"}
-                        {{/ifCond}}
+                      "secretInput":{"type": "xsd:string", "optional": true}
+                      {{#ifCond creatorHidden "!==" "true" }}
+                        ,"creator": {"type": "xsd:anyURI"}
+                      {{/ifCond}}
+                      {{#ifCond titleHidden "!==" "true" }}
+                      ,"title": {"type": "xsd:string"}
+                      {{/ifCond}}
                       }
                     }'
       fields='[
@@ -77,22 +87,7 @@ targets='["event-target-form-query"]'
           "id": "title",
           "label": "Title",
           "minOccurs":1,
-          "xsdDatatype": "xsd:string",
-          "selectPattern": "
-            PREFIX fts: <http://www.bigdata.com/rdf/fts#>
-            SELECT DISTINCT ?value ?label  WHERE {
-              ?value fts:search ?__token__ .
-              ?value fts:endpoint \"http://213.171.209.34:8983/solr/artworks_weighted/select\".
-              ?value fts:endpointType \"SOLR\" .
-              ?value fts:params \"rows=10\" .
-              ?value fts:searchField \"uri\" .
-              ?value fts:fieldToSearch \"*\" .
-              ?value fts:snippetField \"*\" .
-              ?value fts:searchResultType \"URI\" ;
-              <http://www.bigdata.com/rdf/fts#scoreField>    \"field_score\";
-              <http://www.bigdata.com/rdf/fts#score>   ?score;
-              rdfs:label ?label.
-            }"
+          "xsdDatatype": "xsd:string"
         }
         {{/ifCond}}
     ]'
@@ -145,6 +140,75 @@ targets='["event-target-form-query"]'
     </semantic-search-form-query>
   </template>
   </mp-event-target-template-render>
+  <div class="row">
+  <bs-col
+    lg="3"
+    md="4"
+    sm="5"
+    class="fade-in-fwd filters-container"
+    style="margin-top: 8px"
+    id="artwork-filter-search"
+  >
+  <bs-panel id="filter-panel" header="Filters"  collapsible="true" default-expanded="true">
+    <semantic-search-facet open-by-default="true"></semantic-search-facet>
+  </bs-panel>
+  </bs-col>
+  <bs-col lg="9" md="8" sm="7">
+    <semantic-search-result-holder>
+      <div>
+      <semantic-search-result>
+        <semantic-query
+          id="view-more"
+          query='SELECT (COUNT(DISTINCT ?subject) as ?count) WHERE {
+          } LIMIT 1'
+          template="{{>currentResultCount}}"
+        >
+          <template id="currentResultCount">
+            <h2>
+                Found {{bindings.0.count.value}} relevant results
+            </h2>
+          </template>
+        </semantic-query>
+        <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
+        [[> :SearchbarSwitches]]
+        <bs-tabs
+        default-active-key="1"
+        unmount-on-exit="true"
+        id="search-results"
+        animation="false"
+        class="tabs-right"
+      >
+        <bs-tab event-key="1" title="List">
+          <div id='artwork-filter-search-inline'>
+          <semantic-table
+          id="grid-result"
+          query='SELECT DISTINCT  ?subject  WHERE {
+          }LIMIT 100'
+          number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
+          tuple-template="{{> subjectCellTemplate}}"
+          options='{"showTableHeading": false, "showFilter":false}'
+          no-result-template='[[> :CardNoResult ]]'
+        >
+          <template id="subjectCellTemplate">
+            [[> :CardArtwork]]
+          </template>
+        </semantic-table>
+        </div>
+      </bs-tab>
+        <bs-tab event-key="2" title="Tabular">
+          <div id="tableView">
+            [[> :SearchResultTableWorkSolr]]
+          </div>
+        </bs-tab>
+        </bs-tabs>
+      </semantic-search-result>
+      </div>
+    </semantic-search-result-holder>
+  </bs-col>
+  </div>
+
+</semantic-search>
+</semantic-context>
   </div>
 </div>
 <style>
