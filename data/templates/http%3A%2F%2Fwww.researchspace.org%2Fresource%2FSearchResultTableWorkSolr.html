@@ -21,21 +21,12 @@
       ?originalSubject owl:sameAs ?subject.
       ?originalSubject  crm:P50_has_current_keeper ?repository.
     }
-    {{#ifCond withImages "===" "true"}}
-    ?subject fr:Work_depicted_by_Photo ?photo.
-    ?photo crm:P129i_is_subject_of ?fullsizeImgUrl.
-    ?fullsizeImgUrl crm:P2_has_type <http://vocab.getty.edu/aat/300078817>.
-    BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/!100,100") as ?smallerImgUrl)
-   {{else}}
     OPTIONAL{
         ?subject fr:Work_depicted_by_Photo ?photo.
         ?photo crm:P129i_is_subject_of ?fullsizeImgUrl.
         ?fullsizeImgUrl crm:P2_has_type <http://vocab.getty.edu/aat/300078817>.
         BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/!100,100") as ?smallerImgUrl)
       }
-   {{/ifCond}}
-
-
     BIND("/assets/images/media/image_placeholder.jpg" as ?default_imageUrl)
     BIND(coalesce(?smallerImgUrl, ?default_imageUrl) as ?image)
 }GROUP BY(?subject) LIMIT 100'
