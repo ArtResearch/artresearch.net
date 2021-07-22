@@ -52,6 +52,29 @@ search-profile='[[> :SearchSimpleProfile]]'
                     {{#ifCond typeHidden "!==" "true" }}
                     ?subject crm:P2_has_type ?technique .
                     {{/ifCond}}
+                    {{#ifCond creationDateHidden "!==" "true" }}
+                    ?subject fr:Work_from_Date ?creationDate.
+                    {{/ifCond}}
+                    {{#ifCond subjectHidden "!==" "true" }}
+                    ?subject fr:Work_shows_Subject ?workSubject.
+                    {{/ifCond}}
+                    {{#ifCond repositoryHidden "!==" "true" }}
+                    ?subject fr:Work_kept_by_Institution ?repository.
+                    {{/ifCond}}
+                    {{#ifCond historyHidden "!==" "true" }}
+                    {
+                        ?subject crm:P67i_is_referred_to_by ?information_object.
+                        ?information_object crm:P2_has_type <http://vocab.getty.edu/aat/300055863>.
+                        ?information_object crm:P190_has_symbolic_content ?label.
+                    } UNION {
+                        ?subject crm:P24i_changed_ownership_through ?acquisition.
+                        ?acquisition crm:P22_transferred_title_from|crm:P23_transferred_title_from ?value_uri.
+                        ?value_uri rdfs:label ?label.
+                    }
+                    ?label bds:search ?history .
+                    ?label bds:minRelevance \"0.3\"^^xsd:double.
+                    ?label bds:matchAllTerms \"true\".
+                    {{/ifCond}}
                     }LIMIT 1000
                   ",
                   "arguments": {
@@ -70,6 +93,18 @@ search-profile='[[> :SearchSimpleProfile]]'
                   {{/ifCond}}
                   {{#ifCond typeHidden "!==" "true" }}
                   ,"type": {"type": "xsd:anyURI"}
+                  {{/ifCond}}
+                  {{#ifCond creationDateHidden "!==" "true" }}
+                  ,"creationDate": {"type": "xsd:date"}
+                  {{/ifCond}}
+                  {{#ifCond subjectHidden "!==" "true" }}
+                  ,"workSubject": {"type": "xsd:anyURI"}
+                  {{/ifCond}}
+                  {{#ifCond repositoryHidden "!==" "true" }}
+                  ,"repository": {"type": "xsd:anyURI"}
+                  {{/ifCond}}
+                  {{#ifCond historyHidden "!==" "true" }}
+                  ,"history": {"type": "xsd:string"}
                   {{/ifCond}}
                   }
                 }'
@@ -276,6 +311,64 @@ search-profile='[[> :SearchSimpleProfile]]'
             }
         }
         {{/ifCond}}
+        {{#ifCond creationDateHidden "!==" "true" }}
+        ,{
+          "id": "creationDate",
+          "label": "Creation date",
+          "minOccurs":1,
+          "maxOccurs":100,
+          "xsdDatatype": "xsd:date"
+        }
+        {{/ifCond}}
+        {{#ifCond subjectHidden "!==" "true" }}
+        ,{
+          "id": "workSubject",
+          "label": "Subject",
+          "minOccurs":1,
+          "maxOccurs":100,
+          "xsdDatatype": "xsd:anyURI",
+          "autosuggestionPattern": "
+            SELECT DISTINCT ?value ?label  WHERE {
+              ?value a custom:subject.
+              ?value rdfs:label ?label.
+              ?label bds:search ?__token__ .
+              ?label bds:minRelevance \"0.3\"^^xsd:double.
+              ?label bds:matchAllTerms \"true\".
+              FILTER(EXISTS { 
+                 ?subject fr:Work_shows_Subject ?value . 
+              }) 
+             }ORDER BY DESC (?label)"
+        }
+        {{/ifCond}}
+        {{#ifCond repositoryHidden "!==" "true" }}
+        ,{
+          "id": "repository",
+          "label": "Repository",
+          "minOccurs":1,
+          "maxOccurs":100,
+          "xsdDatatype": "xsd:anyURI",
+          "autosuggestionPattern": "
+            SELECT DISTINCT ?value ?label  WHERE {
+              ?value a fc:institution.
+              ?value rdfs:label ?label.
+              ?label bds:search ?__token__ .
+              ?label bds:minRelevance \"0.3\"^^xsd:double.
+              ?label bds:matchAllTerms \"true\".
+              FILTER(EXISTS { 
+                 ?subject fr:Work_kept_by_Institution ?value . 
+              }) 
+             }ORDER BY DESC (?label)"
+        }
+        {{/ifCond}}
+        {{#ifCond historyHidden "!==" "true" }}
+        ,{
+          "id": "history",
+          "label": "History of ownership",
+          "minOccurs":1,
+          "maxOccurs":100,
+          "xsdDatatype": "xsd:string"
+        }
+        {{/ifCond}}
     ]'
     >
     <div class="input-boxes">
@@ -306,7 +399,7 @@ search-profile='[[> :SearchSimpleProfile]]'
         for="creator"
       ></semantic-form-autocomplete-input>
       <mp-event-trigger
-      id="remove-title"
+      id="remove-creator"
       data='{"titleHidden":"{{#if titleHidden}}{{titleHidden}}{{else}}false{{/if}}",
       "creatorHidden":"true",
       "materialHidden":"{{#if materialHidden}}{{materialHidden}}{{else}}false{{/if}}",
@@ -385,6 +478,98 @@ search-profile='[[> :SearchSimpleProfile]]'
       "subjectHidden":"{{#if subjectHidden}}{{subjectHidden}}{{else}}false{{/if}}",
       "repositoryHidden":"{{#if repositoryHidden}}{{repositoryHidden}}{{else}}false{{/if}}",
       "historyHidden":"{{#if historyHidden}}{{historyHidden}}{{else}}false{{/if}}"}'
+      type="Component.TemplateUpdate"
+      targets='["event-target-form-query"]'
+    >
+      <span class="fa fa-remove clickable"><strong>Remove</strong></span>
+      </mp-event-trigger>
+    </div>
+    {{/ifCond}}
+    {{#ifCond creationDateHidden "!==" "true" }}
+    <div class="input-trigger-group">
+      <semantic-form-datetime-input
+        for="creationDate"
+      ></semantic-form-datetime-input>
+      <mp-event-trigger
+      id="remove-creationDate"
+      data='{"titleHidden":"{{#if titleHidden}}{{titleHidden}}{{else}}false{{/if}}",
+      "creatorHidden":"{{#if creatorHidden}}{{creatorHidden}}{{else}}false{{/if}}",
+      "materialHidden":"{{#if materialHidden}}{{materialHidden}}{{else}}false{{/if}}",
+      "techniqueHidden":"{{#if techniqueHidden}}{{techniqueHidden}}{{else}}false{{/if}}",
+      "typeHidden":"{{#if typeHidden}}{{typeHidden}}{{else}}false{{/if}}",
+      "creationDateHidden":"true",
+      "subjectHidden":"{{#if subjectHidden}}{{subjectHidden}}{{else}}false{{/if}}",
+      "repositoryHidden":"{{#if repositoryHidden}}{{repositoryHidden}}{{else}}false{{/if}}",
+      "historyHidden":"{{#if historyHidden}}{{historyHidden}}{{else}}false{{/if}}"}'
+      type="Component.TemplateUpdate"
+      targets='["event-target-form-query"]'
+    >
+      <span class="fa fa-remove clickable"><strong>Remove</strong></span>
+      </mp-event-trigger>
+    </div>
+    {{/ifCond}}
+    {{#ifCond subjectHidden "!==" "true" }}
+    <div class="input-trigger-group">
+      <semantic-form-autocomplete-input
+        for="workSubject"
+      ></semantic-form-autocomplete-input>
+      <mp-event-trigger
+      id="remove-subject"
+      data='{"titleHidden":"{{#if titleHidden}}{{titleHidden}}{{else}}false{{/if}}",
+      "creatorHidden":"{{#if creatorHidden}}{{creatorHidden}}{{else}}false{{/if}}",
+      "materialHidden":"{{#if materialHidden}}{{materialHidden}}{{else}}false{{/if}}",
+      "techniqueHidden":"{{#if techniqueHidden}}{{techniqueHidden}}{{else}}false{{/if}}",
+      "typeHidden":"{{#if typeHidden}}{{typeHidden}}{{else}}false{{/if}}",
+      "creationDateHidden":"{{#if creationDateHidden}}{{creationDateHidden}}{{else}}false{{/if}}",
+      "subjectHidden":"true",
+      "repositoryHidden":"{{#if repositoryHidden}}{{repositoryHidden}}{{else}}false{{/if}}",
+      "historyHidden":"{{#if historyHidden}}{{historyHidden}}{{else}}false{{/if}}"}'
+      type="Component.TemplateUpdate"
+      targets='["event-target-form-query"]'
+    >
+      <span class="fa fa-remove clickable"><strong>Remove</strong></span>
+      </mp-event-trigger>
+    </div>
+    {{/ifCond}}
+    {{#ifCond repositoryHidden "!==" "true" }}
+    <div class="input-trigger-group">
+      <semantic-form-autocomplete-input
+        for="repository"
+      ></semantic-form-autocomplete-input>
+      <mp-event-trigger
+      id="remove-repository"
+      data='{"titleHidden":"{{#if titleHidden}}{{titleHidden}}{{else}}false{{/if}}",
+      "creatorHidden":"{{#if creatorHidden}}{{creatorHidden}}{{else}}false{{/if}}",
+      "materialHidden":"{{#if materialHidden}}{{materialHidden}}{{else}}false{{/if}}",
+      "techniqueHidden":"{{#if techniqueHidden}}{{techniqueHidden}}{{else}}false{{/if}}",
+      "typeHidden":"{{#if typeHidden}}{{typeHidden}}{{else}}false{{/if}}",
+      "creationDateHidden":"{{#if creationDateHidden}}{{creationDateHidden}}{{else}}false{{/if}}",
+      "subjectHidden":"{{#if subjectHidden}}{{subjectHidden}}{{else}}false{{/if}}",
+      "repositoryHidden":"true",
+      "historyHidden":"{{#if historyHidden}}{{historyHidden}}{{else}}false{{/if}}"}'
+      type="Component.TemplateUpdate"
+      targets='["event-target-form-query"]'
+    >
+      <span class="fa fa-remove clickable"><strong>Remove</strong></span>
+      </mp-event-trigger>
+    </div>
+    {{/ifCond}}
+    {{#ifCond historyHidden "!==" "true" }}
+    <div class="input-trigger-group">
+      <semantic-form-text-input
+        for="history"
+      ></semantic-form-text-input>
+      <mp-event-trigger
+      id="remove-history"
+      data='{"titleHidden":"{{#if titleHidden}}{{titleHidden}}{{else}}false{{/if}}",
+      "creatorHidden":"{{#if creatorHidden}}{{creatorHidden}}{{else}}false{{/if}}",
+      "materialHidden":"{{#if materialHidden}}{{materialHidden}}{{else}}false{{/if}}",
+      "techniqueHidden":"{{#if techniqueHidden}}{{techniqueHidden}}{{else}}false{{/if}}",
+      "typeHidden":"{{#if typeHidden}}{{typeHidden}}{{else}}false{{/if}}",
+      "creationDateHidden":"{{#if creationDateHidden}}{{creationDateHidden}}{{else}}false{{/if}}",
+      "subjectHidden":"{{#if subjectHidden}}{{subjectHidden}}{{else}}false{{/if}}",
+      "repositoryHidden":"{{#if historyHidden}}{{historyHidden}}{{else}}false{{/if}}",
+      "historyHidden":"true"}'
       type="Component.TemplateUpdate"
       targets='["event-target-form-query"]'
     >
