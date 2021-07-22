@@ -131,7 +131,8 @@ search-profile='[[> :SearchSimpleProfile]]'
             ?item a  fc:material.
             ?item a <http://vocab.getty.edu/ontology#Facet>.
             ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
-            FILTER(EXISTS { ?subject a fc:work . ?subject fr:Work_consists_of_Material ?item . }) .
+            FILTER ( lang(?label) = \"en\" ). 
+            FILTER(EXISTS {  ?subject fr:Work_consists_of_Material ?item . }) .
            }order by ?label",
            
           "childrenQuery": "
@@ -139,7 +140,8 @@ search-profile='[[> :SearchSimpleProfile]]'
               ?item a  fc:material.
               ?item <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
               ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
-              FILTER(EXISTS {?subject a fc:work . ?subject fr:Work_consists_of_Material ?item . }) .
+              FILTER ( lang(?label) = \"en\" ). 
+              FILTER(EXISTS { ?subject fr:Work_consists_of_Material ?item . }) .
               BIND(bound(?item) as ?hasChildren)
             } order by ?label",
           "parentsQuery": "
@@ -147,7 +149,8 @@ search-profile='[[> :SearchSimpleProfile]]'
             ?item a fc:material.
             ?item a <http://www.w3.org/2004/02/skos/core#ConceptScheme>.
             ?item  <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
-            ?parent <http://www.w3.org/2004/02/skos/core#prefLabel> ?label
+            ?parent <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+            FILTER ( lang(?label) = \"en\" ). 
           }",
           "searchQuery":"
             SELECT DISTINCT ?hasChildren ?item ?label WHERE {
@@ -158,8 +161,9 @@ search-profile='[[> :SearchSimpleProfile]]'
               ?label bds:matchAllTerms \"true\".
               ?child  <http://vocab.getty.edu/ontology#broaderPreferred> ?item.
               BIND(BOUND(?child) AS ?hasChildren)
+              FILTER ( lang(?label) = \"en\" ). 
               FILTER(EXISTS { 
-                ?subject a fc:work . ?subject fr:Work_consists_of_Material ?item . 
+                 ?subject fr:Work_consists_of_Material ?item . 
               }) 
              }ORDER BY DESC (?label)
              "
@@ -180,7 +184,8 @@ search-profile='[[> :SearchSimpleProfile]]'
             ?item a  fc:technique.
             ?item a <http://vocab.getty.edu/ontology#Facet>.
             ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
-            FILTER(EXISTS { ?subject a fc:work . ?subject fr:Work_produced_using_technique_Technique ?item . }) .
+            FILTER ( lang(?label) = \"en\" ). 
+            FILTER(EXISTS {  ?subject fr:Work_produced_using_technique_Technique ?item . }) .
            }order by ?label",
            
           "childrenQuery": "
@@ -188,7 +193,8 @@ search-profile='[[> :SearchSimpleProfile]]'
               ?item a  fc:technique.
               ?item <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
               ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
-              FILTER(EXISTS {?subject a fc:work . ?subject fr:Work_produced_using_technique_Technique ?item . }) .
+              FILTER ( lang(?label) = \"en\" ). 
+              FILTER(EXISTS { ?subject fr:Work_produced_using_technique_Technique ?item . }) .
               BIND(bound(?item) as ?hasChildren)
             } order by ?label",
           "parentsQuery": "
@@ -196,7 +202,8 @@ search-profile='[[> :SearchSimpleProfile]]'
             ?item a fc:technique.
             ?item a <http://www.w3.org/2004/02/skos/core#ConceptScheme>.
             ?item  <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
-            ?parent <http://www.w3.org/2004/02/skos/core#prefLabel> ?label
+            ?parent <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+            FILTER ( lang(?label) = \"en\" ). 
           }",
           "searchQuery":"
             SELECT DISTINCT ?hasChildren ?item ?label WHERE {
@@ -207,8 +214,9 @@ search-profile='[[> :SearchSimpleProfile]]'
               ?label bds:matchAllTerms \"true\".
               ?child  <http://vocab.getty.edu/ontology#broaderPreferred> ?item.
               BIND(BOUND(?child) AS ?hasChildren)
+              FILTER ( lang(?label) = \"en\" ). 
               FILTER(EXISTS { 
-                ?subject a fc:work . ?subject fr:Work_produced_using_technique_Technique ?item . 
+                 ?subject fr:Work_produced_using_technique_Technique ?item . 
               }) 
              }ORDER BY DESC (?label)
              "
@@ -229,7 +237,8 @@ search-profile='[[> :SearchSimpleProfile]]'
             ?item a  crm:E55_Type.
             ?item a <http://vocab.getty.edu/ontology#Facet>.
             ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
-            FILTER(EXISTS { ?subject a fc:work . ?subject crm:P2_has_type ?item . }) .
+            FILTER ( lang(?label) = \"en\" ). 
+            FILTER(EXISTS {  ?subject crm:P2_has_type ?item . }) .
            }order by ?label",
            
           "childrenQuery": "
@@ -237,7 +246,8 @@ search-profile='[[> :SearchSimpleProfile]]'
               ?item a  crm:E55_Type.
               ?item <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
               ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
-              FILTER(EXISTS {?subject a fc:work . ?subject crm:P2_has_type ?item . }) .
+              FILTER ( lang(?label) = \"en\" ). 
+              FILTER(EXISTS { ?subject crm:P2_has_type ?item . }) .
               BIND(bound(?item) as ?hasChildren)
             } order by ?label",
           "parentsQuery": "
@@ -245,7 +255,8 @@ search-profile='[[> :SearchSimpleProfile]]'
             ?item a crm:E55_Type.
             ?item a <http://www.w3.org/2004/02/skos/core#ConceptScheme>.
             ?item  <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
-            ?parent <http://www.w3.org/2004/02/skos/core#prefLabel> ?label
+            ?parent <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+            FILTER ( lang(?label) = \"en\" ). 
           }",
           "searchQuery":"
             SELECT DISTINCT ?hasChildren ?item ?label WHERE {
@@ -255,9 +266,10 @@ search-profile='[[> :SearchSimpleProfile]]'
               ?label bds:minRelevance \"0.3\"^^xsd:double.
               ?label bds:matchAllTerms \"true\".
               ?child  <http://vocab.getty.edu/ontology#broaderPreferred> ?item.
+              FILTER ( lang(?label) = \"en\" ). 
               BIND(BOUND(?child) AS ?hasChildren)
               FILTER(EXISTS { 
-                ?subject a fc:work . ?subject crm:P2_has_type ?item . 
+                 ?subject crm:P2_has_type ?item . 
               }) 
              }ORDER BY DESC (?label)
              "
