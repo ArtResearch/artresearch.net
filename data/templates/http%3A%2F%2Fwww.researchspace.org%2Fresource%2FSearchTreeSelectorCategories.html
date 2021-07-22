@@ -51,7 +51,7 @@
       ?item a  ?__range__.
       ?item a <http://vocab.getty.edu/ontology#Facet>.
       ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
-      FILTER ( lang(?label) = "en" ) 
+      FILTER ( lang(?label) = \"en\" ) 
       FILTER(EXISTS { ?subject a ?__domain__.  ?subject ?__relation__ ?item . }) .
      }order by ?label",
      
@@ -60,7 +60,7 @@
         ?item a  ?__range__.
         ?item <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
         ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
-        FILTER ( lang(?label) = "en" ) 
+        FILTER ( lang(?label) = \"en\" ) 
         FILTER(EXISTS { ?subject a ?__domain__. ?subject ?__relation__ ?item . }) .
         BIND(bound(?item) as ?hasChildren)
       } order by ?label",
@@ -69,7 +69,8 @@
       ?item a ?__range__.
       ?item a <http://www.w3.org/2004/02/skos/core#ConceptScheme>.
       ?item  <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
-      ?parent <http://www.w3.org/2004/02/skos/core#prefLabel> ?label
+      ?parent <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+      FILTER ( lang(?label) = \"en\" ) 
     }",
     "searchQuery":"
       SELECT DISTINCT ?hasChildren ?item ?label WHERE {
@@ -80,7 +81,7 @@
         ?label bds:matchAllTerms \"true\".
         ?child  <http://vocab.getty.edu/ontology#broaderPreferred> ?item.
         BIND(BOUND(?child) AS ?hasChildren)
-        FILTER ( lang(?label) = "en" ) 
+        FILTER ( lang(?label) = \"en\" ) 
         FILTER(EXISTS { 
           ?subject a ?__domain__. 
           ?subject ?__relation__ ?item . 
@@ -94,7 +95,7 @@
       ?item a  ?__range__.
       ?item a <http://vocab.getty.edu/ontology#Facet>.
       ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
-      FILTER ( lang(?label) = "en" ) 
+      FILTER ( lang(?label) = \"en\" ) 
       FILTER(EXISTS { ?subject a ?__domain__.  ?subject ?__relation__ ?item . }) .
      }order by ?label",
      
@@ -103,7 +104,7 @@
         ?item a  ?__range__.
         ?item <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
         ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
-        FILTER ( lang(?label) = "en" ) 
+        FILTER ( lang(?label) = \"en\" ) 
         FILTER(EXISTS { ?subject a ?__domain__. ?subject ?__relation__ ?item . }) .
         BIND(bound(?item) as ?hasChildren)
       } order by ?label",
@@ -112,7 +113,8 @@
       ?item a ?__range__.
       ?item a <http://www.w3.org/2004/02/skos/core#ConceptScheme>.
       ?item  <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
-      ?parent <http://www.w3.org/2004/02/skos/core#prefLabel> ?label
+      ?parent <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+      FILTER ( lang(?label) = \"en\" ) 
     }",
     "searchQuery":"
       SELECT DISTINCT ?hasChildren ?item ?label WHERE {
@@ -123,7 +125,7 @@
         ?label bds:matchAllTerms \"true\".
         ?child  <http://vocab.getty.edu/ontology#broaderPreferred> ?item.
         BIND(BOUND(?child) AS ?hasChildren)
-        FILTER ( lang(?label) = "en" ) 
+        FILTER ( lang(?label) = \"en\" ) 
         FILTER(EXISTS { 
           ?subject a ?__domain__. 
           ?subject ?__relation__ ?item . 
@@ -137,7 +139,7 @@
       ?item a  ?__range__.
       ?item a <http://vocab.getty.edu/ontology#Facet>.
       ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
-      FILTER ( lang(?label) = "en" ) 
+      FILTER ( lang(?label) = \"en\" ) 
       FILTER(EXISTS { ?subject a ?__domain__.  ?subject ?__relation__ ?item . }) .
      }order by ?label",
      
@@ -146,7 +148,7 @@
         ?item a  ?__range__.
         ?item <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
         ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
-        FILTER ( lang(?label) = "en" ) 
+        FILTER ( lang(?label) = \"en\" ) 
         FILTER(EXISTS { ?subject a ?__domain__. ?subject ?__relation__ ?item . }) .
         BIND(bound(?item) as ?hasChildren)
       } order by ?label",
@@ -155,7 +157,8 @@
       ?item a ?__range__.
       ?item a <http://www.w3.org/2004/02/skos/core#ConceptScheme>.
       ?item  <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
-      ?parent <http://www.w3.org/2004/02/skos/core#prefLabel> ?label
+      ?parent <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+      FILTER ( lang(?label) = \"en\" ) 
     }",
     "searchQuery":"
       SELECT DISTINCT ?hasChildren ?item ?label WHERE {
@@ -166,7 +169,7 @@
         ?label bds:matchAllTerms \"true\".
         ?child  <http://vocab.getty.edu/ontology#broaderPreferred> ?item.
         BIND(BOUND(?child) AS ?hasChildren)
-        FILTER ( lang(?label) = "en" ) 
+        FILTER ( lang(?label) = \"en\" ) 
         FILTER(EXISTS { 
           ?subject a ?__domain__. 
           ?subject ?__relation__ ?item . 
@@ -180,7 +183,7 @@
       ?item a  ?__range__.
       ?item a <http://vocab.getty.edu/ontology#Facet>.
       ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
-      FILTER ( lang(?label) = "en" ) 
+      FILTER ( lang(?label) = \"en\" ) 
       FILTER(EXISTS { ?subject a ?__domain__.  ?subject ?__relation__ ?item . }) .
      }order by ?label",
      
@@ -190,7 +193,7 @@
         ?item <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
         ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
         BIND(bound(?item) as ?hasChildren)
-        FILTER ( lang(?label) = "en" ) 
+        FILTER ( lang(?label) = \"en\" ) 
         FILTER(EXISTS { ?subject a ?__domain__. ?subject ?__relation__ ?item . }) .
       } order by ?label",
     "parentsQuery": "
@@ -198,7 +201,8 @@
       ?item a ?__range__.
       ?item a <http://www.w3.org/2004/02/skos/core#ConceptScheme>.
       ?item  <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
-      ?parent <http://www.w3.org/2004/02/skos/core#prefLabel> ?label
+      ?parent <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+      FILTER ( lang(?label) = \"en\" ) 
     }",
     "searchQuery":"
       SELECT DISTINCT ?hasChildren ?item ?label WHERE {
@@ -209,7 +213,7 @@
         ?label bds:matchAllTerms \"true\".
         ?child  <http://vocab.getty.edu/ontology#broaderPreferred> ?item.
         BIND(BOUND(?child) AS ?hasChildren)
-        FILTER ( lang(?label) = "en" ) 
+        FILTER ( lang(?label) = \"en\" ) 
         FILTER(EXISTS { 
           ?subject a ?__domain__. 
           ?subject ?__relation__ ?item . 
