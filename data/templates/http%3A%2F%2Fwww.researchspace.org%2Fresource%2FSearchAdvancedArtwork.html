@@ -1,0 +1,734 @@
+<div class="form-head" style="margin-top:0 ;">
+<mp-event-trigger
+id="reset-form"
+data='{}'
+type="Component.TemplateUpdate"
+targets='["event-target-form-query"]'
+>
+<span class="fa fa-repeat clickable"><strong >Reset form</strong></span>
+</mp-event-trigger>
+</div>
+<semantic-context repository='ephedra'>
+  <semantic-search
+  relations='[[> :SearchSimpleRelations]]'
+  search-profile='[[> :SearchSimpleProfile]]'
+  >
+    <mp-event-target-template-render
+    id="event-target-form-query"
+    template="{{> tableEventTargetFormQueryTemplate}}"
+  >  <template id="tableEventTargetFormQueryTemplate"> 
+    <div class="advanced-search-form">
+      <semantic-search-form-query
+      multi=true
+      domain='<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>'
+      query-template='{
+                    "queryString": "
+                      PREFIX solr: <http://custom.solr/ontology#>
+                      SELECT ?subject WHERE {
+                      {{#ifCond titleHidden "!==" "true" }}
+                      BIND(REPLACE(str(?title), \"(?<!^)(?<!\\\\s)\\\\s+(?!\\\\s+)(?!$)\",\" AND \") as ?token).
+                      SERVICE <http://www.researchspace.org/resource/system/service/custom#solrworks>{
+                        ?solrApi solr:setQuery ?token;
+                                solr:setDefType \"dismax\";
+                                solr:setFilter \"id\";
+                                solr:setRowsNumber 1000;
+                                solr:hasResults ?subject.
+                      }
+                      {{/ifCond}}
+                      {{#ifCond creatorHidden "!==" "true" }}
+                          ?subject fr:Work_created_from_Artist ?creator .
+                      {{/ifCond}}
+                      {{#ifCond materialHidden "!==" "true" }}
+                      ?subject fr:Work_consists_of_Material ?material .
+                      {{/ifCond}}
+                      {{#ifCond techniqueHidden "!==" "true" }}
+                      ?subject fr:Work_produced_using_technique_Technique ?technique .
+                      {{/ifCond}}
+                      {{#ifCond typeHidden "!==" "true" }}
+                      ?subject crm:P2_has_type ?technique .
+                      {{/ifCond}}
+                      {{#ifCond creationDateHidden "!==" "true" }}
+                      ?subject fr:Work_from_Date ?creationDate.
+                      {{/ifCond}}
+                      {{#ifCond subjectHidden "!==" "true" }}
+                      ?subject fr:Work_shows_Subject ?workSubject.
+                      {{/ifCond}}
+                      {{#ifCond repositoryHidden "!==" "true" }}
+                      ?subject fr:Work_kept_by_Institution ?repository.
+                      {{/ifCond}}
+                      {{#ifCond historyHidden "!==" "true" }}
+                      {
+                          ?subject crm:P67i_is_referred_to_by ?information_object.
+                          ?information_object crm:P2_has_type <http://vocab.getty.edu/aat/300055863>.
+                          ?information_object crm:P190_has_symbolic_content ?label.
+                      } UNION {
+                          ?subject crm:P24i_changed_ownership_through ?acquisition.
+                          ?acquisition crm:P22_transferred_title_from|crm:P23_transferred_title_from ?value_uri.
+                          ?value_uri rdfs:label ?label.
+                      }
+                      ?label bds:search ?history .
+                      ?label bds:minRelevance \"0.3\"^^xsd:double.
+                      ?label bds:matchAllTerms \"true\".
+                      {{/ifCond}}
+                      }LIMIT 1000
+                    ",
+                    "arguments": {
+                    "secretInput":{"type": "xsd:string", "optional": true}
+                    {{#ifCond creatorHidden "!==" "true" }}
+                      ,"creator": {"type": "xsd:anyURI"}
+                    {{/ifCond}}
+                    {{#ifCond titleHidden "!==" "true" }}
+                    ,"title": {"type": "xsd:string"}
+                    {{/ifCond}}
+                    {{#ifCond materialHidden "!==" "true" }}
+                    ,"material": {"type": "xsd:anyURI"}
+                    {{/ifCond}}
+                    {{#ifCond techniqueHidden "!==" "true" }}
+                    ,"technique": {"type": "xsd:anyURI"}
+                    {{/ifCond}}
+                    {{#ifCond typeHidden "!==" "true" }}
+                    ,"type": {"type": "xsd:anyURI"}
+                    {{/ifCond}}
+                    {{#ifCond creationDateHidden "!==" "true" }}
+                    ,"creationDate": {"type": "xsd:date"}
+                    {{/ifCond}}
+                    {{#ifCond subjectHidden "!==" "true" }}
+                    ,"workSubject": {"type": "xsd:anyURI"}
+                    {{/ifCond}}
+                    {{#ifCond repositoryHidden "!==" "true" }}
+                    ,"repository": {"type": "xsd:anyURI"}
+                    {{/ifCond}}
+                    {{#ifCond historyHidden "!==" "true" }}
+                    ,"history": {"type": "xsd:string"}
+                    {{/ifCond}}
+                    }
+                  }'
+        fields='[
+          { "id": "secretInput",
+          "label": "Secret Input",
+          "xsdDatatype": "xsd:string",
+          "autosuggestionPattern": "
+            PREFIX fts: <http://www.bigdata.com/rdf/fts#>
+            SELECT DISTINCT ?value ?label  WHERE {
+              ?value rdfs:label ?label
+            }LIMIT 1"
+          }
+          {{#ifCond creatorHidden "!==" "true" }}
+          ,{
+            "id": "creator",
+            "label": "Creator",
+            "minOccurs":1,
+            "maxOccurs":100,
+            "xsdDatatype": "xsd:anyURI",
+            "autosuggestionPattern": "
+              PREFIX fts: <http://www.bigdata.com/rdf/fts#>
+              SELECT DISTINCT ?value ?label  WHERE {
+                ?value fts:search ?__token__ .
+                ?value fts:endpoint \"http://213.171.209.34:8983/solr/artists_weighted/select\".
+                ?value fts:endpointType \"SOLR\" .
+                ?value fts:params \"rows=10\" .
+                ?value fts:searchField \"uri\" .
+                ?value fts:fieldToSearch \"*\" .
+                ?value fts:snippetField \"*\" .
+                ?value fts:searchResultType \"URI\" ;
+                <http://www.bigdata.com/rdf/fts#scoreField>    \"field_score\";
+                <http://www.bigdata.com/rdf/fts#score>   ?score;
+                rdfs:label ?label.
+                FILTER EXISTS{ ?sub fr:Work_created_from_Artist ?value}
+              }"
+          }
+          {{/ifCond}}
+          {{#ifCond titleHidden "!==" "true" }}
+          ,{
+            "id": "title",
+            "label": "Title",
+            "minOccurs":1,
+            "maxOccurs":100,
+            "xsdDatatype": "xsd:string"
+          }
+          {{/ifCond}}
+          {{#ifCond materialHidden "!==" "true" }}
+          ,{
+            "id": "material",
+            "label": "Material",
+            "minOccurs":1,
+            "maxOccurs":100,
+            "xsdDatatype": "xsd:anyURI",
+            "treePatterns": {
+            "type": "full",
+            "rootsQuery": "
+            SELECT DISTINCT ?item ?label where {
+              ?item a  fc:material.
+              ?item a <http://vocab.getty.edu/ontology#Facet>.
+              ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+              FILTER ( lang(?label) = \"en\" ). 
+              FILTER(EXISTS {  ?subject fr:Work_consists_of_Material ?item . }) .
+            }order by ?label",
+            
+            "childrenQuery": "
+              SELECT distinct ?item ?label ?hasChildren WHERE {
+                ?item a  fc:material.
+                ?item <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
+                ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+                FILTER ( lang(?label) = \"en\" ). 
+                FILTER(EXISTS { ?subject fr:Work_consists_of_Material ?item . }) .
+                BIND(bound(?item) as ?hasChildren)
+              } order by ?label",
+            "parentsQuery": "
+            SELECT distinct ?item ?parent ?parentLabel WHERE {
+              ?item a fc:material.
+              ?item a <http://www.w3.org/2004/02/skos/core#ConceptScheme>.
+              ?item  <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
+              ?parent <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+              FILTER ( lang(?label) = \"en\" ). 
+            }",
+            "searchQuery":"
+              SELECT DISTINCT ?hasChildren ?item ?label WHERE {
+                ?item a fc:material.
+                ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+                ?label bds:search ?__token__ .
+                ?label bds:minRelevance \"0.3\"^^xsd:double.
+                ?label bds:matchAllTerms \"true\".
+                ?child  <http://vocab.getty.edu/ontology#broaderPreferred> ?item.
+                BIND(BOUND(?child) AS ?hasChildren)
+                FILTER ( lang(?label) = \"en\" ). 
+                FILTER(EXISTS { 
+                  ?subject fr:Work_consists_of_Material ?item . 
+                }) 
+              }ORDER BY DESC (?label)
+              "
+              }
+          }
+          {{/ifCond}}
+          {{#ifCond techniqueHidden "!==" "true" }}
+          ,{
+            "id": "technique",
+            "label": "Technique",
+            "minOccurs":1,
+            "maxOccurs":100,
+            "xsdDatatype": "xsd:anyURI",
+            "treePatterns": {
+            "type": "full",
+            "rootsQuery": "
+            SELECT DISTINCT ?item ?label where {
+              ?item a  fc:technique.
+              ?item a <http://vocab.getty.edu/ontology#Facet>.
+              ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+              FILTER ( lang(?label) = \"en\" ). 
+              FILTER(EXISTS {  ?subject fr:Work_produced_using_technique_Technique ?item . }) .
+            }order by ?label",
+            
+            "childrenQuery": "
+              SELECT distinct ?item ?label ?hasChildren WHERE {
+                ?item a  fc:technique.
+                ?item <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
+                ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+                FILTER ( lang(?label) = \"en\" ). 
+                FILTER(EXISTS { ?subject fr:Work_produced_using_technique_Technique ?item . }) .
+                BIND(bound(?item) as ?hasChildren)
+              } order by ?label",
+            "parentsQuery": "
+            SELECT distinct ?item ?parent ?parentLabel WHERE {
+              ?item a fc:technique.
+              ?item a <http://www.w3.org/2004/02/skos/core#ConceptScheme>.
+              ?item  <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
+              ?parent <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+              FILTER ( lang(?label) = \"en\" ). 
+            }",
+            "searchQuery":"
+              SELECT DISTINCT ?hasChildren ?item ?label WHERE {
+                ?item a fc:technique.
+                ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+                ?label bds:search ?__token__ .
+                ?label bds:minRelevance \"0.3\"^^xsd:double.
+                ?label bds:matchAllTerms \"true\".
+                ?child  <http://vocab.getty.edu/ontology#broaderPreferred> ?item.
+                BIND(BOUND(?child) AS ?hasChildren)
+                FILTER ( lang(?label) = \"en\" ). 
+                FILTER(EXISTS { 
+                  ?subject fr:Work_produced_using_technique_Technique ?item . 
+                }) 
+              }ORDER BY DESC (?label)
+              "
+              }
+          }
+          {{/ifCond}}
+          {{#ifCond typeHidden "!==" "true" }}
+          ,{
+            "id": "type",
+            "label": "Type",
+            "minOccurs":1,
+            "maxOccurs":100,
+            "xsdDatatype": "xsd:anyURI",
+            "treePatterns": {
+            "type": "full",
+            "rootsQuery": "
+            SELECT DISTINCT ?item ?label where {
+              ?item a  crm:E55_Type.
+              ?item a <http://vocab.getty.edu/ontology#Facet>.
+              ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+              FILTER ( lang(?label) = \"en\" ). 
+              FILTER(EXISTS {  ?subject crm:P2_has_type ?item . }) .
+            }order by ?label",
+            
+            "childrenQuery": "
+              SELECT distinct ?item ?label ?hasChildren WHERE {
+                ?item a  crm:E55_Type.
+                ?item <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
+                ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+                FILTER ( lang(?label) = \"en\" ). 
+                FILTER(EXISTS { ?subject crm:P2_has_type ?item . }) .
+                BIND(bound(?item) as ?hasChildren)
+              } order by ?label",
+            "parentsQuery": "
+            SELECT distinct ?item ?parent ?parentLabel WHERE {
+              ?item a crm:E55_Type.
+              ?item a <http://www.w3.org/2004/02/skos/core#ConceptScheme>.
+              ?item  <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
+              ?parent <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+              FILTER ( lang(?label) = \"en\" ). 
+            }",
+            "searchQuery":"
+              SELECT DISTINCT ?hasChildren ?item ?label WHERE {
+                ?item a crm:E55_Type.
+                ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+                ?label bds:search ?__token__ .
+                ?label bds:minRelevance \"0.3\"^^xsd:double.
+                ?label bds:matchAllTerms \"true\".
+                ?child  <http://vocab.getty.edu/ontology#broaderPreferred> ?item.
+                FILTER ( lang(?label) = \"en\" ). 
+                BIND(BOUND(?child) AS ?hasChildren)
+                FILTER(EXISTS { 
+                  ?subject crm:P2_has_type ?item . 
+                }) 
+              }ORDER BY DESC (?label)
+              "
+              }
+          }
+          {{/ifCond}}
+          {{#ifCond creationDateHidden "!==" "true" }}
+          ,{
+            "id": "creationDate",
+            "label": "Creation date",
+            "minOccurs":1,
+            "maxOccurs":100,
+            "xsdDatatype": "xsd:date"
+          }
+          {{/ifCond}}
+          {{#ifCond subjectHidden "!==" "true" }}
+          ,{
+            "id": "workSubject",
+            "label": "Subject",
+            "minOccurs":1,
+            "maxOccurs":100,
+            "xsdDatatype": "xsd:anyURI",
+            "autosuggestionPattern": "
+              SELECT DISTINCT ?value ?label  WHERE {
+                ?value a custom:subject.
+                ?value rdfs:label ?label.
+                ?label bds:search ?__token__ .
+                ?label bds:minRelevance \"0.3\"^^xsd:double.
+                ?label bds:matchAllTerms \"true\".
+                FILTER(EXISTS { 
+                  ?subject fr:Work_shows_Subject ?value . 
+                }) 
+              }ORDER BY DESC (?label)"
+          }
+          {{/ifCond}}
+          {{#ifCond repositoryHidden "!==" "true" }}
+          ,{
+            "id": "repository",
+            "label": "Repository",
+            "minOccurs":1,
+            "maxOccurs":100,
+            "xsdDatatype": "xsd:anyURI",
+            "autosuggestionPattern": "
+              SELECT DISTINCT ?value ?label  WHERE {
+                ?value a fc:institution.
+                ?value rdfs:label ?label.
+                ?label bds:search ?__token__ .
+                ?label bds:minRelevance \"0.3\"^^xsd:double.
+                ?label bds:matchAllTerms \"true\".
+                FILTER(EXISTS { 
+                  ?subject fr:Work_kept_by_Institution ?value . 
+                }) 
+              }ORDER BY DESC (?label)"
+          }
+          {{/ifCond}}
+          {{#ifCond historyHidden "!==" "true" }}
+          ,{
+            "id": "history",
+            "label": "History of ownership",
+            "minOccurs":1,
+            "maxOccurs":100,
+            "xsdDatatype": "xsd:string"
+          }
+          {{/ifCond}}
+      ]'
+      >
+      <div class="input-boxes">
+      {{#ifCond titleHidden "!==" "true" }}
+        <div class="input-trigger-group">
+          <semantic-form-text-input for="title"></semantic-form-text-input>
+          <mp-event-trigger
+            id="remove-title"
+            data='{"titleHidden":"true",
+            "creatorHidden":"{{#if creatorHidden}}{{creatorHidden}}{{else}}false{{/if}}",
+            "materialHidden":"{{#if materialHidden}}{{materialHidden}}{{else}}false{{/if}}",
+            "techniqueHidden":"{{#if techniqueHidden}}{{techniqueHidden}}{{else}}false{{/if}}",
+            "typeHidden":"{{#if typeHidden}}{{typeHidden}}{{else}}false{{/if}}",
+            "creationDateHidden":"{{#if creationDateHidden}}{{creationDateHidden}}{{else}}false{{/if}}",
+            "subjectHidden":"{{#if subjectHidden}}{{subjectHidden}}{{else}}false{{/if}}",
+            "repositoryHidden":"{{#if repositoryHidden}}{{repositoryHidden}}{{else}}false{{/if}}",
+            "historyHidden":"{{#if historyHidden}}{{historyHidden}}{{else}}false{{/if}}"}'
+            type="Component.TemplateUpdate"
+            targets='["event-target-form-query"]'
+          >
+            <span class="fa fa-remove clickable"><strong>Remove</strong></span>
+          </mp-event-trigger>
+        </div>
+      {{/ifCond}}
+      {{#ifCond creatorHidden "!==" "true" }}
+      <div class="input-trigger-group">
+        <semantic-form-autocomplete-input
+          for="creator"
+        ></semantic-form-autocomplete-input>
+        <mp-event-trigger
+        id="remove-creator"
+        data='{"titleHidden":"{{#if titleHidden}}{{titleHidden}}{{else}}false{{/if}}",
+        "creatorHidden":"true",
+        "materialHidden":"{{#if materialHidden}}{{materialHidden}}{{else}}false{{/if}}",
+        "techniqueHidden":"{{#if techniqueHidden}}{{techniqueHidden}}{{else}}false{{/if}}",
+        "typeHidden":"{{#if typeHidden}}{{typeHidden}}{{else}}false{{/if}}",
+        "creationDateHidden":"{{#if creationDateHidden}}{{creationDateHidden}}{{else}}false{{/if}}",
+        "subjectHidden":"{{#if subjectHidden}}{{subjectHidden}}{{else}}false{{/if}}",
+        "repositoryHidden":"{{#if repositoryHidden}}{{repositoryHidden}}{{else}}false{{/if}}",
+        "historyHidden":"{{#if historyHidden}}{{historyHidden}}{{else}}false{{/if}}"}'
+        type="Component.TemplateUpdate"
+        targets='["event-target-form-query"]'
+      >
+        <span class="fa fa-remove clickable"><strong>Remove</strong></span>
+        </mp-event-trigger>
+      </div>
+      {{/ifCond}}
+      {{#ifCond materialHidden "!==" "true" }}
+      <div class="input-trigger-group">
+        <semantic-form-tree-picker-input
+          for="material"
+        ></semantic-form-tree-picker-input>
+        <mp-event-trigger
+        id="remove-material"
+        data='{"titleHidden":"{{#if titleHidden}}{{titleHidden}}{{else}}false{{/if}}",
+        "creatorHidden":"{{#if creatorHidden}}{{creatorHidden}}{{else}}false{{/if}}",
+        "materialHidden":"true",
+        "techniqueHidden":"{{#if techniqueHidden}}{{techniqueHidden}}{{else}}false{{/if}}",
+        "typeHidden":"{{#if typeHidden}}{{typeHidden}}{{else}}false{{/if}}",
+        "creationDateHidden":"{{#if creationDateHidden}}{{creationDateHidden}}{{else}}false{{/if}}",
+        "subjectHidden":"{{#if subjectHidden}}{{subjectHidden}}{{else}}false{{/if}}",
+        "repositoryHidden":"{{#if repositoryHidden}}{{repositoryHidden}}{{else}}false{{/if}}",
+        "historyHidden":"{{#if historyHidden}}{{historyHidden}}{{else}}false{{/if}}"}'
+        type="Component.TemplateUpdate"
+        targets='["event-target-form-query"]'
+      >
+        <span class="fa fa-remove clickable"><strong>Remove</strong></span>
+        </mp-event-trigger>
+      </div>
+      {{/ifCond}}
+      {{#ifCond techniqueHidden "!==" "true" }}
+      <div class="input-trigger-group">
+        <semantic-form-tree-picker-input
+          for="technique"
+        ></semantic-form-tree-picker-input>
+        <mp-event-trigger
+        id="remove-technique"
+        data='{"titleHidden":"{{#if titleHidden}}{{titleHidden}}{{else}}false{{/if}}",
+        "creatorHidden":"{{#if creatorHidden}}{{creatorHidden}}{{else}}false{{/if}}",
+        "materialHidden":"{{#if materialHidden}}{{materialHidden}}{{else}}false{{/if}}",
+        "techniqueHidden":"true",
+        "typeHidden":"{{#if typeHidden}}{{typeHidden}}{{else}}false{{/if}}",
+        "creationDateHidden":"{{#if creationDateHidden}}{{creationDateHidden}}{{else}}false{{/if}}",
+        "subjectHidden":"{{#if subjectHidden}}{{subjectHidden}}{{else}}false{{/if}}",
+        "repositoryHidden":"{{#if repositoryHidden}}{{repositoryHidden}}{{else}}false{{/if}}",
+        "historyHidden":"{{#if historyHidden}}{{historyHidden}}{{else}}false{{/if}}"}'
+        type="Component.TemplateUpdate"
+        targets='["event-target-form-query"]'
+      >
+        <span class="fa fa-remove clickable"><strong>Remove</strong></span>
+        </mp-event-trigger>
+      </div>
+      {{/ifCond}}
+      {{#ifCond typeHidden "!==" "true" }}
+      <div class="input-trigger-group">
+        <semantic-form-tree-picker-input
+          for="type"
+        ></semantic-form-tree-picker-input>
+        <mp-event-trigger
+        id="remove-type"
+        data='{"titleHidden":"{{#if titleHidden}}{{titleHidden}}{{else}}false{{/if}}",
+        "creatorHidden":"{{#if creatorHidden}}{{creatorHidden}}{{else}}false{{/if}}",
+        "materialHidden":"{{#if materialHidden}}{{materialHidden}}{{else}}false{{/if}}",
+        "techniqueHidden":"{{#if techniqueHidden}}{{techniqueHidden}}{{else}}false{{/if}}",
+        "typeHidden":"true",
+        "creationDateHidden":"{{#if creationDateHidden}}{{creationDateHidden}}{{else}}false{{/if}}",
+        "subjectHidden":"{{#if subjectHidden}}{{subjectHidden}}{{else}}false{{/if}}",
+        "repositoryHidden":"{{#if repositoryHidden}}{{repositoryHidden}}{{else}}false{{/if}}",
+        "historyHidden":"{{#if historyHidden}}{{historyHidden}}{{else}}false{{/if}}"}'
+        type="Component.TemplateUpdate"
+        targets='["event-target-form-query"]'
+      >
+        <span class="fa fa-remove clickable"><strong>Remove</strong></span>
+        </mp-event-trigger>
+      </div>
+      {{/ifCond}}
+      {{#ifCond creationDateHidden "!==" "true" }}
+      <div class="input-trigger-group">
+        <semantic-form-datetime-input
+          for="creationDate"
+        ></semantic-form-datetime-input>
+        <mp-event-trigger
+        id="remove-creationDate"
+        data='{"titleHidden":"{{#if titleHidden}}{{titleHidden}}{{else}}false{{/if}}",
+        "creatorHidden":"{{#if creatorHidden}}{{creatorHidden}}{{else}}false{{/if}}",
+        "materialHidden":"{{#if materialHidden}}{{materialHidden}}{{else}}false{{/if}}",
+        "techniqueHidden":"{{#if techniqueHidden}}{{techniqueHidden}}{{else}}false{{/if}}",
+        "typeHidden":"{{#if typeHidden}}{{typeHidden}}{{else}}false{{/if}}",
+        "creationDateHidden":"true",
+        "subjectHidden":"{{#if subjectHidden}}{{subjectHidden}}{{else}}false{{/if}}",
+        "repositoryHidden":"{{#if repositoryHidden}}{{repositoryHidden}}{{else}}false{{/if}}",
+        "historyHidden":"{{#if historyHidden}}{{historyHidden}}{{else}}false{{/if}}"}'
+        type="Component.TemplateUpdate"
+        targets='["event-target-form-query"]'
+      >
+        <span class="fa fa-remove clickable"><strong>Remove</strong></span>
+        </mp-event-trigger>
+      </div>
+      {{/ifCond}}
+      {{#ifCond subjectHidden "!==" "true" }}
+      <div class="input-trigger-group">
+        <semantic-form-autocomplete-input
+          for="workSubject"
+        ></semantic-form-autocomplete-input>
+        <mp-event-trigger
+        id="remove-subject"
+        data='{"titleHidden":"{{#if titleHidden}}{{titleHidden}}{{else}}false{{/if}}",
+        "creatorHidden":"{{#if creatorHidden}}{{creatorHidden}}{{else}}false{{/if}}",
+        "materialHidden":"{{#if materialHidden}}{{materialHidden}}{{else}}false{{/if}}",
+        "techniqueHidden":"{{#if techniqueHidden}}{{techniqueHidden}}{{else}}false{{/if}}",
+        "typeHidden":"{{#if typeHidden}}{{typeHidden}}{{else}}false{{/if}}",
+        "creationDateHidden":"{{#if creationDateHidden}}{{creationDateHidden}}{{else}}false{{/if}}",
+        "subjectHidden":"true",
+        "repositoryHidden":"{{#if repositoryHidden}}{{repositoryHidden}}{{else}}false{{/if}}",
+        "historyHidden":"{{#if historyHidden}}{{historyHidden}}{{else}}false{{/if}}"}'
+        type="Component.TemplateUpdate"
+        targets='["event-target-form-query"]'
+      >
+        <span class="fa fa-remove clickable"><strong>Remove</strong></span>
+        </mp-event-trigger>
+      </div>
+      {{/ifCond}}
+      {{#ifCond repositoryHidden "!==" "true" }}
+      <div class="input-trigger-group">
+        <semantic-form-autocomplete-input
+          for="repository"
+        ></semantic-form-autocomplete-input>
+        <mp-event-trigger
+        id="remove-repository"
+        data='{"titleHidden":"{{#if titleHidden}}{{titleHidden}}{{else}}false{{/if}}",
+        "creatorHidden":"{{#if creatorHidden}}{{creatorHidden}}{{else}}false{{/if}}",
+        "materialHidden":"{{#if materialHidden}}{{materialHidden}}{{else}}false{{/if}}",
+        "techniqueHidden":"{{#if techniqueHidden}}{{techniqueHidden}}{{else}}false{{/if}}",
+        "typeHidden":"{{#if typeHidden}}{{typeHidden}}{{else}}false{{/if}}",
+        "creationDateHidden":"{{#if creationDateHidden}}{{creationDateHidden}}{{else}}false{{/if}}",
+        "subjectHidden":"{{#if subjectHidden}}{{subjectHidden}}{{else}}false{{/if}}",
+        "repositoryHidden":"true",
+        "historyHidden":"{{#if historyHidden}}{{historyHidden}}{{else}}false{{/if}}"}'
+        type="Component.TemplateUpdate"
+        targets='["event-target-form-query"]'
+      >
+        <span class="fa fa-remove clickable"><strong>Remove</strong></span>
+        </mp-event-trigger>
+      </div>
+      {{/ifCond}}
+      {{#ifCond historyHidden "!==" "true" }}
+      <div class="input-trigger-group">
+        <semantic-form-text-input
+          for="history"
+        ></semantic-form-text-input>
+        <mp-event-trigger
+        id="remove-history"
+        data='{"titleHidden":"{{#if titleHidden}}{{titleHidden}}{{else}}false{{/if}}",
+        "creatorHidden":"{{#if creatorHidden}}{{creatorHidden}}{{else}}false{{/if}}",
+        "materialHidden":"{{#if materialHidden}}{{materialHidden}}{{else}}false{{/if}}",
+        "techniqueHidden":"{{#if techniqueHidden}}{{techniqueHidden}}{{else}}false{{/if}}",
+        "typeHidden":"{{#if typeHidden}}{{typeHidden}}{{else}}false{{/if}}",
+        "creationDateHidden":"{{#if creationDateHidden}}{{creationDateHidden}}{{else}}false{{/if}}",
+        "subjectHidden":"{{#if subjectHidden}}{{subjectHidden}}{{else}}false{{/if}}",
+        "repositoryHidden":"{{#if historyHidden}}{{historyHidden}}{{else}}false{{/if}}",
+        "historyHidden":"true"}'
+        type="Component.TemplateUpdate"
+        targets='["event-target-form-query"]'
+      >
+        <span class="fa fa-remove clickable"><strong>Remove</strong></span>
+        </mp-event-trigger>
+      </div>
+      {{/ifCond}}
+    </div>
+      <semantic-form-hidden-input for="secretInput" default-value='nope'></semantic-form-hidden-input>
+        <button type="button" name="submit" class="btn btn-secondary">
+          Search   <span class="fa fa-search" style="margin-left:5px"></span>
+        </button>
+      </semantic-search-form-query>
+    </div>
+    </template>
+    </mp-event-target-template-render>
+    <div class="row">
+      <bs-col lg="9" md="8" sm="7"
+      class="results-container"
+      >
+        <semantic-search-result-holder>
+          <div>
+          <semantic-search-result>
+            <semantic-query
+              id="view-more"
+              query='SELECT (COUNT(DISTINCT ?subject) as ?count) WHERE {
+              } LIMIT 1'
+              template="{{>currentResultCount}}"
+            >
+              <template id="currentResultCount">
+                <h2>
+                    Found {{bindings.0.count.value}} relevant results
+                </h2>
+              </template>
+            </semantic-query>
+            <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
+            <bs-tabs
+            default-active-key="1"
+            unmount-on-exit="true"
+            id="search-results"
+            animation="false"
+            class="tabs-right"
+          >
+            <bs-tab event-key="1" title="List">
+              <div id='artwork-filter-search-inline'>
+              <semantic-table
+              id="grid-result"
+              query='SELECT DISTINCT ?subject WHERE {
+              }LIMIT 100'
+              number-of-displayed-rows="10"
+              tuple-template="{{> subjectCellTemplate}}"
+              options='{"showTableHeading": false, "showFilter":false}'
+              no-result-template='[[> :CardNoResult ]]'
+            >
+              <template id="subjectCellTemplate">
+                <semantic-context repository='default'>
+                  [[> :CardArtwork]]
+                </semantic-context>
+              </template>
+            </semantic-table>
+            </div>
+          </bs-tab>
+            <bs-tab event-key="2" title="Tabular">
+              <div id="tableView">
+                [[> :SearchResultTableWorkSolr]]
+              </div>
+            </bs-tab>
+            </bs-tabs>
+          </semantic-search-result>
+          </div>
+        </semantic-search-result-holder>
+      </bs-col>
+    <bs-col
+      lg="3"
+      md="4"
+      sm="5"
+      class="fade-in-fwd filters-container"
+      style="margin-top: 8px"
+      id="artwork-filter-search"
+    >
+    <bs-panel id="filter-panel" header="Filters"  collapsible="true" default-expanded="true">
+      <semantic-search-facet open-by-default="true"></semantic-search-facet>
+    </bs-panel>
+    </bs-col>
+
+    </div>
+
+  </semantic-search>
+</semantic-context>
+<style>
+  .navbar-default {
+    box-shadow: none !important;
+  }
+  .input-trigger-group {
+    margin-bottom: 40px;
+  }
+  .form-head {
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
+  .input-trigger-group {
+      /* margin-bottom: 40px;
+      box-shadow: 0px 0px 10px 1px #dedede;
+      padding: 10px;
+      border-radius: 5px; */
+
+      margin-bottom: 40px;
+    border: 1px solid #ededed;
+    padding: 10px;
+    border-radius: 5px;
+
+  }
+
+
+  span.fa.fa-remove.clickable{
+    margin-top: 25px;
+    cursor: pointer;
+  }
+  span.fa.fa-remove strong {
+    margin-left: 5px;
+}
+
+span.fa.fa-repeat.clickable{
+    margin-top: 25px;
+    cursor: pointer;
+  }
+  span.fa.fa-repeat strong {
+    margin-left: 5px;
+}
+
+
+h2 {
+  font-weight: 500;
+}
+/* .input-boxes {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-gap: 25px;
+} */
+.results-container:empty + .filters-container{
+  display: none !important;
+
+}
+.semantic-form {
+    height: fit-content;
+}
+.semantic-form + .row{
+  margin-top: 50px;
+}
+button.btn.btn-secondary {
+    height: 45px;
+    width: 115px;
+    color: black;
+    font-size: 16px;
+    border-radius: 5px;
+    background: #ffffff;
+}
+button.btn.btn-secondary:active {
+box-shadow: none !important;
+-webkit-box-shadow: none !important;
+}
+button.btn.btn-secondary:hover {
+box-shadow: none !important;
+-webkit-box-shadow: none !important;
+}
+
+</style>
