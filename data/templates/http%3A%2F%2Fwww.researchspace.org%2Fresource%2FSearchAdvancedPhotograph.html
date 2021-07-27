@@ -31,13 +31,14 @@
                         {{#ifCond techniqueHidden "!==" "true" }}
                         ?subject fr:Photo_produced_using_Technique ?technique .
                         {{/ifCond}}
-                        {{#ifCond creationDateHidden "!==" "true" }}
-                        ?subject fr:Photo_from_Date ?creationDate.
-                        {{/ifCond}}
                         {{#ifCond repositoryHidden "!==" "true" }}
                         ?subject fr:Photo_kept_by_Institution ?repository.
                         {{/ifCond}}
-    
+                        {{#ifCond creationDate "!==" "true" }}
+                        ?subject fr:Photo_from_Date ?date.
+                         FILTER(?date >= ?creationDateFrom)
+                         FILTER(?date <= ?creationDateTo)
+                        {{/ifCond}}
                         }LIMIT 1000
                       ",
                       "arguments": {
@@ -48,8 +49,9 @@
                       {{#ifCond techniqueHidden "!==" "true" }}
                       ,"technique": {"type": "xsd:anyURI"}
                       {{/ifCond}}
-                      {{#ifCond creationDateHidden "!==" "true" }}
-                      ,"creationDate": {"type": "xsd:date"}
+                      {{#ifCond creationDate "!==" "true" }}
+                      ,"creationDateFrom": {"type": "xsd:date"}
+                      ,"creationDateTo": {"type": "xsd:date"}
                       {{/ifCond}}
                       {{#ifCond repositoryHidden "!==" "true" }}
                       ,"repository": {"type": "xsd:anyURI"}
@@ -137,12 +139,21 @@
                 }
             }
             {{/ifCond}}
-            {{#ifCond creationDateHidden "!==" "true" }}
+            {{#ifCond creationDate "!==" "true" }}
             ,{
-              "id": "creationDate",
-              "label": "Creation date",
+              "id": "creationDateFrom",
+              "label": "Creation date (From)",
               "minOccurs":1,
-              "maxOccurs":100,
+              "maxOccurs":1,
+              "xsdDatatype": "xsd:date"
+            }
+            {{/ifCond}}
+            {{#ifCond creationDateToHidden "!==" "true" }}
+            ,{
+              "id": "creationDateTo",
+              "label": "Creation date (To)",
+              "minOccurs":1,
+              "maxOccurs":1,
               "xsdDatatype": "xsd:date"
             }
             {{/ifCond}}
@@ -178,7 +189,7 @@
             data='{
             "photographerHidden":"{{#if photographerHidden}}{{photographerHidden}}{{else}}false{{/if}}",
             "techniqueHidden":"{{#if techniqueHidden}}{{techniqueHidden}}{{else}}false{{/if}}",
-            "creationDateHidden":"{{#if creationDateHidden}}{{creationDateHidden}}{{else}}false{{/if}}",
+            "creationDate":"{{#if creationDate}}{{creationDate}}{{else}}false{{/if}}",
             "repositoryHidden":"true"}'
             type="Component.TemplateUpdate"
             targets='["event-target-form-query"]'
@@ -197,7 +208,7 @@
           data='{
           "photographerHidden":"true",
           "techniqueHidden":"{{#if techniqueHidden}}{{techniqueHidden}}{{else}}false{{/if}}",
-          "creationDateHidden":"{{#if creationDateHidden}}{{creationDateHidden}}{{else}}false{{/if}}",
+          "creationDate":"{{#if creationDate}}{{creationDate}}{{else}}false{{/if}}",
           "repositoryHidden":"{{#if repositoryHidden}}{{repositoryHidden}}{{else}}false{{/if}}"}'
           type="Component.TemplateUpdate"
           targets='["event-target-form-query"]'
@@ -206,17 +217,20 @@
           </mp-event-trigger>
         </div>
         {{/ifCond}}
-        {{#ifCond creationDateHidden "!==" "true" }}
+        {{#ifCond creationDate "!==" "true" }}
         <div class="input-trigger-group">
           <semantic-form-datetime-input
-            for="creationDate"
+            for="creationDateFrom"
+          ></semantic-form-datetime-input>
+          <semantic-form-datetime-input
+            for="creationDateTo"
           ></semantic-form-datetime-input>
           <mp-event-trigger
-          id="remove-creationDate"
+          id="remove-creationDateTo"
           data='{
           "photographerHidden":"{{#if photographerHidden}}{{photographerHidden}}{{else}}false{{/if}}",
           "techniqueHidden":"{{#if techniqueHidden}}{{techniqueHidden}}{{else}}false{{/if}}",
-          "creationDateHidden":"true",
+          "creationDate":"true",
           "repositoryHidden":"{{#if repositoryHidden}}{{repositoryHidden}}{{else}}false{{/if}}"}'
           type="Component.TemplateUpdate"
           targets='["event-target-form-query"]'
@@ -235,7 +249,7 @@
           data='{
           "photographerHidden":"{{#if photographerHidden}}{{photographerHidden}}{{else}}false{{/if}}",
           "techniqueHidden":"true",
-          "creationDateHidden":"{{#if creationDateHidden}}{{creationDateHidden}}{{else}}false{{/if}}",
+          "creationDate":"{{#if creationDate}}{{creationDate}}{{else}}false{{/if}}",
           "repositoryHidden":"{{#if repositoryHidden}}{{repositoryHidden}}{{else}}false{{/if}}"}'
           type="Component.TemplateUpdate"
           targets='["event-target-form-query"]'
