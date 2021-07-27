@@ -36,13 +36,17 @@
                         }
                         {{/ifCond}}
                         {{#ifCond dobHidden "!==" "true" }}
-                        ?subject fr:Person_has_Date_of_Birth ?dob .
+                        ?subject fr:Person_has_Date_of_Birth ?dobDate .
+                        FILTER(?dobDate >= ?dobFrom)
+                        FILTER(?dobDate <= ?dobTo)
                         {{/ifCond}}
                         {{#ifCond dodHidden "!==" "true" }}
-                        ?subject fr:Person_has_Date_of_Death ?dod .
+                        ?subject fr:Person_has_Date_of_Death ?dodDate .
+                        FILTER(?dodDate >= ?dodFrom)
+                        FILTER(?dodDate <= ?dodTo)
                         {{/ifCond}}
                         {{#ifCond nationalityHidden "!==" "true" }}
-                        ?subject fr:Person_has_Nationality ?dod .
+                        ?subject fr:Person_has_Nationality ?nationality .
                         {{/ifCond}}
                         {{#ifCond genderHidden "!==" "true" }}
                         ?subject fr:Person_has_Gender ?gender.
@@ -58,10 +62,12 @@
                       ,"name": {"type": "xsd:string"}
                       {{/ifCond}}
                       {{#ifCond dobHidden "!==" "true" }}
-                      ,"dob": {"type": "xsd:date"}
+                      ,"dobFrom": {"type": "xsd:date"}
+                      ,"dobTo": {"type": "xsd:date"}
                       {{/ifCond}}
                       {{#ifCond dodHidden "!==" "true" }}
-                      ,"dod": {"type": "xsd:date"}
+                      ,"dodFrom": {"type": "xsd:date"}
+                      ,"dodTo": {"type": "xsd:date"}
                       {{/ifCond}}
                       {{#ifCond nationalityHidden "!==" "true" }}
                       ,"nationality": {"type": "xsd:anyURI"}
@@ -95,19 +101,33 @@
             {{/ifCond}}
             {{#ifCond dobHidden "!==" "true" }}
             ,{
-              "id": "dob",
-              "label": "Date of Birth",
+              "id": "dobFrom",
+              "label": "Date of Birth (From)",
               "minOccurs":1,
-              "maxOccurs":100,
+              "maxOccurs":1,
+              "xsdDatatype": "xsd:date"
+            }
+            ,{
+              "id": "dobTo",
+              "label": "Date of Birth (To)",
+              "minOccurs":1,
+              "maxOccurs":1,
               "xsdDatatype": "xsd:date"
             }
             {{/ifCond}}
             {{#ifCond dodHidden "!==" "true" }}
             ,{
-              "id": "dod",
-              "label": "Date of Death",
+              "id": "dodFrom",
+              "label": "Date of Death (From)",
               "minOccurs":1,
-              "maxOccurs":100,
+              "maxOccurs":1,
+              "xsdDatatype": "xsd:date"
+            }
+            ,{
+              "id": "dodTo",
+              "label": "Date of Death (To)",
+              "minOccurs":1,
+              "maxOccurs":1,
               "xsdDatatype": "xsd:date"
             }
             {{/ifCond}}
@@ -191,7 +211,10 @@
         {{#ifCond dobHidden "!==" "true" }}
         <div class="input-trigger-group">
           <semantic-form-datetime-input
-            for="dob"
+            for="dobFrom"
+          ></semantic-form-datetime-input>
+            <semantic-form-datetime-input
+            for="dobTo"
           ></semantic-form-datetime-input>
           <mp-event-trigger
           id="remove-dob"
@@ -212,8 +235,11 @@
         {{#ifCond dodHidden "!==" "true" }}
         <div class="input-trigger-group">
           <semantic-form-datetime-input
-            for="dod"
+            for="dodFrom"
           ></semantic-form-datetime-input>
+          <semantic-form-datetime-input
+          for="dodTo"
+        ></semantic-form-datetime-input>
           <mp-event-trigger
           id="remove-dod"
           data='{"nameHidden":"{{#if nameHidden}}{{nameHidden}}{{else}}false{{/if}}",
