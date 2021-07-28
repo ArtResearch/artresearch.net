@@ -27,11 +27,16 @@ WHERE {
     "displayName": "Image", 
     "cellTemplate": "{{>tableImageTemplate}}"
   },
-  {"variableName": "subject", "displayName": "Title"},
+  {"variableName": "subject", "displayName": "Title","cellTemplate": "{{>titleTemplate}}"},
   {"variableName": "photographer", "displayName": "Photographer"},
   {"variableName": "provider", "displayName": "Photo archive"}
   ]'
 >
+<template id="titleTemplate">
+  <semantic-context repository='default'>
+    <span><semantic-link iri="{{subject.value}}"></semantic-link></span>
+  </semantic-context>
+</template>
 <template id="tableImageTemplate">
   <div class="thumbnailImageContainerTabular">
     <scroll-to-top querySelector=".pagination li"></scroll-to-top>
