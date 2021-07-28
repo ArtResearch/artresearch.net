@@ -19,7 +19,6 @@
     </mp-copy-to-clipboard>
   </template>
   </semantic-query>
-   
   </div>
   <div data-flex-layout='row center-left' class="page__header-tagline subtitleInfo">
     [[> :InfoTypeRepository work=(urlParam "uri") ]]
@@ -66,5 +65,18 @@
         </h2>
       </template>
     </semantic-query>
+    <h2 style="margin-left: 5px; margin-top: 10px;" class="fc-label">
+      <semantic-query query='SELECT ?artwork WHERE{
+        ?? fr:Photo_depicts_Work ?artwork
+      }'
+      template="{{>relArtwork}}"
+      >
+      <template id="relArtwork">
+        Related to artwork:
+        {{#each bindings}}
+          <semantic-link class="artwork-link"  iri="{{artwork.value}}" ></semantic-link>
+        {{/each}}
+      </template>
+    </semantic-query></h2>
   </div>
 </div>
