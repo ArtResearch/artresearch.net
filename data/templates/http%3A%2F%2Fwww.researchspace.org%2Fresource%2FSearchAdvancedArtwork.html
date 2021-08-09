@@ -25,7 +25,6 @@ targets='["event-target-form-query"]'
                     "queryString": "
                       PREFIX solr: <http://custom.solr/ontology#>
                       SELECT ?subject WHERE {
-                      {{#ifCond titleHidden "!==" "true" }}
                       BIND(REPLACE(str(?title), \"(?<!^)(?<!\\\\s)\\\\s+(?!\\\\s+)(?!$)\",\" AND \") as ?token).
                       SERVICE <http://www.researchspace.org/resource/system/service/custom#solrworks>{
                         ?solrApi solr:setQuery ?token;
@@ -34,29 +33,28 @@ targets='["event-target-form-query"]'
                                 solr:setRowsNumber 1000;
                                 solr:hasResults ?subject.
                       }
-                      {{/ifCond}}
-                      {{#ifCond creatorHidden "!==" "true" }}
+                      {{#ifCond creatorVisible "===" "true" }}
                           ?subject fr:Work_created_from_Artist ?creator .
                       {{/ifCond}}
-                      {{#ifCond materialHidden "!==" "true" }}
+                      {{#ifCond materialVisible "===" "true" }}
                       ?subject fr:Work_consists_of_Material ?material .
                       {{/ifCond}}
-                      {{#ifCond techniqueHidden "!==" "true" }}
+                      {{#ifCond techniqueVisible "===" "true" }}
                       ?subject fr:Work_produced_using_technique_Technique ?technique .
                       {{/ifCond}}
-                      {{#ifCond typeHidden "!==" "true" }}
+                      {{#ifCond typeVisible "===" "true" }}
                       ?subject crm:P2_has_type ?technique .
                       {{/ifCond}}
-                      {{#ifCond creationDateHidden "!==" "true" }}
+                      {{#ifCond creationDateVisible "===" "true" }}
                       ?subject fr:Work_from_Date ?creationDate.
                       {{/ifCond}}
-                      {{#ifCond subjectHidden "!==" "true" }}
+                      {{#ifCond subjectVisible "===" "true" }}
                       ?subject fr:Work_shows_Subject ?workSubject.
                       {{/ifCond}}
-                      {{#ifCond repositoryHidden "!==" "true" }}
+                      {{#ifCond repositoryVisible "===" "true" }}
                       ?subject fr:Work_kept_by_Institution ?repository.
                       {{/ifCond}}
-                      {{#ifCond historyHidden "!==" "true" }}
+                      {{#ifCond historyVisible "===" "true" }}
                       {
                           ?subject crm:P67i_is_referred_to_by ?information_object.
                           ?information_object crm:P2_has_type <http://vocab.getty.edu/aat/300055863>.
@@ -74,31 +72,29 @@ targets='["event-target-form-query"]'
                     ",
                     "arguments": {
                     "secretInput":{"type": "xsd:string", "optional": true}
-                    {{#ifCond creatorHidden "!==" "true" }}
-                      ,"creator": {"type": "xsd:anyURI"}
-                    {{/ifCond}}
-                    {{#ifCond titleHidden "!==" "true" }}
                     ,"title": {"type": "xsd:string"}
+                    {{#ifCond creatorVisible "===" "true" }}
+                    ,"creator": {"type": "xsd:anyURI"}
                     {{/ifCond}}
-                    {{#ifCond materialHidden "!==" "true" }}
+                    {{#ifCond materialVisible "===" "true" }}
                     ,"material": {"type": "xsd:anyURI"}
                     {{/ifCond}}
-                    {{#ifCond techniqueHidden "!==" "true" }}
+                    {{#ifCond techniqueVisible "===" "true" }}
                     ,"technique": {"type": "xsd:anyURI"}
                     {{/ifCond}}
-                    {{#ifCond typeHidden "!==" "true" }}
+                    {{#ifCond typeVisible "===" "true" }}
                     ,"type": {"type": "xsd:anyURI"}
                     {{/ifCond}}
-                    {{#ifCond creationDateHidden "!==" "true" }}
+                    {{#ifCond creationDateVisible "===" "true" }}
                     ,"creationDate": {"type": "xsd:date"}
                     {{/ifCond}}
-                    {{#ifCond subjectHidden "!==" "true" }}
+                    {{#ifCond subjectVisible "===" "true" }}
                     ,"workSubject": {"type": "xsd:anyURI"}
                     {{/ifCond}}
-                    {{#ifCond repositoryHidden "!==" "true" }}
+                    {{#ifCond repositoryVisible "===" "true" }}
                     ,"repository": {"type": "xsd:anyURI"}
                     {{/ifCond}}
-                    {{#ifCond historyHidden "!==" "true" }}
+                    {{#ifCond historyVisible "===" "true" }}
                     ,"history": {"type": "xsd:string"}
                     {{/ifCond}}
                     }
@@ -113,7 +109,14 @@ targets='["event-target-form-query"]'
               ?value rdfs:label ?label
             }LIMIT 1"
           }
-          {{#ifCond creatorHidden "!==" "true" }}
+          ,{
+            "id": "title",
+            "label": "Title",
+            "minOccurs":1,
+            "maxOccurs":100,
+            "xsdDatatype": "xsd:string"
+          }
+        {{#ifCond creatorVisible "===" "true" }}
           ,{
             "id": "creator",
             "label": "Creator",
@@ -138,16 +141,7 @@ targets='["event-target-form-query"]'
               }"
           }
           {{/ifCond}}
-          {{#ifCond titleHidden "!==" "true" }}
-          ,{
-            "id": "title",
-            "label": "Title",
-            "minOccurs":1,
-            "maxOccurs":100,
-            "xsdDatatype": "xsd:string"
-          }
-          {{/ifCond}}
-          {{#ifCond materialHidden "!==" "true" }}
+          {{#ifCond materialVisible "===" "true" }}
           ,{
             "id": "material",
             "label": "Material",
@@ -200,7 +194,7 @@ targets='["event-target-form-query"]'
               }
           }
           {{/ifCond}}
-          {{#ifCond techniqueHidden "!==" "true" }}
+          {{#ifCond techniqueVisible "===" "true" }}
           ,{
             "id": "technique",
             "label": "Technique",
@@ -253,7 +247,7 @@ targets='["event-target-form-query"]'
               }
           }
           {{/ifCond}}
-          {{#ifCond typeHidden "!==" "true" }}
+          {{#ifCond typeVisible "===" "true" }}
           ,{
             "id": "type",
             "label": "Type",
@@ -306,7 +300,7 @@ targets='["event-target-form-query"]'
               }
           }
           {{/ifCond}}
-          {{#ifCond creationDateHidden "!==" "true" }}
+          {{#ifCond creationDateVisible "===" "true" }}
           ,{
             "id": "creationDate",
             "label": "Creation date",
@@ -315,7 +309,7 @@ targets='["event-target-form-query"]'
             "xsdDatatype": "xsd:date"
           }
           {{/ifCond}}
-          {{#ifCond subjectHidden "!==" "true" }}
+          {{#ifCond subjectVisible "===" "true" }}
           ,{
             "id": "workSubject",
             "label": "Subject",
@@ -335,7 +329,7 @@ targets='["event-target-form-query"]'
               }ORDER BY DESC (?label)"
           }
           {{/ifCond}}
-          {{#ifCond repositoryHidden "!==" "true" }}
+          {{#ifCond repositoryVisible "===" "true" }}
           ,{
             "id": "repository",
             "label": "Repository",
@@ -355,7 +349,7 @@ targets='["event-target-form-query"]'
               }ORDER BY DESC (?label)"
           }
           {{/ifCond}}
-          {{#ifCond historyHidden "!==" "true" }}
+          {{#ifCond historyVisible "===" "true" }}
           ,{
             "id": "history",
             "label": "History of ownership",
@@ -367,66 +361,50 @@ targets='["event-target-form-query"]'
       ]'
       >
       <div class="input-boxes">
-      {{#ifCond titleHidden "!==" "true" }}
         <div class="input-trigger-group">
           <semantic-form-text-input for="title"></semantic-form-text-input>
-          <mp-event-trigger
-            id="remove-title"
-            data='{"titleHidden":"true",
-            "creatorHidden":"{{#if creatorHidden}}{{creatorHidden}}{{else}}false{{/if}}",
-            "materialHidden":"{{#if materialHidden}}{{materialHidden}}{{else}}false{{/if}}",
-            "techniqueHidden":"{{#if techniqueHidden}}{{techniqueHidden}}{{else}}false{{/if}}",
-            "typeHidden":"{{#if typeHidden}}{{typeHidden}}{{else}}false{{/if}}",
-            "creationDateHidden":"{{#if creationDateHidden}}{{creationDateHidden}}{{else}}false{{/if}}",
-            "subjectHidden":"{{#if subjectHidden}}{{subjectHidden}}{{else}}false{{/if}}",
-            "repositoryHidden":"{{#if repositoryHidden}}{{repositoryHidden}}{{else}}false{{/if}}",
-            "historyHidden":"{{#if historyHidden}}{{historyHidden}}{{else}}false{{/if}}"}'
-            type="Component.TemplateUpdate"
-            targets='["event-target-form-query"]'
-          >
-            <span class="fa fa-remove clickable"><strong>Remove</strong></span>
-          </mp-event-trigger>
         </div>
-      {{/ifCond}}
-      {{#ifCond creatorHidden "!==" "true" }}
-      <div class="input-trigger-group">
-        <semantic-form-autocomplete-input
+
+        {{#ifCond creatorVisible "===" "true" }}
+          <div
+          class="input-trigger-group">
+          <semantic-form-autocomplete-input
           for="creator"
         ></semantic-form-autocomplete-input>
-        <mp-event-trigger
-        id="remove-creator"
-        data='{"titleHidden":"{{#if titleHidden}}{{titleHidden}}{{else}}false{{/if}}",
-        "creatorHidden":"true",
-        "materialHidden":"{{#if materialHidden}}{{materialHidden}}{{else}}false{{/if}}",
-        "techniqueHidden":"{{#if techniqueHidden}}{{techniqueHidden}}{{else}}false{{/if}}",
-        "typeHidden":"{{#if typeHidden}}{{typeHidden}}{{else}}false{{/if}}",
-        "creationDateHidden":"{{#if creationDateHidden}}{{creationDateHidden}}{{else}}false{{/if}}",
-        "subjectHidden":"{{#if subjectHidden}}{{subjectHidden}}{{else}}false{{/if}}",
-        "repositoryHidden":"{{#if repositoryHidden}}{{repositoryHidden}}{{else}}false{{/if}}",
-        "historyHidden":"{{#if historyHidden}}{{historyHidden}}{{else}}false{{/if}}"}'
-        type="Component.TemplateUpdate"
-        targets='["event-target-form-query"]'
-      >
-        <span class="fa fa-remove clickable"><strong>Remove</strong></span>
-        </mp-event-trigger>
+          <mp-event-trigger
+          id="remove-creator"
+          data='{
+          "creatorVisible":"false",
+          "materialVisible":"{{#if materialVisible}}{{materialVisible}}{{else}}false{{/if}}",
+          "techniqueVisible":"{{#if techniqueVisible}}{{techniqueVisible}}{{else}}false{{/if}}",
+          "typeVisible":"{{#if typeVisible}}{{typeVisible}}{{else}}false{{/if}}",
+          "creationDateVisible":"{{#if creationDateVisible}}{{creationDateVisible}}{{else}}false{{/if}}",
+          "subjectVisible":"{{#if subjectVisible}}{{subjectVisible}}{{else}}false{{/if}}",
+          "repositoryVisible":"{{#if repositoryVisible}}{{repositoryVisible}}{{else}}false{{/if}}",
+          "historyVisible":"{{#if historyVisible}}{{historyVisible}}{{else}}false{{/if}}"}'
+          type="Component.TemplateUpdate"
+          targets='["event-target-form-query"]'
+        >
+          <span class="fa fa-remove clickable"><strong>Remove</strong></span>
+          </mp-event-trigger>
       </div>
       {{/ifCond}}
-      {{#ifCond materialHidden "!==" "true" }}
+      {{#ifCond materialVisible "===" "true" }}
       <div class="input-trigger-group">
         <semantic-form-tree-picker-input
           for="material"
         ></semantic-form-tree-picker-input>
         <mp-event-trigger
         id="remove-material"
-        data='{"titleHidden":"{{#if titleHidden}}{{titleHidden}}{{else}}false{{/if}}",
-        "creatorHidden":"{{#if creatorHidden}}{{creatorHidden}}{{else}}false{{/if}}",
-        "materialHidden":"true",
-        "techniqueHidden":"{{#if techniqueHidden}}{{techniqueHidden}}{{else}}false{{/if}}",
-        "typeHidden":"{{#if typeHidden}}{{typeHidden}}{{else}}false{{/if}}",
-        "creationDateHidden":"{{#if creationDateHidden}}{{creationDateHidden}}{{else}}false{{/if}}",
-        "subjectHidden":"{{#if subjectHidden}}{{subjectHidden}}{{else}}false{{/if}}",
-        "repositoryHidden":"{{#if repositoryHidden}}{{repositoryHidden}}{{else}}false{{/if}}",
-        "historyHidden":"{{#if historyHidden}}{{historyHidden}}{{else}}false{{/if}}"}'
+        data='{
+        "creatorVisible":"{{#if creatorVisible}}{{creatorVisible}}{{else}}false{{/if}}",
+        "materialVisible":"false",
+        "techniqueVisible":"{{#if techniqueVisible}}{{techniqueVisible}}{{else}}false{{/if}}",
+        "typeVisible":"{{#if typeVisible}}{{typeVisible}}{{else}}false{{/if}}",
+        "creationDateVisible":"{{#if creationDateVisible}}{{creationDateVisible}}{{else}}false{{/if}}",
+        "subjectVisible":"{{#if subjectVisible}}{{subjectVisible}}{{else}}false{{/if}}",
+        "repositoryVisible":"{{#if repositoryVisible}}{{repositoryVisible}}{{else}}false{{/if}}",
+        "historyVisible":"{{#if historyVisible}}{{historyVisible}}{{else}}false{{/if}}"}'
         type="Component.TemplateUpdate"
         targets='["event-target-form-query"]'
       >
@@ -434,22 +412,23 @@ targets='["event-target-form-query"]'
         </mp-event-trigger>
       </div>
       {{/ifCond}}
-      {{#ifCond techniqueHidden "!==" "true" }}
+
+      {{#ifCond techniqueVisible "===" "true" }}
       <div class="input-trigger-group">
         <semantic-form-tree-picker-input
           for="technique"
         ></semantic-form-tree-picker-input>
         <mp-event-trigger
         id="remove-technique"
-        data='{"titleHidden":"{{#if titleHidden}}{{titleHidden}}{{else}}false{{/if}}",
-        "creatorHidden":"{{#if creatorHidden}}{{creatorHidden}}{{else}}false{{/if}}",
-        "materialHidden":"{{#if materialHidden}}{{materialHidden}}{{else}}false{{/if}}",
-        "techniqueHidden":"true",
-        "typeHidden":"{{#if typeHidden}}{{typeHidden}}{{else}}false{{/if}}",
-        "creationDateHidden":"{{#if creationDateHidden}}{{creationDateHidden}}{{else}}false{{/if}}",
-        "subjectHidden":"{{#if subjectHidden}}{{subjectHidden}}{{else}}false{{/if}}",
-        "repositoryHidden":"{{#if repositoryHidden}}{{repositoryHidden}}{{else}}false{{/if}}",
-        "historyHidden":"{{#if historyHidden}}{{historyHidden}}{{else}}false{{/if}}"}'
+        data='{
+        "creatorVisible":"{{#if creatorVisible}}{{creatorVisible}}{{else}}false{{/if}}",
+        "materialVisible":"{{#if materialVisible}}{{materialVisible}}{{else}}false{{/if}}",
+        "techniqueVisible":"false",
+        "typeVisible":"{{#if typeVisible}}{{typeVisible}}{{else}}false{{/if}}",
+        "creationDateVisible":"{{#if creationDateVisible}}{{creationDateVisible}}{{else}}false{{/if}}",
+        "subjectVisible":"{{#if subjectVisible}}{{subjectVisible}}{{else}}false{{/if}}",
+        "repositoryVisible":"{{#if repositoryVisible}}{{repositoryVisible}}{{else}}false{{/if}}",
+        "historyVisible":"{{#if historyVisible}}{{historyVisible}}{{else}}false{{/if}}"}'
         type="Component.TemplateUpdate"
         targets='["event-target-form-query"]'
       >
@@ -457,22 +436,23 @@ targets='["event-target-form-query"]'
         </mp-event-trigger>
       </div>
       {{/ifCond}}
-      {{#ifCond typeHidden "!==" "true" }}
+
+      {{#ifCond typeVisible "===" "true" }}
       <div class="input-trigger-group">
         <semantic-form-tree-picker-input
           for="type"
         ></semantic-form-tree-picker-input>
         <mp-event-trigger
         id="remove-type"
-        data='{"titleHidden":"{{#if titleHidden}}{{titleHidden}}{{else}}false{{/if}}",
-        "creatorHidden":"{{#if creatorHidden}}{{creatorHidden}}{{else}}false{{/if}}",
-        "materialHidden":"{{#if materialHidden}}{{materialHidden}}{{else}}false{{/if}}",
-        "techniqueHidden":"{{#if techniqueHidden}}{{techniqueHidden}}{{else}}false{{/if}}",
-        "typeHidden":"true",
-        "creationDateHidden":"{{#if creationDateHidden}}{{creationDateHidden}}{{else}}false{{/if}}",
-        "subjectHidden":"{{#if subjectHidden}}{{subjectHidden}}{{else}}false{{/if}}",
-        "repositoryHidden":"{{#if repositoryHidden}}{{repositoryHidden}}{{else}}false{{/if}}",
-        "historyHidden":"{{#if historyHidden}}{{historyHidden}}{{else}}false{{/if}}"}'
+        data='{
+        "creatorVisible":"{{#if creatorVisible}}{{creatorVisible}}{{else}}false{{/if}}",
+        "materialVisible":"{{#if materialVisible}}{{materialVisible}}{{else}}false{{/if}}",
+        "techniqueVisible":"{{#if techniqueVisible}}{{techniqueVisible}}{{else}}false{{/if}}",
+        "typeVisible":"false",
+        "creationDateVisible":"{{#if creationDateVisible}}{{creationDateVisible}}{{else}}false{{/if}}",
+        "subjectVisible":"{{#if subjectVisible}}{{subjectVisible}}{{else}}false{{/if}}",
+        "repositoryVisible":"{{#if repositoryVisible}}{{repositoryVisible}}{{else}}false{{/if}}",
+        "historyVisible":"{{#if historyVisible}}{{historyVisible}}{{else}}false{{/if}}"}'
         type="Component.TemplateUpdate"
         targets='["event-target-form-query"]'
       >
@@ -480,22 +460,23 @@ targets='["event-target-form-query"]'
         </mp-event-trigger>
       </div>
       {{/ifCond}}
-      {{#ifCond creationDateHidden "!==" "true" }}
+
+      {{#ifCond creationDateVisible "===" "true" }}
       <div class="input-trigger-group">
         <semantic-form-datetime-input
           for="creationDate"
         ></semantic-form-datetime-input>
         <mp-event-trigger
         id="remove-creationDate"
-        data='{"titleHidden":"{{#if titleHidden}}{{titleHidden}}{{else}}false{{/if}}",
-        "creatorHidden":"{{#if creatorHidden}}{{creatorHidden}}{{else}}false{{/if}}",
-        "materialHidden":"{{#if materialHidden}}{{materialHidden}}{{else}}false{{/if}}",
-        "techniqueHidden":"{{#if techniqueHidden}}{{techniqueHidden}}{{else}}false{{/if}}",
-        "typeHidden":"{{#if typeHidden}}{{typeHidden}}{{else}}false{{/if}}",
-        "creationDateHidden":"true",
-        "subjectHidden":"{{#if subjectHidden}}{{subjectHidden}}{{else}}false{{/if}}",
-        "repositoryHidden":"{{#if repositoryHidden}}{{repositoryHidden}}{{else}}false{{/if}}",
-        "historyHidden":"{{#if historyHidden}}{{historyHidden}}{{else}}false{{/if}}"}'
+        data='{
+        "creatorVisible":"{{#if creatorVisible}}{{creatorVisible}}{{else}}false{{/if}}",
+        "materialVisible":"{{#if materialVisible}}{{materialVisible}}{{else}}false{{/if}}",
+        "techniqueVisible":"{{#if techniqueVisible}}{{techniqueVisible}}{{else}}false{{/if}}",
+        "typeVisible":"{{#if typeVisible}}{{typeVisible}}{{else}}false{{/if}}",
+        "creationDateVisible":"false",
+        "subjectVisible":"{{#if subjectVisible}}{{subjectVisible}}{{else}}false{{/if}}",
+        "repositoryVisible":"{{#if repositoryVisible}}{{repositoryVisible}}{{else}}false{{/if}}",
+        "historyVisible":"{{#if historyVisible}}{{historyVisible}}{{else}}false{{/if}}"}'
         type="Component.TemplateUpdate"
         targets='["event-target-form-query"]'
       >
@@ -503,22 +484,23 @@ targets='["event-target-form-query"]'
         </mp-event-trigger>
       </div>
       {{/ifCond}}
-      {{#ifCond subjectHidden "!==" "true" }}
+
+      {{#ifCond subjectVisible "===" "true" }}
       <div class="input-trigger-group">
         <semantic-form-autocomplete-input
           for="workSubject"
         ></semantic-form-autocomplete-input>
         <mp-event-trigger
         id="remove-subject"
-        data='{"titleHidden":"{{#if titleHidden}}{{titleHidden}}{{else}}false{{/if}}",
-        "creatorHidden":"{{#if creatorHidden}}{{creatorHidden}}{{else}}false{{/if}}",
-        "materialHidden":"{{#if materialHidden}}{{materialHidden}}{{else}}false{{/if}}",
-        "techniqueHidden":"{{#if techniqueHidden}}{{techniqueHidden}}{{else}}false{{/if}}",
-        "typeHidden":"{{#if typeHidden}}{{typeHidden}}{{else}}false{{/if}}",
-        "creationDateHidden":"{{#if creationDateHidden}}{{creationDateHidden}}{{else}}false{{/if}}",
-        "subjectHidden":"true",
-        "repositoryHidden":"{{#if repositoryHidden}}{{repositoryHidden}}{{else}}false{{/if}}",
-        "historyHidden":"{{#if historyHidden}}{{historyHidden}}{{else}}false{{/if}}"}'
+        data='{
+        "creatorVisible":"{{#if creatorVisible}}{{creatorVisible}}{{else}}false{{/if}}",
+        "materialVisible":"{{#if materialVisible}}{{materialVisible}}{{else}}false{{/if}}",
+        "techniqueVisible":"{{#if techniqueVisible}}{{techniqueVisible}}{{else}}false{{/if}}",
+        "typeVisible":"{{#if typeVisible}}{{typeVisible}}{{else}}false{{/if}}",
+        "creationDateVisible":"{{#if creationDateVisible}}{{creationDateVisible}}{{else}}false{{/if}}",
+        "subjectVisible":"false",
+        "repositoryVisible":"{{#if repositoryVisible}}{{repositoryVisible}}{{else}}false{{/if}}",
+        "historyVisible":"{{#if historyVisible}}{{historyVisible}}{{else}}false{{/if}}"}'
         type="Component.TemplateUpdate"
         targets='["event-target-form-query"]'
       >
@@ -526,22 +508,23 @@ targets='["event-target-form-query"]'
         </mp-event-trigger>
       </div>
       {{/ifCond}}
-      {{#ifCond repositoryHidden "!==" "true" }}
+
+      {{#ifCond repositoryVisible "===" "true" }}
       <div class="input-trigger-group">
         <semantic-form-autocomplete-input
           for="repository"
         ></semantic-form-autocomplete-input>
         <mp-event-trigger
         id="remove-repository"
-        data='{"titleHidden":"{{#if titleHidden}}{{titleHidden}}{{else}}false{{/if}}",
-        "creatorHidden":"{{#if creatorHidden}}{{creatorHidden}}{{else}}false{{/if}}",
-        "materialHidden":"{{#if materialHidden}}{{materialHidden}}{{else}}false{{/if}}",
-        "techniqueHidden":"{{#if techniqueHidden}}{{techniqueHidden}}{{else}}false{{/if}}",
-        "typeHidden":"{{#if typeHidden}}{{typeHidden}}{{else}}false{{/if}}",
-        "creationDateHidden":"{{#if creationDateHidden}}{{creationDateHidden}}{{else}}false{{/if}}",
-        "subjectHidden":"{{#if subjectHidden}}{{subjectHidden}}{{else}}false{{/if}}",
-        "repositoryHidden":"true",
-        "historyHidden":"{{#if historyHidden}}{{historyHidden}}{{else}}false{{/if}}"}'
+        data='{
+        "creatorVisible":"{{#if creatorVisible}}{{creatorVisible}}{{else}}false{{/if}}",
+        "materialVisible":"{{#if materialVisible}}{{materialVisible}}{{else}}false{{/if}}",
+        "techniqueVisible":"{{#if techniqueVisible}}{{techniqueVisible}}{{else}}false{{/if}}",
+        "typeVisible":"{{#if typeVisible}}{{typeVisible}}{{else}}false{{/if}}",
+        "creationDateVisible":"{{#if creationDateVisible}}{{creationDateVisible}}{{else}}false{{/if}}",
+        "subjectVisible":"{{#if subjectVisible}}{{subjectVisible}}{{else}}false{{/if}}",
+        "repositoryVisible":"false",
+        "historyVisible":"{{#if historyVisible}}{{historyVisible}}{{else}}false{{/if}}"}'
         type="Component.TemplateUpdate"
         targets='["event-target-form-query"]'
       >
@@ -549,28 +532,181 @@ targets='["event-target-form-query"]'
         </mp-event-trigger>
       </div>
       {{/ifCond}}
-      {{#ifCond historyHidden "!==" "true" }}
+
+      {{#ifCond historyVisible "===" "true" }}
       <div class="input-trigger-group">
         <semantic-form-text-input
           for="history"
         ></semantic-form-text-input>
         <mp-event-trigger
         id="remove-history"
-        data='{"titleHidden":"{{#if titleHidden}}{{titleHidden}}{{else}}false{{/if}}",
-        "creatorHidden":"{{#if creatorHidden}}{{creatorHidden}}{{else}}false{{/if}}",
-        "materialHidden":"{{#if materialHidden}}{{materialHidden}}{{else}}false{{/if}}",
-        "techniqueHidden":"{{#if techniqueHidden}}{{techniqueHidden}}{{else}}false{{/if}}",
-        "typeHidden":"{{#if typeHidden}}{{typeHidden}}{{else}}false{{/if}}",
-        "creationDateHidden":"{{#if creationDateHidden}}{{creationDateHidden}}{{else}}false{{/if}}",
-        "subjectHidden":"{{#if subjectHidden}}{{subjectHidden}}{{else}}false{{/if}}",
-        "repositoryHidden":"{{#if historyHidden}}{{historyHidden}}{{else}}false{{/if}}",
-        "historyHidden":"true"}'
+        data='{
+        "creatorVisible":"{{#if creatorVisible}}{{creatorVisible}}{{else}}false{{/if}}",
+        "materialVisible":"{{#if materialVisible}}{{materialVisible}}{{else}}false{{/if}}",
+        "techniqueVisible":"{{#if techniqueVisible}}{{techniqueVisible}}{{else}}false{{/if}}",
+        "typeVisible":"{{#if typeVisible}}{{typeVisible}}{{else}}false{{/if}}",
+        "creationDateVisible":"{{#if creationDateVisible}}{{creationDateVisible}}{{else}}false{{/if}}",
+        "subjectVisible":"{{#if subjectVisible}}{{subjectVisible}}{{else}}false{{/if}}",
+        "repositoryVisible":"{{#if historyVisible}}{{historyVisible}}{{else}}false{{/if}}",
+        "historyVisible":"false"}'
         type="Component.TemplateUpdate"
         targets='["event-target-form-query"]'
       >
         <span class="fa fa-remove clickable"><strong>Remove</strong></span>
         </mp-event-trigger>
       </div>
+      {{/ifCond}}
+
+      {{#ifCond creatorVisible "!==" "true" }}
+              <mp-event-trigger
+        id="add-creator"
+        data='{
+        "creatorVisible":"true",
+        "materialVisible":"{{#if materialVisible}}{{materialVisible}}{{else}}false{{/if}}",
+        "techniqueVisible":"{{#if techniqueVisible}}{{techniqueVisible}}{{else}}false{{/if}}",
+        "typeVisible":"{{#if typeVisible}}{{typeVisible}}{{else}}false{{/if}}",
+        "creationDateVisible":"{{#if creationDateVisible}}{{creationDateVisible}}{{else}}false{{/if}}",
+        "subjectVisible":"{{#if subjectVisible}}{{subjectVisible}}{{else}}false{{/if}}",
+        "repositoryVisible":"{{#if repositoryVisible}}{{repositoryVisible}}{{else}}false{{/if}}",
+        "historyVisible":"{{#if historyVisible}}{{historyVisible}}{{else}}false{{/if}}"}'
+        type="Component.TemplateUpdate"
+        targets='["event-target-form-query"]'
+      >
+        <span class="fa fa-plus clickable"><strong>Add Creator</strong></span>
+        </mp-event-trigger>
+      {{/ifCond}}
+      {{#ifCond materialVisible "!==" "true" }}
+     
+              <mp-event-trigger
+        id="add-material"
+        data='{
+          "creatorVisible":"{{#if creatorVisible}}{{creatorVisible}}{{else}}false{{/if}}",
+          "materialVisible":"true",
+          "techniqueVisible":"{{#if techniqueVisible}}{{techniqueVisible}}{{else}}false{{/if}}",
+          "typeVisible":"{{#if typeVisible}}{{typeVisible}}{{else}}false{{/if}}",
+          "creationDateVisible":"{{#if creationDateVisible}}{{creationDateVisible}}{{else}}false{{/if}}",
+          "subjectVisible":"{{#if subjectVisible}}{{subjectVisible}}{{else}}false{{/if}}",
+          "repositoryVisible":"{{#if repositoryVisible}}{{repositoryVisible}}{{else}}false{{/if}}",
+          "historyVisible":"{{#if historyVisible}}{{historyVisible}}{{else}}false{{/if}}"}'
+        type="Component.TemplateUpdate"
+        targets='["event-target-form-query"]'
+      >
+        <span class="fa fa-plus clickable"><strong>Add Material</strong></span>
+        </mp-event-trigger>
+      {{/ifCond}}
+      {{#ifCond techniqueVisible "!==" "true" }}
+     
+              <mp-event-trigger
+        id="add-technique"
+        data='{
+          "creatorVisible":"{{#if creatorVisible}}{{creatorVisible}}{{else}}false{{/if}}",
+          "materialVisible":"{{#if materialVisible}}{{materialVisible}}{{else}}false{{/if}}",
+          "techniqueVisible":"true",
+          "typeVisible":"{{#if typeVisible}}{{typeVisible}}{{else}}false{{/if}}",
+          "creationDateVisible":"{{#if creationDateVisible}}{{creationDateVisible}}{{else}}false{{/if}}",
+          "subjectVisible":"{{#if subjectVisible}}{{subjectVisible}}{{else}}false{{/if}}",
+          "repositoryVisible":"{{#if repositoryVisible}}{{repositoryVisible}}{{else}}false{{/if}}",
+          "historyVisible":"{{#if historyVisible}}{{historyVisible}}{{else}}false{{/if}}"}'
+        type="Component.TemplateUpdate"
+        targets='["event-target-form-query"]'
+      >
+        <span class="fa fa-plus clickable"><strong>Add Technique</strong></span>
+        </mp-event-trigger>
+      {{/ifCond}}
+      {{#ifCond typeVisible "!==" "true" }}
+     
+              <mp-event-trigger
+        id="add-type"
+        data='{
+          "creatorVisible":"{{#if creatorVisible}}{{creatorVisible}}{{else}}false{{/if}}",
+          "materialVisible":"{{#if materialVisible}}{{materialVisible}}{{else}}false{{/if}}",
+          "techniqueVisible":"{{#if techniqueVisible}}{{techniqueVisible}}{{else}}false{{/if}}",
+          "typeVisible":"true",
+          "creationDateVisible":"{{#if creationDateVisible}}{{creationDateVisible}}{{else}}false{{/if}}",
+          "subjectVisible":"{{#if subjectVisible}}{{subjectVisible}}{{else}}false{{/if}}",
+          "repositoryVisible":"{{#if repositoryVisible}}{{repositoryVisible}}{{else}}false{{/if}}",
+          "historyVisible":"{{#if historyVisible}}{{historyVisible}}{{else}}false{{/if}}"}'
+        type="Component.TemplateUpdate"
+        targets='["event-target-form-query"]'
+      >
+        <span class="fa fa-plus clickable"><strong>Add Type</strong></span>
+        </mp-event-trigger>
+      {{/ifCond}}
+      {{#ifCond creationDateVisible "!==" "true" }}
+     
+      <mp-event-trigger
+        id="remove-creationDate"
+        data='{
+          "creatorVisible":"{{#if creatorVisible}}{{creatorVisible}}{{else}}false{{/if}}",
+          "materialVisible":"{{#if materialVisible}}{{materialVisible}}{{else}}false{{/if}}",
+          "techniqueVisible":"{{#if techniqueVisible}}{{techniqueVisible}}{{else}}false{{/if}}",
+          "typeVisible":"{{#if typeVisible}}{{typeVisible}}{{else}}false{{/if}}",
+          "creationDateVisible":"true",
+          "subjectVisible":"{{#if subjectVisible}}{{subjectVisible}}{{else}}false{{/if}}",
+          "repositoryVisible":"{{#if repositoryVisible}}{{repositoryVisible}}{{else}}false{{/if}}",
+          "historyVisible":"{{#if historyVisible}}{{historyVisible}}{{else}}false{{/if}}"}'
+        type="Component.TemplateUpdate"
+        targets='["event-target-form-query"]'
+      >
+        <span class="fa fa-plus clickable"><strong>Add Creation Date </strong></span>
+        </mp-event-trigger>
+      {{/ifCond}}
+      {{#ifCond subjectVisible "!==" "true" }}
+     
+              <mp-event-trigger
+        id="remove-subject"
+        data='{
+          "creatorVisible":"{{#if creatorVisible}}{{creatorVisible}}{{else}}false{{/if}}",
+          "materialVisible":"{{#if materialVisible}}{{materialVisible}}{{else}}false{{/if}}",
+          "techniqueVisible":"{{#if techniqueVisible}}{{techniqueVisible}}{{else}}false{{/if}}",
+          "typeVisible":"{{#if typeVisible}}{{typeVisible}}{{else}}false{{/if}}",
+          "creationDateVisible":"{{#if creationDateVisible}}{{creationDateVisible}}{{else}}false{{/if}}",
+          "subjectVisible":"true",
+          "repositoryVisible":"{{#if repositoryVisible}}{{repositoryVisible}}{{else}}false{{/if}}",
+          "historyVisible":"{{#if historyVisible}}{{historyVisible}}{{else}}false{{/if}}"}'
+        type="Component.TemplateUpdate"
+        targets='["event-target-form-query"]'
+      >
+        <span class="fa fa-plus clickable"><strong>Add Subject </strong></span>
+        </mp-event-trigger>
+      {{/ifCond}}
+      {{#ifCond repositoryVisible "!==" "true" }}
+     
+              <mp-event-trigger
+        id="remove-repository"
+        data='{
+          "creatorVisible":"{{#if creatorVisible}}{{creatorVisible}}{{else}}false{{/if}}",
+          "materialVisible":"{{#if materialVisible}}{{materialVisible}}{{else}}false{{/if}}",
+          "techniqueVisible":"{{#if techniqueVisible}}{{techniqueVisible}}{{else}}false{{/if}}",
+          "typeVisible":"{{#if typeVisible}}{{typeVisible}}{{else}}false{{/if}}",
+          "creationDateVisible":"{{#if creationDateVisible}}{{creationDateVisible}}{{else}}false{{/if}}",
+          "subjectVisible":"{{#if subjectVisible}}{{subjectVisible}}{{else}}false{{/if}}",
+          "repositoryVisible":"true",
+          "historyVisible":"{{#if historyVisible}}{{historyVisible}}{{else}}false{{/if}}"}'
+        type="Component.TemplateUpdate"
+        targets='["event-target-form-query"]'
+      >
+        <span class="fa fa-plus clickable"><strong>Add Repository </strong></span>
+        </mp-event-trigger>
+      {{/ifCond}}
+      {{#ifCond historyVisible "!==" "true" }}
+     
+              <mp-event-trigger
+        id="remove-creator"
+        data='{
+          "creatorVisible":"{{#if creatorVisible}}{{creatorVisible}}{{else}}false{{/if}}",
+          "materialVisible":"{{#if materialVisible}}{{materialVisible}}{{else}}false{{/if}}",
+          "techniqueVisible":"{{#if techniqueVisible}}{{techniqueVisible}}{{else}}false{{/if}}",
+          "typeVisible":"{{#if typeVisible}}{{typeVisible}}{{else}}false{{/if}}",
+          "creationDateVisible":"{{#if creationDateVisible}}{{creationDateVisible}}{{else}}false{{/if}}",
+          "subjectVisible":"{{#if subjectVisible}}{{subjectVisible}}{{else}}false{{/if}}",
+          "repositoryVisible":"{{#if historyVisible}}{{historyVisible}}{{else}}false{{/if}}",
+          "historyVisible":"true"}'
+        type="Component.TemplateUpdate"
+        targets='["event-target-form-query"]'
+      >
+        <span class="fa fa-plus clickable"><strong>Add History of Ownership</strong></span>
+        </mp-event-trigger>
       {{/ifCond}}
     </div>
       <semantic-form-hidden-input for="secretInput" default-value='nope'></semantic-form-hidden-input>
@@ -677,11 +813,12 @@ targets='["event-target-form-query"]'
     border-radius: 5px;
 
   }
-
+.clickable{
+  cursor: pointer;
+}
 
   span.fa.fa-remove.clickable{
     margin-top: 25px;
-    cursor: pointer;
   }
   span.fa.fa-remove strong {
     margin-left: 5px;
@@ -689,12 +826,17 @@ targets='["event-target-form-query"]'
 
 span.fa.fa-repeat.clickable{
     margin-top: 25px;
-    cursor: pointer;
   }
   span.fa.fa-repeat strong {
     margin-left: 5px;
 }
 
+span.fa.fa-plus{
+  font-size: 16px;
+  margin-top: 20px;
+  margin-right: 60px;
+  margin-bottom: 20px;
+}
 
 h2 {
   font-weight: 500;
