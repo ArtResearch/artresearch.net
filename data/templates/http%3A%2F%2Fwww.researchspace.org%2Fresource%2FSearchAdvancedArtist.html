@@ -13,6 +13,8 @@
     relations='[[> :SearchSimpleRelations]]'
     search-profile='[[> :SearchSimpleProfile]]'
     >
+    <div class="search-form-container">
+    <bs-panel id="form-panel" header="Search form"  collapsible="true" default-expanded="true">
       <mp-event-target-template-render
       id="event-target-form-query"
       template="{{> tableEventTargetFormQueryTemplate}}"
@@ -20,7 +22,7 @@
       <div class="advanced-search-form">
         <semantic-search-form-query
           multi=true
-          domain='<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>'
+          domain='<http://www.cidoc-crm.org/cidoc-crm/E21_Person>'
           query-template='[[> :SearchAdvancedArtistQuery]]'
           fields='[[> :SearchAdvancedArtistFields]]'
         >
@@ -33,6 +35,8 @@
       </div>
       </template>
       </mp-event-target-template-render>
+    </bs-panel>
+    </div>
       <div class="row">
         <bs-col lg="9" md="8" sm="7"
         class="results-container"
@@ -178,5 +182,5 @@
   box-shadow: none !important;
   -webkit-box-shadow: none !important;
   }
-  
+
   </style>
