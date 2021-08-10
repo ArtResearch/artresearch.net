@@ -1,0 +1,110 @@
+[
+    { 
+    "id": "secretInput",
+    "label": "Secret Input",
+    "xsdDatatype": "xsd:string",
+    "autosuggestionPattern": "
+      PREFIX fts: <http://www.bigdata.com/rdf/fts#>
+      SELECT DISTINCT ?value ?label  WHERE {
+        ?value rdfs:label ?label
+      }LIMIT 1"
+    }
+    ,{
+      "id": "photographer",
+      "label": "Photographer",
+      "minOccurs":1,
+      "maxOccurs":100,
+      "xsdDatatype": "xsd:anyURI",
+      "autosuggestionPattern": "
+        PREFIX fts: <http://www.bigdata.com/rdf/fts#>
+        SELECT DISTINCT ?value ?label  WHERE {
+          ?value rdfs:label ?label.
+          ?label bds:search ?__token__ .
+          ?label bds:minRelevance \"0.3\"^^xsd:double.
+          ?label bds:matchAllTerms \"true\".
+          FILTER EXISTS{ ?sub fr:Photo_created_by_Photographer ?value}
+        }order by ?label"
+    }
+    ,{
+      "id": "technique",
+      "label": "Technique",
+      "minOccurs":1,
+      "maxOccurs":100,
+      "xsdDatatype": "xsd:anyURI",
+      "treePatterns": {
+      "type": "full",
+      "rootsQuery": "
+      SELECT DISTINCT ?item ?label where {
+        ?item a  fc:technique.
+        ?item a <http://vocab.getty.edu/ontology#Facet>.
+        ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+        FILTER ( lang(?label) = \"en\" ). 
+        FILTER(EXISTS {  ?subject fr:Photo_produced_using_Technique ?item . }) .
+      }order by ?label",
+      
+      "childrenQuery": "
+        SELECT distinct ?item ?label ?hasChildren WHERE {
+          ?item a  fc:technique.
+          ?item <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
+          ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+          FILTER ( lang(?label) = \"en\" ). 
+          FILTER(EXISTS { ?subject fr:Photo_produced_using_Technique ?item . }) .
+          BIND(bound(?item) as ?hasChildren)
+        } order by ?label",
+      "parentsQuery": "
+      SELECT distinct ?item ?parent ?parentLabel WHERE {
+        ?item a fc:technique.
+        ?item a <http://www.w3.org/2004/02/skos/core#ConceptScheme>.
+        ?item  <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
+        ?parent <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+        FILTER ( lang(?label) = \"en\" ). 
+      }",
+      "searchQuery":"
+        SELECT DISTINCT ?hasChildren ?item ?label WHERE {
+          ?item a fc:technique.
+          ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+          ?label bds:search ?__token__ .
+          ?label bds:minRelevance \"0.3\"^^xsd:double.
+          ?label bds:matchAllTerms \"true\".
+          ?child  <http://vocab.getty.edu/ontology#broaderPreferred> ?item.
+          BIND(BOUND(?child) AS ?hasChildren)
+          FILTER ( lang(?label) = \"en\" ). 
+          FILTER(EXISTS { 
+            ?subject fr:Photo_produced_using_Technique ?item . 
+          }) 
+        }ORDER BY DESC (?label)
+        "
+        }
+    }
+    ,{
+      "id": "creationDateFrom",
+      "label": "Creation date (From)",
+      "minOccurs":1,
+      "maxOccurs":1,
+      "xsdDatatype": "xsd:date"
+    }
+    ,{
+      "id": "creationDateTo",
+      "label": "Creation date (To)",
+      "minOccurs":1,
+      "maxOccurs":1,
+      "xsdDatatype": "xsd:date"
+    }
+    ,{
+      "id": "repository",
+      "label": "Repository",
+      "minOccurs":1,
+      "maxOccurs":100,
+      "xsdDatatype": "xsd:anyURI",
+      "autosuggestionPattern": "
+        SELECT DISTINCT ?value ?label  WHERE {
+          ?value rdfs:label ?label.
+          ?label bds:search ?__token__ .
+          ?label bds:minRelevance \"0.3\"^^xsd:double.
+          ?label bds:matchAllTerms \"true\".
+          FILTER(EXISTS { 
+            ?subject fr:Photo_kept_by_Institution ?value . 
+          }) 
+        }ORDER BY DESC (?label)"
+    }
+]

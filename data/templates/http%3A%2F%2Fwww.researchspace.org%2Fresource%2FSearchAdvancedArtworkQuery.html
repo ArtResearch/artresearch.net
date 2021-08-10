@@ -1,0 +1,97 @@
+{
+  "queryString": "
+    PREFIX solr: <http://custom.solr/ontology#>
+    SELECT ?subject WHERE {
+    {{#if titleVisible }}
+    {{#ifCond titleVisible "===" "true" }}
+      BIND(REPLACE(str(?title), \"(?<!^)(?<!\\\\s)\\\\s+(?!\\\\s+)(?!$)\",\" AND \") as ?token).
+      SERVICE <http://www.researchspace.org/resource/system/service/custom#solrworks>{
+        ?solrApi solr:setQuery ?token;
+                solr:setDefType \"dismax\";
+                solr:setFilter \"id\";
+                solr:setRowsNumber 1000;
+                solr:hasResults ?subject.
+      }
+    {{/ifCond}}
+    {{else}}
+    BIND(REPLACE(str(?title), \"(?<!^)(?<!\\\\s)\\\\s+(?!\\\\s+)(?!$)\",\" AND \") as ?token).
+    SERVICE <http://www.researchspace.org/resource/system/service/custom#solrworks>{
+      ?solrApi solr:setQuery ?token;
+              solr:setDefType \"dismax\";
+              solr:setFilter \"id\";
+              solr:setRowsNumber 1000;
+              solr:hasResults ?subject.
+    }
+    {{/if}}
+    {{#ifCond creatorVisible "===" "true" }}
+        ?subject fr:Work_created_from_Artist ?creator .
+    {{/ifCond}}
+    {{#ifCond materialVisible "===" "true" }}
+    ?subject fr:Work_consists_of_Material ?material .
+    {{/ifCond}}
+    {{#ifCond techniqueVisible "===" "true" }}
+    ?subject fr:Work_produced_using_technique_Technique ?technique .
+    {{/ifCond}}
+    {{#ifCond typeVisible "===" "true" }}
+    ?subject crm:P2_has_type ?technique .
+    {{/ifCond}}
+    {{#ifCond creationDateVisible "===" "true" }}
+    ?subject fr:Work_from_Date ?creationDate.
+    {{/ifCond}}
+    {{#ifCond subjectVisible "===" "true" }}
+    ?subject fr:Work_shows_Subject ?workSubject.
+    {{/ifCond}}
+    {{#ifCond repositoryVisible "===" "true" }}
+    ?subject fr:Work_kept_by_Institution ?repository.
+    {{/ifCond}}
+    {{#ifCond historyVisible "===" "true" }}
+    {
+        ?subject crm:P67i_is_referred_to_by ?information_object.
+        ?information_object crm:P2_has_type <http://vocab.getty.edu/aat/300055863>.
+        ?information_object crm:P190_has_symbolic_content ?label.
+    } UNION {
+        ?subject crm:P24i_changed_ownership_through ?acquisition.
+        ?acquisition crm:P22_transferred_title_from|crm:P23_transferred_title_from ?value_uri.
+        ?value_uri rdfs:label ?label.
+    }
+    ?label bds:search ?history .
+    ?label bds:minRelevance \"0.3\"^^xsd:double.
+    ?label bds:matchAllTerms \"true\".
+    {{/ifCond}}
+    }LIMIT 1000
+  ",
+  "arguments": {
+  "secretInput":{"type": "xsd:string", "optional": true}
+  {{#if titleVisible}}
+  {{#ifCond titleVisible "===" "true" }}
+  ,"title": {"type": "xsd:string"}
+  {{/ifCond}}
+  {{else}}
+  ,"title": {"type": "xsd:string"}
+  {{/if}}
+  {{#ifCond creatorVisible "===" "true" }}
+  ,"creator": {"type": "xsd:anyURI"}
+  {{/ifCond}}
+  {{#ifCond materialVisible "===" "true" }}
+  ,"material": {"type": "xsd:anyURI"}
+  {{/ifCond}}
+  {{#ifCond techniqueVisible "===" "true" }}
+  ,"technique": {"type": "xsd:anyURI"}
+  {{/ifCond}}
+  {{#ifCond typeVisible "===" "true" }}
+  ,"type": {"type": "xsd:anyURI"}
+  {{/ifCond}}
+  {{#ifCond creationDateVisible "===" "true" }}
+  ,"creationDate": {"type": "xsd:date"}
+  {{/ifCond}}
+  {{#ifCond subjectVisible "===" "true" }}
+  ,"workSubject": {"type": "xsd:anyURI"}
+  {{/ifCond}}
+  {{#ifCond repositoryVisible "===" "true" }}
+  ,"repository": {"type": "xsd:anyURI"}
+  {{/ifCond}}
+  {{#ifCond historyVisible "===" "true" }}
+  ,"history": {"type": "xsd:string"}
+  {{/ifCond}}
+  }
+}

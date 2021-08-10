@@ -1,0 +1,45 @@
+{
+  "queryString": "
+    PREFIX solr: <http://custom.solr/ontology#>
+    SELECT ?subject WHERE {
+    {{#if photographerVisible}}
+      {{#ifCond photographerVisible "===" "true" }}
+          ?subject fr:Photo_created_by_Photographer ?photographer .
+      {{/ifCond}}
+    {{else}}
+      ?subject fr:Photo_created_by_Photographer ?photographer .
+    {{/if}}
+    {{#ifCond techniqueVisible "===" "true" }}
+    ?subject fr:Photo_produced_using_Technique ?technique .
+    {{/ifCond}}
+    {{#ifCond repositoryVisible "===" "true" }}
+    ?subject fr:Photo_kept_by_Institution ?repository.
+    {{/ifCond}}
+    {{#ifCond creationDate "===" "true" }}
+    ?subject fr:Photo_from_Date ?date.
+      FILTER(?date >= ?creationDateFrom)
+      FILTER(?date <= ?creationDateTo)
+    {{/ifCond}}
+    }LIMIT 1000
+  ",
+  "arguments": {
+  "secretInput":{"type": "xsd:string", "optional": true}
+  {{#if photographerVisible}}
+  {{#ifCond photographerVisible "===" "true" }}
+    ,"photographer": {"type": "xsd:anyURI"}
+  {{/ifCond}}
+  {{else}}
+  ,"photographer": {"type": "xsd:anyURI"}
+  {{/if}}
+  {{#ifCond techniqueVisible "===" "true" }}
+  ,"technique": {"type": "xsd:anyURI"}
+  {{/ifCond}}
+  {{#ifCond creationDate "===" "true" }}
+  ,"creationDateFrom": {"type": "xsd:date"}
+  ,"creationDateTo": {"type": "xsd:date"}
+  {{/ifCond}}
+  {{#ifCond repositoryVisible "===" "true" }}
+  ,"repository": {"type": "xsd:anyURI"}
+  {{/ifCond}}
+  }
+}

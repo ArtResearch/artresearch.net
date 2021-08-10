@@ -1,0 +1,184 @@
+<div class="input-boxes">
+  {{#ifCond repositoryVisible "===" "true" }}
+  <div class="input-trigger-group">
+    <semantic-form-autocomplete-input
+      for="repository"
+    ></semantic-form-autocomplete-input>
+    <mp-event-trigger
+    id="remove-repository"
+    data='{
+    "photographerVisible":"{{#if photographerVisible}}{{photographerVisible}}{{else}}false{{/if}}",
+    "techniqueVisible":"{{#if techniqueVisible}}{{techniqueVisible}}{{else}}false{{/if}}",
+    "creationDate":"{{#if creationDate}}{{creationDate}}{{else}}false{{/if}}",
+    "repositoryVisible":"false"}'
+    type="Component.TemplateUpdate"
+    targets='["event-target-form-query"]'
+  >
+    <span class="fa fa-remove clickable"><strong>Remove</strong></span>
+    </mp-event-trigger>
+  </div>
+  {{/ifCond}}
+  {{#if photographerVisible}}
+{{#ifCond photographerVisible "===" "true" }}
+<div class="input-trigger-group">
+  <semantic-form-autocomplete-input
+    for="photographer"
+  ></semantic-form-autocomplete-input>
+  <mp-event-trigger
+  id="remove-photographer"
+  data='{
+  "photographerVisible":"false",
+  "techniqueVisible":"{{#if techniqueVisible}}{{techniqueVisible}}{{else}}false{{/if}}",
+  "creationDate":"{{#if creationDate}}{{creationDate}}{{else}}false{{/if}}",
+  "repositoryVisible":"{{#if repositoryVisible}}{{repositoryVisible}}{{else}}false{{/if}}"}'
+  type="Component.TemplateUpdate"
+  targets='["event-target-form-query"]'
+>
+  <span class="fa fa-remove clickable"><strong>Remove</strong></span>
+  </mp-event-trigger>
+</div>
+{{/ifCond}}
+{{else}}
+<div class="input-trigger-group">
+  <semantic-form-autocomplete-input
+    for="photographer"
+  ></semantic-form-autocomplete-input>
+  <mp-event-trigger
+  id="remove-photographer"
+  data='{
+  "photographerVisible":"false",
+  "techniqueVisible":"{{#if techniqueVisible}}{{techniqueVisible}}{{else}}false{{/if}}",
+  "creationDate":"{{#if creationDate}}{{creationDate}}{{else}}false{{/if}}",
+  "repositoryVisible":"{{#if repositoryVisible}}{{repositoryVisible}}{{else}}false{{/if}}"}'
+  type="Component.TemplateUpdate"
+  targets='["event-target-form-query"]'
+>
+  <span class="fa fa-remove clickable"><strong>Remove</strong></span>
+  </mp-event-trigger>
+</div>
+{{/if}}
+
+
+
+
+{{#ifCond creationDate "===" "true" }}
+<div class="input-trigger-group">
+  <semantic-form-datetime-input
+    for="creationDateFrom"
+  ></semantic-form-datetime-input>
+  <semantic-form-datetime-input
+    for="creationDateTo"
+  ></semantic-form-datetime-input>
+  <mp-event-trigger
+  id="remove-creationDateTo"
+  data='{
+  "photographerVisible":"{{#if photographerVisible}}{{photographerVisible}}{{else}}false{{/if}}",
+  "techniqueVisible":"{{#if techniqueVisible}}{{techniqueVisible}}{{else}}false{{/if}}",
+  "creationDate":"false",
+  "repositoryVisible":"{{#if repositoryVisible}}{{repositoryVisible}}{{else}}false{{/if}}"}'
+  type="Component.TemplateUpdate"
+  targets='["event-target-form-query"]'
+>
+  <span class="fa fa-remove clickable"><strong>Remove</strong></span>
+  </mp-event-trigger>
+</div>
+{{/ifCond}}
+{{#ifCond techniqueVisible "===" "true" }}
+<div class="input-trigger-group">
+  <semantic-form-tree-picker-input
+    for="technique"
+  ></semantic-form-tree-picker-input>
+  <mp-event-trigger
+  id="remove-technique"
+  data='{
+  "photographerVisible":"{{#if photographerVisible}}{{photographerVisible}}{{else}}false{{/if}}",
+  "techniqueVisible":"false",
+  "creationDate":"{{#if creationDate}}{{creationDate}}{{else}}false{{/if}}",
+  "repositoryVisible":"{{#if repositoryVisible}}{{repositoryVisible}}{{else}}false{{/if}}"}'
+  type="Component.TemplateUpdate"
+  targets='["event-target-form-query"]'
+>
+  <span class="fa fa-remove clickable"><strong>Remove</strong></span>
+  </mp-event-trigger>
+</div>
+{{/ifCond}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{{#if photographerVisible}}
+  {{#ifCond photographerVisible "!==" "true" }}
+  <mp-event-trigger
+  id="add-photographer"
+  data='{
+  "photographerVisible":"true",
+  "techniqueVisible":"{{#if techniqueVisible}}{{techniqueVisible}}{{else}}false{{/if}}",
+  "creationDate":"{{#if creationDate}}{{creationDate}}{{else}}false{{/if}}",
+  "repositoryVisible":"{{#if repositoryVisible}}{{repositoryVisible}}{{else}}false{{/if}}"}'
+  type="Component.TemplateUpdate"
+  targets='["event-target-form-query"]'
+  >
+  <span class="fa fa-plus clickable"><strong>Add Photographer</strong></span>
+  </mp-event-trigger>
+  {{/ifCond}}
+{{/if}}
+
+
+{{#ifCond repositoryVisible "!==" "true" }}
+  <mp-event-trigger
+  id="add-repository"
+  data='{
+  "photographerVisible":"{{#if photographerVisible}}{{photographerVisible}}{{else}}false{{/if}}",
+  "techniqueVisible":"{{#if techniqueVisible}}{{techniqueVisible}}{{else}}false{{/if}}",
+  "creationDate":"{{#if creationDate}}{{creationDate}}{{else}}false{{/if}}",
+  "repositoryVisible":"true"}'
+  type="Component.TemplateUpdate"
+  targets='["event-target-form-query"]'
+>
+  <span class="fa fa-plus clickable"><strong>Add Repository</strong></span>
+  </mp-event-trigger>
+{{/ifCond}}
+
+{{#ifCond creationDate "!==" "true" }}
+<mp-event-trigger
+id="add-creationDateTo"
+data='{
+"photographerVisible":"{{#if photographerVisible}}{{photographerVisible}}{{else}}false{{/if}}",
+"techniqueVisible":"{{#if techniqueVisible}}{{techniqueVisible}}{{else}}false{{/if}}",
+"creationDate":"true",
+"repositoryVisible":"{{#if repositoryVisible}}{{repositoryVisible}}{{else}}false{{/if}}"}'
+type="Component.TemplateUpdate"
+targets='["event-target-form-query"]'
+>
+<span class="fa fa-plus clickable"><strong>Add Creation Date</strong></span>
+</mp-event-trigger>
+{{/ifCond}}
+
+{{#ifCond techniqueVisible "!==" "true" }}
+<mp-event-trigger
+id="add-technique"
+data='{
+"photographerVisible":"{{#if photographerVisible}}{{photographerVisible}}{{else}}false{{/if}}",
+"techniqueVisible":"true",
+"creationDate":"{{#if creationDate}}{{creationDate}}{{else}}false{{/if}}",
+"repositoryVisible":"{{#if repositoryVisible}}{{repositoryVisible}}{{else}}false{{/if}}"}'
+type="Component.TemplateUpdate"
+targets='["event-target-form-query"]'
+>
+<span class="fa fa-plus clickable"><strong>Add Technique</strong></span>
+</mp-event-trigger>
+{{/ifCond}}
+</div>

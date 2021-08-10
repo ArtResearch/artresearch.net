@@ -1,0 +1,101 @@
+[
+  { "id": "secretInput",
+  "label": "Secret Input",
+  "xsdDatatype": "xsd:string",
+  "autosuggestionPattern": "
+    PREFIX fts: <http://www.bigdata.com/rdf/fts#>
+    SELECT DISTINCT ?value ?label  WHERE {
+      ?value rdfs:label ?label
+    }LIMIT 1"
+  }
+  ,{
+    "id": "name",
+    "label": "Name",
+    "minOccurs":1,
+    "maxOccurs":100,
+    "xsdDatatype": "xsd:string"
+  }
+  
+  ,{
+    "id": "dobFrom",
+    "label": "Date of Birth (From)",
+    "minOccurs":1,
+    "maxOccurs":1,
+    "xsdDatatype": "xsd:date"
+  }
+  ,{
+    "id": "dobTo",
+    "label": "Date of Birth (To)",
+    "minOccurs":1,
+    "maxOccurs":1,
+    "xsdDatatype": "xsd:date"
+  }
+  
+  ,{
+    "id": "dodFrom",
+    "label": "Date of Death (From)",
+    "minOccurs":1,
+    "maxOccurs":1,
+    "xsdDatatype": "xsd:date"
+  }
+  ,{
+    "id": "dodTo",
+    "label": "Date of Death (To)",
+    "minOccurs":1,
+    "maxOccurs":1,
+    "xsdDatatype": "xsd:date"
+  }
+  ,{
+    "id": "nationality",
+    "label": "Nationality",
+    "minOccurs":1,
+    "maxOccurs":100,
+    "xsdDatatype": "xsd:anyURI",
+    "autosuggestionPattern": "
+    SELECT DISTINCT ?value ?label  WHERE {
+      ?value rdfs:label ?label.
+      ?label bds:search ?__token__ .
+      ?label bds:minRelevance \"0.3\"^^xsd:double.
+      ?label bds:matchAllTerms \"true\".
+      FILTER(EXISTS { 
+        ?person fr:Person_has_Nationality ?value . 
+      }) 
+    }ORDER BY ?label LIMIT 10"
+  }
+  
+  ,{
+    "id": "gender",
+    "label": "Gender",
+    "minOccurs":1,
+    "maxOccurs":100,
+    "xsdDatatype": "xsd:anyURI",
+    "valueSetPattern":"
+    SELECT DISTINCT ?value ?label  WHERE {
+      VALUES(?value ?label){
+        (<http://vocab.getty.edu/aat/300189557> \"female\")
+        (<http://vocab.getty.edu/aat/300189559> \"male\")
+        (<http://vocab.getty.edu/aat/300400512> \"unavailable (information indicator)\")
+      }
+    }
+    "
+  }
+  
+  ,{
+    "id": "location",
+    "label": "Active Location",
+    "minOccurs":1,
+    "maxOccurs":100,
+    "xsdDatatype": "xsd:anyURI",
+    "autosuggestionPattern": "
+      SELECT DISTINCT ?value ?label  WHERE {
+        ?value rdfs:label ?label.
+        ?label bds:search ?__token__ .
+        ?label bds:minRelevance \"0.3\"^^xsd:double.
+        ?label bds:matchAllTerms \"true\".
+        FILTER(EXISTS { 
+          ?subject fr:Person_active_at_Place ?value . 
+        }) 
+      }ORDER BY DESC (?label)"
+  }
+  
+]

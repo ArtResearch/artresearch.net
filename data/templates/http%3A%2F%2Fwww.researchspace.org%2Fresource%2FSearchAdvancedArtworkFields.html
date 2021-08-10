@@ -1,0 +1,245 @@
+[
+    { 
+    "id": "secretInput",
+    "label": "Secret Input",
+    "xsdDatatype": "xsd:string",
+    "autosuggestionPattern": "
+      PREFIX fts: <http://www.bigdata.com/rdf/fts#>
+      SELECT DISTINCT ?value ?label  WHERE {
+        ?value rdfs:label ?label
+      }LIMIT 1"
+    }
+    ,{
+      "id": "title",
+      "label": "Title",
+      "minOccurs":1,
+      "maxOccurs":100,
+      "xsdDatatype": "xsd:string"
+    }
+    ,{
+      "id": "creator",
+      "label": "Creator",
+      "minOccurs":1,
+      "maxOccurs":100,
+      "xsdDatatype": "xsd:anyURI",
+      "autosuggestionPattern": "
+        PREFIX fts: <http://www.bigdata.com/rdf/fts#>
+        SELECT DISTINCT ?value ?label  WHERE {
+          ?value fts:search ?__token__ .
+          ?value fts:endpoint \"http://213.171.209.34:8983/solr/artists_weighted/select\".
+          ?value fts:endpointType \"SOLR\" .
+          ?value fts:params \"rows=10\" .
+          ?value fts:searchField \"uri\" .
+          ?value fts:fieldToSearch \"*\" .
+          ?value fts:snippetField \"*\" .
+          ?value fts:searchResultType \"URI\" ;
+          <http://www.bigdata.com/rdf/fts#scoreField>    \"field_score\";
+          <http://www.bigdata.com/rdf/fts#score>   ?score;
+          rdfs:label ?label.
+          FILTER EXISTS{ ?sub fr:Work_created_from_Artist ?value}
+        }"
+    }
+    ,{
+      "id": "material",
+      "label": "Material",
+      "minOccurs":1,
+      "maxOccurs":100,
+      "xsdDatatype": "xsd:anyURI",
+      "treePatterns": {
+      "type": "full",
+      "rootsQuery": "
+      SELECT DISTINCT ?item ?label where {
+        ?item a  fc:material.
+        ?item a <http://vocab.getty.edu/ontology#Facet>.
+        ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+        FILTER ( lang(?label) = \"en\" ). 
+        FILTER(EXISTS {  ?subject fr:Work_consists_of_Material ?item . }) .
+      }order by ?label",
+      
+      "childrenQuery": "
+        SELECT distinct ?item ?label ?hasChildren WHERE {
+          ?item a  fc:material.
+          ?item <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
+          ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+          FILTER ( lang(?label) = \"en\" ). 
+          FILTER(EXISTS { ?subject fr:Work_consists_of_Material ?item . }) .
+          BIND(bound(?item) as ?hasChildren)
+        } order by ?label",
+      "parentsQuery": "
+      SELECT distinct ?item ?parent ?parentLabel WHERE {
+        ?item a fc:material.
+        ?item a <http://www.w3.org/2004/02/skos/core#ConceptScheme>.
+        ?item  <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
+        ?parent <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+        FILTER ( lang(?label) = \"en\" ). 
+      }",
+      "searchQuery":"
+        SELECT DISTINCT ?hasChildren ?item ?label WHERE {
+          ?item a fc:material.
+          ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+          ?label bds:search ?__token__ .
+          ?label bds:minRelevance \"0.3\"^^xsd:double.
+          ?label bds:matchAllTerms \"true\".
+          ?child  <http://vocab.getty.edu/ontology#broaderPreferred> ?item.
+          BIND(BOUND(?child) AS ?hasChildren)
+          FILTER ( lang(?label) = \"en\" ). 
+          FILTER(EXISTS { 
+            ?subject fr:Work_consists_of_Material ?item . 
+          }) 
+        }ORDER BY DESC (?label)
+        "
+        }
+    }
+    ,{
+      "id": "technique",
+      "label": "Technique",
+      "minOccurs":1,
+      "maxOccurs":100,
+      "xsdDatatype": "xsd:anyURI",
+      "treePatterns": {
+      "type": "full",
+      "rootsQuery": "
+      SELECT DISTINCT ?item ?label where {
+        ?item a  fc:technique.
+        ?item a <http://vocab.getty.edu/ontology#Facet>.
+        ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+        FILTER ( lang(?label) = \"en\" ). 
+        FILTER(EXISTS {  ?subject fr:Work_produced_using_technique_Technique ?item . }) .
+      }order by ?label",
+      
+      "childrenQuery": "
+        SELECT distinct ?item ?label ?hasChildren WHERE {
+          ?item a  fc:technique.
+          ?item <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
+          ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+          FILTER ( lang(?label) = \"en\" ). 
+          FILTER(EXISTS { ?subject fr:Work_produced_using_technique_Technique ?item . }) .
+          BIND(bound(?item) as ?hasChildren)
+        } order by ?label",
+      "parentsQuery": "
+      SELECT distinct ?item ?parent ?parentLabel WHERE {
+        ?item a fc:technique.
+        ?item a <http://www.w3.org/2004/02/skos/core#ConceptScheme>.
+        ?item  <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
+        ?parent <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+        FILTER ( lang(?label) = \"en\" ). 
+      }",
+      "searchQuery":"
+        SELECT DISTINCT ?hasChildren ?item ?label WHERE {
+          ?item a fc:technique.
+          ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+          ?label bds:search ?__token__ .
+          ?label bds:minRelevance \"0.3\"^^xsd:double.
+          ?label bds:matchAllTerms \"true\".
+          ?child  <http://vocab.getty.edu/ontology#broaderPreferred> ?item.
+          BIND(BOUND(?child) AS ?hasChildren)
+          FILTER ( lang(?label) = \"en\" ). 
+          FILTER(EXISTS { 
+            ?subject fr:Work_produced_using_technique_Technique ?item . 
+          }) 
+        }ORDER BY DESC (?label)
+        "
+        }
+    }
+    ,{
+      "id": "type",
+      "label": "Type",
+      "minOccurs":1,
+      "maxOccurs":100,
+      "xsdDatatype": "xsd:anyURI",
+      "treePatterns": {
+      "type": "full",
+      "rootsQuery": "
+      SELECT DISTINCT ?item ?label where {
+        ?item a  crm:E55_Type.
+        ?item a <http://vocab.getty.edu/ontology#Facet>.
+        ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+        FILTER ( lang(?label) = \"en\" ). 
+        FILTER(EXISTS {  ?subject crm:P2_has_type ?item . }) .
+      }order by ?label",
+      
+      "childrenQuery": "
+        SELECT distinct ?item ?label ?hasChildren WHERE {
+          ?item a  crm:E55_Type.
+          ?item <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
+          ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+          FILTER ( lang(?label) = \"en\" ). 
+          FILTER(EXISTS { ?subject crm:P2_has_type ?item . }) .
+          BIND(bound(?item) as ?hasChildren)
+        } order by ?label",
+      "parentsQuery": "
+      SELECT distinct ?item ?parent ?parentLabel WHERE {
+        ?item a crm:E55_Type.
+        ?item a <http://www.w3.org/2004/02/skos/core#ConceptScheme>.
+        ?item  <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
+        ?parent <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+        FILTER ( lang(?label) = \"en\" ). 
+      }",
+      "searchQuery":"
+        SELECT DISTINCT ?hasChildren ?item ?label WHERE {
+          ?item a crm:E55_Type.
+          ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+          ?label bds:search ?__token__ .
+          ?label bds:minRelevance \"0.3\"^^xsd:double.
+          ?label bds:matchAllTerms \"true\".
+          ?child  <http://vocab.getty.edu/ontology#broaderPreferred> ?item.
+          FILTER ( lang(?label) = \"en\" ). 
+          BIND(BOUND(?child) AS ?hasChildren)
+          FILTER(EXISTS { 
+            ?subject crm:P2_has_type ?item . 
+          }) 
+        }ORDER BY DESC (?label)
+        "
+        }
+    }
+    ,{
+      "id": "creationDate",
+      "label": "Creation date",
+      "minOccurs":1,
+      "maxOccurs":100,
+      "xsdDatatype": "xsd:date"
+    }
+    ,{
+      "id": "workSubject",
+      "label": "Subject",
+      "minOccurs":1,
+      "maxOccurs":100,
+      "xsdDatatype": "xsd:anyURI",
+      "autosuggestionPattern": "
+        SELECT DISTINCT ?value ?label  WHERE {
+          ?value a custom:subject.
+          ?value rdfs:label ?label.
+          ?label bds:search ?__token__ .
+          ?label bds:minRelevance \"0.3\"^^xsd:double.
+          ?label bds:matchAllTerms \"true\".
+          FILTER(EXISTS { 
+            ?subject fr:Work_shows_Subject ?value . 
+          }) 
+        }ORDER BY DESC (?label)"
+    }
+    ,{
+      "id": "repository",
+      "label": "Repository",
+      "minOccurs":1,
+      "maxOccurs":100,
+      "xsdDatatype": "xsd:anyURI",
+      "autosuggestionPattern": "
+        SELECT DISTINCT ?value ?label  WHERE {
+          ?value a fc:institution.
+          ?value rdfs:label ?label.
+          ?label bds:search ?__token__ .
+          ?label bds:minRelevance \"0.3\"^^xsd:double.
+          ?label bds:matchAllTerms \"true\".
+          FILTER(EXISTS { 
+            ?subject fr:Work_kept_by_Institution ?value . 
+          }) 
+        }ORDER BY DESC (?label)"
+    }
+    ,{
+      "id": "history",
+      "label": "History of ownership",
+      "minOccurs":1,
+      "maxOccurs":100,
+      "xsdDatatype": "xsd:string"
+    }
+]
