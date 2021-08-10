@@ -6,8 +6,8 @@
   {{else}}
 
   {{#ifCond field.label.0.value "===" "Production Date"}}
-  <div date="{{dateTimeFormat value.value.value "MMM DD, YYYY"}}">
-    {{dateTimeFormat value.value.value "MMM DD, YYYY"}}
+  <div date="{{dateTimeFormat value.value.value "YYYY"}}">
+    {{dateTimeFormat value.value.value "YYYY"}}
   </div>
   <span>
     {{value.value.value}}
@@ -15,17 +15,38 @@
   {{else}}
 
   {{#ifCond field.label.0.value "===" "Date of Birth"}}
-  <div date="{{dateTimeFormat value.value.value "MMM DD, YYYY"}}">
-    {{dateTimeFormat value.value.value "MMM DD, YYYY"}}
+  <div date="{{dateTimeFormat value.value.value "YYYY"}}">
+    {{dateTimeFormat value.value.value "YYYY"}}
   </div>
   <span>
     {{value.value.value}}
   </span>
   {{else}}
 
+  {{#ifCond field.label.0.value "===" "Production Date - Latest"}}
+  <div date="{{dateTimeFormat value.value.value "YYYY"}}">
+    {{dateTimeFormat value.value.value "YYYY"}}
+  </div>
+  <span>
+    {{value.value.value}}
+  </span>
+  {{else}}
+
+
+  {{#ifCond field.label.0.value "===" "Production Date - Earliest"}}
+  <div date="{{dateTimeFormat value.value.value "YYYY"}}">
+    {{dateTimeFormat value.value.value "YYYY"}}
+  </div>
+  <span>
+    {{value.value.value}}
+  </span>
+  {{else}}
+
+
+
   {{#ifCond field.label.0.value "===" "Date of Death"}}
-  <div date="{{dateTimeFormat value.value.value "MMM DD, YYYY"}}">
-    {{dateTimeFormat value.value.value "MMM DD, YYYY"}}
+  <div date="{{dateTimeFormat value.value.value "YYYY"}}">
+    {{dateTimeFormat value.value.value "YYYY"}}
   </div>
   <span>
     {{value.value.value}}
@@ -42,7 +63,7 @@
   {{value.value.value}}
   {{/ifCond}}
   {{#ifCond field.xsdDatatype.value "==" "http://www.w3.org/2001/XMLSchema#date"}}
-    {{dateTimeFormat value.value.value "MMM DD, YYYY"}}
+    {{dateTimeFormat value.value.value "YYYY"}}
   {{/ifCond}}
   {{#ifCond field.xsdDatatype.value "=="  "http://www.w3.org/2001/XMLSchema#anyURI"}}
     {{#if value.value.datatype}}
@@ -59,7 +80,8 @@
   {{/ifCond}}
   {{/ifCond}}
   {{/ifCond}}
-
+  {{/ifCond}}
+  {{/ifCond}}
 
 <!-- <mp-copy-to-clipboard
 text="{{value.value.value}}"

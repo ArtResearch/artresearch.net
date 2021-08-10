@@ -1,0 +1,73 @@
+{
+  "queryString":"
+    PREFIX solr: <http://custom.solr/ontology#>
+    SELECT ?subject WHERE {
+    {{#if nameVisible}}
+    {{#ifCond nameVisible "===" "true" }}
+    BIND(REPLACE(str(?name), \"(?<!^)(?<!\\\\s)\\\\s+(?!\\\\s+)(?!$)\",\" AND \") as ?token).
+    SERVICE <http://www.researchspace.org/resource/system/service/custom#solrartists>{
+      ?solrApi solr:setQuery ?token;
+              solr:setDefType \"dismax\";
+              solr:setFilter \"id\";
+              solr:setRowsNumber 1000;
+              solr:hasResults ?subject.
+    }
+    {{/ifCond}}
+    {{else}}
+    BIND(REPLACE(str(?name), \"(?<!^)(?<!\\\\s)\\\\s+(?!\\\\s+)(?!$)\",\" AND \") as ?token).
+    SERVICE <http://www.researchspace.org/resource/system/service/custom#solrartists>{
+      ?solrApi solr:setQuery ?token;
+              solr:setDefType \"dismax\";
+              solr:setFilter \"id\";
+              solr:setRowsNumber 1000;
+              solr:hasResults ?subject.
+    }
+    {{/if}}
+    {{#ifCond dobVisible "===" "true" }}
+    ?subject fr:Person_has_Date_of_Birth ?dobDate .
+    FILTER(?dobDate >= ?dobFrom)
+    FILTER(?dobDate <= ?dobTo)
+    {{/ifCond}}
+    {{#ifCond dodVisible "===" "true" }}
+    ?subject fr:Person_has_Date_of_Death ?dodDate .
+    FILTER(?dodDate >= ?dodFrom)
+    FILTER(?dodDate <= ?dodTo)
+    {{/ifCond}}
+    {{#ifCond nationalityVisible "===" "true" }}
+    ?subject fr:Person_has_Nationality ?nationality .
+    {{/ifCond}}
+    {{#ifCond genderVisible "===" "true" }}
+    ?subject fr:Person_has_Gender ?gender.
+    {{/ifCond}}
+    {{#ifCond locationVisible "===" "true" }}
+    ?subject fr:Person_active_at_Place ?location.
+    {{/ifCond}}
+    }LIMIT 1000",
+  "arguments": {
+  "secretInput":{"type": "xsd:string", "optional": true}
+  {{#if nameVisible}}
+  {{#ifCond nameVisible "===" "true" }}
+  ,"name": {"type": "xsd:string"}
+  {{/ifCond}}
+  {{else}}
+  ,"name": {"type": "xsd:string"}
+  {{/if}}
+  {{#ifCond dobVisible "===" "true" }}
+  ,"dobFrom": {"type": "xsd:date"}
+  ,"dobTo": {"type": "xsd:date"}
+  {{/ifCond}}
+  {{#ifCond dodVisible "===" "true" }}
+  ,"dodFrom": {"type": "xsd:date"}
+  ,"dodTo": {"type": "xsd:date"}
+  {{/ifCond}}
+  {{#ifCond nationalityVisible "===" "true" }}
+  ,"nationality": {"type": "xsd:anyURI"}
+  {{/ifCond}}
+  {{#ifCond genderVisible "===" "true" }}
+  ,"gender": {"type": "xsd:anyURI"}
+  {{/ifCond}}
+  {{#ifCond locationVisible "===" "true" }}
+  ,"location": {"type": "xsd:anyURI"}
+  {{/ifCond}}
+  }
+}

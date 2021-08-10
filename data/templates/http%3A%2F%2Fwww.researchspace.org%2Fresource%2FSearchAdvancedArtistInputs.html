@@ -1,0 +1,252 @@
+<div class="input-boxes">
+  {{#if nameVisible}}
+  {{#ifCond nameVisible "===" "true" }}
+    <div class="input-trigger-group">
+      <semantic-form-text-input for="name"></semantic-form-text-input>
+      <mp-event-trigger
+        id="remove-name"
+        data='{"nameVisible":"false",
+        "dobVisible":"{{#if dobVisible}}{{dobVisible}}{{else}}false{{/if}}",
+        "dodVisible":"{{#if dodVisible}}{{dodVisible}}{{else}}false{{/if}}",
+        "nationalityVisible":"{{#if nationalityVisible}}{{nationalityVisible}}{{else}}false{{/if}}",
+        "genderVisible":"{{#if genderVisible}}{{genderVisible}}{{else}}false{{/if}}",
+        "locationVisible":"{{#if locationVisible}}{{locationVisible}}{{else}}false{{/if}}"}'
+        type="Component.TemplateUpdate"
+        targets='["event-target-form-query"]'
+      >
+        <span class="fa fa-remove clickable"><strong>Remove</strong></span>
+      </mp-event-trigger>
+    </div>
+  {{/ifCond}}
+  {{else}}
+    <div class="input-trigger-group">
+      <semantic-form-text-input for="name"></semantic-form-text-input>
+      <mp-event-trigger
+        id="remove-name"
+        data='{"nameVisible":"false",
+        "dobVisible":"{{#if dobVisible}}{{dobVisible}}{{else}}false{{/if}}",
+        "dodVisible":"{{#if dodVisible}}{{dodVisible}}{{else}}false{{/if}}",
+        "nationalityVisible":"{{#if nationalityVisible}}{{nationalityVisible}}{{else}}false{{/if}}",
+        "genderVisible":"{{#if genderVisible}}{{genderVisible}}{{else}}false{{/if}}",
+        "locationVisible":"{{#if locationVisible}}{{locationVisible}}{{else}}false{{/if}}"}'
+        type="Component.TemplateUpdate"
+        targets='["event-target-form-query"]'
+      >
+        <span class="fa fa-remove clickable"><strong>Remove</strong></span>
+      </mp-event-trigger>
+    </div>
+  {{/if}}
+ 
+  {{#ifCond dobVisible "===" "true" }}
+  <div class="input-trigger-group">
+    <semantic-form-datetime-input
+      for="dobFrom"
+    ></semantic-form-datetime-input>
+      <semantic-form-datetime-input
+      for="dobTo"
+    ></semantic-form-datetime-input>
+    <mp-event-trigger
+    id="remove-dob"
+    data='{"nameVisible":"{{#if nameVisible}}{{nameVisible}}{{else}}false{{/if}}",
+    "dobVisible":"false",
+    "dodVisible":"{{#if dodVisible}}{{dodVisible}}{{else}}false{{/if}}",
+    "nationalityVisible":"{{#if nationalityVisible}}{{nationalityVisible}}{{else}}false{{/if}}",
+    "genderVisible":"{{#if genderVisible}}{{genderVisible}}{{else}}false{{/if}}",
+    "locationVisible":"{{#if locationVisible}}{{locationVisible}}{{else}}false{{/if}}"
+    }'
+    type="Component.TemplateUpdate"
+    targets='["event-target-form-query"]'
+  >
+    <span class="fa fa-remove clickable"><strong>Remove</strong></span>
+    </mp-event-trigger>
+  </div>
+  {{/ifCond}}
+  {{#ifCond dodVisible "===" "true" }}
+  <div class="input-trigger-group">
+    <semantic-form-datetime-input
+      for="dodFrom"
+    ></semantic-form-datetime-input>
+    <semantic-form-datetime-input
+    for="dodTo"
+  ></semantic-form-datetime-input>
+    <mp-event-trigger
+    id="remove-dod"
+    data='{"nameVisible":"{{#if nameVisible}}{{nameVisible}}{{else}}false{{/if}}",
+    "dobVisible":"{{#if dobVisible}}{{dobVisible}}{{else}}false{{/if}}",
+    "dodVisible":"false",
+    "nationalityVisible":"{{#if nationalityVisible}}{{nationalityVisible}}{{else}}false{{/if}}",
+    "genderVisible":"{{#if genderVisible}}{{genderVisible}}{{else}}false{{/if}}",
+    "locationVisible":"{{#if locationVisible}}{{locationVisible}}{{else}}false{{/if}}"}'
+    type="Component.TemplateUpdate"
+    targets='["event-target-form-query"]'
+  >
+    <span class="fa fa-remove clickable"><strong>Remove</strong></span>
+    </mp-event-trigger>
+  </div>
+  {{/ifCond}}
+  {{#ifCond nationalityVisible "===" "true" }}
+  <div class="input-trigger-group">
+    <semantic-form-autocomplete-input
+      for="nationality"
+    ></semantic-form-autocomplete-input>
+    <mp-event-trigger
+    id="remove-nationality"
+    data='{"nameVisible":"{{#if nameVisible}}{{nameVisible}}{{else}}false{{/if}}",
+    "dobVisible":"{{#if dobVisible}}{{dobVisible}}{{else}}false{{/if}}",
+    "dodVisible":"{{#if dodVisible}}{{dodVisible}}{{else}}false{{/if}}",
+    "nationalityVisible":"false",
+    "genderVisible":"{{#if genderVisible}}{{genderVisible}}{{else}}false{{/if}}",
+    "locationVisible":"{{#if locationVisible}}{{locationVisible}}{{else}}false{{/if}}"}'
+    type="Component.TemplateUpdate"
+    targets='["event-target-form-query"]'
+  >
+    <span class="fa fa-remove clickable"><strong>Remove</strong></span>
+    </mp-event-trigger>
+  </div>
+  {{/ifCond}}
+  {{#ifCond genderVisible "===" "true" }}
+  <div class="input-trigger-group">
+    <semantic-form-select-input
+      for="gender"
+    ></semantic-form-select-input>
+    <mp-event-trigger
+    id="remove-gender"
+    data='{"nameVisible":"{{#if nameVisible}}{{nameVisible}}{{else}}false{{/if}}",
+      "dobVisible":"{{#if dobVisible}}{{dobVisible}}{{else}}false{{/if}}",
+      "dodVisible":"{{#if dodVisible}}{{dodVisible}}{{else}}false{{/if}}",
+      "nationalityVisible":"{{#if nationalityVisible}}{{nationalityVisible}}{{else}}false{{/if}}",
+      "genderVisible":"false",
+      "locationVisible":"{{#if locationVisible}}{{locationVisible}}{{else}}false{{/if}}"}'
+    type="Component.TemplateUpdate"
+    targets='["event-target-form-query"]'
+  >
+    <span class="fa fa-remove clickable"><strong>Remove</strong></span>
+    </mp-event-trigger>
+  </div>
+  {{/ifCond}}
+  {{#ifCond locationVisible "===" "true" }}
+  <div class="input-trigger-group">
+    <semantic-form-autocomplete-input
+      for="location"
+    ></semantic-form-autocomplete-input>
+    <mp-event-trigger
+    id="remove-subject"
+    data='{"nameVisible":"{{#if nameVisible}}{{nameVisible}}{{else}}false{{/if}}",
+    "dobVisible":"{{#if dobVisible}}{{dobVisible}}{{else}}false{{/if}}",
+    "dodVisible":"{{#if dodVisible}}{{dodVisible}}{{else}}false{{/if}}",
+    "nationalityVisible":"{{#if nationalityVisible}}{{nationalityVisible}}{{else}}false{{/if}}",
+    "genderVisible":"{{#if genderVisible}}{{genderVisible}}{{else}}false{{/if}}","locationVisible":"true"}'
+    type="Component.TemplateUpdate"
+    targets='["event-target-form-query"]'
+  >
+    <span class="fa fa-remove clickable"><strong>Remove</strong></span>
+    </mp-event-trigger>
+  </div>
+  {{/ifCond}}
+
+
+
+
+
+
+
+
+
+
+
+
+  {{#if nameVisible}}
+    {{#ifCond nameVisible "!==" "true" }}
+        <mp-event-trigger
+          id="add-name"
+          data='{"nameVisible":"true",
+          "dobVisible":"{{#if dobVisible}}{{dobVisible}}{{else}}false{{/if}}",
+          "dodVisible":"{{#if dodVisible}}{{dodVisible}}{{else}}false{{/if}}",
+          "nationalityVisible":"{{#if nationalityVisible}}{{nationalityVisible}}{{else}}false{{/if}}",
+          "genderVisible":"{{#if genderVisible}}{{genderVisible}}{{else}}false{{/if}}",
+          "locationVisible":"{{#if locationVisible}}{{locationVisible}}{{else}}false{{/if}}"}'
+          type="Component.TemplateUpdate"
+          targets='["event-target-form-query"]'
+        >
+          <span class="fa fa-plus clickable"><strong>Add Name</strong></span>
+        </mp-event-trigger>
+    {{/ifCond}}
+  {{/if}}
+ 
+  {{#ifCond dobVisible "!==" "true" }}
+    <mp-event-trigger
+    id="add-dob"
+    data='{"nameVisible":"{{#if nameVisible}}{{nameVisible}}{{else}}false{{/if}}",
+    "dobVisible":"true",
+    "dodVisible":"{{#if dodVisible}}{{dodVisible}}{{else}}false{{/if}}",
+    "nationalityVisible":"{{#if nationalityVisible}}{{nationalityVisible}}{{else}}false{{/if}}",
+    "genderVisible":"{{#if genderVisible}}{{genderVisible}}{{else}}false{{/if}}",
+    "locationVisible":"{{#if locationVisible}}{{locationVisible}}{{else}}false{{/if}}"
+    }'
+    type="Component.TemplateUpdate"
+    targets='["event-target-form-query"]'
+  >
+    <span class="fa fa-plus clickable"><strong>Add Date of Birth</strong></span>
+    </mp-event-trigger>
+  {{/ifCond}}
+  {{#ifCond dodVisible "!==" "true" }}
+    <mp-event-trigger
+    id="add-dod"
+    data='{"nameVisible":"{{#if nameVisible}}{{nameVisible}}{{else}}false{{/if}}",
+    "dobVisible":"{{#if dobVisible}}{{dobVisible}}{{else}}false{{/if}}",
+    "dodVisible":"true",
+    "nationalityVisible":"{{#if nationalityVisible}}{{nationalityVisible}}{{else}}false{{/if}}",
+    "genderVisible":"{{#if genderVisible}}{{genderVisible}}{{else}}false{{/if}}",
+    "locationVisible":"{{#if locationVisible}}{{locationVisible}}{{else}}false{{/if}}"}'
+    type="Component.TemplateUpdate"
+    targets='["event-target-form-query"]'
+  >
+    <span class="fa fa-plus clickable"><strong>Add Date of Death</strong></span>
+    </mp-event-trigger>
+
+  {{/ifCond}}
+  {{#ifCond nationalityVisible "!==" "true" }}
+    <mp-event-trigger
+    id="add-nationality"
+    data='{"nameVisible":"{{#if nameVisible}}{{nameVisible}}{{else}}false{{/if}}",
+    "dobVisible":"{{#if dobVisible}}{{dobVisible}}{{else}}false{{/if}}",
+    "dodVisible":"{{#if dodVisible}}{{dodVisible}}{{else}}false{{/if}}",
+    "nationalityVisible":"true",
+    "genderVisible":"{{#if genderVisible}}{{genderVisible}}{{else}}false{{/if}}",
+    "locationVisible":"{{#if locationVisible}}{{locationVisible}}{{else}}false{{/if}}"}'
+    type="Component.TemplateUpdate"
+    targets='["event-target-form-query"]'
+  >
+    <span class="fa fa-plus clickable"><strong>Add Nationality</strong></span>
+    </mp-event-trigger>
+  {{/ifCond}}
+  {{#ifCond genderVisible "!==" "true" }}
+    <mp-event-trigger
+    id="add-gender"
+    data='{"nameVisible":"{{#if nameVisible}}{{nameVisible}}{{else}}false{{/if}}",
+      "dobVisible":"{{#if dobVisible}}{{dobVisible}}{{else}}false{{/if}}",
+      "dodVisible":"{{#if dodVisible}}{{dodVisible}}{{else}}false{{/if}}",
+      "nationalityVisible":"{{#if nationalityVisible}}{{nationalityVisible}}{{else}}false{{/if}}",
+      "genderVisible":"true",
+      "locationVisible":"{{#if locationVisible}}{{locationVisible}}{{else}}false{{/if}}"}'
+    type="Component.TemplateUpdate"
+    targets='["event-target-form-query"]'
+  >
+    <span class="fa fa-plus clickable"><strong>Add Gender</strong></span>
+    </mp-event-trigger>
+  {{/ifCond}}
+  {{#ifCond locationVisible "!==" "true" }}
+    <mp-event-trigger
+    id="add-subject"
+    data='{"nameVisible":"{{#if nameVisible}}{{nameVisible}}{{else}}false{{/if}}",
+    "dobVisible":"{{#if dobVisible}}{{dobVisible}}{{else}}false{{/if}}",
+    "dodVisible":"{{#if dodVisible}}{{dodVisible}}{{else}}false{{/if}}",
+    "nationalityVisible":"{{#if nationalityVisible}}{{nationalityVisible}}{{else}}false{{/if}}",
+    "genderVisible":"{{#if genderVisible}}{{genderVisible}}{{else}}false{{/if}}","locationVisible":"true"}'
+    type="Component.TemplateUpdate"
+    targets='["event-target-form-query"]'
+  >
+    <span class="fa fa-plus clickable"><strong>Add Location</strong></span>
+    </mp-event-trigger>
+  {{/ifCond}}
+</div>
