@@ -52,10 +52,11 @@
                                 <semantic-link iri='{{assertion.value}}'></semantic-link>
                               </semantic-context>"</b>
                                about field 
+                               <b>
                               <semantic-context repository='assets'>
                                 <mp-label iri='[[urlParam "field"]]' class="field-type-title"></mp-label>
                               </semantic-context>
-                        
+                        </b>
                               by <mp-label iri='{{user.value}}'></mp-label>, {{dateTimeFormat time.value "LLL"}}
                           <p>
                           <div>
@@ -65,12 +66,45 @@
                               template='{{> :FieldBasedAssertedValueVisualization}}'
                             ></mp-field-visualization>
                           </div>
+          
+
+                        
+                          [[#if (hasPermission "api:ldp:container:<http://www.researchspace.org/resource/system/fieldDefinitionContainer>:create:any")]]
                           <mp-event-trigger id='assert-new-value' type='Component.TemplateUpdate' targets='["assertion"]' data='{"assertion": "{{assertion.value}}"}'>
                             <button class='btn btn-default btn-xs pull-right' title='Edit assertion' style='margin-left: 5px;'>
                               <i class='fa fa-pencil'></i> Edit
                             </button>
                           </mp-event-trigger>
-                          <div class='clearfix'></div>
+                        [[/if]]
+                        
+                        [[#if (hasPermission "api:ldp:container:<http://www.researchspace.org/resource/system/fieldDefinitionContainer>:delete:any")]]
+
+                        <mp-overlay-dialog title="Delete assertion‎‎" >
+                          <mp-overlay-dialog-trigger
+                            >
+                            <button class='btn btn-default btn-xs pull-right' title='Edit assertion' style='margin-left: 5px;'>
+                              <i class='fa fa-trash'></i>Delete
+                            </button>
+                          </mp-overlay-dialog-trigger>
+                          <mp-overlay-dialog-content>
+                            <h1>Are you sure you would like to delete this assertion?</h1>
+                            <mp-ldp-remove-from-container-action 
+                            container="http://www.researchspace.org/ontology/Assertions.Container"
+                            iri="{{assertion.value}}" 
+                           post-action='reload'>
+                           <button class="btn btn-danger pull-right" title="Edit assertion" 
+                           style="margin-left: 5px;font-size: 16px;"><i class="fa fa-trash"
+                        ></i> Yes delete
+                            </button>
+                            </mp-ldp-remove-from-container-action>
+                          </mp-overlay-dialog-content>
+                        </mp-overlay-dialog>
+
+
+      
+                        [[/if]]
+
+
                         </li>
                         {{/each}}
                       </ol>
@@ -185,5 +219,8 @@ span.label.AssertionComponent--label.AssertionComponent--canonical::after{
   text-align: center;
   white-space: nowrap;
   vertical-align: baseline;
+}
+.fa.fa-trash{
+  color:  white !important;
 }
 </style>
