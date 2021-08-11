@@ -76,22 +76,24 @@
       </mp-panel>
     </bs-col>
     <bs-col sm=6>
+      <semantic-context repository="ephedra">
       <mp-event-target-template-render id='assertion' template='{{> template}}'>
         <template id='template'>
           {{#if assertion}}
           <rs-assertion assertion='{{assertion}}'
-            value-template='{{> :FieldValueVisualization}}'
+            value-template='{{> :ResourceFielldValueVisualization}}'
             form-template='{{> :AssertionFormTemplate}}'>
           </rs-assertion>
           {{else}}
           <rs-assertion target='[[urlParam "subject"]]'
             fields='[[fieldDefinitions field=(urlParam "field")]]'
-            value-template='{{> :FieldValueVisualization}}'
+            value-template='{{> :ResourceFieldValueVisualization}}'
             form-template='{{> :AssertionFormTemplate}}'>
           </rs-assertion>
           {{/if}}
         </template>
       </mp-event-target-template-render>
+    </semantic-context>
     </bs-col>
   </div>
 </div>
@@ -130,6 +132,49 @@
         </bs-tab-content>
       </div>
     </bs-tab-container>
-
     [[/:ClipboardSidebar]]
 </div>
+<style>
+/* 
+The class bellow hides the semantic narrative option. Please be careful,
+it might hide something else in the future!!! 
+*/
+  .form-group:nth-child(5) {
+    display: none;
+  }
+.form-group {
+  height: fit-content;
+}
+
+span.label.AssertionComponent--label.AssertionComponent--canonical{
+  font-size:0px; 
+}
+
+span.label.AssertionComponent--label.AssertionComponent--notCanonical{
+  font-size: 0px;
+}
+
+span.label.AssertionComponent--label.AssertionComponent--notCanonical::after{
+  content: "Community - asserted";
+  font-size: 16px;
+  padding: .2em .6em .3em;
+  font-weight: 700;
+  line-height: 22px;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+}
+
+span.label.AssertionComponent--label.AssertionComponent--canonical::after{
+  content: "Pharos";
+  font-size: 16px;
+  padding: .2em .6em .3em;
+  font-weight: 700;
+  line-height: 22px;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+}
+</style>
