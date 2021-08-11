@@ -47,7 +47,16 @@
                         {{#each bindings}}
                         <li>
                           <p>
-                            Assertion <semantic-context repository='assets'><semantic-link iri='{{assertion.value}}'></semantic-link></semantic-context> about <semantic-context repository='assets'><mp-label iri='[[urlParam "field"]]' class="field-type-title"></mp-label></semantic-context> by <mp-label iri='{{user.value}}'></mp-label>, {{dateTimeFormat time.value "LLL"}}
+                            Assertion <b>
+                              "<semantic-context repository='assets'>
+                                <semantic-link iri='{{assertion.value}}'></semantic-link>
+                              </semantic-context>"</b>
+                               about field 
+                              <semantic-context repository='assets'>
+                                <mp-label iri='[[urlParam "field"]]' class="field-type-title"></mp-label>
+                              </semantic-context>
+                        
+                              by <mp-label iri='{{user.value}}'></mp-label>, {{dateTimeFormat time.value "LLL"}}
                           <p>
                           <div>
                             <mp-field-visualization
