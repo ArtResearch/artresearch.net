@@ -4,23 +4,38 @@
         <ul>
           {{#each fields as |field|}}
             {{#each field.values as |value|}}
+            <li>
               <semantic-if 
                 query='
                   ASK {
-                    {{../../assertion}} rso:PX_asserts/rso:PX_asserts_value {{value.value}} .
+                    {{../../assertion}} rso:PX_asserts/rso:PX_asserts_value {{value.value}}
                   }
                 ' 
                 then='
-                 <li>
                         {{#ifCond field.xsdDatatype.value "=="  "http://www.w3.org/2001/XMLSchema#string"}}
-                          {{value.value}}
+                          {{value.value}} 
                         {{/ifCond}}
                         {{#ifCond field.xsdDatatype.value "=="  "http://www.w3.org/2001/XMLSchema#anyURI"}}
                             <semantic-link iri="{{value.value.value}}" guess-repository=true></semantic-link>
-                        {{/ifCond}}
-                  </li>                                                                                                   
+                        {{/ifCond}}                                                                                               
               '>
               </semantic-if>
+              <semantic-query query="SELECT ?doYouBelieve  WHERE{
+                {{../../assertion}} rso:PX_asserts ?belief .
+                ?belief rso:PX_asserts_value {{value.value}}.
+                ?belief <http://www.ics.forth.gr/isl/CRMinf/J5_holds_to_be> ?doYouBelieve
+              }"
+              template="{{>iBelieveTemplate}}"
+              >
+              <template id="iBelieveTemplate">
+                {{#ifCond bindings.0.doYouBelieve.value "===" "Agree"}}
+                <span class="Belief--agree"> - Agree</span>
+                {{else}}
+                <span  class="Belief--disagree"> - Disagree</span>
+                {{/ifCond}}
+              </template>
+              </semantic-query>
+            </li>
             {{/each}}
           {{/each}}
         </ul>
