@@ -1,9 +1,84 @@
+<semantic-context repository="assets">
+  <semantic-query
+  query='SELECT ?document ?documentTitle ?user ?time WHERE{
+    ?document rdf:type rs:Semantic_Narrative.
+    ?document rdfs:label ?documentTitle.
+    ?document prov:wasAttributedTo ?user.
+    ?document prov:generatedAtTime ?time.
+
+  }'
+  template="{{>superDocuments}}"
+  >
+  <template id="superDocuments">
+    <div class="documents-panel">
+    <bs-panel  header="Documents"  collapsible="true" default-expanded="true">
+      <div>
+        <ol>
+          {{#each bindings}}
+          <li style="display: flex; font-size: 16px; margin-top: 20px; align-items: center;">
+            [[#if (hasPermission "api:ldp:container:<http://www.researchspace.org/resource/system/fieldDefinitionContainer>:create:any")]]
+            <mp-event-trigger id='assert-new-value' type='Component.TemplateUpdate' targets='["annotation-editor"]' data='{"document": "{{document.value}}"}'>
+              <button class='btn btn-default btn-xs pull-right' title='Edit annotation' style='margin-right: 15px; height: 30px'>
+                <i class='fa fa-pencil'></i> Edit
+              </button>
+            </mp-event-trigger>
+          [[/if]]
+          
+          [[#if (hasPermission "api:ldp:container:<http://www.researchspace.org/resource/system/fieldDefinitionContainer>:delete:any")]]
+          <mp-overlay-dialog title="Delete annotation" >
+            <mp-overlay-dialog-trigger
+              >
+              <button class='btn btn-default btn-xs pull-right' title='Delete annotation' style='margin-right: 15px; height: 30px;'>
+                <i class='fa fa-trash'></i>Delete
+              </button>
+            </mp-overlay-dialog-trigger>
+            <mp-overlay-dialog-content>
+              <h1>Are you sure you would like to delete this annotation?</h1>
+              <mp-ldp-remove-from-container-action 
+              container="http://www.researchspace.org/resource/system/fileContainer"
+              iri="{{document.value}}" 
+            post-action='reload'>
+            <button class="btn btn-danger pull-right" title="Delete annotation" 
+            style="margin-left: 35px;font-size: 22px;"><i class="fa fa-trash"
+              ></i> Yes delete
+              </button>
+              </mp-ldp-remove-from-container-action>
+            </mp-overlay-dialog-content>
+          </mp-overlay-dialog>
+          [[/if]]
+            <p style="margin:0;" class="fa fa-file">
+              Annotation <b>
+                "{{documentTitle.value}}"</b>
+                about field 
+                <b>
+                <semantic-context repository='assets'>
+                  <mp-label iri='[[urlParam "field"]]' class="field-type-title"></mp-label>
+                </semantic-context>
+          </b>
+                by <mp-label iri='{{user.value}}'></mp-label>, {{dateTimeFormat time.value "LLL"}}
+              </p>
+          </li>
+          {{/each}}
+        </ol>
+      </div>
+    </bs-panel>
+    </div>
+  </template>
+  </semantic-query>
+</semantic-context>
+<mp-event-target-template-render
+id="annotation-editor"
+template="{{> tableEventTargetFormQueryTemplate}}"
+>  
+<template id="tableEventTargetFormQueryTemplate"> 
 <rs-text-editor
   [[#if (hasPermission "forms:ldp:*")]]
   readonly='false'
   [[else]]
   readonly='true'
   [[/if]]
+ document-iri='{{#if document}}{{document}}{{/if}}'
+ storage='assets'
   resource-templates='[
   {
     "id": "image",
@@ -68,6 +143,24 @@
     }
   }                      
   ]'
+  resource-query='
+PREFIX crmdig: <http://www.ics.forth.gr/isl/CRMdig/>
+PREFIX rs: <http://www.researchspace.org/ontology/>
+PREFIX Platform: <http://www.researchspace.org/resource/system/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+CONSTRUCT {
+  ?__resourceIri__ rdf:type crm:E33_Linguistic_Object.
+  ?__resourceIri__ rdf:type crmdig:D1_Digital_Object.
+  ?__resourceIri__ rdf:type rs:Semantic_Narrative.
+  ?__resourceIri__ Platform:fileName ?__fileName__.
+  ?__resourceIri__ Platform:mediaType "text/html".
+  ?__resourceIri__ rdfs:label "Narrative Title"^^xsd:string.
+  ?__resourceIri__ rs:targetsField <[[urlParam "field"]]>.
+  ?__resourceIri__ rs:targetsRecord <[[urlParam "subject"]]>.
+}WHERE {}
+ '
 >
   <template id='chart'>
     <div>
@@ -150,3 +243,23 @@
     </div>
   </template>
 </rs-text-editor>
+</template>
+</mp-event-target-template-render>
+<style>
+
+
+.documents-panel .panel-heading {
+  background: whitesmoke !important;
+}
+
+.documents-panel .panel-heading .panel-title a::before {
+  color: gray !important;
+  margin-right: 2px;
+  transition: 0.3s;
+  content: "▼";
+}
+
+.documents-panel .panel-heading .panel-title a.collapsed::before {
+  content: "▲";
+}
+</style>
