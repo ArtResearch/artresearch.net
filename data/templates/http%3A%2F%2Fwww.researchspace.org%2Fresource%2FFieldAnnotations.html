@@ -3,6 +3,8 @@
   query='SELECT ?document ?documentTitle ?user ?time WHERE{
     ?document rdf:type rs:Semantic_Narrative.
     ?document rdfs:label ?documentTitle.
+    ?document rs:targetsField <[[urlParam "field"]]>.
+    ?document rs:targetsRecord <[[urlParam "subject"]]>.
     ?document prov:wasAttributedTo ?user.
     ?document prov:generatedAtTime ?time.
 
