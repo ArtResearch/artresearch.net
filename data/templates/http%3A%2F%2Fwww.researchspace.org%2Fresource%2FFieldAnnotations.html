@@ -1,23 +1,12 @@
-<semantic-context repository="assets">
-  <semantic-form
-  new-subject-template='[[urlParam"field"]]'
-  browser-persistance="false"
-  persistence='{
-    "type": "ldp",
-    "containerIri": "http://www.researchspace.org/ontology/Annotations.Container/context"
- }'
-  post-action="reload"
-  form-id="annotation-form"
-  fields='[[  fieldDefinitions
-              annotate="http://www.researchspace.org/fieldDefinition/Annotation_URI"
-          ]]'>
-  <semantic-form-text-input for="annotate">
-  </semantic-form-text-input>
-  <button
-    id="12345"
-    name="submit"
-    class="btn action approve"
-    title="Click to crete a new annotation"
-  >Save Annotation</button>
-  </semantic-form>
-</semantic-context>
+
+
+
+<mp-ldp-create-new-resource-action
+title="Create an annotation"
+placeholder="Create an annotation"
+container="http://www.researchspace.org/ontology/Annotations.Container"
+type="http://www.researchspace.org/ontology/Annotation"
+>
+<span>Create new annotation</span>
+
+</mp-ldp-create-new-resource-action>
