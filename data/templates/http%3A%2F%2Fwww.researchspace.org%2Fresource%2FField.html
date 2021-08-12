@@ -35,7 +35,8 @@
               <div>
                 <semantic-query
                   query='SELECT DISTINCT ?assertion ?user ?time WHERE {
-                       ?assertion rso:targetsField <[[urlParam "field"]]> ;
+                       ?assertion a <http://www.researchspace.org/ontology/EX_Assertion>;
+                       rso:targetsField <[[urlParam "field"]]> ;
                        rso:targetsRecord <[[urlParam "subject"]]> ;
                        prov:wasAttributedTo ?user ;
                        prov:generatedAtTime ?time .
