@@ -5,7 +5,9 @@
     [[> :Header ]]
   </div>
     <!-- Loads all IIIF images as 500px thumbnails (clickable with mirador popup) -->
-    [[> :SummaryImagesWork]]
+    <mp-print-section id="1" label="Images">
+     [[> :SummaryImagesWork]]
+     </mp-print-section>
     <bs-tab-container id="tab-container" class="page__body-navtabs--borderless" default-active-key="summary">
       <div>
         <bs-nav bs-style="tabs">
@@ -62,9 +64,7 @@
     .mirador-viewer{
         top: 0px !important;
     }
-    .mirador-osd-annotation-controls{
-        display: none !important;
-    }
+
     a.mirador-btn.mirador-icon-view-type {
     display: none !important;
   }
@@ -75,9 +75,7 @@
   a.mirador-btn.mirador-icon-metadata-view.mirador-tooltip {
     display: none !important;
   }
-  .mirador-osd-annotation-controls {
-    display: none !important;
-  }
+
   a.mirador-btn.mirador-icon-view-type {
     display: none !important;
   }
