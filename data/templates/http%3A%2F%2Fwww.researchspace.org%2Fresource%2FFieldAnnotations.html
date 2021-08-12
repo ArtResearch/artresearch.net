@@ -144,7 +144,7 @@ template="{{> tableEventTargetFormQueryTemplate}}"
   ]'
   generate-iri-query='
   SELECT ?resourceIri WHERE {
-    BIND(URI(CONCAT(STR(<[[urlParam "field"]]>),"/annotation/",MD5(?__fileName__),MD5(STR(?__useruri__)),MD5(STR(<[[urlParam "subject"]]>)))) as ?resourceIri)
+    BIND(URI(CONCAT(STR(<[[urlParam "field"]]>),"/annotation/",MD5(STR(?__fileName__)),MD5(STR(?__useruri__)),MD5(STR(<[[urlParam "subject"]]>)))) as ?resourceIri)
   }
   '
   resource-query='
