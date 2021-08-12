@@ -1,54 +1,22 @@
-<div class="rs-page__annotations">
-  <div class="container-fluid">
-
-    <bs-row class="style--main">
-      <bs-col sm=8>
-        [[#if (hasPermission "forms:ldp:*")]]
-          <rs-collapsible toggle-collapsible-template='
-                <div>
-                  <i className="fa fa-pencil"></i>
-                <strong>
-                  <a>Create new annotation...</a>
-                </strong>
-                </div>'
-                class="create-new-annotation">
-            [[> :FieldAnnotation create=true annotation=true]]
-          </rs-collapsible>
-        [[else]]
-          <p>No permission to create annotations. Please login.</p>
-        [[/if]]
-        <semantic-context repository='assets'>
-          <semantic-table config='{
-          "options": {"showFilter": false},
-          "query": "select * where {
-            ?annotation a <http://www.researchspace.org/ontology/Annotation> ;
-               <http://www.ics.forth.gr/isl/CRMdig/L43_annotates> <[[urlParam "field"]]> ;
-               rdfs:label ?label ;
-               <http://www.w3.org/ns/prov#generatedAtTime> ?time ;
-               <http://www.w3.org/ns/prov#wasAttributedTo> ?user;
-               BIND (STRAFTER(STR(?user), \"user/\") AS ?userName) .
-          }",
-          "columnConfiguration": [{
-            "variableName": "annotation",
-            "displayName": "Annotation",
-            "cellTemplate": "<mp-draggable iri=\"{{page.value}}\"><span>
-              <semantic-link urlqueryparam-annotated=\"[[urlParam "field"]]\" iri=\"{{annotation.value}}\">{{label.value}}</semantic-link>
-            </span></mp-draggable>"
-          },{
-            "variableName": "user",
-            "displayName": "Author",
-            "cellTemplate":"{{userName.value}}"
-          },{
-            "variableName": "time",
-            "displayName": "Modified",
-            "cellTemplate":"{{dateTimeFormat time.value \"LLL\"}}"
-          }]
-        }'></semantic-table>
-        </semantic-context>
-      </bs-col>
-    </bs-row>
-
-  </div>
-</div><!--annotations-->
-
-
+<semantic-context repository="assets">
+  <semantic-form
+  new-subject-template='[[urlParam"field"]]'
+  browser-persistance="false"
+  persistence='{
+    "type": "ldp",
+    "containerIri": "http://www.researchspace.org/ontology/Annotations.Container"
+ }'
+  post-action="reload"
+  form-id="annotation-form"
+  fields='[[  fieldDefinitions
+              annotate="http://www.researchspace.org/fieldDefinition/Annotation_URI"
+          ]]'>
+  <semantic-form-text-input for="annotate">
+  </semantic-form-text-input>
+  <button
+    id="12345"
+    name="submit"
+    class="btn action approve"
+    title="Click to crete a new annotation"
+  >Save Annotation</button>
+</semantic-context>
