@@ -158,10 +158,17 @@
         <bs-nav bs-style="tabs">
           <bs-nav-item event-key="assertions">Assertions</bs-nav-item>
           <bs-nav-item event-key="annotations">
-            Annotations <semantic-context repository='assets'><semantic-query query="SELECT (COUNT(DISTINCT ?s) AS ?count) WHERE {
-              ?s <http://www.ics.forth.gr/isl/CRMdig/L43_annotates> <[[urlParam "field"]]>;
-            }"
-            template='{{#each bindings}}<span class="badge">{{count.value}}</span>{{/each}}'></semantic-query></semantic-context>
+            Annotations
+              <semantic-query query='SELECT (COUNT(DISTINCT ?document) AS ?count) WHERE {
+                ?document rdf:type rs:Semantic_Narrative.
+                ?document rdfs:label ?documentTitle.
+                ?document rs:targetsField <[[urlParam "field"]]>.
+                ?document rs:targetsRecord <[[urlParam "subject"]]>.
+                ?document prov:wasAttributedTo ?user.
+                ?document prov:generatedAtTime ?time.
+            }'
+            template='{{#each bindings}}<span class="badge">{{count.value}}</span>{{/each}}'>\
+          </semantic-query>
           </bs-nav-item>
         </bs-nav>
 
