@@ -142,6 +142,11 @@ template="{{> tableEventTargetFormQueryTemplate}}"
     }
   }                      
   ]'
+  generate-iri-query='
+  SELECT ?resourceIri WHERE {
+    BIND(URI(CONCAT(STR(<[[urlParam "field"]]>),"/annotation/",MD5(?__fileName__),MD5(STR(NOW())),MD5(STR(<[[urlParam "subject"]]>)))) as ?resourceIri)
+  }
+  '
   resource-query='
 PREFIX crmdig: <http://www.ics.forth.gr/isl/CRMdig/>
 PREFIX rs: <http://www.researchspace.org/ontology/>
