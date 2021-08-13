@@ -77,7 +77,7 @@ template="{{> tableEventTargetFormQueryTemplate}}"
 >  
 <template id="tableEventTargetFormQueryTemplate"> 
 <rs-text-editor
-  readonly='{{#ifCond editMode "===" "true"}}false{{else}}true{{/ifCond}}'
+  readonly='{{#if editMode}}{{#ifCond editMode "===" "true"}}false{{else}}true{{/ifCond}}{{else}}false{{/if}}'
   document-iri='{{#if document}}{{document}}{{/if}}'
   resource-templates='[
   {
