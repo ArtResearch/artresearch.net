@@ -2,47 +2,44 @@
 <div class="page rs-page">
   [[#> :ClipboardSidebar]]
   <div class="page__header-navtabs">[[> :Header ]]</div>
-  <div id="tab-container" class="page__body-navtabs--borderless">
-    <div class="old-fashioned-grid">
-      <div class="super-cheesy">[[> :SummaryImagesWork]]</div>
-      <div>[[> :InfoWorkAndProduction]]</div>
+   [[> :SummaryImagesWork]]
+  <bs-tab-container
+    id="tab-container"
+    class="page__body-navtabs--borderless"
+    default-active-key="summary"
+  >
+    <div>
+      <bs-nav bs-style="tabs">
+        <bs-nav-item event-key="summary">Summary</bs-nav-item>
+        [[#if (ask "ASK { {?? fr:Work_depicted_by_Photo ?photo}}") ]]
+        <bs-nav-item event-key="PhotographLightbox"
+          >Photograph Lightbox</bs-nav-item
+        >
+        [[/if]]
+        <bs-nav-item event-key="similar">Visually similar artworks</bs-nav-item>
+      </bs-nav>
+      <bs-tab-content unmount-on-exit="true">
+        <bs-tab-pane event-key="summary">
+          <!-- Loads all IIIF images as 500px thumbnails (clickable with mirador popup) -->
+
+          <!-- Loads two tables with information regarding work & production -->
+          <!-- Loads photographs with info (id, photographer, keeper) -->
+          [[> :InfoWorkAndProduction]]
+        </bs-tab-pane>
+        <bs-tab-pane event-key="PhotographLightbox">
+          [[> PhotographLightbox record=(this)]]
+        </bs-tab-pane>
+        <bs-tab-pane event-key="similar">
+          <!-- Show similar artworks -->
+          [[> :SimilarArtworks]]
+        </bs-tab-pane>
+      </bs-tab-content>
     </div>
-  </div>
+  </bs-tab-container>
   [[/:ClipboardSidebar]]
 </div>
 
 <style>
-  .page__body-navtabs--borderless .system-spinner {
-    display: none !important;
-  }
-  .old-fashioned-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .old-fashioned-grid #work-summary-images .summary-image-main {
-    min-height: 55vh !important;
-  }
-  .old-fashioned-grid #work-summary-images .imageThumbnailSingle {
-    height: 55vh !important;
-  }
-  .old-fashioned-grid #work-summary-images .smallThumbsSingle {
-    height: 65px !important;
-  }
-  .old-fashioned-grid #photoTable .photographFieldView {
-    width: 100% !important;
-  }
-  .old-fashioned-grid .workAndProductionInfo .workInfoContainer {
-    width: 100% !important;
-  }
-  .old-fashioned-grid .workAndProductionInfo .productionInfoContainer {
-    width: 100% !important;
-  }
-
-  .old-fashioned-grid .super-cheesy > div {
-    position: sticky;
-    top: 15vh;
-  }
-
   button.close {
     opacity: 1;
     font-size: 55px !important;
@@ -95,14 +92,5 @@
   }
   a.mirador-osd-toggle-bottom-panel.hud-control {
     display: none !important;
-  }
-
-  @media (max-width: 1200px) {
-    .old-fashioned-grid .super-cheesy > div {
-      position: unset;
-    }
-    .old-fashioned-grid {
-      grid-template-columns: repeat(1, 1fr);
-    }
   }
 </style>
