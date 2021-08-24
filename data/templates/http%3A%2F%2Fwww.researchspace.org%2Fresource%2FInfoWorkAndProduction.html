@@ -17,6 +17,26 @@
     </template>
   </mp-field-visualization>
 
+  [[#if (ask "ASK { ?? fr:Work_from_Place ?place .?place fr:Place_has_Latitude ?lat. ?place fr:Place_has_Longitude ?lng. }") ]] 
+  <div class="mapContainer">
+    <semantic-map
+      id="event-map"
+      query="SELECT DISTINCT ?place  ?lat ?lng WHERE {
+        ?? fr:Work_from_Place ?place .
+        ?place fr:Place_has_Latitude ?lat.
+        ?place fr:Place_has_Longitude ?lng.
+      }"
+      no-result-template=''
+      tuple-template='<div style="width:20vw">
+        <h4> 
+          <semantic-query query="SELECT ?label WHERE { <{{place.value}}> rdfs:label ?label }LIMIT 1"></semantic-query>  
+        </h4>
+      </div>'
+    >
+    </semantic-map>
+  </div>
+  [[/if]]
+
   <!-- Fields for Production -->
   <div class="productionInfoContainer">
     <mp-field-visualization
