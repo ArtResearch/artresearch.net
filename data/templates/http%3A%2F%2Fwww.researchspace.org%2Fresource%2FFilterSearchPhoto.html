@@ -61,8 +61,9 @@
                         PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                         PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
                         SELECT DISTINCT ?subject WHERE {
+                          BIND(REPLACE(?__token__,"(?<!^)(?<!\\s)\\s+(?!\\s+)(?!$)", " AND ") as ?token)
                           SERVICE <http://www.researchspace.org/resource/system/service/custom#solrphotos>{
-                            ?solrApi  solr:setQuery ?__token__;
+                            ?solrApi  solr:setQuery ?token;
                                       solr:setDefType "dismax";
                                       solr:setFilter "id";
                                       solr:setRowsNumber 1000;
