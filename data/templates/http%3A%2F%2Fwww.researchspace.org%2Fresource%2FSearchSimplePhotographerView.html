@@ -1,28 +1,28 @@
+<semantic-context repository='ephedra'>
+  <semantic-query query='
+  SELECT ?token WHERE{
+    BIND(REPLACE("[[urlParam "keyword"]]","(?<!^)(?<!\\s)\\s+(?!\\s+)(?!$)", " AND ") as ?token)
+  }
+  '
+  template="{{>addAndTemplate}}"
+  >
+  <template id="addAndTemplate">
+  
+  <div>
 <semantic-search-query-keyword
 placeholder='You searched for [[urlParam "keyword"]], but you can search for anything!'
 domain="<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>"
-default-query='
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-PREFIX bds: <http://www.bigdata.com/rdf/search#>
-PREFIX hint: <http://www.bigdata.com/queryHints#>
-SELECT ?subject ?keywords  WHERE {                
-?subject a fc:photographer.
-hint:Prior hint:runLast true .
-?subject rdfs:label ?label .
-?label bds:search "[[urlParam "keyword"]]" ;
-bds:minRelevance "0.3" ;
-bds:relevance ?score ;
-bds:matchAllTerms "true" .
-BIND(
-  COALESCE(
-    IF("[[urlParam "withimages"]]" = "true", fr:Work_depicted_by, 1/0),
-    rdfs:label
-  ) AS ?withImageOption
-)
-FILTER(EXISTS{?subject ?withImageOption ?something})
-BIND(REPLACE(str("[[urlParam "keyword"]]"),"\\+"," ") as ?keywords)
-}ORDER BY DESC(?score) 
+default-query='        
+  PREFIX solr: <http://custom.solr/ontology#>
+  SELECT ?subject WHERE {
+    SERVICE <http://www.researchspace.org/resource/system/service/custom#solrphotographers>{
+      ?solrApi solr:setQuery "{{bindings.0.token.value}}";
+                solr:setDefType "dismax";
+                solr:setFilter "id";
+                solr:setRowsNumber 1000;
+                solr:hasResults ?subject
+    }
+}
 '
 query='
 SELECT ?nothing WHERE{
@@ -49,7 +49,9 @@ class="hiddenSearchbar"
     <semantic-search-result id="photographer-results">
       <semantic-query
         id="keyword-display-photographer"
-        query="SELECT ?keywords WHERE {}"
+        query='SELECT ?keywords WHERE {
+          BIND(REPLACE(str("[[urlParam "keyword"]]"),"\\+"," ") as ?keywords)
+        }'
         template="{{>currentSearchText}}"
       >
         <template id="currentSearchText">
@@ -66,11 +68,7 @@ class="hiddenSearchbar"
       >
         <template id="currentResultCount">
           <h2>
-            {{#ifCond bindings.0.count.value "==" 10000}}
-            Found more than 10000 matches, please refine your search using filters
-            {{else}}
-              Found {{bindings.0.count.value}} matches
-            {{/ifCond}}
+            Found {{bindings.0.count.value}} relevant results
           </h2>
         </template>
       </semantic-query>
@@ -78,7 +76,7 @@ class="hiddenSearchbar"
       <semantic-table
         id="grid-result"
         query="SELECT DISTINCT ?subject  WHERE {}LIMIT 100"
-        number-of-displayed-rows="10"
+        number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
         tuple-template="{{> subjectCellTemplate}}"
         options='{"showTableHeading": false, "showFilter":false}'
         no-result-template='[[> :CardNoResult ]]'
@@ -91,3 +89,7 @@ class="hiddenSearchbar"
   </semantic-search-result-holder>
 </bs-col>
 </div>
+</div>
+</template>
+</semantic-query>
+</semantic-context>
