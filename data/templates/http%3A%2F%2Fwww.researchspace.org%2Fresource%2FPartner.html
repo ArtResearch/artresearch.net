@@ -105,6 +105,31 @@
               </div>
             </div>
             [[/if]]
+            [[#if images]]
+            <div id="work-summary-images">
+              <div  id="printableImages"  class="summaryImages">
+                <div class="rs-page__summary-image">
+                  <div class="carousel-container">
+                    <div class="imageAndSourceContainer">
+                    <semantic-carousel
+                    query="
+                        SELECT ?thumbnail  WHERE {                    
+                          VALUES (?thumbnail){ 
+                            [[images]]
+                          }
+                        }"
+                    options='{ "dots":true, "draggable":false, "infinite": true, "autoplay":true,"autoplaySpeed":6000, "fade": true }'
+                    tuple-template='<img src="{{thumbnail.value}}" style="max-height:260px; margin: 0 auto;" class="img-rounded">'
+                  ></semantic-carousel>
+                        </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+         
+            [[/if]]
             <div id="printableInfo" class="workAndProductionInfo">
               <!-- Fields for Work (Artwork or photograph) -->
       
@@ -176,7 +201,36 @@ button.close {
     .mirador-osd-annotation-controls{
         display: none !important;
     }
+    .slick-dots {
+    top: 33vh;
+    }
+    .carousel-container{
+      width: 62vw;
+    height: 40vh;
+    display: flex;
+    flex-direction: column;
+    }
+    .semantic-carousel > .slick-slider {
+  width: 100%;
+  margin: 0 !important;
+}
+.slick-slide img {
+  display: block;
+  object-fit: contain !important;
+  height: 100%;
+  width: 100%;
+  min-height: 245px;
+  min-width: 500px;
+  max-height: unset !important;
+}
+.imageAndSourceContainer{
+  padding: 25px;
+}
 
-    
-
+@media(max-width:750px){
+  .carousel-container {
+    width: 96vw;
+    height: 43vh;
+}
+}
 </style>
