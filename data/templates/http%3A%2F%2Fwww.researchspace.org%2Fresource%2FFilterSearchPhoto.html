@@ -49,6 +49,9 @@
                   placeholder="Search for a photograph by title"
                   escape-lucene-syntax="false"
                   default-query='
+                  PREFIX fr: <https://pharos.artresearch.net/resource/fr/>
+                  PREFIX fc: <https://pharos.artresearch.net/resource/fc/>
+                  PREFIX custom: <https://pharos.artresearch.net/resource/custom/fc/>
                   PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                   PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
                   SELECT DISTINCT ?subject WHERE {
@@ -57,6 +60,9 @@
                   }
                   '
                   query='
+                        PREFIX fr: <https://pharos.artresearch.net/resource/fr/>
+                        PREFIX fc: <https://pharos.artresearch.net/resource/fc/>
+                        PREFIX custom: <https://pharos.artresearch.net/resource/custom/fc/>
                         PREFIX solr: <http://custom.solr/ontology#>
                         PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                         PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
