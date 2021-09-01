@@ -1,0 +1,88 @@
+PREFIX sp: <http://spinrdf.org/sp#>
+PREFIX spin: <http://spinrdf.org/spin#>
+PREFIX spl: <http://spinrdf.org/spl#>
+PREFIX sail: <http://www.openrdf.org/config/sail#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX solr: <http://custom.solr/ontology#>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX ephedra: <http://www.researchspace.org/resource/system/ephedra#>
+PREFIX : <http://www.researchspace.org/resource/system/service/custom#>
+
+
+
+:solrartists a ephedra:Service ;
+	sail:sailType "researchspace:RESTSail" ;
+	rdfs:label "A wrapper for SOLR" ;
+	ephedra:hasSPARQLPattern (
+		[
+			sp:subject :_solrapi ;
+			sp:predicate solr:setQuery ;
+			sp:object :_q
+		]
+		[
+			sp:subject :_solrapi ;
+			sp:predicate solr:setDefType ;
+			sp:object :_defType
+		]
+		[
+			sp:subject :_solrapi ;
+			sp:predicate solr:setRowsNumber ;
+			sp:object :_rows
+		]
+		[
+			sp:subject :_solrapi ;
+			sp:predicate solr:setFilter ;
+			sp:object :_fl
+		]
+		[
+			sp:subject :_solrapi ;
+			sp:predicate solr:hasResults ;
+			sp:object :_queryResults
+		]
+	) ;
+
+	spin:constraint
+	[
+		a spl:Argument ;
+		rdfs:comment "SOLR q argument Query text" ;
+		spl:predicate :_q;
+		spl:valueType xsd:string
+    ] ;
+	spin:constraint
+	[
+		a spl:Argument ;
+		rdfs:comment "SOLR fl argument" ;
+		spl:predicate :_fl;
+		spl:valueType xsd:string
+    ] ;
+	spin:constraint
+	[
+		a spl:Argument ;
+		rdfs:comment "SOLR rows argument" ;
+		spl:predicate :_rows;
+		spl:valueType xsd:integer
+    ] ;
+	spin:constraint
+	[
+		a spl:Argument ;
+		rdfs:comment "SOLR Deftype .. dismax" ;
+		spl:predicate :_defType;
+		spl:valueType xsd:string
+    ] ;
+    spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "results (fixed column, must be present)" ;
+		spl:predicate :_solrapi ;
+		spl:valueType rdfs:Resource;
+		ephedra:jsonPath "$.response.docs"
+	] ;
+	spin:column
+	[
+		a  spin:Column ;
+		rdfs:comment "Respone array of results";
+		spl:predicate :_queryResults;
+		spl:valueType rdfs:Resource;
+		ephedra:jsonPath "id"
+	] .
