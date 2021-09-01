@@ -1,0 +1,30 @@
+@prefix repo: <http://www.openrdf.org/config/repository#> .
+@prefix reposail: <http://www.openrdf.org/config/repository/sail#> .
+@prefix sail: <http://www.openrdf.org/config/sail#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ephedra: <http://www.researchspace.org/resource/system/ephedra#> .
+@prefix rsrepo: <http://www.researchspace.org/resource/system/repository#> .
+@prefix : <http://www.researchspace.org/resource/system/service/custom#> .
+
+
+[] a repo:Repository ;
+  repo:repositoryID "solrphotographers" ;
+  rdfs:label "Repository to connect to SOLR for photographers" ;
+  repo:repositoryImpl [
+    repo:repositoryType "openrdf:SailRepository" ;
+    reposail:sailImpl [
+      sail:sailType "researchspace:RESTSail" ;
+      ephedra:serviceURL "http://213.171.209.34:8983/solr/photographers/select" ;
+      ephedra:httpMethod "GET" ;
+        ephedra:httpHeader [
+        ephedra:name "Accept" ;
+        ephedra:value "application/json"
+      ] ;
+      ephedra:implementsService :solrphotographers 
+    ]  
+  ] .
+
+
+
+
+
