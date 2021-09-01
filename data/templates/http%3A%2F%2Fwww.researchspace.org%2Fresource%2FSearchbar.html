@@ -29,6 +29,11 @@ data-position="bottom"
             value='{{#if selectedTab}}{{selectedTab}}{{else}}{{#ifCond (objectLength "[[urlParam "selectedtab"]]") "!==" 0}}[[urlParam "selectedtab"]]{{else}}Artworks{{/ifCond}}{{/if}}'
           />
           <input
+            type="hidden"
+            name="withimages"
+            value='false'
+          />
+          <input
             required
             minlength="2"
             spellcheck="true"
