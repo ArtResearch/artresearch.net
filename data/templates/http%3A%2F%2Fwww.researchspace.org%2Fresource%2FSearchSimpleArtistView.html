@@ -97,7 +97,9 @@
             no-result-template='[[> :CardNoResult ]]'
           >
             <template id="subjectCellTemplate">
-              [[> :CardPerson]]
+              <semantic-context repository='default'>
+                [[> :CardPerson]]
+              </semantic-context>
             </template>
           </semantic-table>
         </semantic-search-result>
