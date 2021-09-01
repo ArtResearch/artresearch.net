@@ -160,10 +160,10 @@
                 <semantic-query 
                 query='SELECT ?institution WHERE { 
                   {
-                  <{{subject.value}}> fr:Work_kept_by_Institution ?institution
+                  <{{subject.value}}> crm:P50_has_current_keeper ?institution
                   }union{
                    ?original owl:sameAs <{{subject.value}}>.
-                   ?original fr:Work_kept_by_Institution ?institution 
+                   ?original crm:P50_has_current_keeper ?institution 
                   }
                 }LIMIT 1'
                 template="{{>repoTemplate}}"
