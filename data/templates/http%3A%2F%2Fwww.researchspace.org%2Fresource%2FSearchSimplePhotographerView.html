@@ -85,7 +85,9 @@ class="hiddenSearchbar"
         no-result-template='[[> :CardNoResult ]]'
       >
         <template id="subjectCellTemplate">
-          [[> :CardPhotographer]]
+          <semantic-context repository='default'>
+            [[> :CardPhotographer]]
+          </semantic-context>
         </template>
       </semantic-table>
     </semantic-search-result>
