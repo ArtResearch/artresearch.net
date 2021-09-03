@@ -30,7 +30,7 @@
     
     it('Simple search works', () => {
         cy.get('input[type="search"]').click().type("test")
-        cy.get('button[type="submit"]').click().url().should('eq', 'http://localhost:10224/resource/start?withimages=false&selectedtab=Artworks&keyword=test&uri=Default%3ASearchSimple&semanticSearch=N4IgZiBcDaC6A0IBOBTAzgVwDYBcrAF9EATAQx1LRRzSjkVKwEsBzAOwFsU29JQAVKCAAi5UgDoAsqQCeAIxQhEANXwEiIFklIAHABYBlAMYB7HSgMpSSI3vwhBkEWKmyFSkKr7qCQA') 
+        cy.get('button[type="submit"]').click().url().should('eq', 'http://localhost:10224/resource/start?withimages=false&selectedTab=Artworks&keyword=test&uri=Default%3ASearchSimple&semanticSearch=N4IgZiBcDaC6A0IBOBTAzgVwDYBcrAF9EATAQx1LRRzSjkVKwEsBzAOwFsU29JQAVKCAAi5UgDoAsqQCeAIxQhEANXwEiIFklIAHABYBlAMYB7HSgMpSSI3vwhBkEWKmyFSkKr7qCQA') 
         cy.contains("Search")
         cy.contains("Artworks")
         cy.contains("Photographs")

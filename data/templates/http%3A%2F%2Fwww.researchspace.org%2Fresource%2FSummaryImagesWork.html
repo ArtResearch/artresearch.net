@@ -1,15 +1,35 @@
 <!-- Displays a row of IIIF photographs that are clickable (iiif mirador popup) -->
+<mp-event-target-template-render
+id="event-target-rsbv"
+template="{{> fieldsFilter}}"
+>
+<template id="fieldsFilter">
 <div id="work-summary-images">
   <semantic-query
     query='SELECT distinct ?thumbnail ?image  WHERE {
         {
           # Photo object
           ?? crm:P129i_is_subject_of ?image.
+          {{#if selectedTab}}
+            {{#ifCond selectedTab "!==" "All"}}
+              ?? fr:Photo_has_provider_Institution ?provider.
+            {{/ifCond}}
+          {{/if}}
         }UNION{
           # Original & Pharos Artwork
           ?? fr:Work_depicted_by_Photo ?photo.
           ?photo crm:P129i_is_subject_of ?image.
+          {{#if selectedTab}}
+            {{#ifCond selectedTab "!==" "All"}}
+              ?photo fr:Photo_has_provider_Institution ?provider.
+            {{/ifCond}}
+          {{/if}}
         }
+        {{#if selectedTab}}
+          {{#ifCond selectedTab "!==" "All"}}
+            ?provider rdfs:label "{{selectedTab}}".
+          {{/ifCond}}
+        {{/if}}
         ?image crm:P2_has_type ?imageType.
         ?imageType rdfs:label ?typeLabel.
         FILTER(?typeLabel = "recto")  
@@ -42,3 +62,5 @@
     </template>
   </semantic-query>
 </div>
+</template>
+</mp-event-target-template-render>

@@ -1,0 +1,41 @@
+<bs-dropdown-button
+  class="fa fa-chevron-down"
+  title="[[dropdownTitle]]"
+  no-caret="true"
+>
+  <mp-event-trigger
+    id="event-trigger-tab-artwork"
+    type="Component.TemplateUpdate"
+    data='{"selectedTab":"All"}'
+    targets='["event-target-infowork","event-target-rsbv"]'
+  >
+    <bs-menu-item active event-key="all">
+      <h2>All</h2>
+    </bs-menu-item>
+  </mp-event-trigger>
+  <semantic-query
+    query="
+    SELECT DISTINCT ?provider ?providerLabel WHERE{
+      ?work owl:sameAs ??.
+      ?work fr:Work_has_provider_Institution ?provider.
+      ?provider rdfs:label ?providerLabel
+    }"
+    
+   template="{{> providerOption}}"
+  >
+    <template id="providerOption">
+      {{#each bindings}}
+      <mp-event-trigger
+        id="event-trigger-tab-{{providerLabel.value}}"
+        type="Component.TemplateUpdate"
+        data='{"selectedTab":"{{providerLabel.value}}"}'
+        targets='["event-target-infowork","event-target-rsbv"]'
+      >
+        <bs-menu-item active event-key="{{providerLabel.value}}">
+          <h2>{{providerLabel.value}}</h2>
+        </bs-menu-item>
+      </mp-event-trigger>
+      {{/each}}
+    </template>
+  </semantic-query>
+</bs-dropdown-button>

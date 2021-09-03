@@ -5,16 +5,74 @@
   <div id="tab-container" class="page__body-navtabs--borderless">
     <div class="old-fashioned-grid">
       <div class="super-cheesy">[[> :SummaryImagesWork]]</div>
-      <div>[[> :InfoWorkAndProduction]]</div>
+
+      <div>
+        <mp-event-target-template-render
+        id="event-target-infowork"
+        template="{{> filterRsbv}}"
+      >
+      <template id="filterRsbv">
+        <div id="filter-dropdown">
+          {{#if selectedTab}} 
+            [[> :WorkInfoDropdown dropdownTitle="Filter: {{selectedTab}}"]] 
+            {{else}} 
+            [[> :WorkInfoDropdown dropdownTitle="Filter: All" ]] 
+          {{/if}}
+        </div>
+      </template>
+      </mp-event-target-template-render>
+        [[> :InfoWorkAndProduction]]
+      </div>
+
     </div>
   </div>
   [[/:ClipboardSidebar]]
 </div>
 
 <style>
-.artworkLocation {
-    height: 45vh;
+  .hide-next-row + tr {
+    display: none;
+  }
+  .no-hide-next-row {
+    display: none;
+  }
+  .hide-next-row {
+      display: none;
+  }
+  .artworkLocation {
+      height: 45vh;
+  }
+
+#filter-dropdown {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
 }
+#filter-dropdown .dropdown.btn-group {
+    cursor: pointer;
+    margin-right: 1vw;
+    margin-top: 1vh;
+  }
+#filter-dropdown .dropdown.btn-group button {
+    height: 5vh;
+    min-width: 150px;
+    background: white;
+    min-height: 49px;
+    min-width: 95px;
+    font-size: 16px;
+    color: gray !important;
+    box-shadow: 0px 0px -7px 0px #eaeaea;
+    border: 1px solid #dedede !important;
+    border-radius: 5px;
+    content: "Artwork";
+  }
+  #filter-dropdown h2{
+    background: none !important;
+    color:#0f4b8b !important; 
+    border-radius: 0;
+    text-align: center;
+    margin: 0;
+  }
   .old-fashioned-grid h2 {
     background: #0f4b8b;
     color: white;
