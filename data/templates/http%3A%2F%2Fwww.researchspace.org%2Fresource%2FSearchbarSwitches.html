@@ -82,13 +82,13 @@ data-position="right"
                 
                 {{/ifCond}}
           {{else}}
-            {{#ifCond (objectLength "[[urlParam "selectedtab"]]") "!==" 0}}
+            {{#ifCond (objectLength "[[urlParam "selectedTab"]]") "!==" 0}}
               {{#ifCond withImages "===" "true"}}
                 <label class="switch">   
                   <mp-event-trigger
                   id="event-trigger-tab-photograph"
                   type="Component.TemplateUpdate"
-                  data='{"selectedTab":"[[urlParam "selectedtab"]]","withImages":"false"}'
+                  data='{"selectedTab":"[[urlParam "selectedTab"]]","withImages":"false"}'
                   targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select","event-target-tables"]'
                   >
                   <div>
@@ -103,7 +103,7 @@ data-position="right"
                       <mp-event-trigger
                       id="event-trigger-tab-photograph"
                       type="Component.TemplateUpdate"
-                      data='{"selectedTab":"[[urlParam "selectedtab"]]","withImages":"false"}'
+                      data='{"selectedTab":"[[urlParam "selectedTab"]]","withImages":"false"}'
                       targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select","event-target-tables"]'
                       >
                       <div>
@@ -117,7 +117,7 @@ data-position="right"
                       <mp-event-trigger
                       id="event-trigger-tab-photograph"
                       type="Component.TemplateUpdate"
-                      data='{"selectedTab":"[[urlParam "selectedtab"]]","withImages":"true"}'
+                      data='{"selectedTab":"[[urlParam "selectedTab"]]","withImages":"true"}'
                       targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select","event-target-tables"]'
                       >
                         <div>

@@ -1,10 +1,16 @@
 <div id="photoTable">
   <semantic-query
-    query="  
-SELECT distinct ?photo 
-{
-  ?? fr:Work_depicted_by_Photo ?photo
-}LIMIT 1"
+    query='  
+      SELECT distinct ?photo 
+      {
+        ?? fr:Work_depicted_by_Photo ?photo.
+        {{#if selectedTab}}
+          {{#ifCond selectedTab "!==" "All"}}
+            ?photo fr:Photo_has_provider_Institution ?provider.
+            ?provider rdfs:label "{{selectedTab}}"
+          {{/ifCond}}
+        {{/if}}
+      }LIMIT 1'
     template="{{> showTitle}}"
   >
     <template id="showTitle">
@@ -15,15 +21,21 @@ SELECT distinct ?photo
 
   <semantic-table
     options='{
-  "showFilter":false
-}'
+      "showFilter":false
+    }'
     number-of-displayed-rows="4"
-    query="  
-SELECT distinct ?photo ?photo_label ?photographer ?keeper WHERE 
-{
-    ?? fr:Work_depicted_by_Photo ?photo 
-    # TODO add recto query, add optional verso query
-}"
+    query='
+      SELECT distinct ?photo ?photo_label ?photographer ?keeper WHERE 
+      {
+          ?? fr:Work_depicted_by_Photo ?photo.
+          # TODO add recto query, add optional verso query
+          {{#if selectedTab}}
+            {{#ifCond selectedTab "!==" "All"}}
+              ?photo fr:Photo_has_provider_Institution ?provider.
+              ?provider rdfs:label "{{selectedTab}}"
+            {{/ifCond}}
+          {{/if}}
+      }'
 
     tuple-template="{{> photos}}"
     no-result-template='<h2>No photographs found</h2>'

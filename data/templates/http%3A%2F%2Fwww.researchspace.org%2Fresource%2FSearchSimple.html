@@ -7,7 +7,7 @@
         <header style="margin-left: 10px">
           <semantic-query
             query='SELECT ?tab WHERE{
-              BIND("[[urlParam "selectedtab"]]" as ?tab)
+              BIND("[[urlParam "selectedTab"]]" as ?tab)
             }LIMIT 1'
             template="{{>searchbarTemplate}}">
               <template id="searchbarTemplate">
@@ -23,7 +23,7 @@
         <bs-tab-container
           id="tab-container"
           class="page__body-navtabs--borderless"
-          default-active-key='[[urlParam "selectedtab"]]'
+          default-active-key='[[urlParam "selectedTab"]]'
         >
           <div>
             <bs-nav bs-style="tabs">

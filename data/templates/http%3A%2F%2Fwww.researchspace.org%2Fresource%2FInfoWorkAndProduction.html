@@ -1,5 +1,11 @@
+<mp-event-target-template-render
+id="event-target-rsbv"
+template="{{> fieldsFilter}}"
+>
+<template id="fieldsFilter">
 <div id="printableInfo" class="workAndProductionInfo">
   <!-- Fields for Work (Artwork or photograph) -->
+
   <mp-field-visualization
     subject="[[this]]"
     additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
@@ -9,14 +15,12 @@
     <template id="workInfo">
       {{#if noData}} {{else}}
       <div class="workInfoContainer">
-        <h2>Work info</h2>
-        [[> :ResourceFieldBasedVisualization subject=[[this]]
-        showSourceIcon="true" ]]
+        <h2>Work info </h2>
+        [[> :ResourceFieldBasedVisualization subject=[[this]]  showSourceIcon="true" ]]
       </div>
       {{/if}}
     </template>
   </mp-field-visualization>
-
   [[#if (ask "ASK { ?? fr:Work_from_Place ?place. ?place <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat. ?place <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng. }") ]] 
   <div class="workInfoContainer">
     <h2>Current artwork location</h2>
@@ -78,3 +82,5 @@
     [[> :PhotographTable]]
   </div>
 </div>
+</template>
+</mp-event-target-template-render>
