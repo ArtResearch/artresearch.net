@@ -50,20 +50,36 @@
       <template id="originalRecords">
         <h2 class="fc-label">
           {{#each bindings}}
-          <a style="margin-left: 5px;" href="{{providerRecord.value}}" target="_null">
-            <div class="fc-label original-link">
-            <img
-              title="{{providerLabel.value}}"
-              class="sourceIcon"
-              src="../../assets/images/{{providerLabel.value}}.ico"
-          />
-          <div class="text">View {{providerLabel.value}} record</div>
-        </div> 
-        </a>
-        
+            <a style="margin-left: 5px;" href="{{providerRecord.value}}" target="_null">
+              <div class="fc-label original-link">
+                <img
+                  title="{{providerLabel.value}}"
+                  class="sourceIcon"
+                  src="../../assets/images/{{providerLabel.value}}.ico"
+                />
+                <div class="text">View {{providerLabel.value}} record</div>
+              </div> 
+          </a>
           {{/each}}
         </h2>
       </template>
+    </semantic-query>
+    <semantic-query
+      query='SELECT ?websiteLink WHERE { ?? fr:Institution_has_Original_Link ?websiteLink 
+      }LIMIT 10'
+      template='{{> websiteLink }}'>
+       <template id='websiteLink'>
+          <h2 class="fc-label">
+            {{#each bindings}}
+            <a style="margin-left: 5px;" href="{{websiteLink.value}}" target="_null">
+              <div class="fc-label original-link">
+              <div class="text">View website</div>
+              <div   class="sourceIcon fa fa-external-link"></div>
+            </div> 
+            </a>
+            {{/each}}
+          </h2>
+       </template>
     </semantic-query>
     <h2 style="margin-left: 5px; margin-top: 10px;" class="fc-label">
       <semantic-query query='SELECT ?artwork WHERE{
