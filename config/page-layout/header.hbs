@@ -8,32 +8,70 @@
       >Artresearch.net</semantic-link>
 
     </div>
-    <bs-navbar-collapse class=" pull-right">
+    <bs-navbar-collapse class="pull-right">
       <bs-nav>
-        <bs-nav-item>
-          <semantic-link
-            class="rs-body-m-M"
-            iri="Default:start"
-          >Home</semantic-link>
-        </bs-nav-item>
-        <bs-nav-item>
-          <semantic-link
-            class="rs-body-m-M"
-            iri="Default:Statistics"
-          >Statistics</semantic-link>
-        </bs-nav-item>
-        <bs-nav-item>
-          <semantic-link
-            class="rs-body-m-M"
-            iri="Default:Partners"
-          >Partners</semantic-link>
-        </bs-nav-item>
+        <bs-nav-dropdown
+          title="About"
+          id="basic-nav-dropdown"
+          class="no-bullets"
+        >
+          <bs-menu-item>
+            <semantic-link
+              class="rs-body-m-M"
+              iri="Default:Partners"
+            >Partners</semantic-link>
+          </bs-menu-item>
+          <bs-menu-item>
+            <semantic-link
+              class="rs-body-m-M"
+              iri="Default:Statistics"
+            >Statistics</semantic-link>
+          </bs-menu-item>
+        </bs-nav-dropdown>
+
+        <bs-nav-dropdown
+          title="Account"
+          id="basic-nav-dropdown"
+          class="no-bullets"
+        >
+          <mp-anonymous-hidden>
+             <a
+             style="display: flex; padding: 10px;"
+              href="/resource/user/" class="rs-icon rs-icon-user_round rs-xs-none">
+                My profile
+            </a>
+          </mp-anonymous-hidden>
+          <mp-anonymous-hidden>
+            <a
+              style="margin: 10px; display:flex;"
+              id="logout-Link"
+              href="/logout"
+              title="logout"
+              class="rs-body-m-M fa fa-sign-out"
+            >
+                Logout
+            </a>
+          </mp-anonymous-hidden>
+
+          <a
+            style="margin: 10px; display:flex;"
+            id="login-Link"
+            href="/login"
+            title="login"
+            class="rs-body-m-M fa fa-sign-in"
+          >
+            login
+          </a>
+        </bs-nav-dropdown>
+        <mp-anonymous-hidden>
           <bs-nav-item>
-          <semantic-link
-            class="rs-body-m-M"
-            iri="Default:About"
-          >About</semantic-link>
-        </bs-nav-item>
+            <a
+              href="/sparql"
+              title="Go to SPARQL endpoint"
+              class="rs-body-m-M"
+            >SPARQL</a>
+          </bs-nav-item>
+        </mp-anonymous-hidden>
         <mp-anonymous-hidden>
           <bs-nav-item>
             <semantic-link
@@ -43,31 +81,7 @@
             >Admin</semantic-link>
           </bs-nav-item>
         </mp-anonymous-hidden>
-        <mp-anonymous-hidden>
-          <li role="presentation">
-            <a
-              href="/sparql"
-              title="Go to SPARQL endpoint"
-              class="rs-body-m-M"
-            >SPARQL</a>
-          </li>
-        </mp-anonymous-hidden>
-        <li role="presentation">
-          <mp-anonymous-hidden>
-            <a
-              id="logout-Link"
-              href="/logout"
-              title="logout"
-              class="rs-body-m-M fa fa-sign-out"
-            >Logout</a>
-          </mp-anonymous-hidden>
-          <a
-            id="login-Link"
-            href="/login"
-            title="login"
-            class="rs-body-m-M fa fa-sign-in"
-          >Login</a>
-        </li>
+
       </bs-nav>
     </bs-navbar-collapse>
   </div>
