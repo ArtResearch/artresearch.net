@@ -10,26 +10,8 @@ class="rs-grid-element panel panel-default placeCard fade-in-fwd"
       md="12"
       xs="12"
     >
-    <semantic-query query='PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-      PREFIX wd: <http://www.wikidata.org/entity/>
-      PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-      SELECT DISTINCT ?imgUrl WHERE{
-        bind("../../assets/images/media/image_placeholder_place.jpg" as ?default_imageUrl)
-        OPTIONAL{
-          <{{subject.value}}> fr:Place_depicted_by ?imgUrl
-          }
-          BIND(coalesce(?imgUrl, ?default_imageUrl) as ?imgUrl)    
-            }LIMIT 1'
-        template="{{> imageThumbnail}}"
-      >
-        <template id="imageThumbnail">
-          <img
-            alt="   "
-            class="thumbnailImage"
-            src="{{bindings.0.imgUrl.value}}?width=350"
-          />
-        </template>
-    </semantic-query>
+     <!-- see commit at September 6 2021 for thumbnail code -->
+
     </bs-col>
     <bs-col class="cardInfo" lg="12">
       <div data-flex-layout="row md-column center-stretch">

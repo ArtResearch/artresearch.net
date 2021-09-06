@@ -12,33 +12,8 @@ class="rs-grid-element panel panel-default repositoryCard fade-in-fwd"
       xs="12"
     >
 
-      <!-- Thumbnail for Institution (fetch from wikidata (good luck)) -->
-        <semantic-query
-        query='
-      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-      PREFIX wd: <http://www.wikidata.org/entity/>
-      PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-      PREFIX wdtn: <http://www.wikidata.org/prop/direct-normalized/>
+        <!-- see commit at September 6 2021 for thumbnail code -->
 
-      SELECT DISTINCT ?imgUrl WHERE{
-        BIND("/assets/images/media/image_placeholder_repo.jpg" as ?imgUrl)
-       
-        #bind("/assets/images/media/image_placeholder_repo.jpg" as ?default_imageUrl)
-        # OPTIONAL{
-          #<{{subject.value}}> fr:Institution_depicted_by ?institutionImage
-          #  }
-       # BIND(coalesce(?institutionImage, ?default_imageUrl) as ?imgUrl)    
-            }LIMIT 1'
-        template="{{> imageThumbnail}}"
-      >
-        <template id="imageThumbnail">
-          <img
-            alt="   "
-            class="thumbnailImage"
-            src="{{bindings.0.imgUrl.value}}?width=150"
-          />
-        </template>
-    </semantic-query>
     </bs-col>
     <bs-col class="cardInfo" lg="12">
       <div data-flex-layout="row md-column center-stretch">
