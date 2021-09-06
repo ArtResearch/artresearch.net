@@ -3,30 +3,7 @@
   <semantic-link iri="{{subject.value}}">
     <div class="panel-body">
       <bs-col class="thumbnailImageContainer" lg="4" md="12" xs="12">
-        <!-- Thumbnail for Person (fetch from wikidata (good luck)) -->
-            <semantic-query
-              query='
-                SELECT DISTINCT ?imgUrl WHERE {
-                BIND("../../assets/images/media/image_placeholder_person.jpg" AS ?imgUrl)
-#               BIND("../../assets/images/media/image_placeholder_person.jpg" AS ?default_imageUrl)
-#                  OPTIONAL{
-#                   ?wikiPerson rdfs:label ?photographerName.
-#                 ?wikiPerson fr:Person_depicted_by ?imgUrl.
-#                 <{{subject.value}}> rdfs:label ?photographerName.
-#               }
-#               BIND(COALESCE(?imgUrl, ?default_imageUrl) AS ?imgUrl)
-                }
-                LIMIT 1'
-              template="{{> imageThumbnail}}"
-            >
-              <template id="imageThumbnail">
-                <img
-                  alt="   "
-                  class="thumbnailImage"
-                  src="{{bindings.0.imgUrl.value}}?width=150"
-                />
-              </template>
-            </semantic-query>
+        <!-- see commit at September 6 2021 for thumbnail code -->
       </bs-col>
       <bs-col class="cardInfo" lg="12">
         <div data-flex-layout="row md-column center-stretch">

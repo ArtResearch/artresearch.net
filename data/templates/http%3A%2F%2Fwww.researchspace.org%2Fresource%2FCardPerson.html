@@ -10,27 +10,7 @@ class="rs-grid-element panel panel-default personCard fade-in-fwd"
       md="12"
       xs="12"
     >
-          <semantic-query
-            query='
-            SELECT DISTINCT ?imgUrl WHERE {
-             BIND("../../assets/images/media/image_placeholder_person.jpg" AS ?imgUrl)
-            #  BIND("../../assets/images/media/image_placeholder_person.jpg" AS ?default_imageUrl)
-            #  OPTIONAL {
-            #      <{{subject.value}}> fr:Person_depicted_by ?personImage
-            #  }
-            #  BIND(COALESCE(?personImage, ?default_imageUrl) AS ?imgUrl)
-            }
-            LIMIT 1'
-            template="{{> imageThumbnail}}"
-          >
-            <template id="imageThumbnail">
-              <img
-                alt="   "
-                class="thumbnailImage"
-                src="{{bindings.0.imgUrl.value}}?width=150"
-              />
-            </template>
-          </semantic-query>
+     <!-- see commit at September 6 2021 for thumbnail code -->
     </bs-col>
     <bs-col class="cardInfo" lg="12">
       <div
