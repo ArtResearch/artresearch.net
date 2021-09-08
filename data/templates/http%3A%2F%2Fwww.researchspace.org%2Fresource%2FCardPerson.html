@@ -52,20 +52,20 @@ class="rs-grid-element panel panel-default personCard fade-in-fwd"
             </template>
             </semantic-query>
 
+              </div>
+              <div 
+              style="
+              display: flex; 
+              justify-content: center;  
+              min-height: 14px;
+            ">
+            <semantic-query query='SELECT ?nationalityLabel WHERE{
+              <{{subject.value}}> fr:Person_has_Nationality ?nationality.
+              ?nationality rdfs:label ?nationalityLabel
+            }LIMIT 1'
+            >
+            </semantic-query>
           </div>
-          <div 
-          style="
-          display: flex; 
-          justify-content: center;  
-          min-height: 14px;
-         ">
-        <semantic-query query='SELECT ?nationalityLabel WHERE{
-          <{{subject.value}}> fr:Person_has_Nationality ?nationality.
-          ?nationality rdfs:label ?nationalityLabel
-        }LIMIT 1'
-        >
-        </semantic-query>
-       </div>
           </h4>
         </bs-row>
       </div>
