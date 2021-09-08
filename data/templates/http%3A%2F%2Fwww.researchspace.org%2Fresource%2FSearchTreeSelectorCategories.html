@@ -12,7 +12,12 @@
     "childrenQuery": "
       SELECT distinct ?item ?label ?hasChildren WHERE {
         ?item a  ?__range__.
-        ?item <http://www.geonames.org/ontology#parentCountry>  ?parent.
+        {
+          ?item <http://www.geonames.org/ontology#parentCountry>  ?parent.
+          ?x <http://www.geonames.org/ontology#parentADM1> ?item. 
+        }UNION{
+          ?item <http://www.geonames.org/ontology#parentADM1> ?parent.
+        }
         ?item rdfs:label ?label.
         FILTER(EXISTS { ?subject a ?__domain__. ?subject ?__relation__ ?item . }) .
         BIND(bound(?item) as ?hasChildren)
