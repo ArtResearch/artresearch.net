@@ -29,10 +29,10 @@
 #rsbv .visualizationValue div[date="Invalid date"] {
   display: none;
 }
-#rsbv .visualizationValue div +span{
+#rsbv .visualizationValue div + span {
   display: none;
 }
-#rsbv .visualizationValue div[date="Invalid date"]+span {
+#rsbv .visualizationValue div[date="Invalid date"] + span {
   display: block;
 }
 
@@ -85,19 +85,63 @@
   text-decoration: none !important;
 }
 #rsbv a {
-  color :#6b0000 !important
+  color: #6b0000 !important;
 }
 
 #rsbv .copyText {
   margin-left: 25px;
-  cursor:copy;
+  cursor: copy;
 }
 
 #rsbv .createAssertion {
   transition: 0.3s;
-  font-size: 0px ;
+  font-size: 0px;
 }
-#rsbv tr:hover .createAssertion{
+#rsbv tr:hover .createAssertion {
   font-size: unset;
   border-bottom: 0px !important;
+}
+
+#rsbv .rsbv-viewmore-panel .panel-default > .panel-heading {
+  background: whitesmoke;
+}
+
+#rsbv .rsbv-viewmore-panel h4.panel-title {
+  text-transform: none;
+  font-size: 16px;
+}
+#rsbv .rsbv-viewmore-panel h4.panel-title a {
+  font-weight: normal;
+}
+
+#rsbv .rsbv-viewmore-panel h4.panel-title a::before {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  content: "\f077";
+}
+
+#rsbv .rsbv-viewmore-panel h4.panel-title a.collapsed::before {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  content: "\f078";
+}
+
+#rsbv .rsbv-viewmore-panel .panel-default {
+  width: 116%;
+  box-shadow: none;
+  border-bottom: 1px solid white;
+  border-left: 1px solid #e6e6e6;
+  margin: 0;
+}
+
+#rsbv .rsbv-viewmore-panel .panel-body {
+  padding: 0px;
 }
