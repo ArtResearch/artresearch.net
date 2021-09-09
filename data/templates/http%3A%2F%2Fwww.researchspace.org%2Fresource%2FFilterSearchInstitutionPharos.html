@@ -120,8 +120,12 @@
           ?subject fr:Institution_from_Place ?parent.
           ?parent rdfs:label ?label.
           ?subject fr:Institution_from_Place ?node. 
-          ?parent crm:P2_has_type <http://vocab.getty.edu/aat/300387506>.
-          ?node <http://www.geonames.org/ontology#parentCountry> ?parent.
+          {
+            ?node <http://www.geonames.org/ontology#parentCountry>  ?parent.
+            FILTER EXISTS { ?x <http://www.geonames.org/ontology#parentADM1> ?node.}
+          }UNION{
+            ?node <http://www.geonames.org/ontology#parentADM1> ?parent.
+          }
         }order by(?label)"
         tuple-template="{{>placeTuple}}"
         >
