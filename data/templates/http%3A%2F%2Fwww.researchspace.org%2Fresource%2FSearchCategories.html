@@ -8,6 +8,7 @@
   "<https://pharos.artresearch.net/resource/fc/place>": [{
     "kind": "hierarchy",
     "queryPattern": "
+      $subject a ?__domain__. 
       $subject ?__relation__ ?__value__ .
     "
   }],
@@ -23,6 +24,42 @@
       $subject ?__relation__ ?__value__ .
     "
   }],
+  "<https://pharos.artresearch.net/resource/fc/artist>": [{
+    "kind": "resource",
+    "queryPattern": "
+      $subject a ?__domain__. 
+      $subject ?__relation__ ?__value__ .
+    "
+  }],
+  "<https://pharos.artresearch.net/resource/fc/work>": [{
+    "kind": "resource",
+    "queryPattern": "
+      $subject a ?__domain__. 
+      $subject ?__relation__ ?__value__ .
+    "
+  }],
+  "<https://pharos.artresearch.net/resource/fc/photographer>": [{
+    "kind": "resource",
+    "queryPattern": "
+      $subject a ?__domain__. 
+      $subject ?__relation__ ?__value__ .
+    "
+  }],
+  "<https://pharos.artresearch.net/resource/fc/institution>": [{
+    "kind": "resource",
+    "queryPattern": "
+      $subject a ?__domain__. 
+      $subject ?__relation__ ?__value__ .
+    "
+  }],
+  "<https://pharos.artresearch.net/resource/custom/fc/photo>": [{
+    "kind": "resource",
+    "queryPattern": "
+      $subject a ?__domain__. 
+      $subject ?__relation__ ?__value__ .
+    "
+  }],
+
   "<https://pharos.artresearch.net/resource/custom/fc/technique>": [{
     "kind": "hierarchy",
     "queryPattern": "
@@ -40,8 +77,8 @@
     "datatype": "http://www.w3.org/2001/XMLSchema#date",
     "queryPattern": "
       $subject ?__relation__ ?date .
-      FILTER(?date <= ?__dateEndValue__) .
-      FILTER(?date >= ?__dateBeginValue__) .
+      FILTER(?date <= ?__dateEndValue__) 
+      FILTER(?date >= ?__dateBeginValue__) 
     "
   }],
   "<http://www.researchspace.org/ontology/Text>": [
