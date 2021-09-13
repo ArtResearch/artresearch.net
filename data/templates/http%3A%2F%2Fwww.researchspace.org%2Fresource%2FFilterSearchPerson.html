@@ -140,7 +140,7 @@
         default-query="
               SELECT  ?subject  
               WHERE {
-                ?artwork <https://pharos.artresearch.net/custom/has_provider> <[[provider]]>.
+                ?artwork custom:has_provider <[[provider]]>.
                 ?artwork  fr:Work_created_from_Artist ?subject.
                 ?subject  rdfs:label ?label .
               }LIMIT 100"
@@ -148,7 +148,7 @@
                       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
                       SELECT ?subject WHERE {                        
-                      ?artwork <https://pharos.artresearch.net/custom/has_provider>  <[[provider]]>.
+                      ?artwork custom:has_provider  <[[provider]]>.
                       ?artwork fr:Work_created_from_Artist ?subject.
                       ?subject rdfs:label ?someLabel.
                       ?someLabel bds:search ?__token__ .
@@ -185,7 +185,7 @@
                   query="
                   SELECT DISTINCT ?subject ?artistName (count(?artwork) as ?artworkCount)
                    WHERE {
-                    ?artwork <https://pharos.artresearch.net/custom/has_provider> <[[provider]]>.
+                    ?artwork custom:has_provider <[[provider]]>.
                     ?artwork fr:Work_created_from_Artist ?subject.
                     ?subject rdfs:label ?artistName
                    }GROUP BY ?subject ?artistName ORDER BY DESC(?artworkCount) LIMIT 100

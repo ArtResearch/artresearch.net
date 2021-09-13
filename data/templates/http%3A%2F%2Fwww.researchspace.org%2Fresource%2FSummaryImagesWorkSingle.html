@@ -38,7 +38,7 @@ class="rs-page__summary-image summaryImages summary-image-with-thumbs"
                       SELECT ?providerLabel WHERE{   
                         # Get the little icon on the top left to please providers
                         ?photo crm:P129i_is_subject_of <{{bindings.0.rectoVersoImage.value}}>.
-                        ?photo <https://pharos.artresearch.net/custom/has_provider> ?provider.
+                        ?photo custom:has_provider ?provider.
                         ?provider rdfs:label ?providerLabel.
                       }limit 1
                       "
