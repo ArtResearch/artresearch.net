@@ -23,7 +23,7 @@
                   query="     
                   SELECT ?providerLabel WHERE{    
                     ?photo crm:P129i_is_subject_of <{{bindings.0.image.value}}>.
-                    ?photo <https://pharos.artresearch.net/custom/has_provider> ?provider.
+                    ?photo custom:has_provider ?provider.
                     ?provider rdfs:label ?providerLabel.
                   }limit 1
                     "
