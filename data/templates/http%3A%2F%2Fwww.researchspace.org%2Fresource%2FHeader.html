@@ -23,66 +23,66 @@
   <div data-flex-layout='row center-left' class="page__header-tagline subtitleInfo">
     [[> :InfoTypeRepository work=(urlParam "uri") ]]
     <div style="position: absolute; right: 0;">
-    <semantic-query
-      query="
-            SELECT DISTINCT ?providerRecord ?providerLabel WHERE {
-             {
-              # Artwork
-              ?originalSubject owl:sameAs ??.
-              ?originalSubject fr:Work_has_provider_Institution ?provider.
-              ?originalSubject <https://pharos.artresearch.net/custom/has_original_record> ?providerRecord.
-              ?provider rdfs:label ?providerLabel
-            }UNION{
-              # Pharos artwork
-              ?? fr:Work_has_provider_Institution ?provider.
-              ?? <https://pharos.artresearch.net/custom/has_original_record> ?providerRecord.
-              ?provider rdfs:label ?providerLabel
-            }UNION{
-              # Photograph
-              ?? fr:Photo_depicts_Work  ?subject.
-              ?subject <https://pharos.artresearch.net/custom/has_original_record> ?providerRecord.
-              ?subject fr:Work_has_provider_Institution ?provider.
-              ?provider rdfs:label ?providerLabel
-            }
-            }
-                           "
-      template="{{> originalRecords}}"
-    >
-      <template id="originalRecords">
-        <h2 class="fc-label">
-          {{#each bindings}}
-            <a style="margin-left: 5px;" href="{{providerRecord.value}}" target="_null">
-              <div class="fc-label original-link">
-                <img
-                  title="{{providerLabel.value}}"
-                  class="sourceIcon"
-                  src="../../assets/images/{{providerLabel.value}}.ico"
-                />
-                <div class="text">View {{providerLabel.value}} record</div>
-              </div> 
-            </a>
-          {{/each}}
-        </h2>
-      </template>
-    </semantic-query>
-    <semantic-query
-      query='SELECT ?websiteLink WHERE { ?? fr:Institution_has_Original_Link ?websiteLink 
-      }LIMIT 10'
-      template='{{> websiteLink }}'>
-       <template id='websiteLink'>
+      <semantic-query
+        query="
+              SELECT DISTINCT ?providerRecord ?providerLabel WHERE {
+              {
+                # Artwork
+                ?originalSubject owl:sameAs ??.
+                ?originalSubject fr:Work_has_provider_Institution ?provider.
+                ?originalSubject <https://pharos.artresearch.net/custom/has_original_record> ?providerRecord.
+                ?provider rdfs:label ?providerLabel
+              }UNION{
+                # Pharos artwork
+                ?? fr:Work_has_provider_Institution ?provider.
+                ?? <https://pharos.artresearch.net/custom/has_original_record> ?providerRecord.
+                ?provider rdfs:label ?providerLabel
+              }UNION{
+                # Photograph
+                ?? fr:Photo_depicts_Work  ?subject.
+                ?subject <https://pharos.artresearch.net/custom/has_original_record> ?providerRecord.
+                ?subject fr:Work_has_provider_Institution ?provider.
+                ?provider rdfs:label ?providerLabel
+              }
+              }
+                            "
+        template="{{> originalRecords}}"
+      >
+        <template id="originalRecords">
           <h2 class="fc-label">
             {{#each bindings}}
-            <a style="margin-left: 5px;" href="{{websiteLink.value}}" target="_null">
-              <div class="fc-label original-link">
-              <div class="text">View website</div>
-              <div   class="sourceIcon fa fa-external-link"></div>
-            </div> 
-            </a>
+              <a style="margin-left: 5px;" href="{{providerRecord.value}}" target="_null">
+                <div class="fc-label original-link">
+                  <img
+                    title="{{providerLabel.value}}"
+                    class="sourceIcon"
+                    src="../../assets/images/{{providerLabel.value}}.ico"
+                  />
+                  <div class="text">View {{providerLabel.value}} record</div>
+                </div> 
+              </a>
             {{/each}}
           </h2>
-       </template>
-    </semantic-query>
-  </div>
+        </template>
+      </semantic-query>
+      <semantic-query
+        query='SELECT ?websiteLink WHERE { ?? fr:Institution_has_Original_Link ?websiteLink 
+        }LIMIT 10'
+        template='{{> websiteLink }}'>
+        <template id='websiteLink'>
+            <h2 class="fc-label">
+              {{#each bindings}}
+              <a style="margin-left: 5px;" href="{{websiteLink.value}}" target="_null">
+                <div class="fc-label original-link">
+                <div class="text">View website</div>
+                <div   class="sourceIcon fa fa-external-link"></div>
+              </div> 
+              </a>
+              {{/each}}
+            </h2>
+        </template>
+      </semantic-query>
+    </div>
     <h2 style="margin-left: 5px; margin-top: 10px;" class="fc-label">
       <semantic-query query='SELECT ?artwork WHERE{
         ?? fr:Photo_depicts_Work ?artwork

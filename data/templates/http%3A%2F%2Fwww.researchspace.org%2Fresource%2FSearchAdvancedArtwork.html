@@ -1,13 +1,3 @@
-<div class="form-head" style="margin-top:0 ;">
-<mp-event-trigger
-id="reset-form"
-data='{}'
-type="Component.TemplateUpdate"
-targets='["event-target-form-query"]'
->
-<span class="fa fa-repeat clickable"><strong >Reset form</strong></span>
-</mp-event-trigger>
-</div>
 <semantic-context repository='ephedra'>
   <semantic-search
   relations='[[> :SearchSimpleRelations]]'
@@ -19,7 +9,7 @@ targets='["event-target-form-query"]'
     template="{{> tableEventTargetFormQueryTemplate}}"
   >  <template id="tableEventTargetFormQueryTemplate"> 
     <div class="search-form-container">
-      <bs-panel id="form-panel" header="Search form"  collapsible="true" default-expanded="true">
+      <bs-panel id="form-panel" header="‎‎" collapsible="true" default-expanded="true">
     <div class="advanced-search-form">
       <semantic-search-form-query
         multi=true
@@ -34,6 +24,16 @@ targets='["event-target-form-query"]'
         </button>
       </semantic-search-form-query>
     </div>
+    <div class="form-head" style="margin-top:0 ;">
+      <mp-event-trigger
+      id="reset-form"
+      data='{}'
+      type="Component.TemplateUpdate"
+      targets='["event-target-form-query"]'
+      >
+      <span class="fa fa-repeat clickable"><strong >Reset form</strong></span>
+      </mp-event-trigger>
+      </div>
     </bs-panel>
     </div>
     </template>
