@@ -5,59 +5,32 @@
   >
 </div>
 <div id="new-start-page">
-  <div class="unwanted-grid">
   <div class="search-actions">
+    <div class="benner-text">
+      <b>
+        <span style="color: rgb(220, 54, 54);">art</span>research.net </b>provides open and consolidated access to images and metadata from
+      partners of PHAROS, the International Consortium of Photo Archives.
+    </div>
     <div
-      style="width: 100%"
       data-intro="This is the search-bar. Use this to make simple queries by keywords"
       data-position="top"
     >
       [[> :Searchbar selectedCategory="Artworks"]]
     </div>
-    <div style="margin-top: 15px">or use</div>
-    <div style="margin-top: 15px">
-      <div data-flex-layout="row center-center">
-        <semantic-link iri="Default:Search">
-          <div
-            title="Make use of the artresearch full power!"
-            class="advancedBtn"
-            data-intro="Click here to go to the Contextual Search page. There you can create complex queries and explore data in new-found ways."
-            data-position="right"
-          >
-            <li class="fa">
-              <img src="../../assets/images/icons/concept.svg" />
-            </li>
-            Contextual Search
-          </div>
-        </semantic-link>
-      </div>
+    <div class="text-with-image banner">
+    <div>
+      The collections document works of art and architecture and the
+      history of photography itself, together with nearly a century of
+      associated scholarly documentation.
     </div>
-  </div>
-  <div style="display: flex;flex-direction: column;"><div class="text-with-image" style="
-    flex-direction: column;
-    margin-top: 40px;
-    padding: 40px;
-    border-radius: 5px;
-    box-shadow: rgb(222 222 222 / 35%) 0px 0px 8px 5px;
-"><img src="/assets/images/pharos.png" style="
-    margin-bottom: 25px;
-    max-width: 60vw;
-    object-fit: contain;
-    height: 115px;
-"><div class="text" style="
-    width: 35vw;
-"><div><b><span style="color: rgb(220, 54, 54);">art</span>research.net </b>provides open and consolidated access to images and metadata from
-            partners of PHAROS, the International Consortium of Photo Archives.
-          </div><div>
-            The collections document works of art and architecture and the
-            history of photography itself, together with nearly a century of
-            associated scholarly documentation.
-          </div><a href="/resource/?uri=Default%3AAbout" title="Default:About" class="" target="_self" draggable="true">
-            See our <b style="margin-right: 2px;">about page</b> for more
-            information and a guide to using the platform.</a></div></div><div class="section-body" style="
-    display: flex;
-"></div></div>
-
+    
+    <img src="/assets/images/pharos.png" style="
+        margin-bottom: 25px;
+        max-width: 60vw;
+        object-fit: contain;
+        height: 115px;
+    ">
+    </div>
   </div>
   <section title="Browse the collections">
     <div class="section-title">Browse the collections</div>
@@ -729,6 +702,23 @@
   </section> -->
 </div>
 <style>
+
+.benner-text {
+  font-weight: 500;
+    font-size: 20px;
+    width: 60%;
+    margin-top: 4vh;
+    text-align: center;
+    margin-bottom: 4vh;
+}
+  .text-with-image.banner {
+    font-weight: 500;
+    gap: 20px;
+    width: 68%;
+    margin-top: 6vh;
+    font-size: 22px;
+    text-align: center;
+}
   .page-holder {
     overflow: hidden;
   }
@@ -736,6 +726,14 @@
     display: grid;
     grid-gap: 40px;
     grid-template-columns: repeat(2,1fr);
+  }
+
+  @media (max-width:800px) {
+    .benner-text ,
+  .text-with-image.banner {
+    width: 100%;
+    justify-content: center;
+  }
   }
   @media (max-width:720px) {
     .unwanted-grid{
