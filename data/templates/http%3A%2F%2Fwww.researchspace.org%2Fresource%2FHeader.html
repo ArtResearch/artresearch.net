@@ -22,6 +22,7 @@
   </div>
   <div data-flex-layout='row center-left' class="page__header-tagline subtitleInfo">
     [[> :InfoTypeRepository work=(urlParam "uri") ]]
+    <div style="position: absolute; right: 0;">
     <semantic-query
       query="
             SELECT DISTINCT ?providerRecord ?providerLabel WHERE {
@@ -81,6 +82,7 @@
           </h2>
        </template>
     </semantic-query>
+  </div>
     <h2 style="margin-left: 5px; margin-top: 10px;" class="fc-label">
       <semantic-query query='SELECT ?artwork WHERE{
         ?? fr:Photo_depicts_Work ?artwork
