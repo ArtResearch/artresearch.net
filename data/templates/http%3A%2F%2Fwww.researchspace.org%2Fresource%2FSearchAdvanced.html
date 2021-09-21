@@ -44,25 +44,29 @@
 </div>
 [[/:ClipboardSidebar]]
 <style>
-
+.panel-default{
+  box-shadow: none !important;
+}
 .search-form-container .advanced-search-form {
     width: 100%;
     height: 100%;
 }
 
 .search-form-container .panel-heading {
-  background: whitesmoke !important;
+  background: none !important;
 }
 
 .search-form-container .panel-heading .panel-title a::before {
   color: gray !important;
   margin-right: 2px;
+  text-transform: none;
   transition: 0.3s;
-  content: "▼";
+  content: "▼ Collapse";
 }
 
 .search-form-container .panel-heading .panel-title a.collapsed::before {
-  content: "▲";
+  text-transform: none;
+  content: "▲ Expand";
 }
 
   .navbar-default {
