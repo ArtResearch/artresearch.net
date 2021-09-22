@@ -1,6 +1,16 @@
 <semantic-query
 id="count-artist"
 query='SELECT (COUNT( DISTINCT ?subject) as ?count) WHERE {
+  {{#ifCond withImages "===" "true"}}
+  {
+    ?subject crm:P129i_is_subject_of ?fullsizeImgUrl.
+    ?subject a cfc:photo
+  }UNION{
+    ?subject fr:Work_depicted_by_Photo ?photo.
+    ?photo crm:P129i_is_subject_of ?fullsizeImgUrl.
+     ?subject a fc:work
+   }
+  {{/ifCond}}
   }'
 template="{{>currentResultCount}}"
 >
