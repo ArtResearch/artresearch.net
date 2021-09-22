@@ -21,8 +21,8 @@ template="{{> fieldsFilter}}"
     </template>
   </mp-field-visualization>
 
-  <!-- Creator/Attribution -->
   <div class="productionInfoContainer">
+    <!-- Creator/Attribution -->`
     <mp-field-visualization
       subject="[[this]]"
       additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
@@ -64,7 +64,7 @@ template="{{> fieldsFilter}}"
 >
   <template id="generalInfo">
     {{#if noData}} {{else}}
-    <h2 style="margin-top: 4vh">Physical Properties</h2>
+    <h2 style="margin-top: 4vh">Provenance</h2>
     [[> :ResourceFieldBasedVisualization subject=[[this]]
     showSourceIcon="true" ]]
     {{/if}}
@@ -81,7 +81,7 @@ template="{{> fieldsFilter}}"
 >
   <template id="generalInfo">
     {{#if noData}} {{else}}
-    <h2 style="margin-top: 4vh">Physical Properties</h2>
+    <h2 style="margin-top: 4vh">Subjects</h2>
     [[> :ResourceFieldBasedVisualization subject=[[this]]
     showSourceIcon="true" ]]
     {{/if}}
@@ -98,7 +98,7 @@ template="{{> fieldsFilter}}"
 >
   <template id="generalInfo">
     {{#if noData}} {{else}}
-    <h2 style="margin-top: 4vh">Physical Properties</h2>
+    <h2 style="margin-top: 4vh">Dating</h2>
     [[> :ResourceFieldBasedVisualization subject=[[this]]
     showSourceIcon="true" ]]
     {{/if}}
