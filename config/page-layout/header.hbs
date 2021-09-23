@@ -66,22 +66,25 @@
           </a>
         </bs-nav-dropdown>
         <mp-anonymous-hidden>
+          <mp-has-permission permission="sparql:update">
           <li role="presentation" class=""><a
-                href="/sparql"
-                title="Go to SPARQL endpoint"
-                class="rs-body-m-M"
-              >SPARQL</a></li>
+                      href="/sparql"
+                      title="Go to SPARQL endpoint"
+                      class="rs-body-m-M"
+                    >SPARQL</a></li>
+          </mp-has-permission>
         </mp-anonymous-hidden>
         <mp-anonymous-hidden>
-          <bs-nav-item>
-            <semantic-link
-              iri="Default:admin"
-              title="Go to admin settings"
-              class="rs-body-m-M"
-            >Admin</semantic-link>
-          </bs-nav-item>
+         <mp-has-permission permission="sparql:update">
+            <bs-nav-item>
+              <semantic-link
+                iri="Default:admin"
+                title="Go to admin settings"
+                class="rs-body-m-M"
+              >Admin</semantic-link>
+            </bs-nav-item>
+          </mp-has-permission>
         </mp-anonymous-hidden>
-
       </bs-nav>
     </bs-navbar-collapse>
   </div>
