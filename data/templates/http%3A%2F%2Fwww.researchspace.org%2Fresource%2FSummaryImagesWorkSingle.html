@@ -7,6 +7,7 @@ class="rs-page__summary-image summaryImages summary-image-with-thumbs"
       template="{{> mainImageTemplate}}"
     >
       <template id="mainImageTemplate">
+        <div class="mainImageTemplateWrapper">
         <semantic-query
           query='SELECT DISTINCT ?rectoVersoImage ?rectoVersoImageThumbnail ?imageManifest WHERE{
             # Previously we selected only rectos, now we expand to include versos
@@ -30,6 +31,7 @@ class="rs-page__summary-image summaryImages summary-image-with-thumbs"
           template="{{> mediumImageSize}}"
         >
           <template id="mediumImageSize">
+            <div class="mediumImageSizeWrapper">
               <mp-overlay-dialog title="‎‎" type="lightbox">
                 <mp-overlay-dialog-trigger>
                   <div class="summary-image-main imageAndSourceContainer">  
@@ -45,6 +47,7 @@ class="rs-page__summary-image summaryImages summary-image-with-thumbs"
                       template="{{> imageSourceIcon}}"
                     >
                       <template id="imageSourceIcon">
+                        <div class="imageSourceIconWrapper">
                         <div class="imageSourceIcon fade-in">
                           <img
                             title="{{bindings.0.providerLabel.value}}"
@@ -52,8 +55,10 @@ class="rs-page__summary-image summaryImages summary-image-with-thumbs"
                             src="../../assets/images/{{bindings.0.providerLabel.value}}.ico"
                           />
                         </div>
+                      </div>
                       </template>
                     </semantic-query>
+                    <div class="animated-background imageSourceIconWrapper"></div>
                       {{#each bindings}}
                         <img
                           class="imageThumbnailSingle"
@@ -71,9 +76,13 @@ class="rs-page__summary-image summaryImages summary-image-with-thumbs"
                   {{/ifCond}}
                 </mp-overlay-dialog-content>
               </mp-overlay-dialog>
+              </div>
             </template>
           </semantic-query>
+          <div class="animated-background mediumImageSizeWrapper"></div>
+        </div>
       </template>
+      <div class="animated-background mainImageTemplateWrapper"></div>
     </mp-event-target-template-render>
   </div>
   <div class="summary-image-thumbs">

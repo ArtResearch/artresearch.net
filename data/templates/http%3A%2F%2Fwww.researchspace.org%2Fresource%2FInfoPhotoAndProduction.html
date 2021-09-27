@@ -15,6 +15,7 @@
       </div>
       {{/if}}
     </template>
+    <div class="animated-background workInfoContainer"></div>
   </mp-field-visualization>
 
   <!-- Fields for Production -->
@@ -33,6 +34,7 @@
         [[> :ResourceFieldBasedVisualization subject=[[this]]
         showSourceIcon="true" ]] {{/if}}
       </template>
+      <div class="animated-background productionInfoContainer"></div>
     </mp-field-visualization>
     <!-- General fields -->
     <mp-field-visualization
@@ -42,12 +44,15 @@
       template="{{>generalInfo}}"
     >
       <template id="generalInfo">
+        <div class="generalInfoContainer">
         {{#if noData}} {{else}}
         <h2 style="margin-top: 4vh">Other details</h2>
         [[> :ResourceFieldBasedVisualization subject=[[this]]
         showSourceIcon="true" ]]
         {{/if}}
+      </div>
       </template>
+      <div class="animated-background generalInfoContainer"></div>
     </mp-field-visualization>
   </div>
 </div>

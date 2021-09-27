@@ -37,16 +37,19 @@
                         '
   >
     <template id='template'>
+      <div class="templateWrapper">
       {{#ifCond bindings.0.isManaged.value "===" "true"}}
         {{> rsp:SimpleCollectionBrowser editable=true collection="[[this]]" membershipProperty=bindings.0.membershipProperty.value broaderProperty=bindings.0.broaderPropertyIRI.value orderByPattern=bindings.0.orderByPattern.value itemLabel=bindings.0.title.value resourceForm=bindings.0.formIRI.value}}
       {{else}}
         [[!-- if there is no authority configuration for the current authority then we can only guess how to edit it, so we can offer here for user to associate a config with it --]]
         {{> rsp:SimpleCollectionBrowser editable=false collection="[[this]]" membershipProperty=bindings.0.membershipProperty.value broaderProperty=bindings.0.broaderPropertyIRI.value orderByPattern=bindings.0.orderByPattern.value itemLabel=bindings.0.title.value resourceForm=bindings.0.formIRI.value}}
       {{/ifCond}}
+      </div>
     </template>
     <template id='noResultTemplate'>
     </template>
   </semantic-query>
+  <div class="animated-backround templateWrapper"></div>
 [[/rsp:DetailsSidebar]]
 [[/rsp:ClipboardSidebar]]
 

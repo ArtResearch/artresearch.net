@@ -45,14 +45,18 @@
         </div>
       </template>
     </semantic-query>
+  
+    <div class="animated-background thumbnailContainer "></div>
       </bs-col>
       <bs-col  lg="8" md="12" >
         <div data-flex-layout="row md-column center-stretch">
-          <bs-row class="cardInfoFields">
+          <bs-row class=" cardInfoFields">
       <div>
-        <div id="rsbv" class="table-responsive rs-table">
+      
+        <div id="rsbv" class=" table-responsive rs-table">
             <table class="table table-hover">
               <tbody>
+              
                 <semantic-query 
                 query='SELECT ?subject WHERE { 
                   <{{subject.value}}> a fc:work
@@ -61,6 +65,7 @@
                 template="{{> workTitleTemplate}}"
                 >
                 <template id="workTitleTemplate">
+                  <div class="workTemplate">
                 <tr  class="rs-page-resource__field">
                   <td class="rs-page-resource__field-label-holder headLine">
                     <span class="rs-page-resource__field-label">
@@ -69,14 +74,19 @@
                   </td>
                   <td>
                       <span class="rs-page-resource__field-value">
-                        <div style="width:25vw; max-width: 450px;">
+                        <div class="ok" style="width:25vw; max-width: 450px;">
+                        
                           <semantic-link iri="{{bindings.0.subject.value}}"></semantic-link>
                         </div>
                       </span>
                     </td>
                     </tr>
+                  </div>
                   </template>
+                  
                   </semantic-query>
+            
+                  
                   <semantic-query 
                   query='SELECT ?subject WHERE { 
                     <{{subject.value}}> a cfc:photo
@@ -85,6 +95,7 @@
                   template="{{> photoTitleTemplate}}"
                   >
                   <template id="photoTitleTemplate">
+                    <div class="workTemplate">
                   <tr  class="rs-page-resource__field">
                     <td class="rs-page-resource__field-label-holder headLine">
                       <span class="rs-page-resource__field-label">
@@ -99,8 +110,13 @@
                         </span>
                       </td>
                       </tr>
+                    </div>
                 </template>
+              
                 </semantic-query>
+                
+                <div class="animated-background-sm rs-page-resource__field-label-holder"></div>
+                
                 <semantic-query 
                 query='SELECT ?photographer WHERE { 
                   {
@@ -113,6 +129,7 @@
                 template="{{> photographerTemplate}}"
                 >
                 <template id="photographerTemplate">
+                  <div class="workTemplate">
                 <tr  class="rs-page-resource__field">
                   <td class="rs-page-resource__field-label-holder headLine">
                     <span class="rs-page-resource__field-label">
@@ -121,14 +138,17 @@
                   </td>
                   <td>
                       <span class="rs-page-resource__field-value">
-                        <div style="width:25vw; max-width: 450px;">
+                        <div id="result" style="width:25vw; max-width: 450px;">
                           <semantic-link iri="{{bindings.0.photographer.value}}"></semantic-link>
                         </div>
                       </span>
                     </td>
                     </tr>
+                  </div>
                   </template>
+        
                 </semantic-query>
+                <div class="animated-background-sm rs-page-resource__field-label-holder"></div>
                 <semantic-query 
                   query='SELECT ?artist WHERE { 
                     {
@@ -141,8 +161,9 @@
                   template="{{> artistTemplate}}"
                   >
                   <template id="artistTemplate">
-                  <tr  class="rs-page-resource__field">
-                    <td class="rs-page-resource__field-label-holder headLine">
+                    <div class="workTemplate">
+                  <tr  class="rs-page-resource__field ">
+                    <td class="rs-page-resource__field-label-holder headLine ">
                       <span class="rs-page-resource__field-label">
                         Creator
                       </span>
@@ -155,8 +176,10 @@
                         </span>
                       </td>
                       </tr>
+                    </div>
                   </template>
                 </semantic-query>
+                <div class="animated-background-sm rs-page-resource__field-label-holder"></div>
                 <semantic-query 
                 query='SELECT ?institution WHERE { 
                   {
@@ -169,7 +192,7 @@
                 template="{{>repoTemplate}}"
                 >
                 <template id="repoTemplate">
-
+                  <div class="workTemplate">
                 <tr class="rs-page-resource__field">
                   <td class="rs-page-resource__field-label-holder headLine">
                     <span class="rs-page-resource__field-label">
@@ -184,8 +207,10 @@
                       </span>
                   </td>
                 </tr>
+                  </div>
                 </template>
                 </semantic-query>
+                <div class="animated-background-sm rs-page-resource__field-label-holder"></div>
                 <semantic-query 
                 query='SELECT ?provider WHERE { 
                   {
@@ -201,7 +226,7 @@
                 template="{{>archiveTemplate}}"
                 >
                 <template id="archiveTemplate">
-
+                  <div class="workTemplate">
                 <tr class="rs-page-resource__field">
                   <td class="rs-page-resource__field-label-holder headLine">
                     <span class="rs-page-resource__field-label">
@@ -216,9 +241,10 @@
                       </span>
                   </td>
                 </tr>
+                  </div>
                 </template>
                 </semantic-query>
-
+                <div class="animated-background-sm rs-page-resource__field-label-holder"></div>
                 <semantic-query 
                 query='SELECT ?work WHERE { 
                   <{{subject.value}}> fr:Photo_depicts_Work ?work.
@@ -226,7 +252,7 @@
                 template="{{>artworkTitleTemplate}}"
                 >
                 <template id="artworkTitleTemplate">
-
+                  <div class="workTemplate">
                 <tr class="rs-page-resource__field">
                   <td class="rs-page-resource__field-label-holder headLine">
                     <span class="rs-page-resource__field-label">
@@ -241,9 +267,10 @@
                       </span>
                   </td>
                 </tr>
+                </div>
                 </template>
                 </semantic-query>
-
+                <div class="animated-background-sm rs-page-resource__field-label-holder"></div>
 
 
                 <semantic-query 
@@ -255,7 +282,7 @@
                 template="{{>artworkCreatorTemplate}}"
                 >
                 <template id="artworkCreatorTemplate">
-
+                  <div class="workTemplate">
                 <tr class="rs-page-resource__field">
                   <td class="rs-page-resource__field-label-holder headLine">
                     <span class="rs-page-resource__field-label">
@@ -270,9 +297,10 @@
                       </span>
                   </td>
                 </tr>
+                </div>
                 </template>
                 </semantic-query>
-
+                <div class="animated-background-sm rs-page-resource__field-label-holder"></div>
                 <semantic-query 
                 query='SELECT ?date WHERE { 
                   {
@@ -285,7 +313,7 @@
                 template="{{>repoTemplate}}"
                 >
                 <template id="repoTemplate">
-
+                  <div class="workTemplate">
                 <tr class="rs-page-resource__field">
                   <td class="rs-page-resource__field-label-holder headLine">
                     <span class="rs-page-resource__field-label">
@@ -305,11 +333,14 @@
                       </span>
                   </td>
                 </tr>
+                </div>
                 </template>
                 </semantic-query>
+                <div class="animated-background-sm rs-page-resource__field-label-holder"></div>
               </tbody>
             </table>
         </div>
+        <div class="animated-background table-responsive rs-table"></div>
           </bs-row>
         </div>
       </bs-col>

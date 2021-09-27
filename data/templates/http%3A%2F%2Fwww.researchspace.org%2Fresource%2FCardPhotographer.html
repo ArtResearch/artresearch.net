@@ -23,24 +23,31 @@
               template='{{> birthTemplate}}'
               >
               <template id="birthTemplate">
+                <div class="birthTemplateWrapper">
                 <div date="{{dateTimeFormat bindings.0.date.value "YYYY"}}">
                   {{dateTimeFormat bindings.0.date.value "YYYY"}}
                 </div>
+              </div>
               </template>
               </semantic-query>
-              
+              <div class=" animated-background-circle  birthTemplateWrapper"></div>
+
+
               <semantic-query query='SELECT ?date WHERE{
                 <{{subject.value}}> fr:Person_has_Date_of_Death ?date
               }'
               template='{{> deathTemplate}}'
               >
               <template id="deathTemplate">
+                <div class="deathTemplateWrapper">
                 <div date="{{dateTimeFormat bindings.0.date.value "YYYY"}}">
                   -{{dateTimeFormat bindings.0.date.value "YYYY"}}
                 </div>
+                </div>
               </template>
+           
               </semantic-query>
-  
+              <div class=" animated-background-circle  deathTemplateWrapper"></div>
               </div>
               <div 
                 style="

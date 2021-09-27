@@ -1,5 +1,6 @@
 <div data-flex-layout="row md-column center-stretch">
-  <bs-row class="cardInfoFields">
+ 
+  <bs-row class="cardInfoFields ">
 <!-- Show information on subject & owl:sameAs     //TODO change to query-->
     <semantic-query
     query='
@@ -10,6 +11,7 @@
       '
     template="{{> combinedFields}}">
       <template id="combinedFields">
+        <div class="templateWrapper">
         <mp-field-visualization
     
         subject='{{subject.value}}'
@@ -50,7 +52,9 @@
         </template>
       </mp-field-visualization>
       </div>
+      </div>
       </template>
     </semantic-query>
+    <div class="templateWrapper animated-background"></div>
   </bs-row>
 </div>

@@ -5,8 +5,11 @@ query="SELECT (COUNT(DISTINCT ?subject) as ?count) WHERE {
 template="{{>currentResultCount}}"
 >
 <template id="currentResultCount">
+  <div class="currentResultCountWrapper">
   <h2>
       Found {{bindings.0.count.value}} matches
   </h2>
+  </div>
 </template>
 </semantic-query>
+<div class="animated-background-xs currentResultCountWrapper"></div>
