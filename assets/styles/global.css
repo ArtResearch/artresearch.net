@@ -21,6 +21,163 @@
 @import "./footer.css";
 
 
+
+
+div + .animated-background {
+  display: none !important;
+}
+div + .animated-background-sm{
+  display: none !important;
+}
+td + .animated-background-sm{
+  display: none !important;
+}
+a + .animated-background-sm{
+  display: none !important;
+}
+
+#rs-page-resource__field + .animated-background-bg {
+  display: none !important;
+}
+#rs-page-resource__field + .animated-background-td {
+  display: none !important;
+}
+div +.animated-background-td {
+  display: none !important;
+} 
+div + .animated-background-bg{
+  display: none !important;
+}
+td + .animated-background-bg{
+  display: none !important;
+}
+a + .animated-background-bg{
+  display: none !important;
+}
+
+#rs-page-resource__field + .animated-background-bg {
+  display: none !important;
+}
+#rs-page-resource__field + .animated-background-bg {
+  display: none !important;
+}
+
+
+
+div + .animated-background-xs{
+  display: none !important;
+}
+td + .animated-background-xs{
+  display: none !important;
+}
+a + .animated-background-xs{
+  display: none !important;
+}
+
+#rs-page-resource__field + .animated-background-xs {
+  display: none !important;
+}
+
+.customrow{
+  display: inline-block;
+}
+
+.animated-background-td {
+  gap:10%;
+  border-radius: 5px;
+  animation-duration: 1.5s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-name: placeHolderShimmer;
+  background: #f6f7f8;
+  background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 44%);
+  background-size: 800px 104px;
+  min-height:1vh ;
+
+}
+.one {
+  width:6vw;
+  float: left;
+  display: inline-block; 
+  height: 1vh;
+
+}
+.two{
+  height: 1vh;
+  width: 10vw;
+  float: right;
+  display: inline-block; 
+
+}
+
+.animated-background {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1vh;
+  border-radius: 5px;
+  animation-duration: 1.5s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-name: placeHolderShimmer;
+  background: #f6f7f8;
+  background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 44%);
+  background-size: 800px 104px;
+  min-height:23vh ;
+  box-sizing: inherit;
+  position: relative;
+}
+.animated-background-sm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1vh;
+  border-radius: 5px;
+  animation-duration: 1.5s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-name: placeHolderShimmer;
+  background: #f6f7f8;
+  background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 44%);
+  background-size: 800px 104px;
+  min-height:3vh ;
+  min-width: 20vw;
+  box-sizing: inherit;
+  position: relative;
+}
+.animated-background-xs {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1vh;
+  border-radius: 5px;
+  animation-duration: 1.5s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-name: placeHolderShimmer;
+  background: #f6f7f8;
+  background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 44%);
+  background-size: 800px 104px;
+  min-height:3vh ;
+  max-width:7vw;
+  box-sizing: inherit;
+  position: relative;
+}
+
+@keyframes placeHolderShimmer {
+  0%{ background-position: -468px 0; }
+  100%{ background-position: 468px 0; }
+}
+
+
+
+
+
+
 body {
   font-size: 14px;
   line-height: 1.2;
@@ -311,6 +468,7 @@ input::placeholder {
   display: flex;
   align-items: center;
 }
+
 .thumbnailImage {
   height: 20vh;
   max-height: 185px;

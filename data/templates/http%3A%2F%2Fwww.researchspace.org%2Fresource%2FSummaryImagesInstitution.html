@@ -8,6 +8,7 @@
     template="{{> institutionNameTemplate}}"
   >
     <template id="institutionNameTemplate">
+      <div class="institutionNameTemplateWrapper">
       <semantic-query
         query='PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
       PREFIX wd: <http://www.wikidata.org/entity/>
@@ -19,6 +20,7 @@
         template="{{> imageThumbnail}}"
       >
         <template id="imageThumbnail">
+          <div class="imageThumbnailContainer">
           {{#ifCond (objectLength bindings.0.imgUrl.value) "!==" 1}}
           <div class="rs-page__summary-image summaryImages">
             <div class="rs-page__summary-image">
@@ -40,8 +42,13 @@
             </div>
           </div>
           {{/ifCond}}
+        </div>
         </template>
       </semantic-query>
+      <div class="animated-background imageThumbnailContainer"></div>
+    </div>
     </template>
+
   </semantic-query>
+  <div class="institutionNameTemplateWrapper animated-background"></div>
 </div>

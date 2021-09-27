@@ -14,10 +14,14 @@
     template="{{> showTitle}}"
   >
     <template id="showTitle">
+      <div class="showTitleWrapper">
       <div style="margin-top: 45px"><h2>Photographs</h2></div>
+    </div>
     </template>
   </semantic-query> 
   <!-- // TODO convert to ASK -->
+  <div class="animated-background-sm showTitleWrapper"></div>
+  
 
   <semantic-table
     options='{
@@ -42,6 +46,7 @@
 
   >
     <template id="photos">
+      <div class="photosWrapper">
       <semantic-link class="photographFieldView" iri="{{photo.value}}">
         <td class="rectoVersoCell">
           <semantic-query
@@ -59,6 +64,7 @@
             template="{{>rectoImageThumb}}"
           >
             <template id="rectoImageThumb">
+              <div class="rectoImageThumbWrapper">
               <semantic-link iri="{{bindings.0.photoUri.value}}">
                 <img
                   src="{{bindings.0.rectoImage.value}}"
@@ -66,8 +72,10 @@
                   class="img-rounded"
                 />
               </semantic-link>
+            </div>
             </template>
           </semantic-query>
+          <div class="animated-background-sm rectoImageThumbWrapper"></div>
           <semantic-query
             query='
               SELECT ?photoUri ?versoImage where{
@@ -83,6 +91,7 @@
             template="{{>versoImageThumb}}"
           >
             <template id="versoImageThumb">
+              <div class="versoImageThumbWrapper">
               <semantic-link iri="{{bindings.0.photoUri.value}}">
                 <img
                   src="{{bindings.0.versoImage.value}}"
@@ -90,8 +99,10 @@
                   class="img-rounded vercoCell"
                 />
               </semantic-link>
+            </div>
             </template>
           </semantic-query>
+          <div class="animated-background-sm versoImageThumbWrapper"></div>
         </td>
         <div class="photographFieldViewData">
           <!-- //TODO make query -->
@@ -105,6 +116,7 @@
             template="{{>productionInfo}}"
           >
             <template id="productionInfo">
+              <div class="productionInfoWrapper">
               {{#if noData}}
               <div id="rsbv" class="table-responsive rs-table">
                 <table class="table table-hover">
@@ -119,12 +131,16 @@
               {{else}} 
               [[> :ResourceFieldBasedVisualization subject=[[this]] ]]
                {{/if}}
+              </div>
             </template>
+            <div class="animated-background productionInfoWrapper"></div>
           </mp-field-visualization>
         </div>
       </semantic-link>
+    </div>
     </template>
   </semantic-table>
+  <div class="animated-background photosWrapper"></div>
 </div>
 <style>
 

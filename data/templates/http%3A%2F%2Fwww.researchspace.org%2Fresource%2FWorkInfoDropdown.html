@@ -24,6 +24,7 @@
    template="{{> providerOption}}"
   >
     <template id="providerOption">
+      <div class="providerOptionWrapper">
       {{#each bindings}}
       <mp-event-trigger
         id="event-trigger-tab-{{providerLabel.value}}"
@@ -36,6 +37,8 @@
         </bs-menu-item>
       </mp-event-trigger>
       {{/each}}
+    </div>
     </template>
   </semantic-query>
+  <div class="providerOptionWrapper animated-background"></div>
 </bs-dropdown-button>

@@ -38,6 +38,7 @@ template="{{> fieldsFilter}}"
     template="{{> imageThumbnail}}"
   >
     <template id="imageThumbnail">
+      <div class="imageThumbnailContainer">
       <bs-tab-container id="imageViewTabs" default-active-key="single">
         <div>
           <bs-nav class="navbar-flex-end" bs-style="tabs">
@@ -59,8 +60,10 @@ template="{{> fieldsFilter}}"
           </bs-tab-content>
         </div>
       </bs-tab-container>
+    </div>
     </template>
   </semantic-query>
+  <div class="imageThumbnailContainer animated-background"> </div>
 </div>
 </template>
 </mp-event-target-template-render>

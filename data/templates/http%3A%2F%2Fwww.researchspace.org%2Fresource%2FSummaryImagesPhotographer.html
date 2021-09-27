@@ -6,6 +6,7 @@
   }LIMIT 1'
   template="{{> artistNameTemplate}}">
   <template id="artistNameTemplate">
+    <div class="artistNameTemplateWrapper">
     <semantic-query query='
       SELECT DISTINCT ?imgUrl WHERE{
         ?wikiPerson rdfs:label ?photographerName.
@@ -13,6 +14,7 @@
         ?? rdfs:label ?photographerName.
       }LIMIT 1' template='{{> imageThumbnail}}'>
               <template id="imageThumbnail">
+                <div class="imageThumbnailContainer">
                 <!-- Only show image if imgUrl !== the _ character (aka 1 character length) -->
                 {{#ifCond (objectLength bindings.0.imgUrl.value) "!==" 1}} 
                   <div class="rs-page__summary-image summaryImages">
@@ -28,8 +30,12 @@
                   </div>    
                 </div>     
               {{/ifCond}}  
+            </div>
       </template>
     </semantic-query>
+    <div class="animated-background imageThumbnailContainer"></div>
+  </div>
 </template>
 </semantic-query>
+<div class="animated-background artistNameTemplateWrapper"></div>
 </div>

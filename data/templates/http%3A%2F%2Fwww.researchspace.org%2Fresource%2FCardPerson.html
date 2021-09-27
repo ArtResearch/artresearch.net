@@ -1,5 +1,5 @@
 <div
-class="rs-grid-element panel panel-default personCard fade-in-fwd"
+class="rs-grid-element panel panel-default personCard fade-in-fwd "
 >
 <scroll-to-top querySelector=".pagination li"></scroll-to-top>
 <semantic-link iri="{{subject.value}}">
@@ -34,11 +34,13 @@ class="rs-grid-element panel panel-default personCard fade-in-fwd"
             template='{{> birthTemplate}}'
             >
             <template id="birthTemplate">
+              <div class="birthTemplateWrapper">
               <div date="{{dateTimeFormat bindings.0.date.value "YYYY"}}">
                 {{dateTimeFormat bindings.0.date.value "YYYY"}}
-              </div>
+              </div></div>
             </template>
             </semantic-query>
+            <div class="animated-background-circle birthTemplateWrapper "></div>
             
             <semantic-query query='SELECT ?date WHERE{
               <{{subject.value}}> fr:Person_has_Date_of_Death ?date
@@ -46,13 +48,17 @@ class="rs-grid-element panel panel-default personCard fade-in-fwd"
             template='{{> deathTemplate}}'
             >
             <template id="deathTemplate">
+              <div class="deathTemplateWrappper">
               <div date="{{dateTimeFormat bindings.0.date.value "YYYY"}}">
                 -{{dateTimeFormat bindings.0.date.value "YYYY"}}
+              </div>
               </div>
             </template>
             </semantic-query>
 
-              </div>
+            <div class="animated-background-circle deathTemplateWrapper "></div>
+            
+             
               <div 
               style="
               display: flex; 

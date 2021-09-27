@@ -38,13 +38,16 @@
         template="{{>linkWithSearchState}}"
         >
       <template id="linkWithSearchState">
+        <div class="linkWithSearchStateWrapper">
         <semantic-link urlqueryparam-semantic-Search="{{bindings.0.searchState.value}}" iri="{{iri}}" >
             <button type="button" class="rs-button" title="View search">
               <i class="rs-icon rs-icon-page"></i>
             </button>
         </semantic-link>
+      </div>
       </template>
     </semantic-query>
+    <div class="animated-background linkWithSearchStateWrapper"></div>
     
       </div>
       {{else if (hasKey allTypes "https://pharos.artresearch.net/resource/fc/person")}}
