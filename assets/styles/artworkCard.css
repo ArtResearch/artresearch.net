@@ -195,17 +195,29 @@
   height: 100% !important;
 }
 
+div + .animated-background-repository {
+  display: none;
+}
+div + .animated-background-repository {
+  display: none !important;
+}
+td + .animated-background-repository {
+  display: none !important;
+}
+a + .animated-background-repository {
+  display: none !important;
+}
 
-div + .animated-background-circle{
+div + .animated-background-circle {
   display: none !important;
 }
-td + .animated-background-circle{
+td + .animated-background-circle {
   display: none !important;
 }
-a + .animated-background-circle{
+a + .animated-background-circle {
   display: none !important;
 }
-.animated-background-circle{
+.animated-background-circle {
   animation-duration: 2.5s;
   animation-fill-mode: forwards;
   animation-iteration-count: infinite;
@@ -213,7 +225,7 @@ a + .animated-background-circle{
   animation-name: placeHolderShimmer;
   background: #f6f7f8;
   background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 44%);
-   position: absolute;
+  position: absolute;
   width: 100%;
   left: 0;
   text-align: center !important;
@@ -225,12 +237,37 @@ a + .animated-background-circle{
   align-items: center;
   bottom: 0% !important;
   height: 100% !important;
+}
+.animated-background-repository {
+  animation-duration: 2.5s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-name: placeHolderShimmer;
+  background: #f6f7f8;
+  background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 44%);
+  position: absolute;
+  width: 10vw;
+  left: 0;
+  top: 0;
 
+  text-align: center !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px !important;
+  height: 100% !important;
+  min-width: 200px;
+  max-width: 280px;
+  overflow: hidden;
+  height: -moz-available;
+  height: -webkit-fill-available;
+  height: fill-available;
 }
 
 .repositoryCard {
   width: 10vw !important;
-  border-radius: 15px !important;
+
   height: 10vw !important;
   min-width: 200px;
   min-height: 200px;
