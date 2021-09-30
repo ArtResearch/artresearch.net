@@ -134,6 +134,7 @@
             tuple-template="{{>placeTuple}}"
           >
             <template id="placeTuple">
+              <div class="okk">
               <mp-event-trigger
                 id="event-trigger-place"
                 type="Component.TemplateUpdate"
@@ -144,8 +145,26 @@
                   <mp-label iri="{{node.value}}"></mp-label>
                 </div>
               </mp-event-trigger>
+              </div>
             </template>
           </semantic-tree>
+          
+          <div class ="animated-background-filters okk">
+            <div class ="animated-background-filters okk">
+              <div class ="animated-background-filters okk">
+                <div class ="animated-background-filters okk">
+                   <div class ="animated-background-filters okk">
+                      <div class ="animated-background-filters okk">
+                         <div class ="animated-background-filters okk"></div>
+                      </div>
+                   </div>
+                </div>
+              </div>
+          
+            </div>
+          
+          </div>
+          
         </bs-panel>
       </bs-col>
       <bs-col lg="9" md="8" sm="7">
@@ -170,6 +189,7 @@
                       </bs-nav>
                       <bs-tab-content unmount-on-exit="true">
                         <bs-tab-pane event-key="defaultView">
+                          
                           <semantic-table
                             id="grid-result"
                             options='{
@@ -187,9 +207,16 @@
                             no-result-template='[[> :CardNoResult ]]'
                           >
                             <template id="tupleTemplate">
-                              [[> :CardInstitution]]
+                          
+                                 [[> :CardInstitution]]
+                              
                             </template>
+                            
+                            
+                            
                           </semantic-table>
+                          
+                          
                         </bs-tab-pane>
                         <bs-tab-pane event-key="mapView">
                           <div class="mapContainer">
