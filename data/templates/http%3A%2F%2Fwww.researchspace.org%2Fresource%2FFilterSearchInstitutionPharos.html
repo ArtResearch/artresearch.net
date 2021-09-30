@@ -28,14 +28,14 @@
       }'
   >
     <div id="header-search" class="search-page">
-        <mp-event-target-template-render
-          id="event-target-place"
-          template="{{> placeEventTargetTemplate}}"
-        >
-          <template id="placeEventTargetTemplate">
-            <div style="width:100%;display: flex; flex-direction: column;" > 
+      <mp-event-target-template-render
+        id="event-target-place"
+        template="{{> placeEventTargetTemplate}}"
+      >
+        <template id="placeEventTargetTemplate">
+          <div style="width: 100%; display: flex; flex-direction: column">
             {{#if placeIri}}
-              <semantic-search-query-keyword
+            <semantic-search-query-keyword
               placeholder="Search for a repository e.g. Royal Library"
               escape-lucene-syntax="false"
               domain="<https://pharos.artresearch.net/resource/fc/institution>"
@@ -54,8 +54,8 @@
                             bds:matchAllTerms "true"  .
                             } 
                           '
-              ></semantic-search-query-keyword>
-              <semantic-query
+            ></semantic-search-query-keyword>
+            <semantic-query
               id="view-more"
               query="SELECT (COUNT( DISTINCT ?subject) as ?count) WHERE {
                 ?subject a fc:institution.   
@@ -65,16 +65,16 @@
             >
               <template id="currentResultCount">
                 <h2>
-                  {{#ifCond bindings.0.count.value "==" 1}}
-                  Found 1 repository in <mp-label iri="{{placeIri}}"></mp-label>
-                  {{else}}
-                  Found {{bindings.0.count.value}} repositories in <mp-label iri="{{placeIri}}"></mp-label>
+                  {{#ifCond bindings.0.count.value "==" 1}} Found 1 repository
+                  in <mp-label iri="{{placeIri}}"></mp-label> {{else}} Found
+                  {{bindings.0.count.value}} repositories in
+                  <mp-label iri="{{placeIri}}"></mp-label>
                   {{/ifCond}}
                 </h2>
               </template>
-              </semantic-query>
+            </semantic-query>
             {{else}}
-              <semantic-search-query-keyword
+            <semantic-search-query-keyword
               placeholder="Search for a repository e.g. Royal Library"
               escape-lucene-syntax="false"
               domain="<https://pharos.artresearch.net/resource/fc/institution>"
@@ -94,11 +94,10 @@
                           '
             ></semantic-search-query-keyword>
             <semantic-search-result id="semantic-search-result">
-                    [[> :SearchResultCount]]
-                  </semantic-search-result>
-                  {{/if}}
-                </div>
-
+              [[> :SearchResultCount]]
+            </semantic-search-result>
+            {{/if}}
+          </div>
         </template>
       </mp-event-target-template-render>
     </div>
@@ -110,10 +109,15 @@
         class="fade-in-fwd filters-container"
         style="margin-top: 8px"
       >
-      <bs-panel id="filter-panel" header="Filters"  collapsible="true" default-expanded="true">
-        <semantic-tree 
-        collapsed="true"
-        query="
+        <bs-panel
+          id="filter-panel"
+          header="Filters"
+          collapsible="true"
+          default-expanded="true"
+        >
+          <semantic-tree
+            collapsed="true"
+            query="
         PREFIX : <http://help.metaphacts.com/resource/>
         SELECT ?node ?parent WHERE {
           ?subject a fc:institution. 
@@ -127,21 +131,22 @@
             ?node <http://www.geonames.org/ontology#parentADM1> ?parent.
           }
         }order by(?label)"
-        tuple-template="{{>placeTuple}}"
-        >
-        <template id="placeTuple">
-            <mp-event-trigger
-            id="event-trigger-place"
-            type="Component.TemplateUpdate"
-            data='{"placeIri":"{{node.value}}"}'
-            targets='["event-target-place"]'>
-            <div>
-            <mp-label iri='{{node.value}}'></mp-label>
-            </div>
-          </mp-event-trigger>
-        </template>
-      </semantic-tree>
-      </bs-panel>
+            tuple-template="{{>placeTuple}}"
+          >
+            <template id="placeTuple">
+              <mp-event-trigger
+                id="event-trigger-place"
+                type="Component.TemplateUpdate"
+                data='{"placeIri":"{{node.value}}"}'
+                targets='["event-target-place"]'
+              >
+                <div>
+                  <mp-label iri="{{node.value}}"></mp-label>
+                </div>
+              </mp-event-trigger>
+            </template>
+          </semantic-tree>
+        </bs-panel>
       </bs-col>
       <bs-col lg="9" md="8" sm="7">
         <semantic-search-result-holder>
@@ -179,7 +184,7 @@
                           }ORDER BY DESC(?institutionImage) LIMIT 100
                         "
                             tuple-template="{{>tupleTemplate}}"
-                            no-result-template='[[> :CardNoResult ]]'
+                            no-result-template="[[> :CardNoResult ]]"
                           >
                             <template id="tupleTemplate">
                               [[> :CardInstitution]]

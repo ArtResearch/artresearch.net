@@ -2,6 +2,7 @@
 class="rs-grid-element panel panel-default personCard fade-in-fwd "
 >
 <scroll-to-top querySelector=".pagination li"></scroll-to-top>
+
 <semantic-link iri="{{subject.value}}">
   <div class="panel-body">
     <bs-col
@@ -18,9 +19,15 @@ class="rs-grid-element panel panel-default personCard fade-in-fwd "
       >
         <bs-row class="cardInfoFields">
           <h4>
+            
+            <div class="Wrapper">
             <semantic-link
               iri="{{subject.value}}"
             ></semantic-link>
+            <div class="animated-background-circle Wrapper"></div>
+            </div>
+            
+           
             <div 
             style="
             display: flex; 
@@ -40,7 +47,7 @@ class="rs-grid-element panel panel-default personCard fade-in-fwd "
               </div></div>
             </template>
             </semantic-query>
-            <div class="animated-background-circle birthTemplateWrapper "></div>
+            
             
             <semantic-query query='SELECT ?date WHERE{
               <{{subject.value}}> fr:Person_has_Date_of_Death ?date
@@ -56,26 +63,29 @@ class="rs-grid-element panel panel-default personCard fade-in-fwd "
             </template>
             </semantic-query>
 
-            <div class="animated-background-circle deathTemplateWrapper "></div>
             
+           
              
               <div 
+              class="nationalityWrapper"
               style="
               display: flex; 
               justify-content: center;  
               min-height: 14px;
             ">
+            
             <semantic-query query='SELECT ?nationalityLabel WHERE{
               <{{subject.value}}> fr:Person_has_Nationality ?nationality.
               ?nationality rdfs:label ?nationalityLabel
             }LIMIT 1'
             >
             </semantic-query>
-          </div>
+               </div>
           </h4>
         </bs-row>
       </div>
     </bs-col>
   </div>
 </semantic-link>
+
 </div>
