@@ -253,7 +253,7 @@
         </div>
       </template>
     </semantic-query>
-    <div class="animated-background thumbnailContainer "></div>
+    <div class="animated-background thumbnailContainer"></div>
       </bs-col>
       <bs-col  lg="8" md="12" >
         <div data-flex-layout="row md-column center-stretch">
@@ -263,20 +263,44 @@
         <div id="rsbv" class="table-responsive rs-table">
             <table class="table table-hover">
               <tbody>
-                <tr  class="rs-page-resource__field">
-                  <td class="rs-page-resource__field-label-holder headLine">
-                    <span class="rs-page-resource__field-label">
-                      Title
-                    </span>
-                  </td>
-                  <td>
-                      <span class="rs-page-resource__field-value">
-                        <div style="width:25vw; max-width: 450px;">
-                          <semantic-link iri="{{subject.value}}"></semantic-link>
-                        </div>
-                      </span>
-                  </td>
-                </tr>
+                <semantic-query 
+                query='SELECT ?subject WHERE { 
+                  <{{subject.value}}> a fc:work
+                  BIND(<{{subject.value}}> as ?subject)
+                }LIMIT 1'
+                no-result-template='<div></div>'
+                template="{{> workTitleTemplate}}"
+                >
+                <template id="workTitleTemplate">
+                  <div>
+                    <tr  class="rs-page-resource__field">
+                      <td class="rs-page-resource__field-label-holder headLine">
+                        <span class="rs-page-resource__field-label">
+                          Title
+                        </span>
+                      </td>
+                      <td>
+                        <span class="rs-page-resource__field-value">
+                          <div  style="width:25vw; max-width: 450px;">
+                          
+                            <semantic-link iri="{{bindings.0.subject.value}}"></semantic-link>
+                          </div>
+                        </span>
+                      </td>
+                    </tr>
+                  </div>
+                  </template>
+                  </semantic-query>
+                  <div class="table-of-animation">
+                    <div class="animated-background-sm1 rs-page-resource__field-label-holder"></div>
+                    <div class="animated-background-sm2 rs-page-resource__field-label-holder"></div>
+                    <div class="animated-background-sm3 rs-page-resource__field-label-holder"></div>
+                    <div class="animated-background-sm5 rs-page-resource__field-label-holder"></div>
+                    <div class="animated-background-sm4 rs-page-resource__field-label-holder"></div>
+                    <div class="animated-background-sm6 rs-page-resource__field-label-holder"></div>
+                    <div class="animated-background-sm7 rs-page-resource__field-label-holder"></div>
+                    <div class="animated-background-sm8 rs-page-resource__field-label-holder"></div>
+                  </div>
                 <semantic-query 
                 query='SELECT ?photographer WHERE { 
                   {
@@ -307,7 +331,6 @@
                   </div>
                   </template>
                   </semantic-query>
-                  <div class="animated-background" ></div>
                 <semantic-query 
                   query='SELECT ?artist WHERE { 
                     {
@@ -338,7 +361,6 @@
                     </div>
                   </template>
                 </semantic-query>
-                <div class="animated-background"></div>
                 <semantic-query 
                 query='SELECT ?institution WHERE { 
                   {
@@ -370,7 +392,6 @@
               </div> 
                 </template>
                 </semantic-query>
-                <div class="animated-background"></div>
                 <semantic-query 
                 query='SELECT DISTINCT ?provider WHERE { 
                   {
@@ -410,7 +431,6 @@
               </div>
                 </template>
                 </semantic-query>
-                <div class="animated-background"></div>
                 <semantic-query 
                 query='SELECT ?date WHERE { 
                   {
@@ -442,7 +462,7 @@
                   </div>
                 </template>
                 </semantic-query>
-                <div class="animated-background"></div>
+                
               </tbody>
             </table>
         </div>
@@ -535,21 +555,45 @@
         <div id="rsbv" class="table-responsive rs-table">
             <table class="table table-hover">
               <tbody>
-                <tr  class="rs-page-resource__field">
-                  <td class="rs-page-resource__field-label-holder headLine">
-                    <span class="rs-page-resource__field-label">
-                      Title
-                    </span>
-                  </td>
-                  <td>
-                      <span class="rs-page-resource__field-value">
-                        <div style="width:25vw; max-width: 450px;">
-                          <semantic-link iri="{{subject.value}}"></semantic-link>
-                        </div>
-                      </span>
-                  </td>
-                </tr>
                 <semantic-query 
+                query='SELECT ?subject WHERE { 
+                  <{{subject.value}}> a fc:work
+                  BIND(<{{subject.value}}> as ?subject)
+                }LIMIT 1'
+                no-result-template='<div></div>'
+                template="{{> workTitleTemplate}}"
+                >
+                <template id="workTitleTemplate">
+                  <div>
+                    <tr  class="rs-page-resource__field">
+                      <td class="rs-page-resource__field-label-holder headLine">
+                        <span class="rs-page-resource__field-label">
+                          Title
+                        </span>
+                      </td>
+                      <td>
+                        <span class="rs-page-resource__field-value">
+                          <div  style="width:25vw; max-width: 450px;">
+                          
+                            <semantic-link iri="{{bindings.0.subject.value}}"></semantic-link>
+                          </div>
+                        </span>
+                      </td>
+                    </tr>
+                  </div>
+                  </template>
+                  </semantic-query>
+                  <div class="table-of-animation">
+                    <div class="animated-background-sm1 rs-page-resource__field-label-holder"></div>
+                    <div class="animated-background-sm2 rs-page-resource__field-label-holder"></div>
+                    <div class="animated-background-sm3 rs-page-resource__field-label-holder"></div>
+                    <div class="animated-background-sm5 rs-page-resource__field-label-holder"></div>
+                    <div class="animated-background-sm4 rs-page-resource__field-label-holder"></div>
+                    <div class="animated-background-sm6 rs-page-resource__field-label-holder"></div>
+                    <div class="animated-background-sm7 rs-page-resource__field-label-holder"></div>
+                    <div class="animated-background-sm8 rs-page-resource__field-label-holder"></div>
+                  </div>
+                  <semantic-query 
                 query='SELECT ?photographer WHERE { 
                   {
                   <{{subject.value}}> fr:Photo_created_by_Photographer ?photographer
@@ -579,7 +623,6 @@
                   </div>
                   </template>
                   </semantic-query>
-                  <div class="animated-background"></div>
                 <semantic-query 
                   query='SELECT ?artist WHERE { 
                     {
@@ -610,7 +653,7 @@
                     </div>
                   </template>
                 </semantic-query>
-                <div class="animated-background"></div>
+                
                 <semantic-query 
                 query='SELECT ?institution WHERE { 
                   {
@@ -642,7 +685,7 @@
                  </div>
                 </template>
                 </semantic-query>
-                <div class="animated-background"></div>
+                
                 <semantic-query 
                 query='SELECT DISTINCT ?provider WHERE { 
                   {
@@ -681,7 +724,7 @@
               </div>
                 </template>
                 </semantic-query>
-                <div class="animated-background"></div>
+                
                 <semantic-query 
                 query='SELECT ?date WHERE { 
                   {
@@ -712,7 +755,7 @@
               </div>
                 </template>
                 </semantic-query>
-                <div class="animated-background"></div>
+                
               </tbody>
             </table>
         </div>
