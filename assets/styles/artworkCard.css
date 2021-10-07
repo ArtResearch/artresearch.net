@@ -199,9 +199,24 @@
   bottom: 0% !important;
   height: 100% !important;
 }
-#filter-panel .system-spinner {
-  display: block !important;
+
+#filter-panel  .system-spinner {
+    width: 100%;
+    margin-left: 0;
+    left: 0;
+    height: 100%;
+    background: gray;
+    position: absolute;
+    border-radius: 5px;
+    opacity: 0.4;
+    animation-duration: 2.5s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    animation-name: placeHolderShimmer;
+    background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 44%);
 }
+
 #filter-panel .facet-relations > div + div > .system-spinner {
   display: none !important;
 }
