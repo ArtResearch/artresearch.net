@@ -37,7 +37,7 @@
                         '
   >
     <template id='template'>
-      <div class="templateWrapper">
+      <div>
       {{#ifCond bindings.0.isManaged.value "===" "true"}}
         {{> rsp:SimpleCollectionBrowser editable=true collection="[[this]]" membershipProperty=bindings.0.membershipProperty.value broaderProperty=bindings.0.broaderPropertyIRI.value orderByPattern=bindings.0.orderByPattern.value itemLabel=bindings.0.title.value resourceForm=bindings.0.formIRI.value}}
       {{else}}
@@ -47,9 +47,10 @@
       </div>
     </template>
     <template id='noResultTemplate'>
+      <div></div>
     </template>
   </semantic-query>
-  <div class="animated-backround templateWrapper"></div>
+  <div class="animated-backround"></div>
 [[/rsp:DetailsSidebar]]
 [[/rsp:ClipboardSidebar]]
 

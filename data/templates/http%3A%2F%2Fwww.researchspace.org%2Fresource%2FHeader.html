@@ -11,7 +11,7 @@
       BIND(REPLACE(str(?label),"[-!$%^&*()_+|~=`{}\\[\\]:\";<>?,.\\/\\\\]"," ") as ?title).
     }' template="{{>copyTemplate}}">
     <template id="copyTemplate">
-      <div class="copyTemplateWrapper">
+      <div>
       <mp-copy-to-clipboard
       text="{{bindings.0.title.value}}"
       message="Copied title"
@@ -21,7 +21,7 @@
   </div>
   </template>
   </semantic-query>
-  <div class="animated-background copyTemplateWrapper "></div>
+  <div class="animated-background-sm"></div>
 
   </div>
   <semantic-query
@@ -30,8 +30,6 @@
     ?? owl:sameAs ?newLink }LIMIT 10'
   template='{{> deprecated }}'>
    <template id='deprecated'>
-     <div class="deprecatedWrapper">
-     <div>
     <div style="
     margin-top: 15px;
     border-radius: 5px;
@@ -46,13 +44,11 @@
     </h2>
      {{/each}}
     </div>
-  </div>
-</div>
    </template>
    
 </semantic-query>
 
-<div class="animated-background deprecatedWrapper"></div>
+<div class="animated-background-sm"></div>
   <div data-flex-layout='row center-left' class="page__header-tagline subtitleInfo">
     [[> :InfoTypeRepository work=(urlParam "uri") ]]
     <div style="position: absolute; right: 0; top: 0;">
@@ -77,37 +73,37 @@
                 ?subject fr:Work_has_provider_Institution ?provider.
                 ?provider rdfs:label ?providerLabel
               }
-              }
-                            "
+              }"
+        no-result-template="<div></div>"
         template="{{> originalRecords}}"
       >
         <template id="originalRecords">
-          <div class="originalRecordsWrapper">
-          <h2 class="fc-label">
-            {{#each bindings}}
-              <a style="margin-left: 5px;" href="{{providerRecord.value}}" target="_null">
-                <div class="fc-label original-link">
-                  <img
-                    title="{{providerLabel.value}}"
-                    class="sourceIcon"
-                    src="../../assets/images/{{providerLabel.value}}.ico"
-                  />
-                  <div class="text">View {{providerLabel.value}} record</div>
-                </div> 
-              </a>
-            {{/each}}
-          </h2>
+          <div>
+            <h2 class="fc-label">
+              {{#each bindings}}
+                <a style="margin-left: 5px;" href="{{providerRecord.value}}" target="_null">
+                  <div class="fc-label original-link">
+                    <img
+                      title="{{providerLabel.value}}"
+                      class="sourceIcon"
+                      src="../../assets/images/{{providerLabel.value}}.ico"
+                    />
+                    <div class="text">View {{providerLabel.value}} record</div>
+                  </div> 
+                </a>
+              {{/each}}
+            </h2>
         </div>
         </template>
       </semantic-query>
-      <div class="animated-background originalRecordsWrapper"></div>
+      <div class="animated-background"></div>
 
       <semantic-query
         query='SELECT ?websiteLink WHERE { ?? fr:Institution_has_Original_Link ?websiteLink 
         }LIMIT 10'
         template='{{> websiteLink }}'>
         <template id='websiteLink'>
-          <div class="websiteLinkWrapper">
+          <div>
             <h2 class="fc-label">
               {{#each bindings}}
               <a style="margin-left: 5px;" href="{{websiteLink.value}}" target="_null">
@@ -121,7 +117,7 @@
           </div>
         </template>
       </semantic-query>
-      <div class="animated-background websiteLinkWrapper"></div>
+      <div class="animated-background"></div>
     </div>
     <h2 style="margin-left: 5px; margin-top: 10px;" class="fc-label">
       <semantic-query query='SELECT ?artwork WHERE{
@@ -130,7 +126,7 @@
       template="{{>relArtwork}}"
       >
       <template id="relArtwork">
-        <div class="relArtworkWrapper">
+        <div>
         Related to artwork:
         {{#each bindings}}
           <semantic-link class="artwork-link"  iri="{{artwork.value}}" ></semantic-link>
