@@ -12,7 +12,7 @@
   template="{{> fcLabelTemplate}}"
 >
   <template id="fcLabelTemplate">
-    <div class="fcLabelTemplateWrapper">
+    <div>
     <h4 class="fc-label">
       {{#each bindings}}Repository:<div class="repoLink"><semantic-link
         iri="{{repo.value}}"
@@ -23,7 +23,7 @@
   </div>
   </template>
   <template id="noRepoResult">
-    <div class="noRepoResultWrapper">
+    <div>
     <semantic-query
       query="
     SELECT  ?repo WHERE {
@@ -33,7 +33,7 @@
       template="{{> fcLabelTemplate_second}}"
     >
       <template id="fcLabelTemplate_second">
-        <div class="fcLabelTemplate_secondWrapper">
+        <div>
         <h4 class="fc-label">
           {{#each bindings}}
           <div class="repoLink">

@@ -16,7 +16,6 @@
   template="{{> gridImagesTemplate}}"
   >
     <template id="gridImagesTemplate">
-      <div class="gridImagesTemplateWrapper">
           <mp-overlay-dialog title="‎‎" type="lightbox">
             <mp-overlay-dialog-trigger>
               <div class="imageAndSourceContainer">
@@ -31,7 +30,6 @@
                   template="{{> imageSourceIcon}}"
                 >
                   <template id="imageSourceIcon">
-                    <div class="imageSourceIconWrapper">
                     <div class="imageSourceIcon fade-in">
                       <img
                         title="{{bindings.0.providerLabel.value}}"
@@ -39,10 +37,9 @@
                         src="../../assets/images/{{bindings.0.providerLabel.value}}.ico"
                       />
                     </div>
-                  </div>
                   </template>
                 </semantic-query>
-                <div class="imageSourceIconWrapper animated-background-xs"></div>
+                <div class="animated-background-xs"></div>
                 <img
                   class="imageThumbnail"
                   alt="Issue with image provider"
@@ -58,10 +55,9 @@
             {{/ifCond}}
             </mp-overlay-dialog-content>
           </mp-overlay-dialog>
-      </div>
     </template>
   </semantic-query>
-  <div class="animated-background gridImagesTemplateWrapper"></div>
+  <div class="animated-background"></div>
 {{/each}}
 </div>
 </div>

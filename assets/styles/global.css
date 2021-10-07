@@ -20,13 +20,19 @@
 @import "./partner.css";
 @import "./footer.css";
 
-
-
-.SplitPane{
+.SplitPane {
   height: auto !important;
 }
 
+.mediumImageSizeAnimate {
+  width: 35vw;
+  height: 50vh;
+}
+
 div + .animated-background {
+  display: none !important;
+}
+div + .table-of-animation {
   display: none !important;
 }
 div + .animated-background-sm {
@@ -36,32 +42,6 @@ td + .animated-background-sm {
   display: none !important;
 }
 a + .animated-background-sm {
-  display: none !important;
-}
-div + .animated-background-sm1 {
-  display: none !important;
-}
-div + .animated-background-sm2 {
-  display: none !important;
-}
-div + .animated-background-sm3 {
-  display: none !important;
-}
-div + .animated-background-sm4 {
-  display: none !important;
-}
-
-div + .animated-background-sm5 {
-  display: none !important;
-}
-div + .animated-background-sm6 {
-  display: none !important;
-}
-
-div + .animated-background-sm7 {
-  display: none !important;
-}
-div + .animated-background-sm8 {
   display: none !important;
 }
 #rs-page-resource__field + .animated-background-bg {
@@ -104,7 +84,6 @@ a + .animated-background-xs {
   display: none !important;
 }
 
-
 div + .animated-background-filters {
   display: none !important;
 }
@@ -114,57 +93,78 @@ td + .animated-background-filters {
 a + .animated-background-filters {
   display: none !important;
 }
-#filter-panel > div > span{
+#filter-panel > div > span {
   display: none;
 }
-.modal-backdrop.in .system-spinner{
+.modal-backdrop.in .system-spinner {
   width: 100%;
   height: 100%;
-	position:fixed;
-	top:50%;
-	left:50%;
-	transform:translate(-50%,-50%);
-	background:#fff;
-	filter: blur(10px) contrast(20);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  filter: blur(10px) contrast(20);
 }
-.modal-backdrop.in .system-spinner::before,.modal-backdrop.in .system-spinner::after{
+.modal-backdrop.in .system-spinner::before,
+.modal-backdrop.in .system-spinner::after {
   content: "";
-	width:70px;
-	height:70px;
-	position:absolute;
-	background:rgb(0, 0, 0);
-	border-radius:50%;
-	top:50%;left:50%;
-	transform:translate(-50%,-50%);
+  width: 70px;
+  height: 70px;
+  position: absolute;
+  background: rgb(0, 0, 0);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
-.modal-backdrop.in .system-spinner::before{
-	left:20%;
-	animation:osc-l 7s ease-in-out infinite;
+.modal-backdrop.in .system-spinner::before {
+  left: 20%;
+  animation: osc-l 7s ease-in-out infinite;
 }
-.modal-backdrop.in .system-spinner::after{
-	left:80%;
+.modal-backdrop.in .system-spinner::after {
+  left: 80%;
   width: 75px;
   height: 75px;
-	animation:osc-r 7s ease-in-out infinite;
-	background:#d13239;
+  animation: osc-r 7s ease-in-out infinite;
+  background: #d13239;
 }
-@keyframes osc-l{
-	0%{left:20%;}
-	25%{left:50%;}
-  50%{left: 80%;}
-	75%{left:50%;}
-	100%{left:20%;}
+@keyframes osc-l {
+  0% {
+    left: 20%;
+  }
+  25% {
+    left: 50%;
+  }
+  50% {
+    left: 80%;
+  }
+  75% {
+    left: 50%;
+  }
+  100% {
+    left: 20%;
+  }
 }
-@keyframes osc-r{
-	0%{left:80%;}
-	25%{left:50%;}
-	50%{left:20%;}
-	75%{left:50%;}
-  100%{left:80%;}
+@keyframes osc-r {
+  0% {
+    left: 80%;
+  }
+  25% {
+    left: 50%;
+  }
+  50% {
+    left: 20%;
+  }
+  75% {
+    left: 50%;
+  }
+  100% {
+    left: 80%;
+  }
 }
 
-
-.modal-backdrop.in{
+.modal-backdrop.in {
   position: fixed;
   left: 0%;
   top: 0%;
@@ -190,12 +190,11 @@ a + .animated-background-filters {
   background-size: 800px 104px;
   height: 10%;
   margin-bottom: 10px;
-  margin-top :10px;
+  margin-top: 10px;
   min-width: 10vw;
   box-sizing: inherit;
   position: relative;
 }
-
 
 .customrow {
   display: inline-block;
@@ -246,10 +245,6 @@ a + .animated-background-filters {
   position: relative;
 }
 
-.random-integer {
-  foo: 56;
-}
-
 .animated-background-sm {
   display: flex;
   justify-content: center;
@@ -267,6 +262,26 @@ a + .animated-background-filters {
   height: 10%;
   margin-bottom: 10px;
   min-width: 20vw;
+  box-sizing: inherit;
+  position: relative;
+}
+.animated-background-long-line {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1vh;
+  border-radius: 5px;
+  animation-duration: 1.5s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-name: placeHolderShimmer;
+  background: #f6f7f8;
+  background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 44%);
+  background-size: 800px 104px;
+  height: 18%;
+  margin-bottom: 10px;
+  width: 35vw !important;
   box-sizing: inherit;
   position: relative;
 }
@@ -925,6 +940,7 @@ input::placeholder {
 }
 .system-spinner__icon::before {
   content: "" !important;
+  display: none;
 }
 
 .system-spinner__message {

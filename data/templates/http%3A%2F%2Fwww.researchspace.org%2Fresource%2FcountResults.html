@@ -18,7 +18,7 @@ SELECT (COUNT(?subject)as ?count)  WHERE {
   template="{{>countTemplate}}"
   >
   <template id="countTemplate">
-    <div class="countTemplateWrapper">
+    <div>
     {{#ifCond count ">" 10000 }}
      (>{{bindings.0.count.value}})
     {{else}}
@@ -27,4 +27,4 @@ SELECT (COUNT(?subject)as ?count)  WHERE {
   </div>
   </template>
   </semantic-query>
-  <div class=" animated-background countTemplateWrapper"></div>
+  <div class="animated-background"></div>

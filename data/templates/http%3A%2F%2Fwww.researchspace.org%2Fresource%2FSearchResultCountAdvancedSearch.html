@@ -15,7 +15,7 @@ query='SELECT (COUNT( DISTINCT ?subject) as ?count) WHERE {
 template="{{>currentResultCount}}"
 >
 <template id="currentResultCount">
-  <div class="currentResultCountWrapper">
+  <div>
   <h2>
     {{#ifCond bindings.0.count.value "==" 10000}}
     Found more than 10000 matches, please refine your search using filters
@@ -26,4 +26,4 @@ template="{{>currentResultCount}}"
 </div>
 </template>
 </semantic-query>
-<div class="animated-background-xs currentResultCountWrapper"></div>
+<div class="animated-background-xs"></div>
