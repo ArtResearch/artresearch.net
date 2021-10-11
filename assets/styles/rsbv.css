@@ -1,4 +1,9 @@
 /* css for ResourceFieldBasedVisualization component */
+
+#rsbv {
+  overflow-x: hidden;
+}
+
 #rsbv .headLine {
   border-bottom-color: #f4f4f4 !important;
   border-bottom: 1px solid;
@@ -136,12 +141,32 @@
 }
 
 #rsbv .rsbv-viewmore-panel .panel-default {
-  width: 113%;
+  width: 125%;
   box-shadow: none;
-  border:none !important;
+  border: none !important;
   margin: 0;
 }
 
 #rsbv .rsbv-viewmore-panel .panel-body {
   padding: 0px;
+}
+
+@media (min-width: 1480px) {
+  #rsbv .rsbv-viewmore-panel .panel-default {
+    max-width: 36.5vw;
+    width: 115%;
+  }
+}
+
+@media (min-width: 1800px) {
+  #rsbv .rsbv-viewmore-panel .panel-default {
+    width: 112% ;
+  }
+}
+
+@media (min-width: 2000px) {
+  #rsbv .rsbv-viewmore-panel .panel-default {
+    max-width: 35.6vw;
+    width: 111%;
+  }
 }
