@@ -1,37 +1,37 @@
 [[> :Breadcrumb category="Artworks" categoryUrl=":DisplayPharosArtists" ]]
 <div class="page rs-page">
-  [[#> :ClipboardSidebar]]
-  <div class="artwork-header" style="display: flex; flex-direction: column; align-items: flex-end;   border-bottom: initial;
-  padding: 20px 12px 0;
-">[[> :Header ]]
-    <mp-event-target-template-render
-    id="event-target-infowork"
-    template="{{> filterRsbv}}"
-  >
-  <template id="filterRsbv">
-    <div id="filter-dropdown">
-      {{#if selectedTab}} 
-        [[> :WorkInfoDropdown dropdownTitle="Source: {{selectedTab}}"]] 
-        {{else}} 
-        [[> :WorkInfoDropdown dropdownTitle="Source: All" ]] 
-      {{/if}}
-    </div>
-  </template>
-  </mp-event-target-template-render>
+    [[#> :ClipboardSidebar]]
+      <div class="artwork-header" style="display: flex; flex-direction: column; align-items: flex-end;   border-bottom: initial;
+      padding: 20px 12px 0;
+    ">[[> :Header ]]
+        <mp-event-target-template-render
+        id="event-target-infowork"
+        template="{{> filterRsbv}}"
+      >
+      <template id="filterRsbv">
+        <div id="filter-dropdown">
+          {{#if selectedTab}} 
+            [[> :WorkInfoDropdown dropdownTitle="Source: {{selectedTab}}"]] 
+            {{else}} 
+            [[> :WorkInfoDropdown dropdownTitle="Source: All" ]] 
+          {{/if}}
+        </div>
+      </template>
+      </mp-event-target-template-render>
 
-  </div>
-  <div id="tab-container" class="page__body-navtabs--borderless">
-    <div class="old-fashioned-grid">
-      <div class="super-cheesy">[[> :SummaryImagesWork]]</div>
-
-      <div>
-
-        [[> :InfoWorkAndProduction]]
       </div>
+      <div id="tab-container" class="page__body-navtabs--borderless">
+        <div class="old-fashioned-grid">
+          <div class="super-cheesy">[[> :SummaryImagesWork]]</div>
 
-    </div>
-  </div>
-  [[/:ClipboardSidebar]]
+          <div>
+            [[> :InfoWorkAndProduction]]
+          </div>
+
+        </div>
+      </div>
+    [[/:ClipboardSidebar]]
+
 </div>
 
 <style>
