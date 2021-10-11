@@ -56,13 +56,23 @@ class="rs-page__summary-image summaryImages summary-image-with-thumbs"
                         </div>
                       </template>
                     </semantic-query>
-                      {{#each bindings}}
-                        <img
-                          class="imageThumbnailSingle"
-                          alt="Issue with image provider"
-                          src="{{rectoVersoImageThumbnail.value}}"
-                        />
-                      {{/each}}
+                     {{#ifCond (objectLength bindings) ">" 2 }}
+                        {{#each bindings}}
+                          <img
+                            class="imageThumbnailSingle tripleThumb"
+                            alt="Issue with image provider"
+                            src="{{rectoVersoImageThumbnail.value}}"
+                          />
+                        {{/each}}
+                      {{else}}
+                        {{#each bindings}}
+                          <img
+                            class="imageThumbnailSingle "
+                            alt="Issue with image provider"
+                            src="{{rectoVersoImageThumbnail.value}}"
+                          />
+                        {{/each}}
+                      {{/ifCond}}
                   </div>
                 </mp-overlay-dialog-trigger>
                 <mp-overlay-dialog-content>
