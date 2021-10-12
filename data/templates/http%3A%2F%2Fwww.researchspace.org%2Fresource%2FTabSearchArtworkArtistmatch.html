@@ -8,7 +8,7 @@
         default-query="
               SELECT DISTINCT ?subject WHERE {
                       ?subject fr:Work_created_from_Artist <[[artistIri]]>.
-              }LIMIT 100"
+              }LIMIT 1000"
         query='
                       SELECT DISTINCT ?subject WHERE {          
                         ?subject fr:Work_created_from_Artist <[[artistIri]]>.
@@ -37,7 +37,7 @@
                             SELECT DISTINCT ?subject
                             WHERE {
                               ?subject fr:Work_depicted_by_Photo ?photo.
-                            }LIMIT 100
+                            }LIMIT 1000
                           "
                   tuple-template="{{>tupleTemplate}}"
                   no-result-template='[[> :CardNoResult ]]'

@@ -143,7 +143,7 @@
                 ?artwork custom:has_provider <[[provider]]>.
                 ?artwork  fr:Work_created_from_Artist ?subject.
                 ?subject  rdfs:label ?label .
-              }LIMIT 100"
+              }LIMIT 1000"
         query='
                       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
@@ -188,7 +188,7 @@
                     ?artwork custom:has_provider <[[provider]]>.
                     ?artwork fr:Work_created_from_Artist ?subject.
                     ?subject rdfs:label ?artistName
-                   }GROUP BY ?subject ?artistName ORDER BY DESC(?artworkCount) LIMIT 100
+                   }GROUP BY ?subject ?artistName ORDER BY DESC(?artworkCount) LIMIT 1000
                 "
                   tuple-template="{{>tupleTemplate}}"
                   no-result-template="[[> :CardNoResult ]]"

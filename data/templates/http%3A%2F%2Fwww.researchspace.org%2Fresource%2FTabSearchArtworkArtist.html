@@ -91,7 +91,7 @@
         default-query="
               SELECT DISTINCT ?subject WHERE {
                 ?subject fr:Work_created_from_Artist ??.
-              }LIMIT 100"
+              }LIMIT 1000"
         query='
         PREFIX fts: <http://www.bigdata.com/rdf/fts#>
         SELECT DISTINCT ?subject WHERE {          
@@ -148,7 +148,7 @@
                           "showFilter":false
                         }'
                             number-of-displayed-rows="10"
-                            query=" SELECT DISTINCT ?subject WHERE {}LIMIT 100"
+                            query=" SELECT DISTINCT ?subject WHERE {}LIMIT 1000"
                             tuple-template="{{>tupleTemplate}}"
                             no-result-template='[[> :CardNoResult ]]'
                           >
@@ -169,7 +169,7 @@
                        WHERE {
                         ?subject fr:Work_depicted_by_Photo ?photo.
                         ?photo crm:P129i_is_subject_of ?image.
-                       }LIMIT 100
+                       }LIMIT 1000
                     "
                             tuple-template="{{>tupleTemplate}}"
                             no-result-template='[[> :CardNoResult ]]'

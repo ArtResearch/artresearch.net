@@ -130,7 +130,7 @@
                 default-query="
                 SELECT DISTINCT ?subject WHERE {
                   ?? fr:Photographer_created_Photo ?subject
-                }LIMIT 100"
+                }LIMIT 1000"
                   query='
                         SELECT DISTINCT ?subject WHERE {          
                           ?? fr:Photographer_created_Photo ?subject.
@@ -182,7 +182,7 @@
                           "showFilter":false
                         }'
                             number-of-displayed-rows="10"
-                            query=" SELECT DISTINCT ?subject WHERE {}LIMIT 100"
+                            query=" SELECT DISTINCT ?subject WHERE {}LIMIT 1000"
                             tuple-template="{{>tupleTemplate}}"
                             no-result-template='[[> :CardNoResult ]]'
                           >
@@ -203,7 +203,7 @@
                        WHERE {
                         ?subject fr:Work_depicted_by_Photo ?photo.
                         ?photo crm:P129i_is_subject_of ?image.
-                       }LIMIT 100
+                       }LIMIT 1000
                     "
                             tuple-template="{{>tupleTemplate}}"
                             no-result-template='[[> :CardNoResult ]]'

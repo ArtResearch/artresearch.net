@@ -151,7 +151,7 @@
                     ?photo fr:Photo_produced_using_Technique|crm:P45_consists_of ??
                   }
                   ?subject a fc:work.
-                }LIMIT 100'
+                }LIMIT 1000'
                 query='
                         SELECT DISTINCT ?subject WHERE {
                           ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.
@@ -211,7 +211,7 @@
                           {?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.   }
                           UNION
                           {?subject owl:sameAs ?another}
-                          }LIMIT 100
+                          }LIMIT 1000
                       " tuple-template="{{>tupleTemplate}}"
                         no-result-template='[[> :CardNoResult ]]'
                       >
@@ -229,7 +229,7 @@
                           {?subject owl:sameAs ?another}
                           ?subject fr:Work_depicted_by_Photo ?photo.
                           ?photo crm:P129i_is_subject_of ?image.
-                         }LIMIT 100
+                         }LIMIT 1000
                       " tuple-template="{{>tupleTemplate}}"
                         no-result-template='[[> :CardNoResult ]]'
                       >
