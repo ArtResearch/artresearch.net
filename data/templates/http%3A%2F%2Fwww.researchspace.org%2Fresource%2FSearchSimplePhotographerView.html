@@ -71,8 +71,21 @@ class="hiddenSearchbar"
       >
         <template id="currentResultCount">
           <h2>
-            Found {{bindings.0.count.value}} relevant results
+                Found
+            {{#ifCond bindings.0.count.value "=" 1000 }}
+              more than 1000 relevant results
+            {{else}}
+              {{bindings.0.count.value}} relevant results 
+            {{/ifCond}}
           </h2>
+          <small>
+            Displaying 
+            {{#ifCond bindings.0.count.value ">="1000 }}
+            the first 1000 results
+            {{else}}
+            all results
+            {{/ifCond}}
+          </small>
         </template>
       </semantic-query>
       <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
