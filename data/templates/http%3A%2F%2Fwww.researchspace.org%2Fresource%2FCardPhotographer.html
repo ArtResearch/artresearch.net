@@ -21,6 +21,7 @@
                 <{{subject.value}}> fr:Person_has_Date_of_Birth ?date
               }'
               template='{{> birthTemplate}}'
+              no-result-template="<div></div>"
               >
               <template id="birthTemplate">
                 <div date="{{dateTimeFormat bindings.0.date.value "YYYY"}}">
@@ -35,6 +36,7 @@
                 <{{subject.value}}> fr:Person_has_Date_of_Death ?date
               }'
               template='{{> deathTemplate}}'
+              no-result-template="<div></div>"
               >
               <template id="deathTemplate">
                 <div date="{{dateTimeFormat bindings.0.date.value "YYYY"}}">
@@ -55,6 +57,7 @@
                 <{{subject.value}}> fr:Person_has_Nationality ?nationality.
                 ?nationality rdfs:label ?nationalityLabel
               }LIMIT 1'
+              no-result-template="<div></div>"
               >
               </semantic-query>
              </div>
