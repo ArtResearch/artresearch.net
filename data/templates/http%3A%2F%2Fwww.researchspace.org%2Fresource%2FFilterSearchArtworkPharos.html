@@ -205,7 +205,7 @@
                             SELECT DISTINCT ?subject
                             WHERE {
                           
-                            }LIMIT 100
+                            }LIMIT 1000
                     "
                             tuple-template="{{>tupleTemplate}}"
                             no-result-template='[[> :CardNoResult ]]'
@@ -227,7 +227,7 @@
                             WHERE {
                               ?subject fr:Work_depicted_by_Photo ?photo.
                               ?photo crm:P129i_is_subject_of ?image.
-                            }LIMIT 100
+                            }LIMIT 1000
                           "
                             tuple-template="{{>tupleTemplate}}"
                             no-result-template='[[> :CardNoResult ]]'

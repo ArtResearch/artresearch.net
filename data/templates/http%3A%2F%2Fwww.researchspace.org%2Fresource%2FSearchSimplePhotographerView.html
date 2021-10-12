@@ -91,7 +91,7 @@ class="hiddenSearchbar"
       <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
       <semantic-table
         id="grid-result"
-        query="SELECT DISTINCT ?subject  WHERE {}LIMIT 100"
+        query="SELECT DISTINCT ?subject  WHERE {}LIMIT 1000"
         number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
         tuple-template="{{> subjectCellTemplate}}"
         options='{"showTableHeading": false, "showFilter":false}'

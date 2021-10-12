@@ -44,7 +44,7 @@
                     WHERE {
                       ?subject a fc:institution.   
                       ?subject fr:Institution_from_Place <{{placeIri}}>
-                    }LIMIT 100"
+                    }LIMIT 1000"
               query='
                             SELECT DISTINCT ?subject WHERE {
                             ?subject a fc:institution.   
@@ -82,7 +82,7 @@
                     SELECT DISTINCT ?subject ?institutionImage
                     WHERE {
                       ?subject a fc:institution.   
-                    }LIMIT 100"
+                    }LIMIT 1000"
               query='
                             SELECT DISTINCT ?subject WHERE {
                             ?subject a fc:institution.   
@@ -201,7 +201,7 @@
                              OPTIONAL{
                               ?subject fr:Institution_depicted_by ?institutionImage
                             }     
-                          }ORDER BY DESC(?institutionImage) LIMIT 100
+                          }ORDER BY DESC(?institutionImage) LIMIT 1000
                         "
                             tuple-template="{{>tupleTemplate}}"
                             no-result-template='[[> :CardNoResult ]]'
