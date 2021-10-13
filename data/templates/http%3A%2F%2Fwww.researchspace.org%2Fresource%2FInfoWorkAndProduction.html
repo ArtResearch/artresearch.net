@@ -16,21 +16,6 @@ template="{{> fieldsFilter}}"
       <div class="workInfoContainer">
         <h2>Artwork / Monument</h2>
         [[> :ResourceFieldBasedVisualization subject=[[this]]  showSourceIcon="true" ]]
-  
-        <mp-field-visualization
-        subject="[[this]]"
-        additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
-        fields='[[ fieldDefinitionsFromQuery "SELECT ?field WHERE {     BIND(<http://www.researchspace.org/fieldDefinition/Last_Known_Location> AS ?field)  } "]]'
-        template="{{>workInfo}}"
-      >
-        <template id="workInfo">
-          {{#if noData}} {{else}}
-            [[> :ResourceFieldBasedVisualization subject=[[this]]  showSourceIcon="true" ]]
-          {{/if}}
-        </template>
-        <div class="animated-background workInfoContainer"></div>
-      </mp-field-visualization>
-      
       </div>
       {{/if}}
     </template>
