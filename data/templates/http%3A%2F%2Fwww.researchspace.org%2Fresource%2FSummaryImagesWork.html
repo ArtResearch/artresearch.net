@@ -1,12 +1,12 @@
 <!-- Displays a row of IIIF photographs that are clickable (iiif mirador popup) -->
 <mp-event-target-template-render
-id="event-target-rsbv"
-template="{{> fieldsFilter}}"
+  id="event-target-rsbv"
+  template="{{> fieldsFilter}}"
 >
-<template id="fieldsFilter">
-<div id="work-summary-images">
-  <semantic-query
-    query='SELECT distinct ?thumbnail ?image  WHERE {
+  <template id="fieldsFilter">
+    <div id="work-summary-images">
+      <semantic-query
+        query='SELECT distinct ?thumbnail ?image  WHERE {
         {
           # Photo object
           ?? crm:P129i_is_subject_of ?image.
@@ -35,48 +35,57 @@ template="{{> fieldsFilter}}"
         FILTER(?typeLabel = "recto")  
         BIND(REPLACE(STR(?image),"full/full","full/!100,100") AS ?thumbnail).
      } ORDER BY str(?photo) ASC(?typeLabel)'
-    template="{{> imageThumbnail}}"
-    no-result-template="<div></div>"
-
-  >
-    <template id="imageThumbnail">
-      <div class="imageThumbnailContainer">
-        <div class="imagebar">
+        template="{{> imageThumbnail}}"
+        no-result-template="<div></div>"
+      >
+        <template id="imageThumbnail">
+          <div class="imageThumbnailContainer">
+            <div class="imagebar">
               <mp-overlay-dialog title="‎‎" type="lightbox">
                 <mp-overlay-dialog-trigger>
-                    <button class="lightboxOpenButton">Open image lightbox</button>
+                  <button>Open image lightbox</button>
                 </mp-overlay-dialog-trigger>
                 <mp-overlay-dialog-content>
-                    [[> :PhotographLightbox]]
+                  [[> :PhotographLightbox]]
                 </mp-overlay-dialog-content>
               </mp-overlay-dialog>
-               <mp-overlay-dialog title="‎‎" type="lightbox">
+              <mp-overlay-dialog title="‎‎" type="lightbox">
                 <mp-overlay-dialog-trigger>
-                    <button class="lightboxOpenButton">Similar Artwork</button>
+                  <button>Visually similar artworks</button>
                 </mp-overlay-dialog-trigger>
                 <mp-overlay-dialog-content>
-                    [[> :SimilarArtworks]]
+                  [[> :SimilarArtworks]]
                 </mp-overlay-dialog-content>
               </mp-overlay-dialog>
-        </div>
-              [[> :SummaryImagesWorkSingle]]
+            </div>
+            [[> :SummaryImagesWorkSingle]]
+          </div>
+        </template>
+      </semantic-query>
+      <div class="imageThumbnailContainer animated-background"></div>
     </div>
-    </template>
-  </semantic-query>
-  <div class="imageThumbnailContainer animated-background"> </div>
-</div>
-</template>
+  </template>
 </mp-event-target-template-render>
-<style> 
+<style>
+  .imageThumbnailContainer {
+    display: flex;
+    flex-direction: column;
+  }
 
-.imageThumbnailContainer{
-  display: flex;
-  flex-direction: column;
-}
+  .imagebar button {
+    border: none;
+    background:  whitesmoke;
+    height: 40px;
+    transition: 0.4s !important;
+  }
 
-.imagebar{
-    text-align: right;
-    text-align: -webkit-right;
+  .imagebar button:hover {
+    border-top: 1px solid #de3b3b;
+  }
 
-}
+  .imagebar {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+  }
 </style>
