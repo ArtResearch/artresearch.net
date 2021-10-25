@@ -1,7 +1,21 @@
 <div id="photograph-lightbox" data-flex-layout="row center-stretch">
+  <mp-splitpane min-size="240"  max-size="600" default-size="50vw" default-open="true"  always-render="true" persist-resize="false">
     <div data-flex-layout='column top-stretch' style="border-right: 1px solid #a2a2a2; background: white !important;">
-        <div style="background: white;">
-          <h2>You can click on images to display in lightbox</h2>
+         <mp-splitpane-toggle-on>
+                    <button style="border: none; background: transparent; padding: 15px 2px; outline: none; width: 100%;">
+                      <i class="fa fa-angle-double-right" style="font-size: 20px;" aria-hidden="true">Open Sidebar</i>
+                    </button>
+                  </mp-splitpane-toggle-on>
+                  <mp-splitpane-toggle-off>
+                    <button data-flex-layout="row center-left" style="border: none; border-bottom: 1px solid #999; background: #fff; padding: 15px; outline: none; width: 100%;">
+                      <h4 style="margin: 0px;">Sidebar</h4>
+                      <div class="fa fa-angle-double-left" style="font-size: 20px; margin-left: auto;" aria-hidden="true">Close Sidebar</div>
+                    </button>
+                  </mp-splitpane-toggle-off>
+      <mp-splitpane-sidebar-open style=' min-width:240px; display: flex; flex-direction: column; flex: auto; background: white !important ;' >
+        <div class="LeftSideLightbox"style=" padding-left : 15px; background: white;">
+          <h1 style="font-size: 24px !important;">All photographs</h1>
+          <h2 style="font-size: 18px !important;">You can click on images to display in lightbox</h2>
           <div id="photo-cards">
         
             <semantic-table
@@ -62,7 +76,7 @@
                     </div>
                     </template>
                   </semantic-query>
-                  <div class="animated-background "></div>
+                
                   <semantic-query
                     query='
           SELECT ?photoUri ?versoImage ?fullsizeImages where{
@@ -102,7 +116,7 @@
                     </div>
                     </template>
                   </semantic-query>
-                  <div class="animated-background "></div>
+                 
                 </td>
                 <div class="photographFieldViewData">
                   <!-- //TODO make query -->
@@ -144,12 +158,14 @@
               </div>
             </template>
           </semantic-table>
-          <div class="animated-background"></div>
+          
           </div>
         </div>
+      </mp-splitpane-sidebar-open>
     </div>
+    
     <div>
-      <div id="photograph-lightbox-viewer"  style="width: 100%; height: 80vh">
+      <div id="photograph-lightbox-viewer"  style="width: 100%; height: 85vh; overflow-y: scroll; ">
         <mp-event-target-template-render
         id="event-target-miradors"
         template="{{> miradorsTemplate}}"
@@ -202,9 +218,10 @@
           {{/if}}
           </template>
           </mp-event-target-template-render>
-          <div class="animated-background "></div>
+          
       </div>
     </div>
+  </mp-splitpane>
 </div>
 
 <style>
@@ -232,6 +249,14 @@
 #photograph-lightbox .mirador .researchspace-mirador.mirador-container .layout-slot {
   width: 100% !important;
   height: 100% !important;
+}
+.mirador{
+  height: 34vh !important;
+}
+
+.mirador .researchspace-mirador.mirador-container .bottomPanel .panel-thumbnail-view ul {
+  height:85% !important;
+  align-items: baseline !important;
 }
 
 </style>
