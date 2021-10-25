@@ -41,27 +41,25 @@ template="{{> fieldsFilter}}"
   >
     <template id="imageThumbnail">
       <div class="imageThumbnailContainer">
-      <bs-tab-container id="imageViewTabs" default-active-key="single">
-        <div>
-          <bs-nav class="navbar-flex-end" bs-style="tabs">
-            <bs-nav-item event-key="single">
-              <span class="fa fa-image"></span>
-            </bs-nav-item>
-            <bs-nav-item event-key="grid">
-              <span class="fa fa-th"></span>
-            </bs-nav-item>
-          </bs-nav>
-          <bs-tab-content animation="true">
-            <bs-tab-pane event-key="grid">
-              [[> :SummaryImagesWorkGrid]]
-            </bs-tab-pane>
-
-            <bs-tab-pane event-key="single">
-              [[> :SummaryImagesWorkSingle]]
-            </bs-tab-pane>
-          </bs-tab-content>
+        <div class="imagebar">
+              <mp-overlay-dialog title="‎‎" type="lightbox">
+                <mp-overlay-dialog-trigger>
+                    <button class="lightboxOpenButton">Open image lightbox</button>
+                </mp-overlay-dialog-trigger>
+                <mp-overlay-dialog-content>
+                    [[> :PhotographLightbox]]
+                </mp-overlay-dialog-content>
+              </mp-overlay-dialog>
+               <mp-overlay-dialog title="‎‎" type="lightbox">
+                <mp-overlay-dialog-trigger>
+                    <button class="lightboxOpenButton">Similar Artwork</button>
+                </mp-overlay-dialog-trigger>
+                <mp-overlay-dialog-content>
+                    [[> :SimilarArtworks]]
+                </mp-overlay-dialog-content>
+              </mp-overlay-dialog>
         </div>
-      </bs-tab-container>
+              [[> :SummaryImagesWorkSingle]]
     </div>
     </template>
   </semantic-query>
@@ -69,3 +67,16 @@ template="{{> fieldsFilter}}"
 </div>
 </template>
 </mp-event-target-template-render>
+<style> 
+
+.imageThumbnailContainer{
+  display: flex;
+  flex-direction: column;
+}
+
+.imagebar{
+    text-align: right;
+    text-align: -webkit-right;
+
+}
+</style>

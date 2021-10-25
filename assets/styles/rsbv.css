@@ -29,7 +29,7 @@
   display: flex;
   align-items: center;
   min-width: 20vw;
-  max-width: 175px;
+  
 }
 
 #rsbv .visualizationValue div[date="Invalid date"] {
@@ -103,10 +103,10 @@
   transition: 0.3s;
   font-size: 0px;
 }
-#rsbv tr:hover .createAssertion {
+/* #rsbv tr:hover .createAssertion {
   font-size: unset;
   border-bottom: 0px !important;
-}
+} */
 
 #rsbv .rsbv-viewmore-panel .panel-default > .panel-heading {
   background: none !important;
@@ -150,23 +150,29 @@
 #rsbv .rsbv-viewmore-panel .panel-body {
   padding: 0px;
 }
+@media (min-width:1200px) and  (max-width:1480px){
+  #rsbv .rsbv-viewmore-panel .panel-default {
+    max-width: 36.5vw;
+    width: 119%;
+  }
+}
 
 @media (min-width: 1480px) {
   #rsbv .rsbv-viewmore-panel .panel-default {
     max-width: 36.5vw;
-    width: 115%;
+    width: 117%;
   }
 }
 
 @media (min-width: 1800px) {
   #rsbv .rsbv-viewmore-panel .panel-default {
-    width: 112% ;
+    width: 116% !important ;
   }
 }
 
 @media (min-width: 2000px) {
   #rsbv .rsbv-viewmore-panel .panel-default {
     max-width: 35.6vw;
-    width: 111%;
+    width: 116%;
   }
 }
