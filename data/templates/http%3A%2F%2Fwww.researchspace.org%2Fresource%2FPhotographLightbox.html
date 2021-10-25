@@ -9,7 +9,7 @@
                   <mp-splitpane-toggle-off>
                     <button data-flex-layout="row center-left" style="border: none; border-bottom: 1px solid #999; background: #fff; padding: 15px; outline: none; width: 100%;">
                       <h4 style="margin: 0px;">All photographs</h4>
-                      <div class="fa fa-angle-double-left" style="font-size: 20px; margin-left: auto;" aria-hidden="true">Collapse</div>
+                      <div class="fa fa-angle-double-left" style="font-size: 20px; margin-left: auto;" aria-hidden="true"></div>
                     </button>
                   </mp-splitpane-toggle-off>
       <mp-splitpane-sidebar-open style=' min-width:50px; display: flex; flex-direction: column; flex: auto; background: white !important ;' >
@@ -64,11 +64,19 @@
                             type="Component.TemplateUpdate"
                             data='[[> :MiradorTriggerAdder myImage="{{bindings.0.fullsizeImages.value}}"]]'
                             targets='["event-target-miradors","event-target-add-mirador"]'>
+                          {{#if images}}
                           <img
                             src="{{bindings.0.rectoImage.value}}"
                             style="max-height: 100px; margin: 0 auto"
-                            class="img-rounded"
+                            class="img-rounded "
                           />
+                          {{else}}
+                          <img
+                            src="{{bindings.0.rectoImage.value}}"
+                            style="max-height: 100px; margin: 0 auto"
+                            class="img-rounded grab-attention"
+                          />
+                          {{/if}}
                           </mp-event-trigger>
                         </template>
                       </mp-event-target-template-render>
@@ -78,17 +86,17 @@
                 
                   <semantic-query
                     query='
-          SELECT ?photoUri ?versoImage ?fullsizeImages where{
-            BIND(str(<{{photo.value}}>) as ?photoUri).
-            <{{photo.value}}> crm:P129i_is_subject_of ?fullsizeImages.
-            BIND(REPLACE(STR(?fullsizeImages),"full/full","full/!100,100") AS ?versoImage).
-            FILTER NOT EXISTS { 
-              ?fullsizeImages crm:P2_has_type ?type.
-              ?type rdfs:label "recto"
-            }
-          }
-        '
-        no-result-template="<div></div>"
+                      SELECT ?photoUri ?versoImage ?fullsizeImages where{
+                        BIND(str(<{{photo.value}}>) as ?photoUri).
+                        <{{photo.value}}> crm:P129i_is_subject_of ?fullsizeImages.
+                        BIND(REPLACE(STR(?fullsizeImages),"full/full","full/!100,100") AS ?versoImage).
+                        FILTER NOT EXISTS { 
+                          ?fullsizeImages crm:P2_has_type ?type.
+                          ?type rdfs:label "recto"
+                        }
+                      }
+                    '
+                    no-result-template="<div></div>"
                     template="{{>versoImageThumb}}"
                   >
                     <template id="versoImageThumb">
@@ -214,6 +222,8 @@
               Clear
             </div>
             </mp-event-trigger>
+          {{else}}
+            <h1 style="height: 90%; display: flex; text-align: center; align-items:center;">Add an image to the lightbox by clicking on one of the photographs</h1>
           {{/if}}
           </template>
           </mp-event-target-template-render>
@@ -253,6 +263,76 @@
 .mirador .researchspace-mirador.mirador-container .bottomPanel .panel-thumbnail-view ul {
   height:85% !important;
   align-items: baseline !important;
+}
+.grab-attention {
+	-webkit-animation: grab-attention 0.9s both;
+	        animation: grab-attention 0.9s both;
+}
+
+/**
+ * ----------------------------------------
+ * animation grab-attention
+ * ----------------------------------------
+ */
+ @-webkit-keyframes grab-attention {
+  0% {
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+  }
+  30% {
+    -webkit-transform: scale3d(1.25, 0.75, 1);
+            transform: scale3d(1.25, 0.75, 1);
+  }
+  40% {
+    -webkit-transform: scale3d(0.75, 1.25, 1);
+            transform: scale3d(0.75, 1.25, 1);
+  }
+  50% {
+    -webkit-transform: scale3d(1.15, 0.85, 1);
+            transform: scale3d(1.15, 0.85, 1);
+  }
+  65% {
+    -webkit-transform: scale3d(0.95, 1.05, 1);
+            transform: scale3d(0.95, 1.05, 1);
+  }
+  75% {
+    -webkit-transform: scale3d(1.05, 0.95, 1);
+            transform: scale3d(1.05, 0.95, 1);
+  }
+  100% {
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+  }
+}
+@keyframes grab-attention {
+  0% {
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+  }
+  30% {
+    -webkit-transform: scale3d(1.25, 0.75, 1);
+            transform: scale3d(1.25, 0.75, 1);
+  }
+  40% {
+    -webkit-transform: scale3d(0.75, 1.25, 1);
+            transform: scale3d(0.75, 1.25, 1);
+  }
+  50% {
+    -webkit-transform: scale3d(1.15, 0.85, 1);
+            transform: scale3d(1.15, 0.85, 1);
+  }
+  65% {
+    -webkit-transform: scale3d(0.95, 1.05, 1);
+            transform: scale3d(0.95, 1.05, 1);
+  }
+  75% {
+    -webkit-transform: scale3d(1.05, 0.95, 1);
+            transform: scale3d(1.05, 0.95, 1);
+  }
+  100% {
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+  }
 }
 
 </style>
