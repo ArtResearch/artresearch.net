@@ -14,21 +14,35 @@
                   </mp-splitpane-toggle-off>
       <mp-splitpane-sidebar-open style=' min-width:50px; display: flex; flex-direction: column; flex: auto; background: white !important ;' >
         <div class="LeftSideLightbox"style=" padding-left : 15px; background: white;">
-          <h2 style="font-size: 18px !important;">You can click on images to display in lightbox</h2>
+
           <div id="photo-cards">
-        
+            <h2 style="
+              font-size: 22px;
+              padding: 15px 0px 15px 15px;
+              border-bottom: 2px solid #be3535;
+              position: sticky;
+              top: 0px;
+              z-index: 15;
+              background: white;
+              display: flex;
+              width: 100%;
+              justify-content: flex-start;
+          "><mp-label iri="[[this]]"></mp-label></h2>
             <semantic-table
             options='{
           "showFilter":true
         }'
               number-of-displayed-rows="200"
             query='  
-              SELECT distinct ?photo (GROUP_CONCAT(STR(?label);SEPARATOR=" , ") AS ?allLabels) WHERE 
+              SELECT distinct ?photo WHERE 
               {
+                {
                   ?? fr:Work_depicted_by_Photo ?photo.
-                  ?photo ?a ?b.
-                  ?b rdfs:label ?label
-              }GROUP BY(?photo) '
+                }UNION{
+                  ?work fr:Work_depicted_by_Photo ??
+                  BIND(?? as ?photo)
+                }
+              }'
             tuple-template="{{> photos}}"
             no-result-template='<h2>No photographs found</h2>'
           >
@@ -166,6 +180,190 @@
             </template>
           </semantic-table>
           
+
+          <h2 style="
+              font-size: 22px;
+              padding: 15px 15px 15px 0px;
+              border-bottom: 2px solid #be3535;
+              position: sticky;
+              top: 0px;
+              z-index: 15;
+              background: white;
+              display: flex;
+              width: 100%;
+              justify-content: flex-end;
+          ">From your clipboard</h2>
+          <semantic-table
+          options='{
+        "showFilter":true
+      }'
+            number-of-displayed-rows="200"
+          query='  
+            PREFIX Platform: <http://www.researchspace.org/resource/system/>
+            PREFIX ldp: <http://www.w3.org/ns/ldp#>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX prov: <http://www.w3.org/ns/prov#>
+            PREFIX fr: <https://pharos.artresearch.net/resource/fr/>
+            PREFIX cfc: <https://pharos.artresearch.net/resource/custom/fc/>
+            SELECT DISTINCT ?photo WHERE 
+            {
+              ?set a Platform:Set ;
+              prov:wasAttributedTo ?__useruri__ ;
+              ldp:contains ?container.
+              {
+                ?container Platform:setItem ?work.
+                ?work fr:Work_depicted_by_Photo ?photo
+              }UNION{
+                ?container Platform:setItem ?photo.
+                ?photo a cfc:photo
+              }
+            }'
+          tuple-template="{{> photos}}"
+          no-result-template='<h2>No photographs found</h2>'
+        >
+          <template id="photos">
+              <div
+                class="card"
+              >
+              <td class="rectoVersoCell">
+                <semantic-query
+                  query='
+                  SELECT  ?photoUri ?rectoImage ?fullsizeImages where{
+                    BIND(str(<{{photo.value}}>) as ?photoUri).
+                    <{{photo.value}}> crm:P129i_is_subject_of ?fullsizeImages.
+                    BIND(REPLACE(STR(?fullsizeImages),"full/full","full/!100,100") AS ?rectoImage).
+                    FILTER NOT EXISTS { 
+                      ?fullsizeImages crm:P2_has_type ?type.
+                      ?type rdfs:label "verso"
+                    }
+                  }
+                '
+                  no-result-template="<div></div>"
+                  template="{{>rectoImageThumb}}"
+                >
+                  <template id="rectoImageThumb">
+                    <div >
+                    <mp-event-target-template-render
+                    id="event-target-add-mirador"
+                    template="{{> addaMiradorTemplateSec}}"
+                    >
+                      <template id="addaMiradorTemplateSec">
+                        <mp-event-trigger
+                          id="event-trigger-add-mirador"
+                          type="Component.TemplateUpdate"
+                          data='[[> :MiradorTriggerAdder myImage="{{bindings.0.fullsizeImages.value}}"]]'
+                          targets='["event-target-miradors","event-target-add-mirador"]'>
+                        {{#if images}}
+                        <img
+                            src="{{bindings.0.rectoImage.value}}"
+                            style="max-height: 100px; margin: 0 auto"
+                            class="img-rounded "
+                          />
+                        {{else}}
+                          <img
+                            src="{{bindings.0.rectoImage.value}}"
+                            style="max-height: 100px; margin: 0 auto"
+                            class="img-rounded grab-attention"
+                          />
+                        {{/if}}
+                        </mp-event-trigger>
+                      </template>
+                    </mp-event-target-template-render>
+                  </div>
+                  </template>
+                </semantic-query>
+              
+                <semantic-query
+                  query='
+                    SELECT ?photoUri ?versoImage ?fullsizeImages where{
+                      BIND(str(<{{photo.value}}>) as ?photoUri).
+                      <{{photo.value}}> crm:P129i_is_subject_of ?fullsizeImages.
+                      BIND(REPLACE(STR(?fullsizeImages),"full/full","full/!100,100") AS ?versoImage).
+                      FILTER NOT EXISTS { 
+                        ?fullsizeImages crm:P2_has_type ?type.
+                        ?type rdfs:label "recto"
+                      }
+                    }
+                  '
+                  no-result-template="<div></div>"
+                  template="{{>versoImageThumb}}"
+                >
+                  <template id="versoImageThumb">
+                    <div>
+      
+                    <mp-event-target-template-render
+                    id="event-target-add-mirador"
+                    template="{{> addaMiradorTemplateSec}}"
+                    >
+                      <template id="addaMiradorTemplateSec">
+                        <mp-event-trigger
+                          id="event-trigger-add-mirador"
+                          type="Component.TemplateUpdate"
+                          data='[[> :MiradorTriggerAdder myImage="{{bindings.0.fullsizeImages.value}}"]]'
+                          targets='["event-target-miradors","event-target-add-mirador"]'>
+                        <img
+                          src="{{bindings.0.versoImage.value}}"
+                          style="max-height: 70px; max-width: 70px"
+                          class="vercoCell img-rounded"
+                        />
+                        </mp-event-trigger>
+                      </template>
+                    </mp-event-target-template-render>
+                  </div>
+                  </template>
+                </semantic-query>
+               
+              </td>
+              <div class="photographFieldViewData">
+                <div>
+                  <h2>Artwork</h2>
+                  <semantic-query query='SELECT DISTINCT ?work WHERE {
+                    ?work a fc:work.
+                    ?work fr:Work_depicted_by_Photo <{{photo.value}}>.
+                  }'>
+
+                  </semantic-query>
+                </div>
+                <!-- //TODO make query -->
+                <mp-field-visualization
+                  subject="{{photo.value}}"
+                  fields='[[fieldDefinitions  
+                    Title="https://pharos.artresearch.net/fieldDefinition/2"  
+                    Photographer="https://pharos.artresearch.net/fieldDefinition/123"
+                    Repository="https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution" 
+                  ]]'
+                  template="{{>productionInfo}}"
+                >
+                  <template id="productionInfo">
+                    <div>
+                    {{#if noData}}
+                    <div id="rsbv" class="table-responsive rs-table">
+                      <table class="table table-hover">
+                        <tbody>
+                          <tr>
+                            <td>No quick preview available. Click on the photo to view details.</td>
+                            <td></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    {{else}}
+                     [[> :ResourceFieldBasedVisualization subject=[[this]]]]
+                      {{/if}}
+                  </div>
+                  </template>
+                </mp-field-visualization>
+              </div>
+              <semantic-link iri="{{photo.value}}">
+                <div style="
+                position: absolute;
+                top: 0;
+                right: 0;
+            " class="btn"><h4>View photograph</h4></div>
+          </semantic-link>
+            </div>
+          </template>
+        </semantic-table>
           </div>
         </div>
       </mp-splitpane-sidebar-open>
@@ -223,7 +421,8 @@
             </div>
             </mp-event-trigger>
           {{else}}
-            <h1 style="height: 90%; display: flex; text-align: center; align-items:center;">Add an image to the lightbox by clicking on one of the photographs</h1>
+            <h1 style="height: 90%; width: 90%; margin-left: 5%; display: flex; text-align: center; align-items:center;">
+              Add an image to the lightbox by clicking on one of the thumbnails</h1>
           {{/if}}
           </template>
           </mp-event-target-template-render>
@@ -236,103 +435,6 @@
 <style>
 .mirador-btn.mirador-icon-metadata-view.mirador-tooltip{
   display: none;
-}
-.miradors-container:empty + .clear-miradors {
-    display: none;
-}
-
-.clear-miradors {
-  cursor: pointer;
-    position: absolute;
-    top: -21px;
-    right: 0px;
-    font-size: 20px;
-}
-
-#photograph-lightbox .researchspace-table-widget-holder .griddle-filter .filter-container{
-  justify-content:flex-start;
-}
-#photograph-lightbox .photo-cards{
-  background: white !important;
-}
-#photograph-lightbox .mirador .researchspace-mirador.mirador-container .layout-slot {
-  width: 100% !important;
-  height: 100% !important;
-}
-
-.mirador .researchspace-mirador.mirador-container .bottomPanel .panel-thumbnail-view ul {
-  height:85% !important;
-  align-items: baseline !important;
-}
-.grab-attention {
-	-webkit-animation: grab-attention 0.9s both;
-	        animation: grab-attention 0.9s both;
-}
-
-/**
- * ----------------------------------------
- * animation grab-attention
- * ----------------------------------------
- */
- @-webkit-keyframes grab-attention {
-  0% {
-    -webkit-transform: scale3d(1, 1, 1);
-            transform: scale3d(1, 1, 1);
-  }
-  30% {
-    -webkit-transform: scale3d(1.25, 0.75, 1);
-            transform: scale3d(1.25, 0.75, 1);
-  }
-  40% {
-    -webkit-transform: scale3d(0.75, 1.25, 1);
-            transform: scale3d(0.75, 1.25, 1);
-  }
-  50% {
-    -webkit-transform: scale3d(1.15, 0.85, 1);
-            transform: scale3d(1.15, 0.85, 1);
-  }
-  65% {
-    -webkit-transform: scale3d(0.95, 1.05, 1);
-            transform: scale3d(0.95, 1.05, 1);
-  }
-  75% {
-    -webkit-transform: scale3d(1.05, 0.95, 1);
-            transform: scale3d(1.05, 0.95, 1);
-  }
-  100% {
-    -webkit-transform: scale3d(1, 1, 1);
-            transform: scale3d(1, 1, 1);
-  }
-}
-@keyframes grab-attention {
-  0% {
-    -webkit-transform: scale3d(1, 1, 1);
-            transform: scale3d(1, 1, 1);
-  }
-  30% {
-    -webkit-transform: scale3d(1.25, 0.75, 1);
-            transform: scale3d(1.25, 0.75, 1);
-  }
-  40% {
-    -webkit-transform: scale3d(0.75, 1.25, 1);
-            transform: scale3d(0.75, 1.25, 1);
-  }
-  50% {
-    -webkit-transform: scale3d(1.15, 0.85, 1);
-            transform: scale3d(1.15, 0.85, 1);
-  }
-  65% {
-    -webkit-transform: scale3d(0.95, 1.05, 1);
-            transform: scale3d(0.95, 1.05, 1);
-  }
-  75% {
-    -webkit-transform: scale3d(1.05, 0.95, 1);
-            transform: scale3d(1.05, 0.95, 1);
-  }
-  100% {
-    -webkit-transform: scale3d(1, 1, 1);
-            transform: scale3d(1, 1, 1);
-  }
 }
 
 </style>
