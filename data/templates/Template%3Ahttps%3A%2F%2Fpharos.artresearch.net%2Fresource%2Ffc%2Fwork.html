@@ -4,15 +4,43 @@
       <div class="artwork-header" style="display: flex; flex-direction: column; align-items: flex-end;   border-bottom: initial;
       padding: 20px 12px 0;
     ">
+
   [[> :HeaderOptions ]]
+
       </div>
       <div id="tab-container"
       style="display: flex;flex-direction: column;"
       class="page__body-navtabs--borderless">
         [[> :StickyHeader ]]
 
+
         <div class="old-fashioned-grid">
           <div class="super-cheesy">
+            <semantic-query
+            query='SELECT ?newLink WHERE { 
+              ?s owl:sameAs ?newLink.
+              ?newLink a fc:work.
+              ?s <https://similarity.net/custom/is_deprecated> ??
+            }LIMIT 10'
+            template='{{> deprecated }}'>
+             <template id='deprecated'>
+              <div style="
+              margin-top: 15px;
+              border-radius: 5px;
+              padding: 14px;
+              background: lightblue;">
+              <h2><i style="margin-right: 5px;" class="fa fa-info"></i>This record is deprecated. Please visit the latest Pharos record at:</h2>
+               {{#each bindings}}
+               <h2 style="text-decoration: underline;">
+                 <i style="margin-right: 5px;" class="fa fa-external-link"></i> 
+                 <semantic-link  iri='{{newLink.value}}'>
+                </semantic-link>
+              </h2>
+               {{/each}}
+              </div>
+             </template>
+             
+          </semantic-query>
             [[> :SummaryImagesWork]]</div>
 
           <div>
