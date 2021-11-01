@@ -20,16 +20,26 @@
           <div class="CreatorList">
             <bs-navbar>
               <bs-nav>
-                <bs-nav-dropdown title="Variant Attributions" id="basic-nav-dropdown">
+                <bs-nav-dropdown  title="Variant Attributions" id="basic-nav-dropdown">
                   <h2 style="color: rgb(55 88 167);">Variant Attributions</h2>
                   <bs-menu-item class="square-attr">
                     <div class="Wrapper"> 
-                    <div class="attr"  >by</div>
+                    <div class="attr">by</div>
                     <div class="attr-by">{{bindings.0.subject.value}}</div>
                     </div>
                   </bs-menu-item>
-                  <bs-menu-item class="square-attr"><div style="padding:5px;  white-space: initial; text-align: center;">copy of</div><div class="attr-copy"></div></bs-menu-item>
-                  <bs-menu-item class="square-attr"><div style="padding:5px;  white-space: initial; text-align: center;">schoold of</div><div class="attr-school"></div></bs-menu-item>
+                    <bs-menu-item class="square-attr">
+                    <div class="Wrapper"> 
+                    <div class="attr">copy of</div>
+                    <div class="attr-by">{{bindings.0.subject.value}}</div>
+                    </div>
+                  </bs-menu-item>
+                    <bs-menu-item class="square-attr">
+                    <div class="Wrapper"> 
+                    <div class="attr">School of</div>
+                    <div class="attr-by">{{bindings.0.subject.value}}</div>
+                    </div>
+                  </bs-menu-item>
                 </bs-nav-dropdown>
               </bs-nav>
             </bs-navbar>
@@ -124,4 +134,5 @@
   .navbar-default .dropdown-menu >li>a {
     padding: unset !important;
   }
+  
 </style>
