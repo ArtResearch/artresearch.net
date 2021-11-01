@@ -50,141 +50,238 @@
       </bs-col>
       <bs-col  lg="8" md="12" >
         <div data-flex-layout="row md-column center-stretch">
-          <bs-row class=" cardInfoFields">
-      <div>
-      
-        <div id="rsbv" class=" table-responsive rs-table">
-            <table class="table table-hover">
-              <tbody>
-              
-                <semantic-query 
-                query='SELECT ?subject WHERE { 
-                  <{{subject.value}}> a fc:work
-                  BIND(<{{subject.value}}> as ?subject)
-                }LIMIT 1'
-                no-result-template='<div></div>'
-                template="{{> workTitleTemplate}}"
-                >
-                <template id="workTitleTemplate">
-                  <div class="workTemplate">
-                <tr  class="rs-page-resource__field">
-                  <td class="rs-page-resource__field-label-holder headLine">
-                    <span class="rs-page-resource__field-label">
-                      Title
-                    </span>
-                  </td>
-                  <td>
-                      <span class="rs-page-resource__field-value">
-                        <div  style="width:25vw; max-width: 450px;">
-                        
-                          <semantic-link iri="{{bindings.0.subject.value}}"></semantic-link>
-                        </div>
-                      </span>
-                    </td>
-                    </tr>
-                  </div>
-                  </template>
+        <bs-row class=" cardInfoFields">
+            <div id="rsbv" class=" table-responsive rs-table">
+                <table class="table table-hover">
+                  <tbody>
                   
-                  </semantic-query>
-                  <div class="table-of-animation">
-                    <div class="animated-background-sm1 rs-page-resource__field-label-holder"></div>
-                    <div class="animated-background-sm2 rs-page-resource__field-label-holder"></div>
-                    <div class="animated-background-sm3 rs-page-resource__field-label-holder"></div>
-                    <div class="animated-background-sm5 rs-page-resource__field-label-holder"></div>
-                    <div class="animated-background-sm4 rs-page-resource__field-label-holder"></div>
-                    <div class="animated-background-sm6 rs-page-resource__field-label-holder"></div>
-                    <div class="animated-background-sm7 rs-page-resource__field-label-holder"></div>
-                    <div class="animated-background-sm8 rs-page-resource__field-label-holder"></div>
-                  </div>
+                    <semantic-query 
+                    query='SELECT ?subject WHERE { 
+                      <{{subject.value}}> a fc:work
+                      BIND(<{{subject.value}}> as ?subject)
+                    }LIMIT 1'
+                    no-result-template='<div></div>'
+                    template="{{> workTitleTemplate}}"
+                    >
+                    <template id="workTitleTemplate">
+                      <div class="workTemplate">
+                    <tr  class="rs-page-resource__field">
+                      <td class="rs-page-resource__field-label-holder headLine">
+                        <span class="rs-page-resource__field-label">
+                          Title
+                        </span>
+                      </td>
+                      <td>
+                          <span class="rs-page-resource__field-value">
+                            <div  style="width:25vw; max-width: 450px;">
+                            
+                              <semantic-link iri="{{bindings.0.subject.value}}"></semantic-link>
+                            </div>
+                          </span>
+                        </td>
+                        </tr>
+                      </div>
+                      </template>
+                      
+                    </semantic-query>
+                    <div class="table-of-animation">
+                      <div class="animated-background-sm1 rs-page-resource__field-label-holder"></div>
+                      <div class="animated-background-sm2 rs-page-resource__field-label-holder"></div>
+                      <div class="animated-background-sm3 rs-page-resource__field-label-holder"></div>
+                      <div class="animated-background-sm5 rs-page-resource__field-label-holder"></div>
+                      <div class="animated-background-sm4 rs-page-resource__field-label-holder"></div>
+                      <div class="animated-background-sm6 rs-page-resource__field-label-holder"></div>
+                      <div class="animated-background-sm7 rs-page-resource__field-label-holder"></div>
+                      <div class="animated-background-sm8 rs-page-resource__field-label-holder"></div>
+                    </div>
+                      
+                    <semantic-query 
+                      query='SELECT ?subject WHERE { 
+                        <{{subject.value}}> a cfc:photo
+                        BIND(<{{subject.value}}> as ?subject)
+                      }LIMIT 1'
+                      template="{{> photoTitleTemplate}}"
+                      >
+                      <template id="photoTitleTemplate">
+                        <div class="workTemplate">
+                          <tr  class="rs-page-resource__field ">
+                            <td class="rs-page-resource__field-label-holder headLine ">
+                              <span class="rs-page-resource__field-label">
+                                Photo ID
+                              </span>
+                            </td>
+                            <td>
+                                <span class="rs-page-resource__field-value">
+                                  <div style="width:25vw; max-width: 450px;">
+                                    <semantic-link iri="{{bindings.0.subject.value}}"></semantic-link>
+                                  </div>
+                                </span>
+                              </td>
+                              </tr>
+                            </div>
+                    </template>
                   
-                  <semantic-query 
-                  query='SELECT ?subject WHERE { 
-                    <{{subject.value}}> a cfc:photo
-                    BIND(<{{subject.value}}> as ?subject)
-                  }LIMIT 1'
-                  template="{{> photoTitleTemplate}}"
-                  >
-                  <template id="photoTitleTemplate">
-                    <div class="workTemplate">
+                    </semantic-query>
+                    
+                
+                    <semantic-query 
+                    query='SELECT ?photographer WHERE { 
+                      {
+                      <{{subject.value}}> fr:Photo_created_by_Photographer ?photographer
+                      }union{
+                      ?original owl:sameAs <{{subject.value}}>.
+                      ?original fr:Photo_created_by_Photographer ?photographer 
+                      }
+                    }LIMIT 1'
+                    template="{{> photographerTemplate}}"
+                    >
+                    <template id="photographerTemplate">
+                      <div class="workTemplate">
+                    <tr  class="rs-page-resource__field">
+                      <td class="rs-page-resource__field-label-holder headLine">
+                        <span class="rs-page-resource__field-label">
+                          Photographer
+                        </span>
+                      </td>
+                      <td>
+                          <span class="rs-page-resource__field-value">
+                            <div  style="width:25vw; max-width: 450px;">
+                              <semantic-link iri="{{bindings.0.photographer.value}}"></semantic-link>
+                            </div>
+                          </span>
+                        </td>
+                        </tr>
+                      </div>
+                      </template>
+            
+                    </semantic-query>
+                  
+                    <semantic-query 
+                      query='SELECT ?artist WHERE { 
+                        {
+                        <{{subject.value}}> fr:Work_created_from_Artist ?artist
+                        }union{
+                          ?original owl:sameAs <{{subject.value}}>.
+                          ?original fr:Work_created_from_Artist ?artist 
+                        }
+                      }LIMIT 1'
+                      template="{{> artistTemplate}}"
+                      >
+                      <template id="artistTemplate">
+                        <div class="workTemplate">
                       <tr  class="rs-page-resource__field ">
                         <td class="rs-page-resource__field-label-holder headLine ">
                           <span class="rs-page-resource__field-label">
-                            Photo ID
+                            Creator
                           </span>
                         </td>
                         <td>
                             <span class="rs-page-resource__field-value">
                               <div style="width:25vw; max-width: 450px;">
-                                <semantic-link iri="{{bindings.0.subject.value}}"></semantic-link>
+                                <semantic-link iri="{{bindings.0.artist.value}}"></semantic-link>
                               </div>
                             </span>
                           </td>
                           </tr>
                         </div>
-                </template>
-              
-                </semantic-query>
+                      </template>
+                    </semantic-query>
                 
-            
-                <semantic-query 
-                query='SELECT ?photographer WHERE { 
-                  {
-                  <{{subject.value}}> fr:Photo_created_by_Photographer ?photographer
-                  }union{
-                   ?original owl:sameAs <{{subject.value}}>.
-                   ?original fr:Photo_created_by_Photographer ?photographer 
-                  }
-                }LIMIT 1'
-                template="{{> photographerTemplate}}"
-                >
-                <template id="photographerTemplate">
-                  <div class="workTemplate">
-                <tr  class="rs-page-resource__field">
-                  <td class="rs-page-resource__field-label-holder headLine">
-                    <span class="rs-page-resource__field-label">
-                      Photographer
-                    </span>
-                  </td>
-                  <td>
-                      <span class="rs-page-resource__field-value">
-                        <div  style="width:25vw; max-width: 450px;">
-                          <semantic-link iri="{{bindings.0.photographer.value}}"></semantic-link>
-                        </div>
-                      </span>
-                    </td>
-                    </tr>
-                  </div>
-                  </template>
-        
-                </semantic-query>
-               
-                <semantic-query 
-                  query='SELECT ?artist WHERE { 
-                    {
-                     <{{subject.value}}> fr:Work_created_from_Artist ?artist
-                    }union{
+                    <semantic-query 
+                    query='SELECT ?place ?institution WHERE { 
+                      {
+
+                      <{{subject.value}}> crm:P50_has_current_keeper ?institution.
+                      <{{subject.value}}> crm:P74_has_current_or_former_residence|crm:P55_has_current_location ?place
+                      }union{
                       ?original owl:sameAs <{{subject.value}}>.
-                      ?original fr:Work_created_from_Artist ?artist 
-                    }
-                  }LIMIT 1'
-                  template="{{> artistTemplate}}"
-                  >
-                  <template id="artistTemplate">
-                    <div class="workTemplate">
-                  <tr  class="rs-page-resource__field ">
-                    <td class="rs-page-resource__field-label-holder headLine ">
-                      <span class="rs-page-resource__field-label">
-                        Creator
-                      </span>
-                    </td>
-                    <td>
-                        <span class="rs-page-resource__field-value">
-                          <div style="width:25vw; max-width: 450px;">
-                            <semantic-link iri="{{bindings.0.artist.value}}"></semantic-link>
-                          </div>
+                      ?original crm:P50_has_current_keeper ?institution .
+                      ?original crm:P74_has_current_or_former_residence|crm:P55_has_current_location ?place
+                      }
+
+                    }LIMIT 1'
+                    template="{{>repoTemplate}}"
+                    >
+                    <template id="repoTemplate">
+                      
+                      <div class="workTemplate">
+                    <tr class="rs-page-resource__field">
+                      <td class="rs-page-resource__field-label-holder headLine">
+                        <span class="rs-page-resource__field-label">
+                          Repository
                         </span>
                       </td>
-                      </tr>
+                      <td>
+                          <span class="rs-page-resource__field-value">
+                            <div style="width:25vw; max-width: 450px;">
+                              <semantic-link iri="{{bindings.0.institution.value}}"></semantic-link> 
+                        
+                              {{#ifCond  place.value "!==" null}}, 
+                              <semantic-link iri="{{bindings.0.place.value}}"></semantic-link>
+                              {{/ifCond}}
+                            </div>
+                          </span>
+                      </td>
+                    </tr>
+                      </div>
+                    </template>
+                    </semantic-query>
+                  
+                    <semantic-query 
+                    query='SELECT ?provider WHERE { 
+                      {
+                      <{{subject.value}}> fr:Work_has_provider_Institution ?provider
+                      }union{
+                      ?original owl:sameAs <{{subject.value}}>.
+                      ?original fr:Work_has_provider_Institution ?provider 
+                      }union{
+                        <{{subject.value}}> fr:Photo_depicts_Work  ?work.
+                        ?work fr:Work_has_provider_Institution ?provider.
+                      }
+                    }LIMIT 1'
+                    template="{{>archiveTemplate}}"
+                    >
+                    <template id="archiveTemplate">
+                      <div class="workTemplate">
+                    <tr class="rs-page-resource__field">
+                      <td class="rs-page-resource__field-label-holder headLine">
+                        <span class="rs-page-resource__field-label">
+                          Photo archive
+                        </span>
+                      </td>
+                      <td>
+                          <span class="rs-page-resource__field-value">
+                            <div style="width:25vw; max-width: 450px;">
+                              <semantic-link iri="{{bindings.0.provider.value}}"></semantic-link>
+                            </div>
+                          </span>
+                      </td>
+                    </tr>
+                      </div>
+                    </template>
+                    </semantic-query>
+                    <semantic-query 
+                    query='SELECT ?work WHERE { 
+                      <{{subject.value}}> fr:Photo_depicts_Work ?work.
+                    }LIMIT 1'
+                    template="{{>artworkTitleTemplate}}"
+                    >
+                    <template id="artworkTitleTemplate">
+                      <div class="workTemplate">
+                    <tr class="rs-page-resource__field">
+                      <td class="rs-page-resource__field-label-holder headLine">
+                        <span class="rs-page-resource__field-label">
+                          Artwork title
+                        </span>
+                      </td>
+                      <td>
+                          <span class="rs-page-resource__field-value">
+                            <div style="width:25vw; max-width: 450px;">
+                              <semantic-link iri="{{bindings.0.work.value}}"></semantic-link>
+                            </div>
+                          </span>
+                      </td>
+                    </tr>
                     </div>
                   </template>
                 </semantic-query>
@@ -313,75 +410,74 @@
                 </template>
                 </semantic-query>
              
+                    <semantic-query 
+                    query='SELECT ?creator WHERE { 
 
-                <semantic-query 
-                query='SELECT ?creator WHERE { 
-
-                  <{{subject.value}}> fr:Photo_depicts_Work ?work.
-                  ?work fr:Work_created_from_Artist ?creator
-                }LIMIT 1'
-                template="{{>artworkCreatorTemplate}}"
-                >
-                <template id="artworkCreatorTemplate">
-                  <div class="workTemplate">
-                <tr class="rs-page-resource__field">
-                  <td class="rs-page-resource__field-label-holder headLine">
-                    <span class="rs-page-resource__field-label">
-                      Artist
-                    </span>
-                  </td>
-                  <td>
-                      <span class="rs-page-resource__field-value">
-                        <div style="width:25vw; max-width: 450px;">
-                          <semantic-link iri="{{bindings.0.creator.value}}"></semantic-link>
-                        </div>
-                      </span>
-                  </td>
-                </tr>
-                </div>
-                </template>
-                </semantic-query>
-          
-                <semantic-query 
-                query='SELECT ?date WHERE { 
-                  {
-                  <{{subject.value}}> fr:Work_from_Date ?date
-                  }union{
-                   ?original owl:sameAs <{{subject.value}}>.
-                   ?original fr:Work_from_Date ?date 
-                  }
-                }LIMIT 1'
-                template="{{>repoTemplate}}"
-                >
-                <template id="repoTemplate">
-                  <div class="workTemplate">
-                <tr class="rs-page-resource__field">
-                  <td class="rs-page-resource__field-label-holder headLine">
-                    <span class="rs-page-resource__field-label">
-                      Date
-                    </span>
-                  </td>
-                  <td>
-                      <span class="rs-page-resource__field-value">
-                        <div style="width:25vw; max-width: 450px;">
-                          <div date="{{dateTimeFormat bindings.0.date.value "YYYY"}}">
-                            {{dateTimeFormat bindings.0.date.value "YYYY"}}
-                          </div>
-                          <span>
-                            {{bindings.0.date.value}}
+                      <{{subject.value}}> fr:Photo_depicts_Work ?work.
+                      ?work fr:Work_created_from_Artist ?creator
+                    }LIMIT 1'
+                    template="{{>artworkCreatorTemplate}}"
+                    >
+                    <template id="artworkCreatorTemplate">
+                      <div class="workTemplate">
+                    <tr class="rs-page-resource__field">
+                      <td class="rs-page-resource__field-label-holder headLine">
+                        <span class="rs-page-resource__field-label">
+                          Artist
+                        </span>
+                      </td>
+                      <td>
+                          <span class="rs-page-resource__field-value">
+                            <div style="width:25vw; max-width: 450px;">
+                              <semantic-link iri="{{bindings.0.creator.value}}"></semantic-link>
+                            </div>
                           </span>
-                        </div>
-                      </span>
-                  </td>
-                </tr>
-                </div>
-                </template>
-                </semantic-query>
-              </tbody>
-            </table>
-        </div>
-        <div class="animated-background table-responsive rs-table"></div>
-          </bs-row>
+                      </td>
+                    </tr>
+                    </div>
+                    </template>
+                    </semantic-query>
+              
+                    <semantic-query 
+                    query='SELECT ?date WHERE { 
+                      {
+                      <{{subject.value}}> fr:Work_from_Date ?date
+                      }union{
+                      ?original owl:sameAs <{{subject.value}}>.
+                      ?original fr:Work_from_Date ?date 
+                      }
+                    }LIMIT 1'
+                    template="{{>repoTemplate}}"
+                    >
+                    <template id="repoTemplate">
+                      <div class="workTemplate">
+                    <tr class="rs-page-resource__field">
+                      <td class="rs-page-resource__field-label-holder headLine">
+                        <span class="rs-page-resource__field-label">
+                          Date
+                        </span>
+                      </td>
+                      <td>
+                          <span class="rs-page-resource__field-value">
+                            <div style="width:25vw; max-width: 450px;">
+                              <div date="{{dateTimeFormat bindings.0.date.value "YYYY"}}">
+                                {{dateTimeFormat bindings.0.date.value "YYYY"}}
+                              </div>
+                              <span>
+                                {{bindings.0.date.value}}
+                              </span>
+                            </div>
+                          </span>
+                      </td>
+                    </tr>
+                    </div>
+                    </template>
+                    </semantic-query>
+                  </tbody>
+                </table>
+            </div>
+            <div class="animated-background table-responsive rs-table"></div>
+        </bs-row>
         </div>
       </bs-col>
     </bs-row>
