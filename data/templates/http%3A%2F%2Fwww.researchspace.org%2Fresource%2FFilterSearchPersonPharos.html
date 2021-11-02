@@ -60,6 +60,14 @@
         
           $subject fr:Person_has_Event ?event.
           ?event fr:Event_at_Place ?__value__ ."
+    }],
+    "<https://pharos.artresearch.net/resource/fr/Artist_has_provider_Institution>": [
+    {
+      "kind": "resource",
+      "queryPattern": "
+        
+          $subject fr:Artist_has_provider_Institution ?__value__ ."
+         
     }]
       }'
   search-profile='{
@@ -88,6 +96,9 @@
           {
             "iri":"<https://pharos.artresearch.net/resource/fc/place>",
             "label":"Place"
+          },  {
+            "iri":"<https://pharos.artresearch.net/resource/fc/institution>",
+            "label":"Institution"
           }
         ],
         "relations":
@@ -139,6 +150,11 @@
             "label":"Event place",
             "hasDomain":"<https://pharos.artresearch.net/resource/fc/artist>",
             "hasRange":"<https://pharos.artresearch.net/resource/fc/place>"
+          },{
+            "iri":"<https://pharos.artresearch.net/resource/fr/Artist_has_provider_Institution>",
+            "label":"Institution",
+            "hasDomain":"<https://pharos.artresearch.net/resource/fc/artist>",
+            "hasRange":"<https://pharos.artresearch.net/resource/fc/institution>"
           }
         ]
       }'
