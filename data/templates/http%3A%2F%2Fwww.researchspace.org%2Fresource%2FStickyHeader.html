@@ -10,28 +10,7 @@
   "
   data-flex-layout="row top-left"
 >
-  <div id="variant-attribution-dropdown">
-    <bs-panel header="Variant Attributions" collapsible="true">
-      <bs-menu-item class="square-attr">
-        <div class="Wrapper">
-          <div class="attr">by</div>
-          <div class="attr-by">{{bindings.0.subject.value}}</div>
-        </div>
-      </bs-menu-item>
-      <bs-menu-item class="square-attr">
-        <div class="Wrapper">
-          <div class="attr">copy of</div>
-          <div class="attr-by">{{bindings.0.subject.value}}</div>
-        </div>
-      </bs-menu-item>
-      <bs-menu-item class="square-attr">
-        <div class="Wrapper">
-          <div class="attr">School of</div>
-          <div class="attr-by">{{bindings.0.subject.value}}</div>
-        </div>
-      </bs-menu-item>
-    </bs-panel>
-  </div>
+  [[> :StickyHeaderAttributions]]
   <div class="page__header-draggable-title">
     <mp-draggable iri="[[this]]">
       <h2 data-flex-layout="row center-left">
