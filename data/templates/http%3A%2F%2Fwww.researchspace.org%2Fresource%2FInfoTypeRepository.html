@@ -36,16 +36,14 @@
   template="{{> fcLabelTemplate}}"
 >
   <template id="fcLabelTemplate">
-    <div>
-    <h4 class="fc-label">
+    <div class="repository-location">
       <mp-label iri="{{bindings.0.institution.value}}"></mp-label>
       {{#ifCond  placeLabel.value "!==" null}}
-      {{#each bindings}}, 
-       <span>{{placeLabel.value}}</span> 
-       {{/each}}
-       {{/ifCond}}
-    </h4>
-  </div>
+        {{#each bindings}}, 
+          <span>{{placeLabel.value}}</span> 
+        {{/each}}
+      {{/ifCond}}
+    </div>
   </template>
   <template id="noRepoResult">
     <div>
