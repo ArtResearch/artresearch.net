@@ -1,16 +1,17 @@
 #artwork-header {
   width: 100%;
   display: flex;
+  background: #ffffffdb;
   flex-direction: column;
 }
 
-#artwork-header .titleCopy{
+#artwork-header .titleCopy {
   font-size: 0;
   margin-left: 5px;
   transition: 0.3s;
 }
 
-#artwork-header .page__header-draggable-title:hover .titleCopy{
+#artwork-header .page__header-draggable-title:hover .titleCopy {
   font-size: initial;
 }
 
@@ -72,10 +73,100 @@
   margin: 1vh;
 }
 
-#artwork-header  .artwork-link{
+#artwork-header .artwork-link {
   color: #6b0200 !important;
   font-size: 18px;
   border-bottom: 1px solid;
   margin-left: 6px;
   border-radius: 0px !important;
+}
+
+#variant-attribution-dropdown {
+  margin-bottom: 16px;
+  margin-left: 8px;
+}
+
+#variant-attribution-dropdown .panel.panel-default {
+  background: none;
+  box-shadow: none;
+  border: none;
+}
+
+#variant-attribution-dropdown .panel-default > .panel-heading {
+  height: 25px !important;
+  background: white;
+  border: lightgrey solid 1px;
+  border-radius: 20px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  position: absolute;
+  z-index: 2;
+}
+#variant-attribution-dropdown .collapsing {
+  height: 0 !important;
+}
+#variant-attribution-dropdown .panel-body {
+  position: absolute;
+  width: 30vw;
+  min-width: 350px;
+  border: 1px solid lightgrey;
+  padding-top: 40px;
+  border-radius: 20px 0px 0px 0px;
+  top: 0;
+  z-index: 1;
+}
+
+#variant-attribution-dropdown .panel-title a {
+  font-size: 14px;
+  user-select: none;
+  color: rgb(55 88 167) !important;
+  text-transform: none;
+}
+
+#variant-attribution-dropdown .square-attr {
+  border: 1px solid lightgray;
+  margin: 10px;
+  width: 3vw !important;
+  border-radius: 15px;
+}
+#variant-attribution-dropdown .attr-by {
+  padding: 5px;
+  white-space: initial;
+  text-align: center;
+  padding-left: 50px;
+}
+#variant-attribution-dropdown .attr {
+  padding: 5px;
+  white-space: initial;
+  text-align: center;
+  width: 3vw;
+}
+#variant-attribution-dropdown .Wrapper {
+  width: fit-content;
+  display: flex;
+}
+
+#variant-attribution-dropdown .panel-heading .panel-title a::before {
+  color: rgb(55 88 167) !important;
+  margin-right: 2px;
+  transition: 0.3s;
+  display: inline-block;
+  font: normal normal normal 14px / 1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  content: "\f077";
+}
+
+#variant-attribution-dropdown .panel-heading .panel-title a.collapsed::before {
+  display: inline-block;
+  font: normal normal normal 14px / 1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  content: "\f078";
 }

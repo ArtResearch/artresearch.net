@@ -1,51 +1,37 @@
 <div
   id="artwork-header"
   class="page__header-body"
-  style="  
-  z-index: 100;
-  width: -webkit-fit-content;
-  width: fit-content;
-  position: sticky;
-  top: 12vh;"
+  style="
+    z-index: 100;
+    width: -webkit-fit-content;
+    width: fit-content;
+    position: sticky;
+    top: 12vh;
+  "
   data-flex-layout="row top-left"
 >
-   <!-- <semantic-query
-      query='SELECT ?creator WHERE { 
-                  <[[this]]> fr:Photo_depicts_Work ?work.
-                  ?work fr:Work_created_from_Artist ?creator
-                }'
-      template="{{>Variant}}"
-    >
-      <template id="Variant"> -->
-          <div class="CreatorList">
-            <bs-navbar>
-              <bs-nav>
-                <bs-nav-dropdown title="Variant Attributions" id="basic-nav-dropdown">
-                  <h2 style="color: rgb(55 88 167);">Variant Attributions</h2>
-                  <bs-menu-item class="square-attr">
-                    <div class="Wrapper"> 
-                    <div class="attr">by</div>
-                    <div class="attr-by">{{bindings.0.subject.value}}</div>
-                    </div>
-                  </bs-menu-item>
-                    <bs-menu-item class="square-attr">
-                    <div class="Wrapper"> 
-                    <div class="attr">copy of</div>
-                    <div class="attr-by">{{bindings.0.subject.value}}</div>
-                    </div>
-                  </bs-menu-item>
-                    <bs-menu-item class="square-attr">
-                    <div class="Wrapper"> 
-                    <div class="attr">School of</div>
-                    <div class="attr-by">{{bindings.0.subject.value}}</div>
-                    </div>
-                  </bs-menu-item>
-                </bs-nav-dropdown>
-              </bs-nav>
-            </bs-navbar>
-          </div>
-      <!-- </template>
-    </semantic-query> -->
+  <div id="variant-attribution-dropdown">
+    <bs-panel header="Variant Attributions" collapsible="true">
+      <bs-menu-item class="square-attr">
+        <div class="Wrapper">
+          <div class="attr">by</div>
+          <div class="attr-by">{{bindings.0.subject.value}}</div>
+        </div>
+      </bs-menu-item>
+      <bs-menu-item class="square-attr">
+        <div class="Wrapper">
+          <div class="attr">copy of</div>
+          <div class="attr-by">{{bindings.0.subject.value}}</div>
+        </div>
+      </bs-menu-item>
+      <bs-menu-item class="square-attr">
+        <div class="Wrapper">
+          <div class="attr">School of</div>
+          <div class="attr-by">{{bindings.0.subject.value}}</div>
+        </div>
+      </bs-menu-item>
+    </bs-panel>
+  </div>
   <div class="page__header-draggable-title">
     <mp-draggable iri="[[this]]">
       <h2 data-flex-layout="row center-left">
@@ -96,71 +82,4 @@
     </semantic-query>
   </h2>
   [[> :InfoTypeRepository work=(urlParam "uri") ]]
-
-  </div>
-
-
-<style>
-  .dropdown-menu{
-    width: 20vw !important;
-    padding: 14px !important;
-  }
-  .square-attr{
-    border:1px solid lightgray;
-    margin: 10px;
-    width: 3vw !important;
-    border-radius: 15px;
-  }
-  .attr-by{
-    padding: 5px; 
-    white-space: initial; 
-    text-align: center;
-    padding-left:50px;
-
-  }
-.attr{
-  padding:5px; 
-   white-space: initial; 
-   text-align: center;
-   width: 3vw;
-}
-  .Wrapper{
-    width: fit-content;
-    display: flex;
-  }
-  .dropdown-menu > li > a{
-    padding: unset !important;
-  }
-  .navbar-default .dropdown-menu >li>a {
-    padding: unset !important;
-  }
-
-  #basic-nav-dropdown > #text {
-   
-     height: unset !important; 
-     border: aqua solid 1px; 
-     padding: unset; 
-     margin: unset; 
-
-  }
- 
-  #basic-nav-dropdown{
-    height: 25px !important;
-    border: lightgrey solid 1px;
-     border-radius: 20px !important;
-     color: rgb(55 88 167) !important;
-  }
-.collapse.navbar-collapse, .navbar-header, .navbar-nav, .navbar-nav > li, .navbar-nav > li > a, .rs-header {
-  line-height: unset !important;
-
-}
-  .navbar  .container{
-    height: unset !important;
-  }
-  .dropdown-menu{
-    position: absolute;
-  }
-  .navbar{
-    min-height: unset !important;
-  }
-</style>
+</div>
