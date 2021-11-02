@@ -65,6 +65,15 @@ class="rs-page__summary-image summaryImages summary-image-with-thumbs"
                           />
                         {{/each}}
                       {{else}}
+                      {{#ifCond (objectLength bindings) "===" 2 }}
+                      {{#each bindings}}
+                        <img
+                          class="imageThumbnailSingle doubleThumb"
+                          alt="Issue with image provider"
+                          src="{{rectoVersoImageThumbnail.value}}"
+                        />
+                      {{/each}}
+                    {{else}}
                         {{#each bindings}}
                           <img
                             class="imageThumbnailSingle "
@@ -73,6 +82,8 @@ class="rs-page__summary-image summaryImages summary-image-with-thumbs"
                           />
                         {{/each}}
                       {{/ifCond}}
+                      {{/ifCond}}
+
                   </div>
                 </mp-overlay-dialog-trigger>
                 <mp-overlay-dialog-content>
