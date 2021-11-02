@@ -40,7 +40,6 @@
   </div>
   <div class="animated-background-sm"></div>
 
-  <h2 style="margin-left: 5px; margin-top: 10px" class="fc-label">
     <semantic-query
       query="SELECT ?artwork WHERE{
       ?? fr:Photo_depicts_work ?artwork.
@@ -50,15 +49,18 @@
     >
       <template id="relArtwork">
         <div>
-          Related to artwork: {{#each bindings}}
-          <semantic-link
-            class="artwork-link"
-            iri="{{artwork.value}}"
-          ></semantic-link>
-          {{/each}}
+          <h2 style="margin-left: 5px; margin-top: 10px" class="fc-label">
+            Related to artwork: 
+            {{#each bindings}}
+              <semantic-link
+                class="artwork-link"
+                iri="{{artwork.value}}"
+              ></semantic-link>
+            {{/each}}
+          </h2>
         </div>
       </template>
     </semantic-query>
-  </h2>
+
   [[> :InfoTypeRepository work=(urlParam "uri") ]]
 </div>

@@ -18,7 +18,7 @@
        <template id='variantAttributions'>
          <bs-panel header="Variant Attributions" collapsible="true">
             <semantic-query
-              query='SELECT DISTINCT ?creatorLabel WHERE { 
+              query='SELECT DISTINCT (SAMPLE(?creatorLabel) AS ?creatorLabel) WHERE { 
                 {
                   ?? fr:Work_created_from_Artist ?creator.
                 ?creator rdfs:label ?creatorLabel 
@@ -27,7 +27,7 @@
                   ?work fr:Work_created_from_Artist ?creator.
                   ?creator rdfs:label ?creatorLabel 
                  }
-              }'
+              }GROUP BY ?creator'
               template='{{> byAttribution }}'>
                 <template id='byAttribution'>
                   {{#each bindings}}
@@ -49,7 +49,7 @@
        <template id='invariantAttributions'>
          <div class="creators-attribution">
           <semantic-query
-            query='SELECT DISTINCT ?creatorLabel WHERE { 
+            query='SELECT DISTINCT (SAMPLE(?creatorLabel) AS ?creatorLabel) WHERE { 
               {
                ?? fr:Work_created_from_Artist ?creator.
                ?creator rdfs:label ?creatorLabel 
@@ -58,7 +58,7 @@
                ?work fr:Work_created_from_Artist ?creator.
                ?creator rdfs:label ?creatorLabel 
               }
-           }'
+           }GROUP BY ?creator'
             >
           </semantic-query>
         </div>
