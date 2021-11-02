@@ -1,7 +1,6 @@
 #artwork-header {
   width: 100%;
   display: flex;
-  background: #ffffffdb;
   flex-direction: column;
 }
 
@@ -94,6 +93,7 @@
 
 #variant-attribution-dropdown .panel-default > .panel-heading {
   height: 25px !important;
+  width: 180px;
   background: white;
   border: lightgrey solid 1px;
   border-radius: 20px !important;
@@ -109,6 +109,9 @@
 }
 #variant-attribution-dropdown .panel-body {
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   width: 30vw;
   min-width: 350px;
   border: 1px solid lightgrey;
@@ -125,27 +128,29 @@
   text-transform: none;
 }
 
-#variant-attribution-dropdown .square-attr {
+
+
+#variant-attribution-dropdown .attribution-wrapper {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+#variant-attribution-dropdown .attribution {
+  padding: 5px;
+  white-space: initial;
+  text-align: left;
+  grid-column-start: 2;
+  grid-column-end: 5;
+}
+
+#variant-attribution-dropdown .attribution-qualifier {
+  padding: 5px;
+  white-space: initial;
+  text-align: center;
   border: 1px solid lightgray;
-  margin: 10px;
-  width: 3vw !important;
   border-radius: 15px;
-}
-#variant-attribution-dropdown .attr-by {
-  padding: 5px;
-  white-space: initial;
-  text-align: center;
-  padding-left: 50px;
-}
-#variant-attribution-dropdown .attr {
-  padding: 5px;
-  white-space: initial;
-  text-align: center;
-  width: 3vw;
-}
-#variant-attribution-dropdown .Wrapper {
-  width: fit-content;
-  display: flex;
+
 }
 
 #variant-attribution-dropdown .panel-heading .panel-title a::before {
@@ -169,4 +174,11 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   content: "\f078";
+}
+
+#variant-attribution-dropdown .creators-attribution {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: -12px;
+  margin-left: 5px;
 }
