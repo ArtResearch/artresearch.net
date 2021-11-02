@@ -1,0 +1,67 @@
+  <div id="variant-attribution-dropdown">
+    <semantic-query
+      query='SELECT DISTINCT ?attributionLabel ?attributionQualifier WHERE { 
+        {
+            ?? fr:Work_influenced_by_Artist ?attribution.
+            ?attribution rdfs:label ?attributionLabel
+            BIND("influenced by" as ?attributionQualifier)
+        }UNION{
+          ?work owl:sameAs ??.
+          ?work fr:Work_influenced_by_Artist ?attribution.
+          ?attribution rdfs:label ?attributionLabel
+          BIND("influenced by" as ?attributionQualifier)
+        }
+       }'
+      template='{{> variantAttributions }}'
+      no-result-template='{{> invariantAttributions}}'
+      >
+       <template id='variantAttributions'>
+         <bs-panel header="Variant Attributions" collapsible="true">
+            <semantic-query
+              query='SELECT DISTINCT (SAMPLE(?creatorLabel) AS ?creatorLabel) WHERE { 
+                {
+                  ?? fr:Work_created_from_Artist ?creator.
+                ?creator rdfs:label ?creatorLabel 
+                 }UNION{
+                  ?work owl:sameAs ??.
+                  ?work fr:Work_created_from_Artist ?creator.
+                  ?creator rdfs:label ?creatorLabel 
+                 }
+              }GROUP BY ?creator'
+              template='{{> byAttribution }}'>
+                <template id='byAttribution'>
+                  {{#each bindings}}
+                  <div class="attribution-wrapper">
+                    <div class="attribution-qualifier">by</div>
+                    <div class="attribution">{{creatorLabel.value}}</div>
+                  </div>
+                  {{/each}}
+                </template>
+            </semantic-query>
+            {{#each bindings}}
+              <div class="attribution-wrapper">
+                <div class="attribution-qualifier">{{attributionQualifier.value}}</div>
+                <div class="attribution">{{attributionLabel.value}}</div>
+              </div>
+            {{/each}}
+          </bs-panel>
+       </template>
+       <template id='invariantAttributions'>
+         <div class="creators-attribution">
+          <semantic-query
+            query='SELECT DISTINCT (SAMPLE(?creatorLabel) AS ?creatorLabel) WHERE { 
+              {
+               ?? fr:Work_created_from_Artist ?creator.
+               ?creator rdfs:label ?creatorLabel 
+              }UNION{
+               ?work owl:sameAs ??.
+               ?work fr:Work_created_from_Artist ?creator.
+               ?creator rdfs:label ?creatorLabel 
+              }
+           }GROUP BY ?creator'
+            >
+          </semantic-query>
+        </div>
+        </template>
+    </semantic-query>
+  </div>
