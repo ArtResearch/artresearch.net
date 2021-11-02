@@ -4,6 +4,14 @@
   flex-direction: column;
 }
 
+.sticky-artwork-header {
+  position: sticky;
+  top: 12vh;
+  width: -moz-fit-content;
+  width: -webkit-fit-content;
+  width: fit-content;
+}
+
 #artwork-header .titleCopy {
   font-size: 0;
   margin-left: 5px;
@@ -191,4 +199,21 @@
   font-weight: bold;
   margin-bottom: -12px;
   margin-left: 24px;
+}
+
+.header-options {
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: flex;
+}
+
+@media (max-width: 1200px) {
+  .sticky-artwork-header {
+    position: unset !important;
+  }
+
+  .header-options {
+    position: relative;
+  }
 }

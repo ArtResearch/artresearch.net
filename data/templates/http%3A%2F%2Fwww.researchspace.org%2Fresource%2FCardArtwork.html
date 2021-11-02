@@ -189,18 +189,38 @@
                   </template>
                 </semantic-query>
              
-                <semantic-query 
-                query='SELECT ?place ?institution WHERE { 
+ <semantic-query 
+                query='SELECT ?placeLabel ?institution WHERE { 
+                  
+                  <{{subject.value}}> <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution>|crm:P50_has_current_keeper ?institution.
                   {
-
-                   <{{subject.value}}> crm:P50_has_current_keeper ?institution.
-                   <{{subject.value}}> crm:P74_has_current_or_former_residence|crm:P55_has_current_location ?place
-                  }union{
-                   ?original owl:sameAs <{{subject.value}}>.
-                   ?original crm:P50_has_current_keeper ?institution .
-                   ?original crm:P74_has_current_or_former_residence|crm:P55_has_current_location ?place
+                     ?institution crm:P74_has_current_or_former_residence|crm:P55_has_current_location ?place.
+                     ?place rdfs:label ?placeLabel 
+                
                   }
-
+                  union{
+ 		                  <{{subject.value}}> crm:P74_has_current_or_former_residence|crm:P55_has_current_location ?place.
+                       ?place rdfs:label ?placeLabel
+                  }
+                  union{
+                      <{{subject.value}}> crm:P74_has_current_or_former_residence?place.
+                       ?place rdfs:label ?placeLabel
+                  }
+                  
+                  union{
+                    ?original owl:sameAs <{{subject.value}}>.
+                    ?original crm:P74_has_current_or_former_residence|crm:P55_has_current_location ?place.
+                    ?place rdfs:label ?placeLabel
+                  }union{
+                    ?original owl:sameAs ?institution.
+                    ?original crm:P74_has_current_or_former_residence ?place.
+                    ?place rdfs:label ?placeLabel
+                  }union{
+                     ?original owl:sameAs <{{subject.value}}>.
+                     ?original <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution>|crm:P50_has_current_keeper ?institution.
+                     ?place rdfs:label ?placeLabel
+                  }
+                    
                 }LIMIT 1'
                 template="{{>repoTemplate}}"
                 >
@@ -216,11 +236,14 @@
                   <td>
                       <span class="rs-page-resource__field-value">
                         <div style="width:25vw; max-width: 450px;">
-                          <semantic-link iri="{{bindings.0.institution.value}}"></semantic-link> 
-                    
-                          {{#ifCond  place.value "!==" null}}, 
-                           <semantic-link iri="{{bindings.0.place.value}}"></semantic-link>
+                          <semantic-link iri="{{bindings.0.institution.value}}">
+                            <mp-label iri="{{bindings.0.institution.value}}"></mp-label>
+                          {{#ifCond  placeLabel.value "!==" null}}
+                          {{#each bindings}}, 
+                           <span>{{placeLabel.value}}</span> 
+                           {{/each}}
                            {{/ifCond}}
+                          </semantic-link>
                         </div>
                       </span>
                   </td>
@@ -228,7 +251,8 @@
                   </div>
                 </template>
                 </semantic-query>
-               
+
+
                 <semantic-query 
                 query='SELECT ?provider WHERE { 
                   {
@@ -291,7 +315,6 @@
 
                 <semantic-query 
                 query='SELECT ?creator WHERE { 
-
                   <{{subject.value}}> fr:Photo_depicts_Work ?work.
                   ?work fr:Work_created_from_Artist ?creator
                 }LIMIT 1'
