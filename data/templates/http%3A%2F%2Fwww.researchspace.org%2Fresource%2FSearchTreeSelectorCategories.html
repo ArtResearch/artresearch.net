@@ -6,7 +6,7 @@
       ?item a  ?__range__.
       ?item crm:P2_has_type <http://vocab.getty.edu/aat/300387506>.
       ?item rdfs:label ?label.
-      FILTER(EXISTS { ?subject a ?__domain__.  ?subject ?__relation__ ?item . }) .
+      FILTER(EXISTS {  ?subject ?__relation__ ?item . }) .
      }order by ?label",
      
     "childrenQuery": "
@@ -19,7 +19,7 @@
         }
         ?item a  ?__range__.
         ?item rdfs:label ?label.
-        FILTER(EXISTS {?subject ?__relation__ ?item. ?subject a ?__domain__.  }) .
+        FILTER(EXISTS {?subject ?__relation__ ?item.  }) .
         BIND(bound(?item) as ?hasChildren)
       } order by ?label",
     "parentsQuery": "
@@ -44,7 +44,6 @@
         }
         BIND(BOUND(?child) AS ?hasChildren)
         FILTER(EXISTS { 
-          ?subject a ?__domain__. 
           ?subject ?__relation__ ?item . 
         }) 
        }ORDER BY DESC (?label)
