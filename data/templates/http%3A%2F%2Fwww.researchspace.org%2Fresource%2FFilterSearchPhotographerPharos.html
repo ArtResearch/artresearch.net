@@ -1,6 +1,15 @@
 <div id="person-filter-search">
 <semantic-search
   relations='{
+    "<https://pharos.artresearch.net/custom/has_provider>": [
+    {
+      "kind": "resource",
+      "queryPattern": "
+       $subject $__relation__ ?__value__ .
+       FILTER(?__value__ !=  <https://pharos.artresearch.net/resource/itatti/source/FotoIndex>)
+      "
+    }
+  ],
   "<https://pharos.artresearch.net/resource/fr/Person_has_Gender>":[
   {
     "kind": "resource",
@@ -87,6 +96,10 @@
         {
           "iri":"<https://pharos.artresearch.net/resource/fc/place>",
           "label":"Place"
+        }, 
+        {
+          "iri":"<https://pharos.artresearch.net/resource/fc/institution>",
+          "label":"Photo archive"
         }
       ],
       "relations":
@@ -138,6 +151,12 @@
           "label":"Event place",
           "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
           "hasRange":"<https://pharos.artresearch.net/resource/fc/place>"
+        },
+        {
+          "iri": "<https://pharos.artresearch.net/custom/has_provider>",
+          "label":"Photo archive",
+          "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
+          "hasRange":"<https://pharos.artresearch.net/resource/fc/institution>"
         }
       ]
     }'
