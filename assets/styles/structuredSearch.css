@@ -323,6 +323,7 @@
   margin: 10px;
   padding: 20px;
   box-shadow: 0px 0px 20px 1px #f8f8f8;
+  overflow-x: scroll;
 }
 #tableView th {
   font-size: medium !important;
@@ -388,8 +389,13 @@ div#artwork-filter-search:only-child {
 }
 
 @media (max-width: 800px) {
+  #tableView {
+  margin: unset;
+  padding: unset;
+  overflow-x: scroll;
+}
   #structured-search .filters-container {
-    margin-top: 10vh !important;
+   
     top: unset !important;
 
     position: relative !important;
@@ -404,7 +410,7 @@ div#artwork-filter-search:only-child {
   }
   #structured-search .QueryBuilder--searchAreaHolder {
     left: 0%;
-    top: 10vh;
+    top: 4vh;
   }
   #structured-search .QueryBuilder--searchBasedTermSelectorHolder {
     margin-left: 0 !important;

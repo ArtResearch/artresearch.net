@@ -38,7 +38,7 @@ div#search-bar {
 #search-bar form {
   display: flex;
   align-items: center;
-  width: 35vw !important;
+
   height: 39px !important;
   margin: 0 !important;
 }
@@ -78,6 +78,7 @@ div#search-bar {
 #search-bar .dropdown.btn-group {
   position: absolute;
   cursor: pointer;
+  /* top:5vh; */
 }
 #search-bar .dropdown.btn-group button:hover,
 #search-bar button.btn.searchBtn:hover {
@@ -186,6 +187,13 @@ div#search-bar {
 }
 
 @media (max-width: 800px) {
+  #search-bar input#site-search {
+    padding-left: 100px !important;
+    font-size: 13px !important;
+  }
+#search-bar .dropdown.btn-group {
+  /* top:1vh;
+ */ }
   .advanced-search-options{
     width: 100%;
     flex-direction: row;
@@ -197,9 +205,9 @@ div#search-bar {
     flex-wrap: wrap;
   }
   #search-bar {
-    width: 86vw;
+    
   }
   #search-bar form {
-    width: 80vw !important;
+    width: 80vw ;
   }
 }

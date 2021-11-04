@@ -4,19 +4,54 @@
   </h1>
   <img
     height="50vh"
+    class="no-results-image1"
     src="../../assets/images/media/3107100151869_001.jpg"
     style="height: 41vh; box-shadow: 1px 1px 1px 1px"
   /><img
     height="50vh"
+    class="no-results-image2"
     src="../../assets/images/media/3107100151871_001.jpg"
     style="height: 41vh; box-shadow: 1px 1px 1px 1px"
   />
   <h4>Artworks of Eberle, Abastenia St. Leger</h4>
-  <semantic-link  iri="Default:DisplayCollectionFemaleArtists"
-    >View the women artists collection</semantic-link>
+  <div class="View-women-collection">
+  <semantic-link  iri="Default:DisplayCollectionFemaleArtists"> 
+    View the women artists collection
+  </semantic-link>
+  </div>
 </div>
 <style>
+
+  .View-women-collection{
+    height: 115px;
+    display: flex;
+    place-items: center;
+    justify-content: center;
+    width: 114px;
+    background: #e0dee9;
+    border-radius: 130px;
+    color: #5b0000;
+  }
+
   #noResults a {
-    color:#641418 !important
+    color:#641418 !important;
+    
+  }
+  #noResults {
+    
+    text-align:-webkit-center;
+  }
+ 
+    
+  @media (max-width:800px) {
+    #noResults{
+      padding-bottom: 45px !important;
+    }
+    .no-results-image1{
+      height: 24vh !important;
+    }
+    .no-results-image2{
+      height: 42vh !important;
+    }
   }
 </style>
