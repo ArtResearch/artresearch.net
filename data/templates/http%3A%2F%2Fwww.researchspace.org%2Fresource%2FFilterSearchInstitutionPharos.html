@@ -1,28 +1,32 @@
 <div id="institution-filter-search">
   <semantic-search
+    relations='{
+      "<https://pharos.artresearch.net/custom/has_provider>": [
+        {
+          "kind": "resource",
+          "queryPattern": "
+          ?repo owl:sameAs $subject.
+          ?repo  $__relation__ ?__value__ .
+          ?__value__ a <https://pharos.artresearch.net/resource/fc/institution>
+          "
+        }
+      ]
+    }'
     search-profile='{
         "categories":  
         [
           {
             "iri":"<https://pharos.artresearch.net/resource/fc/institution>",
             "label":"Repository"
-          },
-          {
-            "iri":"<https://pharos.artresearch.net/resource/fc/place>",
-            "label":"Location"
-          },
-          {
-            "iri":"<https://pharos.artresearch.net/custom/Provider>",
-            "label":"Photo archive"
           }
         ],
         "relations":
         [
           {
-            "iri": "<https://pharos.artresearch.net/resource/fr/Institution_from_Place>",
-            "label":"Place",
+            "iri": "<https://pharos.artresearch.net/custom/has_provider>",
+            "label":"Photo archive",
             "hasDomain":"<https://pharos.artresearch.net/resource/fc/institution>",
-            "hasRange":"<https://pharos.artresearch.net/resource/fc/place>"
+            "hasRange":"<https://pharos.artresearch.net/resource/fc/institution>"
           }
         ]
       }'
@@ -115,6 +119,7 @@
           collapsible="true"
           default-expanded="true"
         >
+        <semantic-search-facet open-by-default="true"></semantic-search-facet>
           <semantic-tree
             collapsed="true"
             query="
@@ -149,20 +154,8 @@
             </template>
           </semantic-tree>
           
-          <div class ="animated-background-filters okk">
-            <div class ="animated-background-filters okk">
-              <div class ="animated-background-filters okk">
-                <div class ="animated-background-filters okk">
-                   <div class ="animated-background-filters okk">
-                      <div class ="animated-background-filters okk">
-                         <div class ="animated-background-filters okk"></div>
-                      </div>
-                   </div>
-                </div>
-              </div>
-          
-            </div>
-          
+          <div style="width: 100%;" class ="animated-background-filters okk">
+            Loading place tree..
           </div>
           
         </bs-panel>
@@ -197,26 +190,20 @@
                             }'
                             number-of-displayed-rows="8"
                             query="
-                          SELECT DISTINCT ?subject WHERE {
-                             OPTIONAL{
-                              ?subject fr:Institution_depicted_by ?institutionImage
-                            }     
-                          }ORDER BY DESC(?institutionImage) LIMIT 1000
+                          SELECT DISTINCT ?subject (SAMPLE(?placeLabel) as ?placeLabel) WHERE { 
+                            OPTIONAL{
+                              ?subject fr:Institution_from_Place ?parent.
+                              ?parent rdfs:label ?placeLabel.        
+                            } 
+                          }GROUP BY ?subject ORDER BY DESC (?placeLabel) LIMIT 1000
                         "
                             tuple-template="{{>tupleTemplate}}"
                             no-result-template='[[> :CardNoResult ]]'
                           >
                             <template id="tupleTemplate">
-                          
                                  [[> :CardInstitution]]
-                              
                             </template>
-                            
-                            
-                            
                           </semantic-table>
-                          
-                          
                         </bs-tab-pane>
                         <bs-tab-pane event-key="mapView">
                           <div class="mapContainer">
