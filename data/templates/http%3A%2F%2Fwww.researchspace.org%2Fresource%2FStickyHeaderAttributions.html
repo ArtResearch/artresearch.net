@@ -1,15 +1,15 @@
   <div id="variant-attribution-dropdown">
     <semantic-query
-      query='SELECT DISTINCT ?attributionLabel ?attributionQualifier WHERE { 
+      query='SELECT DISTINCT ?attribution WHERE { 
         {
             ?? fr:Work_influenced_by_Artist ?attribution.
-            ?attribution rdfs:label ?attributionLabel
-            BIND("influenced by" as ?attributionQualifier)
+            #?attribution rdfs:label ?attributionLabel
+            #BIND("influenced by" as ?attributionQualifier)
         }UNION{
           ?work owl:sameAs ??.
           ?work fr:Work_influenced_by_Artist ?attribution.
-          ?attribution rdfs:label ?attributionLabel
-          BIND("influenced by" as ?attributionQualifier)
+          #?attribution rdfs:label ?attributionLabel
+          #BIND("influenced by" as ?attributionQualifier)
         }
        }'
       template='{{> variantAttributions }}'
@@ -18,30 +18,30 @@
        <template id='variantAttributions'>
          <bs-panel header="Variant Attributions" collapsible="true">
             <semantic-query
-              query='SELECT DISTINCT (SAMPLE(?creatorLabel) AS ?creatorLabel) WHERE { 
+              query='SELECT DISTINCT ?creator WHERE { 
                 {
                   ?? fr:Work_created_from_Artist ?creator.
-                ?creator rdfs:label ?creatorLabel 
+                  #?creator rdfs:label ?creatorLabel 
                  }UNION{
                   ?work owl:sameAs ??.
                   ?work fr:Work_created_from_Artist ?creator.
-                  ?creator rdfs:label ?creatorLabel 
+                  #?creator rdfs:label ?creatorLabel 
                  }
               }GROUP BY ?creator'
               template='{{> byAttribution }}'>
                 <template id='byAttribution'>
                   {{#each bindings}}
                   <div class="attribution-wrapper">
-                    <div class="attribution-qualifier">by</div>
-                    <div class="attribution">{{creatorLabel.value}}</div>
+                    [[!-- <div class="attribution-qualifier">by</div> --]]
+                    <div class="attribution"><semantic-link iri="{{creator.value}}"></semantic-link></div>
                   </div>
                   {{/each}}
                 </template>
             </semantic-query>
             {{#each bindings}}
               <div class="attribution-wrapper">
-                <div class="attribution-qualifier">{{attributionQualifier.value}}</div>
-                <div class="attribution">{{attributionLabel.value}}</div>
+                [[!-- <div class="attribution-qualifier">{{attributionQualifier.value}}</div> --]]
+                <div class="attribution"><semantic-link iri="{{attribution.value}}"></semantic-link></div>
               </div>
             {{/each}}
           </bs-panel>
