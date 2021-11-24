@@ -13,7 +13,7 @@
           <bs-nav bs-style="tabs">
             <bs-nav-item event-key="summary">Summary</bs-nav-item>
             [[#if (ask "ASK {                    ?artwork fr:Photo_produced_using_Technique|crm:P33_used_specific_technique|fr:Work_produced_using_technique_Technique|crm:P2_has_type|crm:P45_consists_of  ??}") ]] 
-            <bs-nav-item event-key="artworks"><div style="display:flex;">Artworks
+            <bs-nav-item event-key="artworks"><div class="displayFlex">Artworks
               (
                 <semantic-query query='
                  SELECT (COUNT(DISTINCT ?artwork) AS ?count) WHERE{
@@ -34,7 +34,7 @@
   
           <bs-tab-content unmount-on-exit=true>
             <bs-tab-pane event-key="summary">
-              <div style="text-align: left; width: 100%;">
+              <div class="fullWidth textLeft">
                 <h2>
                   <div style="color: gray !important; font-weight: bold;">Number of entities with this type:</div>
                 </h2>
@@ -47,7 +47,7 @@
                 ></semantic-query>
                 </h2>
               </div>
-              <div style="text-align: left; width: 100%; margin-top: 20px;">
+              <div class="fullWidth textLeft marginTop20" >
                 <h2>
                   <div style="color: gray !important; font-weight: bold;">Related types:</div>
                 </h2>

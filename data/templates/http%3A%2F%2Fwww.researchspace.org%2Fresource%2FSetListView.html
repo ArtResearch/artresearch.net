@@ -1,13 +1,13 @@
-<div style="display: flex; align-items: center; justify-content: space-between;">   
+<div class="displayFlex" align-items: center; justify-content: space-between;">   
     <div style="overflow: hidden;">
       <semantic-link-container uri="{{iri.value}}" draggable=false>
-        <span style="display: flex; align-items: center; flex: 1;">
+        <span class="displayFlex" style="align-items: center; flex: 1;">
           <with-types fixed-key='map-card-{{iri.value}}' iri='{{iri.value}}'
             template='{{> template}}'
             [[> rsp:TypeMappings]]
           >
             <template id='template'>
-              <span style="display: flex; align-items: center; flex: 1; width: 100%;">
+              <span class="displayFlex fullWidth" style="align-items: center; flex: 1;">
                 <i class="rs-icon {{getValueByKey typeToIcon allTypes 'rs-icon-entity'}}" alt="{{directTypesLabels}}" title='{{directTypesLabels}}'></i>
                 <semantic-link style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" iri="{{iri.value}}"></semantic-link>
               </span>

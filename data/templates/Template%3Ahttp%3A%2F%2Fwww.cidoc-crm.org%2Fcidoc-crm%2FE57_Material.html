@@ -14,7 +14,7 @@
           <bs-nav bs-style="tabs">
             <bs-nav-item event-key="summary">Summary</bs-nav-item>
             [[#if (ask "ASK { ?artwork <http://www.cidoc-crm.org/cidoc-crm/P45_consists_of> ??. }") ]] 
-            <bs-nav-item event-key="artworks"><div style="display:flex;">Artworks
+            <bs-nav-item event-key="artworks"><div class="displayFlex">Artworks
               (
                 <semantic-query query='
                  SELECT (COUNT(DISTINCT ?artwork) AS ?count) WHERE{
@@ -35,7 +35,7 @@
   
           <bs-tab-content unmount-on-exit=true>
             <bs-tab-pane event-key="summary">
-              <div style="text-align: left; width: 100%;">
+              <div class="textLeft fullWidth">
                 <h2>
                   <div style="color: gray !important; font-weight: bold;">Number of entities with this material:</div>
                 </h2>
@@ -48,7 +48,7 @@
                 ></semantic-query>
                 </h2>
               </div>
-              <div style="text-align: left; width: 100%; margin-top: 20px;">
+              <div class="textLeft fullWidth marginTop20" >
                 <h2>
                   <div style="color: gray !important; font-weight: bold;">Related materials:</div>
                 </h2>
