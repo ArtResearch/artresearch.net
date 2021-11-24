@@ -1,25 +1,23 @@
-[[> :Breadcrumb category="Photographs" categoryUrl=":DisplayPharosPhotographers" ]]
+[[> :Breadcrumb category="Artworks" categoryUrl=":DisplayPharosArtists" ]]
 <div class="page rs-page">
-  [[#> :ClipboardSidebar]]
-  <div class="page__header-navtabs">
-    [[> :Header ]]
-  </div>
-    <!-- Loads all IIIF images as 500px thumbnails (clickable with mirador popup) -->
-      [[> :SummaryImagesWork]]
-      <bs-tab-container id="tab-container" class="page__body-navtabs--borderless" default-active-key="summary">
-      <div>
-        <bs-nav bs-style="tabs">
-          <bs-nav-item event-key="summary">Summary</bs-nav-item>
-        </bs-nav>
-
-        <bs-tab-content unmount-on-exit=true>
-          <bs-tab-pane event-key="summary">
-            <!-- Loads two tables with information regarding photo, production & other details -->
-              [[> :InfoPhotoAndProduction]]
-          </bs-tab-pane>
-  
-        </bs-tab-content>
+    [[#> :ClipboardSidebar]]
+      <div class="artwork-header" style="display: flex; flex-direction: column; align-items: flex-end;   border-bottom: initial;
+      padding: 20px 12px 0;
+    ">
+  [[> :HeaderOptions ]]
       </div>
-    </bs-tab-container>
+      <div id="tab-container"
+      style="display: flex;flex-direction: column;"
+      class="page__body-navtabs--borderless">
+        <div class="old-fashioned-grid">
+          <div class="super-cheesy">
+            [[> :SummaryImagesWork]]</div>
+
+          <div>
+            [[> :InfoPhotoAndProduction]]
+          </div>
+
+        </div>
+      </div>
     [[/:ClipboardSidebar]]
 </div>
