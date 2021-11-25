@@ -20,6 +20,10 @@
 @import "./partner.css";
 @import "./footer.css";
 
+
+.component-page-toolbar{
+  z-index: unset !important;
+}
 .editAnnotations{
   margin-right: 15px;
   height: 30px;
@@ -1465,70 +1469,7 @@ button.btn.btn-xs.btn-grey {
     padding-top: var(--breadcrumb-height, 0px) !important;
   }
 
-  .benner-text {
-  font-weight: 500;
-    font-size: 18px;
-    width: 60%;
-    margin-top: 4vh;
-    text-align: center;
-    margin-bottom: 4vh;
-}
-  .text-with-image.banner {
-    font-weight: 500;
-    gap: 20px;
-    width: 60%;
-    margin-top: 6vh;
-    font-size: 18px;
-    text-align: center;
-}
-  .page-holder {
-    overflow: hidden;
-  }
-  .unwanted-grid{
-    display: grid;
-    grid-gap: 40px;
-    grid-template-columns: repeat(2,1fr);
-  }
-
-  .documents-panel .panel-heading {
-  background: whitesmoke !important;
-}
-
-.documents-panel .panel-heading .panel-title a::before {
-  color: gray !important;
-  margin-right: 2px;
-  transition: 0.3s;
-  display: inline-block;
-  font: normal normal normal 14px / 1 FontAwesome;
-  font-size: inherit;
-  text-rendering: auto;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  content: "\f077";
-}
-
-.documents-panel .panel-heading .panel-title a.collapsed::before {
-  display: inline-block;
-  font: normal normal normal 14px / 1 FontAwesome;
-  font-size: inherit;
-  text-rendering: auto;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  content: "\f078";
-}
-
-  @media (max-width:800px) {
-    .benner-text ,
-  .text-with-image.banner {
-    width: 100%;
-    justify-content: center;
-  }
-  }
-  @media (max-width:720px) {
-    .unwanted-grid{
-    grid-template-columns: repeat(1,1fr);
-  }
-  }
+  
 
   .workAndProductionInfo {
     justify-content: unset !important;
@@ -1549,9 +1490,12 @@ button.btn.btn-xs.btn-grey {
     padding: 0 !important;
     width: 95vw !important;
   }
-
+#application > div > div.page-holder > div.component-page-toolbar.hidden-print.btn-toolbar{
+ display:  none !important;
+}
   .component-page-toolbar {
     display: none !important;
+    padding-top: 50px ;
   }
   /* The sidebar */
   .Pane1 {
