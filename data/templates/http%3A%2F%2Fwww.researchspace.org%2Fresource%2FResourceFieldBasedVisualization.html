@@ -40,15 +40,15 @@
       {{#each fields as |field|}} 
       {{#if field.values}}
       {{#ifCond (objectLength field.values) '===' 1}}
-      [[#if showSourceIcon]]
-      {{#if ../selectedTab}}
-          {{#ifCond ../selectedTab "!==" "All" }}
-            {{#ifCond ../selectedTab "!==" field.values.0.binding.providerLabel.value }}
-              <div class="hide-next-row">hiding next row</div>
-            {{/ifCond}}
-          {{/ifCond}}
-      {{/if}}
-      [[/if]]
+        [[#if showSourceIcon]]
+          {{#if ../selectedTab}}
+              {{#ifCond ../selectedTab "!==" "All" }}
+                {{#ifCond ../selectedTab "!==" field.values.0.binding.providerLabel.value }}
+                  <div class="hide-next-row">hiding next row</div>
+                {{/ifCond}}
+              {{/ifCond}}
+          {{/if}}
+        [[/if]]
         <tr class="rs-page-resource__field">
           <td class="rs-page-resource__field-label-holder headLine">
             <span class="rs-page-resource__field-label">
