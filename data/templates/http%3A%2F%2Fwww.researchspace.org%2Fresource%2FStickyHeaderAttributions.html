@@ -1,32 +1,49 @@
   <div id="variant-attribution-dropdown">
     <semantic-query
-      query='SELECT DISTINCT ?attribution ?providerLabel WHERE { 
+      query='SELECT DISTINCT ?attribution WHERE { 
         {
-          ?? fr:Work_influenced_by_Artist|fr:Work_created_from_Artist ?attribution.
-        } UNION {
+            ?? fr:Work_influenced_by_Artist ?attribution.
+            #?attribution rdfs:label ?attributionLabel
+            #BIND("influenced by" as ?attributionQualifier)
+        }UNION{
           ?work owl:sameAs ??.
-          ?work fr:Work_influenced_by_Artist|fr:Work_created_from_Artist ?attribution.
+          ?work fr:Work_influenced_by_Artist ?attribution.
+          #?attribution rdfs:label ?attributionLabel
+          #BIND("influenced by" as ?attributionQualifier)
         }
-        
-        GRAPH ?graph {
-         ?s fr:Work_influenced_by_Artist|fr:Work_created_from_Artist ?attribution.
-        }
-        ?graph <https://pharos.artresearch.net/custom/has_provider> ?prov .
-        ?prov rdfs:label ?provLabel.
-        BIND(IF( CONTAINS(STR(?attribution),"ulan"), "ULAN", ?provLabel) AS ?providerLabel)
-        BIND(IF( CONTAINS(STR(?attribution),"ulan"), IRI("https://pharos.artresearch.net/resource/getty/source/Getty"), ?prov) AS ?provider)
-      }'
+       }'
       template='{{> variantAttributions }}'
       no-result-template='{{> invariantAttributions}}'
       >
        <template id='variantAttributions'>
          <bs-panel header="Variant Attributions" collapsible="true">
-            {{#each bindings}}
-              <div class="attribution-wrapper">
-                <img title="{{providerLabel.value}}" class="sourceIcon" src="/assets/images/{{providerLabel.value}}.ico"/> 
-                <div class="attribution"><semantic-link iri="{{attribution.value}}"></semantic-link></div>
-              </div>
-            {{/each}}
+            <semantic-query
+              query=' SELECT DISTINCT ?attribution ?providerLabel WHERE { 
+                {
+                  ?? fr:Work_influenced_by_Artist|fr:Work_created_from_Artist ?attribution.
+                } UNION {
+                  ?work owl:sameAs ??.
+                  ?work fr:Work_influenced_by_Artist|fr:Work_created_from_Artist ?attribution.
+                }
+                GRAPH ?graph {
+                 ?s fr:Work_influenced_by_Artist|fr:Work_created_from_Artist ?attribution.
+                }
+                ?graph <https://pharos.artresearch.net/custom/has_provider> ?prov .
+                ?prov rdfs:label ?provLabel.
+                BIND(IF( CONTAINS(STR(?attribution),"ulan"), "ULAN", ?provLabel) AS ?providerLabel)
+                BIND(IF( CONTAINS(STR(?attribution),"ulan"), IRI("https://pharos.artresearch.net/resource/getty/source/Getty"), ?prov) AS ?provider)
+              }'
+              template='{{> byAttribution }}'>
+                <template id='byAttribution'>
+                  {{#each bindings}}
+                  <div class="attribution-wrapper">
+                    <img title="{{providerLabel.value}}" class="sourceIcon" src="/assets/images/{{providerLabel.value}}.ico"/>
+                    <div class="attribution"><semantic-link iri="{{attribution.value}}"></semantic-link></div>
+                  </div>
+                  {{/each}}
+                </template>
+            </semantic-query>
+        
           </bs-panel>
        </template>
        <template id='invariantAttributions'>
