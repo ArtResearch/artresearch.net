@@ -20,11 +20,58 @@
 @import "./partner.css";
 @import "./footer.css";
 
-
+.editAnnotations{
+  margin-right: 15px;
+  height: 30px;
+}
+.deprecatedDiv{
+  margin-top: 15px;
+  border-radius: 5px;
+  padding: 14px;
+  background: lightblue;
+}
+.marginRight5{
+  margin-right: 5px;
+}
+.marginRight10{
+  margin-right: 10px;
+}
+.marginRight15{
+  margin-right: 15px;
+}
+.marginRight5{
+  margin-right: 5px;
+}
+.marginLeft13{
+  margin-left: 13vw;
+}
+.marginLeft5{
+  margin-left: 5px;
+}
+.marginTop15{
+  margin-top: 15px;
+}
 .marginTop4{
   margin-top:4vh ;
 }
-
+.marginLeft2{
+  margin-left: 2vw;;
+}
+.StatisticsTimelineHeader{
+  margin-left: 1.1vw; 
+  color:#5a5a5a;
+}
+.Viewmorefilters{
+  background: white;
+  margin-top: 1vh;
+}
+.relatedArtwork{
+  margin-left: 5px;
+  margin-top: 10px;
+}
+.NomarginTop{
+  margin-top: 0;
+}
 .marginTop8{
   margin-top: 8px;
 }
@@ -1416,6 +1463,71 @@ button.btn.btn-xs.btn-grey {
   }
   .page {
     padding-top: var(--breadcrumb-height, 0px) !important;
+  }
+
+  .benner-text {
+  font-weight: 500;
+    font-size: 18px;
+    width: 60%;
+    margin-top: 4vh;
+    text-align: center;
+    margin-bottom: 4vh;
+}
+  .text-with-image.banner {
+    font-weight: 500;
+    gap: 20px;
+    width: 60%;
+    margin-top: 6vh;
+    font-size: 18px;
+    text-align: center;
+}
+  .page-holder {
+    overflow: hidden;
+  }
+  .unwanted-grid{
+    display: grid;
+    grid-gap: 40px;
+    grid-template-columns: repeat(2,1fr);
+  }
+
+  .documents-panel .panel-heading {
+  background: whitesmoke !important;
+}
+
+.documents-panel .panel-heading .panel-title a::before {
+  color: gray !important;
+  margin-right: 2px;
+  transition: 0.3s;
+  display: inline-block;
+  font: normal normal normal 14px / 1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  content: "\f077";
+}
+
+.documents-panel .panel-heading .panel-title a.collapsed::before {
+  display: inline-block;
+  font: normal normal normal 14px / 1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  content: "\f078";
+}
+
+  @media (max-width:800px) {
+    .benner-text ,
+  .text-with-image.banner {
+    width: 100%;
+    justify-content: center;
+  }
+  }
+  @media (max-width:720px) {
+    .unwanted-grid{
+    grid-template-columns: repeat(1,1fr);
+  }
   }
 
   .workAndProductionInfo {

@@ -72,7 +72,7 @@
                         
                           [[#if (hasPermission "api:ldp:container:<http://www.researchspace.org/resource/system/fieldDefinitionContainer>:create:any")]]
                           <mp-event-trigger id='assert-new-value' type='Component.TemplateUpdate' targets='["assertion"]' data='{"assertion": "{{assertion.value}}"}'>
-                            <button class='btn btn-default btn-xs pull-right' title='Edit assertion' style='margin-left: 5px;'>
+                            <button class='btn btn-default btn-xs pull-right marginLeft5' title='Edit assertion'>
                               <i class='fa fa-pencil'></i> Edit
                             </button>
                           </mp-event-trigger>
@@ -83,7 +83,7 @@
                         <mp-overlay-dialog title="Delete assertion‎‎" >
                           <mp-overlay-dialog-trigger
                             >
-                            <button class='btn btn-default btn-xs pull-right' title='Delete assertion' style='margin-left: 5px;'>
+                            <button class='btn btn-default btn-xs pull-right marginLeft5' title='Delete assertion' >
                               <i class='fa fa-trash'></i>Delete
                             </button>
                           </mp-overlay-dialog-trigger>
@@ -93,8 +93,8 @@
                             container="http://www.researchspace.org/ontology/Assertions.Container"
                             iri="{{assertion.value}}" 
                            post-action='reload'>
-                           <button class="btn btn-danger pull-right" title="Delete assertion" 
-                           style="margin-left: 5px;font-size: 16px;"><i class="fa fa-trash"
+                           <button class="btn btn-danger pull-right marginLeft5" title="Delete assertion" 
+                           style="font-size: 16px;"><i class="fa fa-trash"
                             ></i> Yes delete
                             </button>
                             </mp-ldp-remove-from-container-action>

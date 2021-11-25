@@ -30,15 +30,11 @@
     ?? owl:sameAs ?newLink }LIMIT 10'
   template='{{> deprecated }}'>
    <template id='deprecated'>
-    <div style="
-    margin-top: 15px;
-    border-radius: 5px;
-    padding: 14px;
-    background: lightblue;">
-    <h2><i style="margin-right: 5px;" class="fa fa-info"></i>This record is deprecated. Please visit the Pharos record at:</h2>
+    <div class="deprecatedDiv">
+    <h2><i class="fa fa-info marginRight5"></i>This record is deprecated. Please visit the Pharos record at:</h2>
      {{#each bindings}}
      <h2 style="text-decoration: underline;">
-       <i style="margin-right: 5px;" class="fa fa-external-link"></i> 
+       <i  class="fa fa-external-link marginRight5"></i> 
        <semantic-link  iri='{{newLink.value}}'>
       </semantic-link>
     </h2>
@@ -119,7 +115,7 @@
       </semantic-query>
       <div class="animated-background"></div>
     </div>
-    <h2 style="margin-left: 5px; margin-top: 10px;" class="fc-label">
+    <h2 style="margin-top: 10px;" class="fc-label marginLeft5">
       <semantic-query query='SELECT ?artwork WHERE{
         ?? fr:Photo_depicts_work ?artwork.
         ?artwork a fc:work

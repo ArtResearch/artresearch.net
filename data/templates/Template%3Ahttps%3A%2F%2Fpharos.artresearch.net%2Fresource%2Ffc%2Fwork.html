@@ -23,15 +23,11 @@
             }LIMIT 10'
             template='{{> deprecated }}'>
              <template id='deprecated'>
-              <div style="
-              margin-top: 15px;
-              border-radius: 5px;
-              padding: 14px;
-              background: lightblue;">
-              <h2><i style="margin-right: 5px;" class="fa fa-info"></i>This record is deprecated. Please visit the latest Pharos record at:</h2>
+              <div class="deprecatedDiv">
+              <h2><i class="marginRight5 fa fa-info"></i>This record is deprecated. Please visit the latest Pharos record at:</h2>
                {{#each bindings}}
                <h2 style="text-decoration: underline;">
-                 <i style="margin-right: 5px;" class="fa fa-external-link"></i> 
+                 <i class="fa fa-external-link marginRight5"></i> 
                  <semantic-link  iri='{{newLink.value}}'>
                 </semantic-link>
               </h2>
