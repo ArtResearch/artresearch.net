@@ -37,7 +37,7 @@
         template="{{> placeEventTargetTemplate}}"
       >
         <template id="placeEventTargetTemplate">
-          <div style="width: 100%; display: flex; flex-direction: column">
+          <div  class="displayFlexcol fullWidth" >
             {{#if placeIri}}
             <semantic-search-query-keyword
               placeholder="Search for a repository e.g. Royal Library"
@@ -110,8 +110,7 @@
         lg="3"
         md="4"
         sm="5"
-        class="fade-in-fwd filters-container"
-        style="margin-top: 8px"
+        class="fade-in-fwd filters-container marginTop8"
       >
         <bs-panel
           id="filter-panel"
@@ -154,7 +153,7 @@
             </template>
           </semantic-tree>
           
-          <div style="width: 100%;" class ="animated-background-filters okk">
+          <div  class ="animated-background-filters okk fullWidth">
             Loading place tree..
           </div>
           
@@ -233,8 +232,3 @@
     </div>
   </semantic-search>
 </div>
-<style>
-  .rs-icon-search{
-  display: none !important;
-}
-</style>

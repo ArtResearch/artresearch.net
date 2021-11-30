@@ -14,7 +14,7 @@
         <bs-nav bs-style="tabs">
           <bs-nav-item event-key="summary">Summary</bs-nav-item>
           [[#if (ask "ASK {    ?? fr:Place_of_Work ?subject. }") ]] 
-          <bs-nav-item event-key="artworks"><div style="display:flex;">Artworks(
+          <bs-nav-item event-key="artworks"><div class="displayFlex">Artworks(
             <semantic-query query='
              SELECT (COUNT(DISTINCT ?artwork) AS ?count) WHERE{
               ?artwork a fc:work. 
@@ -39,44 +39,3 @@
     [[/:ClipboardSidebar]]
 </div>
 
-<style>
-
-button.close {
-  opacity: 1;
-  font-size: 55px !important;
-}
- .modal-content {
-  border: none !important;
-  box-shadow: none !important;
-}
-.modal-content {
-  background-color: #f5f5f5 !important;
-}
-
-
-.component-page-toolbar {
-    display: none !important;
-  }
-  
-  .miradorViewerPopup .grid-demo{
-    height: 92vh;
-}
-  .miradorViewerPopup .modal-dialog{
-      width: 85%;
-  }
-  .miradorViewerPopup .modal-title{
-      text-align: center;
-  }
-  .mirador-main-menu-bar{
-    display: none !important;
-    }
-
-.navbar-default {
-    box-shadow: none !important
-}
-
-    .mirador-viewer{
-        top: 0px !important;
-    }
-
-</style>

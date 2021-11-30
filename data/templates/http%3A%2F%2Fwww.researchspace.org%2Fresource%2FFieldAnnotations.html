@@ -16,15 +16,15 @@
       <div>
         <ol>
           {{#each bindings}}
-          <li style="display: flex; font-size: 16px; margin-top: 20px; align-items: center;">
+          <li  class ="displayFlex" style=" font-size: 16px; margin-top: 20px; align-items: center;">
             <mp-event-trigger id='assert-new-value' type='Component.TemplateUpdate' targets='["annotation-editor"]' data='{"document": "{{document.value}}","editMode":"false"}'>
-              <button class='btn btn-default btn-xs pull-right' title='Edit annotation' style='margin-right: 15px; height: 30px'>
+              <button class='btn btn-default btn-xs pull-right editAnnotations' title='Edit annotation' >
                 <i class='fa fa-folder-open'></i> View
               </button>
             </mp-event-trigger>
             [[#if (hasPermission "api:ldp:container:<http://www.researchspace.org/resource/system/fieldDefinitionContainer>:create:any")]]
             <mp-event-trigger id='assert-new-value' type='Component.TemplateUpdate' targets='["annotation-editor"]' data='{"document": "{{document.value}}","editMode":"true"}'>
-              <button class='btn btn-default btn-xs pull-right' title='Edit annotation' style='margin-right: 15px; height: 30px'>
+              <button class='btn btn-default btn-xs pull-right editAnnotations' title='Edit annotation' >
                 <i class='fa fa-pencil'></i> Edit
               </button>
             </mp-event-trigger>
@@ -34,7 +34,7 @@
           <mp-overlay-dialog title="Delete annotation" >
             <mp-overlay-dialog-trigger
               >
-              <button class='btn btn-default btn-xs pull-right' title='Delete annotation' style='margin-right: 15px; height: 30px;'>
+              <button class='btn btn-default btn-xs pull-right editAnnotations' title='Delete annotation' >
                 <i class='fa fa-trash'></i>Delete
               </button>
             </mp-overlay-dialog-trigger>
@@ -250,33 +250,3 @@ CONSTRUCT {
 </rs-text-editor>
 </template>
 </mp-event-target-template-render>
-<style>
-
-
-.documents-panel .panel-heading {
-  background: whitesmoke !important;
-}
-
-.documents-panel .panel-heading .panel-title a::before {
-  color: gray !important;
-  margin-right: 2px;
-  transition: 0.3s;
-  display: inline-block;
-  font: normal normal normal 14px / 1 FontAwesome;
-  font-size: inherit;
-  text-rendering: auto;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  content: "\f077";
-}
-
-.documents-panel .panel-heading .panel-title a.collapsed::before {
-  display: inline-block;
-  font: normal normal normal 14px / 1 FontAwesome;
-  font-size: inherit;
-  text-rendering: auto;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  content: "\f078";
-}
-</style>

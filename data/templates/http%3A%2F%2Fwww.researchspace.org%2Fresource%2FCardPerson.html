@@ -29,12 +29,7 @@ class="rs-grid-element panel panel-default personCard fade-in-fwd "
             <div class="animated-background-circle"></div>
             
            
-            <div 
-            style="
-            display: flex; 
-            justify-content: center;  
-            min-height: 29px;
-            margin-top: 15px;">
+            <div class="circleDate">
 
             <semantic-query query='SELECT ?date WHERE{
               <{{subject.value}}> fr:Person_has_Date_of_Birth ?date
@@ -62,16 +57,7 @@ class="rs-grid-element panel panel-default personCard fade-in-fwd "
               </div>
             </template>
             </semantic-query>
-
-            
-           
-             
-              <div 
-              style="
-              display: flex; 
-              justify-content: center;  
-              min-height: 14px;
-            ">
+            <div class="circleNationality">
             
             <semantic-query query='SELECT ?nationalityLabel WHERE{
               <{{subject.value}}> fr:Person_has_Nationality ?nationality.
