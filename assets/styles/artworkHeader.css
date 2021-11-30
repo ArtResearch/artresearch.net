@@ -4,6 +4,10 @@
   flex-direction: column;
 }
 
+#artwork-header h2 {
+  border-bottom: none !important;
+}
+
 .sticky-artwork-header {
   position: sticky;
   top: 12vh;
@@ -150,7 +154,7 @@
 }
 
 #variant-attribution-dropdown .attribution-wrapper {
-  display: grid;
+  display: flex;
   gap: 10px;
   grid-template-columns: repeat(4, 1fr);
 }
@@ -161,13 +165,7 @@
   text-align: left;
   padding: 5px;
   white-space: initial;
-  grid-column-start: 1;
-    /* grid-column-start: 2;
-  Re-enable with attribution-qualifier
-  */
-  grid-column-end: 5;
   text-decoration: underline;
-
 }
 
 #variant-attribution-dropdown .attribution-qualifier {
@@ -225,9 +223,8 @@
   }
 }
 
-
 @media (max-width: 800px) {
   #artwork-header {
-    padding-bottom:20px;
+    padding-bottom: 20px;
   }
 }

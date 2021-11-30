@@ -40,15 +40,15 @@
       {{#each fields as |field|}} 
       {{#if field.values}}
       {{#ifCond (objectLength field.values) '===' 1}}
-      [[#if showSourceIcon]]
-      {{#if ../selectedTab}}
-          {{#ifCond ../selectedTab "!==" "All" }}
-            {{#ifCond ../selectedTab "!==" field.values.0.binding.providerLabel.value }}
-              <div class="hide-next-row">hiding next row</div>
-            {{/ifCond}}
-          {{/ifCond}}
-      {{/if}}
-      [[/if]]
+        [[#if showSourceIcon]]
+          {{#if ../selectedTab}}
+              {{#ifCond ../selectedTab "!==" "All" }}
+                {{#ifCond ../selectedTab "!==" field.values.0.binding.providerLabel.value }}
+                  <div class="hide-next-row">hiding next row</div>
+                {{/ifCond}}
+              {{/ifCond}}
+          {{/if}}
+        [[/if]]
         <tr class="rs-page-resource__field">
           <td class="rs-page-resource__field-label-holder headLine">
             <span class="rs-page-resource__field-label">
@@ -59,33 +59,12 @@
           <table class="table table-hover">
             <tbody>
               [[#if showSourceIcon]]
-                <tr>
-                  <td>
+                <tr  class="rs-page-resource__field">
+                  <td class="rsbv-value-cell">
                     {{#each field.values as |value|}}
-                      <span class="rs-page-resource__field-value"
-                        >{{> :ResourceFieldValueVisualization field=field
-                        value=value }}
-                      </span>
+                  {{> :ResourceFieldValueVisualization field=field
+                  value=value }}
                     {{/each}}
-                  </td>
-                  <td class="center createAssertion">
-                    <div
-                      title="Create an annotation or assertion"
-                      class="rs-page__count--field-annotation"
-                    >
-                      <semantic-link
-                        iri="http://www.researchspace.org/resource/Field"
-                        urlqueryparam-tab="assertions"
-                        urlqueryparam-field="{{field.iri}}"
-                        urlqueryparam-subject="[[this]]"
-                      >
-                        <i
-                          class="fa fa-plus"
-                          title="Create an annotation or assertion"
-                          ></i
-                        >
-                      </semantic-link>
-                    </div>
                   </td>
                   <td class="sourceIcon-badge">
                     <div class="sourceIcons">
@@ -96,13 +75,11 @@
 
                 </tr>
               [[else]]
-              <tr>
-                <td>
+              <tr  class="rs-page-resource__field">
+                <td class="rsbv-value-cell">
                   {{#each field.values as |value|}}
-                    <span class="rs-page-resource__field-value"
-                      >{{> :ResourceFieldValueVisualization field=field
+                    {{> :ResourceFieldValueVisualization field=field
                       value=value }}
-                    </span>
                   {{/each}}
                 </td>
               </tr>
@@ -162,28 +139,6 @@
                           <span class="rs-page-resource__field-value"
                             >{{> :ResourceFieldValueVisualization field=field
                             value=value }}
-                          </span>
-                        </td>
-                      </div>
-                    </td>
-                    <td class="center createAssertion">
-                      <div
-                        title="Create an annotation or assertion"
-                        class="rs-page__count--field-annotation"
-                      >
-                        <semantic-link
-                          iri="http://www.researchspace.org/resource/Field"
-                          urlqueryparam-tab="assertions"
-                          urlqueryparam-field="{{field.iri}}"
-                          urlqueryparam-subject="[[this]]"
-                        >
-                          <i
-                            class="fa fa-plus"
-                            title="Create an annotation or assertion"
-                            ></i
-                          >
-                        </semantic-link>
-                      </div>
                     </td>
                     <td>
                       <div class="sourceIcons">[[> :SourceIcon ]]</div>
@@ -197,9 +152,6 @@
                           <span class="rs-page-resource__field-value"
                             >{{> :ResourceFieldValueVisualization field=field
                             value=value }}
-                          </span>
-                        </td>
-                      </div>
                     </td>
                   </tr>
                 [[/if]]
@@ -221,28 +173,6 @@
                             <span class="rs-page-resource__field-value"
                               >{{> :ResourceFieldValueVisualization field=field
                               value=value }}
-                            </span>
-                          </td>
-                        </div>
-                      </td>
-                      <td class="center createAssertion">
-                        <div
-                          title="Create an annotation or assertion"
-                          class="rs-page__count--field-annotation"
-                        >
-                          <semantic-link
-                            iri="http://www.researchspace.org/resource/Field"
-                            urlqueryparam-tab="assertions"
-                            urlqueryparam-field="{{field.iri}}"
-                            urlqueryparam-subject="[[this]]"
-                          >
-                            <i
-                              class="fa fa-plus"
-                              title="Create an annotation or assertion"
-                              ></i
-                            >
-                          </semantic-link>
-                        </div>
                       </td>
                       <td>
                         <div class="sourceIcons">[[> :SourceIcon ]]</div>
@@ -256,9 +186,6 @@
                             <span class="rs-page-resource__field-value"
                               >{{> :ResourceFieldValueVisualization field=field
                               value=value }}
-                            </span>
-                          </td>
-                        </div>
                       </td>
                     </tr>
                   [[/if]]
@@ -279,28 +206,6 @@
                           <span class="rs-page-resource__field-value"
                             >{{> :ResourceFieldValueVisualization field=field
                             value=value }}
-                          </span>
-                        </td>
-                      </div>
-                    </td>
-                    <td class="center createAssertion">
-                      <div
-                        title="Create an annotation or assertion"
-                        class="rs-page__count--field-annotation"
-                      >
-                        <semantic-link
-                          iri="http://www.researchspace.org/resource/Field"
-                          urlqueryparam-tab="assertions"
-                          urlqueryparam-field="{{field.iri}}"
-                          urlqueryparam-subject="[[this]]"
-                        >
-                          <i
-                            class="fa fa-plus"
-                            title="Create an annotation or assertion"
-                            ></i
-                          >
-                        </semantic-link>
-                      </div>
                     </td>
                     <td>
                       <div class="sourceIcons">[[> :SourceIcon ]]</div>
@@ -314,9 +219,6 @@
                           <span class="rs-page-resource__field-value"
                             >{{> :ResourceFieldValueVisualization field=field
                             value=value }}
-                          </span>
-                        </td>
-                      </div>
                     </td>
                   </tr>
                 [[/if]]
@@ -337,28 +239,6 @@
                         <span class="rs-page-resource__field-value"
                           >{{> :ResourceFieldValueVisualization field=field
                           value=value }}
-                        </span>
-                      </td>
-                    </div>
-                  </td>
-                  <td class="center createAssertion">
-                    <div
-                      title="Create an annotation or assertion"
-                      class="rs-page__count--field-annotation"
-                    >
-                      <semantic-link
-                        iri="http://www.researchspace.org/resource/Field"
-                        urlqueryparam-tab="assertions"
-                        urlqueryparam-field="{{field.iri}}"
-                        urlqueryparam-subject="[[this]]"
-                      >
-                        <i
-                          class="fa fa-plus"
-                          title="Create an annotation or assertion"
-                          ></i
-                        >
-                      </semantic-link>
-                    </div>
                   </td>
                   <td>
                     <div class="sourceIcons">[[> :SourceIcon ]]</div>
@@ -372,9 +252,6 @@
                         <span class="rs-page-resource__field-value"
                           >{{> :ResourceFieldValueVisualization field=field
                           value=value }}
-                        </span>
-                      </td>
-                    </div>
                   </td>
                 </tr>
               [[/if]]
@@ -432,17 +309,13 @@
                         value=value }}
                       </span>
                     </td>
-                  </div>
-                </td>
-              </tr>
-            [[/if]]
-          {{/ifCond}}
-
-                
+                  </tr>
+                [[/if]]
+              {{/ifCond}}
               {{/each}}
 
                 <tr class="rs-page-resource__field rsbv-viewmore-panel">
-                <bs-panel  header="View more" collapsible="true">
+                <bs-panel header="View more" collapsible="true">
                   <table class="table table-hover">
                     <tbody>
                 {{#each field.values as |value|}}
@@ -462,28 +335,6 @@
                               <span class="rs-page-resource__field-value"
                                 >{{> :ResourceFieldValueVisualization field=field
                                 value=value }}
-                              </span>
-                            </td>
-                          </div>
-                        </td>
-                        <td class="center createAssertion">
-                          <div
-                            title="Create an annotation or assertion"
-                            class="rs-page__count--field-annotation"
-                          >
-                            <semantic-link
-                              iri="http://www.researchspace.org/resource/Field"
-                              urlqueryparam-tab="assertions"
-                              urlqueryparam-field="{{field.iri}}"
-                              urlqueryparam-subject="[[this]]"
-                            >
-                              <i
-                                class="fa fa-plus"
-                                title="Create an annotation or assertion"
-                                ></i
-                              >
-                            </semantic-link>
-                          </div>
                         </td>
                         <td>
                           <div class="sourceIcons">[[> :SourceIcon ]]</div>
@@ -497,9 +348,6 @@
                               <span class="rs-page-resource__field-value"
                                 >{{> :ResourceFieldValueVisualization field=field
                                 value=value }}
-                              </span>
-                            </td>
-                          </div>
                         </td>
                       </tr>
                     [[/if]]
@@ -511,7 +359,6 @@
                     </tr>
 
              {{else}}
-
 
              
              {{#each field.values as |value|}}
@@ -530,29 +377,8 @@
                      <span class="rs-page-resource__field-value"
                        >{{> :ResourceFieldValueVisualization field=field
                        value=value }}
-                     </span>
-                   </td>
-                 </div>
                </td>
-               <td class="center createAssertion">
-                 <div
-                   title="Create an annotation or assertion"
-                   class="rs-page__count--field-annotation"
-                 >
-                   <semantic-link
-                     iri="http://www.researchspace.org/resource/Field"
-                     urlqueryparam-tab="assertions"
-                     urlqueryparam-field="{{field.iri}}"
-                     urlqueryparam-subject="[[this]]"
-                   >
-                     <i
-                       class="fa fa-plus"
-                       title="Create an annotation or assertion"
-                       ></i
-                     >
-                   </semantic-link>
-                 </div>
-               </td>
+       
                <td>
                  <div class="sourceIcons">[[> :SourceIcon ]]</div>
                </td>
@@ -565,9 +391,6 @@
                      <span class="rs-page-resource__field-value"
                        >{{> :ResourceFieldValueVisualization field=field
                        value=value }}
-                     </span>
-                   </td>
-                 </div>
                </td>
              </tr>
              [[/if]]

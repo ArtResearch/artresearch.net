@@ -18,32 +18,32 @@
        <template id='variantAttributions'>
          <bs-panel header="Variant Attributions" collapsible="true">
             <semantic-query
-              query='SELECT DISTINCT ?creator WHERE { 
+              query=' SELECT DISTINCT ?attribution ?providerLabel WHERE { 
                 {
-                  ?? fr:Work_created_from_Artist ?creator.
-                  #?creator rdfs:label ?creatorLabel 
-                 }UNION{
+                  ?? fr:Work_influenced_by_Artist|fr:Work_created_from_Artist ?attribution.
+                } UNION {
                   ?work owl:sameAs ??.
-                  ?work fr:Work_created_from_Artist ?creator.
-                  #?creator rdfs:label ?creatorLabel 
-                 }
-              }GROUP BY ?creator'
+                  ?work fr:Work_influenced_by_Artist|fr:Work_created_from_Artist ?attribution.
+                }
+                GRAPH ?graph {
+                 ?s fr:Work_influenced_by_Artist|fr:Work_created_from_Artist ?attribution.
+                }
+                ?graph <https://pharos.artresearch.net/custom/has_provider> ?prov .
+                ?prov rdfs:label ?provLabel.
+                BIND(IF( CONTAINS(STR(?attribution),"ulan"), "ULAN", ?provLabel) AS ?providerLabel)
+                BIND(IF( CONTAINS(STR(?attribution),"ulan"), IRI("https://pharos.artresearch.net/resource/getty/source/Getty"), ?prov) AS ?provider)
+              }'
               template='{{> byAttribution }}'>
                 <template id='byAttribution'>
                   {{#each bindings}}
                   <div class="attribution-wrapper">
-                    [[!-- <div class="attribution-qualifier">by</div> --]]
-                    <div class="attribution"><semantic-link iri="{{creator.value}}"></semantic-link></div>
+                    <img title="{{providerLabel.value}}" class="sourceIcon" src="/assets/images/{{providerLabel.value}}.ico"/>
+                    <div class="attribution"><semantic-link iri="{{attribution.value}}"></semantic-link></div>
                   </div>
                   {{/each}}
                 </template>
             </semantic-query>
-            {{#each bindings}}
-              <div class="attribution-wrapper">
-                [[!-- <div class="attribution-qualifier">{{attributionQualifier.value}}</div> --]]
-                <div class="attribution"><semantic-link iri="{{attribution.value}}"></semantic-link></div>
-              </div>
-            {{/each}}
+        
           </bs-panel>
        </template>
        <template id='invariantAttributions'>
