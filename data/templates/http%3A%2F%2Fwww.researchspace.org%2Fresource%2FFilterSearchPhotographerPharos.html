@@ -188,8 +188,7 @@
       lg="3"
       md="4"
       sm="5"
-      class="fade-in-fwd filters-container"
-      style="margin-top: 8px"
+      class="fade-in-fwd filters-container marginTop8"
     >
     <bs-panel id="filter-panel" header="Filters"  collapsible="true" default-expanded="true">
       <semantic-search-facet open-by-default='true' sortby='count-desc'></semantic-search-facet>
@@ -259,7 +258,7 @@
                               ?place <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng.
                             }"
                             no-result-template='<h3>No results were found to be visualized on map</h3>'
-                            tuple-template='<div style="width:20vw">
+                            tuple-template='<div class="tupleTemplateMapcontainer">
                               <h4> 
                                 <semantic-link style="color:#6b0000;" iri="{{subject.value}}"></semantic-link>,
                                 born at <semantic-query query="SELECT ?label WHERE { <{{place.value}}> rdfs:label ?label }LIMIT 1"></semantic-query>
@@ -280,7 +279,7 @@
                               ?place <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng.
                             }"
                             no-result-template='<h3>No results were found to be visualized on map</h3>'
-                            tuple-template='<div style="width:20vw">
+                            tuple-template='<div class="tupleTemplateMapcontainer">
                               <h4> 
                                 <semantic-link style="color:#6b0000;" iri="{{subject.value}}"></semantic-link>,
                                 died at <semantic-query query="SELECT ?label WHERE { <{{place.value}}> rdfs:label ?label }LIMIT 1"></semantic-query>
@@ -303,11 +302,4 @@
   </div>
 </semantic-search>
 </div>
-<style>
-  .keyword-search-container{
-  width: 100% !important;
-}
-.rs-icon-search{
-  display: none !important;
-}
-</style>
+

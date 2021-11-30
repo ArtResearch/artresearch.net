@@ -28,8 +28,8 @@
                 <div class="visualizationValue"></div>
               </span>
             </td>
-            <td class="multiValueTd" style="text-align: right;">
-              <b style="margin-right: 5px">Information Source</b>
+            <td class="multiValueTd">
+              <b class="marginRight5">Information Source</b>
             </td>
           </tr>
         </tbody>
@@ -133,8 +133,11 @@
                     {{/ifCond}}
                   {{/if}} 
                   <tr class="rs-page-resource__field">
-                    <td class="rsbv-value-cell">
-                           {{> :ResourceFieldValueVisualization field=field
+                    <td class="multivalueTd rs-page-resource__field">
+                      <div class="displayFlexcol">
+                        <td>
+                          <span class="rs-page-resource__field-value"
+                            >{{> :ResourceFieldValueVisualization field=field
                             value=value }}
                     </td>
                     <td>
@@ -143,8 +146,11 @@
                   </tr>
                 [[else]]
                   <tr class="rs-page-resource__field">
-                    <td class="rsbv-value-cell">
-                          {{> :ResourceFieldValueVisualization field=field
+                    <td class="multivalueTd rs-page-resource__field">
+                      <div class="displayFlexcol">
+                        <td>
+                          <span class="rs-page-resource__field-value"
+                            >{{> :ResourceFieldValueVisualization field=field
                             value=value }}
                     </td>
                   </tr>
@@ -161,8 +167,11 @@
                       {{/ifCond}}
                     {{/if}} 
                     <tr class="rs-page-resource__field">
-                      <td class="rsbv-value-cell">
-                            {{> :ResourceFieldValueVisualization field=field
+                      <td class="multivalueTd rs-page-resource__field">
+                        <div class="displayFlexcol">
+                          <td>
+                            <span class="rs-page-resource__field-value"
+                              >{{> :ResourceFieldValueVisualization field=field
                               value=value }}
                       </td>
                       <td>
@@ -171,8 +180,11 @@
                     </tr>
                   [[else]]
                     <tr class="rs-page-resource__field">
-                      <td class="rsbv-value-cell">
-                            {{> :ResourceFieldValueVisualization field=field
+                      <td class="multivalueTd rs-page-resource__field">
+                        <div class="displayFlexcol">
+                          <td>
+                            <span class="rs-page-resource__field-value"
+                              >{{> :ResourceFieldValueVisualization field=field
                               value=value }}
                       </td>
                     </tr>
@@ -188,8 +200,11 @@
                     {{/ifCond}}
                   {{/if}} 
                   <tr class="rs-page-resource__field">
-                    <td class="rsbv-value-cell">
-                          {{> :ResourceFieldValueVisualization field=field
+                    <td class="multivalueTd rs-page-resource__field">
+                      <div class="displayFlexcol">
+                        <td>
+                          <span class="rs-page-resource__field-value"
+                            >{{> :ResourceFieldValueVisualization field=field
                             value=value }}
                     </td>
                     <td>
@@ -198,8 +213,11 @@
                   </tr>
                 [[else]]
                   <tr class="rs-page-resource__field">
-                    <td class="rsbv-value-cell">
-                          {{> :ResourceFieldValueVisualization field=field
+                    <td class="multivalueTd rs-page-resource__field">
+                      <div class="displayFlexcol">
+                        <td>
+                          <span class="rs-page-resource__field-value"
+                            >{{> :ResourceFieldValueVisualization field=field
                             value=value }}
                     </td>
                   </tr>
@@ -215,8 +233,11 @@
                   {{/ifCond}}
                 {{/if}} 
                 <tr class="rs-page-resource__field">
-                  <td class="rsbv-value-cell">
-                       {{> :ResourceFieldValueVisualization field=field
+                  <td class="multivalueTd rs-page-resource__field">
+                    <div class="displayFlexcol">
+                      <td>
+                        <span class="rs-page-resource__field-value"
+                          >{{> :ResourceFieldValueVisualization field=field
                           value=value }}
                   </td>
                   <td>
@@ -225,8 +246,11 @@
                 </tr>
               [[else]]
                 <tr class="rs-page-resource__field">
-                  <td class="rsbv-value-cell">
-                       {{> :ResourceFieldValueVisualization field=field
+                  <td class="multivalueTd rs-page-resource__field">
+                    <div class="displayFlexcol">
+                      <td>
+                        <span class="rs-page-resource__field-value"
+                          >{{> :ResourceFieldValueVisualization field=field
                           value=value }}
                   </td>
                 </tr>
@@ -242,19 +266,48 @@
                 {{/ifCond}}
               {{/if}} 
               <tr class="rs-page-resource__field">
-                <td class="rsbv-value-cell">
-                  {{> :ResourceFieldValueVisualization field=field
-                  value=value }}
+                <td class="multivalueTd rs-page-resource__field">
+                  <div class="displayFlexcol">
+                    <td>
+                      <span class="rs-page-resource__field-value"
+                        >{{> :ResourceFieldValueVisualization field=field
+                        value=value }}
+                      </span>
+                    </td>
+                  </div>
+                </td>
+                <td class="center createAssertion">
+                  <div
+                    title="Create an annotation or assertion"
+                    class="rs-page__count--field-annotation"
+                  >
+                    <semantic-link
+                      iri="http://www.researchspace.org/resource/Field"
+                      urlqueryparam-tab="assertions"
+                      urlqueryparam-field="{{field.iri}}"
+                      urlqueryparam-subject="[[this]]"
+                    >
+                      <i
+                        class="fa fa-plus"
+                        title="Create an annotation or assertion"
+                        ></i
+                      >
+                    </semantic-link>
+                  </div>
                 </td>
                 <td>
                   <div class="sourceIcons">[[> :SourceIcon ]]</div>
-                  </td>
-                </tr>
-                [[else]]
-                  <tr class="rs-page-resource__field">
-                    <td class="rsbv-value-cell">
-                      {{> :ResourceFieldValueVisualization field=field
-                      value=value }}
+                </td>
+              </tr>
+            [[else]]
+              <tr class="rs-page-resource__field">
+                <td class="multivalueTd rs-page-resource__field">
+                  <div class="displayFlexcol">
+                    <td>
+                      <span class="rs-page-resource__field-value"
+                        >{{> :ResourceFieldValueVisualization field=field
+                        value=value }}
+                      </span>
                     </td>
                   </tr>
                 [[/if]]
@@ -276,8 +329,11 @@
                         {{/ifCond}}
                       {{/if}} 
                       <tr class="rs-page-resource__field">
-                        <td class="rsbv-value-cell">
-                              {{> :ResourceFieldValueVisualization field=field
+                        <td class="multivalueTd rs-page-resource__field">
+                          <div class="displayFlexcol">
+                            <td>
+                              <span class="rs-page-resource__field-value"
+                                >{{> :ResourceFieldValueVisualization field=field
                                 value=value }}
                         </td>
                         <td>
@@ -286,8 +342,11 @@
                       </tr>
                     [[else]]
                       <tr class="rs-page-resource__field">
-                        <td class="rsbv-value-cell">
-                              {{> :ResourceFieldValueVisualization field=field
+                        <td class="multivalueTd rs-page-resource__field">
+                          <div class="displayFlexcol">
+                            <td>
+                              <span class="rs-page-resource__field-value"
+                                >{{> :ResourceFieldValueVisualization field=field
                                 value=value }}
                         </td>
                       </tr>
@@ -312,8 +371,11 @@
                {{/ifCond}}
              {{/if}} 
              <tr class="rs-page-resource__field">
-               <td class="rsbv-value-cell">
-                     {{> :ResourceFieldValueVisualization field=field
+               <td class="multivalueTd rs-page-resource__field">
+                 <div class="displayFlexcol">
+                   <td>
+                     <span class="rs-page-resource__field-value"
+                       >{{> :ResourceFieldValueVisualization field=field
                        value=value }}
                </td>
        
@@ -323,8 +385,11 @@
              </tr>
              [[else]]
              <tr class="rs-page-resource__field">
-               <td class="rsbv-value-cell">
-                    {{> :ResourceFieldValueVisualization field=field
+               <td class="multivalueTd rs-page-resource__field">
+                 <div class="displayFlexcol">
+                   <td>
+                     <span class="rs-page-resource__field-value"
+                       >{{> :ResourceFieldValueVisualization field=field
                        value=value }}
                </td>
              </tr>
@@ -345,6 +410,3 @@
   </table>
 </div>
 {{/if}}
-<style>
-
-</style>
