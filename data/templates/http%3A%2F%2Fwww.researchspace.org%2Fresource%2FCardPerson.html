@@ -39,7 +39,7 @@ class="rs-grid-element panel panel-default personCard fade-in-fwd "
             <semantic-query query='SELECT ?date WHERE{
               <{{subject.value}}> fr:Person_has_Date_of_Birth ?date
             }'
-            no-result-template="<div></div>"
+           
             template='{{> birthTemplate}}'
             >
             <template id="birthTemplate">
@@ -54,11 +54,11 @@ class="rs-grid-element panel panel-default personCard fade-in-fwd "
               <{{subject.value}}> fr:Person_has_Date_of_Death ?date
             }'
             template='{{> deathTemplate}}'
-            no-result-template="<div></div>"
+            
             >
             <template id="deathTemplate">
               <div date="{{dateTimeFormat bindings.0.date.value "YYYY"}}">
-                -{{dateTimeFormat bindings.0.date.value "YYYY"}}
+                -{{dateTimeFormat bindings.0.date.value "YYYY"}}/ 
               </div>
             </template>
             </semantic-query>
@@ -77,7 +77,7 @@ class="rs-grid-element panel panel-default personCard fade-in-fwd "
               <{{subject.value}}> fr:Person_has_Nationality ?nationality.
               ?nationality rdfs:label ?nationalityLabel
             }LIMIT 1'
-            no-result-template="<div></div>"
+            
             >
             </semantic-query>
                </div>
