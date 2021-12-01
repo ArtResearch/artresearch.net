@@ -46,21 +46,13 @@
           FILTER ( lang(?label) = \"en\" ). 
           BIND(bound(?item) as ?hasChildren)
         } order by ?label",
-           "parentsQuery": "
-             PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-             PREFIX gvp: <http://vocab.getty.edu/ontology#>
-             PREFIX xl: <http://www.w3.org/2008/05/skos-xl#>
-             PREFIX dc: <http://purl.org/dc/elements/1.1/>
-             SELECT DISTINCT ?item ?parent ?parentLabel
-             FROM <alignment:__graph__>
-             WHERE {
-                 ?item skos:broader ?parent .
-                 ?parent (skos:topConceptOf | a) ?type .
- 
-                 ?parent skos:prefLabel ?parentLabel .
-                 FILTER(langMatches(lang(?parentLabel), \"en\") || LANG(?parentLabel) = \"\")
-             } ORDER BY ?parentLabel
-           ",
+        "parentsQuery": "
+      SELECT distinct ?item ?parent ?parentLabel WHERE {
+        ?item a <http://www.w3.org/2004/02/skos/core#ConceptScheme>.
+        ?item  <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
+        ?parent <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+        FILTER ( lang(?label) = \"en\" ). 
+      }",
            "searchQuery": "
                 PREFIX bds: <http://www.bigdata.com/rdf/search#>
                 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
