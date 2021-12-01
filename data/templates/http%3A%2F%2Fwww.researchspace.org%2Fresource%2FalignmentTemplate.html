@@ -33,36 +33,12 @@
       <rs-alignment-tool
         alignment-container='[[this]]'
         queries='{
-           "rootsQuery": "
-             PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-             PREFIX gvp: <http://vocab.getty.edu/ontology#>
-             PREFIX xl: <http://www.w3.org/2008/05/skos-xl#>
-             PREFIX dc: <http://purl.org/dc/elements/1.1/>
-             SELECT DISTINCT ?item (SAMPLE(?label) as ?label) (SAMPLE(?hasChildren) as ?hasChildren)
-             FROM <alignment:__graph__>
-             WHERE {
-                 {
-                 ?item (skos:topConceptOf | a) ?type .
-                 FILTER(
-                   ?type = <http://vocab.dariah.eu/bbt/ConceptScheme/Backbone_Thesaurus> ||
-                   ?type = skos:Concept
-                 )
-                 MINUS { ?item skos:broader ?parent }
-                 OPTIONAL {
-                   ?item skos:prefLabel ?labelX .
-                   FILTER(langMatches(lang(?labelX), \"en\") || LANG(?labelX) = \"\")
-                 }
-               }
-                 OPTIONAL {
-                       ?child skos:broader ?item .
-               }
-               BIND(bound(?child) as ?hasChildren)
-               BIND(IF(CONTAINS(STR(?labelX),\"unauthorised\"), STR(?item) , ?labelX) as ?label)
- 
-             }
-             GROUP BY ?item
-             ORDER BY ?label
-           ",
+          "rootsQuery": "
+      SELECT DISTINCT ?item ?label where {
+        ?item a <http://vocab.getty.edu/ontology#Facet>.
+        ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+        FILTER ( lang(?label) = \"en\" ). 
+      }order by ?label",
            "childrenQuery": "
              PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
              PREFIX gvp: <http://vocab.getty.edu/ontology#>
