@@ -9,6 +9,12 @@
     class="page__header-tagline subtitleInfo"
   >
     <div class="header-options">
+      <mp-overlay-dialog-trigger
+         trigger='["click"]'
+          placement="bottom" 
+         >
+          <div class="fieldsToAssert"><h4>Fields to assert</h4></div>
+        </mp-overlay-dialog-trigger>
       <semantic-query
         query="
               SELECT DISTINCT ?providerRecord ?providerLabel WHERE {
