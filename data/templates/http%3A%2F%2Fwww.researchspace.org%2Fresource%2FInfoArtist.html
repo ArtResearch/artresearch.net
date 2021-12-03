@@ -22,10 +22,14 @@
         template='{{>productionInfo}}'
         >
       <template id="productionInfo">
+        {{#if noData}}
+        <div class="productionInfoContainer"></div>
+        {{else}}
         <div class="productionInfoContainer">
         <h2>External info</h2>
           [[> :ResourceFieldBasedVisualization subject=[[this]] showSourceIcon="true"  ]]
         </div>
+        {{/if}}
       </template>
       <div class="animated-background productionInfoContainer"></div>
     </mp-field-visualization>
