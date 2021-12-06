@@ -1,5 +1,5 @@
 <div id="printableInfo"  class="workAndProductionInfo">
-  <!-- Fields for Artist (other details) -->
+
       <mp-field-visualization
           subject="[[this]]"
           additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
@@ -13,14 +13,15 @@
           </div>
         </template>
         </mp-field-visualization>
-        
+
+
    <mp-field-visualization
           subject="[[this]]"
           additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
           fields='[[ fieldDefinitionsFromQuery "SELECT ?field WHERE {  ?field <http://www.researchspace.org/resource/system/fields/category>  <http://www.researchspace.org/ontologies/platform/FieldCategories/person_relationships>. OPTIONAL {?field <http://www.researchspace.org/resource/system/fields/order> ?w. BIND(xsd:integer(?w) as ?orderNo)} } ORDER BY ASC(?orderNo)" ]]'
-          template='{{>workInfo}}'
+          template='{{>RelationshipsInfo}}'
           >
-        <template id="workInfo">
+        <template id="RelationshipsInfo">
           <div class="workInfoContainer">
           <h2>Relationships</h2>
             [[> :ResourceFieldBasedVisualization subject=[[this]] showSourceIcon="true" ]]
