@@ -62,6 +62,7 @@
                 <tr  class="rs-page-resource__field">
                   <td class="rsbv-value-cell">
                     {{#each field.values as |value|}}
+                    
                   {{> :ResourceFieldValueVisualization field=field
                   value=value }}
                     {{/each}}
@@ -129,8 +130,7 @@
                                     {{#each field.values as |value|}}
                                       {{#ifCond @index "===" 0 }}
                                         <semantic-link iri="{{value.value.value}}"></semantic-link>
-                                        {{else}}
-                                        ,<semantic-link iri="{{value.value.value}}"></semantic-link>
+                                        {{else}}, <semantic-link iri="{{value.value.value}}"></semantic-link>
                                         {{/ifCond}}
                                     {{/each}}
                                   {{/ifCond}}
@@ -144,15 +144,42 @@
                       </bs-panel>
                     </td>
                   </tr>
-          {{/ifCond}}
-              <!--  end of place concat-->
+            {{/ifCond}}
+              
 
-
+            {{#ifCond field.label.0.value "===" "Place of Death" }}
+                   <tr class="rs-page-resource__field">
+                    <td class="rsbv-value-cell">
+                      
+                            {{#ifCond (objectLength field.values) '>' 1 }}
+                                  {{#ifCond  value.value.value "!==" null}}
+                                    {{#each field.values as |value|}}
+                                      {{#ifCond @index "===" 0 }}
+                                        <semantic-link iri="{{value.value.value}}"></semantic-link>
+                                        {{else}}, <semantic-link iri="{{value.value.value}}"></semantic-link>
+                                        {{/ifCond}}
+                                    {{/each}}
+                                  {{/ifCond}}
+                               {{/ifCond}} 
+                    </td>
+                    <td>
+                      <bs-panel header="All" collapsible="true">
+                          {{#each field.values as |value|}} 
+                          <div class="sourceIcons">[[> :SourceIcon ]]</div>
+                          {{/each}}
+                      </bs-panel>
+                    </td>
+                  </tr>
+            {{/ifCond}}
+<!--  end of place concat-->
 
           {{#ifCond (objectLength field.values) '>' 5}}
 
 
             {{#each field.values as |value|}}
+                  {{#each field.values as |value2|}}
+
+                  {{/each}}
               {{#ifCond @index "===" 0 }}
                 [[#if showSourceIcon]]
                   {{#if ../../selectedTab}}
@@ -333,7 +360,7 @@
                       </tr>
                     [[/if]]
                   {{/ifCond}}
-                {{/each}}
+          {{/each}}
                 </tbody>
                 </table>
                       </bs-panel>
@@ -342,36 +369,38 @@
              {{else}}
 
               {{#ifCond field.label.0.value "!==" "Place of Birth" }}
-             {{#each field.values as |value|}}
-             [[#if showSourceIcon]]
-             {{#if ../../selectedTab}}
-               {{#ifCond ../../selectedTab "!==" "All" }}
-                 {{#ifCond ../../selectedTab "!==" value.binding.providerLabel.value }}
-                   <div class="hide-next-row">hiding next row</div>
-                 {{/ifCond}}
-               {{/ifCond}}
-             {{/if}} 
-             <tr class="rs-page-resource__field">
-               <td class="rsbv-value-cell">
-                 <!-- edwwwww -->
-                     {{> :ResourceFieldValueVisualization field=field
-                       value=value }}
-               </td>
-       
-               <td>
-                 <div class="sourceIcons">[[> :SourceIcon ]]</div>
-               </td>
-             </tr>
-             [[else]]
-             <tr class="rs-page-resource__field">
-               <td class="rsbv-value-cell">
-                    {{> :ResourceFieldValueVisualization field=field
-                       value=value }}
-               </td>
-             </tr>
-             [[/if]]
-             {{/each}}
-            {{/ifCond}}
+                {{#ifCond field.label.0.value "!==" "Place of Death" }}
+              {{#each field.values as |value|}}
+              [[#if showSourceIcon]]
+              {{#if ../../selectedTab}}
+                {{#ifCond ../../selectedTab "!==" "All" }}
+                  {{#ifCond ../../selectedTab "!==" value.binding.providerLabel.value }}
+                    <div class="hide-next-row">hiding next row</div>
+                  {{/ifCond}}
+                {{/ifCond}}
+              {{/if}} 
+              <tr class="rs-page-resource__field">
+                <td class="rsbv-value-cell">
+                  <!-- here for the concat fields -->
+                      {{> :ResourceFieldValueVisualization field=field
+                        value=value }}
+                </td>
+        
+                <td>
+                  <div class="sourceIcons">[[> :SourceIcon ]]</div>
+                </td>
+              </tr>
+              [[else]]
+              <tr class="rs-page-resource__field">
+                <td class="rsbv-value-cell">
+                      {{> :ResourceFieldValueVisualization field=field
+                        value=value }}
+                </td>
+              </tr>
+              [[/if]]
+              {{/each}}
+              {{/ifCond}}
+             {{/ifCond}}
              {{/ifCond}}
 
              
