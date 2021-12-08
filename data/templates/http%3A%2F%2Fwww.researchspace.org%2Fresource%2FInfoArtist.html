@@ -1,4 +1,43 @@
-
+<div class="header-options artistAdditionalOptions">
+      <semantic-query
+        query='SELECT ?tLabel ?link WHERE {             
+            ?subject owl:sameAs <http://vocab.getty.edu/ulan/500023578>.
+            ?subject crm:P1_is_identified_by ?value.
+            ?value <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ?type.
+            ?type rdfs:label "GND or ULAN".
+            ?type rdfs:label ?tLabel.
+            ?value rdfs:label ?id.
+            BIND(IRI(REPLACE(?id,"gnd", "https://d-nb.info/gnd/")) AS ?link)
+            FILTER CONTAINS(?id,"gnd")
+        }'
+        no-result-template="<div></div>"
+        template="{{> GNDLink}}"
+      >
+        <template id="GNDLink">
+          <div>
+            <h2 class="fc-label">
+              {{#each bindings}}
+              <a
+                style="margin-left: 5px"
+                href="{{link.value}}"
+                target="_null"
+              >
+                <div class="fc-label original-linkGND">
+                  <div class="linkImageWrapper">
+                  <img
+                    
+                    class="sourceIconGND"
+                    src="../../assets/images/GND.ico"
+                  />
+                  <h2 class="text">View {{tLabel.value}} record</h2>
+                  </div>
+                </div>
+              </a>
+              {{/each}}
+            </h2>
+          </div>
+        </template>
+      </semantic-query>
 <div id="printableInfo"  class="workAndProductionInfo">
 
       <mp-field-visualization

@@ -114,14 +114,14 @@
       </rs-alignment-tool>
     </semantic-context>
     [[else]]
+    <semantic-context repository='geonames'>
       <rs-alignment-tool
         alignment-container='[[this]]'
-        queries=' {
+        queries='  {
     "rootsQuery": "
     SELECT DISTINCT ?item ?label where {
       ?item <http://www.geonames.org/ontology#featureCode> <https://www.geonames.org/ontology#L.CONT>.
       ?item <http://www.geonames.org/ontology#name> ?label.
-      FILTER ( lang(?label) = \"en\" ). 
     }order by ?label",
     "childrenQuery": "
       SELECT distinct ?item ?label ?hasChildren WHERE {
@@ -131,39 +131,36 @@
         }UNION{
           ?item <http://www.geonames.org/ontology#parentADM1> ?parent.
         }
-        ?item a  ?__range__.
-        ?item rdfs:label ?label.
-        FILTER(EXISTS {?subject ?__relation__ ?item.  }) .
+        ?item <http://www.geonames.org/ontology#name> ?label.
         BIND(bound(?item) as ?hasChildren)
       } order by ?label",
-    "parentsQuery": "
-    SELECT distinct ?item ?parent ?parentLabel WHERE {
-      ?item a ?__range__.
+    "parentsQuery": "SELECT distinct ?item ?parent ?parentLabel WHERE {
       ?item  <http://www.geonames.org/ontology#parentCountry>  ?parent.
-      ?parent rdfs:label ?parentLabel
+      ?parent <http://www.geonames.org/ontology#name> ?parentLabel
     }",
     "searchQuery":"
-      SELECT DISTINCT ?hasChildren ?item ?label WHERE {
-        ?item a ?__range__.
+      SELECT DISTINCT ?hasChildren ?item ?label 
+      WHERE {
         ?item rdfs:label ?label.
+        FILTER(langMatches(lang(?label), \"en\") || lang(?label) = \"\") .
         ?label bds:search ?__token__ .
+        bds:relevance ?score ;
+        bds:minRelevance \"0.3\" ;
+        bds:maxRank \"500\" ;
+        bds:matchAllTerms \"true\"  .
         ?label bds:minRelevance \"0.3\"^^xsd:double.
         ?label bds:matchAllTerms \"true\".
         {
           ?item  <http://www.geonames.org/ontology#parentCountry>  ?child.
-          ?child crm:P2_has_type <http://vocab.getty.edu/aat/300387506>.
         }UNION{
           ?child  <http://www.geonames.org/ontology#parentCountry>  ?item.
-          ?item crm:P2_has_type <http://vocab.getty.edu/aat/300387506>.
         }
         BIND(BOUND(?child) AS ?hasChildren)
-        FILTER(EXISTS { 
-          ?subject ?__relation__ ?item . 
-        }) 
        }ORDER BY DESC (?label)
        "
   }'>
       </rs-alignment-tool>
+    </semantic-context>
     [[/if]]
   </div>
 </div>
