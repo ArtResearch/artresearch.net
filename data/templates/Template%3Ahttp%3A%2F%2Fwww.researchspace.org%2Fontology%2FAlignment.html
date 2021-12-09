@@ -33,8 +33,9 @@
       <rs-alignment-tool
         alignment-container='[[this]]'
         queries='{
-          "rootsQuery": "
+           "rootsQuery": "
       SELECT DISTINCT ?item ?label where {
+    
         ?item a <http://vocab.getty.edu/ontology#Facet>.
         ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
         FILTER ( lang(?label) = \"en\" ). 
@@ -46,7 +47,7 @@
           FILTER ( lang(?label) = \"en\" ). 
           BIND(bound(?item) as ?hasChildren)
         } order by ?label",
-        "parentsQuery": "
+             "parentsQuery": "
       SELECT distinct ?item ?parent ?parentLabel WHERE {
         ?item a <http://www.w3.org/2004/02/skos/core#ConceptScheme>.
         ?item  <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.

@@ -66,7 +66,7 @@
          trigger='["click"]'
           placement="bottom" 
          >
-          <div class="fieldsToAssert"><h4>Fields to assert</h4></div>
+          <div class="fieldsToAssert"><h2>Fields to assert</h2></div>
         </mp-overlay-dialog-trigger>
         <mp-overlay-dialog-content>
             <mp-event-target-template-render
@@ -82,7 +82,7 @@ template="{{> fieldsFilter}}"
     fields='[[ fieldDefinitionsFromQuery "SELECT ?field WHERE {    ?field <http://www.researchspace.org/resource/system/fields/category>  <http://www.researchspace.org/ontologies/platform/FieldCategories/artwork_monument>.   OPTIONAL {?field <http://www.researchspace.org/resource/system/fields/order> ?w. BIND(xsd:integer(?w) as ?orderNo)}} ORDER BY ASC(?orderNo)"]]'
     template="{{>workInfo}}"
   >
-    <template id="workInfo">
+    <template id="workInfo">   
       <div class="PopupworkInfoContainer">
       {{#if noData}}
        <div></div>

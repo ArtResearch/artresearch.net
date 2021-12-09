@@ -13,7 +13,7 @@
 {{else}}
 <div id="rsbv" class="table-responsive rs-table">
   <table class="table table-hover">
-    [[#if showSourceIcon]]
+  
     <thead role="header">
       <td class="rs-page-resource__field-label-holder">
         <span class="rs-page-resource__field-label">
@@ -22,12 +22,12 @@
       </td>
  
     </thead>
-    [[/if]]
+  
     <tbody>
       {{#each fields as |field|}} 
       {{#if field.values}}
      
-      [[#if showSourceIcon]]
+
       {{#if ../selectedTab}}
           {{#ifCond ../selectedTab "!==" "All" }}
             {{#ifCond ../selectedTab "!==" field.values.0.binding.providerLabel.value }}
@@ -35,7 +35,7 @@
             {{/ifCond}}
           {{/ifCond}}
       {{/if}}
-      [[/if]]
+ 
         <tr class="rs-page-resource__field">
           <td class="rs-page-resource__field-label-holder headLine">
             <span class="rs-page-resource__field-label">
@@ -44,17 +44,7 @@
           </td>
 
           <td >
-           
-              [[#if showSourceIcon]]
-                
-                  <td>
-                    {{#each field.values as |value|}}
-                      <span class="rs-page-resource__field-value"
-                        >{{> :ResourceFieldValueVisualization field=field
-                        value=value }}
-                      </span>
-                    {{/each}}
-                  </td>
+          
                   <td class="center createAssertion">
                     
                       <semantic-link
@@ -70,32 +60,9 @@
                       </semantic-link>
                     
                   </td>
-                  <td class="sourceIcon-badge">
-                    <div class="sourceIcons">
-                      {{#each field.values as |value|}} [[> :SourceIcon ]]
-                      {{/each}}
-                    </div>
-                  </td>
-
-               
-              [[else]]
-              <tr>
-                <td>
-                  {{#each field.values as |value|}}
-                    <span class="rs-page-resource__field-value"
-                      >{{> :ResourceFieldValueVisualization field=field
-                      value=value }}
-                    </span>
-                  {{/each}}
-                </td>
-              </tr>
-              [[/if]]
-            
+                         
           </td>
           </tr>
-      
-
-       
           
       {{/if}} 
       
