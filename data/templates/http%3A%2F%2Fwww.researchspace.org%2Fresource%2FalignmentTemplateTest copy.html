@@ -30,6 +30,7 @@
   </div>
   <div class='page__body--borderless' style='height: 70vh;'>
     [[#if (ask "ASK WHERE { <https://artresearch.net/container/Alignment.Container/1143c792-04bf-47c7-9ffb-f0e3a68a95b3> <http://www.researchspace.org/ontology/PX_source_terminology>|<http://www.researchspace.org/ontology/PX_target_terminology> ?object . ?s skos:inScheme ?object. }")]]
+    <semantic-context repository='default'>
       <rs-alignment-tool
         alignment-container='https://artresearch.net/container/Alignment.Container/1143c792-04bf-47c7-9ffb-f0e3a68a95b3'
         queries='{
@@ -121,101 +122,54 @@
           "
         }'>
       </rs-alignment-tool>
+    </semantic-context>
     [[else]]
+    <semantic-context repository='geonames'>
       <rs-alignment-tool
         alignment-container='https://artresearch.net/container/Alignment.Container/1143c792-04bf-47c7-9ffb-f0e3a68a95b3'
-        queries='{
-          "rootsQuery": " SELECT DISTINCT ?item ?label where {
-                            {
-                              SERVICE <http://213.171.209.34:10085/blazegraph/sparql> {
-                                GRAPH <alignment:__graph__> {
-                                  ?item <http://www.geonames.org/ontology#featureCode> <https://www.geonames.org/ontology#L.CONT>.
-                                  ?item <http://www.geonames.org/ontology#name> ?label
-                                }
-                              }
-                            } UNION {
-                              GRAPH <alignment:__graph__> {
-                                ?item a cfc:place;
-                                  rdfs:label ?label.
-                              }
-                            }
-                          }order by ?label",
-          "childrenQuery": "  SELECT distinct ?item ?label ?hasChildren FROM <alignment:__graph__> WHERE {
-                                SERVICE <http://213.171.209.34:10085/blazegraph/sparql>  {
-                                  ?item <http://www.geonames.org/ontology#parentFeature> ?parent.
-                                  ?item <http://www.geonames.org/ontology#name> ?label.
-                                }
-                                BIND(bound(?item) as ?hasChildren)
-                              } order by ?label",
-          "parentsQuery": "
-            PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-            PREFIX gvp: <http://vocab.getty.edu/ontology#>
-            PREFIX xl: <http://www.w3.org/2008/05/skos-xl#>
-            PREFIX dc: <http://purl.org/dc/elements/1.1/>
-            SELECT DISTINCT ?item ?parent ?parentLabel FROM <alignment:__graph__>
-            WHERE {
-               SERVICE <http://213.171.209.34:10085/blazegraph/sparql>  {
-                ?item <http://www.geonames.org/ontology#parentFeature> ?parent.
-                ?parent <http://www.geonames.org/ontology#name> ?parentLabel.
-              }
-            } ORDER BY ?parentLabel
-          ",
-          "searchQuery": "
-                PREFIX bds: <http://www.bigdata.com/rdf/search#>
-                PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-                PREFIX gvp: <http://vocab.getty.edu/ontology#>
-                PREFIX xl: <http://www.w3.org/2008/05/skos-xl#>
-                PREFIX dc: <http://purl.org/dc/elements/1.1/>
-
-                SELECT DISTINCT ?item ?label ?score ?hasChildren
-                FROM <alignment:__graph__>
-                WHERE {
-                  { 
-                    SERVICE <http://213.171.209.34:10085/blazegraph/sparql>{
-                      ?item <http://www.geonames.org/ontology#name> ?label.
-                    }
-                  } UNION {
-                    ?item a cfc:place.
-                    ?item rdfs:label ?label.
-                  }
-                  ?label bds:search ?__token__ ;
-                  bds:relevance ?score ;
-                  bds:minRelevance \"0.3\" ;
-                  bds:maxRank \"500\" ;
-                  bds:matchAllTerms \"true\"  .
-                  OPTIONAL {
-                    { ?child <http://www.geonames.org/ontology#parentFeature> ?broader.}
-                  }
-                  BIND(BOUND(?child) AS ?hasChildren)
-                }
-                ORDER BY DESC(?score) ?label
-                LIMIT 200
-          ",
-          "nodeQuery": "
-                PREFIX bds: <http://www.bigdata.com/rdf/search#>
-            PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-            PREFIX gvp: <http://vocab.getty.edu/ontology#>
-            PREFIX xl: <http://www.w3.org/2008/05/skos-xl#>
-            PREFIX dc: <http://purl.org/dc/elements/1.1/>
-            SELECT DISTINCT ?item (SAMPLE(?label) as ?label) (SAMPLE(?hasChildren) as ?hasChildren)
-            FROM <alignment:__graph__>
-            WHERE {
-                OPTIONAL {
-                    ?item skos:prefLabel ?labelX .
-                    FILTER(langMatches(lang(?labelX), \"en\") || LANG(?labelX) = \"\")
-                }
-                OPTIONAL {
-                    ?child skos:broader ?item .
-                }
-                BIND(BOUND(?child) AS ?hasChildren)
-                BIND(IF(CONTAINS(STR(?labelX),\"unauthorised\"), STR(?item) , ?labelX) as ?label)
-            }
-            GROUP BY ?item
-            ORDER BY ?label
-          "
-        }'>
-      </rs-alignment-tool>
-
+        queries=' {
+    "rootsQuery": "
+    SELECT DISTINCT ?item ?label FROM <alignment:__graph__> where {
+        ?item a cfc:place. 
+        ?item rdfs:label ?label.
+     }order by ?label",
+    "childrenQuery": "
+      SELECT distinct ?item ?label ?hasChildren FROM <alignment:__graph__> WHERE {
+        {
+          ?item <http://www.geonames.org/ontology#parentCountry>  ?parent.
+          ?x <http://www.geonames.org/ontology#parentADM1> ?item. 
+        }UNION{
+          ?item <http://www.geonames.org/ontology#parentADM1> ?parent.
+        }
+        ?item rdfs:label ?label.
+        BIND(bound(?item) as ?hasChildren)
+      } order by ?label",
+    "parentsQuery": "
+    SELECT distinct ?item ?parent ?parentLabel  FROM <alignment:__graph__>  WHERE {
+      
+      ?item  <http://www.geonames.org/ontology#parentCountry>  ?parent.
+      ?parent rdfs:label ?parentLabel
+    }",
+    "searchQuery":"
+      SELECT DISTINCT ?hasChildren ?item ?label FROM <alignment:__graph__> WHERE {
+        
+        ?item rdfs:label ?label.
+        ?label bds:search ?__token__ .
+        ?label bds:minRelevance \"0.3\"^^xsd:double.
+        ?label bds:matchAllTerms \"true\".
+        {
+          ?item  <http://www.geonames.org/ontology#parentCountry>  ?child.
+          ?child crm:P2_has_type <http://vocab.getty.edu/aat/300387506>.
+        }UNION{
+          ?child  <http://www.geonames.org/ontology#parentCountry>  ?item.
+          ?item crm:P2_has_type <http://vocab.getty.edu/aat/300387506>.
+        }
+        BIND(BOUND(?child) AS ?hasChildren)
+        
+       }ORDER BY DESC (?label)
+       "
+  }'>
+    </semantic-context>
     [[/if]]
   </div>
 </div>
