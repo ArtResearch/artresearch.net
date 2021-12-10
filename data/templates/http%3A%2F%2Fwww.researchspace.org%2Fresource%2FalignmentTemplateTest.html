@@ -171,12 +171,11 @@
                 FROM <alignment:__graph__>
                 WHERE {
                   { 
-                    SERVICE <http://213.171.209.34:10085/blazegraph/sparql>{
-                      ?item <http://www.geonames.org/ontology#name> ?label.
-                    }
+                      ?item <http://www.geonames.org/ontology#featureCode> <https://www.geonames.org/ontology#L.CONT>.
+                      ?item <http://www.geonames.org/ontology#name> ?label
                   } UNION {
-                    ?item a cfc:place.
-                    ?item rdfs:label ?label.
+                        ?item a cfc:place;
+                          rdfs:label ?label.
                   }
                   ?label bds:search ?__token__ ;
                   bds:relevance ?score ;
