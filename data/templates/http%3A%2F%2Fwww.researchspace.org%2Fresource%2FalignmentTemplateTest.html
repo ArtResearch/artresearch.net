@@ -170,18 +170,20 @@
                 SELECT DISTINCT ?item ?label ?score ?hasChildren
                 FROM <alignment:__graph__>
                 WHERE {
-                  { 
-                      ?item <http://www.geonames.org/ontology#featureCode> <https://www.geonames.org/ontology#L.CONT>.
-                      ?item <http://www.geonames.org/ontology#name> ?label
-                  } UNION {
-                        ?item a cfc:place;
-                          rdfs:label ?label.
-                  }
                   ?label bds:search ?__token__ ;
                   bds:relevance ?score ;
                   bds:minRelevance \"0.3\" ;
                   bds:maxRank \"500\" ;
                   bds:matchAllTerms \"true\"  .
+                  { 
+                   
+                      ?item  <http://www.geonames.org/ontology#parentCountry>  ?child.
+                       ?child crm:P2_has_type <http://vocab.getty.edu/aat/300387506>.
+       
+                  } UNION {
+                        ?item a cfc:place;
+                          rdfs:label ?label.
+                  }
                   OPTIONAL {
                     { ?child <http://www.geonames.org/ontology#parentFeature> ?broader.}
                   }
