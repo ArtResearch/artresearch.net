@@ -123,7 +123,7 @@
 
 
 <!-- test name --> 
- {{#ifCond field.label.0.value "===" "test name" }}
+ {{#ifCond iri "===" "http://www.researchspace.org/fieldDefinition/test%20name" }}
           {{#ifCond (objectLength field.values) '>' 5}}
 
 
@@ -347,7 +347,7 @@
 <!-- end of test name -->
 
           <!-- place Concat -->
-            {{#ifCond field.label.0.value "===" "Place of Birth" }}
+            {{#ifCond iri "===" "https://pharos.artresearch.net/fieldDefinition/ulan_place_of_birth" }}
                    <tr class="rs-page-resource__field">
                     <td class="rsbv-value-cell">
                       
@@ -373,7 +373,7 @@
             {{/ifCond}}
               
 
-            {{#ifCond field.label.0.value "===" "Place of Death" }}
+            {{#ifCond iri "===" "https://pharos.artresearch.net/fieldDefinition/ulan_place_of_death" }}
                    <tr class="rs-page-resource__field">
                     <td class="rsbv-value-cell">
                       
@@ -397,9 +397,9 @@
             {{/ifCond}}
 <!--  end of place concat-->  
 
-          {{#ifCond field.label.0.value "!==" "Place of Birth" }}
-                {{#ifCond field.label.0.value "!==" "Place of Death" }}
-                  {{#ifCond field.label.0.value "!==" "test name" }}
+          {{#ifCond iri "!==" "https://pharos.artresearch.net/fieldDefinition/ulan_place_of_birth" }}
+                {{#ifCond iri "!==" "https://pharos.artresearch.net/fieldDefinition/ulan_place_of_death" }}
+                  {{#ifCond iri "!==" "http://www.researchspace.org/fieldDefinition/test%20name" }}
           {{#ifCond (objectLength field.values) '>' 5}}
 
 
@@ -416,9 +416,9 @@
                       {{/ifCond}}
                     {{/ifCond}}
                   {{/if}} 
-                   {{#ifCond field.label.0.value "!==" "Place of Birth" }}
-                    {{#ifCond field.label.0.value "!==" "Place of Death" }}
-                        {{#ifCond field.label.0.value "!==" "test name" }}
+                   {{#ifCond iri "!==" "https://pharos.artresearch.net/fieldDefinition/ulan_place_of_birth" }}
+                    {{#ifCond iri "!==" "https://pharos.artresearch.net/fieldDefinition/ulan_place_of_death" }}
+                        {{#ifCond iri "!==" "http://www.researchspace.org/fieldDefinition/test%20name" }}
                           <tr class="rs-page-resource__field">
                             <td class="rsbv-value-cell">
                                   {{> :ResourceFieldValueVisualization field=field
