@@ -123,10 +123,8 @@
 
 
 <!-- test name --> 
- {{#ifCond iri "===" "http://www.researchspace.org/fieldDefinition/test%20name" }}
+ {{#ifCond iri "===" "http://www.researchspace.org/fieldDefinition/Name" }}
           {{#ifCond (objectLength field.values) '>' 5}}
-
-
             {{#each field.values as |value|}}
                   {{#each field.values as |value2|}}
 
@@ -399,7 +397,7 @@
 
           {{#ifCond iri "!==" "https://pharos.artresearch.net/fieldDefinition/ulan_place_of_birth" }}
                 {{#ifCond iri "!==" "https://pharos.artresearch.net/fieldDefinition/ulan_place_of_death" }}
-                  {{#ifCond iri "!==" "http://www.researchspace.org/fieldDefinition/test%20name" }}
+                  {{#ifCond iri "!==" "http://www.researchspace.org/fieldDefinition/Name" }}
           {{#ifCond (objectLength field.values) '>' 5}}
 
 
@@ -418,7 +416,7 @@
                   {{/if}} 
                    {{#ifCond iri "!==" "https://pharos.artresearch.net/fieldDefinition/ulan_place_of_birth" }}
                     {{#ifCond iri "!==" "https://pharos.artresearch.net/fieldDefinition/ulan_place_of_death" }}
-                        {{#ifCond iri "!==" "http://www.researchspace.org/fieldDefinition/test%20name" }}
+                        {{#ifCond iri "!==" "http://www.researchspace.org/fieldDefinition/Name" }}
                           <tr class="rs-page-resource__field">
                             <td class="rsbv-value-cell">
                                   {{> :ResourceFieldValueVisualization field=field
