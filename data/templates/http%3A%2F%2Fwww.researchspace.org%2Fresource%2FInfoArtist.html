@@ -1,4 +1,44 @@
-
+<div class="header-options artistAdditionalOptions">
+      <semantic-query
+        query='SELECT ?tLabel ?link WHERE {             
+            ?subject owl:sameAs <http://vocab.getty.edu/ulan/500023578>.
+            ?subject crm:P1_is_identified_by ?value.
+            ?value <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ?type.
+            ?type rdfs:label "GND or ULAN".
+            ?type rdfs:label ?tLabel.
+            ?value rdfs:label ?id.
+            BIND(IRI(REPLACE(?id,"gnd", "https://d-nb.info/gnd/")) AS ?link)
+            FILTER CONTAINS(?id,"gnd")
+        }'
+        no-result-template="<div></div>"
+        template="{{> DNBLink}}"
+      >
+        <template id="DNBLink">
+          <div>
+            <h2 class="fc-label" style="width: 60vw;">
+              {{#each bindings}}
+              <a
+                style="margin-left: 5px"
+                href="{{link.value}}"
+                target="_null"
+              >
+                <div class="fc-label original-linkDNB">
+                  <div class="linkImageWrapper">
+                  <img
+                    
+                    class="sourceIconDNB"
+                    src="../../assets/images/DNB.ico"
+                  />
+                  <h2 class="text">View GND record</h2>
+                  </div>
+                </div>
+              </a>
+              {{/each}}
+            </h2>
+          </div>
+        </template>
+      </semantic-query>
+      </div>
 <div id="printableInfo"  class="workAndProductionInfo">
 
       <mp-field-visualization
@@ -34,7 +74,7 @@
                     <div class= "bioTemplate " >
                      
                       <div class="BioText">
-                        <h2 class=" MyItalic fa fa-quote-left">{{bindings.0.value.value}}</h2>
+                        <h2 class=" fa fa-quote-left">{{bindings.0.value.value}}</h2>
                       </div>
                     </div>
                   </template>
@@ -54,7 +94,7 @@
         </template>
         </mp-field-visualization>
 
-     </div>
+     
         
   </div>
 <style>
