@@ -20,14 +20,59 @@
 @import "./partner.css";
 @import "./footer.css";
 
-@media (max-width:1500px) {
-  
+
+
+
+
+.modal-dialog.overlay-modal__dialog.modal-dialog{
+  width: 96%;
+}
+
+
   .WrapperBioRelations{
   width: 100% !important;
 }
+
+
 .bioTemplate{
-  width: 50%;
+  width: 95%;
+  box-shadow:0px 0px 20px 1px #f8f8f8
 }
+.linkImageWrapper{
+  display: flex;
+  padding: 6px;
+  border: 2px solid #a1a1a1;
+  border-radius: 35px;
+   transition: 0.5s;
+  box-shadow: 1px 1px 3px 1px #e7e7e7;
+}
+.artistAdditionalOptions{
+  text-align: -webkit-right !important;
+  text-align: right ;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-bottom: 10px;
+  position: relative;
+}
+.sourceIconDNB{
+  margin-right: 10px;
+  width: 39px;
+  border-radius: 100%;
+  padding: 3px;
+  box-shadow: 2px 3px 4px 1px #e7e7e7;
+}
+
+.original-linkDNB{
+  display: flex;
+  justify-content: right;
+  padding-right: 4vw;
+}
+.linkImageWrapper:hover {
+    background: #e7e7e7;
+}
+.tree-view{
+  padding-left: 10px;
 }
 
 .MyItalic{
@@ -41,10 +86,7 @@
   display: flex;
   place-content: center;
 }
-.bioTemplate{
-  box-shadow: #933439 1.95px 1.95px 0.6px !important;
-  
-}
+
 .BioText{
   margin: 15px;
   font-style: italic;
@@ -53,7 +95,7 @@
 .BioText >h2 {
    font-weight: 500 !important;
    font-style: italic;
-   font-size: 20px !important;
+   font-size: 18px !important;
 }
  #filter-dropdown {
     display: flex;
@@ -1260,7 +1302,7 @@ button.btn.btn-xs.btn-grey {
   .workAndProductionInfo {
     justify-content: unset !important;
   }
-  .workAndProductionInfo .workInfoContainer {
+  .workAndProductionInfo .workInfoContainer , .workAndProductionInfo .RelationshipsContainer  {
     width: 100vw !important;
     min-width: unset !important;
     margin: 0 !important;
