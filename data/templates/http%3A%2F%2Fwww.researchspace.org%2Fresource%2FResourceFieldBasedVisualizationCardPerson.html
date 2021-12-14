@@ -16,7 +16,6 @@
 <!--  end no data -->
 <div id="rsbv" class="table-responsive rs-table">
   <table class="table table-hover">
-        [[#if showSourceIcon]] 
           <thead role="header">
             <td class="rs-page-resource__field-label-holder">
               <span class="rs-page-resource__field-label">
@@ -38,12 +37,10 @@
               </tbody>
             </table>
           </thead>
-        [[/if]]
     <tbody>
       {{#each fields as |field|}} 
       {{#if field.values}}
           {{#ifCond (objectLength field.values) '===' 1}} 
-                [[#if showSourceIcon]]
                     {{#if ../selectedTab}}
                           {{#ifCond ../selectedTab "!==" "All" }}
                               {{#ifCond ../selectedTab "!==" field.values.0.binding.providerLabel.value }}
@@ -51,7 +48,6 @@
                               {{/ifCond}}
                           {{/ifCond}}
                     {{/if}}
-                [[/if]]
             <tr class="rs-page-resource__field">
                 <td class="rs-page-resource__field-label-holder headLine">
                   <span class="rs-page-resource__field-label">
@@ -61,7 +57,6 @@
 
               <table class="table table-hover">
                   <tbody>
-                      [[#if showSourceIcon]]
                           <tr  class="rs-page-resource__field">
                               <td class="rsbv-value-cell">
                                 {{#each field.values as |value|}}
@@ -76,23 +71,13 @@
                                   </div>
                               </td>
                           </tr>
-                      [[else]]
-                        <tr  class="rs-page-resource__field">
-                          <td class="rsbv-value-cell">
-                            {{#each field.values as |value|}}
-                              {{> :ResourceFieldValueVisualization field=field
-                                value=value }}
-                            {{/each}}
-                          </td>
-                        </tr>
-                      [[/if]]
                   </tbody>
               </table>
             </tr>
           {{/ifCond}}
 
        {{#ifCond (objectLength field.values) '>' 1}}
-            [[#if showSourceIcon]]
+            <!-- [[#if showSourceIcon]] -->
               {{#each field.values as |value|}}
                   {{#if ../../selectedTab}}
                       {{#ifCond ../../selectedTab "!==" "All" }}
@@ -111,7 +96,7 @@
                       {{/ifCond}}
                   {{/if}}
               {{/each}}
-            [[/if]]
+            <!-- [[/if]] -->
 
           <tr class="rs-page-resource__field">
               <td class="rs-page-resource__field-label-holder headLine">
@@ -171,13 +156,11 @@
                           </td>
                         </tr>
                   {{/ifCond}}
-            <!-- end place concat -->
                 {{#ifCond (objectLength field.values) '>' 5}}
 
 
                 {{#each field.values as |value|}}
                         {{#ifCond @index "===" 0 }}
-                              [[#if showSourceIcon]]
                                   {{#if ../../selectedTab}}
                                       {{#ifCond ../../selectedTab "!==" "All" }}
                                           {{#ifCond ../../selectedTab "!==" value.binding.providerLabel.value }}
@@ -194,18 +177,9 @@
                                     <div class="sourceIcons">[[> :SourceIcon multiple=true ]]</div>
                                   </td>
                                 </tr>
-                              [[else]]
-                                <tr class="rs-page-resource__field">
-                                  <td class="rsbv-value-cell">
-                                        {{> :ResourceFieldValueVisualization field=field
-                                          value=value }}
-                                  </td>
-                                </tr>
-                              [[/if]]
                       {{/ifCond}}
 
                       {{#ifCond @index "===" 1 }}
-                            [[#if showSourceIcon]]
                                   {{#if ../../selectedTab}}
                                         {{#ifCond ../../selectedTab "!==" "All" }}
                                               {{#ifCond ../../selectedTab "!==" value.binding.providerLabel.value }}
@@ -222,17 +196,8 @@
                                   <div class="sourceIcons">[[> :SourceIcon multiple=true ]]</div>
                                 </td>
                               </tr>
-                            [[else]]
-                              <tr class="rs-page-resource__field">
-                                <td class="rsbv-value-cell">
-                                      {{> :ResourceFieldValueVisualization field=field
-                                        value=value }}
-                                </td>
-                              </tr>
-                            [[/if]]
                       {{/ifCond}}
                       {{#ifCond @index "===" 2 }}
-                          [[#if showSourceIcon]]
                                 {{#if ../../selectedTab}}
                                       {{#ifCond ../../selectedTab "!==" "All" }}
                                             {{#ifCond ../../selectedTab "!==" value.binding.providerLabel.value }}
@@ -249,18 +214,9 @@
                                 <div class="sourceIcons">[[> :SourceIcon multiple=true ]]</div>
                               </td>
                             </tr>
-                          [[else]]
-                            <tr class="rs-page-resource__field">
-                              <td class="rsbv-value-cell">
-                                    {{> :ResourceFieldValueVisualization field=field
-                                      value=value }}
-                              </td>
-                            </tr>
-                          [[/if]]
                     {{/ifCond}}
 
                     {{#ifCond @index "===" 3 }}
-                          [[#if showSourceIcon]]
                                 {{#if ../../selectedTab}}
                                       {{#ifCond ../../selectedTab "!==" "All" }}
                                             {{#ifCond ../../selectedTab "!==" value.binding.providerLabel.value }}
@@ -277,18 +233,9 @@
                                 <div class="sourceIcons">[[> :SourceIcon multiple=true ]]</div>
                               </td>
                             </tr>
-                          [[else]]
-                            <tr class="rs-page-resource__field">
-                              <td class="rsbv-value-cell">
-                                  {{> :ResourceFieldValueVisualization field=field
-                                      value=value }}
-                              </td>
-                            </tr>
-                          [[/if]]
                   {{/ifCond}}
 
                   {{#ifCond @index "===" 4 }}
-                          [[#if showSourceIcon]]
                               {{#if ../../selectedTab}}
                                     {{#ifCond ../../selectedTab "!==" "All" }}
                                           {{#ifCond ../../selectedTab "!==" value.binding.providerLabel.value }}
@@ -305,14 +252,6 @@
                                     <div class="sourceIcons">[[> :SourceIcon multiple=true ]]</div>
                                   </td>
                                 </tr>
-                              [[else]]
-                                <tr class="rs-page-resource__field">
-                                  <td class="rsbv-value-cell">
-                                    {{> :ResourceFieldValueVisualization field=field
-                                    value=value }}
-                                  </td>
-                                </tr>
-                              [[/if]]
                     {{/ifCond}}
               {{/each}}
 
@@ -322,7 +261,6 @@
                                   <tbody>
                                         {{#each field.values as |value|}}
                                           {{#ifCond @index '>=' 5}}
-                                                [[#if showSourceIcon]]
                                                       {{#if ../../selectedTab}}
                                                             {{#ifCond ../../selectedTab "!==" "All" }}
                                                                   {{#ifCond ../../selectedTab "!==" value.binding.providerLabel.value }}
@@ -339,14 +277,6 @@
                                                         <div class="sourceIcons">[[> :SourceIcon multiple=true ]]</div>
                                                       </td>
                                                   </tr>
-                                                [[else]]
-                                                  <tr class="rs-page-resource__field">
-                                                      <td class="rsbv-value-cell">
-                                                            {{> :ResourceFieldValueVisualization field=field
-                                                              value=value }}
-                                                      </td>
-                                                  </tr>
-                                                [[/if]]
                                           {{/ifCond}}
                                         {{/each}}
                                 </tbody>
@@ -359,7 +289,6 @@
             {{#ifCond field.label.0.value "!==" "Place of Birth" }}
             {{#ifCond field.label.0.value "!==" "Place of Death" }}
                 {{#each field.values as |value|}}
-                    [[#if showSourceIcon]]
                         {{#if ../../selectedTab}}
                             {{#ifCond ../../selectedTab "!==" "All" }}
                                 {{#ifCond ../../selectedTab "!==" value.binding.providerLabel.value }}
@@ -377,14 +306,6 @@
                               <div class="sourceIcons">[[> :SourceIcon multiple=true ]]</div>
                             </td>
                       </tr>
-                    [[else]]
-                      <tr class="rs-page-resource__field">
-                        <td class="rsbv-value-cell">
-                              {{> :ResourceFieldValueVisualization field=field
-                                value=value }}
-                        </td>
-                      </tr>
-                    [[/if]]
                 {{/each}}
              {{/ifCond}}
              {{/ifCond}}
