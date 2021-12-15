@@ -152,18 +152,32 @@ template="{{> fieldsFilter}}"
   <div class="artworkLocation">
     <semantic-map
       id="event-map"
-      query="SELECT DISTINCT ?place ?lat ?lng WHERE {
-        ?? fr:Work_from_Place ?place .
-        ?place <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat.
-        ?place <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng.
-      }"
+      query="
+      PREFIX fr: <https://pharos.artresearch.net/resource/fr/>
+      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+      SELECT DISTINCT ?place ?lat ?lng  WHERE {
+            ?? fr:Work_from_Place ?place .
+            ?place <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat.
+            ?place <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng.
+
+                SERVICE <http://213.171.209.34:10085/blazegraph/sparql>  {
+                    ?place <http://www.geonames.org/ontology#name> ?placelabel.
+                    ?place <http://www.geonames.org/ontology#featureClass> <https://www.geonames.org/ontology#P>.
+                }
+  
+      } 
+      "
       no-result-template=''
-      tuple-template='<div style="width:20vw">
-        <h4> 
-          <semantic-query query="SELECT ?label WHERE { <{{place.value}}> rdfs:label ?label }LIMIT 1"></semantic-query>  
-        </h4>
-      </div>'
+      tuple-template='{{>MapPopUp}}'
     >
+    <template id="MapPopUp">
+        <div style="width:12vw">
+          <h4> 
+            <semantic-link style="color:#6b0000;" iri="{{place.value}}"></semantic-link>
+            <!-- <semantic-query query="SELECT ?label WHERE { <{{place}}> rdfs:label ?label }LIMIT 1"></semantic-query>   -->
+          </h4>
+        </div>
+    </template>
     </semantic-map>
   </div>
   </div>

@@ -34,8 +34,8 @@ class CookieMsg extends HTMLElement {
     </div>
     `;
   Container = this._shadowRoot.querySelectorAll(".CookieMessageContainer");
-  const btnACC= this._shadowRoot.getElementById("btnAccept");
- const btnDENY= this._shadowRoot.getElementById("btnDeny");
+   btnACC= this._shadowRoot.getElementById("#btnAccept");
+  btnDENY= this._shadowRoot.getElementById("#btnDeny");
 
 
 function cookieConsent() {
