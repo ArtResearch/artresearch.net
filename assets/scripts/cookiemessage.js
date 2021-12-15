@@ -17,40 +17,77 @@ class CookieMsg extends HTMLElement {
     this._shadowRoot = this.attachShadow({ mode: "open" });
     this._shadowRoot.innerHTML = `
     <div class ="CookieMessageContainer">
-      <div class="toast bg-dark text-white w-100 mw-100" role="alert" data-autohide="false">
        <h4>Cookie Warning</h4>
             <p>
             This website stores data such as cookies to enable site functionality including analytics and personalization. By using this website, you automatically accept that we use cookies. 
             </p>
-            <div class="ml-auto">
-                <button type="button" class="btn btn-outline-light mr-3" id="btnDeny">
+            <div class="CookieButtons">
+                <button type="button" class="DenyButton" id="btnDeny">
                     Deny
                 </button>
-                <button type="button" class="btn btn-light" id="btnAccept">
+                <button type="button" class="AcceptButton" id="btnAccept">
                     Accept
                 </button>
-                </div>
+                
             </div>
     </div>
     `;
-  Container = this._shadowRoot.querySelectorAll(".CookieMessageContainer");
-   btnACC= this._shadowRoot.getElementById("#btnAccept");
-  btnDENY= this._shadowRoot.getElementById("#btnDeny");
+  const Container = this._shadowRoot.querySelectorAll(".CookieMessageContainer");
+   const btnACC = this._shadowRoot.querySelectorAll(".AcceptButton");
+  const btnDENY = this._shadowRoot.querySelectorAll(".DenyButton");
+  document.cookie = "name=RSCookies; SameSite=None; Secure";
+ btnACC[0].addEventListener("click", AcceptCookie);
+  btnDENY[0].addEventListener("click", DenyCookie);
 
+
+function setCookie(name, value, days) {
+  var expires = "";
+  if (days) {
+    var date = new Date();
+    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+    expires = "; expires=" + date.toUTCString();
+  }
+ document.cookie = name + "=" + (value || "") + expires + "; path=/";
+}
+
+function getCookie(name) {
+  var nameEQ = name + "=";
+  var ca =document.cookie.split(";"); 
+  for (var i = 0; i < ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == " ") c = c.substring(1, c.length);
+    if (c.indexOf(nameEQ) == 0)  return c.substring(nameEQ.length, c.length);
+  }
+  return null;
+}
+
+function eraseCookie(name) {
+  document.cookie =
+    name + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+}
 
 function cookieConsent() {
-        Container.style.display = "block";
+   
+  if (!getCookie("RSCookies")) {
+   this._shadowRoot.querySelectorAll(".CookieMessageContainer");
+  }else{
+    console.log("do not have cookie");
+  }
 }
 
-btnACC.onclick= function ToggleHide(){
-  Container.remove();
-   Container.style.display = 'none';
-}
-btnDENY.onclick = function ToggleHide() {
-  Container.remove();
-  Container.style.display = "none";
+function DenyCookie (){
+   console.log("DENY");
+  eraseCookie("RSCookies");
+  $(".CookieMessageContainer").hide();
 };
 
+function AcceptCookie() {
+  console.log("ACCEPT");
+  setCookie("RSCookies", "1", 999);
+  $(".CookieMessageContainer").hide();
+}
+
+// load
 cookieConsent();
 
   }
