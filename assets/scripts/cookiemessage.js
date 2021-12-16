@@ -94,9 +94,9 @@ function AcceptCookie() {
 // load
 
   // cookieConsent();
-window.onload = function () {
-cookieConsent();
-};
+// window.onload = function () {
+// cookieConsent();
+// };
   }
 }
 customElements.define("cookie-message", CookieMsg);
