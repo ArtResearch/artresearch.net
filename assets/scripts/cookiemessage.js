@@ -22,11 +22,8 @@ class CookieMsg extends HTMLElement {
             This website stores data such as cookies to enable site functionality including analytics and personalization. By using this website, you automatically accept that we use cookies. 
             </p>
             <div class="CookieButtons">
-                <button type="button" class="DenyButton" id="btnDeny">
-                    Deny
-                </button>
                 <button type="button" class="AcceptButton" id="btnAccept">
-                    Accept
+                    Got it!
                 </button>
                 
             </div>
@@ -34,10 +31,10 @@ class CookieMsg extends HTMLElement {
     `;
   const Container = this._shadowRoot.querySelectorAll(".CookieMessageContainer");
    const btnACC = this._shadowRoot.querySelectorAll(".AcceptButton");
-  const btnDENY = this._shadowRoot.querySelectorAll(".DenyButton");
+  // const btnDENY = this._shadowRoot.querySelectorAll(".DenyButton");
   document.cookie = "name=RSCookies; SameSite=None; Secure";
  btnACC[0].addEventListener("click", AcceptCookie);
-  btnDENY[0].addEventListener("click", DenyCookie);
+  // btnDENY[0].addEventListener("click", DenyCookie);
 
 
 function setCookie(name, value, days) {
@@ -75,16 +72,20 @@ function cookieConsent() {
   }
 }
 
-function DenyCookie (){
-   console.log("DENY");
-  eraseCookie("RSCookies");
-  $(".CookieMessageContainer").hide();
-};
+// function DenyCookie (){
+//    console.log("DENY");
+//   eraseCookie("RSCookies");
+//   $(".CookieMessageContainer").hide();
+//   $(".Cookiemessage").hide();
+//   cookieConsent();
+// };
 
 function AcceptCookie() {
   console.log("ACCEPT");
   setCookie("RSCookies", "1", 999);
   $(".CookieMessageContainer").hide();
+  $(".Cookiemessage").hide();
+  cookieConsent();
 }
 
 // load
