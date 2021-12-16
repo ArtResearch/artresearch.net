@@ -34,64 +34,67 @@ class CookieMsg extends HTMLElement {
   // const btnDENY = this._shadowRoot.querySelectorAll(".DenyButton");
   document.cookie = "name=RSCookies; SameSite=None; Secure";
  btnACC[0].addEventListener("click", AcceptCookie);
+  $(".CookieMessageContainer").hide();
+  $(".Cookiemessage").hide();
   // btnDENY[0].addEventListener("click", DenyCookie);
 
 
 function setCookie(name, value, days) {
   var expires = "";
-  if (days) {
+ 
     var date = new Date();
-    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
     expires = "; expires=" + date.toUTCString();
-  }
+  
  document.cookie = name + "=" + (value || "") + expires + "; path=/";
 }
 
 function getCookie(name) {
   var nameEQ = name + "=";
-  var ca =document.cookie.split(";"); 
+    // let decodedCookie = decodeURIComponent(document.cookie);
+  var ca = document.cookie.split(";"); 
   for (var i = 0; i < ca.length; i++) {
     var c = ca[i];
-    while (c.charAt(0) == " ") c = c.substring(1, c.length);
+    while (c.charAt(0) == " ") c = c.substring(1);
     if (c.indexOf(nameEQ) == 0)  return c.substring(nameEQ.length, c.length);
   }
   return null;
 }
 
-function eraseCookie(name) {
-  document.cookie =
-    name + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
-}
+// function eraseCookie(name) {
+//   document.cookie =
+//     name + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+// }
 
 function cookieConsent() {
    
-  if (!getCookie("RSCookies")) {
-   this._shadowRoot.querySelectorAll(".CookieMessageContainer");
+  if (getCookie("RSCookies")==null) {
+    //  console.log(getCookie("RSCookies"));
+      $(".CookieMessageContainer").show();
+      $(".Cookiemessage").show();
+    //  console.log(getCookie("RSCookies"));
+    //  console.log("Did not Found Cookie");
   }else{
-    console.log("do not have cookie");
+    //  console.log(getCookie("RSCookies"));
+    $(".CookieMessageContainer").hide();
+    $(".Cookiemessage").hide();
+    // console.log("Found Cookie");
+    // console.log(getCookie("RSCookies"));
   }
 }
 
-// function DenyCookie (){
-//    console.log("DENY");
-//   eraseCookie("RSCookies");
-//   $(".CookieMessageContainer").hide();
-//   $(".Cookiemessage").hide();
-//   cookieConsent();
-// };
 
 function AcceptCookie() {
-  console.log("ACCEPT");
-  setCookie("RSCookies", "1", 999);
-  $(".CookieMessageContainer").hide();
-  $(".Cookiemessage").hide();
+  // console.log("ACCEPT");
+  setCookie("RSCookies", "RStestcookie", 999);
   cookieConsent();
 }
 
 // load
-cookieConsent();
+  window.onload = function () {
+    cookieConsent();
+  };
 
   }
 }
-
 customElements.define("cookie-message", CookieMsg);
