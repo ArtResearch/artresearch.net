@@ -33,14 +33,16 @@
       <rs-alignment-tool
         alignment-container='[[this]]'
         queries='{
-          "rootsQuery": " SELECT DISTINCT ?item ?label FROM <alignment:__graph__> where {
+          "rootsQuery": " SELECT DISTINCT ?item ?label ?hasChildren FROM <alignment:__graph__> where {
                             {
                               ?item a <http://vocab.getty.edu/ontology#Facet>.
                               ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
                               FILTER ( lang(?label) = \"en\" ). 
+                              BIND(true AS ?hasChildren)
                             } UNION {
                               ?item a cfc:material.
                               ?item rdfs:label ?label.
+                              BIND(false AS ?hasChildren)
                             }
                           }order by ?label",
           "childrenQuery": "  SELECT distinct ?item ?label ?hasChildren FROM <alignment:__graph__> WHERE {
@@ -54,10 +56,9 @@
                             PREFIX xl: <http://www.w3.org/2008/05/skos-xl#>
                             PREFIX dc: <http://purl.org/dc/elements/1.1/>
                             SELECT DISTINCT ?item ?parent ?parentLabel FROM <alignment:__graph__> WHERE {
-                              ?item skos:broader ?parent .
-                              ?parent (skos:topConceptOf | a) ?type .
-                              ?parent skos:prefLabel ?parentLabel .
-                              FILTER(langMatches(lang(?parentLabel), \"en\") || LANG(?parentLabel) = \"\")
+                              ?item <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
+                              ?parent <http://www.w3.org/2004/02/skos/core#prefLabel> ?parentLabel.
+                              FILTER ( lang(?parentLabel) = \"en\" ). 
                             } ORDER BY ?parentLabel ",
           "searchQuery": "PREFIX bds: <http://www.bigdata.com/rdf/search#>
                           PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
@@ -66,9 +67,10 @@
                           PREFIX dc: <http://purl.org/dc/elements/1.1/>
                           SELECT DISTINCT ?item ?label ?score ?hasChildren FROM <alignment:__graph__> WHERE {
                             {
-                              ?item a skos:Concept .
+                              ?item a ?type .
                               ?item skos:prefLabel ?label .
                               FILTER(langMatches(lang(?label), \"en\") || lang(?label) = \"\") .
+                              FILTER(?type IN (skos:Concept, <http://vocab.getty.edu/ontology#Facet>, <http://vocab.getty.edu/ontology#Facet> ) )
                             } UNION {
                               ?item a cfc:material.
                               ?item rdfs:label ?label.
@@ -79,10 +81,10 @@
                             bds:maxRank \"500\" ;
                             bds:matchAllTerms \"true\"  .
                             OPTIONAL {
-                              { ?child skos:broader  ?item. }
+                              { ?child <http://vocab.getty.edu/ontology#broaderPreferred>  ?item. }
                             }
                             BIND(BOUND(?child) AS ?hasChildren)
-                          } ORDER BY DESC(?score) ?label LIMIT 200 ",
+                          } ORDER BY DESC(?score) ?label  ",
           "nodeQuery": "PREFIX bds: <http://www.bigdata.com/rdf/search#>
                         PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
                         PREFIX gvp: <http://vocab.getty.edu/ontology#>
@@ -110,7 +112,7 @@
       <rs-alignment-tool
         alignment-container='[[this]]'
         queries='{
-          "rootsQuery": " SELECT DISTINCT ?item ?label where {
+          "rootsQuery": " SELECT DISTINCT ?item ?label ?hasChildren where {
                             {
                               SERVICE <http://213.171.209.34:10085/blazegraph/sparql> {
                                 GRAPH <alignment:__graph__> {
@@ -118,11 +120,13 @@
                                   ?item <http://www.geonames.org/ontology#name> ?label
                                 }
                               }
+                              BIND(true AS ?hasChildren)
                             } UNION {
                               GRAPH <alignment:__graph__> {
                                 ?item a cfc:place;
                                   rdfs:label ?label.
                               }
+                              BIND(false AS ?hasChildren)
                             }
                           }order by ?label",
           "childrenQuery": "SELECT distinct ?item ?label ?hasChildren FROM <alignment:__graph__> WHERE {
