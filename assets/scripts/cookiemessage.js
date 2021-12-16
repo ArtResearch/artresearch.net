@@ -76,7 +76,7 @@ function cookieConsent() {
     //  console.log(getCookie("RSCookies"));
     //  console.log("did not found");
   }else{
-    //  console.log(getCookie("RSCookies"));
+     console.log(getCookie("RSCookies"));
     $(".CookieMessageContainer").hide();
     $(".Cookiemessage").hide();
     // console.log("Found");
