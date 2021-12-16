@@ -101,7 +101,6 @@ class CookieMsg extends HTMLElement {
 
 function setCookie(name, value, days) {
   var expires = "";
- 
     var date = new Date();
     date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
     expires = "; expires=" + date.toUTCString();
@@ -121,32 +120,24 @@ function getCookie(name) {
   return null;
 }
 
-// function eraseCookie(name) {
-//   document.cookie =
-//     name + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
-// }
+
 
 function cookieConsent() {
    
   if (getCookie("RSCookies")==null) {
-    //  console.log(getCookie("RSCookies"));
       $(".CookieMessageContainer").show();
       $(".Cookiemessage").show();
-    // this._shadowRoot.querySelectorAll(".CookieMessageContainer");
-    //  console.log(getCookie("RSCookies"));
-    //  console.log("did not found");
+  
   }else{
      console.log(getCookie("RSCookies"));
     $(".CookieMessageContainer").hide();
     $(".Cookiemessage").hide();
-    // console.log("Found");
-    // console.log(getCookie("RSCookies"));
   }
 }
 
 
 function AcceptCookie() {
-  // console.log("ACCEPT");
+
   setCookie("RSCookies", "RStestcookie", 999);
   cookieConsent();
 }
@@ -155,10 +146,7 @@ function AcceptCookie() {
 $(document).ready(function () {
    cookieConsent();
 });
-//   cookieConsent();
-// window.onload = function () {
-// cookieConsent();
-// };
+
   }
 }
 customElements.define("cookie-message", CookieMsg);
