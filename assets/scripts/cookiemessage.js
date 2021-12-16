@@ -33,7 +33,7 @@ class CookieMsg extends HTMLElement {
    const btnACC = this._shadowRoot.querySelectorAll(".AcceptButton");
   // const btnDENY = this._shadowRoot.querySelectorAll(".DenyButton");
   document.cookie = "name=RSCookies; SameSite=None; Secure";
- btnACC[0].addEventListener("click", AcceptCookie);
+  btnACC[0].addEventListener("click", AcceptCookie);
   $(".CookieMessageContainer").hide();
   $(".Cookiemessage").hide();
   // btnDENY[0].addEventListener("click", DenyCookie);
@@ -72,13 +72,14 @@ function cookieConsent() {
     //  console.log(getCookie("RSCookies"));
       $(".CookieMessageContainer").show();
       $(".Cookiemessage").show();
+    // this._shadowRoot.querySelectorAll(".CookieMessageContainer");
     //  console.log(getCookie("RSCookies"));
-    //  console.log("Did not Found Cookie");
+    //  console.log("did not found");
   }else{
     //  console.log(getCookie("RSCookies"));
     $(".CookieMessageContainer").hide();
     $(".Cookiemessage").hide();
-    // console.log("Found Cookie");
+    // console.log("Found");
     // console.log(getCookie("RSCookies"));
   }
 }
@@ -91,10 +92,11 @@ function AcceptCookie() {
 }
 
 // load
-  window.onload = function () {
-    cookieConsent();
-  };
 
+  // cookieConsent();
+window.onload = function () {
+cookieConsent();
+};
   }
 }
 customElements.define("cookie-message", CookieMsg);
