@@ -38,7 +38,12 @@
         <template id="originalRecords">
           <div>
             <h2 class="fc-label">
+              {{#ifCond (objectLength bindings) '>' 1}}
               View records: 
+              {{/ifCond}}
+                {{#ifCond (objectLength bindings) '===' 1}}
+              View record: 
+              {{/ifCond}}
               {{#each bindings}}
               <a
                 style="margin-left: 5px"
