@@ -1,7 +1,7 @@
 /**
  * This is an indelectual property of AdvanceServices
  * Copying this software may result in legal implications.
- * Developed by @michelakis
+ * Developed by @sophisid
  */
 
 /**
