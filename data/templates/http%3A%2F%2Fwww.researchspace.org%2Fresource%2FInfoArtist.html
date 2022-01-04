@@ -1,7 +1,7 @@
 <div class="header-options artistAdditionalOptions">
       <semantic-query
         query='SELECT ?tLabel ?link WHERE {             
-            ?subject owl:sameAs <http://vocab.getty.edu/ulan/500023578>.
+            ?subject owl:sameAs <[[this]]>.
             ?subject crm:P1_is_identified_by ?value.
             ?value <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ?type.
             ?type rdfs:label "GND or ULAN".
@@ -16,10 +16,10 @@
         <template id="DNBLink">
           <div>
             <h2 class="fc-label" style="width: 60vw;">
-              {{#each bindings}}
+              
               <a
                 style="margin-left: 5px"
-                href="{{link.value}}"
+                href="{{bindings.0.link.value}}"
                 target="_null"
               >
                 <div class="fc-label original-linkDNB">
@@ -33,7 +33,7 @@
                   </div>
                 </div>
               </a>
-              {{/each}}
+              
             </h2>
           </div>
         </template>
