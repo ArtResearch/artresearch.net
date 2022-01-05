@@ -25,16 +25,16 @@
           </mp-selection-action-choice>
         </div>
         <semantic-table
-          query='
-            SELECT DISTINCT ?graph ?scheme {
-              {
-                  GRAPH ?graph { ?s skos:inScheme ?scheme }
-              } UNION {
-                SERVICE <http://213.171.209.34:10085/blazegraph/sparql> {
-                  GRAPH ?graph { ?s skos:inScheme ?scheme }
-                }
-              }
-            }
+          query=' SELECT DISTINCT ?graph ?scheme {
+                    {
+                      GRAPH ?graph { ?s skos:inScheme ?scheme }
+                    } UNION {
+                      SERVICE <http://213.171.209.34:10085/blazegraph/sparql> {
+                        GRAPH ?graph { ?s skos:inScheme ?scheme }
+                      }
+                    }
+                    FILTER(?graph=?scheme)
+                  }
           '
           options='{"showFilter": false}'
           column-configuration='[
