@@ -6,6 +6,8 @@
 >
   <template id="fieldsFilter">
     <div id="work-summary-images">
+       <div class="imageThumbnailContainer">
+            [[> :StickyHeader ]]
       <semantic-query
         query='SELECT distinct ?thumbnail ?image  WHERE {
         {
@@ -37,11 +39,9 @@
         BIND(REPLACE(STR(?image),"full/full","full/!100,100") AS ?thumbnail).
      } ORDER BY str(?photo) ASC(?typeLabel)'
         template="{{> imageThumbnail}}"
-        no-result-template="<div></div>"
+        no-result-template='<div class="NoArtwork"> <h1>Sorry, the original artwork does not have any images to display.</h1> </div>'
       >
         <template id="imageThumbnail">
-          <div class="imageThumbnailContainer">
-            [[> :StickyHeader ]]
             <div class="imagebar">
               <mp-overlay-dialog title="‎‎" type="lightbox">
                 <mp-overlay-dialog-trigger>
@@ -63,14 +63,22 @@
               [[/if]]
             </div>
             [[> :SummaryImagesWorkSingle]]
-          </div>
+          
         </template>
       </semantic-query>
-      <div class="imageThumbnailContainer animated-background"></div>
+     </div>
     </div>
   </template>
 </mp-event-target-template-render>
 <style>
+  .noArtwork{
+        padding-left: 45px;
+    background: #f8f8f8;
+    margin: 59px;
+  }
+    body {
+    line-height: 0 !important;
+  }
   .imageThumbnailContainer {
     display: flex;
     flex-direction: column;
