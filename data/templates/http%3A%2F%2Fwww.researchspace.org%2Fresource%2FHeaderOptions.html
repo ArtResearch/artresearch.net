@@ -38,6 +38,12 @@
         <template id="originalRecords">
           <div>
             <h2 class="fc-label">
+              {{#ifCond (objectLength bindings) '>' 1}}
+              View records: 
+              {{/ifCond}}
+                {{#ifCond (objectLength bindings) '===' 1}}
+              View record: 
+              {{/ifCond}}
               {{#each bindings}}
               <a
                 style="margin-left: 5px"
@@ -50,7 +56,6 @@
                     class="sourceIcon"
                     src="../../assets/images/{{providerLabel.value}}.ico"
                   />
-                  <div class="text">View {{providerLabel.value}} record</div>
                 </div>
               </a>
               {{/each}}
@@ -222,7 +227,7 @@ template="{{> fieldsFilter}}"
   
   [[#if (ask "ASK { ?? fr:Work_from_Place ?place. ?place <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat. ?place <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng. }") ]] 
   <div class="PopupworkInfoContainer">
-    <h2>Current artwork location</h2>
+    <h2>Current artwork location ok</h2>
   <div class="artworkLocation">
     <semantic-map
       id="event-map"
@@ -311,3 +316,8 @@ template="{{> fieldsFilter}}"
     </div>
   </div>
 </div>
+<style>
+  body{
+    line-height: 0 !important;
+  }
+</style>

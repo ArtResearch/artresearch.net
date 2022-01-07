@@ -1,10 +1,63 @@
-<!-- Checks provider and return an icon -->
-<div title="{{value.binding.providerLabel.value}}">
-  <semantic-link  iri="{{value.binding.provider.value}}">
-    <img
-      title="{{value.binding.providerLabel.value}}"
-      class="sourceIcon"
-      src="../../assets/images/{{value.binding.providerLabel.value}}.ico"
-    />
-  </semantic-link>
-</div>
+[[#if multiple]]
+    <semantic-query
+    query='
+    SELECT * WHERE {
+      {
+        BIND(IRI(IF(CONTAINS("{{value.binding.providerLabel.value}}","I Tatti"),"https://pharos.artresearch.net/resource/itatti/source/ITatti", false)) AS ?provider)
+        BIND("I Tatti" as ?providerLabel)
+        FILTER(BOUND(?provider))
+      } UNION {
+        BIND(IRI(IF(CONTAINS("{{value.binding.providerLabel.value}}","Frick"),"https://pharos.artresearch.net/resource/frick/source/Frick", false)) AS ?provider)
+        BIND("Frick" as ?providerLabel)
+        FILTER(BOUND(?provider))
+      }UNION {
+        BIND(IRI(IF(CONTAINS("{{value.binding.providerLabel.value}}","Pharos"),"https://pharos.artresearch.net/resource/pharos/source/Pharos", false)) AS ?provider)
+        BIND("Pharos" as ?providerLabel)
+        FILTER(BOUND(?provider))
+      }UNION {
+        BIND(IRI(IF(CONTAINS("{{value.binding.providerLabel.value}}","ULAN"),"https://pharos.artresearch.net/resource/ulan/source/ULAN", false)) AS ?provider)
+        BIND("ULAN" as ?providerLabel)
+        FILTER(BOUND(?provider))
+      }UNION {
+        BIND(IRI(IF(CONTAINS("{{value.binding.providerLabel.value}}","Hertziana"),"https://pharos.artresearch.net/resource/hertziana/source/Hertziana", false)) AS ?provider)
+        BIND("Hertziana" as ?providerLabel)
+        FILTER(BOUND(?provider))
+      }UNION {
+        BIND(IRI(IF(CONTAINS("{{value.binding.providerLabel.value}}","Marburg"),"https://pharos.artresearch.net/resource/marburg/source/Marburg", false)) AS ?provider)
+        BIND("Marburg" as ?providerLabel)
+        FILTER(BOUND(?provider))
+      }UNION {
+        BIND(IRI(IF(CONTAINS("{{value.binding.providerLabel.value}}","MIDAS"),"https://pharos.artresearch.net/resource/midas/source/MIDAS", false)) AS ?provider)
+        BIND("MIDAS" as ?providerLabel)
+        FILTER(BOUND(?provider))
+      }
+    }
+      '
+    template="{{> multipleProv}}">
+      <template id="multipleProv">
+          {{#each bindings}}
+          <!-- Checks provider and return an icon -->
+            <div title="{{providerLabel.value}}">
+              <semantic-link  iri="{{provider.value}}">
+                <img
+                  title="{{providerLabel.value}}"
+                  class="sourceIcon"
+                  src="../../assets/images/{{providerLabel.value}}.ico"
+                />
+              </semantic-link>
+            </div>
+          {{/each}}
+      </template>
+    </semantic-query>
+[[else]]
+  <!-- Checks provider and return an icon -->
+  <div title="{{value.binding.providerLabel.value}}">
+    <semantic-link  iri="{{value.binding.provider.value}}">
+      <img
+        title="{{value.binding.providerLabel.value}}"
+        class="sourceIcon"
+        src="../../assets/images/{{value.binding.providerLabel.value}}.ico"
+      />
+    </semantic-link>
+  </div>
+[[/if]]
