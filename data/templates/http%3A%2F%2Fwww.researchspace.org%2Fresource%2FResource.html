@@ -13,7 +13,7 @@
       <div>
         <bs-nav bs-style="tabs">
           <bs-nav-item event-key="summary">Summary</bs-nav-item>
-          [[#if (ask "ASK { {?? custom:has_provider ?provider. ?provider <https://pharos.artresearch.net/custom/has_iiif_server> ?iiifServer. }UNION{?original owl:sameAs ??. ?original custom:has_provider ?provider. ?provider <https://pharos.artresearch.net/custom/has_iiif_server> ?iiifServer.} }") ]] 
+          [[#if (ask "ASK { {?? custom:has_provider ?provider. ?provider <https://artresearch.net/custom/has_iiif_server> ?iiifServer. }UNION{?original owl:sameAs ??. ?original custom:has_provider ?provider. ?provider <https://artresearch.net/custom/has_iiif_server> ?iiifServer.} }") ]] 
             [[#if (ask "ASK {?? crm:P2_has_type <http://vocab.getty.edu/aat/300046300> }") ]] 
               <bs-nav-item event-key="IIIF">Photograph Lightbox</bs-nav-item>
             [[/if]]

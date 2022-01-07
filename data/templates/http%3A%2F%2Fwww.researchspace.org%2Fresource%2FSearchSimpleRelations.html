@@ -1,5 +1,5 @@
 {
-  "<https://pharos.artresearch.net/resource/fr/Person_has_Date_of_Birth>":[
+  "<https://artresearch.net/resource/fr/Person_has_Date_of_Birth>":[
   {
     "kind": "numeric-range",
     "queryPattern": "
@@ -8,7 +8,7 @@
         FILTER(?literal <= ?__numericRangeEndValue__) .
         BIND(xsd:integer(str(?gYear)) as ?literal)."
   }],
-  "<https://pharos.artresearch.net/resource/fr/Person_has_Date_of_Death>": [
+  "<https://artresearch.net/resource/fr/Person_has_Date_of_Death>": [
   {
     "kind": "numeric-range",
     "queryPattern": "
@@ -17,21 +17,21 @@
         FILTER(?literal <= ?__numericRangeEndValue__) .
         BIND(xsd:integer(str(?gYear)) as ?literal)."
   }],
-  "<https://pharos.artresearch.net/resource/fr/Event_has_Type>": [
+  "<https://artresearch.net/resource/fr/Event_has_Type>": [
   {
     "kind": "resource",
     "queryPattern": "
       $subject fr:Person_has_Event ?event.
         ?event fr:Event_has_Type ?__value__ ."
   }],
-  "<https://pharos.artresearch.net/resource/fr/Event_at_Place>": [
+  "<https://artresearch.net/resource/fr/Event_at_Place>": [
   {
     "kind": "resource",
     "queryPattern": "
       $subject fr:Person_has_Event ?event.
         ?event fr:Event_at_Place ?__value__ ."
   }],
-"<https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution>":[
+"<https://artresearch.net/resource/fr/Work_kept_by_Institution>":[
 {
   "kind": "resource",
   "queryPattern": "
@@ -43,27 +43,27 @@
     }
   "
 }],
-"<https://pharos.artresearch.net/resource/fr/Artist_has_provider_Institution>":[
+"<https://artresearch.net/resource/fr/Artist_has_provider_Institution>":[
 {
   "kind": "resource",
   "queryPattern": "
       $subject fr:Artist_has_provider_Institution ?__value__."
 }],
-"<https://pharos.artresearch.net/resource/fr/Work_from_Place>": [
+"<https://artresearch.net/resource/fr/Work_from_Place>": [
 {
   "kind": "resource",
   "queryPattern": "
     ?original_subject owl:sameAs ?subject;
     fr:Work_from_Place ?__value__.
-    FILTER NOT EXISTS {?__value__ crm:P2_has_type <https://pharos.artresearch.net/resource/hertziana/type/D58E7680-364A-3F1C-A8BF-3DFBACEC79F8>. }
-    FILTER NOT EXISTS {?__value__ crm:P2_has_type <https://pharos.artresearch.net/resource/khi/type/D58E7680-364A-3F1C-A8BF-3DFBACEC79F8>. }
-    FILTER NOT EXISTS {?__value__ crm:P2_has_type <https://pharos.artresearch.net/resource/marburg/type/D58E7680-364A-3F1C-A8BF-3DFBACEC79F8>. }
-    FILTER NOT EXISTS {?__value__ crm:P2_has_type <https://pharos.artresearch.net/resource/hertziana/type/D61EBDD8-A0C0-3D57-8224-55E9F0918C65>. }
-    FILTER NOT EXISTS {?__value__ crm:P2_has_type <https://pharos.artresearch.net/resource/khi/type/D61EBDD8-A0C0-3D57-8224-55E9F0918C65>. }
-    FILTER NOT EXISTS {?__value__ crm:P2_has_type <https://pharos.artresearch.net/resource/marburg/type/D61EBDD8-A0C0-3D57-8224-55E9F0918C65>. }
+    FILTER NOT EXISTS {?__value__ crm:P2_has_type <https://artresearch.net/resource/hertziana/type/D58E7680-364A-3F1C-A8BF-3DFBACEC79F8>. }
+    FILTER NOT EXISTS {?__value__ crm:P2_has_type <https://artresearch.net/resource/khi/type/D58E7680-364A-3F1C-A8BF-3DFBACEC79F8>. }
+    FILTER NOT EXISTS {?__value__ crm:P2_has_type <https://artresearch.net/resource/marburg/type/D58E7680-364A-3F1C-A8BF-3DFBACEC79F8>. }
+    FILTER NOT EXISTS {?__value__ crm:P2_has_type <https://artresearch.net/resource/hertziana/type/D61EBDD8-A0C0-3D57-8224-55E9F0918C65>. }
+    FILTER NOT EXISTS {?__value__ crm:P2_has_type <https://artresearch.net/resource/khi/type/D61EBDD8-A0C0-3D57-8224-55E9F0918C65>. }
+    FILTER NOT EXISTS {?__value__ crm:P2_has_type <https://artresearch.net/resource/marburg/type/D61EBDD8-A0C0-3D57-8224-55E9F0918C65>. }
   "
 }],
-"<https://pharos.artresearch.net/resource/fr/Person_has_Date_of_Birth>":[
+"<https://artresearch.net/resource/fr/Person_has_Date_of_Birth>":[
 {
   "kind": "numeric-range",
   "queryPattern": "
@@ -72,7 +72,7 @@
       FILTER(?literal <= ?__numericRangeEndValue__) .
       BIND(xsd:integer(str(?gYear)) as ?literal)."
 }],
-"<https://pharos.artresearch.net/resource/fr/Person_has_Date_of_Death>": [
+"<https://artresearch.net/resource/fr/Person_has_Date_of_Death>": [
 {
   "kind": "numeric-range",
   "queryPattern": "
@@ -81,14 +81,14 @@
       FILTER(?literal <= ?__numericRangeEndValue__) .
       BIND(xsd:integer(str(?gYear)) as ?literal)."
 }],
-"<https://pharos.artresearch.net/resource/fr/Event_has_Type>": [
+"<https://artresearch.net/resource/fr/Event_has_Type>": [
 {
   "kind": "resource",
   "queryPattern": "
       $subject fr:Person_has_Event ?event.
       ?event fr:Event_has_Type ?__value__ ."
 }],
-"<https://pharos.artresearch.net/resource/fr/Event_at_Place>": [
+"<https://artresearch.net/resource/fr/Event_at_Place>": [
 {
   "kind": "resource",
   "queryPattern": "
@@ -96,7 +96,7 @@
       $subject fr:Person_has_Event ?event.
       ?event fr:Event_at_Place ?__value__ ."
 }],
-"<https://pharos.artresearch.net/resource/fr/Work_from_Date>": [{
+"<https://artresearch.net/resource/fr/Work_from_Date>": [{
   "kind": "date-range",
   "datatype": "http://www.w3.org/2001/XMLSchema#date",
   "queryPattern": "

@@ -17,17 +17,17 @@
                 # Artwork
                 ?originalSubject owl:sameAs ??.
                 ?originalSubject fr:Work_has_provider_Institution ?provider.
-                ?originalSubject <https://pharos.artresearch.net/custom/has_original_record> ?providerRecord.
+                ?originalSubject <https://artresearch.net/custom/has_original_record> ?providerRecord.
                 ?provider rdfs:label ?providerLabel
               }UNION{
                 # Pharos artwork
                 ?? fr:Work_has_provider_Institution ?provider.
-                ?? <https://pharos.artresearch.net/custom/has_original_record> ?providerRecord.
+                ?? <https://artresearch.net/custom/has_original_record> ?providerRecord.
                 ?provider rdfs:label ?providerLabel
               }UNION{
                 # Photograph
                 ?? fr:Photo_depicts_Work  ?subject.
-                ?subject <https://pharos.artresearch.net/custom/has_original_record> ?providerRecord.
+                ?subject <https://artresearch.net/custom/has_original_record> ?providerRecord.
                 ?subject fr:Work_has_provider_Institution ?provider.
                 ?provider rdfs:label ?providerLabel
               }

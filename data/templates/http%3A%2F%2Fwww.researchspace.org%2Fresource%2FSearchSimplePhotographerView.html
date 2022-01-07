@@ -14,9 +14,9 @@ placeholder='You searched for [[urlParam "keyword"]], but you can search for any
 domain="<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>"
 default-query='        
   PREFIX solr: <http://custom.solr/ontology#>
-  PREFIX fr: <https://pharos.artresearch.net/resource/fr/>
-  PREFIX fc: <https://pharos.artresearch.net/resource/fc/>
-  PREFIX cfc: <https://pharos.artresearch.net/resource/custom/fc/>
+  PREFIX fr: <https://artresearch.net/resource/fr/>
+  PREFIX fc: <https://artresearch.net/resource/fc/>
+  PREFIX cfc: <https://artresearch.net/resource/custom/fc/>
   SELECT ?subject WHERE {
     SERVICE <http://www.researchspace.org/resource/system/service/custom#solrphotographers>{
       ?solrApi solr:setQuery "{{bindings.0.token.value}}";

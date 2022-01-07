@@ -144,9 +144,9 @@
                   <mp-field-visualization
                     subject="{{photo.value}}"
                     fields='[[fieldDefinitions  
-                      Title="https://pharos.artresearch.net/fieldDefinition/2"  
-                      Photographer="https://pharos.artresearch.net/fieldDefinition/123"
-                      Repository="https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution" 
+                      Title="https://artresearch.net/fieldDefinition/2"  
+                      Photographer="https://artresearch.net/fieldDefinition/123"
+                      Repository="https://artresearch.net/resource/fr/Work_kept_by_Institution" 
                     ]]'
                     template="{{>productionInfo}}"
                   >
@@ -203,8 +203,8 @@
             PREFIX ldp: <http://www.w3.org/ns/ldp#>
             PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
             PREFIX prov: <http://www.w3.org/ns/prov#>
-            PREFIX fr: <https://pharos.artresearch.net/resource/fr/>
-            PREFIX cfc: <https://pharos.artresearch.net/resource/custom/fc/>
+            PREFIX fr: <https://artresearch.net/resource/fr/>
+            PREFIX cfc: <https://artresearch.net/resource/custom/fc/>
             SELECT DISTINCT ?photo WHERE 
             {
               ?set a Platform:Set ;
@@ -328,9 +328,9 @@
                 <mp-field-visualization
                   subject="{{photo.value}}"
                   fields='[[fieldDefinitions  
-                    Title="https://pharos.artresearch.net/fieldDefinition/2"  
-                    Photographer="https://pharos.artresearch.net/fieldDefinition/123"
-                    Repository="https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution" 
+                    Title="https://artresearch.net/fieldDefinition/2"  
+                    Photographer="https://artresearch.net/fieldDefinition/123"
+                    Repository="https://artresearch.net/resource/fr/Work_kept_by_Institution" 
                   ]]'
                   template="{{>productionInfo}}"
                 >
@@ -402,7 +402,7 @@
                     image-api-manifest-pattern="           
                       <{{image}}> crm:P129i_is_subject_of ?manifestUrl.
                   FILTER NOT EXISTS{
-                    ?manifestUrl crm:P2_has_type <https://pharos.artresearch.net/resource/hertziana/type/presentation_api_manifest>
+                    ?manifestUrl crm:P2_has_type <https://artresearch.net/resource/hertziana/type/presentation_api_manifest>
                   }
                     "
                   >
