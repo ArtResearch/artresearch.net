@@ -29,81 +29,171 @@
     </div>
   </div>
   <div class='page__body--borderless' style='height: 70vh;'>
-    <semantic-context repository='default'>
+    [[#if (ask "ASK WHERE { ?? <http://www.researchspace.org/ontology/PX_source_terminology>|<http://www.researchspace.org/ontology/PX_target_terminology> ?object . ?s skos:inScheme ?object. }")]]
       <rs-alignment-tool
         alignment-container='[[this]]'
         queries='{
-           "rootsQuery": "
-      SELECT DISTINCT ?item ?label where {
-    
-        ?item a <http://vocab.getty.edu/ontology#Facet>.
-        ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
-        FILTER ( lang(?label) = \"en\" ). 
-      }order by ?label",
-           "childrenQuery": "
-        SELECT distinct ?item ?label ?hasChildren WHERE {
-          ?item <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
-          ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
-          FILTER ( lang(?label) = \"en\" ). 
-          BIND(bound(?item) as ?hasChildren)
-        } order by ?label",
-             "parentsQuery": "
-      SELECT distinct ?item ?parent ?parentLabel WHERE {
-        ?item a <http://www.w3.org/2004/02/skos/core#ConceptScheme>.
-        ?item  <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
-        ?parent <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
-        FILTER ( lang(?label) = \"en\" ). 
-      }",
-           "searchQuery": "
-                PREFIX bds: <http://www.bigdata.com/rdf/search#>
-                PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-                PREFIX gvp: <http://vocab.getty.edu/ontology#>
-                PREFIX xl: <http://www.w3.org/2008/05/skos-xl#>
-                PREFIX dc: <http://purl.org/dc/elements/1.1/>
- 
-                SELECT DISTINCT ?item ?label ?score ?hasChildren
-                FROM <alignment:__graph__>
-                WHERE {
-                  ?item a skos:Concept .
-                  ?item skos:prefLabel ?label .
-                  FILTER(langMatches(lang(?label), \"en\") || lang(?label) = \"\") .
-                  ?label bds:search ?__token__ ;
-                  bds:relevance ?score ;
-                  bds:minRelevance \"0.3\" ;
-                  bds:maxRank \"500\" ;
-                  bds:matchAllTerms \"true\"  .
-                  OPTIONAL {
-                     { ?child skos:broader  ?item. }
-                  }
-                  BIND(BOUND(?child) AS ?hasChildren)
-                }
-                ORDER BY DESC(?score) ?label
-                LIMIT 200
-           ",
-           "nodeQuery": "
-                 PREFIX bds: <http://www.bigdata.com/rdf/search#>
-             PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-             PREFIX gvp: <http://vocab.getty.edu/ontology#>
-             PREFIX xl: <http://www.w3.org/2008/05/skos-xl#>
-             PREFIX dc: <http://purl.org/dc/elements/1.1/>
-             SELECT DISTINCT ?item (SAMPLE(?label) as ?label) (SAMPLE(?hasChildren) as ?hasChildren)
-             FROM <alignment:__graph__>
-             WHERE {
-                 OPTIONAL {
-                     ?item skos:prefLabel ?labelX .
-                     FILTER(langMatches(lang(?labelX), \"en\") || LANG(?labelX) = \"\")
-                 }
-                 OPTIONAL {
-                     ?child skos:broader ?item .
-                 }
-                 BIND(BOUND(?child) AS ?hasChildren)
-                 BIND(IF(CONTAINS(STR(?labelX),\"unauthorised\"), STR(?item) , ?labelX) as ?label)
-             }
-             GROUP BY ?item
-             ORDER BY ?label
-           "
+          "rootsQuery": " SELECT DISTINCT ?item ?label ?hasChildren FROM <alignment:__graph__> where {
+                            {
+                              ?item a <http://vocab.getty.edu/ontology#Facet>.
+                              ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+                              FILTER ( lang(?label) = \"en\" ). 
+                              BIND(true AS ?hasChildren)
+                            } UNION {
+                              ?item a cfc:material.
+                              ?item rdfs:label ?label.
+                              BIND(false AS ?hasChildren)
+                            }
+                          }order by ?label",
+          "childrenQuery": "  SELECT distinct ?item ?label ?hasChildren FROM <alignment:__graph__> WHERE {
+                                ?item <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
+                                ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+                                FILTER ( lang(?label) = \"en\" ). 
+                                BIND(bound(?item) as ?hasChildren)
+                              } order by ?label",
+          "parentsQuery": " PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+                            PREFIX gvp: <http://vocab.getty.edu/ontology#>
+                            PREFIX xl: <http://www.w3.org/2008/05/skos-xl#>
+                            PREFIX dc: <http://purl.org/dc/elements/1.1/>
+                            SELECT DISTINCT ?item ?parent ?parentLabel FROM <alignment:__graph__> WHERE {
+                              ?item <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
+                              ?parent <http://www.w3.org/2004/02/skos/core#prefLabel> ?parentLabel.
+                              FILTER ( lang(?parentLabel) = \"en\" ). 
+                            } ORDER BY ?parentLabel ",
+          "searchQuery": "PREFIX bds: <http://www.bigdata.com/rdf/search#>
+                          PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+                          PREFIX gvp: <http://vocab.getty.edu/ontology#>
+                          PREFIX xl: <http://www.w3.org/2008/05/skos-xl#>
+                          PREFIX dc: <http://purl.org/dc/elements/1.1/>
+                          SELECT DISTINCT ?item ?label ?score ?hasChildren FROM <alignment:__graph__> WHERE {
+                            {
+                              ?item a ?type .
+                              ?item skos:prefLabel ?label .
+                              FILTER(langMatches(lang(?label), \"en\") || lang(?label) = \"\") .
+                              FILTER(?type IN (skos:Concept, <http://vocab.getty.edu/ontology#Facet>, <http://vocab.getty.edu/ontology#Facet> ) )
+                            } UNION {
+                              ?item a cfc:material.
+                              ?item rdfs:label ?label.
+                            }
+                            ?label bds:search ?__token__ ;
+                            bds:relevance ?score ;
+                            bds:minRelevance \"0.3\" ;
+                            bds:maxRank \"500\" ;
+                            bds:matchAllTerms \"true\"  .
+                            OPTIONAL {
+                              { ?child <http://vocab.getty.edu/ontology#broaderPreferred>  ?item. }
+                            }
+                            BIND(BOUND(?child) AS ?hasChildren)
+                          } ORDER BY DESC(?score) ?label  ",
+          "nodeQuery": "PREFIX bds: <http://www.bigdata.com/rdf/search#>
+                        PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+                        PREFIX gvp: <http://vocab.getty.edu/ontology#>
+                        PREFIX xl: <http://www.w3.org/2008/05/skos-xl#>
+                        PREFIX dc: <http://purl.org/dc/elements/1.1/>
+                        SELECT DISTINCT ?item (SAMPLE(?label) as ?label) (SAMPLE(?hasChildren) as ?hasChildren) FROM <alignment:__graph__> WHERE {
+                          OPTIONAL {
+                            ?item skos:prefLabel ?labelX .
+                            FILTER(langMatches(lang(?labelX), \"en\") || LANG(?labelX) = \"\")
+                          }
+                          OPTIONAL {
+                              ?child skos:broader ?item .
+                          }
+                          BIND(BOUND(?child) AS ?hasChildren)
+                          BIND(IF(CONTAINS(STR(?labelX),\"unauthorised\"), STR(?item) , ?labelX) as ?label)
+                        } GROUP BY ?item ORDER BY ?label "
         }'>
       </rs-alignment-tool>
-    </semantic-context>
+    [[else]]
+      <style>
+        .AlignmentTool--rightPanel> .LazyTreeSelector--itemCollapsed>.LazyTreeSelector--expandToggle{
+          display: none !important;
+        }
+      </style>
+      <rs-alignment-tool
+        alignment-container='[[this]]'
+        queries='{
+          "rootsQuery": " SELECT DISTINCT ?item ?label ?hasChildren where {
+                            {
+                              SERVICE <http://213.171.209.34:10085/blazegraph/sparql> {
+                                GRAPH <alignment:__graph__> {
+                                  ?item <http://www.geonames.org/ontology#featureCode> <https://www.geonames.org/ontology#L.CONT>.
+                                  ?item <http://www.geonames.org/ontology#name> ?label
+                                }
+                              }
+                              BIND(true AS ?hasChildren)
+                            } UNION {
+                              GRAPH <alignment:__graph__> {
+                                ?item a cfc:place;
+                                  rdfs:label ?label.
+                              }
+                              BIND(false AS ?hasChildren)
+                            }
+                          }order by ?label",
+          "childrenQuery": "SELECT distinct ?item ?label ?hasChildren FROM <alignment:__graph__> WHERE {
+                              SERVICE <http://213.171.209.34:10085/blazegraph/sparql>  {
+                                ?item <http://www.geonames.org/ontology#parentFeature> ?parent.
+                                ?item <http://www.geonames.org/ontology#name> ?label.
+                              }
+                              BIND(bound(?item) as ?hasChildren)
+                            } order by ?label",
+          "parentsQuery": " PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+                            PREFIX gvp: <http://vocab.getty.edu/ontology#>
+                            PREFIX xl: <http://www.w3.org/2008/05/skos-xl#>
+                            PREFIX dc: <http://purl.org/dc/elements/1.1/>
+                            SELECT DISTINCT ?item ?parent ?parentLabel FROM <alignment:__graph__> WHERE {
+                              SERVICE <http://213.171.209.34:10085/blazegraph/sparql>  {
+                                ?item <http://www.geonames.org/ontology#parentFeature> ?parent.
+                                ?parent <http://www.geonames.org/ontology#name> ?parentLabel.
+                              }
+                            } ORDER BY ?parentLabel ",
+          "searchQuery": "PREFIX bds: <http://www.bigdata.com/rdf/search#>
+                          PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+                          PREFIX gvp: <http://vocab.getty.edu/ontology#>
+                          PREFIX xl: <http://www.w3.org/2008/05/skos-xl#>
+                          PREFIX dc: <http://purl.org/dc/elements/1.1/>
+                          SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
+                            {
+                              SERVICE <http://213.171.209.34:10085/blazegraph/sparql> {
+                                GRAPH <alignment:__graph__> {
+                                  ?item a <http://www.geonames.org/ontology#Feature>.
+                                  ?item <http://www.geonames.org/ontology#name> ?label.
+                                  OPTIONAL {
+                                      ?child <http://www.geonames.org/ontology#parentFeature> ?item .
+                                  }
+                                  BIND(BOUND(?child) AS ?hasChildren)
+                                }
+                              }
+                            } UNION {
+                              GRAPH <alignment:__graph__> {
+                                ?item a cfc:place;
+                                  rdfs:label ?label.
+                                BIND(false AS ?hasChildren)  
+                              }
+                            }
+                            ?label bds:search ?__token__ ;
+                            bds:relevance ?score ;
+                            bds:minRelevance \"0.3\" ;
+                            bds:maxRank \"500\" ;
+                            bds:matchAllTerms \"true\"  .
+                          } ORDER BY DESC(?score) ?label LIMIT 200 ",
+          "nodeQuery": "PREFIX bds: <http://www.bigdata.com/rdf/search#>
+                        PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+                        PREFIX gvp: <http://vocab.getty.edu/ontology#>
+                        PREFIX xl: <http://www.w3.org/2008/05/skos-xl#>
+                        PREFIX dc: <http://purl.org/dc/elements/1.1/>
+                        SELECT DISTINCT ?item (SAMPLE(?label) as ?label) (SAMPLE(?hasChildren) as ?hasChildren) FROM <alignment:__graph__> WHERE {
+                          OPTIONAL {
+                            ?item skos:prefLabel ?labelX .
+                            FILTER(langMatches(lang(?labelX), \"en\") || LANG(?labelX) = \"\")
+                          }
+                          OPTIONAL {
+                              ?child skos:broader ?item .
+                          }
+                          BIND(BOUND(?child) AS ?hasChildren)
+                          BIND(IF(CONTAINS(STR(?labelX),\"unauthorised\"), STR(?item) , ?labelX) as ?label)
+                        } GROUP BY ?item ORDER BY ?label "
+        }'>
+      </rs-alignment-tool>
+    [[/if]]
   </div>
 </div>
