@@ -7,21 +7,21 @@
   query='
   SELECT DISTINCT ?provider ?count WHERE {
     ## This query returns the most recent count for a specific property
-    ## e.g. (number of works) https://pharos.artresearch.net/custom/numOfWorks 
+    ## e.g. (number of works) https://artresearch.net/custom/numOfWorks 
       {
       SELECT ?graph ?date WHERE {
-            ?graph <https://pharos.artresearch.net/custom/has_date> ?date.
+            ?graph <https://artresearch.net/custom/has_date> ?date.
             BIND(strbefore(STR(?date),"-") as ?day)
             BIND(strafter(STR(?date),"-") as ?tmp)
             BIND(strbefore(?tmp,"-") as ?month)
             BIND(strafter(STR(?tmp),"-") as ?year)
           } order by DESC(?year) DESC(?month) DESC(?day) LIMIT 1
       }
-      ?graph <https://pharos.artresearch.net/custom/consists_of> ?n
+      ?graph <https://artresearch.net/custom/consists_of> ?n
       GRAPH ?n {
         ?provider <[[property]]> ?count
       }
-      FILTER(!STRSTARTS(STR(?provider), "https://pharos.artresearch.net/resource/total"))
+      FILTER(!STRSTARTS(STR(?provider), "https://artresearch.net/resource/total"))
     } ORDER BY ASC(?provider)
   '
   header="text/xml"
@@ -36,21 +36,21 @@
   query='
   SELECT DISTINCT ?provider ?count WHERE {
     ## This query returns the most recent count for a specific property
-    ## e.g. (number of works) https://pharos.artresearch.net/custom/numOfWorks 
+    ## e.g. (number of works) https://artresearch.net/custom/numOfWorks 
       {
       SELECT ?graph ?date WHERE {
-            ?graph <https://pharos.artresearch.net/custom/has_date> ?date.
+            ?graph <https://artresearch.net/custom/has_date> ?date.
             BIND(strbefore(STR(?date),"-") as ?day)
             BIND(strafter(STR(?date),"-") as ?tmp)
             BIND(strbefore(?tmp,"-") as ?month)
             BIND(strafter(STR(?tmp),"-") as ?year)
           } order by DESC(?year) DESC(?month) DESC(?day) LIMIT 1
       }
-      ?graph <https://pharos.artresearch.net/custom/consists_of> ?n
+      ?graph <https://artresearch.net/custom/consists_of> ?n
       GRAPH ?n {
         ?provider <[[property]]> ?count
       }
-      FILTER(!STRSTARTS(STR(?provider), "https://pharos.artresearch.net/resource/total"))
+      FILTER(!STRSTARTS(STR(?provider), "https://artresearch.net/resource/total"))
     } ORDER BY ASC(?provider)
   '
   header="text/csv"
@@ -74,21 +74,21 @@
       query='
         SELECT DISTINCT ?provider ?count WHERE {
           ## This query returns the most recent count for a specific property
-          ## e.g. (number of works) https://pharos.artresearch.net/custom/numOfWorks 
+          ## e.g. (number of works) https://artresearch.net/custom/numOfWorks 
             {
             SELECT ?graph ?date WHERE {
-                  ?graph <https://pharos.artresearch.net/custom/has_date> ?date.
+                  ?graph <https://artresearch.net/custom/has_date> ?date.
                   BIND(strbefore(STR(?date),"-") as ?day)
                   BIND(strafter(STR(?date),"-") as ?tmp)
                   BIND(strbefore(?tmp,"-") as ?month)
                   BIND(strafter(STR(?tmp),"-") as ?year)
                 } order by DESC(?year) DESC(?month) DESC(?day) LIMIT 1
             }
-            ?graph <https://pharos.artresearch.net/custom/consists_of> ?n
+            ?graph <https://artresearch.net/custom/consists_of> ?n
             GRAPH ?n {
               ?provider <[[property]]> ?count
             }
-            FILTER(!STRSTARTS(STR(?provider), "https://pharos.artresearch.net/resource/total"))
+            FILTER(!STRSTARTS(STR(?provider), "https://artresearch.net/resource/total"))
           } ORDER BY ASC(?provider)
       '
       sets='[{"dataSetName": "[[datasetLabel]]", "category": "provider", "value": "count"}]'

@@ -1,16 +1,16 @@
 <div id="person-filter-search">
 <semantic-search
   relations='{
-    "<https://pharos.artresearch.net/custom/has_provider>": [
+    "<https://artresearch.net/custom/has_provider>": [
     {
       "kind": "resource",
       "queryPattern": "
        $subject $__relation__ ?__value__ .
-       FILTER(?__value__ !=  <https://pharos.artresearch.net/resource/itatti/source/FotoIndex>)
+       FILTER(?__value__ !=  <https://artresearch.net/resource/itatti/source/FotoIndex>)
       "
     }
   ],
-  "<https://pharos.artresearch.net/resource/fr/Person_has_Gender>":[
+  "<https://artresearch.net/resource/fr/Person_has_Gender>":[
   {
     "kind": "resource",
     "queryPattern": "
@@ -18,14 +18,14 @@
       "
   }
 ],
-  "<https://pharos.artresearch.net/resource/fr/Person_has_Nationality>":[
+  "<https://artresearch.net/resource/fr/Person_has_Nationality>":[
   {
     "kind": "resource",
     "queryPattern": "
       $subject fr:Person_has_Nationality ?__value__."
   }
 ],
-  "<https://pharos.artresearch.net/resource/fr/Person_has_Date_of_Birth>":[
+  "<https://artresearch.net/resource/fr/Person_has_Date_of_Birth>":[
   {
     "kind": "numeric-range",
     "queryPattern": "
@@ -34,7 +34,7 @@
         FILTER(?literal <= ?__numericRangeEndValue__) .
         BIND(xsd:integer(str(?gYear)) as ?literal)."
   }],
-  "<https://pharos.artresearch.net/resource/fr/Person_has_Date_of_Death>": [
+  "<https://artresearch.net/resource/fr/Person_has_Date_of_Death>": [
   {
     "kind": "numeric-range",
     "queryPattern": "
@@ -43,26 +43,26 @@
         FILTER(?literal <= ?__numericRangeEndValue__) .
         BIND(xsd:integer(str(?gYear)) as ?literal)."
   }],
-  "<https://pharos.artresearch.net/resource/fr/Person_has_Place_of_Birth>": [
+  "<https://artresearch.net/resource/fr/Person_has_Place_of_Birth>": [
   {
     "kind": "resource",
     "queryPattern": "
       $subject fr:Person_has_Place_of_Birth ?__value__ ."
   }],
-  "<https://pharos.artresearch.net/resource/fr/Person_has_Place_of_Death>": [
+  "<https://artresearch.net/resource/fr/Person_has_Place_of_Death>": [
   {
     "kind": "resource",
     "queryPattern": "
       $subject fr:Person_has_Place_of_Death ?__value__ ."
   }],
-  "<https://pharos.artresearch.net/resource/fr/Event_has_Type>": [
+  "<https://artresearch.net/resource/fr/Event_has_Type>": [
   {
     "kind": "resource",
     "queryPattern": "
       $subject fr:Person_has_Event ?event.
         ?event fr:Event_has_Type ?__value__ ."
   }],
-  "<https://pharos.artresearch.net/resource/fr/Event_at_Place>": [
+  "<https://artresearch.net/resource/fr/Event_at_Place>": [
   {
     "kind": "resource",
     "queryPattern": "
@@ -78,7 +78,7 @@
           "label":"Photographer"
         },
         {
-          "iri":"<https://pharos.artresearch.net/resource/nypl/type/gender>",
+          "iri":"<https://artresearch.net/resource/nypl/type/gender>",
           "label":"Gender"
         }, 
         {
@@ -90,73 +90,73 @@
           "label":"Year"
         }, 
         {
-          "iri":"<https://pharos.artresearch.net/resource/fc/Type>",
+          "iri":"<https://artresearch.net/resource/fc/Type>",
           "label":"Type"
         }, 
         {
-          "iri":"<https://pharos.artresearch.net/resource/fc/place>",
+          "iri":"<https://artresearch.net/resource/fc/place>",
           "label":"Place"
         }, 
         {
-          "iri":"<https://pharos.artresearch.net/resource/fc/institution>",
+          "iri":"<https://artresearch.net/resource/fc/institution>",
           "label":"Photo archive"
         }
       ],
       "relations":
       [
         {
-          "iri": "<https://pharos.artresearch.net/resource/fr/Person_has_Gender>",
+          "iri": "<https://artresearch.net/resource/fr/Person_has_Gender>",
           "label":"Gender",
           "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
-          "hasRange":"<https://pharos.artresearch.net/resource/nypl/type/gender>"
+          "hasRange":"<https://artresearch.net/resource/nypl/type/gender>"
         },
         {
-          "iri": "<https://pharos.artresearch.net/resource/fr/Person_has_Nationality>",
+          "iri": "<https://artresearch.net/resource/fr/Person_has_Nationality>",
           "label":"Nationality",
           "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
           "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E74_Group>"
         },
         {
-          "iri": "<https://pharos.artresearch.net/resource/fr/Person_has_Date_of_Birth>",
+          "iri": "<https://artresearch.net/resource/fr/Person_has_Date_of_Birth>",
           "label":"Date of birth",
           "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
           "hasRange":"<http://www.w3.org/2001/XMLSchema#integer>"
         },
         {
-          "iri":"<https://pharos.artresearch.net/resource/fr/Person_has_Date_of_Death>",
+          "iri":"<https://artresearch.net/resource/fr/Person_has_Date_of_Death>",
           "label":"Date of death",
           "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
           "hasRange":"<http://www.w3.org/2001/XMLSchema#integer>"
         },
         {
-          "iri":"<https://pharos.artresearch.net/resource/fr/Person_has_Place_of_Birth>",
+          "iri":"<https://artresearch.net/resource/fr/Person_has_Place_of_Birth>",
           "label":"Place of birth",
           "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
-          "hasRange":"<https://pharos.artresearch.net/resource/fc/place>"
+          "hasRange":"<https://artresearch.net/resource/fc/place>"
         },
         {
-          "iri":"<https://pharos.artresearch.net/resource/fr/Person_has_Place_of_Death>",
+          "iri":"<https://artresearch.net/resource/fr/Person_has_Place_of_Death>",
           "label":"Place of death",
           "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
-          "hasRange":"<https://pharos.artresearch.net/resource/fc/place>"
+          "hasRange":"<https://artresearch.net/resource/fc/place>"
         },
         {
-          "iri":"<https://pharos.artresearch.net/resource/fr/Event_has_Type>",
+          "iri":"<https://artresearch.net/resource/fr/Event_has_Type>",
           "label":"Event type",
           "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
-          "hasRange":"<https://pharos.artresearch.net/resource/fc/Type>"
+          "hasRange":"<https://artresearch.net/resource/fc/Type>"
         },
         {
-          "iri":"<https://pharos.artresearch.net/resource/fr/Event_at_Place>",
+          "iri":"<https://artresearch.net/resource/fr/Event_at_Place>",
           "label":"Event place",
           "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
-          "hasRange":"<https://pharos.artresearch.net/resource/fc/place>"
+          "hasRange":"<https://artresearch.net/resource/fc/place>"
         },
         {
-          "iri": "<https://pharos.artresearch.net/custom/has_provider>",
+          "iri": "<https://artresearch.net/custom/has_provider>",
           "label":"Photo archive",
           "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
-          "hasRange":"<https://pharos.artresearch.net/resource/fc/institution>"
+          "hasRange":"<https://artresearch.net/resource/fc/institution>"
         }
       ]
     }'

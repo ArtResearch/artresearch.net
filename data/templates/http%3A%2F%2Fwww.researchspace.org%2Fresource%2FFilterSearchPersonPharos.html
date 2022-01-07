@@ -1,21 +1,21 @@
 <div id="person-filter-search">
   <semantic-search
   relations='{
-    "<https://pharos.artresearch.net/resource/fr/Person_has_Gender>":[
+    "<https://artresearch.net/resource/fr/Person_has_Gender>":[
     {
       "kind": "resource",
       "queryPattern": "
           $subject fr:Person_has_Gender ?__value__."
     }
 ],
-    "<https://pharos.artresearch.net/resource/fr/Person_has_Nationality>":[
+    "<https://artresearch.net/resource/fr/Person_has_Nationality>":[
     {
       "kind": "resource",
       "queryPattern": "
           $subject fr:Person_has_Nationality ?__value__."
     }
 ],
-    "<https://pharos.artresearch.net/resource/fr/Person_has_Date_of_Birth>":[
+    "<https://artresearch.net/resource/fr/Person_has_Date_of_Birth>":[
     {
       "kind": "numeric-range",
       "queryPattern": "
@@ -24,7 +24,7 @@
           FILTER(?literal <= ?__numericRangeEndValue__) .
           BIND(xsd:integer(str(?gYear)) as ?literal)."
     }],
-    "<https://pharos.artresearch.net/resource/fr/Person_has_Date_of_Death>": [
+    "<https://artresearch.net/resource/fr/Person_has_Date_of_Death>": [
     {
       "kind": "numeric-range",
       "queryPattern": "
@@ -33,19 +33,19 @@
           FILTER(?literal <= ?__numericRangeEndValue__) .
           BIND(xsd:integer(str(?gYear)) as ?literal)."
     }],
-    "<https://pharos.artresearch.net/resource/fr/Person_has_Place_of_Birth>": [
+    "<https://artresearch.net/resource/fr/Person_has_Place_of_Birth>": [
     {
       "kind": "resource",
       "queryPattern": "
           $subject fr:Person_has_Place_of_Birth ?__value__ ."
     }],
-    "<https://pharos.artresearch.net/resource/fr/Person_has_Place_of_Death>": [
+    "<https://artresearch.net/resource/fr/Person_has_Place_of_Death>": [
     {
       "kind": "resource",
       "queryPattern": "
           $subject fr:Person_has_Place_of_Death ?__value__ ."
     }],
-    "<https://pharos.artresearch.net/resource/fr/Event_has_Type>": [
+    "<https://artresearch.net/resource/fr/Event_has_Type>": [
     {
       "kind": "resource",
       "queryPattern": "
@@ -53,7 +53,7 @@
           $subject fr:Person_has_Event ?event.
           ?event fr:Event_has_Type ?__value__ ."
     }],
-    "<https://pharos.artresearch.net/resource/fr/Event_at_Place>": [
+    "<https://artresearch.net/resource/fr/Event_at_Place>": [
     {
       "kind": "resource",
       "queryPattern": "
@@ -61,7 +61,7 @@
           $subject fr:Person_has_Event ?event.
           ?event fr:Event_at_Place ?__value__ ."
     }],
-    "<https://pharos.artresearch.net/resource/fr/Artist_has_provider_Institution>": [
+    "<https://artresearch.net/resource/fr/Artist_has_provider_Institution>": [
     {
       "kind": "resource",
       "queryPattern": "
@@ -74,15 +74,15 @@
         "categories":  
         [
           {
-            "iri":"<https://pharos.artresearch.net/resource/fc/artist>",
+            "iri":"<https://artresearch.net/resource/fc/artist>",
             "label":"Artist"
           },
           {
-            "iri":"<https://pharos.artresearch.net/resource/fc/gender>",
+            "iri":"<https://artresearch.net/resource/fc/gender>",
             "label":"Gender"
           }, 
           {
-            "iri":"<https://pharos.artresearch.net/resource/fc/nationality>",
+            "iri":"<https://artresearch.net/resource/fc/nationality>",
             "label":"Nationality"
           }, 
           {
@@ -94,68 +94,68 @@
             "label":"Type"
           }, 
           {
-            "iri":"<https://pharos.artresearch.net/resource/fc/place>",
+            "iri":"<https://artresearch.net/resource/fc/place>",
             "label":"Place"
           },  {
-            "iri":"<https://pharos.artresearch.net/resource/fc/institution>",
+            "iri":"<https://artresearch.net/resource/fc/institution>",
             "label":"Photo archive"
           }
         ],
         "relations":
         [
           {
-            "iri": "<https://pharos.artresearch.net/resource/fr/Person_has_Gender>",
+            "iri": "<https://artresearch.net/resource/fr/Person_has_Gender>",
             "label":"Gender",
-            "hasDomain":"<https://pharos.artresearch.net/resource/fc/artist>",
-            "hasRange":"<https://pharos.artresearch.net/resource/fc/gender>"
+            "hasDomain":"<https://artresearch.net/resource/fc/artist>",
+            "hasRange":"<https://artresearch.net/resource/fc/gender>"
           },
           {
-            "iri": "<https://pharos.artresearch.net/resource/fr/Person_has_Nationality>",
+            "iri": "<https://artresearch.net/resource/fr/Person_has_Nationality>",
             "label":"Nationality",
-            "hasDomain":"<https://pharos.artresearch.net/resource/fc/artist>",
-            "hasRange":"<https://pharos.artresearch.net/resource/fc/nationality>"
+            "hasDomain":"<https://artresearch.net/resource/fc/artist>",
+            "hasRange":"<https://artresearch.net/resource/fc/nationality>"
           },
           {
-            "iri": "<https://pharos.artresearch.net/resource/fr/Person_has_Date_of_Birth>",
+            "iri": "<https://artresearch.net/resource/fr/Person_has_Date_of_Birth>",
             "label":"Date of birth",
-            "hasDomain":"<https://pharos.artresearch.net/resource/fc/artist>",
+            "hasDomain":"<https://artresearch.net/resource/fc/artist>",
             "hasRange":"<http://www.w3.org/2001/XMLSchema#integer>"
           },
           {
-            "iri":"<https://pharos.artresearch.net/resource/fr/Person_has_Date_of_Death>",
+            "iri":"<https://artresearch.net/resource/fr/Person_has_Date_of_Death>",
             "label":"Date of death",
-            "hasDomain":"<https://pharos.artresearch.net/resource/fc/artist>",
+            "hasDomain":"<https://artresearch.net/resource/fc/artist>",
             "hasRange":"<http://www.w3.org/2001/XMLSchema#integer>"
           },
           {
-            "iri":"<https://pharos.artresearch.net/resource/fr/Person_has_Place_of_Birth>",
+            "iri":"<https://artresearch.net/resource/fr/Person_has_Place_of_Birth>",
             "label":"Place of birth",
-            "hasDomain":"<https://pharos.artresearch.net/resource/fc/artist>",
-            "hasRange":"<https://pharos.artresearch.net/resource/fc/place>"
+            "hasDomain":"<https://artresearch.net/resource/fc/artist>",
+            "hasRange":"<https://artresearch.net/resource/fc/place>"
           },
           {
-            "iri":"<https://pharos.artresearch.net/resource/fr/Person_has_Place_of_Death>",
+            "iri":"<https://artresearch.net/resource/fr/Person_has_Place_of_Death>",
             "label":"Place of death",
-            "hasDomain":"<https://pharos.artresearch.net/resource/fc/artist>",
-            "hasRange":"<https://pharos.artresearch.net/resource/fc/place>"
+            "hasDomain":"<https://artresearch.net/resource/fc/artist>",
+            "hasRange":"<https://artresearch.net/resource/fc/place>"
           },
           {
-            "iri":"<https://pharos.artresearch.net/resource/fr/Event_has_Type>",
+            "iri":"<https://artresearch.net/resource/fr/Event_has_Type>",
             "label":"Event type",
-            "hasDomain":"<https://pharos.artresearch.net/resource/fc/artist>",
+            "hasDomain":"<https://artresearch.net/resource/fc/artist>",
             "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E55_Type>"
           },
           {
-            "iri":"<https://pharos.artresearch.net/resource/fr/Event_at_Place>",
+            "iri":"<https://artresearch.net/resource/fr/Event_at_Place>",
             "label":"Event place",
-            "hasDomain":"<https://pharos.artresearch.net/resource/fc/artist>",
-            "hasRange":"<https://pharos.artresearch.net/resource/fc/place>"
+            "hasDomain":"<https://artresearch.net/resource/fc/artist>",
+            "hasRange":"<https://artresearch.net/resource/fc/place>"
           },
           {
-            "iri":"<https://pharos.artresearch.net/resource/fr/Artist_has_provider_Institution>",
+            "iri":"<https://artresearch.net/resource/fr/Artist_has_provider_Institution>",
             "label":"Photo archive",
-            "hasDomain":"<https://pharos.artresearch.net/resource/fc/artist>",
-            "hasRange":"<https://pharos.artresearch.net/resource/fc/institution>"
+            "hasDomain":"<https://artresearch.net/resource/fc/artist>",
+            "hasRange":"<https://artresearch.net/resource/fc/institution>"
           }
         ]
       }'
@@ -164,7 +164,7 @@
             <semantic-search-query-keyword
               placeholder="Search for an artist e.g. Michelangelo"
               escape-lucene-syntax="false"
-              domain="<https://pharos.artresearch.net/resource/fc/artist>"
+              domain="<https://artresearch.net/resource/fc/artist>"
               default-query="
               SELECT DISTINCT ?subject  
               WHERE {
@@ -258,8 +258,8 @@
                               ?event fr:Event_has_Type ?eventType.
                               ?eventType rdfs:label ?typeLabel.
                               ?event fr:Event_at_Place ?place .
-                              ?place <http://pharos.artresearch.net/resource/fr/Place_has_Latitude> ?lat.
-                              ?place <http://pharos.artresearch.net/resource/fr/Place_has_Longitude> ?lng.
+                              ?place <http://artresearch.net/resource/fr/Place_has_Latitude> ?lat.
+                              ?place <http://artresearch.net/resource/fr/Place_has_Longitude> ?lng.
                             }"
                             no-result-template='<h3>No results were found to be visualized on map</h3>'
                             tuple-template='<div style="width:20vw">

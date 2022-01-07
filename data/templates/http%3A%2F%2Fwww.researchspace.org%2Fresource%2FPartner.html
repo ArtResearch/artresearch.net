@@ -51,18 +51,18 @@
             <semantic-query query='  SELECT DISTINCT ?count WHERE {
                 {
                 SELECT ?graph ?date WHERE {
-                      ?graph <https://pharos.artresearch.net/custom/has_date> ?date.
+                      ?graph <https://artresearch.net/custom/has_date> ?date.
                       BIND(strbefore(STR(?date),"-") as ?day)
                       BIND(strafter(STR(?date),"-") as ?tmp)
                       BIND(strbefore(?tmp,"-") as ?month)
                       BIND(strafter(STR(?tmp),"-") as ?year)
                     } order by DESC(?year) DESC(?month) DESC(?day) LIMIT 1
                 }
-                ?graph <https://pharos.artresearch.net/custom/consists_of> ?n
+                ?graph <https://artresearch.net/custom/consists_of> ?n
                 GRAPH ?n {
-                  ?? <https://pharos.artresearch.net/custom/numOfWorks> ?count
+                  ?? <https://artresearch.net/custom/numOfWorks> ?count
                 }
-                FILTER(!STRSTARTS(STR(??), "https://pharos.artresearch.net/resource/total"))
+                FILTER(!STRSTARTS(STR(??), "https://artresearch.net/resource/total"))
               } LIMIT 1'></semantic-query>)
             </div>
           </bs-nav-item>
@@ -70,18 +70,18 @@
             <semantic-query query='  SELECT DISTINCT ?count WHERE {
                 {
                 SELECT ?graph ?date WHERE {
-                      ?graph <https://pharos.artresearch.net/custom/has_date> ?date.
+                      ?graph <https://artresearch.net/custom/has_date> ?date.
                       BIND(strbefore(STR(?date),"-") as ?day)
                       BIND(strafter(STR(?date),"-") as ?tmp)
                       BIND(strbefore(?tmp,"-") as ?month)
                       BIND(strafter(STR(?tmp),"-") as ?year)
                     } order by DESC(?year) DESC(?month) DESC(?day) LIMIT 1
                 }
-                ?graph <https://pharos.artresearch.net/custom/consists_of> ?n
+                ?graph <https://artresearch.net/custom/consists_of> ?n
                 GRAPH ?n {
-                  ?? <https://pharos.artresearch.net/custom/numOfPhotos> ?count
+                  ?? <https://artresearch.net/custom/numOfPhotos> ?count
                 }
-                FILTER(!STRSTARTS(STR(??), "https://pharos.artresearch.net/resource/total"))
+                FILTER(!STRSTARTS(STR(??), "https://artresearch.net/resource/total"))
               }LIMIT 1'></semantic-query>)
             </div>
           </bs-nav-item>

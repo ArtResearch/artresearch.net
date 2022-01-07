@@ -1,13 +1,13 @@
 <div id="institution-filter-search">
   <semantic-search
     relations='{
-      "<https://pharos.artresearch.net/custom/has_provider>": [
+      "<https://artresearch.net/custom/has_provider>": [
         {
           "kind": "resource",
           "queryPattern": "
           ?repo owl:sameAs $subject.
           ?repo  $__relation__ ?__value__ .
-          ?__value__ a <https://pharos.artresearch.net/resource/fc/institution>
+          ?__value__ a <https://artresearch.net/resource/fc/institution>
           "
         }
       ]
@@ -16,17 +16,17 @@
         "categories":  
         [
           {
-            "iri":"<https://pharos.artresearch.net/resource/fc/institution>",
+            "iri":"<https://artresearch.net/resource/fc/institution>",
             "label":"Repository"
           }
         ],
         "relations":
         [
           {
-            "iri": "<https://pharos.artresearch.net/custom/has_provider>",
+            "iri": "<https://artresearch.net/custom/has_provider>",
             "label":"Photo archive",
-            "hasDomain":"<https://pharos.artresearch.net/resource/fc/institution>",
-            "hasRange":"<https://pharos.artresearch.net/resource/fc/institution>"
+            "hasDomain":"<https://artresearch.net/resource/fc/institution>",
+            "hasRange":"<https://artresearch.net/resource/fc/institution>"
           }
         ]
       }'
@@ -42,7 +42,7 @@
             <semantic-search-query-keyword
               placeholder="Search for a repository e.g. Royal Library"
               escape-lucene-syntax="false"
-              domain="<https://pharos.artresearch.net/resource/fc/institution>"
+              domain="<https://artresearch.net/resource/fc/institution>"
               default-query="
                     SELECT DISTINCT ?subject ?institutionImage
                     WHERE {
@@ -81,7 +81,7 @@
             <semantic-search-query-keyword
               placeholder="Search for a repository e.g. Royal Library"
               escape-lucene-syntax="false"
-              domain="<https://pharos.artresearch.net/resource/fc/institution>"
+              domain="<https://artresearch.net/resource/fc/institution>"
               default-query="
                     SELECT DISTINCT ?subject ?institutionImage
                     WHERE {
