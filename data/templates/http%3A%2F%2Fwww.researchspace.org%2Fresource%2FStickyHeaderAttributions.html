@@ -2,16 +2,12 @@
     <semantic-query
       query='SELECT DISTINCT ?attribution WHERE { 
         {
-            ?? fr:Work_influenced_by_Artist ?attribution.
-            #?attribution rdfs:label ?attributionLabel
-            #BIND("influenced by" as ?attributionQualifier)
+            ?? fr:Work_influenced_by_Artist|fr:Work_created_from_Artist ?attribution.
         }UNION{
           ?work owl:sameAs ??.
-          ?work fr:Work_influenced_by_Artist ?attribution.
-          #?attribution rdfs:label ?attributionLabel
-          #BIND("influenced by" as ?attributionQualifier)
+          ?work fr:Work_influenced_by_Artist|fr:Work_created_from_Artist ?attribution.
         }
-       }'
+      }'
       template='{{> variantAttributions }}'
       no-result-template='{{> invariantAttributions}}'
       >
@@ -49,7 +45,7 @@
        <template id='invariantAttributions'>
          <div class="creators-attribution">
           <semantic-query
-            query='SELECT DISTINCT (SAMPLE(?creatorLabel) AS ?creatorLabel) WHERE { 
+            query='SELECT DISTINCT ?creator (SAMPLE(?creatorLabel) AS ?creatorLabel) WHERE { 
               {
                ?? fr:Work_created_from_Artist ?creator.
                ?creator rdfs:label ?creatorLabel 
@@ -58,8 +54,15 @@
                ?work fr:Work_created_from_Artist ?creator.
                ?creator rdfs:label ?creatorLabel 
               }
+              GRAPH ?graph {
+                 ?s fr:Work_created_from_Artist ?attribution.
+                }
+                ?graph <https://pharos.artresearch.net/custom/has_provider> ?prov .
+                ?prov rdfs:label ?provLabel.
+                BIND(IF( CONTAINS(STR(?attribution),"ulan"), "ULAN", ?provLabel) AS ?providerLabel)
+                BIND(IF( CONTAINS(STR(?attribution),"ulan"), IRI("https://pharos.artresearch.net/resource/getty/source/Getty"), ?prov) AS ?provider)
            }GROUP BY ?creator'
-            >
+         >
           </semantic-query>
         </div>
         </template>
