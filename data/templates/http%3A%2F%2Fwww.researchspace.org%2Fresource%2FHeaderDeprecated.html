@@ -14,10 +14,11 @@
       data-flex-layout="row center-left"
       class="page__header-tagline subtitleInfo"
     >
-      <semantic-query
-        query="SELECT ?newLink WHERE { 
-      ?? a cfc:work.
-      ?? owl:sameAs ?newLink }LIMIT 10"
+      <semantic-query query=' SELECT DISTINCT ?newLink WHERE { 
+                                ?? a cfc:work.
+                                ?? owl:sameAs ?newLink.
+                                ?newLink a fc:work.
+                              }'
         template="{{> deprecated }}"
       >
         <template id="deprecated">
