@@ -125,13 +125,18 @@
       <mp-event-target-template-render id='assertion' template='{{> template}}'>
         <template id='template'>
           {{#if assertion}}
-          <rs-assertion assertion='{{assertion}}'
+          <rs-assertion 
+            assertion='{{assertion}}'
+            fields='[[fieldDefinitions field=(urlParam "field")]]'
             value-template='{{> :ResourceFieldValueVisualization}}'
             form-template='{{> :AssertionFormTemplate}}'>
           </rs-assertion>
           {{else}}
-          <rs-assertion target='[[urlParam "subject"]]'
-            fields='[[fieldDefinitions field=(urlParam "field")]]'
+          <rs-assertion 
+            target='[[urlParam "subject"]]'
+            fields='[[fieldDefinitions 
+              field=(urlParam "field")
+            ]]'
             value-template='{{> :ResourceFieldValueVisualization}}'
             form-template='{{> :AssertionFormTemplate}}'>
           </rs-assertion>
