@@ -18,13 +18,13 @@
           {{#each bindings}}
           <li style="display: flex; font-size: 16px; margin-top: 20px; align-items: center;">
             <mp-event-trigger id='assert-new-value' type='Component.TemplateUpdate' targets='["annotation-editor"]' data='{"document": "{{document.value}}","editMode":"false"}'>
-              <button class='btn btn-default btn-xs pull-right' title='Edit annotation' style='margin-right: 15px; height: 30px'>
+              <button class='btn btn-default btn-xs pull-right' title='Edit annotation' style='margin-right: 15px; '>
                 <i class='fa fa-folder-open'></i> View
               </button>
             </mp-event-trigger>
             [[#if (hasPermission "api:ldp:container:<http://www.researchspace.org/resource/system/fieldDefinitionContainer>:create:any")]]
             <mp-event-trigger id='assert-new-value' type='Component.TemplateUpdate' targets='["annotation-editor"]' data='{"document": "{{document.value}}","editMode":"true"}'>
-              <button class='btn btn-default btn-xs pull-right' title='Edit annotation' style='margin-right: 15px; height: 30px'>
+              <button class='btn btn-default btn-xs pull-right' title='Edit annotation' style='margin-right: 15px; '>
                 <i class='fa fa-pencil'></i> Edit
               </button>
             </mp-event-trigger>
@@ -34,7 +34,7 @@
           <mp-overlay-dialog title="Delete annotation" >
             <mp-overlay-dialog-trigger
               >
-              <button class='btn btn-default btn-xs pull-right' title='Delete annotation' style='margin-right: 15px; height: 30px;'>
+              <button class='btn btn-default btn-xs pull-right' title='Delete annotation' style='margin-right: 15px; '>
                 <i class='fa fa-trash'></i>Delete
               </button>
             </mp-overlay-dialog-trigger>
@@ -252,6 +252,10 @@ CONSTRUCT {
 </mp-event-target-template-render>
 <style>
 
+.TextEditor--titleInput .form-control
+{
+  margin-left: 15px ;
+}
 
 .documents-panel .panel-heading {
   background: whitesmoke !important;
