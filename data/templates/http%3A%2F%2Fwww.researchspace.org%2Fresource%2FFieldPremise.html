@@ -37,7 +37,13 @@
       <h1>Conclusion</h1>
       <label>Argued Field</label>
       <p>
-      	<semantic-link iri='[[singleValueFromSelect "SELECT ?field WHERE { ?? rso:targetsField ?field }"]]'></semantic-link>
+        <semantic-query
+        query='SELECT ?field WHERE { ?? rso:targetsField ?field }'
+        >
+
+          <semantic-link iri='{{field.value}}'></semantic-link>
+        </semantic-query>
+      	
       </p>
       <label>Values</label>
       <semantic-table query='SELECT ?value ?belief WHERE {
