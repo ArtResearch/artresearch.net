@@ -30,10 +30,13 @@
   </div>
   <div class='page__body--borderless' style='height: 70vh;'>
     [[#if (ask "ASK WHERE { ?? <http://www.researchspace.org/ontology/PX_source_terminology>|<http://www.researchspace.org/ontology/PX_target_terminology> ?object . ?s skos:inScheme ?object. }")]]
+    
       <rs-alignment-tool
+      id="first"
         alignment-container='[[this]]'
+        info-template ='{{> infoTemp}}'
         queries='{
-          "rootsQuery": " SELECT DISTINCT ?item ?label ?hasChildren FROM <alignment:__graph__> where {
+          "rootsQuery": " SELECT DISTINCT ?item ?label ?hasChildren ?iri FROM <alignment:__graph__> where {
                             {
                               ?item a <http://vocab.getty.edu/ontology#Facet>.
                               ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
@@ -101,7 +104,11 @@
                           BIND(BOUND(?child) AS ?hasChildren)
                           BIND(IF(CONTAINS(STR(?labelX),\"unauthorised\"), STR(?item) , ?labelX) as ?label)
                         } GROUP BY ?item ORDER BY ?label "
-        }'>
+        }'
+      >
+        <template id="infoTemp">
+          <span>okkkk</span>
+        </template>
       </rs-alignment-tool>
     [[else]]
       <style>
@@ -110,7 +117,9 @@
         }
       </style>
       <rs-alignment-tool
+      id="second"
         alignment-container='[[this]]'
+        info-template ='{{>infoTemp}}'
         queries='{
           "rootsQuery": " SELECT DISTINCT ?item ?label ?hasChildren where {
                             {
@@ -181,7 +190,7 @@
                         PREFIX gvp: <http://vocab.getty.edu/ontology#>
                         PREFIX xl: <http://www.w3.org/2008/05/skos-xl#>
                         PREFIX dc: <http://purl.org/dc/elements/1.1/>
-                        SELECT DISTINCT ?item (SAMPLE(?label) as ?label) (SAMPLE(?hasChildren) as ?hasChildren) FROM <alignment:__graph__> WHERE {
+                        SELECT DISTINCT ?item (SAMPLE(?label) as ?label) (SAMPLE(?hasChildren) as ?hasChildren) (COUNT(?subClass) AS ?totalSubClasses)FROM <alignment:__graph__> WHERE {
                           OPTIONAL {
                             ?item skos:prefLabel ?labelX .
                             FILTER(langMatches(lang(?labelX), \"en\") || LANG(?labelX) = \"\")
@@ -189,11 +198,24 @@
                           OPTIONAL {
                               ?child skos:broader ?item .
                           }
+                           OPTIONAL { ?subClass rdfs:subClassOf+ ?item }
+                          (COUNT(?subClass) AS ?totalSubClasses) 
                           BIND(BOUND(?child) AS ?hasChildren)
                           BIND(IF(CONTAINS(STR(?labelX),\"unauthorised\"), STR(?item) , ?labelX) as ?label)
                         } GROUP BY ?item ORDER BY ?label "
-        }'>
+        }'
+        >
+        <template id="infoTemp">
+           <span>okkkk</span>
+        </template>
       </rs-alignment-tool>
     [[/if]]
   </div>
 </div>
+
+<style>
+  .popover-title > a {
+    color: blue !important;
+    text-decoration: underline;
+  }
+</style>
