@@ -31,26 +31,24 @@
           </button>
         </mp-event-trigger>
       </h1>
-      ok
-      <rs-premise id='premise' assertion='[[this]]'></rs-premise>
       
+      <rs-premise id='premise'
+       assertion='[[this]]' 
+       fields='[[fieldDefinitions field=(urlParam "field")]]'
+       ></rs-premise>
+      assertion='{{assertion}}'
+            fields='[[fieldDefinitions field=(urlParam "field")]]'
+            value-template='{{> :ResourceFieldValueVisualization}}'
+            form-template='{{> :AssertionFormTemplate}}'>
       <h1>Conclusion</h1>
       <label>Argued Field</label>
       <p>
-        ok
-        <semantic-query
-        query='SELECT ?field WHERE { ?? rso:targetsField ?field }'
-        >
-
-          <semantic-link iri='{{field.value}}'></semantic-link>
-        </semantic-query>
-      	
+      	<semantic-link iri='[[singleValueFromSelect "SELECT ?field WHERE { ?? rso:targetsField ?field }"]]'></semantic-link>
       </p>
       <label>Values</label>
       <semantic-table query='SELECT ?value ?belief WHERE {
           ?? rso:PX_asserts ?beliefEntity .
           ?beliefEntity rso:PX_asserts_value ?value ;
-                        crminf:J5_holds_to_be ?belief .
         }'
       	options='{"showFilter": false}'></semantic-table>
 			<br /><br />
