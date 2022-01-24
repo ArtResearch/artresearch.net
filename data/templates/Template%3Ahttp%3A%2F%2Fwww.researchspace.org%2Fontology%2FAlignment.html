@@ -32,9 +32,9 @@
     [[#if (ask "ASK WHERE { ?? <http://www.researchspace.org/ontology/PX_source_terminology>|<http://www.researchspace.org/ontology/PX_target_terminology> ?object . ?s skos:inScheme ?object. }")]]
     
       <rs-alignment-tool
-      id="first"
+        id="first"
         alignment-container='[[this]]'
-        info-template ='{{> infoTemp}}'
+        info-template='{{> template}}'
         queries='{
           "rootsQuery": " SELECT DISTINCT ?item ?label ?hasChildren ?iri FROM <alignment:__graph__> where {
                             {
@@ -106,9 +106,13 @@
                         } GROUP BY ?item ORDER BY ?label "
         }'
       >
-        <template id="infoTemp">
-          <span>okkkk</span>
-        </template>
+        <template id='template'>
+             <span class="tree-item-actions-container">
+               
+                  <span class='tree-item-action' style="margin-right: 7px;"><i class='fa fa-eye' title="View "></i></span>
+               
+            </span>
+          </template>
       </rs-alignment-tool>
     [[else]]
       <style>
@@ -119,7 +123,6 @@
       <rs-alignment-tool
       id="second"
         alignment-container='[[this]]'
-        info-template ='{{>infoTemp}}'
         queries='{
           "rootsQuery": " SELECT DISTINCT ?item ?label ?hasChildren where {
                             {
@@ -205,9 +208,6 @@
                         } GROUP BY ?item ORDER BY ?label "
         }'
         >
-        <template id="infoTemp">
-           <span>okkkk</span>
-        </template>
       </rs-alignment-tool>
     [[/if]]
   </div>
