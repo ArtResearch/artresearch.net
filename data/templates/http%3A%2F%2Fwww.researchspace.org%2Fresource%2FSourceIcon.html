@@ -27,6 +27,14 @@
         BIND("Marburg" as ?providerLabel)
         FILTER(BOUND(?provider))
       }UNION {
+        BIND(IRI(IF(CONTAINS("{{value.binding.providerLabel.value}}","Zeri"),"https://artresearch.net/resource/zeri/source/Zeri", false)) AS ?provider)
+        BIND("Zeri" as ?providerLabel)
+        FILTER(BOUND(?provider))
+      }UNION {
+        BIND(IRI(IF(CONTAINS("{{value.binding.providerLabel.value}}","KHI"),"https://artresearch.net/resource/khi/source/KHI", false)) AS ?provider)
+        BIND("KHI" as ?providerLabel)
+        FILTER(BOUND(?provider))
+      }UNION {
         BIND(IRI(IF(CONTAINS("{{value.binding.providerLabel.value}}","MIDAS"),"https://artresearch.net/resource/midas/source/MIDAS", false)) AS ?provider)
         BIND("MIDAS" as ?providerLabel)
         FILTER(BOUND(?provider))
