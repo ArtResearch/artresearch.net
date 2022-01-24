@@ -191,10 +191,12 @@
                             number-of-displayed-rows="8"
                             query="
                           SELECT DISTINCT ?subject (SAMPLE(?placeLabel) as ?placeLabel) WHERE { 
-                            OPTIONAL{
+                            ?subject a fc:institution.
+         OPTIONAL{
                               ?subject fr:Institution_from_Place ?parent.
                               ?parent rdfs:label ?placeLabel.        
                             } 
+        } GROUP BY ?subject ORDER BY DESC (?placeLabel) LIMIT 1000'
                           }GROUP BY ?subject ORDER BY DESC (?placeLabel) LIMIT 1000
                         "
                             tuple-template="{{>tupleTemplate}}"
