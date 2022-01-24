@@ -23,17 +23,20 @@
         	n/a
         [[/if]]
       </p>
-      <h1>
+      <!-- <h1>
         Premise
         <mp-event-trigger id='dom-refresh' type='Premise.AddArgument' targets='["premise"]'>
           <button class='btn btn-primary btn-sm' title="Add premise" style='margin-left: 5px; color: white !important;'>
-            <i class='fa fa-plus'></i>
+            <i class='fa fa-plus'></i> Add Premise
           </button>
         </mp-event-trigger>
       </h1>
       
-      <rs-premise id='premise' assertion='[[this]]'></rs-premise>
-      
+      <rs-premise id='premise'
+       assertion='[[this]]' 
+       fields='[[fieldDefinitions field=(urlParam "field")]]'
+       ></rs-premise>
+     
       <h1>Conclusion</h1>
       <label>Argued Field</label>
       <p>
@@ -43,12 +46,9 @@
       <semantic-table query='SELECT ?value ?belief WHERE {
           ?? rso:PX_asserts ?beliefEntity .
           ?beliefEntity rso:PX_asserts_value ?value ;
-                        crminf:J5_holds_to_be ?belief .
         }'
       	options='{"showFilter": false}'></semantic-table>
-			<br /><br />
-      <mp-event-trigger id='save-changes' type='Premise.SaveArguments' targets='["premise"]'>
-        <button class='btn btn-primary'>Save Changes</button>
-      </mp-event-trigger>
+			<br /><br /> -->
+  
     </div>
  

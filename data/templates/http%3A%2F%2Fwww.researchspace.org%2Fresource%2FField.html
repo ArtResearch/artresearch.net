@@ -69,7 +69,11 @@
                           </div>
           
 
-                        
+                            <mp-event-trigger id='assert-new-value' type='Component.TemplateUpdate' targets='["assertion"]' data='{"assertion": "{{assertion.value}}"}'>
+                            <button class='btn btn-default btn-xs pull-right' title='Edit assertion' style='margin-left: 5px;'>
+                              <i class='fa fa-pencil'></i> Edit
+                            </button>
+                          </mp-event-trigger>
                           [[#if (hasPermission "api:ldp:container:<http://www.researchspace.org/resource/system/fieldDefinitionContainer>:create:any")]]
                           <mp-event-trigger id='assert-new-value' type='Component.TemplateUpdate' targets='["assertion"]' data='{"assertion": "{{assertion.value}}"}'>
                             <button class='btn btn-default btn-xs pull-right' title='Edit assertion' style='margin-left: 5px;'>
@@ -124,18 +128,38 @@
       <semantic-context repository="ephedra">
       <mp-event-target-template-render id='assertion' template='{{> template}}'>
         <template id='template'>
+          <semantic-query
+            query='
+            SELECT ?field  ?iri WHERE {
+              BIND(<[[urlParam "field"]]> as ?field) .
+              BIND(<[[urlParam "subject"]]> as ?iri)
+              
+            }LIMIT 1 '
+            template='{{> assertionbox}}'
+          >
+            <template id="assertionbox">
+         
           {{#if assertion}}
-          <rs-assertion assertion='{{assertion}}'
-            value-template='{{> :ResourceFieldValueVisualization}}'
-            form-template='{{> :AssertionFormTemplate}}'>
-          </rs-assertion>
-          {{else}}
-          <rs-assertion target='[[urlParam "subject"]]'
+          <rs-assertion 
+            assertion='{{assertion}}'
             fields='[[fieldDefinitions field=(urlParam "field")]]'
             value-template='{{> :ResourceFieldValueVisualization}}'
             form-template='{{> :AssertionFormTemplate}}'>
           </rs-assertion>
+          {{else}}
+          <rs-assertion 
+            subject='{{bindings.0.iri.value}}'
+            target='[[urlParam "subject"]]'
+            fields='[[fieldDefinitions 
+              field=(urlParam "field")
+           
+            ]]'
+            value-template='{{> :ResourceFieldValueVisualization}}'
+            form-template='{{> :AssertionFormTemplate }}'>
+          </rs-assertion>
           {{/if}}
+          </template>
+          </semantic-query>
         </template>
       </mp-event-target-template-render>
     </semantic-context>
