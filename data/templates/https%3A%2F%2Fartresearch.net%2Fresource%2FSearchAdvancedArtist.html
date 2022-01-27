@@ -1,8 +1,8 @@
 
   <semantic-context repository='ephedra'>
     <semantic-search
-    relations='[[> :SearchSimpleRelations]]'
-    search-profile='[[> :SearchSimpleProfile]]'
+    relations='[[> SearchSimpleRelations]]'
+    search-profile='[[> SearchSimpleProfile]]'
     >
     <div class="search-form-container">
     <bs-panel id="form-panel" header="‎‎"  collapsible="true" default-expanded="true">
@@ -14,10 +14,10 @@
         <semantic-search-form-query
           multi=true
           domain='<http://www.cidoc-crm.org/cidoc-crm/E21_Person>'
-          query-template='[[> :SearchAdvancedArtistQuery]]'
-          fields='[[> :SearchAdvancedArtistFields]]'
+          query-template='[[> SearchAdvancedArtistQuery]]'
+          fields='[[> SearchAdvancedArtistFields]]'
         >
-        [[> :SearchAdvancedArtistInputs]]
+        [[> SearchAdvancedArtistInputs]]
         <semantic-form-hidden-input for="secretInput" default-value='nope'></semantic-form-hidden-input>
           <button type="button" name="submit" class="btn btn-secondary">
             Search   <span class="fa fa-search" style="margin-left:5px"></span>
@@ -90,11 +90,11 @@
                 number-of-displayed-rows="10"
                 tuple-template="{{> subjectCellTemplate}}"
                 options='{"showTableHeading": false, "showFilter":false}'
-                no-result-template='[[> :CardNoResult ]]'
+                no-result-template='[[> CardNoResult ]]'
               >
                 <template id="subjectCellTemplate">
                   <semantic-context repository='default'>
-                    [[> :CardPerson]]
+                    [[> CardPerson]]
                   </semantic-context>
                 </template>
               </semantic-table>

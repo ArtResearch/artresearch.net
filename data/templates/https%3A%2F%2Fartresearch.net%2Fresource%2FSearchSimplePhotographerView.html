@@ -95,11 +95,11 @@ class="hiddenSearchbar"
         number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
         tuple-template="{{> subjectCellTemplate}}"
         options='{"showTableHeading": false, "showFilter":false}'
-        no-result-template='[[> :CardNoResult ]]'
+        no-result-template='[[> CardNoResult ]]'
       >
         <template id="subjectCellTemplate">
           <semantic-context repository='default'>
-            [[> :CardPerson]]
+            [[> CardPerson]]
           </semantic-context>
         </template>
       </semantic-table>

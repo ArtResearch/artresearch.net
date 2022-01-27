@@ -1,8 +1,8 @@
-[[> :Breadcrumb category="Artworks" categoryUrl="/" ]]
+[[> Breadcrumb category="Artworks" categoryUrl="/" ]]
 <div class="page rs-page">
-  [[#> :ClipboardSidebar]]
+  [[#> ClipboardSidebar]]
   <div class="page__header-navtabs">
-    [[> :HeaderDeprecated]]
+    [[> HeaderDeprecated]]
   </div>
 
   [[#if (urlParam "tab")]]
@@ -30,10 +30,10 @@
           <bs-tab-pane event-key="summary">
             <!-- Loads all IIIF images as 500px thumbnails (clickable with mirador popup) -->
             [[#if (ask "ASK {?? a crm:E22_Man-Made_Object }") ]] 
-              [[> :SummaryImagesWork]]
+              [[> SummaryImagesWork]]
             <!-- Loads two tables with information regarding work & production -->
             <!-- Loads photographs with info (id, photographer, keeper) -->
-              [[> :InfoWorkAndProduction]]
+              [[> InfoWorkAndProduction]]
             
             [[/if]]     
           </bs-tab-pane>
@@ -45,7 +45,7 @@
           </bs-tab-pane>
           <bs-tab-pane event-key="similar">
             <!-- Show similar artworks -->
-              [[> :SimilarArtworks]]
+              [[> SimilarArtworks]]
           </bs-tab-pane>
         </bs-tab-content>
       </div>

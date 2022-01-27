@@ -1,7 +1,7 @@
  <semantic-context repository='ephedra'>
     <semantic-search
-    relations='[[> :SearchSimpleRelations]]'
-    search-profile='[[> :SearchSimpleProfile]]'
+    relations='[[> SearchSimpleRelations]]'
+    search-profile='[[> SearchSimpleProfile]]'
     >
       <mp-event-target-template-render
       id="event-target-form-query"
@@ -13,10 +13,10 @@
         <semantic-search-form-query
         multi=true
         domain='<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>'
-        query-template='[[> :SearchAdvancedPhotographQuery]]'
-        fields='[[> :SearchAdvancedPhotographFields]]'
+        query-template='[[> SearchAdvancedPhotographQuery]]'
+        fields='[[> SearchAdvancedPhotographFields]]'
         >
-        [[> :SearchAdvancedPhotographInputs]]
+        [[> SearchAdvancedPhotographInputs]]
         <semantic-form-hidden-input for="secretInput" default-value='nope'></semantic-form-hidden-input>
           <button type="button" name="submit" class="btn btn-secondary">
             Search   <span class="fa fa-search" style="margin-left:5px"></span>
@@ -89,11 +89,11 @@
                 number-of-displayed-rows="10"
                 tuple-template="{{> subjectCellTemplate}}"
                 options='{"showTableHeading": false, "showFilter":false}'
-                no-result-template='[[> :CardNoResult ]]'
+                no-result-template='[[> CardNoResult ]]'
               >
                 <template id="subjectCellTemplate">
                   <semantic-context repository='default'>
-                    [[> :CardArtwork]]
+                    [[> CardArtwork]]
                   </semantic-context>
                 </template>
               </semantic-table>
@@ -101,7 +101,7 @@
             </bs-tab>
               <bs-tab event-key="2" title="Tabular">
                 <div id="tableView">
-                  [[> :SearchResultTablePhotoSolr]]
+                  [[> SearchResultTablePhotoSolr]]
                 </div>
               </bs-tab>
               </bs-tabs>

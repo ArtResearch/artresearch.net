@@ -5,7 +5,7 @@
   </li>
   <li class="active">Contextual Search</li>
 </ol>
-[[> :SearchEventProxies]]
+[[> SearchEventProxies]]
 <div class="page">
   [[#>:ClipboardSidebar]]
   <div class="page__body--borderless">
@@ -13,15 +13,15 @@
       id="semantic-search"
       limit="10000"
       optimizer="blazegraph"
-      categories='[[> :SearchCategories]]'
-      search-profile='[[> :SearchProfile]]'
+      categories='[[> SearchCategories]]'
+      search-profile='[[> SearchProfile]]'
     >
       <semantic-search-query-builder
         id="semantic-query-builder"
         relation-template=' <div style="margin-left: {{order.value}}px">{{label}}</div> '
-        resource-selector='[[> :SearchResourceSelector]]'
-        tree-selector-categories='[[> :SearchTreeSelectorCategories]]'
-        geo-selector='[[> :SearchGeoSelector]]'
+        resource-selector='[[> SearchResourceSelector]]'
+        tree-selector-categories='[[> SearchTreeSelectorCategories]]'
+        geo-selector='[[> SearchGeoSelector]]'
       >
       </semantic-search-query-builder>
       <div class="row">
@@ -34,7 +34,7 @@
           id="artwork-filter-search"
         >
         <bs-panel id="filter-panel" header="Filters"  collapsible="true" default-expanded="true">
-          <semantic-search-facet open-by-default='true' sortby='count-desc' value-categories='[[> :SearchValueCategories]]'></semantic-search-facet>
+          <semantic-search-facet open-by-default='true' sortby='count-desc' value-categories='[[> SearchValueCategories]]'></semantic-search-facet>
         </bs-panel>
         </bs-col>
         <semantic-search-result-holder>
@@ -47,9 +47,9 @@
               <template id="tableEventTargetTemplate">
                 <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
                 <semantic-search-result id="semantic-search-result">
-                  [[> :SearchResultCountAdvancedSearch]]
+                  [[> SearchResultCountAdvancedSearch]]
                 </semantic-search-result>
-                [[> :SearchbarSwitches]]
+                [[> SearchbarSwitches]]
               <bs-tabs
                 default-active-key="1"
                 unmount-on-exi\t="true"
@@ -64,18 +64,18 @@
                 </style>
                 <bs-tab event-key="1" title="List">
                   <semantic-search-result>
-                    [[> :SearchResultCardWorkPhoto]]
-                    [[> :SearchResultCardPlace]]
-                    [[> :SearchResultCardArtist]]
-                    [[> :SearchResultCardPhotographer]]
-                    [[> :SearchResultCardInstitution]]
+                    [[> SearchResultCardWorkPhoto]]
+                    [[> SearchResultCardPlace]]
+                    [[> SearchResultCardArtist]]
+                    [[> SearchResultCardPhotographer]]
+                    [[> SearchResultCardInstitution]]
                 </semantic-search-result>
                 </bs-tab>
                 <bs-tab event-key="2" title="Tabular">
                   <div id="tableView">
                   <semantic-search-result>
-                    [[> :SearchResultTableWork]]
-                    [[> :SearchResultTablePhoto advancedSearch="true"]]
+                    [[> SearchResultTableWork]]
+                    [[> SearchResultTablePhoto advancedSearch="true"]]
                   </semantic-search-result>
                 </div>
                 </bs-tab>
@@ -84,7 +84,7 @@
                     ranges='["http://www.researchspace.org/ontology/Concept", "http://www.researchspace.org/ontology/Place", "http://www.researchspace.org/ontology/Actor"]'
                   >
                     <semantic-search-result id="semantic-search-result-chart">
-                      [[> :SearchResultChart]]
+                      [[> SearchResultChart]]
                     </semantic-search-result>
                   </semantic-search-result-context>
                 </bs-tab>
@@ -94,12 +94,12 @@
                       ranges='["http://www.researchspace.org/ontology/Time"]'
                     >
                       <semantic-search-result>
-                        [[> :SearchResultTimeline]]
+                        [[> SearchResultTimeline]]
                       </semantic-search-result>
                     </semantic-search-result-context>
                   </div>
                 </bs-tab>
-                [[> :NumberOfRowsSelector]]
+                [[> NumberOfRowsSelector]]
               </bs-tabs>
             </template>
           </mp-event-target-template-render>

@@ -7,7 +7,7 @@
   <template id="fieldsFilter">
     <div id="work-summary-images">
        <div class="imageThumbnailContainer">
-            [[> :StickyHeader ]]
+            [[> StickyHeader ]]
       <semantic-query
         query='SELECT distinct ?thumbnail ?image  WHERE {
         {
@@ -48,7 +48,7 @@
                   <button class="Lightbox-button">Open image lightbox</button>
                 </mp-overlay-dialog-trigger>
                 <mp-overlay-dialog-content>
-                  [[> :PhotographLightbox]]
+                  [[> PhotographLightbox]]
                 </mp-overlay-dialog-content>
               </mp-overlay-dialog>
               [[#if (ask "ASK{?? a fc:work}")]]
@@ -57,12 +57,12 @@
                   <button class="similar-artButton">Visually similar artworks</button>
                 </mp-overlay-dialog-trigger>
                 <mp-overlay-dialog-content>
-                  [[> :SimilarArtworks]]
+                  [[> SimilarArtworks]]
                 </mp-overlay-dialog-content>
               </mp-overlay-dialog>
               [[/if]]
             </div>
-            [[> :SummaryImagesWorkSingle]]
+            [[> SummaryImagesWorkSingle]]
           
         </template>
       </semantic-query>

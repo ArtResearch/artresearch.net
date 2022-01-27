@@ -2,7 +2,7 @@
   <semantic-table
     query='
   SELECT (<[[urlParam "subject"]]> as ?iri) {}'
-    tuple-template="{{> :RecordThumbnail imageWidth=100 imageHeight=100}}"
+    tuple-template="{{> RecordThumbnail imageWidth=100 imageHeight=100}}"
     options='{"showFilter": false}'
   >
   </semantic-table>
@@ -14,7 +14,7 @@
       class="page__header-gripper-label"
     ></mp-label>
     <small style="margin-left: 10px">
-      [[> :InfoTypeRepository work=(urlParam "subject") ]]
+      [[> InfoTypeRepository work=(urlParam "subject") ]]
     </small>
   </h4>
   <h2>
