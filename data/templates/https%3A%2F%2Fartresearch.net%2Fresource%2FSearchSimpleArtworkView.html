@@ -102,7 +102,7 @@
           </template>
         </semantic-query>
         <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
-        [[> :SearchbarSwitches]]
+        [[> SearchbarSwitches]]
         <bs-tabs
         default-active-key="1"
         unmount-on-exit="true"
@@ -119,11 +119,11 @@
           number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
           tuple-template="{{> subjectCellTemplate}}"
           options='{"showTableHeading": false, "showFilter":false}'
-          no-result-template='[[> :CardNoResult ]]'
+          no-result-template='[[> CardNoResult ]]'
         >
           <template id="subjectCellTemplate">
             <semantic-context repository='default'>
-              [[> :CardArtwork]]
+              [[> CardArtwork]]
             </semantic-context>
           </template>
         </semantic-table>
@@ -131,12 +131,12 @@
       </bs-tab>
         <bs-tab event-key="2" title="Tabular">
           <div id="tableView">
-            [[> :SearchResultTableWorkSolr]]
+            [[> SearchResultTableWorkSolr]]
           </div>
         </bs-tab>
         </bs-tabs>
       </semantic-search-result>
-      [[> :NumberOfRowsSelector]]
+      [[> NumberOfRowsSelector]]
       </div>
     </semantic-search-result-holder>
   </bs-col>

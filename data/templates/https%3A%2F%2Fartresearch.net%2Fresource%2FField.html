@@ -64,7 +64,7 @@
                             <mp-field-visualization
                               subject='[[urlParam "subject"]]'
                               fields='[[fieldDefinitions field=(urlParam "field")]]'
-                              template='{{> :FieldBasedAssertedValueVisualization}}'
+                              template='{{> FieldBasedAssertedValueVisualization}}'
                             ></mp-field-visualization>
                           </div>
           
@@ -143,8 +143,8 @@
           <rs-assertion 
             assertion='{{assertion}}'
             fields='[[fieldDefinitions field=(urlParam "field")]]'
-            value-template='{{> :ResourceFieldValueVisualization}}'
-            form-template='{{> :AssertionFormTemplate}}'>
+            value-template='{{> ResourceFieldValueVisualization}}'
+            form-template='{{> AssertionFormTemplate}}'>
           </rs-assertion>
           {{else}}
           <rs-assertion 
@@ -154,8 +154,8 @@
               field=(urlParam "field")
            
             ]]'
-            value-template='{{> :ResourceFieldValueVisualization}}'
-            form-template='{{> :AssertionFormTemplate }}'>
+            value-template='{{> ResourceFieldValueVisualization}}'
+            form-template='{{> AssertionFormTemplate }}'>
           </rs-assertion>
           {{/if}}
           </template>
@@ -170,9 +170,9 @@
 
 
 <div class="page rs-page">
-  [[#> :ClipboardSidebar]]
+  [[#> ClipboardSidebar]]
   <div class="page__header-navtabs">
-    [[> :FieldHeader]]
+    [[> FieldHeader]]
   </div>
 
   [[#if (urlParam "tab")]]
@@ -203,7 +203,7 @@
             [[> assertions]]
           </bs-tab-pane>
           <bs-tab-pane event-key="annotations">
-            [[> :FieldAnnotations]]
+            [[> FieldAnnotations]]
           </bs-tab-pane>
         </bs-tab-content>
       </div>

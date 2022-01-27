@@ -163,7 +163,7 @@
           <div>
             <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
             <semantic-search-result id="semantic-search-result">
-              [[> :SearchResultCount]]
+              [[> SearchResultCount]]
             </semantic-search-result>
             <mp-event-target-template-render
             id="event-target-tables"
@@ -194,10 +194,10 @@
                             number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
                             query="SELECT DISTINCT ?subject WHERE {}LIMIT 1000"
                             tuple-template="{{>tupleTemplate}}"
-                            no-result-template='[[> :CardNoResult ]]'
+                            no-result-template='[[> CardNoResult ]]'
                           >
                             <template id="tupleTemplate">
-                              [[> :CardArtwork]]
+                              [[> CardArtwork]]
                             </template>
                           </semantic-table>
                         </bs-tab-pane>
@@ -221,14 +221,14 @@
                        }LIMIT 1000
                     "
                             tuple-template="{{>tupleTemplate}}"
-                            no-result-template='[[> :CardNoResult ]]'
+                            no-result-template='[[> CardNoResult ]]'
                           >
                             <template id="tupleTemplate">
-                              [[> :CardArtwork]]
+                              [[> CardArtwork]]
                             </template>
                           </semantic-table>
                         </bs-tab-pane>
-                          [[> :NumberOfRowsSelector]]
+                          [[> NumberOfRowsSelector]]
                       </bs-tab-content>
                     </div>
                   </bs-tab-container>

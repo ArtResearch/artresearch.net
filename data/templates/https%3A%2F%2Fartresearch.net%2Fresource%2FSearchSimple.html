@@ -11,7 +11,7 @@
             }LIMIT 1'
             template="{{>searchbarTemplate}}">
               <template id="searchbarTemplate">
-                [[> :Searchbar selectedCategory="{{bindings.0.tab.value}}" ]]
+                [[> Searchbar selectedCategory="{{bindings.0.tab.value}}" ]]
               </template>
           </semantic-query>
         </header>
@@ -36,34 +36,34 @@
             <bs-tab-content unmount-on-exit="true">
               <bs-tab-pane event-key="Artworks">
                 <semantic-search
-                relations='[[> :SearchSimpleRelations]]'
-                search-profile='[[> :SearchSimpleProfile]]'
+                relations='[[> SearchSimpleRelations]]'
+                search-profile='[[> SearchSimpleProfile]]'
               >
-                [[> :SearchSimpleArtworkView]]
+                [[> SearchSimpleArtworkView]]
                   </semantic-search>
               </bs-tab-pane>
               <bs-tab-pane event-key="Photographs">
                 <semantic-search
-                relations='[[> :SearchSimpleRelations]]'
-                search-profile='[[> :SearchSimpleProfile]]'
+                relations='[[> SearchSimpleRelations]]'
+                search-profile='[[> SearchSimpleProfile]]'
               >
-                [[> :SearchSimplePhotoView]]
+                [[> SearchSimplePhotoView]]
                 </semantic-search>
               </bs-tab-pane>
               <bs-tab-pane event-key="Artists">
                 <semantic-search
-                relations='[[> :SearchSimpleRelations]]'
-                search-profile='[[> :SearchSimpleProfile]]'
+                relations='[[> SearchSimpleRelations]]'
+                search-profile='[[> SearchSimpleProfile]]'
               >
-                [[> :SearchSimpleArtistView]]
+                [[> SearchSimpleArtistView]]
                 </semantic-search>
               </bs-tab-pane>
               <bs-tab-pane event-key="Photographers">
                 <semantic-search
-                relations='[[> :SearchSimpleRelations]]'
-                search-profile='[[> :SearchSimpleProfile]]'
+                relations='[[> SearchSimpleRelations]]'
+                search-profile='[[> SearchSimpleProfile]]'
               >
-                [[> :SearchSimplePhotographerView]]
+                [[> SearchSimplePhotographerView]]
                 </semantic-search>
               </bs-tab-pane>
             </bs-tab-content>
