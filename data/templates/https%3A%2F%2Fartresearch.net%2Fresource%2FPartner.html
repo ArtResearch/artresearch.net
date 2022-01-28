@@ -1,0 +1,242 @@
+[[> Breadcrumb category="Partners" categoryUrl=":Partners"]]
+
+<div class="page rs-page">
+  [[#> ClipboardSidebar]]
+  <div class="page__header-navtabs">
+    <div id="artwork-header"  class="page__header-body" data-flex-layout="row top-left">
+      <div class="page__header-draggable-title">
+        <mp-draggable iri="[[this]]">
+          <h2 data-flex-layout="row center-left">
+            <span class="page__header-gripper"></span>
+             <div class='page__header-gripper-label'>[[providerLabel]]</div>
+          </h2>
+        </mp-draggable>
+      </div>
+      <div data-flex-layout='row center-left' class="page__header-tagline subtitleInfo">
+        <h2 class="fc-label">
+              <a style="margin-left: 5px;" href="[[website]]" target="_null">
+                <div class="fc-label original-link">
+                <img
+                  title="[[providerLabel]]"
+                  class="sourceIcon"
+                  src="../../assets/images/[[providerLabel]].ico"
+              />
+              <div class="text"  style="font-size:16px;">Website</div>
+            </div> 
+            </a>          <a style="margin-left: 5px;" href="[[onlineCatalogue]]" target="_null">
+  <div class="fc-label original-link">
+  <img
+    title="[[providerLabel]]"
+    class="sourceIcon"
+    src="../../assets/images/[[providerLabel]].ico"
+/>
+<div class="text" style="font-size:16px;">Online catalogue </div>
+</div> 
+</a>
+</h2>
+      </div>
+    </div>
+  </div>
+
+  [[#if (urlParam "tab")]]
+  <bs-tab-container id="tab-container" class="page__body-navtabs--borderless" default-active-key="[[urlParam 'tab']]">
+    [[else]]
+    <bs-tab-container id="tab-container" class="page__body-navtabs--borderless" default-active-key="summary">
+      [[/if]]
+      <div>
+        <bs-nav bs-style="tabs">
+          <bs-nav-item event-key="summary">Summary</bs-nav-item>
+          [[#if dataAvailable]]
+          <bs-nav-item event-key="artworks"><div style="display:flex;">Artworks (
+            <semantic-query query='  SELECT DISTINCT ?count WHERE {
+                {
+                SELECT ?graph ?date WHERE {
+                      ?graph <https://artresearch.net/custom/has_date> ?date.
+                      BIND(strbefore(STR(?date),"-") as ?day)
+                      BIND(strafter(STR(?date),"-") as ?tmp)
+                      BIND(strbefore(?tmp,"-") as ?month)
+                      BIND(strafter(STR(?tmp),"-") as ?year)
+                    } order by DESC(?year) DESC(?month) DESC(?day) LIMIT 1
+                }
+                ?graph <https://artresearch.net/custom/consists_of> ?n
+                GRAPH ?n {
+                  ?? <https://artresearch.net/custom/numOfWorks> ?count
+                }
+                FILTER(!STRSTARTS(STR(??), "https://artresearch.net/resource/total"))
+              } LIMIT 1'></semantic-query>)
+            </div>
+          </bs-nav-item>
+          <bs-nav-item event-key="photographs"><div style="display:flex;">Photographs (
+            <semantic-query query='  SELECT DISTINCT ?count WHERE {
+                {
+                SELECT ?graph ?date WHERE {
+                      ?graph <https://artresearch.net/custom/has_date> ?date.
+                      BIND(strbefore(STR(?date),"-") as ?day)
+                      BIND(strafter(STR(?date),"-") as ?tmp)
+                      BIND(strbefore(?tmp,"-") as ?month)
+                      BIND(strafter(STR(?tmp),"-") as ?year)
+                    } order by DESC(?year) DESC(?month) DESC(?day) LIMIT 1
+                }
+                ?graph <https://artresearch.net/custom/consists_of> ?n
+                GRAPH ?n {
+                  ?? <https://artresearch.net/custom/numOfPhotos> ?count
+                }
+                FILTER(!STRSTARTS(STR(??), "https://artresearch.net/resource/total"))
+              }LIMIT 1'></semantic-query>)
+            </div>
+          </bs-nav-item>
+          [[/if]]
+        </bs-nav>
+
+        <bs-tab-content unmount-on-exit=true>
+          <bs-tab-pane event-key="summary">
+            [[#if image]]
+            <div id="work-summary-images">
+              <div  id="printableImages"  class="summaryImages">
+                <div class="rs-page__summary-image">
+                  <div class="imageAndSourceContainer">
+                    <img
+                    class="imageThumbnail"
+                    alt="Issue with image provider"
+                    src="[[image]]"
+                  />
+                  </div>
+                </div>
+              </div>
+            </div>
+            [[/if]]
+            [[#if images]]
+            <div id="work-summary-images">
+              <div  id="printableImages"  class="summaryImages">
+                <div class="rs-page__summary-image">
+                  <div class="carousel-container">
+                    <div class="imageAndSourceContainer">
+                    <semantic-carousel
+                    query="
+                        SELECT ?thumbnail  WHERE {                    
+                          VALUES (?thumbnail){ 
+                            [[images]]
+                          }
+                        }"
+                    options='{ "dots":true, "draggable":false, "infinite": true, "autoplay":true,"autoplaySpeed":6000, "fade": true }'
+                    tuple-template='<img src="{{thumbnail.value}}" style="max-height:260px; margin: 0 auto;" class="img-rounded">'
+                  ></semantic-carousel>
+                        </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+         
+            [[/if]]
+            <div id="printableInfo" class="workAndProductionInfo">
+              <!-- Fields for Work (Artwork or photograph) -->
+      
+                  <div class="workInfoContainer">
+                    <h2>Institute</h2>
+                    <div class="partnerDescription">
+                      [[descriptionGeneral]]
+                    </div>
+                  </div>
+              <!-- Fields for Production -->
+              <div class="productionInfoContainer">
+                    <h2>Photo Archive</h2>
+                    <div class="partnerDescription">
+                      [[descriptionArchive]]
+                    </div>
+              </div>
+            </div>
+          </bs-tab-pane>
+          <bs-tab-pane event-key="artworks">
+            [[> FilterSearchArtwork provider=this ]]
+          </bs-tab-pane>
+          <bs-tab-pane event-key="photographs">
+            [[> FilterSearchPhoto provider=this ]]
+          </bs-tab-pane>
+        </bs-tab-content>
+      </div>
+    </bs-tab-container>
+    [[/:ClipboardSidebar]]
+</div>
+
+<style>
+
+button.close {
+  opacity: 1;
+  font-size: 55px !important;
+}
+ .modal-content {
+  border: none !important;
+  box-shadow: none !important;
+}
+.modal-content {
+  background-color: #f5f5f5 !important;
+}
+
+.component-page-toolbar {
+    display: none !important;
+  }
+  
+  .miradorViewerPopup .grid-demo{
+    height: 92vh;
+}
+  .miradorViewerPopup .modal-dialog{
+      width: 85%;
+  }
+  .miradorViewerPopup .modal-title{
+      text-align: center;
+  }
+  .mirador-main-menu-bar{
+    display: none !important;
+    }
+
+.navbar-default {
+    box-shadow: none !important
+}
+
+    .mirador-viewer{
+        top: 0px !important;
+    }
+    .mirador-osd-annotation-controls{
+        display: none !important;
+    }
+    .slick-dots {
+    top: 33vh;
+    }
+    .carousel-container{
+      width: 62vw;
+    height: 40vh;
+    display: flex;
+    flex-direction: column;
+    }
+    .semantic-carousel > .slick-slider {
+  width: 100%;
+  margin: 0 !important;
+}
+.slick-slide img {
+  display: block;
+  object-fit: contain !important;
+  height: 100%;
+  width: 100%;
+  min-height: 245px;
+  min-width: 500px;
+  max-height: 350px !important;
+}
+.imageAndSourceContainer{
+  padding: 0px 25px 0px 25px;
+}
+#work-summary-images .rs-page__summary-image {
+  overflow: hidden;
+}
+#work-summary-images .imageThumbnail {
+    height: 32vh;
+}
+
+@media(max-width:750px){
+  .carousel-container {
+    width: 96vw;
+    height: 43vh;
+}
+}
+</style>

@@ -1,0 +1,246 @@
+<div id="structured-search">
+<ol class="page-breadcrumb">
+  <li style="padding-top:10px">
+    <mp-link title="Home" url="/">Home</mp-link>
+  </li>
+  <li class="active">Contextual Search</li>
+</ol>
+[[> SearchEventProxies]]
+<div class="page">
+  [[#>:ClipboardSidebar]]
+  <div class="page__body--borderless">
+    <semantic-search
+      id="semantic-search"
+      limit="10000"
+      optimizer="blazegraph"
+      categories='[[> SearchCategories]]'
+      search-profile='[[> SearchProfile]]'
+    >
+      <semantic-search-query-builder
+        id="semantic-query-builder"
+        relation-template=' <div style="margin-left: {{order.value}}px">{{label}}</div> '
+        resource-selector='[[> SearchResourceSelector]]'
+        tree-selector-categories='[[> SearchTreeSelectorCategories]]'
+        geo-selector='[[> SearchGeoSelector]]'
+      >
+      </semantic-search-query-builder>
+      <div class="row">
+        <bs-col
+          lg="3"
+          md="4"
+          sm="5"
+          class="fade-in-fwd filters-container"
+          style="margin-top: 8px"
+          id="artwork-filter-search"
+        >
+        <bs-panel id="filter-panel" header="Filters"  collapsible="true" default-expanded="true">
+          <semantic-search-facet open-by-default='true' sortby='count-desc' value-categories='[[> SearchValueCategories]]'></semantic-search-facet>
+        </bs-panel>
+        </bs-col>
+        <semantic-search-result-holder>
+          <bs-col lg="8" md="7" sm="6">
+
+              <mp-event-target-template-render
+              id="event-target-tables"
+              template="{{> tableEventTargetTemplate}}"
+            >
+              <template id="tableEventTargetTemplate">
+                <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
+                <semantic-search-result id="semantic-search-result">
+                  [[> SearchResultCountAdvancedSearch]]
+                </semantic-search-result>
+                [[> SearchbarSwitches]]
+              <bs-tabs
+                default-active-key="1"
+                unmount-on-exi\t="true"
+                id="search-results"
+                animation="false"
+                class="tabs-right"
+              >
+                <style>
+                  .help-button {
+                    display: none !important;
+                  }
+                </style>
+                <bs-tab event-key="1" title="List">
+                  <semantic-search-result>
+                    [[> SearchResultCardWorkPhoto]]
+                    [[> SearchResultCardPlace]]
+                    [[> SearchResultCardArtist]]
+                    [[> SearchResultCardPhotographer]]
+                    [[> SearchResultCardInstitution]]
+                </semantic-search-result>
+                </bs-tab>
+                <bs-tab event-key="2" title="Tabular">
+                  <div id="tableView">
+                  <semantic-search-result>
+                    [[> SearchResultTableWork]]
+                    [[> SearchResultTablePhoto advancedSearch="true"]]
+                  </semantic-search-result>
+                </div>
+                </bs-tab>
+                <bs-tab event-key="3" title="Chart">
+                  <semantic-search-result-context
+                    ranges='["http://www.researchspace.org/ontology/Concept", "http://www.researchspace.org/ontology/Place", "http://www.researchspace.org/ontology/Actor"]'
+                  >
+                    <semantic-search-result id="semantic-search-result-chart">
+                      [[> SearchResultChart]]
+                    </semantic-search-result>
+                  </semantic-search-result-context>
+                </bs-tab>
+                <bs-tab event-key="4" title="Timeline">
+                  <div>
+                    <semantic-search-result-context
+                      ranges='["http://www.researchspace.org/ontology/Time"]'
+                    >
+                      <semantic-search-result>
+                        [[> SearchResultTimeline]]
+                      </semantic-search-result>
+                    </semantic-search-result-context>
+                  </div>
+                </bs-tab>
+                [[> NumberOfRowsSelector]]
+              </bs-tabs>
+            </template>
+          </mp-event-target-template-render>
+              <hr />
+              <div
+                class="semantic-search-results-actions pull-right"
+              >
+                <semantic-search-result>
+                  <mp-sparql-download
+                    id="csv-result"
+                    query="SELECT ?subject WHERE { }"
+                    header="text/csv"
+                    filename="csv-result.csv"
+                  >
+                    <button class="btn btn-default" style="margin-right: 10px">
+                      Download CSV
+                    </button>
+                  </mp-sparql-download>
+                </semantic-search-result>
+                <semantic-search-result>
+                  <mp-sparql-download
+                    id="json-result"
+                    query="SELECT ?subject WHERE { }"
+                    header="application/sparql-results+json"
+                    filename="json-result.json"
+                  >
+                    <button class="btn btn-default" style="margin-right: 10px">
+                      Download JSON
+                    </button>
+                  </mp-sparql-download>
+                </semantic-search-result>
+              </div>
+              <div
+              class="semantic-search-results-actions"
+            >
+              <semantic-search-action-use-result-in-extended-search>
+                <button class="btn btn-default" style="margin-right: 10px">
+                  Use in Search
+                </button>
+              </semantic-search-action-use-result-in-extended-search>
+              <mp-anonymous-hidden>
+                <semantic-search-action-save-set-result
+                  id="save-set-result-action"
+                >
+                  <button class="btn btn-default" style="margin-right: 10px">
+                    Save As Set
+                  </button>
+                </semantic-search-action-save-set-result>
+              </mp-anonymous-hidden>
+              <mp-anonymous-hidden>
+                <semantic-search-action-save-search-result
+                  id="save-search-result-action"
+                  add-to-default-set="true"
+                >
+                  <button class="btn btn-default" style="margin-right: 10px">
+                    Save As Search
+                  </button>
+                </semantic-search-action-save-search-result>
+              </mp-anonymous-hidden>
+            </div>
+    
+          </bs-col>
+        </semantic-search-result-holder>
+      </div>
+    </semantic-search>
+  </div>
+  [[/:ClipboardSidebar]]
+  <rs-guided-tour id='guided-tour' steps='[{
+    "text": "Welcome to the Contextual Search page tour. 
+    In this tour you will learn how to formulate complex queries and use the Contextual Search functionality.
+    Click on Next to begin.
+    ",
+    "selector": ".ItemSelector--itemSelector.QueryBuilder--domainSelection",
+    "position": "bottom"
+  }, {
+    "text": "For this tour we are going to create the following query:
+    \"Works that were made using paper and that were created by female artists \".Click on next to view the next step.
+    ",
+    "selector": ".SearchSummary--start",
+    "position": "bottom"
+  }, {
+    "text": "First you must select the category you are about search. Click on the Work option. Click on next to view the next step.
+    ",
+    "selector": ".btn.ItemSelector--itemHolder.QueryBuilder--categorySelectionItem",
+    "position": "right"
+  }, {
+    "text": "Since we want to search for works that were made using paper, we should select the Material option.  Click on next to view the next step.",
+    "selector": "li[aria-label=\"Material\"]",
+    "position": "right"
+  },{
+    "text": "To search for that material, simply type in \"paper\" in this section. Select the paper (fiber-product) option. Click on next to view the next step.",
+    "selector": ".Select.QueryBuilder--resourceSelector.Select--single.is-clearable.is-searchable",
+    "position": "left"
+  },{
+    "text": "A first set of results will load.. to continue click next.",
+    "selector": "div[data-flex-self=\"md-full\"]",
+    "position": "top"
+  },{
+    "text": "To continue with our query, we must now limit the query to artworks created by female artists. Select the and option.  Click on next to view the next step.",
+    "selector": ".QueryBuilder--addConjunctButton.QueryBuilder--selectedItem.QueryBuilder--actionableItem",
+    "position": "right"
+  },{
+    "text": "This time, select the Artist option. Click on next to view the next step.",
+    "selector": "li[aria-label=\"Artist\"]",
+    "position": "right"
+  },{
+    "text": "For Work related to Artist the are three options available. Select the created by option. Click on next to view the next step.",
+    "selector": "li[aria-label=\"created by\"]",
+    "position": "right"
+  },{
+    "text": "Since we want to include all women artists we must furtherly refine this relation. To do so, select the + additional relation button. Click on next to view the next step.",
+    "selector": ".btn.btn-default.QueryBuilder--nestedSearchButton",
+    "position": "right"
+  },{
+    "text": "All relation options for Artists have now appeared. Select the Gender option. Click on next to view the next step.",
+    "selector": "li[aria-label=\"Gender\"]",
+    "position": "right"
+  },{
+    "text": "Type in \"female\" to search for the female option. Then select \"female\" from the results. Click on next to view the next step.",
+    "selector": ".QueryBuilder--searchBasedTermSelector",
+    "position": "right"
+  }]'></rs-guided-tour>
+ 
+  <!-- use `mp-event-trigger` component to start guided tour -->
+  <mp-event-trigger id='guided-tour-start' type='GuidedTour.Start' targets='["guided-tour"]'>
+    <button class="help-button fa fa-question"></button>
+  </mp-event-trigger>
+ 
+  <!-- use `mp-event-proxy` component to run guided tour if it wasn't seen -->
+  <mp-event-proxy id='guided-tour-run' on-event-type='Component.Loaded' on-event-source='source-id'
+    proxy-event-type='GuidedTour.RunIfNotSeen' proxy-targets='["guided-tour"]'>
+  </mp-event-proxy>
+</div>
+</div>
+<style>
+.navbar-default {
+  box-shadow: none !important
+}
+
+  body{
+    line-height: 0 !important;
+  }
+
+</style>

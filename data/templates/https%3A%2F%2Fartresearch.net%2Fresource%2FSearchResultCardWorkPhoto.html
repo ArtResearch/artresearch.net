@@ -1,0 +1,29 @@
+<semantic-table
+  id="grid-result-work"
+  options='{
+        "showFilter":false
+      }'
+  number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
+  query='
+  SELECT DISTINCT ?subject
+  WHERE {
+    {
+      {{#ifCond withImages "===" "true"}}
+        ?subject fr:Work_depicted_by_Photo ?photo.
+        ?photo crm:P129i_is_subject_of ?fullsizeImgUrl.
+      {{/ifCond}}
+      ?subject a fc:work
+    }UNION{
+      {{#ifCond withImages "===" "true"}}
+       ?subject crm:P129i_is_subject_of ?fullsizeImgUrl.
+      {{/ifCond}}
+      ?subject a cfc:photo
+    }
+    
+  }LIMIT 1000'
+  tuple-template="{{>tupleTemplate}}"
+>
+<template id="tupleTemplate">
+   [[> CardArtwork]]
+</template>
+</semantic-table>

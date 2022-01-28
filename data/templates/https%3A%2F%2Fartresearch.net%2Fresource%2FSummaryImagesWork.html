@@ -1,0 +1,113 @@
+<!-- Displays a row of IIIF photographs that are clickable (iiif mirador popup) -->
+
+<mp-event-target-template-render
+  id="event-target-rsbv"
+  template="{{> fieldsFilter}}"
+>
+  <template id="fieldsFilter">
+    <div id="work-summary-images">
+       <div class="imageThumbnailContainer">
+            [[> StickyHeader ]]
+      <semantic-query
+        query='SELECT distinct ?thumbnail ?image  WHERE {
+        {
+          # Photo object
+          ?? crm:P129i_is_subject_of ?image.
+          {{#if selectedTab}}
+            {{#ifCond selectedTab "!==" "All"}}
+              ?? fr:Photo_has_provider_Institution ?provider.
+            {{/ifCond}}
+          {{/if}}
+        }UNION{
+          # Original & Pharos Artwork
+          ?? fr:Work_depicted_by_Photo ?photo.
+          ?photo crm:P129i_is_subject_of ?image.
+          {{#if selectedTab}}
+            {{#ifCond selectedTab "!==" "All"}}
+              ?photo fr:Photo_has_provider_Institution ?provider.
+            {{/ifCond}}
+          {{/if}}
+        }
+        {{#if selectedTab}}
+          {{#ifCond selectedTab "!==" "All"}}
+            ?provider rdfs:label "{{selectedTab}}".
+          {{/ifCond}}
+        {{/if}}
+        ?image crm:P2_has_type ?imageType.
+        ?imageType rdfs:label ?typeLabel.
+        FILTER(?typeLabel = "recto")  
+        BIND(REPLACE(STR(?image),"full/full","full/!100,100") AS ?thumbnail).
+     } ORDER BY str(?photo) ASC(?typeLabel)'
+        template="{{> imageThumbnail}}"
+        no-result-template='<div class="NoArtwork"> <h1>Sorry, the original artwork does not have any images to display.</h1> </div>'
+      >
+        <template id="imageThumbnail">
+            <div class="imagebar">
+              <mp-overlay-dialog title="‎‎" type="lightbox">
+                <mp-overlay-dialog-trigger>
+                  <button class="Lightbox-button">Open image lightbox</button>
+                </mp-overlay-dialog-trigger>
+                <mp-overlay-dialog-content>
+                  [[> PhotographLightbox]]
+                </mp-overlay-dialog-content>
+              </mp-overlay-dialog>
+              [[#if (ask "ASK{?? a fc:work}")]]
+              <mp-overlay-dialog title="‎‎" type="lightbox">
+                <mp-overlay-dialog-trigger>
+                  <button class="similar-artButton">Visually similar artworks</button>
+                </mp-overlay-dialog-trigger>
+                <mp-overlay-dialog-content>
+                  [[> SimilarArtworks]]
+                </mp-overlay-dialog-content>
+              </mp-overlay-dialog>
+              [[/if]]
+            </div>
+            [[> SummaryImagesWorkSingle]]
+          
+        </template>
+      </semantic-query>
+     </div>
+    </div>
+  </template>
+</mp-event-target-template-render>
+<style>
+  .noArtwork{
+        padding-left: 45px;
+    background: #f8f8f8;
+    margin: 59px;
+  }
+    body {
+    line-height: 0 !important;
+  }
+  .imageThumbnailContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  @media (max-width:1200px) {
+    .imageThumbnailContainer{
+      position: unset !important;
+    }
+    
+  }
+  .footer{
+    padding-bottom: 3vh !important;
+  }
+
+  .imagebar button {
+    border: none;
+    background:  whitesmoke;
+    height: 40px;
+    transition: 0.4s !important;
+  }
+
+  .imagebar button:hover {
+    border-top: 1px solid #de3b3b;
+  }
+
+  .imagebar {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+  }
+</style>
