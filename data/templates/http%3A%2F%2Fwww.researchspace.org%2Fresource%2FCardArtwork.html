@@ -190,42 +190,39 @@
                 </semantic-query>
              
  <semantic-query 
-                query='SELECT ?placeLabel ?institution WHERE { 
-                  
-                  <{{subject.value}}> <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution>|crm:P50_has_current_keeper ?institution.
-                  {
-                     ?institution crm:P74_has_current_or_former_residence|crm:P55_has_current_location ?place.
-                     ?place rdfs:label ?placeLabel 
-                
-                  }
-                  union{
- 		                  <{{subject.value}}> crm:P74_has_current_or_former_residence|crm:P55_has_current_location ?place.
-                       ?place rdfs:label ?placeLabel
-                  }
-                  union{
-                      <{{subject.value}}> crm:P74_has_current_or_former_residence?place.
-                       ?place rdfs:label ?placeLabel
-                  }
-                  
-                  union{
-                    ?original owl:sameAs <{{subject.value}}>.
-                    ?original crm:P74_has_current_or_former_residence|crm:P55_has_current_location ?place.
-                    ?place rdfs:label ?placeLabel
-                  }union{
-                    ?original owl:sameAs ?institution.
-                    ?original crm:P74_has_current_or_former_residence ?place.
-                    ?place rdfs:label ?placeLabel
-                  }union{
-                     ?original owl:sameAs <{{subject.value}}>.
-                     ?original <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution>|crm:P50_has_current_keeper ?institution.
-                     ?place rdfs:label ?placeLabel
-                  }
-                    
-                }LIMIT 1'
+                query='SELECT DISTINCT ?institution ?placeLabel WHERE {
+                        <{{subject.value}}> <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution>|crm:P50_has_current_keeper ?institution.
+                        {
+                          ?institution crm:P74_has_current_or_former_residence|crm:P55_has_current_location ?place.
+                          ?place a cfc:place.
+                          ?place rdfs:label ?placeLabel.
+                        } union{
+                        <{{subject.value}}> crm:P74_has_current_or_former_residence|crm:P55_has_current_location ?place.
+                          ?place a cfc:place.
+                          ?place rdfs:label ?placeLabel
+                        } union{
+                        <{{subject.value}}> crm:P74_has_current_or_former_residence ?place.
+                          ?place a cfc:place.
+                          ?place rdfs:label ?placeLabel
+                        }  union{
+                          ?original owl:sameAs <{{subject.value}}>.
+                          ?original crm:P74_has_current_or_former_residence|crm:P55_has_current_location ?place.
+                          ?place a cfc:place.
+                          ?place rdfs:label ?placeLabel
+                        }union{
+                          ?original owl:sameAs ?institution.
+                          ?original crm:P74_has_current_or_former_residence ?place.
+                          ?place a cfc:place.
+                          ?place rdfs:label ?placeLabel
+                        }union{
+                          ?original owl:sameAs <{{subject.value}}>.
+                          ?original <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution>|crm:P50_has_current_keeper ?institution.
+                        }
+
+                      }'
                 template="{{>repoTemplate}}"
                 >
                 <template id="repoTemplate">
-                  
                   <div class="workTemplate">
                 <tr class="rs-page-resource__field">
                   <td class="rs-page-resource__field-label-holder headLine">
@@ -238,11 +235,13 @@
                         <div style="width:25vw; max-width: 450px;">
                           <semantic-link iri="{{bindings.0.institution.value}}">
                             <mp-label iri="{{bindings.0.institution.value}}"></mp-label>
-                          {{#ifCond  placeLabel.value "!==" null}}
-                          {{#each bindings}}, 
-                           <span>{{placeLabel.value}}</span> 
-                           {{/each}}
-                           {{/ifCond}}
+                            {{#ifCond  placeLabel.value "!==" null}}
+                              {{#each bindings}} 
+                                {{#ifCond  placeLabel.value "!==" undefined}}
+                                , <span>{{placeLabel.value}}</span>
+                                {{/ifCond}}
+                              {{/each}}
+                            {{/ifCond}}
                           </semantic-link>
                         </div>
                       </span>
