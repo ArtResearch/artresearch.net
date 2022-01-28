@@ -1,0 +1,55 @@
+<!-- Displays a row of IIIF photographs that are clickable (iiif mirador popup) -->
+<div id="work-summary-images">
+  <semantic-query
+    query='SELECT distinct ?imgURL ?image ?iiifServer WHERE {
+        {
+          # Photo object
+          <[[subject]]> crm:P129i_is_subject_of ?image.
+          OPTIONAL{
+            <[[subject]]> custom:has_provider ?provider.
+            ?provider <https://artresearch.net/custom/has_iiif_server> ?iiifServer.
+          }
+          ?image crm:P2_has_type ?imageType.
+          ?imageType rdfs:label ?typeLabel.
+          FILTER(?typeLabel = "verso" || ?typeLabel = "recto"  )  
+        }UNION{
+          # Original & Pharos Artwork
+          <[[subject]]> fr:Work_depicted_by_Photo ?photo.
+          ?photo crm:P129i_is_subject_of ?image.
+          OPTIONAL{
+          ?photo custom:has_provider ?provider.
+          ?provider <https://artresearch.net/custom/has_iiif_server> ?iiifServer.
+          }
+          ?image crm:P2_has_type ?imageType.
+          ?imageType rdfs:label ?typeLabel.
+          FILTER(?typeLabel = "verso" || ?typeLabel = "recto"  )  
+        }
+        BIND(REPLACE(STR(?image),"full/full","full/!350,350") AS ?imgURL).
+     } ORDER BY str(?photo) ASC(?typeLabel)'
+    template="{{> imageThumbnail}}"
+  >
+    <template id="imageThumbnail">
+      <bs-tab-container id="imageViewTabs" default-active-key="grid">
+        <div>
+          <bs-nav class="navbar-flex-end" bs-style="tabs">
+            <bs-nav-item event-key="single">
+              <span class="fa fa-image"></span>
+            </bs-nav-item>
+            <bs-nav-item event-key="grid">
+              <span class="fa fa-th"></span>
+            </bs-nav-item>
+          </bs-nav>
+          <bs-tab-content animation="true">
+            <bs-tab-pane event-key="grid">
+              [[> SummaryImagesWorkGrid]]
+            </bs-tab-pane>
+
+            <bs-tab-pane event-key="single">
+              [[> SummaryImagesWorkSingle]]
+            </bs-tab-pane>
+          </bs-tab-content>
+        </div>
+      </bs-tab-container>
+    </template>
+  </semantic-query>
+</div>

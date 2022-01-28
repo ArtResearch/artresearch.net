@@ -1,0 +1,195 @@
+<mp-event-target-template-render
+id="event-target-rsbv"
+template="{{> fieldsFilter}}"
+>
+<template id="fieldsFilter">
+<div id="printableInfo" class="workAndProductionInfo">
+  <!--Artwork / Monument -->
+  <mp-field-visualization
+    subject="[[this]]"
+    additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
+    fields='[[ fieldDefinitionsFromQuery "SELECT ?field WHERE {    ?field <http://www.researchspace.org/resource/system/fields/category>  <http://www.researchspace.org/ontologies/platform/FieldCategories/artwork_monument>.   OPTIONAL {?field <http://www.researchspace.org/resource/system/fields/order> ?w. BIND(xsd:integer(?w) as ?orderNo)}} ORDER BY ASC(?orderNo)"]]'
+    template="{{>workInfo}}"
+  >
+    <template id="workInfo">
+      {{#if noData}} {{else}}
+      <div class="workInfoContainer">
+        <h2>Artwork / Monument</h2>
+        [[> ResourceFieldBasedVisualization subject=[[this]]  showSourceIcon="true" ]]
+      </div>
+      {{/if}}
+    </template>
+    <div class="animated-background workInfoContainer"></div>
+  </mp-field-visualization>
+
+
+
+  <div class="productionInfoContainer">
+    <!-- Creator/Attribution -->
+    <mp-field-visualization
+      subject="[[this]]"
+      additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
+      fields='[[ fieldDefinitionsFromQuery "SELECT ?field WHERE {  ?field <http://www.researchspace.org/resource/system/fields/category>  <http://www.researchspace.org/ontologies/platform/FieldCategories/creator_attribution>. OPTIONAL {?field <http://www.researchspace.org/resource/system/fields/order> ?w. BIND(xsd:integer(?w) as ?orderNo)} } ORDER BY ASC(?orderNo)" ]]'
+      template="{{>productionInfo}}"
+    >
+      <template id="productionInfo">
+        <div class="generalInfoContainer">
+        {{#if noData}}
+        <div></div>
+        {{else}}
+        <h2>Creator/Attribution</h2>
+        [[> ResourceFieldBasedVisualization subject=[[this]]
+        showSourceIcon="true" ]] {{/if}}
+      </div>
+      </template>
+      <div class="animated-background productionInfoContainer"></div>
+    </mp-field-visualization>
+
+    <!-- Physical Properties -->
+    <mp-field-visualization
+      subject="[[this]]"
+      additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
+      fields='[[ fieldDefinitionsFromQuery "SELECT ?field WHERE {  ?field <http://www.researchspace.org/resource/system/fields/category>  <http://www.researchspace.org/ontologies/platform/FieldCategories/physical_properties>. OPTIONAL {?field <http://www.researchspace.org/resource/system/fields/order> ?w. BIND(xsd:integer(?w) as ?orderNo)} } ORDER BY ASC(?orderNo)" ]]'
+      template="{{>generalInfo}}"
+    >
+      <template id="generalInfo">
+        <div class="generalInfoContainer">
+        {{#if noData}} {{else}}
+        <h2 style="margin-top: 4vh">Physical Properties</h2>
+        [[> ResourceFieldBasedVisualization subject=[[this]]
+        showSourceIcon="true" ]]
+        {{/if}}
+      </div>
+      </template>
+      <div class="animated-background generalInfoContainer"></div>
+    </mp-field-visualization>
+
+  <!-- Provenance -->
+  <mp-field-visualization
+  subject="[[this]]"
+  additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
+  fields='[[ fieldDefinitionsFromQuery "SELECT ?field WHERE {  ?field <http://www.researchspace.org/resource/system/fields/category>  <http://www.researchspace.org/ontologies/platform/FieldCategories/provenance>. OPTIONAL {?field <http://www.researchspace.org/resource/system/fields/order> ?w. BIND(xsd:integer(?w) as ?orderNo)} } ORDER BY ASC(?orderNo)" ]]'
+  template="{{>generalInfo}}"
+>
+  <template id="generalInfo">
+    <div class="generalInfoContainer">
+    {{#if noData}} {{else}}
+    <h2 style="margin-top: 4vh">Provenance</h2>
+    [[> ResourceFieldBasedVisualization subject=[[this]]
+    showSourceIcon="true" ]]
+    {{/if}}
+  </div>
+</template>
+<div class="animated-background generalInfoContainer"></div>
+</mp-field-visualization>
+
+
+  <!-- Subjects -->
+  <mp-field-visualization
+  subject="[[this]]"
+  additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
+  fields='[[ fieldDefinitionsFromQuery "SELECT ?field WHERE {  ?field <http://www.researchspace.org/resource/system/fields/category>  <http://www.researchspace.org/ontologies/platform/FieldCategories/subjects>. OPTIONAL {?field <http://www.researchspace.org/resource/system/fields/order> ?w. BIND(xsd:integer(?w) as ?orderNo)} } ORDER BY ASC(?orderNo)" ]]'
+  template="{{>generalInfo}}"
+>
+  <template id="generalInfo">
+    <div class="generalInfoContainer">
+    {{#if noData}} {{else}}
+    <h2 style="margin-top: 4vh">Subjects</h2>
+    [[> ResourceFieldBasedVisualization subject=[[this]]
+    showSourceIcon="true" ]]
+    {{/if}}
+  </div>
+</template>
+<div class="animated-background generalInfoContainer"></div>
+</mp-field-visualization>
+
+
+  <!-- Dating -->
+  <mp-field-visualization
+  subject="[[this]]"
+  additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
+  fields='[[ fieldDefinitionsFromQuery "SELECT ?field WHERE {  ?field <http://www.researchspace.org/resource/system/fields/category>  <http://www.researchspace.org/ontologies/platform/FieldCategories/dating>. OPTIONAL {?field <http://www.researchspace.org/resource/system/fields/order> ?w. BIND(xsd:integer(?w) as ?orderNo)} } ORDER BY ASC(?orderNo)" ]]'
+  template="{{>generalInfo}}"
+>
+  <template id="generalInfo">
+    <div class="generalInfoContainer">
+    {{#if noData}} {{else}}
+    <h2 style="margin-top: 4vh">Dating</h2>
+    [[> ResourceFieldBasedVisualization subject=[[this]]
+    showSourceIcon="true" ]]
+    {{/if}}
+  </div>
+</template>
+<div class="animated-background generalInfoContainer"></div>
+</mp-field-visualization>
+
+
+
+  <!-- References -->
+  <mp-field-visualization
+  subject="[[this]]"
+  additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
+  fields='[[ fieldDefinitionsFromQuery "SELECT ?field WHERE {  ?field <http://www.researchspace.org/resource/system/fields/category>  <http://www.researchspace.org/ontologies/platform/FieldCategories/references>. OPTIONAL {?field <http://www.researchspace.org/resource/system/fields/order> ?w. BIND(xsd:integer(?w) as ?orderNo)} } ORDER BY ASC(?orderNo)" ]]'
+  template="{{>generalInfo}}"
+>
+  <template id="generalInfo">
+    <div class="generalInfoContainer">
+    {{#if noData}} {{else}}
+    <h2 style="margin-top: 4vh">References</h2>
+    [[> ResourceFieldBasedVisualization subject=[[this]]
+    showSourceIcon="true" ]]
+    {{/if}}
+  </div>
+</template>
+<div class="animated-background generalInfoContainer"></div>
+</mp-field-visualization>
+    
+  </div>
+  
+  [[#if (ask "ASK { ?? fr:Work_from_Place ?place. ?place <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat. ?place <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng. }") ]] 
+  <div class="workInfoContainer">
+    <h2>Current artwork location</h2>
+  <div class="artworkLocation">
+    <semantic-map
+      id="event-map"
+      query="
+      PREFIX fr: <https://artresearch.net/resource/fr/>
+      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+      SELECT DISTINCT ?place ?lat ?lng  WHERE {
+            ?? fr:Work_from_Place ?place .
+            ?place <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat.
+            ?place <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng.
+
+                SERVICE <http://213.171.209.34:10085/blazegraph/sparql>  {
+                    ?place <http://www.geonames.org/ontology#name> ?placelabel.
+                    ?place <http://www.geonames.org/ontology#featureClass> <https://www.geonames.org/ontology#P>.
+                }
+  
+      } 
+      "
+      no-result-template=''
+      tuple-template='{{>MapPopUp}}'
+    >
+    <template id="MapPopUp">
+        <div style="width:12vw">
+          <h4> 
+            <semantic-link style="color:#6b0000;" iri="{{place.value}}"></semantic-link>
+            <!-- <semantic-query query="SELECT ?label WHERE { <{{place}}> rdfs:label ?label }LIMIT 1"></semantic-query>   -->
+          </h4>
+        </div>
+    </template>
+    </semantic-map>
+  </div>
+  </div>
+  [[/if]]
+
+  [[#if (ask "ASK { ?? a cfc:photo}") ]] 
+  [[else]]
+  <div style="width: 93.5%" class="productionInfoContainer">
+    <!-- Photographs detailed information -->
+    [[> PhotographTable]]
+  </div>
+  [[/if]]
+</div>
+</template>
+</mp-event-target-template-render>

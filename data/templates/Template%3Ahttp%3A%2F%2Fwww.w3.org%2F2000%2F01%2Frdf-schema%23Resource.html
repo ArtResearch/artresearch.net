@@ -40,7 +40,7 @@
     <template id="randomNotFoundPage">
       <div class="row row-center" id="not-found-container">
         <div class="col-md-10 col-xs-10">
-         <semantic-link iri="rsp:start"><i style="color:white !important; font-size: 16px;" class="fa fa-arrow-left">Go home</i></semantic-link>
+         <semantic-link iri="Default:start"><i style="color:white !important; font-size: 16px;" class="fa fa-arrow-left">Go home</i></semantic-link>
        <h1>404 - The page you are looking for was not found..</h1>
       {{#ifCond bindings.0.rand.value ">" "0.8" }}
       <h2>but you can always search for something</h2>
@@ -51,7 +51,7 @@
             data-intro="This is the search-bar. Use this to make simple queries by keywords"
             data-position="top"
           >
-            [[> :Searchbar selectedCategory="Artworks"]]
+            [[> Searchbar selectedCategory="Artworks"]]
           </div>
           <div style="margin-top: 15px">or use</div>
           <div style="margin-top: 15px">
@@ -217,11 +217,11 @@
       {{else}}
       {{#ifCond bindings.0.rand.value ">" "0.2" }}
       <h2>in the meantime, you can take a closer look to artworks created by women artists</h2>
-      [[> :FilterSearchCollection domain="<https://artresearch.net/resource/fc/work>"  searchQuery='?subject a fc:work. ?subject fr:Work_created_from_Artist ?artist. ?artist fr:Person_has_Gender <http://vocab.getty.edu/aat/300189557>.'  ]]
+      [[> FilterSearchCollection domain="<https://artresearch.net/resource/fc/work>"  searchQuery='?subject a fc:work. ?subject fr:Work_created_from_Artist ?artist. ?artist fr:Person_has_Gender <http://vocab.getty.edu/aat/300189557>.'  ]]
       {{else}}
       {{#ifCond bindings.0.rand.value ">" "0.0" }}
       <h2>in the meantime, feel free to discover artists:</h2>
-      [[> :FilterSearchPersonPharos]]
+      [[> FilterSearchPersonPharos]]
       {{else}}
       {{/ifCond}}
       {{/ifCond}}

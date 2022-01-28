@@ -1,0 +1,259 @@
+<ol class="page-breadcrumb">
+  <li style="padding-top:10px"><a title="Home" href="/">Home</a></li>
+  <li>
+    <semantic-link iri='[[urlParam "subject"]]'></semantic-link>
+  </li>
+  <li class="active">
+    Field: <semantic-context repository='assets'><mp-label iri='[[urlParam "field"]]'></mp-label></semantic-context>
+  </li>
+</ol>
+
+[[#*inline "newAssertionButton"]]
+<div style="padding-top:24px">
+  <mp-event-trigger id='assert-new-value' type='Component.TemplateUpdate' targets='["assertion"]'>
+    <button class='btn btn-link'>
+      <i class="fa fa-plus" aria-hidden="true"></i>
+      <span style="margin-left:6px;"><strong>Assert new value</strong></span>
+    </button>
+  </mp-event-trigger>
+</div>
+[[/inline]]
+
+[[#*inline "assertions"]]
+<div class='rs-field-assertions'>
+  <div class='row'>
+    <bs-col sm=6>
+      <mp-panel collapsible=true default-expanded=true bs-style='info'>
+        <mp-panel-header>
+          <div data-flex-layout="row">
+            <span>Community Assertions</span>
+          </div>
+        </mp-panel-header>
+        <mp-panel-body>
+          <div>
+            <semantic-context repository='assets'>
+              <div>
+                <semantic-query
+                  query='SELECT DISTINCT ?assertion ?user ?time WHERE {
+                       ?assertion a <http://www.researchspace.org/ontology/EX_Assertion>;
+                       rso:targetsField <[[urlParam "field"]]> ;
+                       rso:targetsRecord <[[urlParam "subject"]]> ;
+                       prov:wasAttributedTo ?user ;
+                       prov:generatedAtTime ?time .
+                       }'
+                  template='{{> assertionTemplate}}'>
+                  <template id='assertionTemplate'>
+                    <div>
+                      <ol>
+                        {{#each bindings}}
+                        <li>
+                          <p>
+                            Assertion <b>
+                              "<semantic-context repository='assets'>
+                                <semantic-link iri='{{assertion.value}}'></semantic-link>
+                              </semantic-context>"</b>
+                               about field 
+                               <b>
+                              <semantic-context repository='assets'>
+                                <mp-label iri='[[urlParam "field"]]' class="field-type-title"></mp-label>
+                              </semantic-context>
+                        </b>
+                              by <mp-label iri='{{user.value}}'></mp-label>, {{dateTimeFormat time.value "LLL"}}
+                          <p>
+                          <div>
+                            <mp-field-visualization
+                              subject='[[urlParam "subject"]]'
+                              fields='[[fieldDefinitions field=(urlParam "field")]]'
+                              template='{{> FieldBasedAssertedValueVisualization}}'
+                            ></mp-field-visualization>
+                          </div>
+          
+
+                            <mp-event-trigger id='assert-new-value' type='Component.TemplateUpdate' targets='["assertion"]' data='{"assertion": "{{assertion.value}}"}'>
+                            <button class='btn btn-default btn-xs pull-right' title='Edit assertion' style='margin-left: 5px;'>
+                              <i class='fa fa-pencil'></i> Edit
+                            </button>
+                          </mp-event-trigger>
+                          [[#if (hasPermission "api:ldp:container:<http://www.researchspace.org/resource/system/fieldDefinitionContainer>:create:any")]]
+                          <mp-event-trigger id='assert-new-value' type='Component.TemplateUpdate' targets='["assertion"]' data='{"assertion": "{{assertion.value}}"}'>
+                            <button class='btn btn-default btn-xs pull-right' title='Edit assertion' style='margin-left: 5px;'>
+                              <i class='fa fa-pencil'></i> Edit
+                            </button>
+                          </mp-event-trigger>
+                        [[/if]]
+                        
+                        [[#if (hasPermission "api:ldp:container:<http://www.researchspace.org/resource/system/fieldDefinitionContainer>:delete:any")]]
+
+                        <mp-overlay-dialog title="Delete assertion‎‎" >
+                          <mp-overlay-dialog-trigger
+                            >
+                            <button class='btn btn-default btn-xs pull-right' title='Delete assertion' style='margin-left: 5px;'>
+                              <i class='fa fa-trash'></i>Delete
+                            </button>
+                          </mp-overlay-dialog-trigger>
+                          <mp-overlay-dialog-content>
+                            <h1>Are you sure you would like to delete this assertion?</h1>
+                            <mp-ldp-remove-from-container-action 
+                            container="http://www.researchspace.org/ontology/Assertions.Container"
+                            iri="{{assertion.value}}" 
+                           post-action='reload'>
+                           <button class="btn btn-danger pull-right" title="Delete assertion" 
+                           style="margin-left: 5px;font-size: 16px;"><i class="fa fa-trash"
+                            ></i> Yes delete
+                            </button>
+                            </mp-ldp-remove-from-container-action>
+                          </mp-overlay-dialog-content>
+                        </mp-overlay-dialog>
+
+
+      
+                        [[/if]]
+
+
+                        </li>
+                        {{/each}}
+                      </ol>
+                    </div>
+                  </template>
+                </semantic-query>
+                
+                [[> newAssertionButton]]
+              </div>
+            </semantic-context>
+          </div>
+        </mp-panel-body>
+      </mp-panel>
+    </bs-col>
+    <bs-col sm=6>
+      <semantic-context repository="ephedra">
+      <mp-event-target-template-render id='assertion' template='{{> template}}'>
+        <template id='template'>
+          <semantic-query
+            query='
+            SELECT ?field  ?iri WHERE {
+              BIND(<[[urlParam "field"]]> as ?field) .
+              BIND(<[[urlParam "subject"]]> as ?iri)
+              
+            }LIMIT 1 '
+            template='{{> assertionbox}}'
+          >
+            <template id="assertionbox">
+         
+          {{#if assertion}}
+          <rs-assertion 
+            assertion='{{assertion}}'
+            fields='[[fieldDefinitions field=(urlParam "field")]]'
+            value-template='{{> ResourceFieldValueVisualization}}'
+            form-template='{{> AssertionFormTemplate}}'>
+          </rs-assertion>
+          {{else}}
+          <rs-assertion 
+            subject='{{bindings.0.iri.value}}'
+            target='[[urlParam "subject"]]'
+            fields='[[fieldDefinitions 
+              field=(urlParam "field")
+           
+            ]]'
+            value-template='{{> ResourceFieldValueVisualization}}'
+            form-template='{{> AssertionFormTemplate }}'>
+          </rs-assertion>
+          {{/if}}
+          </template>
+          </semantic-query>
+        </template>
+      </mp-event-target-template-render>
+    </semantic-context>
+    </bs-col>
+  </div>
+</div>
+[[/inline]]
+
+
+<div class="page rs-page">
+  [[#> ClipboardSidebar]]
+  <div class="page__header-navtabs">
+    [[> FieldHeader]]
+  </div>
+
+  [[#if (urlParam "tab")]]
+  <bs-tab-container class="page__body-navtabs--borderless" default-active-key="[[urlParam 'tab']]">
+    [[else]]
+    <bs-tab-container class="page__body-navtabs--borderless" default-active-key="assertions">
+      [[/if]]
+      <div>
+        <bs-nav bs-style="tabs">
+          <bs-nav-item event-key="assertions">Assertions</bs-nav-item>
+          <bs-nav-item event-key="annotations">
+            Annotations
+              <semantic-query query='SELECT (COUNT(DISTINCT ?document) AS ?count) WHERE {
+                ?document rdf:type rs:Semantic_Narrative.
+                ?document rdfs:label ?documentTitle.
+                ?document rs:targetsField <[[urlParam "field"]]>.
+                ?document rs:targetsRecord <[[urlParam "subject"]]>.
+                ?document prov:wasAttributedTo ?user.
+                ?document prov:generatedAtTime ?time.
+            }'
+            template='{{#each bindings}}<span class="badge">{{count.value}}</span>{{/each}}'>\
+          </semantic-query>
+          </bs-nav-item>
+        </bs-nav>
+
+        <bs-tab-content unmount-on-exit=true>
+          <bs-tab-pane event-key="assertions">
+            [[> assertions]]
+          </bs-tab-pane>
+          <bs-tab-pane event-key="annotations">
+            [[> FieldAnnotations]]
+          </bs-tab-pane>
+        </bs-tab-content>
+      </div>
+    </bs-tab-container>
+    [[/:ClipboardSidebar]]
+</div>
+<style>
+/* 
+The class bellow hides the semantic narrative option. Please be careful,
+it might hide something else in the future!!! 
+*/
+  .form-group:nth-child(5) {
+    display: none;
+  }
+.form-group {
+  height: fit-content;
+}
+
+span.label.AssertionComponent--label.AssertionComponent--canonical{
+  font-size:0px; 
+}
+
+span.label.AssertionComponent--label.AssertionComponent--notCanonical{
+  font-size: 0px;
+}
+
+span.label.AssertionComponent--label.AssertionComponent--notCanonical::after{
+  content: "Community - asserted";
+  font-size: 16px;
+  padding: .2em .6em .3em;
+  font-weight: 700;
+  line-height: 22px;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+}
+
+span.label.AssertionComponent--label.AssertionComponent--canonical::after{
+  content: "Pharos";
+  font-size: 16px;
+  padding: .2em .6em .3em;
+  font-weight: 700;
+  line-height: 22px;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+}
+.fa.fa-trash{
+  color:  white !important;
+}
+</style>

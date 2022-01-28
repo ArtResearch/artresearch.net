@@ -48,7 +48,7 @@
     })
 
     it('Contextual Search works', () => {
-        cy.contains('Contextual Search').click().url().should('eq', 'http://localhost:10224/resource/?uri=Default%3ASearch') 
+        cy.contains('Contextual Search').click().url().should('eq', 'http://localhost:10224/resource/Search') 
         cy.wait(4000)
         cy.contains("What do you want to find?")
         cy.contains("Work")
@@ -60,7 +60,7 @@
     })
 
     it('Artists works', () => {
-        cy.contains('Artists').click().url().should('eq', 'http://localhost:10224/resource/?uri=Default%3ADisplayPharosArtists')
+        cy.contains('Artists').click().url().should('eq', 'http://localhost:10224/resource/DisplayPharosArtists')
         cy.wait(8000)
         cy.get('.personCard').should('have.length',8)
         cy.contains("Default view")
@@ -70,7 +70,7 @@
     })
 
     it('Photographers works', () => {
-        cy.contains('Photographers').click().url().should('eq', 'http://localhost:10224/resource/?uri=Default%3ADisplayPharosPhotographers')
+        cy.contains('Photographers').click().url().should('eq', 'http://localhost:10224/resource/DisplayPharosPhotographers')
         cy.wait(8000)
         cy.get('.personCard').should('have.length',8)
         cy.contains("Default view")
@@ -80,7 +80,7 @@
     })
 
     it('Institutions works', () => {
-        cy.contains('Repositories').click().url().should('eq', 'http://localhost:10224/resource/?uri=Default%3ADisplayPharosInstitutions')
+        cy.contains('Repositories').click().url().should('eq', 'http://localhost:10224/resource/DisplayPharosInstitutions')
         cy.wait(8000)
         cy.contains("Default view")
         cy.contains("Map view")
@@ -89,25 +89,25 @@
     })
      
     it('Partners works', () => {
-        cy.contains('Partners').click().url().should('eq', 'http://localhost:10224/resource/?uri=Default%3APartners')
+        cy.contains('Partners').click().url().should('eq', 'http://localhost:10224/resource/Partners')
         cy.get('.partner-card').should("have.length",14)
     })
     it('Oil on wood works', () => {
-        cy.contains('Oil on wood').click().url().should('eq', 'http://localhost:10224/resource/?uri=Default%3ADisplayCollectionOilOnWood')
+        cy.contains('Oil on wood').click().url().should('eq', 'http://localhost:10224/resource/DisplayCollectionOilOnWood')
         cy.wait(2000)
         cy.contains("Found 128 matches")
         cy.get('.artwork-card-big').should("have.length",10)
         cy.get('.facet__relation').should('have.length',4)
     })
     it('Fratelli Alinari works', () => {
-        cy.contains('Fratelli Alinari').click().url().should('eq', 'http://localhost:10224/resource/?uri=Default%3ADisplayCollectionAlinari')
+        cy.contains('Fratelli Alinari').click().url().should('eq', 'http://localhost:10224/resource/DisplayCollectionAlinari')
         cy.wait(8000)
         cy.contains("Found 9011 matches")
         cy.get('.artwork-card-big').should("have.length",10)
         cy.get('.facet__relation').should('have.length',3)
     })
     it('Built Works from the Middle East works', () => {
-        cy.contains('Built Works').click().url().should('eq', 'http://localhost:10224/resource/?uri=Default%3ADisplayCollectionBuiltworksMiddleEast')
+        cy.contains('Built Works').click().url().should('eq', 'http://localhost:10224/resource/DisplayCollectionBuiltworksMiddleEast')
         cy.wait(2000)
         cy.contains("Found 403 matches")
         cy.get('.artwork-card-big').should("have.length",10)
@@ -121,21 +121,21 @@
         cy.get('.facet__relation').should('have.length',6)
     })
     it('Madonna and Child works', () => {
-        cy.contains('Madonna and Child').click().url().should('eq', 'http://localhost:10224/resource/?uri=Default%3ADisplayCollectionMadonnaAndChild')
+        cy.contains('Madonna and Child').click().url().should('eq', 'http://localhost:10224/resource/DisplayCollectionMadonnaAndChild')
         cy.wait(8000)
         cy.contains("Found 13068 matches")
         cy.get('.artwork-card-big').should("have.length",10)
         cy.get('.facet__relation').should('have.length',4)
     })
     it('Women Saints works', () => {
-        cy.contains('Women Saints').click().url().should('eq', 'http://localhost:10224/resource/?uri=Default%3ADisplayCollectionWomenSaints')
+        cy.contains('Women Saints').click().url().should('eq', 'http://localhost:10224/resource/DisplayCollectionWomenSaints')
         cy.wait(2000)
         cy.contains("Found 923 matches")
         cy.get('.artwork-card-big').should("have.length",10)
         cy.get('.facet__relation').should('have.length',5)
     })
     it('1800-1900 AD works', () => {
-        cy.contains('A century of photographs').click().url().should('eq', 'http://localhost:10224/resource/?uri=Default%3ADisplayCollectionPhotoDatedBetween')
+        cy.contains('A century of photographs').click().url().should('eq', 'http://localhost:10224/resource/DisplayCollectionPhotoDatedBetween')
         cy.wait(8000)
         cy.contains("Found 8191 matches")
         cy.get('.artwork-card-big').should("have.length",10)

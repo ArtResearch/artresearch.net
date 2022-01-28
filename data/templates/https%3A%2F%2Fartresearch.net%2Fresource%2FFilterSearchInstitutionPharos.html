@@ -1,0 +1,240 @@
+<div id="institution-filter-search">
+  <semantic-search
+    relations='{
+      "<https://artresearch.net/custom/has_provider>": [
+        {
+          "kind": "resource",
+          "queryPattern": "
+          ?repo owl:sameAs $subject.
+          ?repo  $__relation__ ?__value__ .
+          ?__value__ a <https://artresearch.net/resource/fc/institution>
+          "
+        }
+      ]
+    }'
+    search-profile='{
+        "categories":  
+        [
+          {
+            "iri":"<https://artresearch.net/resource/fc/institution>",
+            "label":"Repository"
+          }
+        ],
+        "relations":
+        [
+          {
+            "iri": "<https://artresearch.net/custom/has_provider>",
+            "label":"Photo archive",
+            "hasDomain":"<https://artresearch.net/resource/fc/institution>",
+            "hasRange":"<https://artresearch.net/resource/fc/institution>"
+          }
+        ]
+      }'
+  >
+    <div id="header-search" class="search-page">
+      <mp-event-target-template-render
+        id="event-target-place"
+        template="{{> placeEventTargetTemplate}}"
+      >
+        <template id="placeEventTargetTemplate">
+          <div style="width: 100%; display: flex; flex-direction: column">
+            {{#if placeIri}}
+            <semantic-search-query-keyword
+              placeholder="Search for a repository e.g. Royal Library"
+              escape-lucene-syntax="false"
+              domain="<https://artresearch.net/resource/fc/institution>"
+              default-query="
+                    SELECT DISTINCT ?subject ?institutionImage
+                    WHERE {
+                      ?subject a fc:institution.   
+                      ?subject fr:Institution_from_Place <{{placeIri}}>
+                    }LIMIT 1000"
+              query='
+                            SELECT DISTINCT ?subject WHERE {
+                            ?subject a fc:institution.   
+                            ?subject rdfs:label ?someLabel.
+                            ?someLabel bds:search ?__token__ .
+                            ?someLabel bds:minRelevance "0.3"^^xsd:double;
+                            bds:matchAllTerms "true"  .
+                            } 
+                          '
+            ></semantic-search-query-keyword>
+            <semantic-query
+              id="view-more"
+              query="SELECT (COUNT( DISTINCT ?subject) as ?count) WHERE {
+                ?subject a fc:institution.   
+                ?subject fr:Institution_from_Place <{{placeIri}}>
+              }"
+              template="{{>currentResultCount}}"
+            >
+              <template id="currentResultCount">
+                <h2>
+                  {{#ifCond bindings.0.count.value "==" 1}} Found 1 repository
+                  in <mp-label iri="{{placeIri}}"></mp-label> {{else}} Found
+                  {{bindings.0.count.value}} repositories in
+                  <mp-label iri="{{placeIri}}"></mp-label>
+                  {{/ifCond}}
+                </h2>
+              </template>
+            </semantic-query>
+            {{else}}
+            <semantic-search-query-keyword
+              placeholder="Search for a repository e.g. Royal Library"
+              escape-lucene-syntax="false"
+              domain="<https://artresearch.net/resource/fc/institution>"
+              default-query="
+                    SELECT DISTINCT ?subject ?institutionImage
+                    WHERE {
+                      ?subject a fc:institution.   
+                    }LIMIT 1000"
+              query='
+                            SELECT DISTINCT ?subject WHERE {
+                            ?subject a fc:institution.   
+                            ?subject rdfs:label ?someLabel.
+                            ?someLabel bds:search ?__token__ .
+                            ?someLabel bds:minRelevance "0.3"^^xsd:double;
+                            bds:matchAllTerms "true"  .
+                            } 
+                          '
+            ></semantic-search-query-keyword>
+            <semantic-search-result id="semantic-search-result">
+              [[> SearchResultCount]]
+            </semantic-search-result>
+            {{/if}}
+          </div>
+        </template>
+      </mp-event-target-template-render>
+    </div>
+    <div class="row">
+      <bs-col
+        lg="3"
+        md="4"
+        sm="5"
+        class="fade-in-fwd filters-container"
+        style="margin-top: 8px"
+      >
+        <bs-panel
+          id="filter-panel"
+          header="Filters"
+          collapsible="true"
+          default-expanded="true"
+        >
+        <semantic-search-facet open-by-default='true' sortby='count-desc'></semantic-search-facet>
+          <semantic-tree
+            collapsed="true"
+            query="
+        PREFIX : <http://help.metaphacts.com/resource/>
+        SELECT ?node ?parent WHERE {
+          ?subject a fc:institution. 
+          ?subject fr:Institution_from_Place ?parent.
+          ?parent rdfs:label ?label.
+          ?subject fr:Institution_from_Place ?node. 
+          {
+            ?node <http://www.geonames.org/ontology#parentCountry>  ?parent.
+            FILTER EXISTS { ?x <http://www.geonames.org/ontology#parentADM1> ?node.}
+          }UNION{
+            ?node <http://www.geonames.org/ontology#parentADM1> ?parent.
+          }
+        }order by(?label)"
+            tuple-template="{{>placeTuple}}"
+          >
+            <template id="placeTuple">
+              <div class="">
+              <mp-event-trigger
+                id="event-trigger-place"
+                type="Component.TemplateUpdate"
+                data='{"placeIri":"{{node.value}}"}'
+                targets='["event-target-place"]'
+              >
+                <div>
+                  <mp-label iri="{{node.value}}"></mp-label>
+                </div>
+              </mp-event-trigger>
+              </div>
+            </template>
+          </semantic-tree>
+          
+          <div style="width: 100%;" class ="animated-background-filters okk">
+            Loading place tree..
+          </div>
+          
+        </bs-panel>
+      </bs-col>
+      <bs-col lg="9" md="8" sm="7">
+        <semantic-search-result-holder>
+          <bs-tabs unmount-on-exit="true" id="search-results" animation="false">
+            <bs-tab event-key="2" title="Grid">
+              <semantic-search-result>
+                <div id="card-results">
+                  <bs-tab-container
+                    id="tab-container"
+                    class="page__body-navtabs--borderless"
+                    default-active-key="defaultView"
+                  >
+                    <div>
+                      <bs-nav bs-style="tabs">
+                        <bs-nav-item event-key="defaultView">
+                          Default view
+                        </bs-nav-item>
+                        <bs-nav-item event-key="mapView">
+                          Map view
+                        </bs-nav-item>
+                      </bs-nav>
+                      <bs-tab-content unmount-on-exit="true">
+                        <bs-tab-pane event-key="defaultView">
+                          
+                          <semantic-table
+                            id="grid-result"
+                            options='{
+                              "showFilter":false
+                            }'
+                            number-of-displayed-rows="8"
+                            query="
+                          SELECT DISTINCT ?subject (SAMPLE(?placeLabel) as ?placeLabel) WHERE { 
+                            OPTIONAL{
+                              ?subject fr:Institution_from_Place ?parent.
+                              ?parent rdfs:label ?placeLabel.        
+                            } 
+                          }GROUP BY ?subject ORDER BY DESC (?placeLabel) LIMIT 1000
+                        "
+                            tuple-template="{{>tupleTemplate}}"
+                            no-result-template='[[> CardNoResult ]]'
+                          >
+                            <template id="tupleTemplate">
+                                 [[> CardInstitution]]
+                            </template>
+                          </semantic-table>
+                        </bs-tab-pane>
+                        <bs-tab-pane event-key="mapView">
+                          <div class="mapContainer">
+                            <semantic-map
+                              id="repository-map"
+                              query="SELECT ?subject ?label ?lat ?lng WHERE {
+                                ?subject fr:Institution_from_Place ?place.
+                                ?place <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat.
+                                ?place <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng.
+                                ?subject rdfs:label ?label.
+                                ?place crm:P2_has_type <http://vocab.getty.edu/aat/300008389>
+                              } LIMIT 1000"
+                              tuple-template='<p></p><a style="text-decoration: none;"  href="https://artresearch.net/resource/?uri={{subject.value}}" target="_blank"><b style="color: #6b0000;">{{label.value}}</b><p></p><p></p></a><hr>'
+                            >
+                            </semantic-map>
+                          </div>
+                        </bs-tab-pane>
+                      </bs-tab-content>
+                    </div>
+                  </bs-tab-container>
+                </div>
+              </semantic-search-result>
+            </bs-tab>
+          </bs-tabs>
+        </semantic-search-result-holder>
+      </bs-col>
+    </div>
+  </semantic-search>
+</div>
+<style>
+  .rs-icon-search{
+  display: none !important;
+}
+</style>
