@@ -1,16 +1,17 @@
 <semantic-table
-  query='SELECT ?document ?documentTitle ?field ?subject ?username ?time WHERE{
+  query='SELECT ?document ?documentTitle ?field ?subject ?username ?time  WHERE{
     ?document rdf:type rs:Semantic_Narrative.
     ?document rdfs:label ?documentTitle.
     ?document prov:wasAttributedTo ?username.
     ?document prov:generatedAtTime ?time.
     ?document <http://www.researchspace.org/ontology/targetsField> ?field.
     ?document <http://www.researchspace.org/ontology/targetsRecord> ?subject.
+    BIND(?__useruri__ as ?username)
   }'
   template="{{>superDocuments}}"
   >
   <template id="superDocuments">
-    <h3>Annotations from all artresearch users</h3>
+    <h3>My Annotations</h3>
       <div class="AnnotationDashboard">
         <ol>
           {{#each bindings}}
