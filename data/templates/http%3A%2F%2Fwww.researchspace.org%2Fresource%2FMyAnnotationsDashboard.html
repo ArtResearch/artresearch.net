@@ -8,13 +8,11 @@
     ?document <http://www.researchspace.org/ontology/targetsRecord> ?subject.
     BIND(?__useruri__ as ?username)
   }'
-  template="{{>superDocuments}}"
+  tuple-template="{{>superDocuments}}"
   >
   <template id="superDocuments">
-    <h3>My Annotations</h3>
       <div class="AnnotationDashboard">
         <ol>
-          {{#each bindings}}
           <li style="display: flex; font-size: 16px; margin-top: 20px; align-items: center;">
            
               <semantic-link
@@ -40,7 +38,7 @@
                 by <mp-label iri='{{username.value}}'></mp-label>, {{dateTimeFormat time.value "LLL"}}
               </p>
           </li>
-          {{/each}}
+
         </ol>
       </div>
   
