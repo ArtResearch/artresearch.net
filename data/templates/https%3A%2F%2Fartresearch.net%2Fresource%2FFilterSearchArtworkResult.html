@@ -48,10 +48,10 @@
                           }'
                               number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
                               query="
-                        SELECT DISTINCT ?subject
-                        WHERE {
-                      
-                        }LIMIT 1000
+                              SELECT DISTINCT ?subject 
+                              WHERE {
+                                ?subject rdfs:label ?label.
+                              }ORDER BY DESC(?label) LIMIT 1000 
                       "
                               no-result-template='[[> CardNoResult ]]'
                               tuple-template="{{>tupleTemplate}}"
