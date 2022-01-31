@@ -19,6 +19,10 @@
  <semantic-query query='SELECT (COUNT(DISTINCT ?document) AS ?count) WHERE {
                 ?document rdf:type rs:Semantic_Narrative.
                 ?document rdfs:label ?documentTitle.
+                ?document prov:wasAttributedTo ?username.
+                ?document prov:generatedAtTime ?time.
+                ?document <http://www.researchspace.org/ontology/targetsField> ?field.
+                ?document <http://www.researchspace.org/ontology/targetsRecord> ?subject.
             }'
             template='{{#each bindings}}<span class="badge">{{count.value}}</span>{{/each}}'>\
           </semantic-query>
@@ -29,6 +33,10 @@
               <semantic-query query='SELECT (COUNT(DISTINCT ?document) AS ?count) WHERE {
                 ?document rdf:type rs:Semantic_Narrative.
                 ?document rdfs:label ?documentTitle.
+                ?document prov:wasAttributedTo ?username.
+                ?document prov:generatedAtTime ?time.
+                ?document <http://www.researchspace.org/ontology/targetsField> ?field.
+                ?document <http://www.researchspace.org/ontology/targetsRecord> ?subject.
                 ?document prov:wasAttributedTo ?__useruri__.
             }'
             template='{{#each bindings}}<span class="badge">{{count.value}}</span>{{/each}}'>\
