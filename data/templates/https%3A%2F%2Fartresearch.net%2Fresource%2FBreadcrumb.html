@@ -30,7 +30,7 @@
         </div>
       <mp-sparql-download
         id="csv-result"
-        query="SELECT ?subject ?property ?object WHERE {?? ?property ?object. BIND(?? as ?subject)}"
+        query="SELECT (?? as ?subject) ?property ?object WHERE {?? ?property ?object.}"
         header="text/csv"
         filename="export_csv_artresearch.csv"
         message="Preparing your CSV file.."
