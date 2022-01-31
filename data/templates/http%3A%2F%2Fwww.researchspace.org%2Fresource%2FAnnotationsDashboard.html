@@ -8,10 +8,10 @@
     ?document <http://www.researchspace.org/ontology/targetsRecord> ?subject.
   }'
   tuple-template="{{>superDocuments}}"
+  options='{"showTableHeading": true'
   >
   <template id="superDocuments">
       <div class="AnnotationDashboard">
-        <ol>
           <li style="display: flex; font-size: 16px; margin-top: 20px; align-items: center;">
            
               <semantic-link
@@ -37,7 +37,7 @@
                 by <mp-label iri='{{username.value}}'></mp-label>, {{dateTimeFormat time.value "LLL"}}
               </p>
           </li>
-        </ol>
+  
       </div>
   
  
