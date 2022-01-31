@@ -1,0 +1,33 @@
+ <bs-tab-container class="page__body-navtabs--borderless" default-active-key="allannotations">
+   <div>
+ <bs-nav bs-style="tabs">
+<bs-nav-item event-key="allannotations">All platform Annotations
+ <semantic-query query='SELECT (COUNT(DISTINCT ?document) AS ?count) WHERE {
+                ?document rdf:type rs:Semantic_Narrative.
+                ?document rdfs:label ?documentTitle.
+            }'
+            template='{{#each bindings}}<span class="badge">{{count.value}}</span>{{/each}}'>\
+          </semantic-query>
+
+</bs-nav-item>
+<bs-nav-item event-key="myannotations">
+            My annotations
+              <semantic-query query='SELECT (COUNT(DISTINCT ?document) AS ?count) WHERE {
+                ?document rdf:type rs:Semantic_Narrative.
+                ?document rdfs:label ?documentTitle.
+                ?document prov:wasAttributedTo ?__useruri__.
+            }'
+            template='{{#each bindings}}<span class="badge">{{count.value}}</span>{{/each}}'>\
+          </semantic-query>
+</bs-nav-item>
+</bs-nav>
+
+ <bs-tab-content unmount-on-exit=true>
+          <bs-tab-pane event-key="allannotations">
+            [[> :AnnotationsDashboard]]
+          </bs-tab-pane>
+          <bs-tab-pane event-key="myannotations">
+            [[> :MyAnnotationsDashboard]]
+          </bs-tab-pane>
+        </div>
+  </bs-tab-content>
