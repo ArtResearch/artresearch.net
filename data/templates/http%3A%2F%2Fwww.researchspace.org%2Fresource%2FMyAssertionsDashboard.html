@@ -1,3 +1,6 @@
+     <mp-selection-action-choice id="resources-selection" title='With selected ...'>
+    <mp-ldp-remove-from-container-action ><bs-menu-item>Delete</bs-menu-item></mp-ldp-remove-from-container-action >
+  </mp-selection-action-choice>
   <semantic-table id='resources-results'
                 number-of-displayed-rows=10
                 query='SELECT ?document ?documentTitle ?field ?subject ?username ?time  WHERE{
@@ -18,6 +21,7 @@
                               {"displayName":"Actions", "cellTemplate": "{{> actions}}"}
                           ]'
 >
+
 <template id='Subject'>
   <span>{{log "here" this}}
     <semantic-context repository='assets'>
@@ -104,4 +108,3 @@
   </div>
 </template>
 </semantic-table>
- 
