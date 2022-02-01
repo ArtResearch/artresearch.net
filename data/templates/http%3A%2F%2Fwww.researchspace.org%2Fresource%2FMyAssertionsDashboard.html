@@ -1,19 +1,20 @@
-<mp-selection-action-choice selection='selectionTable' title='With selected ...'>
+<mp-selection-action-choice   selection='resource-selection' title='With selected ...'>
     <mp-ldp-remove-from-container-action
        container="http://www.researchspace.org/ontology/Assertions.Container"
        selection='resource-selection'
     ><bs-menu-item>
-              <button class="btn btn-danger pull-right" title="Delete annotation" 
-                        style="margin-left: 35px;font-size: 12px;">
+              <button class="btn " title="Delete annotation" 
+                        style="font-size: 12px;">
                       <i class="fa fa-trash"></i> Yes delete
               </button>
-              </bs-menu-item>
-            </mp-ldp-remove-from-container-action >
-
+    </bs-menu-item>
+   </mp-ldp-remove-from-container-action >
   </mp-selection-action-choice>
 
-<mp-selection-group id="selectionTable">
-  <semantic-table id='resources-results'
+
+
+
+<semantic-table id='resources-results'
                 number-of-displayed-rows=10
                 query='SELECT ?document ?documentTitle ?field ?subject ?username ?time  WHERE{
                         ?document a <http://www.researchspace.org/ontology/EX_Assertion>.
@@ -24,8 +25,9 @@
                         ?document <http://www.researchspace.org/ontology/targetsRecord> ?subject.
                         BIND(?__useruri__ as ?username)
                       }'
+                options='"selection": "document"'
                 column-configuration='[
-                              {"variableName":"subject","displayName":"Field", "cellTemplate": "{{> Annotation}}"},
+                              {"variableName":"document","displayName":"Document", "cellTemplate": "{{> Annotation}}"},
                               {"variableName":"Subject","displayName":"Subject", "cellTemplate": "{{> Subject}}"},
                               {"variableName":"Field","displayName":"Field", "cellTemplate": "{{> Field}}"},
                               {"variableName":"ModificationDate","displayName":"Modified", "cellTemplate": "{{dateTimeFormat time.value \"LLL\"}}" },
@@ -54,7 +56,7 @@
 </template>
 <template id='Annotation'>
   <span>{{log "here" this}}
-     <mp-selection-toggle selection="resource-selection" tag="{{subject.value}}"></mp-selection-toggle>
+     <mp-selection-toggle selection="resource-selection" tag="{{document.value}}"></mp-selection-toggle>
     <semantic-context repository='assets'>
       {{#if label}}
      <semantic-link
@@ -120,4 +122,3 @@
   </div>
 </template>
 </semantic-table>
-</mp-selection-group>
