@@ -2,20 +2,15 @@
     <mp-ldp-remove-from-container-action
        container="http://www.researchspace.org/ontology/Assertions.Container"
        post-action="reload"
+       selection='resource-selection'
+        post-action='reload'
     ><bs-menu-item>
-              >Delete
-           
-             <div>Are you sure you would like to delete Selected annotation?</div>
-              <mp-ldp-remove-from-container-action 
-                  selection='resource-selection'
-                  container="http://www.researchspace.org/ontology/Assertions.Container"
-                  iri="{{subject.value}}" 
-                  post-action='reload'>
-                    <button class="btn btn-danger pull-right" title="Delete annotation" 
+              <button class="btn btn-danger pull-right" title="Delete annotation" 
                         style="margin-left: 35px;font-size: 22px;">
                       <i class="fa fa-trash"></i> Yes delete
-                      </button>
-              </mp-ldp-remove-from-container-action>
+              </button>
+             <div>Are you sure you would like to delete Selected annotation?</div>
+              </bs-menu-item>
             </mp-ldp-remove-from-container-action >
 
   </mp-selection-action-choice>
