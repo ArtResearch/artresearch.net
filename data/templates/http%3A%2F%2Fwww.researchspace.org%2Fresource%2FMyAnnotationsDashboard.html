@@ -1,83 +1,3 @@
-
-
-<semantic-table
-  query='SELECT ?document ?documentTitle ?field ?subject ?username ?time  WHERE{
-    ?document rdf:type rs:Semantic_Narrative.
-    ?document rdfs:label ?documentTitle.
-    ?document prov:wasAttributedTo ?username.
-    ?document prov:generatedAtTime ?time.
-    ?document <http://www.researchspace.org/ontology/targetsField> ?field.
-    ?document <http://www.researchspace.org/ontology/targetsRecord> ?subject.
-    BIND(?__useruri__ as ?username)
-  }'
-  tuple-template="{{>superDocuments}}"
-  >
-  <template id="superDocuments">
-      <div class="AnnotationDashboard">
-        <ol>
-          <li style="display: flex; font-size: 16px; margin-top: 20px; align-items: center;">
-           
-              <semantic-link
-                        iri="http://www.researchspace.org/resource/Field"
-                        urlqueryparam-tab="annotations"
-                        urlqueryparam-field="{{field.value}}"
-                        urlqueryparam-subject="{{subject.value}}"
-                      >
-                      <button class='btn btn-default btn-xs pull-right' title='View Annotation' style='margin-right: 15px; '>
-                         <i class='fa fa-folder-open'>view</i> 
-                      </button>
-               </semantic-link>
-          [[#if (hasPermission "api:ldp:container:<http://www.researchspace.org/resource/system/fieldDefinitionContainer>:create:any")]]
-            <mp-event-trigger id='assert-new-value' type='Component.TemplateUpdate' targets='["annotation-editor"]' data='{"document": "{{document.value}}","editMode":"true"}'>
-              <button class='btn btn-default btn-xs pull-right' title='Edit annotation' style='margin-right: 15px; '>
-                <i class='fa fa-pencil'></i> Edit
-              </button>
-            </mp-event-trigger>
-          [[/if]]
-          
-          [[#if (hasPermission "api:ldp:container:<http://www.researchspace.org/resource/system/fieldDefinitionContainer>:delete:any")]]
-          <mp-overlay-dialog title="Delete annotation" >
-            <mp-overlay-dialog-trigger
-              >
-              <button class='btn btn-default btn-xs pull-right' title='Delete annotation' style='margin-right: 15px; '>
-                <i class='fa fa-trash'></i>Delete
-              </button>
-            </mp-overlay-dialog-trigger>
-            <mp-overlay-dialog-content>
-              <h1>Are you sure you would like to delete this annotation?</h1>
-              <mp-ldp-remove-from-container-action 
-                  container="http://www.researchspace.org/resource/system/fileContainer"
-                  iri="{{document.value}}" 
-                  post-action='reload'>
-                    <button class="btn btn-danger pull-right" title="Delete annotation" 
-                        style="margin-left: 35px;font-size: 22px;">
-                        <i class="fa fa-trash"></i> Yes delete
-                      </button>
-              </mp-ldp-remove-from-container-action>
-            </mp-overlay-dialog-content>
-          </mp-overlay-dialog>
-          [[/if]]
-                    
-            
-            <p style="margin:0;" class="fa fa-file">
-              Annotation <b>
-                "{{documentTitle.value}}"</b>
-                about field 
-                <b>
-                <semantic-context repository='assets'>
-                  <mp-label iri='{{field.value}}' class="field-type-title"></mp-label>
-                </semantic-context>
-              </b>
-                by <mp-label iri='{{username.value}}'></mp-label>, {{dateTimeFormat time.value "LLL"}}
-              </p>
-          </li>
-
-        </ol>
-      </div>
-  </template>
-  </semantic-table>
-
-
   <semantic-table id='resources-results'
                 number-of-displayed-rows=10
                 query='SELECT ?document ?documentTitle ?field ?subject ?username ?time  WHERE{
@@ -141,12 +61,22 @@
 </template>
 <template id='actions'>
   <div style="display: flex;">
+     <semantic-link
+                        iri="http://www.researchspace.org/resource/Field"
+                        urlqueryparam-tab="annotations"
+                        urlqueryparam-field="{{field.value}}"
+                        urlqueryparam-subject="{{subject.value}}"
+                      >
+                      <button class='btn btn-default btn-xs pull-right' title='View Annotation' style='margin-right: 15px; '>
+                         <i class='fa fa-folder-open'></i> View 
+                      </button>          
+      </semantic-link>
     <mp-ldp-duplicate-resource-action iri="{{document.value}}" container="http://www.researchspace.org/resource/system/fileContainer">
-      <button class="btn-grey" style="margin-right:8px;"><i class="fa fa-files-o btn-icon-left" aria-hidden=true></i> Duplicate</button>
+      <button class='btn btn-default btn-xs pull-right' title='Duplicate Annotation' style='margin-right: 15px; '><i class="fa fa-files-o btn-icon-left" aria-hidden=true></i> Duplicate</button>
     </mp-ldp-duplicate-resource-action>
 
     <mp-ldp-export-resource iri="{{document.value}}">
-      <button class="btn-grey" style="margin-right: 8px">
+       <button class='btn btn-default btn-xs pull-right' title='Export Annotation' style='margin-right: 15px; '>
         <i class='fa fa-download btn-icon-left' aria-hidden=true></i> Export
       </button>
     </mp-ldp-export-resource>
@@ -154,7 +84,7 @@
     <mp-overlay-dialog title="Delete annotation" >
             <mp-overlay-dialog-trigger
               >
-              <button class='btn btn-default btn-xs pull-right' title='Delete annotation' style='margin-right: 15px; '>
+               <button class='btn btn-default btn-xs pull-right' title='Delete Annotation' style='margin-right: 15px; '>
                 <i class='fa fa-trash'></i>Delete
               </button>
             </mp-overlay-dialog-trigger>
