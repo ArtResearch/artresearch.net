@@ -1,7 +1,6 @@
-     <mp-selection-action-choice id="resource-selection" title='With selected ...'>
+<mp-selection-action-choice selection='selectionTable' title='With selected ...'>
     <mp-ldp-remove-from-container-action
        container="http://www.researchspace.org/ontology/Assertions.Container"
-       post-action="reload"
        selection='resource-selection'
     ><bs-menu-item>
               <button class="btn btn-danger pull-right" title="Delete annotation" 
@@ -13,7 +12,7 @@
 
   </mp-selection-action-choice>
 
-
+<mp-selection-group id="selectionTable">
   <semantic-table id='resources-results'
                 number-of-displayed-rows=10
                 query='SELECT ?document ?documentTitle ?field ?subject ?username ?time  WHERE{
@@ -121,3 +120,4 @@
   </div>
 </template>
 </semantic-table>
+</mp-selection-group>
