@@ -45,13 +45,10 @@
 <bs-nav-item event-key="photoAnnotations">
   Photo annotations
     <semantic-query query='SELECT (COUNT(DISTINCT ?document) AS ?count) WHERE {
-      ?document rdf:type rso:ImageRelation.
-      ?document rdfs:label ?documentTitle.
-      ?document prov:wasAttributedTo ?username.
-      ?document prov:generatedAtTime ?time.
-      ?document <http://www.researchspace.org/ontology/targetsField> ?field.
-      ?document <http://www.researchspace.org/ontology/targetsRecord> ?subject.
-      ?document prov:wasAttributedTo ?__useruri__.
+      <http://www.researchspace.org/resource/system/formContainer> <http://www.w3.org/ns/ldp#contains> ?document.
+        ?document <http://www.w3.org/ns/prov#generatedAtTime> ?time.
+        ?document <http://www.w3.org/ns/prov#wasAttributedTo> ?username.   
+        ?document prov:wasAttributedTo ?__useruri__.
   }'
   template='{{#each bindings}}<span class="badge">{{count.value}}</span>{{/each}}'>\
 </semantic-query>
