@@ -170,7 +170,7 @@
               WHERE {
                 ?someOther owl:sameAs ?subject.
                 ?subject a fc:artist.
-              }LIMIT 1000"
+              }LIMIT 10000"
               query='
                       SELECT DISTINCT ?subject WHERE {
                       ?someOther owl:sameAs ?subject.
@@ -239,7 +239,7 @@
                                 OPTIONAL{
                                    ?subject fr:Person_depicted_by ?withImage
                                  }
-                               }ORDER BY DESC (?withImage) LIMIT 1000
+                               }ORDER BY DESC (?withImage) LIMIT 10000
                             "
                           tuple-template="{{>tupleTemplate}}"
                           no-result-template='[[> :CardNoResult ]]'

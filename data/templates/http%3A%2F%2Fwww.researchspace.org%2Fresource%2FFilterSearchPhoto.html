@@ -72,7 +72,7 @@
                             ?solrApi  solr:setQuery ?token;
                                       solr:setDefType "dismax";
                                       solr:setFilter "id";
-                                      solr:setRowsNumber 1000;
+                                      solr:setRowsNumber 10000;
                                       solr:hasResults ?subject
                           }
                           ?subject fr:Photo_has_provider_Institution <[[provider]]>.
@@ -134,7 +134,7 @@
                         SELECT DISTINCT ?subject
                         WHERE {
                       
-                        }LIMIT 1000
+                        }LIMIT 10000
                       "
                               no-result-template='[[> :CardNoResult ]]'
                               tuple-template="{{>tupleTemplate}}"
@@ -157,7 +157,7 @@
                         SELECT DISTINCT ?subject
                         WHERE {
                           ?subject crm:P129i_is_subject_of ?photo.
-                        }LIMIT 1000
+                        }LIMIT 10000
                       "
                               no-result-template='[[> :CardNoResult ]]'
                               tuple-template="{{>tupleTemplate}}"
