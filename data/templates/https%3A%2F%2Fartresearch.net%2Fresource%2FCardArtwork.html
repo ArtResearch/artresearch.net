@@ -252,15 +252,12 @@
 
 
                 <semantic-query 
-                query='SELECT ?provider WHERE { 
+                query='SELECT DISTINCT ?provider WHERE { 
                   {
-                  <{{subject.value}}> fr:Work_has_provider_Institution ?provider
+                  <{{subject.value}}> fr:Work_has_provider_Institution|(fr:Photo_depicts_Work/fr:Work_has_provider_Institution) ?provider
                   }union{
                    ?original owl:sameAs <{{subject.value}}>.
                    ?original fr:Work_has_provider_Institution ?provider 
-                  }union{
-                    <{{subject.value}}> fr:Photo_depicts_Work  ?work.
-                    ?work fr:Work_has_provider_Institution ?provider.
                   }
                 }LIMIT 1'
                 template="{{>archiveTemplate}}"
@@ -313,8 +310,7 @@
 
                 <semantic-query 
                 query='SELECT ?creator WHERE { 
-                  <{{subject.value}}> fr:Photo_depicts_Work ?work.
-                  ?work fr:Work_created_from_Artist ?creator
+                  <{{subject.value}}> fr:Photo_depicts_Work/fr:Work_created_from_Artist ?creator
                 }LIMIT 1'
                 template="{{>artworkCreatorTemplate}}"
                 >
