@@ -1,17 +1,5 @@
 <div id="institution-filter-search">
   <semantic-search
-    relations='{
-      "<https://artresearch.net/custom/has_provider>": [
-        {
-          "kind": "resource",
-          "queryPattern": "
-          ?repo owl:sameAs $subject.
-          ?repo  $__relation__ ?__value__ .
-          ?__value__ a <https://artresearch.net/resource/fc/institution>
-          "
-        }
-      ]
-    }'
     search-profile='{
         "categories":  
         [
@@ -19,17 +7,7 @@
             "iri":"<https://artresearch.net/resource/fc/institution>",
             "label":"Repository"
           }
-        ],
-        "relations":
-        [
-          {
-            "iri": "<https://artresearch.net/custom/has_provider>",
-            "label":"Photo archive",
-            "hasDomain":"<https://artresearch.net/resource/fc/institution>",
-            "hasRange":"<https://artresearch.net/resource/fc/institution>"
-          }
-        ]
-      }'
+        ]'
   >
     <div id="header-search" class="search-page">
       <mp-event-target-template-render
