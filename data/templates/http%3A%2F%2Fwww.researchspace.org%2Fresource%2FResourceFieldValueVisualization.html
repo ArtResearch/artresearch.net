@@ -36,16 +36,7 @@
     {{dateTimeFormat value.value.value "YYYY"}}
   </div>
   {{else}}
-
-   {{#ifCond field.label.0.value "===" "Date of Death"}}
-  <div date="{{dateTimeFormat value.value.value "YYYY"}}">
-    {{dateTimeFormat value.value.value "YYYY"}}
-  </div>
-  {{else}}
   
-  
- 
-
 
   {{#ifCond field.xsdDatatype.value "=="  "http://www.w3.org/2001/XMLSchema#string"}}
     {{value.value.value}}
@@ -76,6 +67,7 @@
   {{/ifCond}}
   {{/ifCond}}
   {{/ifCond}}
+
 <!-- <mp-copy-to-clipboard
 text="{{value.value.value}}"
 message="Text copied"
