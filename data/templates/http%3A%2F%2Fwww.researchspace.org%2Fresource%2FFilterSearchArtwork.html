@@ -128,6 +128,8 @@
         <semantic-search-facet open-by-default='true' sortby='count-desc'></semantic-search-facet>
       </bs-panel>
       </bs-col>
+        <mp-event-target-template-render id="my-render" template="{{> combined}}">
+      <template id='combined'>
       <bs-col lg="9" md="8" sm="7">
           <semantic-search-result-holder>
             <bs-tabs unmount-on-exit="true" id="search-results" animation="false">
@@ -220,6 +222,8 @@
             </bs-tabs>
           </semantic-search-result-holder>
         </bs-col>
+        </template>
+        </mp-event-target-template-render>
       </div>
     </semantic-search>
     [[else]] No provider enter a provider in your :FilterSearchArtwork

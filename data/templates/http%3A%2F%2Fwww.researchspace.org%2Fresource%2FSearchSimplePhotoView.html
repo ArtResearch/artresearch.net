@@ -57,89 +57,93 @@
     <semantic-search-facet open-by-default='true' sortby='count-desc'></semantic-search-facet>
   </bs-panel>
   </bs-col>
-  <bs-col lg="9" md="8" sm="7">
-    <semantic-search-result-holder>
-      <div>
-      <semantic-search-result>
-        <semantic-query
-          id="view-more"
-          query='SELECT ?keywords WHERE {
-            BIND(REPLACE(str("[[urlParam "keyword"]]"),"\\+"," ") as ?keywords)
-          }'
-          template="{{>currentSearchText}}"
-        >
-          <template id="currentSearchText">
-            <h2>
-              Searched in photographs for:
-              <i>{{bindings.0.keywords.value}}</i>
-            </h2>
-          </template>
-        </semantic-query>
-        <semantic-query
-          id="view-more"
-          query='SELECT (COUNT(DISTINCT ?subject) as ?count) WHERE {
-          } LIMIT 1'
-          template="{{>currentResultCount}}"
-        >
-          <template id="currentResultCount">
-            <h2>
-                    Found
-              {{#ifCond bindings.0.count.value "==" 1000 }}
-                more than 1000 relevant results
-              {{else}}
-                {{bindings.0.count.value}} relevant results 
-              {{/ifCond}}
-            </h2>
-            <small>
-              Displaying 
-              {{#ifCond bindings.0.count.value ">="1000 }}
-              the first 1000 results
-              {{else}}
-              all results
-              {{/ifCond}}
-            </small>
-          </template>
-        </semantic-query>
-        <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
-        [[> :SearchbarSwitches]]
-        <bs-tabs
-        default-active-key="1"
-        unmount-on-exit="true"
-        id="search-results"
-        animation="false"
-        class="tabs-right"
-      >
-        <bs-tab event-key="1" title="List">
-          <div id='artwork-filter-search-inline'>
-          <semantic-table
-          id="grid-result"
-          query='SELECT DISTINCT  ?subject  WHERE {
-          }LIMIT 1000'
-          number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
-          tuple-template="{{> subjectCellTemplate}}"
-          options='{"showTableHeading": false, "showFilter":false}'
-          no-result-template='[[> :CardNoResult ]]'
-        >
-          <template id="subjectCellTemplate">
-            <semantic-context repository='default'>
-              [[> :CardArtwork]]
-            </semantic-context>
-          </template>
-        </semantic-table>
-        </div>
-      </bs-tab>
-        <bs-tab event-key="2" title="Tabular">
-          <div id="tableView">
-            [[> :SearchResultTablePhotoSolr]]
-          </div>
-            <div class="animated-background-sm tableView"></div>
-        </bs-tab>
-        </bs-tabs>
-      </semantic-search-result>
-      [[> :NumberOfRowsSelector]]
-      </div>
-    </semantic-search-result-holder>
-  </bs-col>
+    <mp-event-target-template-render id="my-render" template="{{> combined}}">
+      <template id='combined'>
+        <bs-col lg="9" md="8" sm="7">
+          <semantic-search-result-holder>
+            <div>
+            <semantic-search-result>
+              <semantic-query
+                id="view-more"
+                query='SELECT ?keywords WHERE {
+                  BIND(REPLACE(str("[[urlParam "keyword"]]"),"\\+"," ") as ?keywords)
+                }'
+                template="{{>currentSearchText}}"
+              >
+                <template id="currentSearchText">
+                  <h2>
+                    Searched in photographs for:
+                    <i>{{bindings.0.keywords.value}}</i>
+                  </h2>
+                </template>
+              </semantic-query>
+              <semantic-query
+                id="view-more"
+                query='SELECT (COUNT(DISTINCT ?subject) as ?count) WHERE {
+                } LIMIT 1'
+                template="{{>currentResultCount}}"
+              >
+                <template id="currentResultCount">
+                  <h2>
+                          Found
+                    {{#ifCond bindings.0.count.value "==" 1000 }}
+                      more than 1000 relevant results
+                    {{else}}
+                      {{bindings.0.count.value}} relevant results 
+                    {{/ifCond}}
+                  </h2>
+                  <small>
+                    Displaying 
+                    {{#ifCond bindings.0.count.value ">="1000 }}
+                    the first 1000 results
+                    {{else}}
+                    all results
+                    {{/ifCond}}
+                  </small>
+                </template>
+              </semantic-query>
+              <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
+              [[> :SearchbarSwitches]]
+              <bs-tabs
+              default-active-key="1"
+              unmount-on-exit="true"
+              id="search-results"
+              animation="false"
+              class="tabs-right"
+            >
+              <bs-tab event-key="1" title="List">
+                <div id='artwork-filter-search-inline'>
+                <semantic-table
+                id="grid-result"
+                query='SELECT DISTINCT  ?subject  WHERE {
+                }LIMIT 1000'
+                number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
+                tuple-template="{{> subjectCellTemplate}}"
+                options='{"showTableHeading": false, "showFilter":false}'
+                no-result-template='[[> :CardNoResult ]]'
+              >
+                <template id="subjectCellTemplate">
+                  <semantic-context repository='default'>
+                    [[> :CardArtwork]]
+                  </semantic-context>
+                </template>
+              </semantic-table>
+              </div>
+            </bs-tab>
+              <bs-tab event-key="2" title="Tabular">
+                <div id="tableView">
+                  [[> :SearchResultTablePhotoSolr]]
+                </div>
+                  <div class="animated-background-sm tableView"></div>
+              </bs-tab>
+              </bs-tabs>
+            </semantic-search-result>
+            [[> :NumberOfRowsSelector]]
+            </div>
+          </semantic-search-result-holder>
+        </bs-col>
+      </template>
+    </mp-event-target-template-render>
   </div>
   </div>
   
