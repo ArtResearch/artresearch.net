@@ -51,7 +51,7 @@
       <bs-col  lg="8" md="12" >
         <div data-flex-layout="row md-column center-stretch">
           <bs-row class=" cardInfoFields">
-      <div>
+        <div>
       
         <div id="rsbv" class=" table-responsive rs-table">
             <table class="table table-hover">
@@ -76,7 +76,6 @@
                   <td>
                       <span class="rs-page-resource__field-value">
                         <div  style="width:25vw; max-width: 450px;">
-                        
                           <semantic-link iri="{{bindings.0.subject.value}}"></semantic-link>
                         </div>
                       </span>
@@ -190,42 +189,39 @@
                 </semantic-query>
              
  <semantic-query 
-                query='SELECT ?placeLabel ?institution WHERE { 
-                  
-                  <{{subject.value}}> <https://artresearch.net/resource/fr/Work_kept_by_Institution>|crm:P50_has_current_keeper ?institution.
-                  {
-                     ?institution crm:P74_has_current_or_former_residence|crm:P55_has_current_location ?place.
-                     ?place rdfs:label ?placeLabel 
-                
-                  }
-                  union{
- 		                  <{{subject.value}}> crm:P74_has_current_or_former_residence|crm:P55_has_current_location ?place.
-                       ?place rdfs:label ?placeLabel
-                  }
-                  union{
-                      <{{subject.value}}> crm:P74_has_current_or_former_residence?place.
-                       ?place rdfs:label ?placeLabel
-                  }
-                  
-                  union{
-                    ?original owl:sameAs <{{subject.value}}>.
-                    ?original crm:P74_has_current_or_former_residence|crm:P55_has_current_location ?place.
-                    ?place rdfs:label ?placeLabel
-                  }union{
-                    ?original owl:sameAs ?institution.
-                    ?original crm:P74_has_current_or_former_residence ?place.
-                    ?place rdfs:label ?placeLabel
-                  }union{
-                     ?original owl:sameAs <{{subject.value}}>.
-                     ?original <https://artresearch.net/resource/fr/Work_kept_by_Institution>|crm:P50_has_current_keeper ?institution.
-                     ?place rdfs:label ?placeLabel
-                  }
-                    
-                }LIMIT 1'
+                query='SELECT DISTINCT ?institution ?placeLabel WHERE {
+                        <{{subject.value}}> <https://artresearch.net/resource/fr/Work_kept_by_Institution>|crm:P50_has_current_keeper ?institution.
+                        {
+                          ?institution crm:P74_has_current_or_former_residence|crm:P55_has_current_location ?place.
+                          ?place a cfc:place.
+                          ?place rdfs:label ?placeLabel.
+                        } union{
+                        <{{subject.value}}> crm:P74_has_current_or_former_residence|crm:P55_has_current_location ?place.
+                          ?place a cfc:place.
+                          ?place rdfs:label ?placeLabel
+                        } union{
+                        <{{subject.value}}> crm:P74_has_current_or_former_residence ?place.
+                          ?place a cfc:place.
+                          ?place rdfs:label ?placeLabel
+                        }  union{
+                          ?original owl:sameAs <{{subject.value}}>.
+                          ?original crm:P74_has_current_or_former_residence|crm:P55_has_current_location ?place.
+                          ?place a cfc:place.
+                          ?place rdfs:label ?placeLabel
+                        }union{
+                          ?original owl:sameAs ?institution.
+                          ?original crm:P74_has_current_or_former_residence ?place.
+                          ?place a cfc:place.
+                          ?place rdfs:label ?placeLabel
+                        }union{
+                          ?original owl:sameAs <{{subject.value}}>.
+                          ?original <https://artresearch.net/resource/fr/Work_kept_by_Institution>|crm:P50_has_current_keeper ?institution.
+                        }
+
+                      }'
                 template="{{>repoTemplate}}"
                 >
                 <template id="repoTemplate">
-                  
                   <div class="workTemplate">
                 <tr class="rs-page-resource__field">
                   <td class="rs-page-resource__field-label-holder headLine">
@@ -238,11 +234,13 @@
                         <div style="width:25vw; max-width: 450px;">
                           <semantic-link iri="{{bindings.0.institution.value}}">
                             <mp-label iri="{{bindings.0.institution.value}}"></mp-label>
-                          {{#ifCond  placeLabel.value "!==" null}}
-                          {{#each bindings}}, 
-                           <span>{{placeLabel.value}}</span> 
-                           {{/each}}
-                           {{/ifCond}}
+                            {{#ifCond  placeLabel.value "!==" null}}
+                              {{#each bindings}} 
+                                {{#ifCond  placeLabel.value "!==" undefined}}
+                                , <span>{{placeLabel.value}}</span>
+                                {{/ifCond}}
+                              {{/each}}
+                            {{/ifCond}}
                           </semantic-link>
                         </div>
                       </span>
@@ -254,15 +252,12 @@
 
 
                 <semantic-query 
-                query='SELECT ?provider WHERE { 
+                query='SELECT DISTINCT ?provider WHERE { 
                   {
-                  <{{subject.value}}> fr:Work_has_provider_Institution ?provider
+                  <{{subject.value}}> fr:Work_has_provider_Institution|(fr:Photo_depicts_Work/fr:Work_has_provider_Institution) ?provider
                   }union{
                    ?original owl:sameAs <{{subject.value}}>.
                    ?original fr:Work_has_provider_Institution ?provider 
-                  }union{
-                    <{{subject.value}}> fr:Photo_depicts_Work  ?work.
-                    ?work fr:Work_has_provider_Institution ?provider.
                   }
                 }LIMIT 1'
                 template="{{>archiveTemplate}}"
@@ -315,8 +310,7 @@
 
                 <semantic-query 
                 query='SELECT ?creator WHERE { 
-                  <{{subject.value}}> fr:Photo_depicts_Work ?work.
-                  ?work fr:Work_created_from_Artist ?creator
+                  <{{subject.value}}> fr:Photo_depicts_Work/fr:Work_created_from_Artist ?creator
                 }LIMIT 1'
                 template="{{>artworkCreatorTemplate}}"
                 >
@@ -383,5 +377,6 @@
         </div>
       </bs-col>
     </bs-row>
+
   </semantic-link>
 </div>

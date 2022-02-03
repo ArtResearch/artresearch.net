@@ -1,4 +1,4 @@
-[[> Breadcrumb category="Places" categoryUrl=":DisplayPharosInstitutions"]]
+[[> Breadcrumb category="Places"]]
 
 <div class="page rs-page">
   [[#> ClipboardSidebar]]
@@ -13,17 +13,22 @@
       <div>
         <bs-nav bs-style="tabs">
           <bs-nav-item event-key="summary">Summary</bs-nav-item>
-          [[#if (ask "ASK { ?? fr:Place_of_Work ?subject. }") ]] 
+          
           <bs-nav-item event-key="artworks"><div style="display:flex;">Artworks
             (
               <semantic-query query='
                SELECT (COUNT(DISTINCT ?artwork) AS ?count) WHERE{
+                 {
                 ?? fr:Place_of_Work ?artwork.
-               }
+                 ?artwork a fc:work
+               }UNION{
+                ?artwork a fc:work.
+                ?work owl:sameAs ?artwork.
+                ?work crm:P55_has_current_location ?? }}
              '></semantic-query>)
             </div>
            </bs-nav-item>
-           [[/if]]
+           
         </bs-nav>
 
         <bs-tab-content unmount-on-exit=true>

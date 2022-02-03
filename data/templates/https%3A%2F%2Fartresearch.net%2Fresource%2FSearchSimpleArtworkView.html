@@ -93,7 +93,7 @@
             </h2>
             <small>
               Displaying 
-              {{#ifCond bindings.0.count.value ">="1000 }}
+              {{#ifCond bindings.0.count.value ">=" 1000 }}
               the first 1000 results
               {{else}}
               all results
@@ -133,6 +133,7 @@
           <div id="tableView">
             [[> SearchResultTableWorkSolr]]
           </div>
+            <div class="animated-background-sm tableView"></div>
         </bs-tab>
         </bs-tabs>
       </semantic-search-result>

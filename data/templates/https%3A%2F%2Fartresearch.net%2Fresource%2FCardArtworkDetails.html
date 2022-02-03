@@ -7,8 +7,7 @@
     SELECT (GROUP_CONCAT(STR(?originalSubject);SEPARATOR=" , ") AS ?additionalSubjects) WHERE{
       ?originalSubjects owl:sameAs <{{subject.value}}>.
       BIND(CONCAT("\"",str(?originalSubjects),"\"") as ?originalSubject)
-      }
-      '
+    }'
     template="{{> combinedFields}}">
       <template id="combinedFields">
         <div >

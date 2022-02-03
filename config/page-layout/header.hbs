@@ -2,11 +2,7 @@
   <div class="rs-header">
     <div class="navbar-header">
       <bs-navbar-toggle></bs-navbar-toggle>
-      <semantic-link
-        class="rs-header-logo"
-        iri="Default:start"
-      >Artresearch.net</semantic-link>
-
+      <mp-link class="rs-header-logo" url="/resource/start">artresearch.net</mp-link>
     </div>
     <bs-navbar-collapse class="pull-right">
       <bs-nav>
@@ -16,22 +12,19 @@
           class="no-bullets"
         >
           <bs-menu-item>
-            <semantic-link
-              class="rs-body-m-M"
-              iri="Default:Partners"
-            >Partners</semantic-link>
+            <mp-link class="rs-body-m-M" url="/resource/Partners">Partners</mp-link>
           </bs-menu-item>
           <bs-menu-item>
-            <semantic-link
-              class="rs-body-m-M"
-              iri="Default:Statistics"
-            >Statistics</semantic-link>
+            <mp-link class="rs-body-m-M" url="/resource/Statistics">Statistics</mp-link>
           </bs-menu-item>
-            <bs-menu-item>
-            <semantic-link
-              class="rs-body-m-M"
-              iri="Default:AlignmentsDashboard"
-            >Alignment Dashboard</semantic-link>
+          <bs-menu-item>
+            <mp-link class="rs-body-m-M" url="/resource/AlignmentsDashboard">Alignments' Dashboard</mp-link>
+          </bs-menu-item>
+          <bs-menu-item>
+            <mp-link class="rs-body-m-M" url="/resource/AllAnnotations">Annotations' Dashboard</mp-link>
+          </bs-menu-item>
+          <bs-menu-item>
+            <mp-link class="rs-body-m-M" url="/resource/AllAssertions">Assertions' Dashboard</mp-link>
           </bs-menu-item>
         </bs-nav-dropdown>
 
@@ -41,13 +34,12 @@
           class="no-bullets"
         >
           <mp-anonymous-hidden>
-            <a
-              style="display: flex; padding: 10px;"
-              href="/resource/user/"
-              class="rs-icon rs-icon-user_round rs-xs-none"
-            >
-              My profile
-            </a>
+            <div  style="display: flex; padding: 10px;"
+                  class="rs-icon rs-icon-user_round rs-xs-none">
+              <semantic-query query="SELECT ?user WHERE{BIND(?__useruri__ as ?user)}" template="{{> userLinkTemplate user='{{bindings.0.user.value}}'}}">
+                
+              </semantic-query>
+            </div>
           </mp-anonymous-hidden>
           <mp-anonymous-hidden>
             <a
@@ -56,9 +48,7 @@
               href="/logout"
               title="logout"
               class="rs-body-m-M fa fa-sign-out"
-            >
-              Logout
-            </a>
+            >&nbsp;Logout</a>
           </mp-anonymous-hidden>
 
           <a
@@ -67,19 +57,19 @@
             href="/login"
             title="login"
             class="rs-body-m-M fa fa-sign-in"
-          >
-            login
-          </a>
+          >&nbsp;Login</a>
         </bs-nav-dropdown>
+
         <mp-anonymous-hidden>
           <mp-has-permission permission="sparql:update">
-          <li role="presentation" class=""><a
+            <li role="presentation" class=""><a
                       href="/sparql"
                       title="Go to SPARQL endpoint"
                       class="rs-body-m-M"
                     >SPARQL</a></li>
           </mp-has-permission>
         </mp-anonymous-hidden>
+        
         <mp-anonymous-hidden>
          <mp-has-permission permission="sparql:update">
             <bs-nav-item>

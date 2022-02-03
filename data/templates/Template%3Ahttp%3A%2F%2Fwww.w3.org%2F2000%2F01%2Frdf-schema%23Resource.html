@@ -1,6 +1,6 @@
 <ol class="page-breadcrumb">
   <li style="padding-top:10px">
-    <mp-link title="Home" url="/">Home</mp-link>
+    <mp-link title="Home" url="/resource/start">Home</mp-link>
   </li>
   <li class="active">
     <mp-label iri='[[this]]'></mp-label>
@@ -40,7 +40,7 @@
     <template id="randomNotFoundPage">
       <div class="row row-center" id="not-found-container">
         <div class="col-md-10 col-xs-10">
-         <semantic-link iri="Default:start"><i style="color:white !important; font-size: 16px;" class="fa fa-arrow-left">Go home</i></semantic-link>
+         <mp-link url="/resource/start"><i style="color:white !important; font-size: 16px;" class="fa fa-arrow-left">Go home</i></mp-link>
        <h1>404 - The page you are looking for was not found..</h1>
       {{#ifCond bindings.0.rand.value ">" "0.8" }}
       <h2>but you can always search for something</h2>
@@ -56,7 +56,7 @@
           <div style="margin-top: 15px">or use</div>
           <div style="margin-top: 15px">
             <div data-flex-layout="row center-center">
-              <semantic-link iri="Default:Search">
+              <mp-link url="/resource/Search">
                 <div
                   title="Make use of the artresearch full power!"
                   class="advancedBtn"
@@ -64,18 +64,18 @@
                   data-position="right"
                 >
                   <li class="fa">
-                    <img src="../../assets/images/icons/concept.svg" />
+                    <img src="/assets/images/icons/concept.svg" />
                   </li>
                   Contextual Search
                 </div>
-              </semantic-link>
+              </mp-link>
             </div>
           </div>
         </div>
       </div>
       {{else}}
       {{#ifCond bindings.0.rand.value ">" "0.6" }}
-       <h2>but here is a nice map with artwork repositories!</h2>
+       <h2>but here is a nice map with Museums, Collections etc.!</h2>
        <div class="mapContainer">
       <semantic-map
         id="repository-map"
@@ -103,7 +103,7 @@
                   background: url(/assets/images/media/alinari.jpg) center no-repeat;
                 "
               >
-            <semantic-link iri="Default:DisplayCollectionAlinari">  
+            <mp-link url="/resource/DisplayCollectionAlinari">  
               <div class="grid-card-body">
                   <div class="grid-card-title">Fratelli Alinari</div>
                   <div class="grid-card-subtitle">Browse one of the world's oldest photographic firms </div>
@@ -116,12 +116,12 @@
                 "
                 class="grid-card"
               >
-            <semantic-link iri="Default:DisplayCollectionOilOnWood">  
+            <mp-link url="/resource/DisplayCollectionOilOnWood">  
               <div class="grid-card-body">
                   <div class="grid-card-title">Oil on wood</div>
                   <div class="grid-card-subtitle">Explore using medium</div>
                 </div>
-              </semantic-link>
+              </mp-link>
               </div>
               <div
                 style="
@@ -130,12 +130,12 @@
                 "
                 class="grid-card"
               >
-            <semantic-link iri="Default:DisplayCollectionBuiltworksMiddleEast">  
+            <mp-link url="/resource/DisplayCollectionBuiltworksMiddleEast">  
               <div class="grid-card-body">
                   <div class="grid-card-title">Built Works</div>
                   <div class="grid-card-subtitle">In the Middle-East</div>
                 </div>
-              </semantic-link>
+              </mp-link>
               </div>
               <div
                 style="
@@ -156,14 +156,14 @@
                 "
                 class="grid-card"
               >
-            <semantic-link iri="Default:DisplayCollectionMadonnaAndChild">  
+            <mp-link url="/resource/DisplayCollectionMadonnaAndChild">  
               <div class="grid-card-body">
                   <div class="grid-card-title">Madonna and Child</div>
                   <div class="grid-card-subtitle">
                     Artworks from 12th - 15th century
                   </div>
                 </div>
-            </semantic-link>
+            </mp-link>
       
               </div>
               <div
@@ -173,12 +173,12 @@
                 "
                 class="grid-card"
               >
-            <semantic-link iri="Default:DisplayCollectionWomenSaints">  
+            <mp-link url="/resource/DisplayCollectionWomenSaints">  
               <div class="grid-card-body">
                   <div class="grid-card-title">Women Saints</div>
                   <div class="grid-card-subtitle">Explore using subject</div>
                 </div>
-              </semantic-link>
+              </mp-link>
               </div>
               <div
                 style="
@@ -187,12 +187,12 @@
                 "
                 class="grid-card"
               >
-            <semantic-link iri="Default:DisplayCollectionItalian">  
+            <mp-link url="/resource/DisplayCollectionItalian">  
               <div class="grid-card-body">
                   <div class="grid-card-title">Italian Renaissance</div>
                   <div class="grid-card-subtitle">Discover masterpieces</div>
                 </div>
-            </semantic-link>
+            </mp-link>
       
               </div>
               <div
@@ -202,12 +202,12 @@
                 "
                 class="grid-card"
               >
-            <semantic-link iri="Default:DisplayCollectionPhotoDatedBetween">  
+            <mp-link url="/resource/DisplayCollectionPhotoDatedBetween">  
               <div class="grid-card-body">
                   <div class="grid-card-title">1800-1900 AD</div>
                   <div class="grid-card-subtitle">A century of photographs</div>
                 </div>
-            </semantic-link>
+            </mp-link>
       
               </div>
             </div>
