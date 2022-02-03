@@ -36,8 +36,8 @@
           <mp-anonymous-hidden>
             <div  style="display: flex; padding: 10px;"
                   class="rs-icon rs-icon-user_round rs-xs-none">
-              <semantic-queryquery="SELECT ?user WHERE{BIND(?__useruri__ as ?user)}">
-                &nbsp;My profile
+              <semantic-query query="SELECT ?user WHERE{BIND(?__useruri__ as ?user)}" template="{{> userLinkTemplate user='{{bindings.0.user.value}}'}}">
+                
               </semantic-query>
             </div>
           </mp-anonymous-hidden>
