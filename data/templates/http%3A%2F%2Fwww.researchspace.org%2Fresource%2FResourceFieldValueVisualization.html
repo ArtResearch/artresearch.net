@@ -43,6 +43,40 @@
   </div>
   {{else}}
   
+  
+   {{#ifCond field.label.0.value "===" "Related Works Description"}}
+    <div>
+      <semantic-query
+            query='SELECT distinct ?pharos_subjects ?subLabel WHERE 
+                      { 
+                        ?? owl:sameAs <https://pharos.artresearch.net/resource/pharos/artwork/e29024d1db9d9726d01e92e44bbc1edb728c5d99>
+                        graph ?graph 
+                        {
+                          ?? crm:P67i_is_referred_to_by/crm:P2_has_type <http://vocab.getty.edu/aat/300015640>;
+                                  crm:P67i_is_referred_to_by/crm:P190_has_symbolic_content ?value .
+                        }
+                        
+                        $subjects crm:P67i_is_referred_to_by/crm:P190_has_symbolic_content ?value;
+                                                            owl:sameAs ?pharos_subjects.
+                          ?pharos_subjects rdfs:label ?subLabel.
+                        ?graph <https://pharos.artresearch.net/custom/has_provider> ?provider .
+                        ?provider rdfs:label ?providerLabel.
+                      }'
+            template='{{> RelatedWorks}}' 
+                      >
+           <template id='RelatedWorks'>
+              {{#each}}
+                  <semantic-link
+                  iri='{{pharos_subjects.value}}'>
+                      {{subLabel.value}}
+                  </semantic-link>
+              {{/each}}
+           </template>          
+      </semantic-query>
+    </div>
+  {{else}}
+
+
 
   {{#ifCond field.xsdDatatype.value "=="  "http://www.w3.org/2001/XMLSchema#string"}}
     {{value.value.value}}
@@ -73,7 +107,7 @@
   {{/ifCond}}
   {{/ifCond}}
   {{/ifCond}}
-
+  {{/ifCond}}
 <!-- <mp-copy-to-clipboard
 text="{{value.value.value}}"
 message="Text copied"
