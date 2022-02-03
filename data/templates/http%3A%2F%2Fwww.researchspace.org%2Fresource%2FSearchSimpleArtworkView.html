@@ -58,6 +58,8 @@
     <semantic-search-facet open-by-default='true' sortby='count-desc'></semantic-search-facet>
   </bs-panel>
   </bs-col>
+    <mp-event-target-template-render id="my-render" template="{{> combined}}">
+      <template id='combined'>
   <bs-col lg="9" md="8" sm="7">
     <semantic-search-result-holder>
       <div>
@@ -110,25 +112,28 @@
         animation="false"
         class="tabs-right"
       >
+       
         <bs-tab event-key="1" title="List">
-          <div id='artwork-filter-search-inline'>
-          <semantic-table
-          id="grid-result"
-          query='SELECT DISTINCT  ?subject  WHERE {
-          }LIMIT 1000'
-          number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
-          tuple-template="{{> subjectCellTemplate}}"
-          options='{"showTableHeading": false, "showFilter":false}'
-          no-result-template='[[> :CardNoResult ]]'
-        >
-          <template id="subjectCellTemplate">
-            <semantic-context repository='default'>
-              [[> :CardArtwork]]
-            </semantic-context>
-          </template>
-        </semantic-table>
-        </div>
+                          <div id='artwork-filter-search-inline'>
+                              <semantic-table
+                              id="grid-result"
+                              query='SELECT DISTINCT  ?subject  WHERE {
+                              }LIMIT 1000'
+                              number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
+                              tuple-template="{{> subjectCellTemplate}}"
+                              options='{"showTableHeading": false, "showFilter":false}'
+                              no-result-template='[[> :CardNoResult ]]'
+                            >
+                              <template id="subjectCellTemplate">
+                                <semantic-context repository='default'>
+                                  [[> :CardArtwork]]
+                                </semantic-context>
+                              </template>
+                            </semantic-table>
+                        </div>
       </bs-tab>
+
+
         <bs-tab event-key="2" title="Tabular">
           <div id="tableView">
             [[> :SearchResultTableWorkSolr]]
@@ -137,10 +142,12 @@
         </bs-tab>
         </bs-tabs>
       </semantic-search-result>
-      [[> :NumberOfRowsSelector]]
       </div>
     </semantic-search-result-holder>
+     [[> :NumberOfRowsSelector]]
   </bs-col>
+  </template>
+  </mp-event-target-template-render>
   </div>
   </div>
   
