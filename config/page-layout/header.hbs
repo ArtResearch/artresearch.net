@@ -34,12 +34,16 @@
           class="no-bullets"
         >
           <mp-anonymous-hidden>
-            <a
-              style="display: flex; padding: 10px;"
-              href="/resource/user/"
-              class="rs-icon rs-icon-user_round rs-xs-none"
-            >&nbsp;My profile
-            </a>
+            <semantic-query 
+              query="SELECT ?user WHERE{BIND(?__useruri__ as ?user)} LIMIT 1"
+              >
+              <div style="display: flex; padding: 10px;"
+                    class="rs-icon rs-icon-user_round rs-xs-none">
+              <semantic-link iri='{{bindings.0.user.value}}'>
+              &nbsp;My profile
+              </semantic-link>
+                <div>
+            </semantic-query>
           </mp-anonymous-hidden>
           <mp-anonymous-hidden>
             <a
