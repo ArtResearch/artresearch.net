@@ -4,7 +4,6 @@
     ?document rdfs:label ?documentTitle.
     ?document prov:wasAttributedTo ?user.
     ?document prov:generatedAtTime ?time.
-
   }'
   template="{{>superDocuments}}"
   >
@@ -30,8 +29,7 @@
           
           [[#if (hasPermission "api:ldp:container:<http://www.researchspace.org/resource/system/fieldDefinitionContainer>:delete:any")]]
           <mp-overlay-dialog title="Delete annotation" >
-            <mp-overlay-dialog-trigger
-              >
+            <mp-overlay-dialog-trigger>
               <button class='btn btn-default btn-xs pull-right' title='Delete annotation' style='margin-right: 15px; '>
                 <i class='fa fa-trash'></i>Delete
               </button>
