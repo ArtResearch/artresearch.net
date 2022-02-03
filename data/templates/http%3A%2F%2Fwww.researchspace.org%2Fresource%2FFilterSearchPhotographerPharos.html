@@ -170,7 +170,7 @@
               SELECT  ?subject  
               WHERE {
                 ?subject a fc:photographer.
-              }LIMIT 1000"
+              }LIMIT 10000"
               query='
                       SELECT ?subject WHERE {
                       ?subject a fc:photographer.
@@ -239,7 +239,7 @@
                               ?wikiPerson fr:Person_depicted_by ?withImage.
                               ?subject rdfs:label ?photographerName.
                             }
-                          }ORDER BY DESC (?withImage) LIMIT 1000'
+                          }ORDER BY DESC (?withImage) LIMIT 10000'
                           tuple-template="{{>tupleTemplate}}"
                           no-result-template='[[> :CardNoResult ]]'
                         >

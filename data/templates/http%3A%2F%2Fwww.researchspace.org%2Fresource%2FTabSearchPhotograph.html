@@ -104,7 +104,7 @@
                           "showFilter":false
                         }'
                             number-of-displayed-rows="10"
-                            query=" SELECT DISTINCT ?subject WHERE {}LIMIT 1000"
+                            query=" SELECT DISTINCT ?subject WHERE {}LIMIT 10000"
                             tuple-template="{{>tupleTemplate}}"
                             no-result-template='[[> :CardNoResult ]]'
                           >
@@ -125,7 +125,7 @@
                        WHERE {
                         ?subject fr:Work_depicted_by_Photo ?photo.
                         ?photo crm:P129i_is_subject_of ?image.
-                       }LIMIT 1000
+                       }LIMIT 10000
                     "
                             tuple-template="{{>tupleTemplate}}"
                             no-result-template='[[> :CardNoResult ]]'
