@@ -5,7 +5,13 @@
   {{else}}
 
 
-  {{#ifCond field.label.0.value "===" "Production Date"}}
+  {{#ifCond field.label.0.value "===" "Production Date To"}}
+  <div date="{{dateTimeFormat value.value.value "YYYY"}}">
+    {{dateTimeFormat value.value.value "YYYY"}}
+  </div>
+  {{else}}
+
+    {{#ifCond field.label.0.value "===" "Production Date"}}
   <div date="{{dateTimeFormat value.value.value "YYYY"}}">
     {{dateTimeFormat value.value.value "YYYY"}}
   </div>
@@ -67,6 +73,7 @@
   </mp-text-truncate>
   {{/ifCond}}
     
+  {{/ifCond}}
   {{/ifCond}}
   {{/ifCond}}
   {{/ifCond}}
