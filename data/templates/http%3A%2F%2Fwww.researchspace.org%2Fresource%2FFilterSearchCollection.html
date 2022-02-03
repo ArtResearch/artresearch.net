@@ -158,87 +158,92 @@
         <div class="animated-background "></div>
       </bs-panel>
       </bs-col>
-      <bs-col lg="9" md="8" sm="7">
-        <semantic-search-result-holder>
-          <div>
-            <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
-            <semantic-search-result id="semantic-search-result">
-              [[> :SearchResultCount]]
-            </semantic-search-result>
-            <mp-event-target-template-render
-            id="event-target-tables"
-            template="{{> tableEventTargetTemplate}}"
-          >
-            <template id="tableEventTargetTemplate">
-              <semantic-search-result>
-                <div id="card-results">
-                  <bs-tab-container
-                    id="tab-container"
-                    class="page__body-navtabs--borderless"
-                    default-active-key="all"
-                  >
-                    <div>
-                      <bs-nav bs-style="tabs">
-                        <bs-nav-item event-key="all">All</bs-nav-item>
-                        <bs-nav-item event-key="photosOnly"
-                          >Must include photograph</bs-nav-item
+        <mp-event-target-template-render id="my-render" template="{{> combined}}">
+          <template id='combined'>
+            <bs-col lg="9" md="8" sm="7">
+              <semantic-search-result-holder>
+                <div>
+                  <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
+                  <semantic-search-result id="semantic-search-result">
+                    [[> :SearchResultCount]]
+                  </semantic-search-result>
+                  <mp-event-target-template-render
+                  id="event-target-tables"
+                  template="{{> tableEventTargetTemplate}}"
+                >
+                  <template id="tableEventTargetTemplate">
+                    <semantic-search-result>
+                      <div id="card-results">
+                        <bs-tab-container
+                          id="tab-container"
+                          class="page__body-navtabs--borderless"
+                          default-active-key="all"
                         >
-                      </bs-nav>
-                      <bs-tab-content unmount-on-exit="true">
-                        <bs-tab-pane event-key="all">
-                          <semantic-table
-                            id="grid-result"
-                            options='{
-                          "showFilter":false
-                        }'
-                            number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
-                            query="SELECT DISTINCT ?subject WHERE {}LIMIT 1000"
-                            tuple-template="{{>tupleTemplate}}"
-                            no-result-template='[[> :CardNoResult ]]'
-                          >
-                            <template id="tupleTemplate">
-                              [[> :CardArtwork]]
-                            </template>
-                          </semantic-table>
-                        </bs-tab-pane>
-                        <bs-tab-pane event-key="photosOnly">
-                          <semantic-table
-                            id="grid-result-2"
-                            options='{
-                          "showFilter":false
-                        }'
-                              number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
-                            query="
-                      SELECT DISTINCT ?subject
-                       WHERE {
-                         {
-                            ?subject fr:Work_depicted_by_Photo ?photo.
-                            ?photo crm:P129i_is_subject_of ?image.
-                         }UNION{
-                            ?work fr:Work_depicted_by_Photo ?subject.
-                            ?subject crm:P129i_is_subject_of ?image.
-                         }
-                       }LIMIT 1000
-                    "
-                            tuple-template="{{>tupleTemplate}}"
-                            no-result-template='[[> :CardNoResult ]]'
-                          >
-                            <template id="tupleTemplate">
-                              [[> :CardArtwork]]
-                            </template>
-                          </semantic-table>
-                        </bs-tab-pane>
-                          [[> :NumberOfRowsSelector]]
-                      </bs-tab-content>
-                    </div>
-                  </bs-tab-container>
-                </div>
-              </semantic-search-result>
-            </template>
-          </mp-event-target-template-render>
-            </div>
-        </semantic-search-result-holder>
-      </bs-col>
+                          <div>
+                            <bs-nav bs-style="tabs">
+                              <bs-nav-item event-key="all">All</bs-nav-item>
+                              <bs-nav-item event-key="photosOnly"
+                                >Must include photograph</bs-nav-item
+                              >
+                            </bs-nav>
+                            <bs-tab-content unmount-on-exit="true">
+                              <bs-tab-pane event-key="all">
+                                <semantic-table
+                                  id="grid-result"
+                                  options='{
+                                "showFilter":false
+                              }'
+                                  number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
+                                  query="SELECT DISTINCT ?subject WHERE {}LIMIT 1000"
+                                  tuple-template="{{>tupleTemplate}}"
+                                  no-result-template='[[> :CardNoResult ]]'
+                                >
+                                  <template id="tupleTemplate">
+                                    [[> :CardArtwork]]
+                                  </template>
+                                </semantic-table>
+                              </bs-tab-pane>
+                              <bs-tab-pane event-key="photosOnly">
+                                <semantic-table
+                                  id="grid-result-2"
+                                  options='{
+                                "showFilter":false
+                              }'
+                                    number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
+                                  query="
+                            SELECT DISTINCT ?subject
+                            WHERE {
+                              {
+                                  ?subject fr:Work_depicted_by_Photo ?photo.
+                                  ?photo crm:P129i_is_subject_of ?image.
+                              }UNION{
+                                  ?work fr:Work_depicted_by_Photo ?subject.
+                                  ?subject crm:P129i_is_subject_of ?image.
+                              }
+                            }LIMIT 1000
+                          "
+                                  tuple-template="{{>tupleTemplate}}"
+                                  no-result-template='[[> :CardNoResult ]]'
+                                >
+                                  <template id="tupleTemplate">
+                                    [[> :CardArtwork]]
+                                  </template>
+                                </semantic-table>
+                              </bs-tab-pane>
+                              
+                            </bs-tab-content>
+                          </div>
+                        </bs-tab-container>
+                      </div>
+                    </semantic-search-result>
+                  </template>
+                </mp-event-target-template-render>
+                  </div>
+              </semantic-search-result-holder>
+                [[> :NumberOfRowsSelector]]
+            </bs-col>
+          </template>
+        </mp-event-target-template-render>
     </div>
   </semantic-search>
   [[else]] No search query, please enter searchQuery in your :FilterSearchArtwork (must include ?subject)
