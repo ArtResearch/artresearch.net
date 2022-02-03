@@ -137,7 +137,7 @@
                 <div>
                   <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
                   <semantic-search-result id="semantic-search-result">
-                    [[> :SearchResultCount]]
+                    [[> SearchResultCount]]
                   </semantic-search-result>
                   <mp-event-target-template-render
                   id="event-target-tables"
@@ -174,12 +174,12 @@
                           ?subject rdfs:label ?label.
                         }ORDER BY DESC(?label) LIMIT 1000 
                       "
-                              no-result-template='[[> :CardNoResult ]]'
+                              no-result-template='[[> CardNoResult ]]'
                               tuple-template="{{>tupleTemplate}}"
                             >
                               <template id="tupleTemplate">
                                 <semantic-context repository='default'>
-                                  [[> :CardArtwork]]
+                                  [[> CardArtwork]]
                                 </semantic-context>
                               </template>
                             </semantic-table>
@@ -198,12 +198,12 @@
                           ?photo crm:P129i_is_subject_of ?image.
                         }LIMIT 1000
                       "
-                              no-result-template='[[> :CardNoResult ]]'
+                              no-result-template='[[> CardNoResult ]]'
                               tuple-template="{{>tupleTemplate}}"
                             >
                               <template id="tupleTemplate">
                                 <semantic-context repository='default'>
-                                  [[> :CardArtwork]]
+                                  [[> CardArtwork]]
                                 </semantic-context>
                               </template>
                             </semantic-table>
