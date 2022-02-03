@@ -48,7 +48,7 @@
                     WHERE {
                       ?subject a fc:institution.   
                       ?subject fr:Institution_from_Place <{{placeIri}}>
-                    }LIMIT 10000"
+                    }LIMIT 1000"
               query='
                             SELECT DISTINCT ?subject WHERE {
                             ?subject a fc:institution.   
@@ -86,7 +86,7 @@
                     SELECT DISTINCT ?subject ?institutionImage
                     WHERE {
                       ?subject a fc:institution.   
-                    }LIMIT 10000"
+                    }LIMIT 1000"
               query='
                             SELECT DISTINCT ?subject WHERE {
                             ?subject a fc:institution.   
@@ -195,7 +195,7 @@
                               ?subject fr:Institution_from_Place ?parent.
                               ?parent rdfs:label ?placeLabel.        
                             } 
-                          }GROUP BY ?subject ORDER BY DESC (?placeLabel) LIMIT 10000
+                          }GROUP BY ?subject ORDER BY DESC (?placeLabel) LIMIT 1000
                         "
                             tuple-template="{{>tupleTemplate}}"
                             no-result-template='[[> :CardNoResult ]]'
@@ -215,7 +215,7 @@
                                 ?place <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng.
                                 ?subject rdfs:label ?label.
                                 ?place crm:P2_has_type <http://vocab.getty.edu/aat/300008389>
-                              } LIMIT 10000"
+                              } LIMIT 1000"
                               tuple-template='<p></p><a style="text-decoration: none;"  href="https://artresearch.net/resource/?uri={{subject.value}}" target="_blank"><b style="color: #6b0000;">{{label.value}}</b><p></p><p></p></a><hr>'
                             >
                             </semantic-map>

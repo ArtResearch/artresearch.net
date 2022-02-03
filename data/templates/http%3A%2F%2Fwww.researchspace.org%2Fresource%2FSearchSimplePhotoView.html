@@ -27,7 +27,7 @@
         ?solrApi solr:setQuery "{{bindings.0.token.value}}";
                   solr:setDefType "dismax";
                   solr:setFilter "id";
-                  solr:setRowsNumber 10000;
+                  solr:setRowsNumber 1000;
                   solr:hasResults ?subject
       }
       {{#ifCond withImages "===" "true"}}
@@ -84,16 +84,16 @@
           <template id="currentResultCount">
             <h2>
                     Found
-              {{#ifCond bindings.0.count.value "==" 10000 }}
-                more than 10000 relevant results
+              {{#ifCond bindings.0.count.value "==" 1000 }}
+                more than 1000 relevant results
               {{else}}
                 {{bindings.0.count.value}} relevant results 
               {{/ifCond}}
             </h2>
             <small>
               Displaying 
-              {{#ifCond bindings.0.count.value ">="10000 }}
-              the first 10000 results
+              {{#ifCond bindings.0.count.value ">="1000 }}
+              the first 1000 results
               {{else}}
               all results
               {{/ifCond}}
@@ -114,7 +114,7 @@
           <semantic-table
           id="grid-result"
           query='SELECT DISTINCT  ?subject  WHERE {
-          }LIMIT 10000'
+          }LIMIT 1000'
           number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
           tuple-template="{{> subjectCellTemplate}}"
           options='{"showTableHeading": false, "showFilter":false}'
