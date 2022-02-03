@@ -1,48 +1,53 @@
 <!-- <mp-selection-action-choice  selection='resource-selection' title='With selected ...'>
-    <mp-ldp-remove-from-container-action
-       container="http://www.researchspace.org/ontology/Assertions.Container"
-       selection='resource-selection'
-    ><bs-menu-item>
-              <button class="btn btn-danger" title="Delete annotation" 
-                        style="font-size: 12px;">
-                      <i class="fa fa-trash"></i> Yes delete
+   <bs-menu-item>
+         <mp-overlay-dialog title="Delete annotation" >
+            <mp-overlay-dialog-trigger
+              >
+               <button class='btn btn-default btn-xs pull-right' title='Delete Annotation' style='margin-right: 15px; '>
+                <i class='fa fa-trash'></i>Delete
               </button>
+            </mp-overlay-dialog-trigger>
+            <mp-overlay-dialog-content>
+              <h1>Are you sure you would like to delete this annotation?</h1>
+              <mp-ldp-remove-from-container-action 
+                  container="http://www.researchspace.org/resource/system/formContainer"
+                 iri='??'
+                  post-action='reload'>
+                    <button class="btn btn-danger pull-right" title="Delete annotation" 
+                        style="margin-left: 35px;font-size: 22px;">
+                        <i class="fa fa-trash"></i> Yes delete
+                      </button>
+              </mp-ldp-remove-from-container-action>
+            </mp-overlay-dialog-content>
+          </mp-overlay-dialog>
     </bs-menu-item>
-   </mp-ldp-remove-from-container-action >
+   
   </mp-selection-action-choice> -->
 
-
-
-
-<semantic-table id='resources-results'
+  
+  
+  <semantic-table id='resources-results'
                 number-of-displayed-rows=10
-                query='SELECT ?document ?documentTitle ?field ?subject ?username ?time  WHERE{
-                        ?document a <http://www.researchspace.org/ontology/EX_Assertion>.
-                        ?document rdfs:label ?documentTitle.
-                        ?document prov:wasAttributedTo ?username.
-                        ?document prov:generatedAtTime ?time.
-                        ?document <http://www.researchspace.org/ontology/targetsField> ?field.
-                        ?document <http://www.researchspace.org/ontology/targetsRecord> ?subject.
-                        BIND(?__useruri__ as ?username)
-                      }'
-                options='"selection": "document"'
-                column-configuration='[
-                              {"variableName":"document","displayName":"Document", "cellTemplate": "{{> Annotation}}"},
-                              {"variableName":"Subject","displayName":"Subject", "cellTemplate": "{{> Subject}}"},
-                              {"variableName":"Field","displayName":"Field", "cellTemplate": "{{> Field}}"},
-                              {"variableName":"ModificationDate","displayName":"Modified", "cellTemplate": "{{dateTimeFormat time.value \"LLL\"}}" },
-                              {"variableName":"attribution","displayName":"Attribution", "cellTemplate": "<mp-label iri=\"{{username.value}}\"></mp-label>" },
-                              {"displayName":"Actions", "cellTemplate": "{{> actions}}"}
-                          ]'
+                query='SELECT ?document ?documentTitle ?image  ?username ?time  WHERE{
+                  GRAPH ?g {
+                    <http://www.researchspace.org/resource/system/formContainer> <http://www.w3.org/ns/ldp#contains> ?y.
+                      ?document <http://www.w3.org/ns/prov#generatedAtTime> ?time.
+                      ?document <http://www.w3.org/ns/prov#wasAttributedTo> ?username.
+                      ?document rdf:type <http://www.w3.org/ns/ldp#Resource>.
+                      ?l <http://www.researchspace.org/ontology/displayLabel> ?documentTitle.
+                      ?l <http://www.ics.forth.gr/isl/CRMdig/L49_is_primary_area_of> ?image.
+                    }
+                    BIND ( ?__useruri__ as ?username)
+                  }'
+                
 >
-
 <template id='Subject'>
   <span>{{log "here" this}}
     <semantic-context repository='assets'>
       {{#if label}}
-        <semantic-link style='max-width: 70px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;' uri='{{subject.value}}' title='{{label.value}}'>{{label.value}}</semantic-link>
+        <semantic-link style='max-width: 70px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;' uri='{{image.value}}' title='{{image.value}}'>{{image.value}}</semantic-link>
       {{else}}
-        <semantic-link style='max-width: 70px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;' uri='{{subject.value}}'></semantic-link>
+        <semantic-link style='max-width: 70px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;' uri='{{image.value}}'></semantic-link>
       {{/if}}
     </semantic-context>
   </span>
@@ -61,14 +66,14 @@
       {{#if label}}
      <semantic-link
                         iri="http://www.researchspace.org/resource/Field"
-                        urlqueryparam-tab="assertions"
+                        urlqueryparam-tab="annotations"
                         urlqueryparam-field="{{field.value}}"
                         urlqueryparam-subject="{{subject.value}}"
                       >{{documentTitle.value}}</semantic-link>
       {{else}}
          <semantic-link
                         iri="http://www.researchspace.org/resource/Field"
-                        urlqueryparam-tab="assertions"
+                        urlqueryparam-tab="annotations"
                         urlqueryparam-field="{{field.value}}"
                         urlqueryparam-subject="{{subject.value}}"
                       >
@@ -79,17 +84,14 @@
 </template>
 <template id='actions'>
   <div style="display: flex;">
-     <semantic-link
-                        iri="http://www.researchspace.org/resource/Field"
-                        urlqueryparam-tab="assertions"
-                        urlqueryparam-field="{{field.value}}"
-                        urlqueryparam-subject="{{subject.value}}"
+     <semantic-link"
+                        iri="{{document.value}}"
                       >
                       <button class='btn btn-default btn-xs pull-right' title='View Annotation' style='margin-right: 15px; '>
                          <i class='fa fa-folder-open'></i> View 
                       </button>          
       </semantic-link>
-    <mp-ldp-duplicate-resource-action iri="{{document.value}}" container="http://www.researchspace.org/ontology/Assertions.Container">
+    <mp-ldp-duplicate-resource-action iri="{{document.value}}" container="http://www.researchspace.org/resource/system/formContainer">
       <button class='btn btn-default btn-xs pull-right' title='Duplicate Annotation' style='margin-right: 15px; '><i class="fa fa-files-o btn-icon-left" aria-hidden=true></i> Duplicate</button>
     </mp-ldp-duplicate-resource-action>
 
@@ -109,7 +111,7 @@
             <mp-overlay-dialog-content>
               <h1>Are you sure you would like to delete this annotation?</h1>
               <mp-ldp-remove-from-container-action 
-                  container="http://www.researchspace.org/ontology/Assertions.Container"
+                  container="http://www.researchspace.org/resource/system/formContainer"
                   iri="{{document.value}}" 
                   post-action='reload'>
                     <button class="btn btn-danger pull-right" title="Delete annotation" 
@@ -122,3 +124,4 @@
   </div>
 </template>
 </semantic-table>
+ 
