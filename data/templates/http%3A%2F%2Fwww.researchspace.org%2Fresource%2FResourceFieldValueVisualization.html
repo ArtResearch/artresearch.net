@@ -36,6 +36,12 @@
     {{dateTimeFormat value.value.value "YYYY"}}
   </div>
   {{else}}
+
+    {{#ifCond field.label.0.value "===" "Related Works Description"}}
+ <semantic-link iri='{{value.value.value}}'>
+   {{value.value.subLabel}}
+ </semantic-link>
+  {{else}}
   
 
   {{#ifCond field.xsdDatatype.value "=="  "http://www.w3.org/2001/XMLSchema#string"}}
@@ -61,6 +67,7 @@
   </mp-text-truncate>
   {{/ifCond}}
     
+  {{/ifCond}}
   {{/ifCond}}
   {{/ifCond}}
   {{/ifCond}}
