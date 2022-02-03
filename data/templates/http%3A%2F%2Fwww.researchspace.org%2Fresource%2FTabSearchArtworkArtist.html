@@ -91,7 +91,7 @@
         default-query="
               SELECT DISTINCT ?subject WHERE {
                 ?subject fr:Work_created_from_Artist ??.
-              }LIMIT 10000"
+              }LIMIT 1000"
         query='
         PREFIX fts: <http://www.bigdata.com/rdf/fts#>
         SELECT DISTINCT ?subject WHERE {          
@@ -99,7 +99,7 @@
             ?subject fts:search ?__token__.
             ?subject fts:endpoint "http://213.171.209.34:8983/solr/artworks/select"  .
             ?subject fts:endpointType "SOLR" .
-            ?subject fts:params "rows=10000".
+            ?subject fts:params "rows=1000".
             ?subject fts:searchField "uri" .
             ?subject fts:fieldToSearch "label_t" .
             ?subject fts:snippetField "label_t" .
@@ -148,7 +148,7 @@
                           "showFilter":false
                         }'
                             number-of-displayed-rows="10"
-                            query=" SELECT DISTINCT ?subject WHERE {}LIMIT 10000"
+                            query=" SELECT DISTINCT ?subject WHERE {}LIMIT 1000"
                             tuple-template="{{>tupleTemplate}}"
                             no-result-template='[[> :CardNoResult ]]'
                           >
@@ -169,7 +169,7 @@
                        WHERE {
                         ?subject fr:Work_depicted_by_Photo ?photo.
                         ?photo crm:P129i_is_subject_of ?image.
-                       }LIMIT 10000
+                       }LIMIT 1000
                     "
                             tuple-template="{{>tupleTemplate}}"
                             no-result-template='[[> :CardNoResult ]]'

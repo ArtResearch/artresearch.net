@@ -156,7 +156,7 @@
                     ?someOther owl:sameAs ?subject.
                     ?subject a fc:artist.
                     ?subject fr:Person_has_Gender <http://vocab.getty.edu/aat/300189557>.
-                  }LIMIT 10000"
+                  }LIMIT 1000"
                   query='
                           SELECT DISTINCT ?subject WHERE {
                           ?someOther owl:sameAs ?subject.
@@ -229,7 +229,7 @@
                                     OPTIONAL{
                                        ?subject fr:Person_depicted_by ?withImage
                                      }
-                                   }ORDER BY DESC (?withImage) LIMIT 10000
+                                   }ORDER BY DESC (?withImage) LIMIT 1000
                                 "
                               tuple-template="{{>tupleTemplate}}"
                               no-result-template='[[> :CardNoResult ]]'

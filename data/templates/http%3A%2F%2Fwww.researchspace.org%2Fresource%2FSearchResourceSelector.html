@@ -5,7 +5,7 @@
       SELECT DISTINCT $suggestion $label WHERE {
          {
            { SELECT $suggestion ?score WHERE {
-         BIND(CONCAT(\"defType=edismax&ps=100&pf=suggestionSearchText&fl=id,score&rows=10000&q.op=AND&fq=fc:\", REPLACE(str(?__range__), \":\", \"\\\\\\\\:\"), \"&fq=frs:\", REPLACE(str(?__relation__), \":\", \"\\\\\\\\:\")) as ?sFC)
+         BIND(CONCAT(\"defType=edismax&ps=100&pf=suggestionSearchText&fl=id,score&rows=1000&q.op=AND&fq=fc:\", REPLACE(str(?__range__), \":\", \"\\\\\\\\:\"), \"&fq=frs:\", REPLACE(str(?__relation__), \":\", \"\\\\\\\\:\")) as ?sFC)
          BIND(CONCAT(\"(\",LCASE(?__token__),\")\") as ?lcasetoken)
          SERVICE <http://www.bigdata.com/rdf/fts#search> {
             $suggestion fts:search ?lcasetoken .
