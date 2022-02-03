@@ -39,7 +39,7 @@
         BIND(REPLACE(STR(?image),"full/full","full/!100,100") AS ?thumbnail).
      } ORDER BY str(?photo) ASC(?typeLabel)'
         template="{{> imageThumbnail}}"
-        no-result-template='<div class="NoArtwork"> <h1>Sorry, the original artwork does not have any images to display.</h1> </div>'
+        no-result-template='<div class="NoArtwork"> <h1>No Photos Available.</h1> </div>'
       >
         <template id="imageThumbnail">
             <div class="imagebar">
@@ -72,7 +72,7 @@
 </mp-event-target-template-render>
 <style>
   .noArtwork{
-        padding-left: 45px;
+    padding-left: 45px;
     background: #f8f8f8;
     margin: 59px;
   }
