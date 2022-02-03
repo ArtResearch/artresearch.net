@@ -27,15 +27,13 @@
                       ?subject a fc:institution.   
                       ?subject fr:Institution_from_Place <{{placeIri}}>
                     }LIMIT 1000"
-              query='
-                            SELECT DISTINCT ?subject WHERE {
-                            ?subject a fc:institution.   
-                            ?subject rdfs:label ?someLabel.
-                            ?someLabel bds:search ?__token__ .
-                            ?someLabel bds:minRelevance "0.3"^^xsd:double;
-                            bds:matchAllTerms "true"  .
-                            } 
-                          '
+              query=' SELECT DISTINCT ?subject WHERE {
+                        ?subject a fc:institution.   
+                        ?subject rdfs:label ?someLabel.
+                        ?someLabel bds:search ?__token__ .
+                        ?someLabel bds:minRelevance "0.3"^^xsd:double;
+                        bds:matchAllTerms "true"  .
+                      }'
             ></semantic-search-query-keyword>
             <semantic-query
               id="view-more"
@@ -188,12 +186,13 @@
                             <semantic-map
                               id="repository-map"
                               query="SELECT ?subject ?label ?lat ?lng WHERE {
-                                ?subject fr:Institution_from_Place ?place.
-                                ?place <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat.
-                                ?place <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng.
-                                ?subject rdfs:label ?label.
-                                ?place crm:P2_has_type <http://vocab.getty.edu/aat/300008389>
-                              } LIMIT 1000"
+                                ?subject fr:Institution_from_Place [
+                                    <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat;
+                                    <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng;
+                                    crm:P2_has_type <http://vocab.getty.edu/aat/300008389>
+                                ];
+                                  rdfs:label ?label.
+                              }"
                               tuple-template='<p></p><a style="text-decoration: none;"  href="https://artresearch.net/resource/?uri={{subject.value}}" target="_blank"><b style="color: #6b0000;">{{label.value}}</b><p></p><p></p></a><hr>'
                             >
                             </semantic-map>
