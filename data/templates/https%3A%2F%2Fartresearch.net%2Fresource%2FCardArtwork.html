@@ -190,7 +190,7 @@
              
  <semantic-query 
                 query='SELECT DISTINCT ?institution ?placeLabel WHERE {
-                        <{{subject.value}}> <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution>|crm:P50_has_current_keeper ?institution.
+                        <{{subject.value}}> <https://artresearch.net/resource/fr/Work_kept_by_Institution>|crm:P50_has_current_keeper ?institution.
                         {
                           ?institution crm:P74_has_current_or_former_residence|crm:P55_has_current_location ?place.
                           ?place a cfc:place.
@@ -215,7 +215,7 @@
                           ?place rdfs:label ?placeLabel
                         }union{
                           ?original owl:sameAs <{{subject.value}}>.
-                          ?original <https://pharos.artresearch.net/resource/fr/Work_kept_by_Institution>|crm:P50_has_current_keeper ?institution.
+                          ?original <https://artresearch.net/resource/fr/Work_kept_by_Institution>|crm:P50_has_current_keeper ?institution.
                         }
 
                       }'
