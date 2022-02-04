@@ -14,21 +14,19 @@
        <template id='variantAttributions'>
          <bs-panel header="Variant Attributions" collapsible="true">
             <semantic-query
-              query=' SELECT DISTINCT ?attribution ?providerLabel WHERE { 
+              query='SELECT DISTINCT ?attribution ?providerLabel WHERE{
                 {
                   ?? fr:Work_influenced_by_Artist|fr:Work_created_from_Artist ?attribution.
                 } UNION {
                   ?work owl:sameAs ??.
-                  ?work fr:Work_influenced_by_Artist|fr:Work_created_from_Artist ?attribution.
+                  ?work ((crm:P108i_was_produced_by|crm:P19i_motivated)/crm:P140i_was_attributed_by/<http://www.cidoc-crm.org/cidoc-crm/P141_assigned>/crm:P02_has_range)|cfr:Work_influenced_by_Artist|cfr:Work_created_from_Artist ?attribution.
                 }
                 GRAPH ?graph {
-                 ?s fr:Work_influenced_by_Artist|fr:Work_created_from_Artist ?attribution.
+                  ?s ((crm:P108i_was_produced_by|crm:P19i_motivated)/crm:P140i_was_attributed_by/<http://www.cidoc-crm.org/cidoc-crm/P141_assigned>/crm:P02_has_range)|cfr:Work_influenced_by_Artist|cfr:Work_created_from_Artist|fr:Work_influenced_by_Artist|fr:Work_created_from_Artist ?attribution.
                 }
-                ?graph <https://pharos.artresearch.net/custom/has_provider> ?prov .
-                ?prov rdfs:label ?provLabel.
+                ?graph <https://pharos.artresearch.net/custom/has_provider>/rdfs:label ?provLabel.
                 BIND(IF( CONTAINS(STR(?attribution),"ulan"), "ULAN", ?provLabel) AS ?providerLabel)
-                BIND(IF( CONTAINS(STR(?attribution),"ulan"), IRI("https://pharos.artresearch.net/resource/getty/source/Getty"), ?prov) AS ?provider)
-              }'
+            }'
               template='{{> byAttribution }}'>
                 <template id='byAttribution'>
                   {{#each bindings}}
