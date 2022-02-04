@@ -32,14 +32,13 @@
           title="Account"
           id="basic-nav-dropdown"
           class="no-bullets"
+          style="text-align: -webkit-center"
         >
           <mp-anonymous-hidden>
-            <div  style="display: flex; padding: 10px;"
-                  class="rs-icon rs-icon-user_round rs-xs-none">
-              <semantic-query query="SELECT ?user WHERE{BIND(?__useruri__ as ?user)}" template="{{> userLinkTemplate user='{{bindings.0.user.value}}'}}">
-                
-              </semantic-query>
-            </div>
+            <mp-link style="display: flex; padding: 10px;"
+              href="/User"
+              class="rs-icon rs-icon-user_round rs-xs-none" url="/resource/User">My profile</mp-link>
+
           </mp-anonymous-hidden>
           <mp-anonymous-hidden>
             <a
