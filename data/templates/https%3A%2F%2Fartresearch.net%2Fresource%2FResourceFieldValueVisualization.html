@@ -1,4 +1,7 @@
-    {{#ifCond field.label.0.value "===" "Description"}}
+  {{#ifCond field.iri "===" "http://www.researchspace.org/fieldDefinition/CreatorWithRole" }}
+    <semantic-link iri="{{value.value.value}}"></semantic-link>  , {{value.binding.roleLabel.value}}
+  {{else}}
+  {{#ifCond field.label.0.value "===" "Description"}}
   <mp-text-truncate lines="3" expand='<span style="color: gray;">...<a>read more</a></span>' collapse='<span style="color: gray;">(<a>show less</a>)</span>'>
     {{value.value.value}}
   </mp-text-truncate>
@@ -6,9 +9,14 @@
 
 
   {{#ifCond field.label.0.value "===" "Production Date"}}
-  <div date="{{dateTimeFormat value.value.value "YYYY"}}">
-    {{dateTimeFormat value.value.value "YYYY"}}
-  </div>
+    {{#ifCond value.xsdDatatype.value "=="  "http://www.w3.org/2001/XMLSchema#date"}}
+      <div date="{{dateTimeFormat value.value.value "YYYY"}}">
+        {{dateTimeFormat value.value.value "YYYY"}}
+      </div>
+    {{else}}
+      {{value.value.value}}
+    {{/ifCond}}
+
   {{else}}
 
   {{#ifCond field.label.0.value "===" "Date of Birth"}}
@@ -68,6 +76,6 @@
   {{/ifCond}}
   {{/ifCond}}
   {{/ifCond}}
-
+  {{/ifCond}}
 
 
