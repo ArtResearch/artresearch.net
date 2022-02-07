@@ -181,35 +181,50 @@
 
                     <bs-tab-content unmount-on-exit=true>
                       <bs-tab-pane event-key="all">
-                        <semantic-table id="grid-result" options='{
-                          "showFilter":false
-                        }' number-of-displayed-rows="10" query="
-                      SELECT DISTINCT ?subject
-                       WHERE {
-                        {?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.   }
-                        UNION
-                        {?subject owl:sameAs ?another}
-                        }LIMIT 1000
-                    " tuple-template="{{>tupleTemplate}}"
-                      no-result-template='[[> CardNoResult ]]'
-                    >
+                        <semantic-table 
+                          id="grid-result" 
+                          options='{
+                            "showFilter":false
+                          }' 
+                          number-of-displayed-rows="10" 
+                          query="
+                            SELECT DISTINCT ?subject WHERE {
+                              {
+                                ?subject a fc:work.   
+                              } UNION {
+                                ?subject a cfc:work.
+                              } UNION {
+                                ?subject a cfc:photo.
+                              }
+                            }LIMIT 1000
+                          " 
+                          tuple-template="{{>tupleTemplate}}"
+                          no-result-template='[[> CardNoResult ]]'
+                        >
                           <template id="tupleTemplate"> [[> CardArtwork]] </template>
                         </semantic-table>
                       </bs-tab-pane>
                       <bs-tab-pane event-key="photosOnly">
-                        <semantic-table id="grid-result-2" options='{
-                          "showFilter":false
-                        }' number-of-displayed-rows="10" query="
-                      SELECT DISTINCT ?subject
-                       WHERE {
-                        {?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.   }
-                        UNION
-                        {?subject owl:sameAs ?another}
-                        ?subject fr:Work_depicted_by_Photo ?photo.
-                       }LIMIT 1000
-                    " tuple-template="{{>tupleTemplate}}"
-                      no-result-template='[[> CardNoResult ]]'
-                    >
+                        <semantic-table 
+                          id="grid-result-2" 
+                          options='{
+                            "showFilter":false
+                          }' 
+                          number-of-displayed-rows="10" query="
+                            SELECT DISTINCT ?subject
+                            WHERE {
+                              {
+                                ?subject a fc:work.   
+                              } UNION {
+                                ?subject a cfc:work.
+                              } UNION {
+                                ?subject a cfc:photo.
+                              }
+                              FILTER EXISTS{?subject (fr:Work_depicted_by_Photo/crm:P129i_is_subject_of)/crm:P129i_is_subject_of ?photo.}
+                            }LIMIT 1000" 
+                          tuple-template="{{>tupleTemplate}}"
+                          no-result-template='[[> CardNoResult ]]'
+                        >
                           <template id="tupleTemplate"> [[> CardArtwork]] </template>
                         </semantic-table>
                       </bs-tab-pane>
