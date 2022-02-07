@@ -206,12 +206,15 @@
                           <semantic-table id="grid-result" options='{
                             "showFilter":false
                           }' number-of-displayed-rows="10" query="
-                        SELECT DISTINCT ?subject
-                         WHERE {
-                          {?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.   }
-                          UNION
-                          {?subject owl:sameAs ?another}
-                          }LIMIT 1000
+                        SELECT DISTINCT ?subject WHERE {
+                          {
+                            ?subject a fc:work.   
+                          } UNION {
+                            ?subject a cfc:work.
+                          } UNION {
+                            ?subject a cfc:photo.
+                          }
+                        } LIMIT 1000
                       " tuple-template="{{>tupleTemplate}}"
                         no-result-template='[[> CardNoResult ]]'
                       >
@@ -224,11 +227,14 @@
                           }' number-of-displayed-rows="10" query="
                         SELECT DISTINCT ?subject
                          WHERE {
-                          {?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>.   }
-                          UNION
-                          {?subject owl:sameAs ?another}
-                          ?subject fr:Work_depicted_by_Photo ?photo.
-                          ?photo crm:P129i_is_subject_of ?image.
+                          {
+                            ?subject a fc:work.   
+                          } UNION {
+                            ?subject a cfc:work.
+                          } UNION {
+                            ?subject a cfc:photo.
+                          }
+                          FILTER EXISTS {?subject (fr:Work_depicted_by_Photo/crm:P129i_is_subject_of)/crm:P129i_is_subject_of ?image.}
                          }LIMIT 1000
                       " tuple-template="{{>tupleTemplate}}"
                         no-result-template='[[> CardNoResult ]]'

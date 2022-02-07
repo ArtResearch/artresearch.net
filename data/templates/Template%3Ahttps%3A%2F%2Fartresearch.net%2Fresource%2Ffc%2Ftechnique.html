@@ -14,11 +14,10 @@
           <bs-nav bs-style="tabs">
             <bs-nav-item event-key="summary">Summary</bs-nav-item>
             [[#if (ask "ASK {  { ?artwork <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ??.}union{?artwork fr:Work_depicted_by_Photo ?photo. ?photo fr:Photo_produced_using_Technique|crm:P45_consists_of ??}union{ ?artwork fr:Work_produced_using_technique_Technique ??} ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>. }") ]] 
-            <bs-nav-item event-key="artworks"><div style="display:flex;">Artworks
+            <bs-nav-item event-key="artworks"><div style="display:flex;">Related entities
               (
                 <semantic-query query='
                  SELECT (COUNT(DISTINCT ?artwork) AS ?count) WHERE{
-                  ?artwork a fc:work.
                   ?artwork fr:Photo_produced_using_Technique|crm:P33_used_specific_technique|fr:Work_produced_using_technique_Technique|crm:P2_has_type|crm:P45_consists_of  ??
                  }
                '></semantic-query>)
@@ -31,7 +30,7 @@
             <bs-tab-pane event-key="summary">
               <div style="text-align: left; width: 100%;">
                 <h2>
-                  <div style="color: gray !important; font-weight: bold;">Number of entities with this type:</div>
+                  <div style="color: gray !important; font-weight: bold;">Number of entities with this technique:</div>
                 </h2>
                 <h2>
                   <semantic-query
@@ -44,7 +43,7 @@
               </div>
               <div style="text-align: left; width: 100%; margin-top: 20px;">
                 <h2>
-                  <div style="color: gray !important; font-weight: bold;">Related types:</div>
+                  <div style="color: gray !important; font-weight: bold;">Related techniques:</div>
                 </h2>
                 <h2 class="techniques">
                   <semantic-query
