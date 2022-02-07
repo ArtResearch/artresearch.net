@@ -1,49 +1,25 @@
 <div class="header-options artistAdditionalOptions">
-
   <div style="display:flex;">
-      <semantic-query
-        query='SELECT ?tLabel ?link WHERE {             
-            ?subject owl:sameAs <[[this]]>.
-            ?subject crm:P1_is_identified_by ?value.
-            ?value <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ?type.
-            ?type rdfs:label "GND or ULAN".
-            ?type rdfs:label ?tLabel.
-            ?value rdfs:label ?id.
-            BIND(IRI(REPLACE(?id,"gnd", "https://d-nb.info/gnd/")) AS ?link)
-            FILTER CONTAINS(?id,"gnd")
-        }'
-        no-result-template="<div></div>"
-        template="{{> DNBLink}}"
-      >
-        <template id="DNBLink">
-            <h2 class="fc-label" style="width: 60vw;">
-              
-              <a
-                style="margin-left: 5px"
-                href="{{bindings.0.link.value}}"
-                target="_null"
-              >
-                <div class="fc-label original-linkDNB">
-                  <div class="linkImageWrapper">
-                  <img
-                    
-                    class="sourceIconDNB"
-                    src="/assets/images/DNB.ico"
-                  />
-                  <h2 class="text">View GND record</h2>
-                  </div>
-                </div>
-              </a>
-              
-            </h2>
-        </template>
-      </semantic-query>
-
+    <semantic-query
+      query='SELECT ?tLabel ?link WHERE {             
+          ?subject owl:sameAs <[[this]]>.
+          ?subject crm:P1_is_identified_by ?value.
+          ?value <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ?type.
+          ?type rdfs:label "GND or ULAN".
+          ?type rdfs:label ?tLabel.
+          ?value rdfs:label ?id.
+          BIND(IRI(REPLACE(?id,"gnd", "https://d-nb.info/gnd/")) AS ?link)
+          FILTER CONTAINS(?id,"gnd")
+      }'
+      no-result-template="<div></div>"
+      template="{{> DNBLink}}"
+    >
+      <template id="DNBLink">
           <h2 class="fc-label" style="width: 60vw;">
             
             <a
               style="margin-left: 5px"
-              href="[[this]]"
+              href="{{bindings.0.link.value}}"
               target="_null"
             >
               <div class="fc-label original-linkDNB">
@@ -51,16 +27,29 @@
                 <img
                   
                   class="sourceIconDNB"
-                  src="../../assets/images/getty.ico"
+                  src="/assets/images/DNB.ico"
                 />
-                <h2 class="text">View GETTY record</h2>
+                <h2 class="text">View GND record</h2>
                 </div>
               </div>
             </a>
             
           </h2>
+      </template>
+    </semantic-query>
+
+    <h2 class="fc-label" style="width: 60vw;">
+      <a style="margin-left: 5px" href="[[this]]" target="_null">
+        <div class="fc-label original-linkDNB">
+          <div class="linkImageWrapper">
+            <img class="sourceIconDNB" src="../../assets/images/getty.ico"/>
+            <h2 class="text">View GETTY record</h2>
+          </div>
         </div>
-      </div>
+      </a>
+    </h2>
+  </div>
+</div>
 <div id="printableInfo"  class="workAndProductionInfo">
 
       <mp-field-visualization
