@@ -3,7 +3,7 @@
     <mp-link title="Home" url="/resource/start">Home</mp-link>
   </li>
   <li>
-    <semantic-link title="Alignments" uri="http://www.researchspace.org/resource/AlignmentsDashboard">Alignments</semantic-link>
+    <mp-link title="Alignments" url="/resource/AlignmentsDashboard">Alignments</mp-link>
   </li>
   <li class="active">
     Alignment: [[label]]
@@ -29,7 +29,7 @@
     </div>
   </div>
   <div class='page__body--borderless' style='height: 70vh;'>
-    [[#if (ask "ASK WHERE { ?? <http://www.researchspace.org/ontology/PX_source_terminology>|<http://www.researchspace.org/ontology/PX_target_terminology> ?object . ?s skos:inScheme ?object. }")]]
+    [[#if (ask "ASK WHERE { ?? <http://www.researchspace.org/ontology/PX_source_terminology>|<http://www.researchspace.org/ontology/PX_target_terminology> ?object . FILTER (IF((CONTAINS(STR(?object),'places')||CONTAINS(STR(?object),'geonames')),false,true)) }")]]
     
       <rs-alignment-tool
         id="first"
@@ -120,8 +120,9 @@
           display: none !important;
         }
       </style>
+        [[this]]
       <rs-alignment-tool
-      id="second"
+        id="second"
         alignment-container='[[this]]'
         queries='{
           "rootsQuery": " SELECT DISTINCT ?item ?label ?hasChildren where {
@@ -193,7 +194,7 @@
                         PREFIX gvp: <http://vocab.getty.edu/ontology#>
                         PREFIX xl: <http://www.w3.org/2008/05/skos-xl#>
                         PREFIX dc: <http://purl.org/dc/elements/1.1/>
-                        SELECT DISTINCT ?item (SAMPLE(?label) as ?label) (SAMPLE(?hasChildren) as ?hasChildren) (COUNT(?subClass) AS ?totalSubClasses)FROM <alignment:__graph__> WHERE {
+                        SELECT DISTINCT ?item (SAMPLE(?label) as ?label) (SAMPLE(?hasChildren) as ?hasChildren) (COUNT(?subClass) AS ?totalSubClasses) FROM <alignment:__graph__> WHERE {
                           OPTIONAL {
                             ?item skos:prefLabel ?labelX .
                             FILTER(langMatches(lang(?labelX), \"en\") || LANG(?labelX) = \"\")
@@ -201,8 +202,7 @@
                           OPTIONAL {
                               ?child skos:broader ?item .
                           }
-                           OPTIONAL { ?subClass rdfs:subClassOf+ ?item }
-                          (COUNT(?subClass) AS ?totalSubClasses) 
+                          OPTIONAL { ?subClass rdfs:subClassOf+ ?item }
                           BIND(BOUND(?child) AS ?hasChildren)
                           BIND(IF(CONTAINS(STR(?labelX),\"unauthorised\"), STR(?item) , ?labelX) as ?label)
                         } GROUP BY ?item ORDER BY ?label "
