@@ -220,7 +220,7 @@
                               } UNION {
                                 ?subject a cfc:photo.
                               }
-                              FILTER EXISTS{?subject fr:Work_depicted_by_Photo|crm:P129i_is_subject_of ?photo.}
+                              FILTER EXISTS{?subject (fr:Work_depicted_by_Photo/crm:P129i_is_subject_of)/crm:P129i_is_subject_of ?photo.}
                             }LIMIT 1000" 
                           tuple-template="{{>tupleTemplate}}"
                           no-result-template='[[> CardNoResult ]]'
