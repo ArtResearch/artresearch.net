@@ -6,9 +6,14 @@
 
 
   {{#ifCond field.label.0.value "===" "Production Date"}}
-  <div date="{{dateTimeFormat value.value.value "YYYY"}}">
-    {{dateTimeFormat value.value.value "YYYY"}}
-  </div>
+    {{#ifCond value.xsdDatatype.value "=="  "http://www.w3.org/2001/XMLSchema#date"}}
+      <div date="{{dateTimeFormat value.value.value "YYYY"}}">
+        {{dateTimeFormat value.value.value "YYYY"}}
+      </div>
+    {{else}}
+      {{value.value.value}}
+    {{/ifCond}}
+
   {{else}}
 
   {{#ifCond field.label.0.value "===" "Date of Birth"}}
