@@ -74,50 +74,50 @@
           </bs-row>
         </bs-col>   
       </bs-row> <!--  close row -->
-      [[#if (hasPermission "api:ldp:*")]]
-<bs-row class="row-center">
-  <bs-col xs=11 sm=11 md=10 lg=9  style='background: white; min-height: 500px;' class="user-main-section px-0">
-      <bs-tab-container id="tab-container" class="user-tabs"
-        default-active-key="profile">
-          <bs-tabs>
-            <bs-tab event-key='All Annotations' title="All Annotations">
-              [[> AllAnnotations]]
-              </bs-tab>
-          <bs-tab event-key='All Assertions' title="All Assertions">
-              [[> AllAssertions]]
-          </bs-tab>
-            </bs-tabs>
-        </bs-tab-container>
-  </bs-col>   
-</bs-row> 
-    [[else]] 
-    <bs-row class="row-center">
-      <bs-col xs=11 sm=11 md=10 lg=9 style='background: white; min-height: 500px;' class="user-main-section px-0">
-          <bs-tab-container id="tab-container" class="user-tabs"
-          default-active-key="profile">
-            <bs-tabs>
-               <bs-tab event-key='My Annotations' title="My Annotations">
-                <div class="user-tab-section page__section-container">
-                  [[> MyAnnotationsDashboard]]
-                </div>
-              </bs-tab>
-              <bs-tab event-key='My Asssertions' title="My Assertions">
-                <div class="user-tab-section page__section-container">
-                   [[> MyAssertionsDashboard]]
-                </div>
-              </bs-tab>
-               <bs-tab event-key='My photo Annotations' title="My photo Annotations">
-                <div class="user-tab-section page__section-container">
-                   [[> photoAnnotations]]
-                </div>
-              </bs-tab>
-              
-            </bs-tabs>
-          </bs-tab-container>
-        
+    [[#if (hasPermission "api:ldp:*")]]
+      <bs-row class="row-center">
+        <bs-col xs=11 sm=11 md=10 lg=9  style='background: white; min-height: 500px;' class="user-main-section px-0">
+            <bs-tab-container id="tab-container" class="user-tabs"
+              default-active-key="profile">
+                <bs-tabs>
+                  <bs-tab event-key='All Annotations' title="All Annotations">
+                    [[> AllAnnotations]]
+                    </bs-tab>
+                <bs-tab event-key='All Assertions' title="All Assertions">
+                    [[> AllAssertions]]
+                </bs-tab>
+                  </bs-tabs>
+              </bs-tab-container>
         </bs-col>   
-    </bs-row> <!--  close row -->
-       [[/if]] 
+      </bs-row> 
+    [[else]] 
+      <bs-row class="row-center">
+        <bs-col xs=11 sm=11 md=10 lg=9 style='background: white; min-height: 500px;' class="user-main-section px-0">
+            <bs-tab-container id="tab-container" class="user-tabs"
+            default-active-key="profile">
+              <bs-tabs>
+                <bs-tab event-key='My Annotations' title="My Annotations">
+                  <div class="user-tab-section page__section-container">
+                    [[> MyAnnotationsDashboard]]
+                  </div>
+                </bs-tab>
+                <bs-tab event-key='My Asssertions' title="My Assertions">
+                  <div class="user-tab-section page__section-container">
+                    [[> MyAssertionsDashboard]]
+                  </div>
+                </bs-tab>
+                <bs-tab event-key='My photo Annotations' title="My photo Annotations">
+                  <div class="user-tab-section page__section-container">
+                    [[> photoAnnotations]]
+                  </div>
+                </bs-tab>
+                
+              </bs-tabs>
+            </bs-tab-container>
+          
+          </bs-col>   
+      </bs-row> <!--  close row -->
+    [[/if]] 
   </div>
 
 </div>
