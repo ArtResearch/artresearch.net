@@ -1,3 +1,17 @@
+[[#>:ClipboardSidebar]]
+<div id="filter-search" class="row row-center no-margin">
+  <div id="main-containers" class="col-md-10">
+    <!-- Title -->
+    <div class="row">
+      <div class="col-sm-12">
+        <header style="margin-left: 5px">
+          
+                [[> Searchbar selectedCategory="Artworks" ]]
+              
+        </header>
+      </div>
+    </div>
+<div id="simple-search-include"  class="super-tabs">
 [[#if (ask "ASK WHERE { ?? crm:P2_has_type <http://vocab.getty.edu/aat/300015640>}")]]
     <semantic-context repository='ephedra'>
         <div id="artwork-filter-search-inline">
@@ -130,7 +144,14 @@
         .rs-icon-search{
             display: none !important;
         }
+        #artwork-filter-search-inline #header-search.search-page {
+                display: none !important;
+        }
     </style>
 [[else]]
     [[> rsp:ResourceTemplate type="Entity"]]
 [[/if]]
+</div>
+</div>
+</div>
+[[/:ClipboardSidebar]]
