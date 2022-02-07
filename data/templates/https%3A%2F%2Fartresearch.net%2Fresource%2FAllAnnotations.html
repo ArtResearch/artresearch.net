@@ -12,61 +12,91 @@
       </div>
 </div>
  <bs-tab-container id="tab-container" class="user-tabs" default-active-key="allannotations">
-   <div>
- <bs-nav bs-style="tabs">
-<bs-nav-item event-key="allannotations">All platform Annotations
- <semantic-query query='SELECT (COUNT(DISTINCT ?document) AS ?count) WHERE {
-                ?document rdf:type rs:Semantic_Narrative.
-                ?document rdfs:label ?documentTitle.
-                ?document prov:wasAttributedTo ?username.
-                ?document prov:generatedAtTime ?time.
-                ?document <http://www.researchspace.org/ontology/targetsField> ?field.
-                ?document <http://www.researchspace.org/ontology/targetsRecord> ?subject.
-            }'
-            template='{{#each bindings}}<span class="badge">{{count.value}}</span>{{/each}}'>\
-          </semantic-query>
+      <div>
+            <bs-nav bs-style="tabs">
+                <bs-nav-item event-key="allannotations">All platform Annotations
+                <semantic-query query='SELECT (COUNT(DISTINCT ?document) AS ?count) WHERE {
+                                ?document rdf:type rs:Semantic_Narrative.
+                                ?document rdfs:label ?documentTitle.
+                                ?document prov:wasAttributedTo ?username.
+                                ?document prov:generatedAtTime ?time.
+                                ?document <http://www.researchspace.org/ontology/targetsField> ?field.
+                                ?document <http://www.researchspace.org/ontology/targetsRecord> ?subject.
+                            }'
+                            template='{{#each bindings}}<span class="badge">{{count.value}}</span>{{/each}}'>\
+                          </semantic-query>
 
-</bs-nav-item>
-<bs-nav-item event-key="myannotations">
-            My annotations
-              <semantic-query query='SELECT (COUNT(DISTINCT ?document) AS ?count) WHERE {
-                ?document rdf:type rs:Semantic_Narrative.
-                ?document rdfs:label ?documentTitle.
-                ?document prov:wasAttributedTo ?username.
-                ?document prov:generatedAtTime ?time.
-                ?document <http://www.researchspace.org/ontology/targetsField> ?field.
-                ?document <http://www.researchspace.org/ontology/targetsRecord> ?subject.
-                ?document prov:wasAttributedTo ?__useruri__.
-            }'
-            template='{{#each bindings}}<span class="badge">{{count.value}}</span>{{/each}}'>\
-          </semantic-query>
-</bs-nav-item>
-<bs-nav-item event-key="photoAnnotations">
-  Photo annotations
-    <semantic-query query='SELECT (COUNT(DISTINCT ?document) AS ?count) WHERE {
-      <http://www.researchspace.org/resource/system/formContainer> <http://www.w3.org/ns/ldp#contains> ?document.
-        ?document <http://www.w3.org/ns/prov#generatedAtTime> ?time.
-        ?document <http://www.w3.org/ns/prov#wasAttributedTo> ?username.   
-        ?document prov:wasAttributedTo ?__useruri__.
-  }'
-  template='{{#each bindings}}<span class="badge">{{count.value}}</span>{{/each}}'>\
-</semantic-query>
-</bs-nav-item>
-</bs-nav>
+                </bs-nav-item>
+                <bs-nav-item event-key="myannotations">
+                            My annotations
+                              <semantic-query query='SELECT (COUNT(DISTINCT ?document) AS ?count) WHERE {
+                                ?document rdf:type rs:Semantic_Narrative.
+                                ?document rdfs:label ?documentTitle.
+                                ?document prov:wasAttributedTo ?username.
+                                ?document prov:generatedAtTime ?time.
+                                ?document <http://www.researchspace.org/ontology/targetsField> ?field.
+                                ?document <http://www.researchspace.org/ontology/targetsRecord> ?subject.
+                                ?document prov:wasAttributedTo ?__useruri__.
+                            }'
+                            template='{{#each bindings}}<span class="badge">{{count.value}}</span>{{/each}}'>\
+                          </semantic-query>
+                </bs-nav-item>
+                <bs-nav-item event-key="MyphotoAnnotations">
+                  My Photo annotations
+                    <semantic-query query='SELECT (COUNT(DISTINCT ?document) AS ?count) WHERE {
+                        GRAPH ?g {
+                                      Platform:formContainer <http://www.w3.org/ns/ldp#contains> ?y.
+                                      ?document prov:generatedAtTime ?time.
+                                      ?document prov:wasAttributedTo ?username.
+                                      ?document rdf:type <http://www.w3.org/ns/ldp#Resource>.
+                                      ?l rso:displayLabel ?documentTitle.
+                                      ?l crmdig:L49_is_primary_area_of ?image.
+                                    }
+                                    BIND ( ?__useruri__ as ?username)
+                  }'
+                  template='{{#each bindings}}<span class="badge">{{count.value}}</span>{{/each}}'>\
+                </semantic-query>
+                </bs-nav-item>
+                <bs-nav-item event-key="photoAnnotations">
+                  All Photo annotations
+                    <semantic-query query='SELECT (COUNT(DISTINCT ?document) AS ?count) WHERE {
+                        GRAPH ?g {
+                                      Platform:formContainer <http://www.w3.org/ns/ldp#contains> ?y.
+                                      ?document prov:generatedAtTime ?time.
+                                      ?document prov:wasAttributedTo ?username.
+                                      ?document rdf:type <http://www.w3.org/ns/ldp#Resource>.
+                                      ?l rso:displayLabel ?documentTitle.
+                                      ?l crmdig:L49_is_primary_area_of ?image.
+                                    } 
+                  }'
+                  template='{{#each bindings}}<span class="badge">{{count.value}}</span>{{/each}}'>\
+                </semantic-query>
+                </bs-nav-item>
+            </bs-nav>
 
- <bs-tab-content unmount-on-exit=true>
-          <bs-tab-pane event-key="allannotations">
-            [[> AnnotationsDashboard]]
-          </bs-tab-pane>
-          <bs-tab-pane event-key="myannotations">
-            [[> MyAnnotationsDashboard]]
-          </bs-tab-pane>
-          <bs-tab-pane event-key="photoAnnotations">
-            [[> photoAnnotations]]
-          </bs-tab-pane>
-        </div>
-  </bs-tab-content>
+        <bs-tab-content unmount-on-exit=true>
+                <bs-tab-pane event-key="allannotations">
+                  [[> AnnotationsDashboard]]
+                </bs-tab-pane>
+                <bs-tab-pane event-key="myannotations">
+                  [[> MyAnnotationsDashboard]]
+                </bs-tab-pane>
+                <bs-tab-pane event-key="MyphotoAnnotations">
+                  [[> MyphotoAnnotations]]
+                </bs-tab-pane>
+                <bs-tab-pane event-key="photoAnnotations">
+                  [[> photoAnnotations]]
+                </bs-tab-pane>
+              
+        </bs-tab-content>
+      </div>
+  </bs-tab-container>
 </div>
 </div>
 
 
+<style>
+  .user-tabs .nav-tabs>li:nth-child(4){
+    float: left !important;
+  }
+</style>
