@@ -14,7 +14,7 @@
           <bs-nav bs-style="tabs">
             <bs-nav-item event-key="summary">Summary</bs-nav-item>
             [[#if (ask "ASK {  { ?artwork <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ??.}union{?artwork fr:Work_depicted_by_Photo ?photo. ?photo fr:Photo_produced_using_Technique|crm:P45_consists_of ??} ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>. }") ]] 
-            <bs-nav-item event-key="artworks"><div style="display:flex;">Artworks
+            <bs-nav-item event-key="artworks"><div style="display:flex;">Related entities
               (
                 <semantic-query query='
                  SELECT (COUNT(DISTINCT ?artwork) AS ?count) WHERE{
