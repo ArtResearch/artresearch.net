@@ -10,7 +10,7 @@
             <mp-overlay-dialog-content>
               <h1>Are you sure you would like to delete this annotation?</h1>
               <mp-ldp-remove-from-container-action 
-                  container="http://www.researchspace.org/resource/system/fileContainer"
+                  container="http://www.researchspace.org/resource/system/formContainer"
                  iri='??'
                   post-action='reload'>
                     <button class="btn btn-danger pull-right" title="Delete annotation" 
@@ -24,42 +24,46 @@
    
   </mp-selection-action-choice> -->
 
-  
   <div class="row">
       <div class="col-sm-7">
         <header>
-          <h1>My Annotations</h1>
+          <h1> All platform Photo Annotations</h1>
         </header>
       </div>
     </div>
+  
   <semantic-table id='resources-results'
                 number-of-displayed-rows=10
-                query='SELECT ?document ?documentTitle ?field ?subject ?username ?time  WHERE{
-                        ?document rdf:type rs:Semantic_Narrative.
-                        ?document rdfs:label ?documentTitle.
-                        ?document prov:wasAttributedTo ?username.
-                        ?document prov:generatedAtTime ?time.
-                        ?document <http://www.researchspace.org/ontology/targetsField> ?field.
-                        ?document <http://www.researchspace.org/ontology/targetsRecord> ?subject.
-                        BIND(?__useruri__ as ?username)
-                      }'
-                no-result-template='<h1 style="color:#d13239 ">You do not have Annotations</h1>'
-                column-configuration='[
-                              {"variableName":"Document","displayName":"Document", "cellTemplate": "{{> Annotation}}"},
-                              {"variableName":"Subject","displayName":"Subject", "cellTemplate": "{{> Subject}}"},
-                              {"variableName":"Field","displayName":"Field", "cellTemplate": "{{> Field}}"},
+                query='SELECT ?g ?document ?documentTitle ?image  ?username ?time  WHERE{
+                  GRAPH ?g {
+                      Platform:formContainer <http://www.w3.org/ns/ldp#contains> ?y.
+                      ?document prov:generatedAtTime ?time.
+                      ?document prov:wasAttributedTo ?username.
+                      ?document rdf:type <http://www.w3.org/ns/ldp#Resource>.
+                      ?l rso:displayLabel ?documentTitle.
+                      ?l crmdig:L49_is_primary_area_of ?image.
+                    }
+                    BIND(?__useruri__ as ?username)
+                    
+                  }'
+                    no-result-template='<h1 style="color:#d13239 ">You do not have Photo Annotations</h1>'
+                  column-configuration='[
+                              {"variableName":"document","displayName":"document", "cellTemplate": "</semantic-link uri=\"{{g.value}}\">{{document.value}}</semantic-link>"},
+                              {"variableName":"documentTitle","displayName":"documentTitle", "cellTemplate": "{{documentTitle.value}}"},
+                              {"variableName":"image","displayName":"image", "cellTemplate": "{{image.value}}"},
                               {"variableName":"ModificationDate","displayName":"Modified", "cellTemplate": "{{dateTimeFormat time.value \"LLL\"}}" },
-                              {"variableName":"attribution","displayName":"Attribution", "cellTemplate": "<mp-label iri=\"{{username.value}}\"></mp-label>" },
+                              {"variableName":"attribution","displayName":"Attribution", "cellTemplate": "<semantic-link iri=\"{{username.value}}\">{{username.value}}</semantic-link>" },
                               {"displayName":"Actions", "cellTemplate": "{{> actions}}"}
                           ]'
+                
 >
 <template id='Subject'>
   <span>{{log "here" this}}
     <semantic-context repository='assets'>
       {{#if label}}
-        <semantic-link style='max-width: 70px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;' uri='{{subject.value}}' title='{{label.value}}'>{{label.value}}</semantic-link>
+        <semantic-link style='max-width: 70px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;' uri='{{image.value}}' title='{{image.value}}'>{{image.value}}</semantic-link>
       {{else}}
-        <semantic-link style='max-width: 70px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;' uri='{{subject.value}}'></semantic-link>
+        <semantic-link style='max-width: 70px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;' uri='{{image.value}}'></semantic-link>
       {{/if}}
     </semantic-context>
   </span>
@@ -96,17 +100,14 @@
 </template>
 <template id='actions'>
   <div style="display: flex;">
-     <semantic-link
-                        iri="http://www.researchspace.org/resource/Field"
-                        urlqueryparam-tab="annotations"
-                        urlqueryparam-field="{{field.value}}"
-                        urlqueryparam-subject="{{subject.value}}"
+     <semantic-link"
+                        iri="{{document.value}}"
                       >
                       <button class='btn btn-default btn-xs pull-right' title='View Annotation' style='margin-right: 15px; '>
                          <i class='fa fa-folder-open'></i> View 
                       </button>          
       </semantic-link>
-    <mp-ldp-duplicate-resource-action iri="{{document.value}}" container="http://www.researchspace.org/resource/system/fileContainer">
+    <mp-ldp-duplicate-resource-action iri="{{document.value}}" container="http://www.researchspace.org/resource/system/formContainer">
       <button class='btn btn-default btn-xs pull-right' title='Duplicate Annotation' style='margin-right: 15px; '><i class="fa fa-files-o btn-icon-left" aria-hidden=true></i> Duplicate</button>
     </mp-ldp-duplicate-resource-action>
 
@@ -116,27 +117,16 @@
       </button>
     </mp-ldp-export-resource>
 
-    <mp-overlay-dialog title="Delete annotation" >
-            <mp-overlay-dialog-trigger
-              >
+            <mp-ldp-remove-from-container-action
+             container="Platform:formContainer"
+                  iri="{{document.value}}" 
+                  post-action='reload'>
                <button class='btn btn-default btn-xs pull-right' title='Delete Annotation' style='margin-right: 15px; '>
                 <i class='fa fa-trash'></i>Delete
               </button>
-            </mp-overlay-dialog-trigger>
-            <mp-overlay-dialog-content>
-              <h1>Are you sure you would like to delete this annotation?</h1>
-              <mp-ldp-remove-from-container-action 
-                  container="http://www.researchspace.org/resource/system/fileContainer"
-                  iri="{{document.value}}" 
-                  post-action='reload'>
-                    <button class="btn btn-danger pull-right" title="Delete annotation" 
-                        style="margin-left: 35px;font-size: 22px;">
-                        <i class="fa fa-trash"></i> Yes delete
-                      </button>
-              </mp-ldp-remove-from-container-action>
-            </mp-overlay-dialog-content>
-          </mp-overlay-dialog>
+            </mp-ldp-remove-from-container-action>
+          
+
   </div>
 </template>
 </semantic-table>
- 
