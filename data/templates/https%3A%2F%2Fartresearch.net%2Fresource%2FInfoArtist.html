@@ -69,27 +69,20 @@
 
      <div class="PersonBioCard">
           <semantic-query
-              
-             query='
-                SELECT ?value ?provider ?providerLabel WHERE {
-                  graph ?graph{
+                query='
+                SELECT ?value WHERE {
                      <[[this]]> <https://artresearch.net/resource/fr/Person_has_Description> ?value.
-                  }
-                  ?graph <https://artresearch.net/custom/has_provider> ?provider .
-                  ?provider rdfs:label ?providerLabel.
                 }'
                 no-result-template='<div></div>'
-                template="{{> Bio}}"
-                >
+                template="{{> Bio}}">
                   <template id="Bio">
                     <div class= "bioTemplate " >
-                     
                       <div class="BioText">
                         <h2 class=" fa fa-quote-left">{{bindings.0.value.value}}</h2>
                       </div>
                     </div>
                   </template>
-           </semantic-query>
+          </semantic-query>
       </div>
    <mp-field-visualization
           subject="[[this]]"
