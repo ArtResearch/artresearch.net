@@ -1,4 +1,4 @@
-  {{#ifCond field.label.0.value "===" "Description"}}
+    {{#ifCond field.label.0.value "===" "Description"}}
   <mp-text-truncate lines="3" expand='<span style="color: gray;">...<a>read more</a></span>' collapse='<span style="color: gray;">(<a>show less</a>)</span>'>
     {{value.value.value}}
   </mp-text-truncate>
@@ -36,7 +36,8 @@
     {{dateTimeFormat value.value.value "YYYY"}}
   </div>
   {{else}}
-  
+
+
 
   {{#ifCond field.xsdDatatype.value "=="  "http://www.w3.org/2001/XMLSchema#string"}}
     {{value.value.value}}
