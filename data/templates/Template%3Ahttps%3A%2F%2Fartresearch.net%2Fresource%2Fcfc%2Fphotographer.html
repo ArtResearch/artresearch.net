@@ -13,7 +13,7 @@
       <div>
         <bs-nav bs-style="tabs">
           <bs-nav-item event-key="summary">Summary</bs-nav-item>
-          [[#if (ask "ASK {    ?photograph fr:Photo_created_by_Photographer ?? }") ]] 
+          [[#if (ask "ASK { ?photograph fr:Photo_created_by_Photographer ?? }") ]] 
           <bs-nav-item event-key="photographs"><div style="display:flex;">Photographs(
             <semantic-query query='
              SELECT (COUNT(DISTINCT ?photograph) AS ?count) WHERE{
@@ -34,7 +34,7 @@
         </bs-tab-content>
       </div>
     </bs-tab-container>
-    [[/ClipboardSidebar]]
+    [[/:ClipboardSidebar]]
 </div>
 
 <style>
