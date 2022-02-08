@@ -13,15 +13,16 @@
       <div>
         <bs-nav bs-style="tabs">
           <bs-nav-item event-key="summary">Summary</bs-nav-item>
-          [[#if (ask "ASK { ?photograph fr:Photo_created_by_Photographer ?? }") ]] 
-          <bs-nav-item event-key="photographs"><div style="display:flex;">Photographs(
-            <semantic-query query='
-             SELECT (COUNT(DISTINCT ?photograph) AS ?count) WHERE{
-              ?photograph fr:Photo_created_by_Photographer ??
-             }
-           '></semantic-query>)</div>
+          <bs-nav-item event-key="photographs">
+             [[#if (ask "ASK { ?photograph fr:Photo_created_by_Photographer ?? }") ]] <div style="display:flex;">Photographs(
+                  <semantic-query query='
+                  SELECT (COUNT(DISTINCT ?photograph) AS ?count) WHERE{
+                    ?photograph fr:Photo_created_by_Photographer ??
+                  }
+                '></semantic-query>)
+                </div>
+            [[/if]]
           </bs-nav-item>
-          [[/if]]
         </bs-nav>
 
         <bs-tab-content unmount-on-exit=true>
