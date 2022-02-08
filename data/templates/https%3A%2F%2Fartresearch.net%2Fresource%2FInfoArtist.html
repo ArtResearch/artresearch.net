@@ -38,16 +38,34 @@
       </template>
     </semantic-query>
 
-    <h2 class="fc-label" >
-      <a style="margin-left: 5px" href="[[this]]" target="_null">
-        <div class="fc-label original-linkDNB">
-          <div class="linkImageWrapper">
-            <img class="sourceIconDNB" src="../../assets/images/getty.ico"/>
-            <h2 class="text">View GETTY record</h2>
+
+    [[#if (ask "ASK { FILTER CONTAINS(STR(??),'ulan') }")]]
+      <h2 class="fc-label" >
+        <a style="margin-left: 5px" href="[[this]]" target="_null">
+          <div class="fc-label original-linkDNB">
+            <div class="linkImageWrapper">
+              <img class="sourceIconDNB" src="../../assets/images/getty.ico"/>
+              <h2 class="text">View GETTY record</h2>
+            </div>
           </div>
-        </div>
-      </a>
-    </h2>
+        </a>
+      </h2>
+    [[/if]]
+
+    
+    [[#if (ask "ASK { FILTER CONTAINS(STR(??),'wikidata') }")]]
+        <h2 class="fc-label" >
+          <a style="margin-left: 5px" href="[[this]]" target="_null">
+            <div class="fc-label original-linkDNB">
+              <div class="linkImageWrapper">
+                <img class="sourceIconDNB" src="../../assets/images/wikidata.ico"/>
+                <h2 class="text">View Wikidata record</h2>
+              </div>
+            </div>
+          </a>
+        </h2>
+    [[/if]]
+
   </div>
 </div>
 <div id="printableInfo"  class="workAndProductionInfo">
@@ -67,7 +85,7 @@
         </mp-field-visualization>
 <div class="WrapperBioRelations">
 
-     <div class="PersonBioCard">
+    <div class="PersonBioCard">
           <semantic-query
                 query='
                 SELECT ?value WHERE {
@@ -83,7 +101,7 @@
                     </div>
                   </template>
           </semantic-query>
-      </div>
+    </div>
    <mp-field-visualization
           subject="[[this]]"
           additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
@@ -96,11 +114,9 @@
             [[> ResourceFieldBasedVisualization subject=[[this]] showSourceIcon="true" ]]
           </div>
         </template>
-        </mp-field-visualization>
+    </mp-field-visualization>
 
-     
-        
-  </div>
+</div>
 <style>
     body {
     line-height: 0 !important;

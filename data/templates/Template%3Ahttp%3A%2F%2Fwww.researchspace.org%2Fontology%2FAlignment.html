@@ -36,11 +36,20 @@
         alignment-container='[[this]]'
         info-template='{{> template}}'
         queries='{
-          "rootsQuery": " SELECT DISTINCT ?item ?label ?hasChildren ?iri FROM <alignment:__graph__> where {
+          "rootsQuery": " SELECT DISTINCT ?item ?label ?hasChildren FROM <alignment:__graph__> where {
                             {
                               ?item a <http://vocab.getty.edu/ontology#Facet>.
                               ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
-                              FILTER ( lang(?label) = \"en\" ). 
+                              {
+                                ?item skos:prefLabel ?label.
+                                FILTER ( lang(?label) = \"en\" ). 
+                              } UNION {
+                                ?item skos:prefLabel ?label.
+                                FILTER NOT EXISTS {
+                                    ?item skos:prefLabel ?c.
+                                  FILTER ( lang(?c) = \"en\" ). 
+                                }
+                              }
                               BIND(true AS ?hasChildren)
                             } UNION {
                               ?item a cfc:material.
@@ -51,7 +60,16 @@
           "childrenQuery": "  SELECT distinct ?item ?label ?hasChildren FROM <alignment:__graph__> WHERE {
                                 ?item <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
                                 ?item <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
-                                FILTER ( lang(?label) = \"en\" ). 
+                                {
+                                  ?item skos:prefLabel ?label.
+                                  FILTER ( lang(?label) = \"en\" ). 
+                                } UNION {
+                                  ?item skos:prefLabel ?label.
+                                  FILTER NOT EXISTS {
+                                      ?item skos:prefLabel ?c.
+                                    FILTER ( lang(?c) = \"en\" ). 
+                                  }
+                                }
                                 BIND(bound(?item) as ?hasChildren)
                               } order by ?label",
           "parentsQuery": " PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
@@ -61,7 +79,16 @@
                             SELECT DISTINCT ?item ?parent ?parentLabel FROM <alignment:__graph__> WHERE {
                               ?item <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
                               ?parent <http://www.w3.org/2004/02/skos/core#prefLabel> ?parentLabel.
-                              FILTER ( lang(?parentLabel) = \"en\" ). 
+                                {
+                                  ?parent skos:prefLabel ?parentLabel.
+                                  FILTER ( lang(?parentLabel) = \"en\" ). 
+                                } UNION {
+                                  ?parent skos:prefLabel ?parentLabel.
+                                  FILTER NOT EXISTS {
+                                      ?parent skos:prefLabel ?c.
+                                    FILTER ( lang(?c) = \"en\" ). 
+                                  }
+                                }
                             } ORDER BY ?parentLabel ",
           "searchQuery": "PREFIX bds: <http://www.bigdata.com/rdf/search#>
                           PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
@@ -72,7 +99,6 @@
                             {
                               ?item a ?type .
                               ?item skos:prefLabel ?label .
-                              FILTER(langMatches(lang(?label), \"en\") || lang(?label) = \"\") .
                               FILTER(?type IN (skos:Concept, <http://vocab.getty.edu/ontology#Facet>, <http://vocab.getty.edu/ontology#Facet> ) )
                             } UNION {
                               ?item a cfc:material.
@@ -84,7 +110,8 @@
                             bds:maxRank \"500\" ;
                             bds:matchAllTerms \"true\"  .
                             OPTIONAL {
-                              { ?child <http://vocab.getty.edu/ontology#broaderPreferred>  ?item. }
+                              ?child (<http://vocab.getty.edu/ontology#broaderPreferred>)*  ?item.
+                              ?item a <http://vocab.getty.edu/ontology#Facet>.
                             }
                             BIND(BOUND(?child) AS ?hasChildren)
                           } ORDER BY DESC(?score) ?label  ",
@@ -156,6 +183,7 @@
                               SERVICE <http://213.171.209.34:10085/blazegraph/sparql>  {
                                 ?item <http://www.geonames.org/ontology#parentFeature> ?parent.
                                 ?parent <http://www.geonames.org/ontology#name> ?parentLabel.
+                                FILTER(STR(?parent)!=\"https://sws.geonames.org/6295630/\")
                               }
                             } ORDER BY ?parentLabel ",
           "searchQuery": "PREFIX bds: <http://www.bigdata.com/rdf/search#>
@@ -196,7 +224,6 @@
                         SELECT DISTINCT ?item (SAMPLE(?label) as ?label) (SAMPLE(?hasChildren) as ?hasChildren) (COUNT(?subClass) AS ?totalSubClasses) FROM <alignment:__graph__> WHERE {
                           OPTIONAL {
                             ?item skos:prefLabel ?labelX .
-                            FILTER(langMatches(lang(?labelX), \"en\") || LANG(?labelX) = \"\")
                           }
                           OPTIONAL {
                               ?child skos:broader ?item .
