@@ -1,4 +1,4 @@
-   set-items-query='PREFIX ldp: <http://www.w3.org/ns/ldp#>
+set-items-query='PREFIX ldp: <http://www.w3.org/ns/ldp#>
       PREFIX prov: <http://www.w3.org/ns/prov#>
       PREFIX platform: <http://www.researchspace.org/resource/system/>
       PREFIX bds: <http://www.bigdata.com/rdf/search#>
@@ -80,23 +80,23 @@
 		item-config='{
       "<http://www.researchspace.org/resource/system/Set>": {
         "isSet": true,
-        "listTemplate": "{{> SetView}}",
-        "gridTemplate": "{{> SetView}}"
+        "listTemplate": "{{> rsp:SetView}}",
+        "gridTemplate": "{{> rsp:SetView}}"
       },
       "<http://ontodia.org/schema/v1#Diagram>": {
         "isSet": true,
-        "listTemplate": "{{> ClipboardKnowledgeMapView}}",
-        "gridTemplate": "{{> ClipboardKnowledgeMapView}}"
+        "listTemplate": "{{> rsp:ClipboardKnowledgeMapView}}",
+        "gridTemplate": "{{> rsp:ClipboardKnowledgeMapView}}"
       },
       "<http://ontodia.org/schema/v1#Element>": {
         "isSet": false,
-        "listTemplate": "{{> SetListView}}",
-        "gridTemplate": "{{> SetGridView}}"
+        "listTemplate": "{{> rsp:SetListView}}",
+        "gridTemplate": "{{> rsp:SetGridView}}"
       },
       "<http://www.researchspace.org/resource/system/SetItem>": {
         "isSet": false,
-        "listTemplate": "{{> SetListView isSetItem=true}}",
-        "gridTemplate": "{{> SetGridView isSetItem=true [[#if check]]check=[[check]][[/if]]}}"
+        "listTemplate": "{{> rsp:SetListView isSetItem=true}}",
+        "gridTemplate": "{{> rsp:SetGridView isSetItem=true [[#if check]]check=[[check]][[/if]]}}"
       }
     }'
   filters='[{
