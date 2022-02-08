@@ -3,7 +3,26 @@
     <mp-draggable iri="[[this]]">
       <h2 data-flex-layout="row center-left">
         <span class="page__header-gripper"></span>
-         <mp-label iri="[[this]]" class='page__header-gripper-label'></mp-label>
+        [[#if (ask "ASK { ?? skos:prefLabel ?label.}")]]
+          <semantic-query query='SELECT ?prefLabel WHERE{
+              {
+                ?? skos:prefLabel ?prefLabel.
+                FILTER ( lang(?prefLabel) = "en" ). 
+              } UNION {
+                ?? skos:prefLabel ?prefLabel.
+                FILTER NOT EXISTS {
+                    ?? skos:prefLabel ?c.
+                  FILTER ( lang(?c) = "en" ). 
+                }
+              }
+            }' template="{{>labelTemplate}}">
+            <template id="labelTemplate">
+              {{bindings.0.prefLabel.value}}
+            </template>
+          </semantic-query>
+        [[else]]
+        <mp-label iri="[[this]]" class='page__header-gripper-label'></mp-label>
+        [[/if]]
       </h2>
     </mp-draggable>
   </div>
