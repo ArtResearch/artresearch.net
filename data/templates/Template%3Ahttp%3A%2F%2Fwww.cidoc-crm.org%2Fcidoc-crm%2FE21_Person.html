@@ -14,23 +14,30 @@
         <bs-nav bs-style="tabs">
           <bs-nav-item event-key="summary">Summary</bs-nav-item>
           [[#if (ask "ASK {?work fr:Work_created_from_Artist ?? }") ]] 
-          <bs-nav-item event-key="artworks"><div style="display:flex;">Artworks
-            (
-              <semantic-query query='
-               SELECT (COUNT(DISTINCT ?artwork) AS ?count) WHERE{
-                ?? fr:Artist_created_Work ?artwork.
-              }
-             '></semantic-query>)
-            </div>
+          <bs-nav-item event-key="artworks">
+            [[#if (ask "ASK {?work fr:Work_created_from_Artist ?? }") ]] 
+                <div style="display:flex;">Artworks
+                (
+                  <semantic-query query='
+                  SELECT (COUNT(DISTINCT ?artwork) AS ?count) WHERE{
+                    ?? fr:Artist_created_Work ?artwork.
+                  }
+                '></semantic-query>)
+                </div>
+            [[/if]]
            </bs-nav-item>
            [[/if]]
           [[#if (ask "ASK { ?photograph fr:Photo_created_by_Photographer ?? }") ]] 
-           <bs-nav-item event-key="photographs"><div style="display:flex;">Photographs(
-            <semantic-query query='
-             SELECT (COUNT(DISTINCT ?photograph) AS ?count) WHERE{
-              ?photograph fr:Photo_created_by_Photographer ??
-             }
-           '></semantic-query>)</div>
+           <bs-nav-item event-key="photographs">
+            [[#if (ask "ASK { ?photograph fr:Photo_created_by_Photographer ?? }") ]]  
+                <div style="display:flex;">Photographs(
+                  <semantic-query query='
+                  SELECT (COUNT(DISTINCT ?photograph) AS ?count) WHERE{
+                    ?photograph fr:Photo_created_by_Photographer ??
+                  }
+                '></semantic-query>)
+              </div>
+            [[/if]]
           </bs-nav-item>
           [[/if]]
         </bs-nav>

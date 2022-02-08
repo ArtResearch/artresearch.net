@@ -14,8 +14,9 @@
       <div>
         <bs-nav bs-style="tabs">
           <bs-nav-item event-key="summary">Summary</bs-nav-item>
-          [[#if (ask "ASK {?work fr:Work_created_from_Artist ?? }") ]] 
-          <bs-nav-item event-key="artworks"><div style="display:flex;">Artworks
+          <bs-nav-item event-key="artworks">
+              [[#if (ask "ASK {?work fr:Work_created_from_Artist ?? }") ]] 
+              <div style="display:flex;">Artworks
             (
               <semantic-query query='
                SELECT (COUNT(DISTINCT ?artwork) AS ?count) WHERE{
@@ -24,8 +25,8 @@
                }
              '></semantic-query>)
             </div>
+            [[/if]]
            </bs-nav-item>
-           [[/if]]
         </bs-nav>
 
         <bs-tab-content unmount-on-exit=true>
