@@ -24,6 +24,15 @@
             </div>
            </bs-nav-item>
            [[/if]]
+          [[#if (ask "ASK { ?photograph fr:Photo_created_by_Photographer ?? }") ]] 
+           <bs-nav-item event-key="photographs"><div style="display:flex;">Photographs(
+            <semantic-query query='
+             SELECT (COUNT(DISTINCT ?photograph) AS ?count) WHERE{
+              ?photograph fr:Photo_created_by_Photographer ??
+             }
+           '></semantic-query>)</div>
+          </bs-nav-item>
+          [[/if]]
         </bs-nav>
 
         <bs-tab-content unmount-on-exit=true>
@@ -34,10 +43,13 @@
           <bs-tab-pane event-key="artworks">
             [[> TabSearchArtworkArtist type="https://artresearch.net/resource/type/pharos"]]
           </bs-tab-pane>
+           <bs-tab-pane event-key="photographs">
+            [[> TabSearchPhotograph]]
+          </bs-tab-pane>
         </bs-tab-content>
       </div>
     </bs-tab-container>
-    [[/ClipboardSidebar]]
+    [[/:ClipboardSidebar]]
 </div>
 
 <style>
