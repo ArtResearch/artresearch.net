@@ -9,7 +9,27 @@
         <div data-flex-layout="row md-column center-stretch">
           <bs-row class="cardInfoFields">
             <h4>
-              <semantic-link iri="{{subject.value}}"></semantic-link>
+              <semantic-query query='SELECT ?prefLabel WHERE{
+                  {
+                    <{{subject.value}}> skos:prefLabel ?prefLabel.
+                    FILTER ( lang(?prefLabel) = "en" ). 
+                  } UNION {
+                    <{{subject.value}}> skos:prefLabel ?prefLabel.
+                    FILTER NOT EXISTS {
+                        <{{subject.value}}> skos:prefLabel ?c.
+                      FILTER ( lang(?c) = "en" ). 
+                    }
+                  }
+                }LIMIT 1' 
+                template="{{>labelTemplate}}"
+                no-result-template="{{>noPrefLabel}}">
+                <template id="labelTemplate">
+                  {{bindings.0.prefLabel.value}}
+                </template>
+                <template id="noPrefLabel">
+                  <mp-label iri="{{subject.value}}" class='page__header-gripper-label'></mp-label>
+                </template>
+              </semantic-query>
               <div 
               style="
               display: flex; 
