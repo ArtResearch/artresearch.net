@@ -145,6 +145,8 @@
     font-size: 15px !important;
     border: 1px solid #c4c4c4 !important;
     border-radius: 5px !important;
+    text-overflow: ellipsis;
+    overflow-x: clip;
   }
 .MatchPanel--findAlignedButton{
   height: 35px !important;
@@ -1278,6 +1280,14 @@ button.btn.btn-xs.btn-grey {
   height: unset !important;
 }
 
+
+
+
+@media (max-width: 900px) {
+.base-breadcrumb, div.page-breadcrumb, ol.page-breadcrumb {
+  height: var(--breadcrumb-height,53px) !important;
+}
+}
 @media (max-width: 800px) {
   .navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover{
     opacity: 1 !important;
