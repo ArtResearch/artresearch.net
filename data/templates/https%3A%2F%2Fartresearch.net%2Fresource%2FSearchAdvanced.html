@@ -1,41 +1,37 @@
 [[#>:ClipboardSidebar]]
 <div id="filter-search" class="row row-center no-margin">
   <div id="main-containers" class="col-md-10">
-    <!-- Title -->
-    <div class="form-head">
-    <h1>Advanced Search</h1>
+      <div class="form-head">
+        <h1>Advanced Search</h1>
+      </div>
 
-  
-  </div>
+      <div id="simple-search-include"  class="super-tabs advanced">
+          <bs-tab-container
+            id="tab-container"
+            class="page__body-navtabs--borderless"
+            default-active-key='Artworks'
+          >
+            <div>
+              <bs-nav bs-style="tabs">
+                <bs-nav-item event-key="Artworks">Artworks</bs-nav-item>
+                <bs-nav-item event-key="Photographs">Photographs</bs-nav-item>
+                <bs-nav-item event-key="Artists">Artists</bs-nav-item>
+              </bs-nav>
 
-    <div id="simple-search-include"  class="super-tabs advanced">
-
-        <bs-tab-container
-          id="tab-container"
-          class="page__body-navtabs--borderless"
-          default-active-key='Artworks'
-        >
-          <div>
-            <bs-nav bs-style="tabs">
-              <bs-nav-item event-key="Artworks">Artworks</bs-nav-item>
-              <bs-nav-item event-key="Photographs">Photographs</bs-nav-item>
-              <bs-nav-item event-key="Artists">Artists</bs-nav-item>
-            </bs-nav>
-
-            <bs-tab-content unmount-on-exit="true">
-              <bs-tab-pane event-key="Artworks">
-                [[> SearchAdvancedArtwork]]
-              </bs-tab-pane>
-              <bs-tab-pane event-key="Photographs">
-                [[> SearchAdvancedPhotograph]]
-              </bs-tab-pane>
-              <bs-tab-pane event-key="Artists">
-                [[> SearchAdvancedArtist]]
-              </bs-tab-pane>
-            </bs-tab-content>
-          </div>
-        </bs-tab-container>
-    </div>
+              <bs-tab-content unmount-on-exit="true">
+                <bs-tab-pane event-key="Artworks">
+                  [[> SearchAdvancedArtwork]]
+                </bs-tab-pane>
+                <bs-tab-pane event-key="Photographs">
+                  [[> SearchAdvancedPhotograph]]
+                </bs-tab-pane>
+                <bs-tab-pane event-key="Artists">
+                  [[> SearchAdvancedArtist]]
+                </bs-tab-pane>
+              </bs-tab-content>
+            </div>
+          </bs-tab-container>
+      </div>
   </div>
 </div>
 [[/:ClipboardSidebar]]

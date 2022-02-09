@@ -1,14 +1,15 @@
 <semantic-context repository="geonames">
-  <div style="width: 100%; height: 400px;">
-    [[#if (ask "ASK {?? <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat }") ]] 
-      <semantic-map query='
-              SELECT  ?lat ?lng WHERE{
-                  ?? <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat.
-                  ?? <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng.
-              }LIMIT 1'
-      tuple-template='<p></p><b style="color: #6b0000;"><semantic-link iri="[[this]]"></semantic-link></b><p></p><p></p><small> external source: GeoNames </small>'
-      >
-      </semantic-map> 
-      [[/if]]
+    <div style="width: 100%; height: 400px;">
+        [[#if (ask "ASK {?? <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat }") ]] 
+          <semantic-map
+              query='
+                  SELECT  ?lat ?lng WHERE{
+                      ?? <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat.
+                      ?? <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng.
+                  }LIMIT 1'
+              tuple-template='<p></p><b style="color: #6b0000;"><semantic-link iri="[[this]]"></semantic-link></b><p></p><p></p><small> external source: GeoNames </small>'
+            >
+          </semantic-map> 
+        [[/if]]
     </div>
 </semantic-context>

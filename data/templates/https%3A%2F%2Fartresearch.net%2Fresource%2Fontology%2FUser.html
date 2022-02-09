@@ -1,113 +1,106 @@
 <ol class="page-breadcrumb">
-  <li>
-    <mp-link title="Home" url="resource/Start">Home</mp-link>
-  </li>
-  <li class="active">
-    <semantic-query
-          query='SELECT  ?userName {
-            <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/prov#wasAttributedTo> ?__useruri__ .
-            BIND(?__useruri__ as ?userName)
-            }' 
-          template='{{> template}}'>
-        <template id='template'>
-              <semantic-link iri="{{bindings.0.userName.value}}">{{bindings.0.userName.value}}</semantic-link>
-        </template>
-    </semantic-query>
-  </li>
+    <li>
+      <mp-link title="Home" url="resource/Start">Home</mp-link>
+    </li>
+    <li class="active">
+      <semantic-query
+            query='SELECT  ?userName {
+              <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/prov#wasAttributedTo> ?__useruri__ .
+              BIND(?__useruri__ as ?userName)
+              }' 
+            template='{{> template}}'>
+          <template id='template'>
+                <semantic-link iri="{{bindings.0.userName.value}}">{{bindings.0.userName.value}}</semantic-link>
+          </template>
+      </semantic-query>
+    </li>
 </ol>
 
 <div class="page user-page">
   <div class="container-fluid">
-    <bs-row class="row-center">
-        <bs-col xs=11 sm=11 md=10 lg=9 class="user-top-section page__section-container px-0">
-          
-          <mp-overlay-dialog title="Edit - User information" type="modal" bs-size="large">
-            <mp-overlay-dialog-trigger>
-                <button disabled type="button" class="user-btn__edit">
-                  <i class="fa fa-pencil fa-2x"></i>
-                </button>
-            </mp-overlay-dialog-trigger>
-            <mp-overlay-dialog-content>
-                <div style="padding: 0px 30px 15px;">
-                    [[> Default:userInfoForm]]
-                </div>
-            </mp-overlay-dialog-content>
-          </mp-overlay-dialog>
-
-          <bs-row class="user-top-container">
-              <bs-col xs=12 sm=4 lg=3 class="user-top-imgCol">
-                  <div class="user-top-imgContainer">
-                        <span class="rs-icon rs-icon-user_profile">
-                          <span class="path1"></span>
-                          <span class="path2"></span>
-                        </span>
-                        <div class="user-top-img__edit">
-                          <a><i class="fa fa-camera fa-2x"></i></a>
-                        </div>
-                  </div>
-              </bs-col>
-            <bs-col xs=12 sm=8 lg=9 class="user-top-col">
-              <div class="user-name">
-                <semantic-query 
-                      query='SELECT  ?userName {
-                                <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/prov#wasAttributedTo> ?__useruri__ .
-                                BIND(?__useruri__ as ?userName)
-                                }' 
-                      template='{{> template}}'>
-                  <template id='template'>
-                        <semantic-link iri="{{bindings.0.userName.value}}">{{bindings.0.userName.value}}</semantic-link>
-                  </template>
-                </semantic-query>
-             </div>
-            </bs-col>
-          </bs-row>
-        </bs-col>   
-    </bs-row> <!--  close row -->
-    [[#if (hasPermission "api:ldp:*")]]
       <bs-row class="row-center">
-        <bs-col xs=11 sm=11 md=10 lg=9  style='background: white; min-height: 500px;' class="user-main-section px-0">
-            <bs-tab-container id="tab-container" class="user-tabs"
-              default-active-key="profile">
-                <bs-tabs>
-                <bs-tab event-key='All Annotations' title="All Annotations">
-                    [[> AllAnnotations]]
-                </bs-tab>
-                <bs-tab event-key='All Assertions' title="All Assertions">
-                    [[> AllAssertions]]
-                </bs-tab>
-                  </bs-tabs>
-              </bs-tab-container>
-        </bs-col>   
-      </bs-row> 
-    [[else]] 
-      <bs-row class="row-center">
-        <bs-col xs=11 sm=11 md=10 lg=9 style='background: white; min-height: 500px;' class="user-main-section px-0">
-            <bs-tab-container id="tab-container" class="user-tabs"
-            default-active-key="profile">
-              <bs-tabs>
-                <bs-tab event-key='My Annotations' title="My Annotations">
-                  <div class="user-tab-section page__section-container">
-                    [[> MyAnnotationsDashboard]]
+          <bs-col xs=11 sm=11 md=10 lg=9 class="user-top-section page__section-container px-0">      
+            <mp-overlay-dialog title="Edit - User information" type="modal" bs-size="large">
+              <mp-overlay-dialog-trigger>
+                  <button disabled type="button" class="user-btn__edit">
+                    <i class="fa fa-pencil fa-2x"></i>
+                  </button>
+              </mp-overlay-dialog-trigger>
+              <mp-overlay-dialog-content>
+                  <div style="padding: 0px 30px 15px;">
+                      [[> Default:userInfoForm]]
                   </div>
-                </bs-tab>
-                <bs-tab event-key='My Asssertions' title="My Assertions">
-                  <div class="user-tab-section page__section-container">
-                    [[> MyAssertionsDashboard]]
+              </mp-overlay-dialog-content>
+            </mp-overlay-dialog>
+            <bs-row class="user-top-container">
+                <bs-col xs=12 sm=4 lg=3 class="user-top-imgCol">
+                    <div class="user-top-imgContainer">
+                          <span class="rs-icon rs-icon-user_profile">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                          </span>
+                          <div class="user-top-img__edit">
+                            <a><i class="fa fa-camera fa-2x"></i></a>
+                          </div>
+                    </div>
+                </bs-col>
+                <bs-col xs=12 sm=8 lg=9 class="user-top-col">
+                  <div class="user-name">
+                    <semantic-query 
+                          query='SELECT  ?userName {
+                                    <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/prov#wasAttributedTo> ?__useruri__ .
+                                    BIND(?__useruri__ as ?userName)
+                                    }' 
+                          template='{{> template}}'>
+                      <template id='template'>
+                            <semantic-link iri="{{bindings.0.userName.value}}">{{bindings.0.userName.value}}</semantic-link>
+                      </template>
+                    </semantic-query>
                   </div>
-                </bs-tab>
-                <bs-tab event-key='My photo Annotations' title="My photo Annotations">
-                  <div class="user-tab-section page__section-container">
-                    [[> photoAnnotations]]
-                  </div>
-                </bs-tab>
-                
-              </bs-tabs>
-            </bs-tab-container>
-          
+                </bs-col>
+            </bs-row>
           </bs-col>   
       </bs-row> <!--  close row -->
-    [[/if]] 
+      [[#if (hasPermission "api:ldp:*")]]
+        <bs-row class="row-center">
+          <bs-col xs=11 sm=11 md=10 lg=9  style='background: white; min-height: 500px;' class="user-main-section px-0">
+              <bs-tab-container id="tab-container" class="user-tabs" default-active-key="profile">
+                  <bs-tabs>
+                    <bs-tab event-key='All Annotations' title="All Annotations">
+                        [[> AllAnnotations]]
+                    </bs-tab>
+                    <bs-tab event-key='All Assertions' title="All Assertions">
+                        [[> AllAssertions]]
+                    </bs-tab>
+                  </bs-tabs>
+              </bs-tab-container>
+          </bs-col>   
+        </bs-row> 
+      [[else]] 
+        <bs-row class="row-center">
+          <bs-col xs=11 sm=11 md=10 lg=9 style='background: white; min-height: 500px;' class="user-main-section px-0">
+              <bs-tab-container id="tab-container" class="user-tabs" default-active-key="profile">
+                <bs-tabs>
+                  <bs-tab event-key='My Annotations' title="My Annotations">
+                    <div class="user-tab-section page__section-container">
+                      [[> MyAnnotationsDashboard]]
+                    </div>
+                  </bs-tab>
+                  <bs-tab event-key='My Asssertions' title="My Assertions">
+                    <div class="user-tab-section page__section-container">
+                      [[> MyAssertionsDashboard]]
+                    </div>
+                  </bs-tab>
+                  <bs-tab event-key='My photo Annotations' title="My photo Annotations">
+                    <div class="user-tab-section page__section-container">
+                      [[> photoAnnotations]]
+                    </div>
+                  </bs-tab>
+                </bs-tabs>
+              </bs-tab-container>
+          </bs-col>   
+        </bs-row> <!--  close row -->
+      [[/if]] 
   </div>
-
 </div>
 

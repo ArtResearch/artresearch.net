@@ -16,24 +16,21 @@
               BIND(?subject as ?iri) .
            }
            ORDER BY ?subject
-           LIMIT 1000
-           "
+           LIMIT 1000"
       tuple-template="{{> timelineItem}}"
       tuple-template-height="50"
     >
       <template id="timelineItem">
         <mp-popover>
           <mp-popover-trigger
-            placement="top"
-            trigger='["hover"]'
-            root-close="false"
-          >
-            <div data-flex-layout="column top-left">
-              <p>{{start.value}} - {{end.value}}</p>
-              <semantic-link
-                iri="{{iri.value}}"
-              ></semantic-link>
-            </div>
+              placement="top"
+              trigger='["hover"]'
+              root-close="false"
+            >
+              <div data-flex-layout="column top-left">
+                <p>{{start.value}} - {{end.value}}</p>
+                <semantic-link iri="{{iri.value}}"></semantic-link>
+              </div>
           </mp-popover-trigger>
           <mp-popover-content>[[> itemCardTemplate]]</mp-popover-content>
         </mp-popover>

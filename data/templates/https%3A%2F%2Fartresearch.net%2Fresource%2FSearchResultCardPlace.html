@@ -1,8 +1,6 @@
 <semantic-table
 id="grid-result"
-options='{
-      "showFilter":false
-    }'
+options='{"showFilter":false}'
 number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
 query='
 SELECT DISTINCT ?subject (SAMPLE(?placeName) AS ?placeName)
@@ -15,8 +13,7 @@ WHERE {
 } GROUP BY (?subject) LIMIT 1000'
 tuple-template="{{>tupleTemplate}}"
 >
-
-<template id="tupleTemplate">
-     [[> CardPlace]]
-</template>
+  <template id="tupleTemplate">
+      [[> CardPlace]]
+  </template>
 </semantic-table>
