@@ -1,8 +1,6 @@
 <semantic-table
   id="grid-result-institution"
-  options='{
-              "showFilter":false
-            }'
+  options='{"showFilter":false}'
   number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
   query='
     SELECT DISTINCT ?subject (SAMPLE(?placeLabel) as ?placeLabel)
@@ -12,9 +10,9 @@
         {{/ifCond}}
         ?subject a fc:institution.
          OPTIONAL{
-                              ?subject fr:Institution_from_Place ?parent.
-                              ?parent rdfs:label ?placeLabel.        
-                            } 
+                  ?subject fr:Institution_from_Place ?parent.
+                  ?parent rdfs:label ?placeLabel.        
+                } 
         } GROUP BY ?subject ORDER BY DESC (?placeLabel) LIMIT 1000'
   tuple-template="{{>tupleTemplate}}"
 >

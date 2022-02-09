@@ -1,28 +1,27 @@
 <semantic-query
-id="count-artist"
-query="SELECT (COUNT(DISTINCT ?subject) as ?count) WHERE {
-}"
-template="{{>currentResultCount}}"
->
-<template id="currentResultCount">
-  <div>
-  <h2>
-    Found
-    {{#ifCond bindings.0.count.value "==" 1000 }}
-      more than 1000 matches
-    {{else}}
-      {{bindings.0.count.value}} matches 
-    {{/ifCond}}
-  </h2>
-  <small>
-    Displaying 
-    {{#ifCond bindings.0.count.value ">=" 1000 }}
-    the first 1000 results
-    {{else}}
-    all results
-    {{/ifCond}}
-  </small>
-  </div>
-</template>
+    id="count-artist"
+    query="SELECT (COUNT(DISTINCT ?subject) as ?count) WHERE {}"
+    template="{{>currentResultCount}}"
+    >
+      <template id="currentResultCount">
+          <div>
+              <h2>
+                Found
+                {{#ifCond bindings.0.count.value "==" 1000 }}
+                  more than 1000 matches
+                {{else}}
+                  {{bindings.0.count.value}} matches 
+                {{/ifCond}}
+              </h2>
+              <small>
+                Displaying 
+                {{#ifCond bindings.0.count.value ">=" 1000 }}
+                the first 1000 results
+                {{else}}
+                all results
+                {{/ifCond}}
+              </small>
+          </div>
+      </template>
 </semantic-query>
 <div class="animated-background-xs"></div>

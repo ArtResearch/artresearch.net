@@ -1,127 +1,123 @@
 
   <semantic-context repository='ephedra'>
-    <semantic-search
-    relations='[[> SearchSimpleRelations]]'
-    search-profile='[[> SearchSimpleProfile]]'
-    >
-    <div class="search-form-container">
-    <bs-panel id="form-panel" header="‎‎"  collapsible="true" default-expanded="true">
-      <mp-event-target-template-render
-      id="event-target-form-query"
-      template="{{> tableEventTargetFormQueryTemplate}}"
-    >  <template id="tableEventTargetFormQueryTemplate"> 
-      <div class="advanced-search-form">
-        <semantic-search-form-query
-          multi=true
-          domain='<http://www.cidoc-crm.org/cidoc-crm/E21_Person>'
-          query-template='[[> SearchAdvancedArtistQuery]]'
-          fields='[[> SearchAdvancedArtistFields]]'
-        >
-        [[> SearchAdvancedArtistInputs]]
-        <semantic-form-hidden-input for="secretInput" default-value='nope'></semantic-form-hidden-input>
-          <button type="button" name="submit" class="btn btn-secondary">
-            Search   <span class="fa fa-search" style="margin-left:5px"></span>
-          </button>
-        </semantic-search-form-query>
-      </div>
-      </template>
-      </mp-event-target-template-render>
-      <div class="form-head" style="margin-top:0 ;">
-        <mp-event-trigger
-        id="reset-form"
-        data='{}'
-        type="Component.TemplateUpdate"
-        targets='["event-target-form-query"]'
-        >
-        <span class="fa fa-repeat clickable"><strong >Reset form</strong></span>
-        </mp-event-trigger>
-        </div>
-    </bs-panel>
-    </div>
-      <div class="row">
-        <bs-col lg="9" md="8" sm="7"
-        class="results-container"
-        >
-          <semantic-search-result-holder>
-            <div>
-            <semantic-search-result>
-              <semantic-query
-                id="view-more"
-                query='SELECT (COUNT(DISTINCT ?subject) as ?count) WHERE {
-                } LIMIT 1'
-                template="{{>currentResultCount}}"
-              >
-                <template id="currentResultCount">
-                  <div>
-                  <h2>
-                      Found
-                      {{#ifCond bindings.0.count.value "==" 1000 }}
-                        more than 1000 relevant results
-                      {{else}}
-                        {{bindings.0.count.value}} relevant results 
-                      {{/ifCond}}
-                  </h2>
-                  <small>
-                    Displaying 
-                    {{#ifCond bindings.0.count.value ">=" 1000 }}
-                    the first 1000 results
-                    {{else}}
-                    all results
-                    {{/ifCond}}
-                  </small>
-                </div>
-                </template>
-              </semantic-query>
-              <div class="animated-background-xs"></div>
-              <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
-              <bs-tabs
-              default-active-key="1"
-              unmount-on-exit="true"
-              id="search-results"
-              animation="false"
-              class="tabs-right"
-            >
-              <bs-tab event-key="1" name="List">
-                <div id='artwork-filter-search-inline'>
-                <semantic-table
-                id="grid-result"
-                query='SELECT DISTINCT ?subject WHERE {
-                }LIMIT 1000'
-                number-of-displayed-rows="10"
-                tuple-template="{{> subjectCellTemplate}}"
-                options='{"showTableHeading": false, "showFilter":false}'
-                no-result-template='[[> CardNoResult ]]'
-              >
-                <template id="subjectCellTemplate">
-                  <semantic-context repository='default'>
-                    [[> CardPerson]]
-                  </semantic-context>
-                </template>
-              </semantic-table>
-              </div>
-            </bs-tab>
-  
-              </bs-tabs>
-            </semantic-search-result>
-            </div>
-          </semantic-search-result-holder>
-        </bs-col>
-      <bs-col
-        lg="3"
-        md="4"
-        sm="5"
-        class="fade-in-fwd filters-container"
-        style="margin-top: 8px"
-        id="artwork-filter-search"
+      <semantic-search
+      relations='[[> SearchSimpleRelations]]'
+      search-profile='[[> SearchSimpleProfile]]'
       >
-      <bs-panel id="filter-panel" header="Filters"  collapsible="true" default-expanded="true">
-        <semantic-search-facet open-by-default='true' sortby='count-desc'></semantic-search-facet>
-      </bs-panel>
-      </bs-col>
-  
+      <div class="search-form-container">
+            <bs-panel id="form-panel" header="‎‎"  collapsible="true" default-expanded="true">
+                <mp-event-target-template-render
+                    id="event-target-form-query"
+                    template="{{> tableEventTargetFormQueryTemplate}}"
+                  >  
+                  <template id="tableEventTargetFormQueryTemplate"> 
+                      <div class="advanced-search-form">
+                          <semantic-search-form-query
+                            multi=true
+                            domain='<http://www.cidoc-crm.org/cidoc-crm/E21_Person>'
+                            query-template='[[> SearchAdvancedArtistQuery]]'
+                            fields='[[> SearchAdvancedArtistFields]]'
+                          >
+                            [[> SearchAdvancedArtistInputs]]
+                            <semantic-form-hidden-input for="secretInput" default-value='nope'></semantic-form-hidden-input>
+                              <button type="button" name="submit" class="btn btn-secondary">
+                                Search   <span class="fa fa-search" style="margin-left:5px"></span>
+                              </button>
+                          </semantic-search-form-query>
+                      </div>
+                  </template>
+                </mp-event-target-template-render>
+                <div class="form-head" style="margin-top:0 ;">
+                  <mp-event-trigger
+                    id="reset-form"
+                    data='{}'
+                    type="Component.TemplateUpdate"
+                    targets='["event-target-form-query"]'
+                    >
+                      <span class="fa fa-repeat clickable"><strong >Reset form</strong></span>
+                  </mp-event-trigger>
+                </div>
+            </bs-panel>
       </div>
-  
-    </semantic-search>
+        <div class="row">
+          <bs-col lg="9" md="8" sm="7" class="results-container">
+            <semantic-search-result-holder>
+              <div>
+                <semantic-search-result>
+                  <semantic-query
+                    id="view-more"
+                    query='SELECT (COUNT(DISTINCT ?subject) as ?count) WHERE {} LIMIT 1'
+                    template="{{>currentResultCount}}"
+                  >
+                    <template id="currentResultCount">
+                        <div>
+                            <h2>
+                                Found
+                                {{#ifCond bindings.0.count.value "==" 1000 }}
+                                  more than 1000 relevant results
+                                {{else}}
+                                  {{bindings.0.count.value}} relevant results 
+                                {{/ifCond}}
+                            </h2>
+                          <small>
+                            Displaying 
+                            {{#ifCond bindings.0.count.value ">=" 1000 }}
+                            the first 1000 results
+                            {{else}}
+                            all results
+                            {{/ifCond}}
+                          </small>
+                        </div>
+                    </template>
+                  </semantic-query>
+                  <div class="animated-background-xs"></div>
+                  <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
+                  <bs-tabs
+                      default-active-key="1"
+                      unmount-on-exit="true"
+                      id="search-results"
+                      animation="false"
+                      class="tabs-right"
+                  >
+                  <bs-tab event-key="1" name="List">
+                    <div id='artwork-filter-search-inline'>
+                      <semantic-table
+                          id="grid-result"
+                          query='SELECT DISTINCT ?subject WHERE {}LIMIT 1000'
+                          number-of-displayed-rows="10"
+                          tuple-template="{{> subjectCellTemplate}}"
+                          options='{"showTableHeading": false, "showFilter":false}'
+                          no-result-template='[[> CardNoResult ]]'
+                      >
+                      <template id="subjectCellTemplate">
+                        <semantic-context repository='default'>
+                          [[> CardPerson]]
+                        </semantic-context>
+                      </template>
+                      </semantic-table>
+                    </div>
+                  </bs-tab>
+                  </bs-tabs>
+                </semantic-search-result>
+              </div>
+            </semantic-search-result-holder>
+          </bs-col>
+          <bs-col
+            lg="3"
+            md="4"
+            sm="5"
+            class="fade-in-fwd filters-container"
+            style="margin-top: 8px"
+            id="artwork-filter-search"
+          >
+              <bs-panel id="filter-panel" header="Filters"  collapsible="true" default-expanded="true">
+                <semantic-search-facet open-by-default='true' sortby='count-desc'></semantic-search-facet>
+              </bs-panel>
+          </bs-col>
+    
+        </div>
+    
+      </semantic-search>
   </semantic-context>
   <style>
     .navbar-default {
