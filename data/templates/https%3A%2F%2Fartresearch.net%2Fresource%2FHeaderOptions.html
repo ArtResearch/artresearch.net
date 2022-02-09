@@ -252,61 +252,47 @@
         </mp-overlay-dialog-content>
    </mp-overlay-dialog>
 
-
-
-
 <!-- end of list of fields -->
 
-
-
       <semantic-query
-        query="SELECT ?websiteLink WHERE { ?? fr:Institution_has_Original_Link ?websiteLink 
-        }LIMIT 10"
+        query="SELECT ?websiteLink WHERE { ?? fr:Institution_has_Original_Link ?websiteLink }LIMIT 10"
         template="{{> websiteLink }}"
       >
         <template id="websiteLink">
           <div>
             <h2 class="fc-label">
               {{#each bindings}}
-              <a
-                style="margin-left: 5px"
-                href="{{websiteLink.value}}"
-                target="_null"
-              >
-                <div class="fc-label original-link">
-                  <div class="text">View website</div>
-                  <div class="sourceIcon fa fa-external-link"></div>
-                </div>
-              </a>
+                  <a style="margin-left: 5px"  href="{{websiteLink.value}}" target="_null">
+                    <div class="fc-label original-link">
+                      <div class="text">View website</div>
+                      <div class="sourceIcon fa fa-external-link"></div>
+                    </div>
+                  </a>
               {{/each}}
             </h2>
           </div>
         </template>
       </semantic-query>
-      
 
-
-   
       <mp-event-target-template-render
-      id="event-target-infowork"
-      template="{{> filterRsbv}}"
-    >
-    <template id="filterRsbv">
-      <div id="filter-dropdown">
-        {{#if selectedTab}} 
-          [[> WorkInfoDropdown dropdownTitle="Source: {{selectedTab}}"]] 
-          {{else}} 
-          [[> WorkInfoDropdown dropdownTitle="Source: All" ]] 
-        {{/if}}
-        
-      </div>
-    </template>
-    </mp-event-target-template-render>
- 
-
+          id="event-target-infowork"
+          template="{{> filterRsbv}}"
+      >
+        <template id="filterRsbv">
+            <div id="filter-dropdown">
+              {{#if selectedTab}} 
+                [[> WorkInfoDropdown dropdownTitle="Source: {{selectedTab}}"]] 
+                {{else}} 
+                [[> WorkInfoDropdown dropdownTitle="Source: All" ]] 
+              {{/if}}
+              
+            </div>
+        </template>
+      </mp-event-target-template-render>
     </div>
   </div>
 </div>
+
 <style>
   body{
     line-height: 0 !important;
