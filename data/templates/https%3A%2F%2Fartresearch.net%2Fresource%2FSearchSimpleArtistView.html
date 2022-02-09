@@ -1,6 +1,7 @@
 <semantic-context repository='ephedra'>
   <semantic-query query='
-  SELECT ?token WHERE{
+  SELECT ?token ?keywords WHERE{
+    BIND("[[urlParam "keyword"]]" as ?keywords)
     BIND(REPLACE("[[urlParam "keyword"]]","(?<!^)(?<!\\s)\\s+(?!\\s+)(?!$)", " AND ") as ?token)
   }
   '
@@ -30,11 +31,6 @@
                   solr:setRowsNumber 1000;
                   solr:hasResults ?subject
       }
-      {{#ifCond withImages "===" "true"}}
-        ?subject fr:Work_depicted_by_Photo ?photograph.
-        ?photograph crm:P129i_is_subject_of ?images.
-        ?images crm:P2_has_type <http://vocab.getty.edu/aat/300078817>.
-      {{/ifCond}}
     }
     '
   query='
@@ -61,20 +57,10 @@
     <bs-col lg="9" md="8" sm="7">
       <semantic-search-result-holder>
         <semantic-search-result>
-          <semantic-query
-          id="view-more"
-          query='SELECT ?keywords WHERE {
-            BIND(REPLACE(str("[[urlParam "keyword"]]"),"\\+"," ") as ?keywords)
-          }'
-          template="{{>currentSearchText}}"
-        >
-          <template id="currentSearchText">
-            <h2>
-              Searched in artists for:
-              <i>{{bindings.0.keywords.value}}</i>
-            </h2>
-          </template>
-        </semantic-query>
+          <h2>
+            Searched in artists for:
+            <i>{{bindings.0.keywords.value}}</i>
+          </h2>
         <semantic-query
           id="view-more"
           query='SELECT (COUNT(DISTINCT ?subject) as ?count) WHERE {
