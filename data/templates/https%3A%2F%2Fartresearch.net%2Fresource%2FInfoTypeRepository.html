@@ -1,75 +1,67 @@
 <semantic-query
   query="
-  SELECT ?placeLabel ?institution WHERE { 
-                  
-    ?? <https://artresearch.net/resource/fr/Work_kept_by_Institution>|crm:P50_has_current_keeper ?institution.
-    {
-       ?institution crm:P74_has_current_or_former_residence|crm:P55_has_current_location ?place.
-       ?place rdfs:label ?placeLabel 
-  
-    }
-    union{
-         ?? crm:P74_has_current_or_former_residence|crm:P55_has_current_location ?place.
-         ?place rdfs:label ?placeLabel
-    }
-    union{
-        ?? crm:P74_has_current_or_former_residence?place.
-         ?place rdfs:label ?placeLabel
-    }
-    
-    union{
-      ?original owl:sameAs ??.
-      ?original crm:P74_has_current_or_former_residence|crm:P55_has_current_location ?place.
-      ?place rdfs:label ?placeLabel
-    }union{
-      ?original owl:sameAs ?institution.
-      ?original crm:P74_has_current_or_former_residence ?place.
-      ?place rdfs:label ?placeLabel
-    }union{
-       ?original owl:sameAs ??.
-       ?original <https://artresearch.net/resource/fr/Work_kept_by_Institution>|crm:P50_has_current_keeper ?institution.
-       ?place rdfs:label ?placeLabel
-    }
-      
-  }LIMIT 1"
+      SELECT ?placeLabel ?institution WHERE {            
+        ?? <https://artresearch.net/resource/fr/Work_kept_by_Institution>|crm:P50_has_current_keeper ?institution.
+        {
+          ?institution crm:P74_has_current_or_former_residence|crm:P55_has_current_location ?place.
+          ?place rdfs:label ?placeLabel 
+        }union{
+            ?? crm:P74_has_current_or_former_residence|crm:P55_has_current_location ?place.
+            ?place rdfs:label ?placeLabel
+        }union{
+            ?? crm:P74_has_current_or_former_residence?place.
+            ?place rdfs:label ?placeLabel
+        }union{
+          ?original owl:sameAs ??.
+          ?original crm:P74_has_current_or_former_residence|crm:P55_has_current_location ?place.
+          ?place rdfs:label ?placeLabel
+        }union{
+          ?original owl:sameAs ?institution.
+          ?original crm:P74_has_current_or_former_residence ?place.
+          ?place rdfs:label ?placeLabel
+        }union{
+          ?original owl:sameAs ??.
+          ?original <https://artresearch.net/resource/fr/Work_kept_by_Institution>|crm:P50_has_current_keeper ?institution.
+          ?place rdfs:label ?placeLabel
+        }
+      }LIMIT 1"
   no-result-template="{{> noRepoResult}}"
   template="{{> fcLabelTemplate}}"
 >
   <template id="fcLabelTemplate">
-    <div class="repository-location">
-      <mp-label iri="{{bindings.0.institution.value}}"></mp-label>
-      {{#ifCond  placeLabel.value "!==" null}}
-        {{#each bindings}}, 
-          <span>{{placeLabel.value}}</span> 
-        {{/each}}
-      {{/ifCond}}
-    </div>
+      <div class="repository-location">
+        <mp-label iri="{{bindings.0.institution.value}}"></mp-label>
+        {{#ifCond  placeLabel.value "!==" null}}
+          {{#each bindings}}, 
+            <span>{{placeLabel.value}}</span> 
+          {{/each}}
+        {{/ifCond}}
+      </div>
   </template>
   <template id="noRepoResult">
     <div>
-    <semantic-query
-      query="
-    SELECT  ?repo WHERE {
-      ?? fr:Photo_has_provider_Institution ?repo.
-      ?? a cfc:photo.
-    } LIMIT 1"
-      template="{{> fcLabelTemplate_second}}"
-      no-result-template='<div></div>'
-    >
-      <template id="fcLabelTemplate_second">
-        <div>
-        <h4 class="fc-label">
-          {{#each bindings}}
-          <div class="repoLink">
-          <semantic-link iri="{{repo.value}}"></semantic-link>
-          </div>
-          {{/each}}
-        </h4>
-      </div>
-      </template>
-    </semantic-query>
- 
-  </div>
+        <semantic-query
+          query="
+              SELECT  ?repo WHERE {
+                ?? fr:Photo_has_provider_Institution ?repo.
+                ?? a cfc:photo.
+              } LIMIT 1"
+          template="{{> fcLabelTemplate_second}}"
+          no-result-template='<div></div>'
+        >
+          <template id="fcLabelTemplate_second">
+              <div>
+                  <h4 class="fc-label">
+                      {{#each bindings}}
+                          <div class="repoLink">
+                          <semantic-link iri="{{repo.value}}"></semantic-link>
+                          </div>
+                      {{/each}}
+                  </h4>
+              </div>
+          </template>
+        </semantic-query>
+    </div>
   </template>
 </semantic-query>
 

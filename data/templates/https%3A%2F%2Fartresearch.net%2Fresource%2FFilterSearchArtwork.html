@@ -1,128 +1,128 @@
 <semantic-context repository='ephedra'>
   <div id="artwork-filter-search-inline">
-    [[#if provider]]
-    <semantic-search
-      search-profile='{
-          "categories":  
-          [
-            {
-              "iri":"<http://www.cidoc-crm.org/cidoc-crm/E21_Person>",
-              "label":"Painter"
-            },
-            {
-              "iri":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
-              "label":"Creator"
-            },
-            {
-              "iri":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
-              "label":"Artwork"
-            },
-            {
-              "iri":"<http://www.cidoc-crm.org/cidoc-crm/E55_Type>",
-              "label":"Type"
-            }, 
-            {
-              "iri":"<http://www.cidoc-crm.org/cidoc-crm/E57_Material>",
-              "label":"Material"
-            }, 
-            {
-              "iri":"<http://www.cidoc-crm.org/cidoc-crm/E29_Design_or_Procedure>",
-              "label":"Technique"
-            }, 
-            {
-              "iri":"<http://www.cidoc-crm.org/cidoc-crm/E53_Place>",
-              "label":"Location"
-            }
-          ],
-          "relations":
-          [
-            {
-              "iri": "<https://artresearch.net/resource/fr/Work_created_from_Artist>",
-              "label":"Creator",
-              "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
-              "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E21_Person>"
-            },
-            {
-              "iri": "<https://artresearch.net/resource/fr/Work_kept_by_Institution>",
-              "label":"Repository",
-              "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
-              "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>"
-            },
-            {
-              "iri":"<https://artresearch.net/resource/fr/Work_shows_Subject>",
-              "label":"Subject",
-              "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
-              "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E55_Type>"
-            },
-            {
-              "iri":"<https://artresearch.net/resource/fr/Work_consists_of_Material>",
-              "label":"Material",
-              "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
-              "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E57_Material>"
-            },
-            {
-              "iri":"<http://www.cidoc-crm.org/cidoc-crm/P2_has_type>",
-              "label":"Type",
-              "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
-              "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E55_Type>"
-            },
-            {
-              "iri":"<https://artresearch.net/resource/fr/Work_produced_using_technique_Technique>",
-              "label":"Technique",
-              "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
-              "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E29_Design_or_Procedure>"
-            },
-            {
-              "iri":"<https://artresearch.net/resource/fr/Work_from_Place>",
-              "label":"Location",
-              "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
-              "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E53_Place>"
-            }
-          ]
-        }'
-    >
-      <div id="header-search" class="search-page">
-                <semantic-search-query-keyword
-                  domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
-                  placeholder="Search for an artwork by title"
-                  escape-lucene-syntax="false"
-                  default-query='
-                    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-                    PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-                    SELECT DISTINCT ?subject WHERE {
-                      ?subject a fc:work.
-                      ?subject fr:Work_has_provider_Institution <[[provider]]>.
-                    }
-                  '
-                  query='
-                        PREFIX fr: <https://artresearch.net/resource/fr/>
-                        PREFIX fc: <https://artresearch.net/resource/fc/>
-                        PREFIX cfc: <https://artresearch.net/resource/custom/fc/>
-                        PREFIX solr: <http://custom.solr/ontology#>
-                        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-                        PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-                        SELECT DISTINCT ?subject WHERE {
-                          BIND(REPLACE(?__token__,"(?<!^)(?<!\\s)\\s+(?!\\s+)(?!$)", " AND ") as ?token)
-                          SERVICE <http://www.researchspace.org/resource/system/service/custom#solrworks>{
-                              ?solrApi  solr:setQuery ?token;
-                                        solr:setDefType "dismax";
-                                        solr:setFilter "id";
-                                        solr:setRowsNumber 1000;
-                                        solr:hasResults ?subject
+        [[#if provider]]
+          <semantic-search
+            search-profile='{
+                "categories":  
+                [
+                  {
+                    "iri":"<http://www.cidoc-crm.org/cidoc-crm/E21_Person>",
+                    "label":"Painter"
+                  },
+                  {
+                    "iri":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
+                    "label":"Creator"
+                  },
+                  {
+                    "iri":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
+                    "label":"Artwork"
+                  },
+                  {
+                    "iri":"<http://www.cidoc-crm.org/cidoc-crm/E55_Type>",
+                    "label":"Type"
+                  }, 
+                  {
+                    "iri":"<http://www.cidoc-crm.org/cidoc-crm/E57_Material>",
+                    "label":"Material"
+                  }, 
+                  {
+                    "iri":"<http://www.cidoc-crm.org/cidoc-crm/E29_Design_or_Procedure>",
+                    "label":"Technique"
+                  }, 
+                  {
+                    "iri":"<http://www.cidoc-crm.org/cidoc-crm/E53_Place>",
+                    "label":"Location"
+                  }
+                ],
+                "relations":
+                [
+                  {
+                    "iri": "<https://artresearch.net/resource/fr/Work_created_from_Artist>",
+                    "label":"Creator",
+                    "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
+                    "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E21_Person>"
+                  },
+                  {
+                    "iri": "<https://artresearch.net/resource/fr/Work_kept_by_Institution>",
+                    "label":"Repository",
+                    "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
+                    "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>"
+                  },
+                  {
+                    "iri":"<https://artresearch.net/resource/fr/Work_shows_Subject>",
+                    "label":"Subject",
+                    "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
+                    "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E55_Type>"
+                  },
+                  {
+                    "iri":"<https://artresearch.net/resource/fr/Work_consists_of_Material>",
+                    "label":"Material",
+                    "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
+                    "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E57_Material>"
+                  },
+                  {
+                    "iri":"<http://www.cidoc-crm.org/cidoc-crm/P2_has_type>",
+                    "label":"Type",
+                    "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
+                    "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E55_Type>"
+                  },
+                  {
+                    "iri":"<https://artresearch.net/resource/fr/Work_produced_using_technique_Technique>",
+                    "label":"Technique",
+                    "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
+                    "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E29_Design_or_Procedure>"
+                  },
+                  {
+                    "iri":"<https://artresearch.net/resource/fr/Work_from_Place>",
+                    "label":"Location",
+                    "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
+                    "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E53_Place>"
+                  }
+                ]
+              }'
+          >
+              <div id="header-search" class="search-page">
+                        <semantic-search-query-keyword
+                          domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
+                          placeholder="Search for an artwork by title"
+                          escape-lucene-syntax="false"
+                          default-query='
+                            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                            PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+                            SELECT DISTINCT ?subject WHERE {
+                              ?subject a fc:work.
+                              ?subject fr:Work_has_provider_Institution <[[provider]]>.
                             }
-                          ?subject fr:Work_has_provider_Institution <[[provider]]>.
-                        } 
-                      '
-                ></semantic-search-query-keyword>
-      </div>
-
-      [[> FilterSearchArtworkResult]]
-    </semantic-search>
-    [[else]] No provider enter a provider in your :FilterSearchArtwork
-    !!add!!>>>><b> provider="https://some.provider.uri" </b>
-    [[/if]]
+                          '
+                          query='
+                                PREFIX fr: <https://artresearch.net/resource/fr/>
+                                PREFIX fc: <https://artresearch.net/resource/fc/>
+                                PREFIX cfc: <https://artresearch.net/resource/custom/fc/>
+                                PREFIX solr: <http://custom.solr/ontology#>
+                                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                                PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+                                SELECT DISTINCT ?subject WHERE {
+                                  BIND(REPLACE(?__token__,"(?<!^)(?<!\\s)\\s+(?!\\s+)(?!$)", " AND ") as ?token)
+                                  SERVICE <http://www.researchspace.org/resource/system/service/custom#solrworks>{
+                                      ?solrApi  solr:setQuery ?token;
+                                                solr:setDefType "dismax";
+                                                solr:setFilter "id";
+                                                solr:setRowsNumber 1000;
+                                                solr:hasResults ?subject
+                                    }
+                                  ?subject fr:Work_has_provider_Institution <[[provider]]>.
+                                } 
+                              '
+                        ></semantic-search-query-keyword>
+              </div>
+              [[> FilterSearchArtworkResult]]
+          </semantic-search>
+        [[else]] No provider enter a provider in your :FilterSearchArtwork
+        !!add!!>>>><b> provider="https://some.provider.uri" </b>
+        [[/if]]
   </div>
 </semantic-context>
+
 <style>
     .keyword-search-container{
   width: 100% !important;
