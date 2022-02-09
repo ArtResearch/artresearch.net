@@ -1,8 +1,7 @@
 <semantic-context repository='ephedra'>
   <semantic-query query='
-  SELECT ?token ?keywords WHERE{
+  SELECT ?token WHERE{
     BIND(REPLACE("[[urlParam "keyword"]]","(?<!^)(?<!\\s)\\s+(?!\\s+)(?!$)", " AND ") as ?token)
-    BIND(REPLACE(str("[[urlParam "keyword"]]"),"\\+"," ") as ?keywords)
   }
   '
   template="{{>addAndTemplate}}"
@@ -51,10 +50,20 @@ class="hiddenSearchbar"
 <bs-col lg="9" md="8" sm="7">
   <semantic-search-result-holder id="photographer-results-holder">
     <semantic-search-result id="photographer-results">
-      <h2>
-        Searched in photographers for:
-        <i>{{bindings.0.keywords.value}}</i>
-      </h2>
+      <semantic-query
+        id="keyword-display-photographer"
+        query='SELECT ?keywords WHERE {
+          BIND(REPLACE(str("[[urlParam "keyword"]]"),"\\+"," ") as ?keywords)
+        }'
+        template="{{>currentSearchText}}"
+      >
+        <template id="currentSearchText">
+          <h2>
+            Searched in photographers for:
+            <i>{{bindings.0.keywords.value}}</i>
+          </h2>
+        </template>
+      </semantic-query>
       <semantic-query
         id="count-photographer"
         query="SELECT (COUNT( DISTINCT ?subject) as ?count) WHERE {}"

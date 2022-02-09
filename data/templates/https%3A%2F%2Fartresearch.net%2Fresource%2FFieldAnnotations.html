@@ -1,255 +1,256 @@
   <semantic-query
-  query='SELECT ?document ?documentTitle ?user ?time WHERE{
-    ?document rdf:type rs:Semantic_Narrative.
-    ?document rdfs:label ?documentTitle.
-    ?document rs:targetsField <[[urlParam "field"]]>.
-    ?document rs:targetsRecord <[[urlParam "subject"]]>.
-    ?document prov:wasAttributedTo ?user.
-    ?document prov:generatedAtTime ?time.
-
-  }'
-  template="{{>superDocuments}}"
+      query='SELECT ?document ?documentTitle ?user ?time WHERE{
+        ?document rdf:type rs:Semantic_Narrative.
+        ?document rdfs:label ?documentTitle.
+        ?document rs:targetsField <[[urlParam "field"]]>.
+        ?document rs:targetsRecord <[[urlParam "subject"]]>.
+        ?document prov:wasAttributedTo ?user.
+        ?document prov:generatedAtTime ?time.
+      }'
+      template="{{>superDocuments}}"
   >
   <template id="superDocuments">
-    <div class="documents-panel">
-    <bs-panel  header="Documents"  collapsible="true" default-expanded="true">
-      <div>
-        <ol>
-          {{#each bindings}}
-          <li style="display: flex; font-size: 16px; margin-top: 20px; align-items: center;">
-            <mp-event-trigger id='assert-new-value' type='Component.TemplateUpdate' targets='["annotation-editor"]' data='{"document": "{{document.value}}","editMode":"false"}'>
-              <button class='btn btn-default btn-xs pull-right' title='Edit annotation' style='margin-right: 15px; '>
-                <i class='fa fa-folder-open'></i> View
-              </button>
-            </mp-event-trigger>
-            [[#if (hasPermission "api:ldp:container:<http://www.researchspace.org/resource/system/fieldDefinitionContainer>:create:any")]]
-            <mp-event-trigger id='assert-new-value' type='Component.TemplateUpdate' targets='["annotation-editor"]' data='{"document": "{{document.value}}","editMode":"true"}'>
-              <button class='btn btn-default btn-xs pull-right' title='Edit annotation' style='margin-right: 15px; '>
-                <i class='fa fa-pencil'></i> Edit
-              </button>
-            </mp-event-trigger>
-          [[/if]]
-          
-          [[#if (hasPermission "api:ldp:container:<http://www.researchspace.org/resource/system/fieldDefinitionContainer>:delete:any")]]
-          <mp-overlay-dialog title="Delete annotation" >
-            <mp-overlay-dialog-trigger
-              >
-              <button class='btn btn-default btn-xs pull-right' title='Delete annotation' style='margin-right: 15px; '>
-                <i class='fa fa-trash'></i>Delete
-              </button>
-            </mp-overlay-dialog-trigger>
-            <mp-overlay-dialog-content>
-              <h1>Are you sure you would like to delete this annotation?</h1>
-              <mp-ldp-remove-from-container-action 
-              container="http://www.researchspace.org/resource/system/fileContainer"
-              iri="{{document.value}}" 
-            post-action='reload'>
-            <button class="btn btn-danger pull-right" title="Delete annotation" 
-            style="margin-left: 35px;font-size: 22px;"><i class="fa fa-trash"
-              ></i> Yes delete
-              </button>
-              </mp-ldp-remove-from-container-action>
-            </mp-overlay-dialog-content>
-          </mp-overlay-dialog>
-          [[/if]]
-            <p style="margin:0;" class="fa fa-file">
-              Annotation <b>
-                "{{documentTitle.value}}"</b>
-                about field 
-                <b>
-                <semantic-context repository='assets'>
-                  <mp-label iri='[[urlParam "field"]]' class="field-type-title"></mp-label>
-                </semantic-context>
-          </b>
-                by <mp-label iri='{{user.value}}'></mp-label>, {{dateTimeFormat time.value "LLL"}}
-              </p>
-          </li>
-          {{/each}}
-        </ol>
+      <div class="documents-panel">
+        <bs-panel  header="Documents"  collapsible="true" default-expanded="true">
+          <div>
+            <ol>
+              {{#each bindings}}
+                <li style="display: flex; font-size: 16px; margin-top: 20px; align-items: center;">
+                  <mp-event-trigger id='assert-new-value' type='Component.TemplateUpdate' targets='["annotation-editor"]' data='{"document": "{{document.value}}","editMode":"false"}'>
+                    <button class='btn btn-default btn-xs pull-right' title='Edit annotation' style='margin-right: 15px; '>
+                      <i class='fa fa-folder-open'></i> View
+                    </button>
+                  </mp-event-trigger>
+                  [[#if (hasPermission "api:ldp:container:<http://www.researchspace.org/resource/system/fieldDefinitionContainer>:create:any")]]
+                    <mp-event-trigger id='assert-new-value' type='Component.TemplateUpdate' targets='["annotation-editor"]' data='{"document": "{{document.value}}","editMode":"true"}'>
+                      <button class='btn btn-default btn-xs pull-right' title='Edit annotation' style='margin-right: 15px; '>
+                        <i class='fa fa-pencil'></i> Edit
+                      </button>
+                    </mp-event-trigger>
+                  [[/if]]
+                
+                [[#if (hasPermission "api:ldp:container:<http://www.researchspace.org/resource/system/fieldDefinitionContainer>:delete:any")]]
+                <mp-overlay-dialog title="Delete annotation" >
+                    <mp-overlay-dialog-trigger>
+                      <button class='btn btn-default btn-xs pull-right' title='Delete annotation' style='margin-right: 15px; '>
+                        <i class='fa fa-trash'></i>Delete
+                      </button>
+                    </mp-overlay-dialog-trigger>
+                      <mp-overlay-dialog-content>
+                          <h1>Are you sure you would like to delete this annotation?</h1>
+                          <mp-ldp-remove-from-container-action 
+                              container="http://www.researchspace.org/resource/system/fileContainer"
+                              iri="{{document.value}}" 
+                              post-action='reload'>
+                                <button class="btn btn-danger pull-right" 
+                                        title="Delete annotation" 
+                                        style="margin-left: 35px;font-size: 22px;">
+                                        <i class="fa fa-trash"></i> Yes delete
+                                </button>
+                          </mp-ldp-remove-from-container-action>
+                      </mp-overlay-dialog-content>
+                </mp-overlay-dialog>
+                [[/if]]
+                  <p style="margin:0;" class="fa fa-file">
+                      Annotation <b>
+                        "{{documentTitle.value}}"</b>
+                        about field 
+                        <b>
+                          <semantic-context repository='assets'>
+                            <mp-label iri='[[urlParam "field"]]' class="field-type-title"></mp-label>
+                          </semantic-context>
+                        </b>
+                        by <mp-label iri='{{user.value}}'></mp-label>, {{dateTimeFormat time.value "LLL"}}
+                    </p>
+                </li>
+              {{/each}}
+            </ol>
+          </div>
+        </bs-panel>
       </div>
-    </bs-panel>
-    </div>
   </template>
   </semantic-query>
-<mp-event-target-template-render
-id="annotation-editor"
-template="{{> tableEventTargetFormQueryTemplate}}"
->  
-<template id="tableEventTargetFormQueryTemplate"> 
-<rs-text-editor
-  readonly='{{#if editMode}}{{#ifCond editMode "===" "true"}}false{{else}}true{{/ifCond}}{{else}}false{{/if}}'
-  document-iri='{{#if document}}{{document}}{{/if}}'
-  resource-templates='[
-  {
-    "id": "image",
-    "type": "http://www.researchspace.org/ontology/EX_Digital_Image",
-    "label": "Annotated Image",
-    "template": "{{> image}}",
-    "resizable": true,
-    "defaults": {
-      "height": "600px",
-      "width": "100%"
-    }
-  },
-  {
-    "id": "full-size-image",
-    "type": "http://www.researchspace.org/ontology/EX_Digital_Image",
-    "label": "Full Image",
-    "template": "{{> fullImage}}",
-    "resizable": true,
-    "defaults": {
-      "height": "600px",
-      "width": "100%"
-    }
-  },
-  {
-    "id": "knowledge-map",
-    "type": "http://ontodia.org/schema/v1#Diagram",
-    "label": "Knowledge Map",
-    "template": "{{> knowledgeMap diagram=iri.value}}",
-    "resizable": true,
-    "defaults": {
-      "height": "600px",
-      "width": "100%"
-    }
-  },
-  {
-    "id": "set-grid",
-    "type": "http://www.researchspace.org/resource/system/Set",
-    "label": "Set Grid",
-    "template": "{{> setGrid}}",
-    "resizable": true,
-    "defaults": {
-      "height": "300px",
-      "width": "100%"
-    }
-  },
-  {
-    "id": "chart",
-    "type": "http://www.researchspace.org/ontologies/persist/PersistedComponent",
-    "label": "chart",
-    "template": "{{> chart}}",
-    "resizable": false
-  },
-  {
-    "id": "card",
-    "type": "any",
-    "label": "card",
-    "template": "{{> itemCard}}",
-    "resizable": true,
-    "defaults": {
-      "height": "240px",
-      "width": "180px"
-    }
-  }                      
-  ]'
-  generate-iri-query='
-  SELECT ?resourceIri WHERE {
-    BIND(URI(CONCAT(STR(<[[urlParam "field"]]>),"/annotation/",MD5(STR(<[[urlParam "subject"]]>)),?__fileName__)) as ?resourceIri)
-  }
-  '
-  resource-query='
-PREFIX crmdig: <http://www.ics.forth.gr/isl/CRMdig/>
-PREFIX rs: <http://www.researchspace.org/ontology/>
-PREFIX Platform: <http://www.researchspace.org/resource/system/>
-PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-CONSTRUCT {
-  ?__resourceIri__ rdf:type crm:E33_Linguistic_Object.
-  ?__resourceIri__ rdf:type crmdig:D1_Digital_Object.
-  ?__resourceIri__ rdf:type rs:Semantic_Narrative.
-  ?__resourceIri__ Platform:fileName ?__fileName__.
-  ?__resourceIri__ Platform:mediaType "text/html".
-  ?__resourceIri__ rdfs:label ?__label__.
-  ?__resourceIri__ rs:targetsField <[[urlParam "field"]]>.
-  ?__resourceIri__ rs:targetsRecord <[[urlParam "subject"]]>.
-}WHERE {}
- '
->
-  <template id='chart'>
-    <div>
-       <mp-persisted-component iri='{{iri.value}}'></mp-persisted-component>
-    </div>
-  </template>
-  <template id='itemCard'>
-  {{#> rsp:itemCardTemplate iri=iri.value autosize=true}}
-    {{#*inline "additionalActions"}}
-      <mp-draggable iri='{{iri}}'>
-        <div class="rs-default-card__hover-icon">
-          <button type="button" class="rs-button" title="Drag and drop the Item">
-            <i class="rs-icon rs-icon-drag_arrow"></i>
-          </button>
-        </div>
-      </mp-draggable>
-     {{/inline}}
-   {{/rsp:itemCardTemplate}}
-  </template>
-  <template id='image'>
-    [[!-- We generating random id for all mirador instances, because otherwise openseadragon can't be initialized --]]
-    <rs-iiif-mirador id='mirador-{{uuid}}'
-    [[> rsp:IIIFConfig]]
-    image-or-region='{{iri.value}}'
-    use-details-sidebar=true></rs-iiif-mirador>
-  </template>
-  <template id='fullImage'>
-    <rs-iiif-image-thumbnail
-       [[> rsp:IIIFConfig]]
-         image-or-region='{{iri.value}}'
-         format='auto'
-    >
-    </rs-iiif-image-thumbnail>
-  </template>
-  <template id='knowledgeMap'>
-    <div>
-      <style>
-        .ontodia .Toolbar--component {
-          display: flex;
-          justify-content: center;
-        }
-      </style>
-      [[> rsp:KnowledgeMapOntodiaConfig standalone=true readonly=true]]
-    </div>
-  </template>
-  <template id='setGrid'>
-    <div>
-      <p>Set: <semantic-link iri="{{iri.value}}"></semantic-link><p>
-      <semantic-table
-                    number-of-displayed-rows=1000
-                    query='
-                      select ?iri where {
-                        <{{iri.value}}> a <http://www.researchspace.org/resource/system/Set> ;
-                        <http://www.w3.org/ns/ldp#contains> ?item .
-                        ?item <http://www.researchspace.org/resource/system/setItem> ?iri .
-                        OPTIONAL {
-                          ?item <http://www.researchspace.org/resource/system/setItemIndex> ?index .
-                          ?item prov:generatedAtTime ?modificationDate .
-                        }
-                      } ORDER BY ?index DESC(?modificationDate) 
-                    '
-                    tuple-template='{{> item}}'
-                    options='{"showFilter":false}'
-      >
-          <template id="item">
-              {{#> rsp:itemCardTemplate iri=iri.value cardMargin=5}}
-              {{#*inline "additionalActions"}}
-              <mp-draggable iri='{{iri}}'>
-                  <div class="rs-default-card__hover-icon">
-                      <button type="button" class="rs-button" title="Drag and drop the Item">
-                        <i class="rs-icon rs-icon-drag_arrow"></i>
-                      </button>
-                  </div>
-              </mp-draggable>
-              {{/inline}}
-              {{/rsp:itemCardTemplate}}
 
-          </template>
-      </semantic-table>
-    </div>
-  </template>
-</rs-text-editor>
-</template>
+<mp-event-target-template-render
+    id="annotation-editor"
+    template="{{> tableEventTargetFormQueryTemplate}}"
+>  
+    <template id="tableEventTargetFormQueryTemplate"> 
+      <rs-text-editor
+        readonly='{{#if editMode}}{{#ifCond editMode "===" "true"}}false{{else}}true{{/ifCond}}{{else}}false{{/if}}'
+        document-iri='{{#if document}}{{document}}{{/if}}'
+        resource-templates='[
+        {
+          "id": "image",
+          "type": "http://www.researchspace.org/ontology/EX_Digital_Image",
+          "label": "Annotated Image",
+          "template": "{{> image}}",
+          "resizable": true,
+          "defaults": {
+            "height": "600px",
+            "width": "100%"
+          }
+        },
+        {
+          "id": "full-size-image",
+          "type": "http://www.researchspace.org/ontology/EX_Digital_Image",
+          "label": "Full Image",
+          "template": "{{> fullImage}}",
+          "resizable": true,
+          "defaults": {
+            "height": "600px",
+            "width": "100%"
+          }
+        },
+        {
+          "id": "knowledge-map",
+          "type": "http://ontodia.org/schema/v1#Diagram",
+          "label": "Knowledge Map",
+          "template": "{{> knowledgeMap diagram=iri.value}}",
+          "resizable": true,
+          "defaults": {
+            "height": "600px",
+            "width": "100%"
+          }
+        },
+        {
+          "id": "set-grid",
+          "type": "http://www.researchspace.org/resource/system/Set",
+          "label": "Set Grid",
+          "template": "{{> setGrid}}",
+          "resizable": true,
+          "defaults": {
+            "height": "300px",
+            "width": "100%"
+          }
+        },
+        {
+          "id": "chart",
+          "type": "http://www.researchspace.org/ontologies/persist/PersistedComponent",
+          "label": "chart",
+          "template": "{{> chart}}",
+          "resizable": false
+        },
+        {
+          "id": "card",
+          "type": "any",
+          "label": "card",
+          "template": "{{> itemCard}}",
+          "resizable": true,
+          "defaults": {
+            "height": "240px",
+            "width": "180px"
+          }
+        }                      
+        ]'
+        generate-iri-query='
+          SELECT ?resourceIri WHERE {
+            BIND(URI(CONCAT(STR(<[[urlParam "field"]]>),"/annotation/",MD5(STR(<[[urlParam "subject"]]>)),?__fileName__)) as ?resourceIri)
+          }
+          '
+        resource-query='
+          PREFIX crmdig: <http://www.ics.forth.gr/isl/CRMdig/>
+          PREFIX rs: <http://www.researchspace.org/ontology/>
+          PREFIX Platform: <http://www.researchspace.org/resource/system/>
+          PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+          PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+          PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+          CONSTRUCT {
+            ?__resourceIri__ rdf:type crm:E33_Linguistic_Object.
+            ?__resourceIri__ rdf:type crmdig:D1_Digital_Object.
+            ?__resourceIri__ rdf:type rs:Semantic_Narrative.
+            ?__resourceIri__ Platform:fileName ?__fileName__.
+            ?__resourceIri__ Platform:mediaType "text/html".
+            ?__resourceIri__ rdfs:label ?__label__.
+            ?__resourceIri__ rs:targetsField <[[urlParam "field"]]>.
+            ?__resourceIri__ rs:targetsRecord <[[urlParam "subject"]]>.
+          }WHERE {}
+          '
+      >
+        <template id='chart'>
+          <div>
+            <mp-persisted-component iri='{{iri.value}}'></mp-persisted-component>
+          </div>
+        </template>
+        <template id='itemCard'>
+            {{#> rsp:itemCardTemplate iri=iri.value autosize=true}}
+              {{#*inline "additionalActions"}}
+                <mp-draggable iri='{{iri}}'>
+                  <div class="rs-default-card__hover-icon">
+                    <button type="button" class="rs-button" title="Drag and drop the Item">
+                      <i class="rs-icon rs-icon-drag_arrow"></i>
+                    </button>
+                  </div>
+                </mp-draggable>
+              {{/inline}}
+            {{/rsp:itemCardTemplate}}
+        </template>
+        <template id='image'>
+            [[!-- We generating random id for all mirador instances, because otherwise openseadragon can't be initialized --]]
+            <rs-iiif-mirador id='mirador-{{uuid}}'
+            [[> rsp:IIIFConfig]]
+            image-or-region='{{iri.value}}'
+            use-details-sidebar=true></rs-iiif-mirador>
+        </template>
+        <template id='fullImage'>
+          <rs-iiif-image-thumbnail
+            [[> rsp:IIIFConfig]]
+              image-or-region='{{iri.value}}'
+              format='auto'
+          >
+          </rs-iiif-image-thumbnail>
+        </template>
+        <template id='knowledgeMap'>
+          <div>
+            <style>
+              .ontodia .Toolbar--component {
+                display: flex;
+                justify-content: center;
+              }
+            </style>
+            [[> rsp:KnowledgeMapOntodiaConfig standalone=true readonly=true]]
+          </div>
+        </template>
+        <template id='setGrid'>
+          <div>
+            <p>Set: <semantic-link iri="{{iri.value}}"></semantic-link><p>
+            <semantic-table
+                          number-of-displayed-rows=1000
+                          query='
+                            select ?iri where {
+                              <{{iri.value}}> a <http://www.researchspace.org/resource/system/Set> ;
+                              <http://www.w3.org/ns/ldp#contains> ?item .
+                              ?item <http://www.researchspace.org/resource/system/setItem> ?iri .
+                              OPTIONAL {
+                                ?item <http://www.researchspace.org/resource/system/setItemIndex> ?index .
+                                ?item prov:generatedAtTime ?modificationDate .
+                              }
+                            } ORDER BY ?index DESC(?modificationDate) 
+                          '
+                          tuple-template='{{> item}}'
+                          options='{"showFilter":false}'
+            >
+                <template id="item">
+                    {{#> rsp:itemCardTemplate iri=iri.value cardMargin=5}}
+                    {{#*inline "additionalActions"}}
+                    <mp-draggable iri='{{iri}}'>
+                        <div class="rs-default-card__hover-icon">
+                            <button type="button" class="rs-button" title="Drag and drop the Item">
+                              <i class="rs-icon rs-icon-drag_arrow"></i>
+                            </button>
+                        </div>
+                    </mp-draggable>
+                    {{/inline}}
+                    {{/rsp:itemCardTemplate}}
+
+                </template>
+            </semantic-table>
+          </div>
+        </template>
+      </rs-text-editor>
+    </template>
 </mp-event-target-template-render>
+
 <style>
 
 .TextEditor--titleInput .form-control
