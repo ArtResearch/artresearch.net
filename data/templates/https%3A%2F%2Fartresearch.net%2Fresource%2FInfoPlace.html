@@ -6,17 +6,17 @@
           fields='[[ fieldDefinitionsFromQuery "SELECT ?field WHERE {  ?field <http://www.researchspace.org/resource/system/fields/category>  <http://www.researchspace.org/ontologies/platform/FieldCategories/place_info>. OPTIONAL {?field <http://www.researchspace.org/resource/system/fields/order> ?w. BIND(xsd:integer(?w) as ?orderNo)} } ORDER BY ASC(?orderNo)" ]]'
           template='{{>workInfo}}'
           >
-            <template id="workInfo">
-              <div class="workInfoContainer">
-                Place info</h2>
-                [[> ResourceFieldBasedVisualization subject=[[this]] ]]
-              </div>
-            </template>
-            <div class="animated-background workInfoContainer"></div>
-      </mp-field-visualization>
+        <template id="workInfo">
+          <div class="workInfoContainer">
+          <h2>Place info</h2>
+            [[> ResourceFieldBasedVisualization subject=[[this]] ]]
+          </div>
+        </template>
+        <div class="animated-background workInfoContainer"></div>
+        </mp-field-visualization>
         <div class="productionInfoContainer">
-          <h2>External info</h2>
-            [[> PlaceMap]]
-            [[> PlaceTree]]
+        <h2>External info</h2>
+          [[> PlaceMap]]
+          [[> PlaceTree]]
         </div>
   </div>
