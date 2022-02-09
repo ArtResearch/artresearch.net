@@ -11,31 +11,28 @@
     <bs-tab-container id="tab-container" class="page__body-navtabs--borderless" default-active-key="summary">
       [[/if]]
       <div>
-        <bs-nav bs-style="tabs">
-          <bs-nav-item event-key="summary">Summary</bs-nav-item>
-          <bs-nav-item event-key="artworks">
-            [[#if (ask "ASK {    ?? fr:Place_of_Work ?subject. }") ]] 
-             <div style="display:flex;">Artworks(
-              <semantic-query query='
-              SELECT (COUNT(DISTINCT ?artwork) AS ?count) WHERE{
-                ?artwork a fc:work. 
-                ?? fr:Place_of_Work ?artwork
-              }
-            '></semantic-query>)</div>
-            [[/if]]
-          </bs-nav-item>
-        
-        </bs-nav>
-
-        <bs-tab-content unmount-on-exit=true>
-          <bs-tab-pane event-key="summary">
-            <!-- Loads all IIIF images as 500px thumbnails (clickable with mirador popup) -->
-             [[> InfoPlace]]
-          </bs-tab-pane>
-          <bs-tab-pane event-key="artworks">
-            [[> TabSearchArtworkPlace type="https://artresearch.net/resource/type/pharos"]]
-          </bs-tab-pane>
-        </bs-tab-content>
+          <bs-nav bs-style="tabs">
+            <bs-nav-item event-key="summary">Summary</bs-nav-item>
+            <bs-nav-item event-key="artworks">
+              [[#if (ask "ASK {    ?? fr:Place_of_Work ?subject. }") ]] 
+                <div style="display:flex;">Artworks(
+                  <semantic-query query='
+                  SELECT (COUNT(DISTINCT ?artwork) AS ?count) WHERE{
+                    ?artwork a fc:work. 
+                    ?? fr:Place_of_Work ?artwork
+                  }
+                '></semantic-query>)</div>
+              [[/if]]
+            </bs-nav-item>
+          </bs-nav>
+          <bs-tab-content unmount-on-exit=true>
+            <bs-tab-pane event-key="summary">
+              [[> InfoPlace]]
+            </bs-tab-pane>
+            <bs-tab-pane event-key="artworks">
+              [[> TabSearchArtworkPlace type="https://artresearch.net/resource/type/pharos"]]
+            </bs-tab-pane>
+          </bs-tab-content>
       </div>
     </bs-tab-container>
     [[/:ClipboardSidebar]]

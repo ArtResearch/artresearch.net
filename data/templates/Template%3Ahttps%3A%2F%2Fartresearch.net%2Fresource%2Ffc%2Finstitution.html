@@ -16,19 +16,18 @@
           <bs-nav-item event-key="summary">Summary</bs-nav-item>
           <bs-nav-item event-key="artworks">
               [[#if (ask "ASK {   ?artwork fr:Work_kept_by_Institution ??. }") ]] 
-              <div style="display:flex;">Artworks
-            (
-              <semantic-query query='
-               SELECT (COUNT(DISTINCT ?artwork) AS ?count) WHERE{
-                ?artwork a fc:work.
-                ?artwork fr:Work_kept_by_Institution ??.
-               }
-             '></semantic-query>)
-            </div>
-            [[/if]]
-           </bs-nav-item>
+                <div style="display:flex;">Artworks
+                  (
+                    <semantic-query query='
+                    SELECT (COUNT(DISTINCT ?artwork) AS ?count) WHERE{
+                      ?artwork a fc:work.
+                      ?artwork fr:Work_kept_by_Institution ??.
+                    }
+                  '></semantic-query>)
+                </div>
+              [[/if]]
+          </bs-nav-item>
         </bs-nav>
-
         <bs-tab-content unmount-on-exit=true>
           <bs-tab-pane event-key="summary">
              [[> InfoInstitution]]
