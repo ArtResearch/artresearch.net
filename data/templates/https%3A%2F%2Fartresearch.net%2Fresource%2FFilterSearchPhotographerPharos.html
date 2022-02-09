@@ -1,302 +1,297 @@
 <div id="person-filter-search">
-<semantic-search
-  relations='{
-    "<https://artresearch.net/custom/has_provider>": [
-    {
-      "kind": "resource",
-      "queryPattern": "
-       $subject $__relation__ ?__value__ .
-       FILTER(?__value__ !=  <https://artresearch.net/resource/itatti/source/FotoIndex>)
-      "
-    }
-  ],
-  "<https://artresearch.net/resource/fr/Person_has_Gender>":[
-  {
-    "kind": "resource",
-    "queryPattern": "
-      $subject fr:Person_has_Gender ?__value__.
-      "
-  }
-],
-  "<https://artresearch.net/resource/fr/Person_has_Nationality>":[
-  {
-    "kind": "resource",
-    "queryPattern": "
-      $subject fr:Person_has_Nationality ?__value__."
-  }
-],
-  "<https://artresearch.net/resource/fr/Person_has_Date_of_Birth>":[
-  {
-    "kind": "numeric-range",
-    "queryPattern": "
-      $subject fr:Person_has_Date_of_Birth ?gYear .
-        FILTER(?literal >= ?__numericRangeBeginValue__) .
-        FILTER(?literal <= ?__numericRangeEndValue__) .
-        BIND(xsd:integer(str(?gYear)) as ?literal)."
-  }],
-  "<https://artresearch.net/resource/fr/Person_has_Date_of_Death>": [
-  {
-    "kind": "numeric-range",
-    "queryPattern": "
-      $subject fr:Person_has_Date_of_Death ?gYear .
-        FILTER(?literal >= ?__numericRangeBeginValue__) .
-        FILTER(?literal <= ?__numericRangeEndValue__) .
-        BIND(xsd:integer(str(?gYear)) as ?literal)."
-  }],
-  "<https://artresearch.net/resource/fr/Person_has_Place_of_Birth>": [
-  {
-    "kind": "resource",
-    "queryPattern": "
-      $subject fr:Person_has_Place_of_Birth ?__value__ ."
-  }],
-  "<https://artresearch.net/resource/fr/Person_has_Place_of_Death>": [
-  {
-    "kind": "resource",
-    "queryPattern": "
-      $subject fr:Person_has_Place_of_Death ?__value__ ."
-  }],
-  "<https://artresearch.net/resource/fr/Event_has_Type>": [
-  {
-    "kind": "resource",
-    "queryPattern": "
-      $subject fr:Person_has_Event ?event.
-        ?event fr:Event_has_Type ?__value__ ."
-  }],
-  "<https://artresearch.net/resource/fr/Event_at_Place>": [
-  {
-    "kind": "resource",
-    "queryPattern": "
-      $subject fr:Person_has_Event ?event.
-        ?event fr:Event_at_Place ?__value__ ."
-  }]
-    }'
-  search-profile='{
-      "categories":  
-      [
+    <semantic-search
+      relations='{
+        "<https://artresearch.net/custom/has_provider>": [
         {
-          "iri":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
-          "label":"Photographer"
-        },
-        {
-          "iri":"<https://artresearch.net/resource/nypl/type/gender>",
-          "label":"Gender"
-        }, 
-        {
-          "iri":"<http://www.cidoc-crm.org/cidoc-crm/E74_Group>",
-          "label":"Nationality"
-        }, 
-        {
-          "iri":"<http://www.w3.org/2001/XMLSchema#integer>",
-          "label":"Year"
-        }, 
-        {
-          "iri":"<https://artresearch.net/resource/fc/Type>",
-          "label":"Type"
-        }, 
-        {
-          "iri":"<https://artresearch.net/resource/fc/place>",
-          "label":"Place"
-        }, 
-        {
-          "iri":"<https://artresearch.net/resource/fc/institution>",
-          "label":"Photo archive"
+          "kind": "resource",
+          "queryPattern": "
+          $subject $__relation__ ?__value__ .
+          FILTER(?__value__ !=  <https://artresearch.net/resource/itatti/source/FotoIndex>)
+          "
         }
       ],
-      "relations":
-      [
-        {
-          "iri": "<https://artresearch.net/resource/fr/Person_has_Gender>",
-          "label":"Gender",
-          "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
-          "hasRange":"<https://artresearch.net/resource/nypl/type/gender>"
-        },
-        {
-          "iri": "<https://artresearch.net/resource/fr/Person_has_Nationality>",
-          "label":"Nationality",
-          "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
-          "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E74_Group>"
-        },
-        {
-          "iri": "<https://artresearch.net/resource/fr/Person_has_Date_of_Birth>",
-          "label":"Date of birth",
-          "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
-          "hasRange":"<http://www.w3.org/2001/XMLSchema#integer>"
-        },
-        {
-          "iri":"<https://artresearch.net/resource/fr/Person_has_Date_of_Death>",
-          "label":"Date of death",
-          "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
-          "hasRange":"<http://www.w3.org/2001/XMLSchema#integer>"
-        },
-        {
-          "iri":"<https://artresearch.net/resource/fr/Person_has_Place_of_Birth>",
-          "label":"Place of birth",
-          "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
-          "hasRange":"<https://artresearch.net/resource/fc/place>"
-        },
-        {
-          "iri":"<https://artresearch.net/resource/fr/Person_has_Place_of_Death>",
-          "label":"Place of death",
-          "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
-          "hasRange":"<https://artresearch.net/resource/fc/place>"
-        },
-        {
-          "iri":"<https://artresearch.net/resource/fr/Event_has_Type>",
-          "label":"Event type",
-          "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
-          "hasRange":"<https://artresearch.net/resource/fc/Type>"
-        },
-        {
-          "iri":"<https://artresearch.net/resource/fr/Event_at_Place>",
-          "label":"Event place",
-          "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
-          "hasRange":"<https://artresearch.net/resource/fc/place>"
-        },
-        {
-          "iri": "<https://artresearch.net/custom/has_provider>",
-          "label":"Photo archive",
-          "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
-          "hasRange":"<https://artresearch.net/resource/fc/institution>"
-        }
-      ]
-    }'
->
-  <div id="header-search" class="search-page">
-            <semantic-search-query-keyword
-              placeholder="Search for a photographer e.g. Fratelli Alinari"
-              escape-lucene-syntax="false"
-              domain="<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>"
-              default-query="
-              SELECT  ?subject  
-              WHERE {
-                ?subject a fc:photographer.
-              }LIMIT 1000"
-              query='
-                      SELECT ?subject WHERE {
-                      ?subject a fc:photographer.
-                      ?subject rdfs:label ?someLabel.
-                      ?someLabel bds:search ?__token__ .
-                      ?someLabel bds:minRelevance "0.3"^^xsd:double;
-                      bds:matchAllTerms "true"  .
-                      } 
-                    '
-            ></semantic-search-query-keyword>
-  </div>
-
-  <div class="row">
-    <bs-col
-      lg="3"
-      md="4"
-      sm="5"
-      class="fade-in-fwd filters-container"
-      style="margin-top: 8px"
+      "<https://artresearch.net/resource/fr/Person_has_Gender>":[
+      {
+        "kind": "resource",
+        "queryPattern": "
+          $subject fr:Person_has_Gender ?__value__.
+          "
+      }
+    ],
+      "<https://artresearch.net/resource/fr/Person_has_Nationality>":[
+      {
+        "kind": "resource",
+        "queryPattern": "
+          $subject fr:Person_has_Nationality ?__value__."
+      }
+    ],
+      "<https://artresearch.net/resource/fr/Person_has_Date_of_Birth>":[
+      {
+        "kind": "numeric-range",
+        "queryPattern": "
+          $subject fr:Person_has_Date_of_Birth ?gYear .
+            FILTER(?literal >= ?__numericRangeBeginValue__) .
+            FILTER(?literal <= ?__numericRangeEndValue__) .
+            BIND(xsd:integer(str(?gYear)) as ?literal)."
+      }],
+      "<https://artresearch.net/resource/fr/Person_has_Date_of_Death>": [
+      {
+        "kind": "numeric-range",
+        "queryPattern": "
+          $subject fr:Person_has_Date_of_Death ?gYear .
+            FILTER(?literal >= ?__numericRangeBeginValue__) .
+            FILTER(?literal <= ?__numericRangeEndValue__) .
+            BIND(xsd:integer(str(?gYear)) as ?literal)."
+      }],
+      "<https://artresearch.net/resource/fr/Person_has_Place_of_Birth>": [
+      {
+        "kind": "resource",
+        "queryPattern": "
+          $subject fr:Person_has_Place_of_Birth ?__value__ ."
+      }],
+      "<https://artresearch.net/resource/fr/Person_has_Place_of_Death>": [
+      {
+        "kind": "resource",
+        "queryPattern": "
+          $subject fr:Person_has_Place_of_Death ?__value__ ."
+      }],
+      "<https://artresearch.net/resource/fr/Event_has_Type>": [
+      {
+        "kind": "resource",
+        "queryPattern": "
+          $subject fr:Person_has_Event ?event.
+            ?event fr:Event_has_Type ?__value__ ."
+      }],
+      "<https://artresearch.net/resource/fr/Event_at_Place>": [
+      {
+        "kind": "resource",
+        "queryPattern": "
+          $subject fr:Person_has_Event ?event.
+            ?event fr:Event_at_Place ?__value__ ."
+      }]
+        }'
+      search-profile='{
+          "categories":  
+          [
+            {
+              "iri":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
+              "label":"Photographer"
+            },
+            {
+              "iri":"<https://artresearch.net/resource/nypl/type/gender>",
+              "label":"Gender"
+            }, 
+            {
+              "iri":"<http://www.cidoc-crm.org/cidoc-crm/E74_Group>",
+              "label":"Nationality"
+            }, 
+            {
+              "iri":"<http://www.w3.org/2001/XMLSchema#integer>",
+              "label":"Year"
+            }, 
+            {
+              "iri":"<https://artresearch.net/resource/fc/Type>",
+              "label":"Type"
+            }, 
+            {
+              "iri":"<https://artresearch.net/resource/fc/place>",
+              "label":"Place"
+            }, 
+            {
+              "iri":"<https://artresearch.net/resource/fc/institution>",
+              "label":"Photo archive"
+            }
+          ],
+          "relations":
+          [
+            {
+              "iri": "<https://artresearch.net/resource/fr/Person_has_Gender>",
+              "label":"Gender",
+              "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
+              "hasRange":"<https://artresearch.net/resource/nypl/type/gender>"
+            },
+            {
+              "iri": "<https://artresearch.net/resource/fr/Person_has_Nationality>",
+              "label":"Nationality",
+              "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
+              "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E74_Group>"
+            },
+            {
+              "iri": "<https://artresearch.net/resource/fr/Person_has_Date_of_Birth>",
+              "label":"Date of birth",
+              "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
+              "hasRange":"<http://www.w3.org/2001/XMLSchema#integer>"
+            },
+            {
+              "iri":"<https://artresearch.net/resource/fr/Person_has_Date_of_Death>",
+              "label":"Date of death",
+              "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
+              "hasRange":"<http://www.w3.org/2001/XMLSchema#integer>"
+            },
+            {
+              "iri":"<https://artresearch.net/resource/fr/Person_has_Place_of_Birth>",
+              "label":"Place of birth",
+              "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
+              "hasRange":"<https://artresearch.net/resource/fc/place>"
+            },
+            {
+              "iri":"<https://artresearch.net/resource/fr/Person_has_Place_of_Death>",
+              "label":"Place of death",
+              "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
+              "hasRange":"<https://artresearch.net/resource/fc/place>"
+            },
+            {
+              "iri":"<https://artresearch.net/resource/fr/Event_has_Type>",
+              "label":"Event type",
+              "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
+              "hasRange":"<https://artresearch.net/resource/fc/Type>"
+            },
+            {
+              "iri":"<https://artresearch.net/resource/fr/Event_at_Place>",
+              "label":"Event place",
+              "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
+              "hasRange":"<https://artresearch.net/resource/fc/place>"
+            },
+            {
+              "iri": "<https://artresearch.net/custom/has_provider>",
+              "label":"Photo archive",
+              "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
+              "hasRange":"<https://artresearch.net/resource/fc/institution>"
+            }
+          ]
+        }'
     >
-    <bs-panel id="filter-panel" header="Filters"  collapsible="true" default-expanded="true">
-      <semantic-search-facet open-by-default='true' sortby='count-desc'></semantic-search-facet>
-    </bs-panel>
-    </bs-col>
-    <bs-col lg="9" md="8" sm="7">
-      <semantic-search-result-holder>
-        <bs-tabs unmount-on-exit="true" id="search-results" animation="false">
-          <bs-tab event-key="2" title="Grid">
-            <div>
-              <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
-              <semantic-search-result id="semantic-search-result">
-                [[> SearchResultCount]]
-              </semantic-search-result>
-            <semantic-search-result>
-              <div id="card-results">
-                <bs-tab-container
-                  id="tab-container"
-                  class="page__body-navtabs--borderless"
-                  default-active-key="defaultView"
-                >
-                  <div>
-                    <bs-nav bs-style="tabs">
-                      <bs-nav-item event-key="defaultView">Default view</bs-nav-item>
-                      <bs-nav-item event-key="birthplaceMap">Birthplace map</bs-nav-item>
-                      <bs-nav-item event-key="deathplaceMap">Deathplace map</bs-nav-item>
-                    </bs-nav>
+      <div id="header-search" class="search-page">
+                <semantic-search-query-keyword
+                    placeholder="Search for a photographer e.g. Fratelli Alinari"
+                    escape-lucene-syntax="false"
+                    domain="<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>"
+                    default-query="
+                    SELECT  ?subject  WHERE { ?subject a fc:photographer. }LIMIT 1000"
+                    query='SELECT ?subject WHERE {
+                            ?subject a fc:photographer.
+                            ?subject rdfs:label ?someLabel.
+                            ?someLabel bds:search ?__token__ .
+                            ?someLabel bds:minRelevance "0.3"^^xsd:double;
+                            bds:matchAllTerms "true"  .
+                            } '
+                ></semantic-search-query-keyword>
+      </div>
 
-                    <bs-tab-content unmount-on-exit="true">
-                      <bs-tab-pane event-key="defaultView">
-                        <semantic-table
-                          id="grid-result"
-                          options='{
-                                  "showFilter":false
-                                }'
-                           number-of-displayed-rows="8"
-                          query='SELECT DISTINCT ?subject ?artistName
-                          WHERE {
-                            OPTIONAL{
-                              ?wikiPerson rdfs:label ?photographerName.
-                              ?wikiPerson fr:Person_depicted_by ?withImage.
-                              ?subject rdfs:label ?photographerName.
-                            }
-                          }ORDER BY DESC (?withImage) LIMIT 1000'
-                          tuple-template="{{>tupleTemplate}}"
-                          no-result-template='[[> CardNoResult ]]'
-                        >
-                          <template id="tupleTemplate">
-                            [[> CardPerson]]
-                          </template>
-                        </semantic-table>
-                      </bs-tab-pane>
-                      <bs-tab-pane event-key="birthplaceMap">
-                        <div class="mapContainer">
-                          <semantic-map
-                            id="birthplace-map"
-                            query="SELECT DISTINCT ?subject ?place ?lat ?lng WHERE {
-                              ?subject fr:Person_has_Place_of_Birth ?place .
-                              ?place crm:P2_has_type <http://vocab.getty.edu/aat/300008389>.
-                              ?place <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat.
-                              ?place <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng.
-                            }"
-                            no-result-template='<h3>No results were found to be visualized on map</h3>'
-                            tuple-template='<div style="width:20vw">
-                              <h4> 
-                                <semantic-link style="color:#6b0000;" iri="{{subject.value}}"></semantic-link>,
-                                born at <semantic-query query="SELECT ?label WHERE { <{{place.value}}> rdfs:label ?label }LIMIT 1"></semantic-query>
-                              </h4>
-                            </div>'
+      <div class="row">
+          <bs-col
+            lg="3"
+            md="4"
+            sm="5"
+            class="fade-in-fwd filters-container"
+            style="margin-top: 8px"
+          >
+            <bs-panel id="filter-panel" header="Filters"  collapsible="true" default-expanded="true">
+              <semantic-search-facet open-by-default='true' sortby='count-desc'></semantic-search-facet>
+            </bs-panel>
+          </bs-col>
+          <bs-col lg="9" md="8" sm="7">
+            <semantic-search-result-holder>
+              <bs-tabs unmount-on-exit="true" id="search-results" animation="false">
+                <bs-tab event-key="2" title="Grid">
+                  <div>
+                    <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
+                    <semantic-search-result id="semantic-search-result">
+                      [[> SearchResultCount]]
+                    </semantic-search-result>
+                    <semantic-search-result>
+                        <div id="card-results">
+                          <bs-tab-container
+                            id="tab-container"
+                            class="page__body-navtabs--borderless"
+                            default-active-key="defaultView"
                           >
-                          </semantic-map>
+                            <div>
+                              <bs-nav bs-style="tabs">
+                                <bs-nav-item event-key="defaultView">Default view</bs-nav-item>
+                                <bs-nav-item event-key="birthplaceMap">Birthplace map</bs-nav-item>
+                                <bs-nav-item event-key="deathplaceMap">Deathplace map</bs-nav-item>
+                              </bs-nav>
+                              <bs-tab-content unmount-on-exit="true">
+                                  <bs-tab-pane event-key="defaultView">
+                                    <semantic-table
+                                      id="grid-result"
+                                      options='{
+                                              "showFilter":false
+                                            }'
+                                      number-of-displayed-rows="8"
+                                      query='SELECT DISTINCT ?subject ?artistName
+                                          WHERE {
+                                            OPTIONAL{
+                                              ?wikiPerson rdfs:label ?photographerName.
+                                              ?wikiPerson fr:Person_depicted_by ?withImage.
+                                              ?subject rdfs:label ?photographerName.
+                                            }
+                                          }ORDER BY DESC (?withImage) LIMIT 1000'
+                                        tuple-template="{{>tupleTemplate}}"
+                                        no-result-template='[[> CardNoResult ]]'
+                                    >
+                                      <template id="tupleTemplate">
+                                        [[> CardPerson]]
+                                      </template>
+                                    </semantic-table>
+                                  </bs-tab-pane>
+                                  <bs-tab-pane event-key="birthplaceMap">
+                                    <div class="mapContainer">
+                                      <semantic-map
+                                        id="birthplace-map"
+                                        query="SELECT DISTINCT ?subject ?place ?lat ?lng WHERE {
+                                          ?subject fr:Person_has_Place_of_Birth ?place .
+                                          ?place crm:P2_has_type <http://vocab.getty.edu/aat/300008389>.
+                                          ?place <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat.
+                                          ?place <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng.
+                                        }"
+                                        no-result-template='<h3>No results were found to be visualized on map</h3>'
+                                        tuple-template='<div style="width:20vw">
+                                          <h4> 
+                                            <semantic-link style="color:#6b0000;" iri="{{subject.value}}"></semantic-link>,
+                                            born at <semantic-query query="SELECT ?label WHERE { <{{place.value}}> rdfs:label ?label }LIMIT 1"></semantic-query>
+                                          </h4>
+                                        </div>'
+                                      >
+                                      </semantic-map>
+                                    </div>
+                                  </bs-tab-pane>
+                                  <bs-tab-pane event-key="deathplaceMap">
+                                    <div class="mapContainer">
+                                      <semantic-map
+                                        id="deathplace-map"
+                                        query="SELECT DISTINCT ?subject ?place ?lat ?lng WHERE {
+                                          ?subject fr:Person_has_Place_of_Death ?place .
+                                          ?place crm:P2_has_type <http://vocab.getty.edu/aat/300008389>.
+                                          ?place <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat.
+                                          ?place <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng.
+                                        }"
+                                        no-result-template='<h3>No results were found to be visualized on map</h3>'
+                                        tuple-template='<div style="width:20vw">
+                                          <h4> 
+                                            <semantic-link style="color:#6b0000;" iri="{{subject.value}}"></semantic-link>,
+                                            died at <semantic-query query="SELECT ?label WHERE { <{{place.value}}> rdfs:label ?label }LIMIT 1"></semantic-query>
+                                          </h4>
+                                        </div>'
+                                      >
+                                      </semantic-map>
+                                    </div>
+                                  </bs-tab-pane>
+                              </bs-tab-content>
+                            </div>
+                          </bs-tab-container>
                         </div>
-                      </bs-tab-pane>
-                      <bs-tab-pane event-key="deathplaceMap">
-                        <div class="mapContainer">
-                          <semantic-map
-                            id="deathplace-map"
-                            query="SELECT DISTINCT ?subject ?place ?lat ?lng WHERE {
-                              ?subject fr:Person_has_Place_of_Death ?place .
-                              ?place crm:P2_has_type <http://vocab.getty.edu/aat/300008389>.
-                              ?place <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat.
-                              ?place <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng.
-                            }"
-                            no-result-template='<h3>No results were found to be visualized on map</h3>'
-                            tuple-template='<div style="width:20vw">
-                              <h4> 
-                                <semantic-link style="color:#6b0000;" iri="{{subject.value}}"></semantic-link>,
-                                died at <semantic-query query="SELECT ?label WHERE { <{{place.value}}> rdfs:label ?label }LIMIT 1"></semantic-query>
-                              </h4>
-                            </div>'
-                          >
-                          </semantic-map>
-                        </div>
-                      </bs-tab-pane>
-                    </bs-tab-content>
+                    </semantic-search-result>
                   </div>
-                </bs-tab-container>
-              </div>
-            </semantic-search-result>
-            </div>
-          </bs-tab>
-        </bs-tabs>
-      </semantic-search-result-holder>
-    </bs-col>
-  </div>
-</semantic-search>
+                </bs-tab>
+              </bs-tabs>
+            </semantic-search-result-holder>
+          </bs-col>
+      </div>
+    </semantic-search>
 </div>
+
 <style>
   .keyword-search-container{
   width: 100% !important;
