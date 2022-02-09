@@ -1,46 +1,30 @@
-<div
-  id="artwork-header"
-  class="page__header-body"
-  data-flex-layout="row top-left"
->
+<div id="artwork-header" class="page__header-body" data-flex-layout="row top-left">
   <div class="rs-header">
-    <div
-      style="
-        padding: 10px;
-        border-radius: 5px;
-        background: #eef8ff;
-        border: 1px solid #6d92b2;
-      "
-      data-flex-layout="row center-left"
-      class="page__header-tagline subtitleInfo"
+    <div style="padding: 10px; border-radius: 5px; background: #eef8ff; border: 1px solid #6d92b2;"
+         data-flex-layout="row center-left"
+         class="page__header-tagline subtitleInfo"
     >
-      <semantic-query query=' SELECT DISTINCT ?newLink WHERE { 
-                                ?? a cfc:work.
-                                ?? owl:sameAs ?newLink.
-                                ?newLink a fc:work.
-                              }'
+      <semantic-query 
+        query=' SELECT DISTINCT ?newLink WHERE { 
+                    ?? a cfc:work.
+                    ?? owl:sameAs ?newLink.
+                    ?newLink a fc:work.
+                  }'
         template="{{> deprecated }}"
       >
         <template id="deprecated">
-          <div
-            style="
-              margin-top: 15px;
-              border-radius: 5px;
-              padding: 14px;
-              background: lightblue;
-            "
-          >
-            <h2>
-              <i style="margin-right: 5px" class="fa fa-info"></i>This record is
-              deprecated. Please visit the Pharos record at:
-            </h2>
-            {{#each bindings}}
-            <h2 style="text-decoration: underline">
-              <i style="margin-right: 5px" class="fa fa-external-link"></i>
-              <semantic-link iri="{{newLink.value}}"> </semantic-link>
-            </h2>
-            {{/each}}
-          </div>
+            <div style=" margin-top: 15px; border-radius: 5px; padding: 14px; background: lightblue;">
+                <h2>
+                  <i style="margin-right: 5px" class="fa fa-info"></i>This record is
+                  deprecated. Please visit the Pharos record at:
+                </h2>
+                {{#each bindings}}
+                  <h2 style="text-decoration: underline">
+                    <i style="margin-right: 5px" class="fa fa-external-link"></i>
+                    <semantic-link iri="{{newLink.value}}"> </semantic-link>
+                  </h2>
+                {{/each}}
+            </div>
         </template>
       </semantic-query>
     </div>
