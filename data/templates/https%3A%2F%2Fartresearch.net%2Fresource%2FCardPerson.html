@@ -3,84 +3,83 @@
   <semantic-link iri="{{subject.value}}">
     <div class="panel-body">
       <bs-col class="thumbnailImageContainer" lg="4" md="12" xs="12">
+        <!-- see commit at September 6 2021 for thumbnail code -->
       </bs-col>
       <bs-col class="cardInfo" lg="12">
         <div data-flex-layout="row md-column center-stretch">
           <bs-row class="cardInfoFields">
             <h4>
-              <semantic-query 
-                query='SELECT ?prefLabel WHERE{
-                    {
-                      <{{subject.value}}> skos:prefLabel ?prefLabel.
-                      FILTER ( lang(?prefLabel) = "en" ). 
-                    } UNION {
-                      <{{subject.value}}> skos:prefLabel ?prefLabel.
-                      FILTER NOT EXISTS {
-                          <{{subject.value}}> skos:prefLabel ?c.
-                        FILTER ( lang(?c) = "en" ). 
-                      }
+              <semantic-query query='SELECT ?prefLabel WHERE{
+                  {
+                    <{{subject.value}}> skos:prefLabel ?prefLabel.
+                    FILTER ( lang(?prefLabel) = "en" ). 
+                  } UNION {
+                    <{{subject.value}}> skos:prefLabel ?prefLabel.
+                    FILTER NOT EXISTS {
+                        <{{subject.value}}> skos:prefLabel ?c.
+                      FILTER ( lang(?c) = "en" ). 
                     }
-                  }LIMIT 1' 
+                  }
+                }LIMIT 1' 
                 template="{{>labelTemplate}}"
                 no-result-template="{{>noPrefLabel}}">
-                  <template id="labelTemplate">
-                    {{bindings.0.prefLabel.value}}
-                  </template>
-                  <template id="noPrefLabel">
-                    <mp-label iri="{{subject.value}}" class='page__header-gripper-label'></mp-label>
-                  </template>
+                <template id="labelTemplate">
+                  {{bindings.0.prefLabel.value}}
+                </template>
+                <template id="noPrefLabel">
+                  <mp-label iri="{{subject.value}}" class='page__header-gripper-label'></mp-label>
+                </template>
               </semantic-query>
               <div 
-                  style="
-                  display: flex; 
-                  justify-content: center;  
-                  min-height: 29px;
-                  margin-top: 15px;">
-      
-                  <semantic-query 
-                    query='SELECT ?date WHERE{
-                      <{{subject.value}}> fr:Person_has_Date_of_Birth ?date
-                    }'
-                    template='{{> birthTemplate}}'
-                    no-result-template="<div></div>"
-                    >
-                      <template id="birthTemplate">
-                          <div date="{{dateTimeFormat bindings.0.date.value "YYYY"}}">
-                            {{dateTimeFormat bindings.0.date.value "YYYY"}}
-                          </div>
-                      </template>
-                  </semantic-query>
-                  <div class=" animated-background-circle"></div>
-                  
-                  <semantic-query
-                    query='SELECT ?date WHERE{
-                        <{{subject.value}}> fr:Person_has_Date_of_Death ?date
-                      }'
-                    template='{{> deathTemplate}}'
-                    no-result-template="<div></div>"
-                  >
-                    <template id="deathTemplate">
-                      <div date="{{dateTimeFormat bindings.0.date.value "YYYY"}}">
-                        -{{dateTimeFormat bindings.0.date.value "YYYY"}}
-                      </div>
-                    </template>
-                  </semantic-query>
-                  <div class="animated-background-circle"></div>
+              style="
+              display: flex; 
+              justify-content: center;  
+              min-height: 29px;
+              margin-top: 15px;">
+  
+              <semantic-query query='SELECT ?date WHERE{
+                <{{subject.value}}> fr:Person_has_Date_of_Birth ?date
+              }'
+              template='{{> birthTemplate}}'
+              no-result-template="<div></div>"
+              >
+              <template id="birthTemplate">
+                <div date="{{dateTimeFormat bindings.0.date.value "YYYY"}}">
+                  {{dateTimeFormat bindings.0.date.value "YYYY"}}
+                </div>
+              </template>
+              </semantic-query>
+              <div class=" animated-background-circle"></div>
+
+
+              <semantic-query query='SELECT ?date WHERE{
+                <{{subject.value}}> fr:Person_has_Date_of_Death ?date
+              }'
+              template='{{> deathTemplate}}'
+              no-result-template="<div></div>"
+              >
+              <template id="deathTemplate">
+                <div date="{{dateTimeFormat bindings.0.date.value "YYYY"}}">
+                  -{{dateTimeFormat bindings.0.date.value "YYYY"}}
+                </div>
+              </template>
+           
+              </semantic-query>
+              <div class="animated-background-circle"></div>
               </div>
               <div 
                 style="
                 display: flex; 
                 justify-content: center;  
                 min-height: 14px;
-              ">
-                  <semantic-query 
-                    query='SELECT ?nationalityLabel WHERE{
-                        <{{subject.value}}> fr:Person_has_Nationality ?nationality.
-                        ?nationality rdfs:label ?nationalityLabel
-                      }LIMIT 1'
-                    no-result-template="<div></div>"
-                    >
-                  </semantic-query>
+               ">
+              <semantic-query query='SELECT ?nationalityLabel WHERE{
+                <{{subject.value}}> fr:Person_has_Nationality ?nationality.
+                ?nationality rdfs:label ?nationalityLabel
+              }LIMIT 1'
+              no-result-template="<div></div>"
+              >
+              </semantic-query>
              </div>
             </h4>
           </bs-row>

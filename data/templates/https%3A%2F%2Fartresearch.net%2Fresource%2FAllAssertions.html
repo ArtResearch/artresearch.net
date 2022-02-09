@@ -1,59 +1,57 @@
 <div class="row row-center">
-    <div
-      id="main-containers"
-      style="max-width: 1600px"
-      class="col-md-10 col-xs-10"
-    >
-      <div class="row">
-        <div class="col-sm-7">
-          <header>
-            <h1>Browse Assertions</h1>
-          </header>
-        </div>
+  <div
+    id="main-containers"
+    style="max-width: 1600px"
+    class="col-md-10 col-xs-10"
+  >
+<div class="row">
+      <div class="col-sm-7">
+        <header>
+          <h1>Browse Assertions</h1>
+        </header>
       </div>
-  
-  <bs-tab-container class="page__body-navtabs--borderless" default-active-key="allassertions">
-      <div>
-          <bs-nav bs-style="tabs">
-                <bs-nav-item event-key="allassertions">All platform Assertions
-                          <semantic-query 
-                          query='SELECT (COUNT(DISTINCT ?document) AS ?count) WHERE {
-                                ?document  a <http://www.researchspace.org/ontology/EX_Assertion>.
-                                ?document rdfs:label ?documentTitle.
-                                ?document prov:wasAttributedTo ?username.
-                                ?document prov:generatedAtTime ?time.
-                                ?document <http://www.researchspace.org/ontology/targetsField> ?field.
-                                ?document <http://www.researchspace.org/ontology/targetsRecord> ?subject.
-                            }'
-                            template='{{#each bindings}}<span class="badge">{{count.value}}</span>{{/each}}'>\
-                          </semantic-query>
-                </bs-nav-item>
-                <bs-nav-item event-key="myassertions">
-                            My assertions
-                              <semantic-query
-                                query='SELECT (COUNT(DISTINCT ?document) AS ?count) WHERE {
-                                  ?document  a <http://www.researchspace.org/ontology/EX_Assertion>.
-                                  ?document rdfs:label ?documentTitle.
-                                  ?document prov:wasAttributedTo ?username.
-                                  ?document prov:generatedAtTime ?time.
-                                  ?document <http://www.researchspace.org/ontology/targetsField> ?field.
-                                  ?document <http://www.researchspace.org/ontology/targetsRecord> ?subject.
-                                  ?document prov:wasAttributedTo ?__useruri__.
-                              }'
-                              template='{{#each bindings}}<span class="badge">{{count.value}}</span>{{/each}}'>\
-                          </semantic-query>
-                </bs-nav-item>
-          </bs-nav>
+    </div>
+ 
+ <bs-tab-container class="page__body-navtabs--borderless" default-active-key="allassertions">
+   <div>
+ <bs-nav bs-style="tabs">
+<bs-nav-item event-key="allassertions">All platform Assertions
+ <semantic-query query='SELECT (COUNT(DISTINCT ?document) AS ?count) WHERE {
+                ?document  a <http://www.researchspace.org/ontology/EX_Assertion>.
+                ?document rdfs:label ?documentTitle.
+                ?document prov:wasAttributedTo ?username.
+                ?document prov:generatedAtTime ?time.
+                ?document <http://www.researchspace.org/ontology/targetsField> ?field.
+                ?document <http://www.researchspace.org/ontology/targetsRecord> ?subject.
+            }'
+            template='{{#each bindings}}<span class="badge">{{count.value}}</span>{{/each}}'>\
+          </semantic-query>
 
-          <bs-tab-content unmount-on-exit=true>
-                    <bs-tab-pane event-key="allassertions">
-                      [[> AssertionsDashboard]]
-                    </bs-tab-pane>
-                    <bs-tab-pane event-key="myassertions">
-                      [[> MyAssertionsDashboard]]
-                    </bs-tab-pane>
-          </bs-tab-content>
-      </div>
-  </bs-tab-container>
-  </div>
+</bs-nav-item>
+<bs-nav-item event-key="myassertions">
+            My assertions
+              <semantic-query query='SELECT (COUNT(DISTINCT ?document) AS ?count) WHERE {
+                ?document  a <http://www.researchspace.org/ontology/EX_Assertion>.
+                ?document rdfs:label ?documentTitle.
+                ?document prov:wasAttributedTo ?username.
+                ?document prov:generatedAtTime ?time.
+                ?document <http://www.researchspace.org/ontology/targetsField> ?field.
+                ?document <http://www.researchspace.org/ontology/targetsRecord> ?subject.
+                ?document prov:wasAttributedTo ?__useruri__.
+            }'
+            template='{{#each bindings}}<span class="badge">{{count.value}}</span>{{/each}}'>\
+          </semantic-query>
+</bs-nav-item>
+</bs-nav>
+
+ <bs-tab-content unmount-on-exit=true>
+          <bs-tab-pane event-key="allassertions">
+            [[> AssertionsDashboard]]
+          </bs-tab-pane>
+          <bs-tab-pane event-key="myassertions">
+            [[> MyAssertionsDashboard]]
+          </bs-tab-pane>
+        </div>
+  </bs-tab-content>
+</div>
 </div>
