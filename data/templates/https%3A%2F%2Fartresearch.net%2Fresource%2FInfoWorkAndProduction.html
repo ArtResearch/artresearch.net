@@ -12,11 +12,13 @@ template="{{> fieldsFilter}}"
     template="{{>workInfo}}"
   >
     <template id="workInfo">
-      {{#if noData}} {{else}}
-      <div class="workInfoContainer">
-        <h2>Artwork / Monument</h2>
-        [[> ResourceFieldBasedVisualization subject=[[this]]   ]]
-      </div>
+      {{#if noData}} 
+        <div></div>
+      {{else}}
+        <div class="workInfoContainer">
+          <h2>Artwork / Monument</h2>
+          [[> ResourceFieldBasedVisualization subject=[[this]]   ]]
+        </div>
       {{/if}}
     </template>
     <div class="animated-background workInfoContainer"></div>
@@ -54,9 +56,11 @@ template="{{> fieldsFilter}}"
     >
       <template id="generalInfo">
         <div class="generalInfoContainer">
-        {{#if noData}} {{else}}
-        <h2 style="margin-top: 4vh">Physical Properties</h2>
-        [[> ResourceFieldBasedVisualization subject=[[this]] ]]
+       {{#if noData}} 
+        <div></div>
+       {{else}}
+          <h2 style="margin-top: 4vh">Physical Properties</h2>
+          [[> ResourceFieldBasedVisualization subject=[[this]] ]]
         {{/if}}
       </div>
       </template>
@@ -72,9 +76,11 @@ template="{{> fieldsFilter}}"
 >
   <template id="generalInfo">
     <div class="generalInfoContainer">
-    {{#if noData}} {{else}}
-    <h2 style="margin-top: 4vh">Provenance</h2>
-    [[> ResourceFieldBasedVisualization subject=[[this]] ]]
+   {{#if noData}} 
+        <div></div>
+    {{else}}
+      <h2 style="margin-top: 4vh">Provenance</h2>
+      [[> ResourceFieldBasedVisualization subject=[[this]] ]]
     {{/if}}
   </div>
 </template>
@@ -91,9 +97,11 @@ template="{{> fieldsFilter}}"
 >
   <template id="generalInfo">
     <div class="generalInfoContainer">
-    {{#if noData}} {{else}}
-    <h2 style="margin-top: 4vh">Subjects</h2>
-    [[> ResourceFieldBasedVisualization subject=[[this]] ]]
+   {{#if noData}} 
+      <div></div>
+    {{else}}
+      <h2 style="margin-top: 4vh">Subjects</h2>
+      [[> ResourceFieldBasedVisualization subject=[[this]] ]]
     {{/if}}
   </div>
 </template>
@@ -110,9 +118,11 @@ template="{{> fieldsFilter}}"
 >
   <template id="generalInfo">
     <div class="generalInfoContainer">
-    {{#if noData}} {{else}}
-    <h2 style="margin-top: 4vh">Dating</h2>
-    [[> ResourceFieldBasedVisualization subject=[[this]] ]]
+    {{#if noData}} 
+      <div></div>
+    {{else}}
+      <h2 style="margin-top: 4vh">Dating</h2>
+      [[> ResourceFieldBasedVisualization subject=[[this]] ]]
     {{/if}}
   </div>
 </template>
@@ -130,9 +140,11 @@ template="{{> fieldsFilter}}"
 >
   <template id="generalInfo">
     <div class="generalInfoContainer">
-    {{#if noData}} {{else}}
-    <h2 style="margin-top: 4vh">References</h2>
-    [[> ResourceFieldBasedVisualization subject=[[this]] ]]
+   {{#if noData}} 
+      <div></div>
+    {{else}}
+      <h2 style="margin-top: 4vh">References</h2>
+      [[> ResourceFieldBasedVisualization subject=[[this]] ]]
     {{/if}}
   </div>
 </template>

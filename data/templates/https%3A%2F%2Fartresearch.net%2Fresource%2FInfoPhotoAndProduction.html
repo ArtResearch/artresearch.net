@@ -6,7 +6,9 @@
     template="{{>photographInfo}}"
   >
     <template id="photographInfo">
-      {{#if noData}} {{else}}
+     {{#if noData}} 
+      <div></div>
+    {{else}}
       <div class="workInfoContainer">
         <h2>Photograph</h2>
         [[> ResourceFieldBasedVisualization subject=[[this]] ]]
@@ -27,8 +29,8 @@
         {{#if noData}}
         <div></div>
         {{else}}
-        <h2>Photographer</h2>
-        [[> ResourceFieldBasedVisualization subject=[[this]] ]] 
+          <h2>Photographer</h2>
+          [[> ResourceFieldBasedVisualization subject=[[this]] ]] 
         {{/if}}
       </template>
       <div class="animated-background productionInfoContainer"></div>
@@ -42,9 +44,11 @@
     >
       <template id="generalInfo">
         <div class="generalInfoContainer">
-        {{#if noData}} {{else}}
-        <h2 style="margin-top: 4vh">Physical Properties</h2>
-        [[> ResourceFieldBasedVisualization subject=[[this]] ]]
+       {{#if noData}} 
+         <div></div>
+        {{else}}
+          <h2 style="margin-top: 4vh">Physical Properties</h2>
+          [[> ResourceFieldBasedVisualization subject=[[this]] ]]
         {{/if}}
       </div>
       </template>
@@ -59,9 +63,11 @@
   >
     <template id="generalInfo">
       <div class="generalInfoContainer">
-      {{#if noData}} {{else}}
-      <h2 style="margin-top: 4vh">Provenance</h2>
-      [[> ResourceFieldBasedVisualization subject=[[this]] ]]
+     {{#if noData}} 
+      <div></div>
+      {{else}}
+        <h2 style="margin-top: 4vh">Provenance</h2>
+        [[> ResourceFieldBasedVisualization subject=[[this]] ]]
       {{/if}}
     </div>
     </template>
@@ -76,9 +82,11 @@
   >
     <template id="generalInfo">
       <div class="generalInfoContainer">
-      {{#if noData}} {{else}}
-      <h2 style="margin-top: 4vh">Subjects</h2>
-      [[> ResourceFieldBasedVisualization subject=[[this]] ]]
+      {{#if noData}} 
+        <div></div>
+      {{else}}
+        <h2 style="margin-top: 4vh">Subjects</h2>
+        [[> ResourceFieldBasedVisualization subject=[[this]] ]]
       {{/if}}
     </div>
     </template>
@@ -93,9 +101,11 @@
     >
     <template id="generalInfo">
       <div class="generalInfoContainer">
-      {{#if noData}} {{else}}
-      <h2 style="margin-top: 4vh">Dating</h2>
-      [[> ResourceFieldBasedVisualization subject=[[this]] ]]
+      {{#if noData}} 
+        <div></div>
+      {{else}}
+        <h2 style="margin-top: 4vh">Dating</h2>
+        [[> ResourceFieldBasedVisualization subject=[[this]] ]]
       {{/if}}
     </div>
     </template>
@@ -110,9 +120,11 @@
     >
     <template id="generalInfo">
       <div class="generalInfoContainer">
-      {{#if noData}} {{else}}
-      <h2 style="margin-top: 4vh">Notes</h2>
-      [[> ResourceFieldBasedVisualization subject=[[this]] ]]
+      {{#if noData}} 
+        <div></div>
+      {{else}}
+        <h2 style="margin-top: 4vh">Notes</h2>
+        [[> ResourceFieldBasedVisualization subject=[[this]] ]]
       {{/if}}
     </div>
     </template>
