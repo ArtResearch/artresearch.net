@@ -9,7 +9,8 @@
     <semantic-query query='SELECT ?title WHERE{
       ?? rdfs:label ?label. 
       BIND(REPLACE(str(?label),"[-!$%^&*()_+|~=`{}\\[\\]:\";<>?,.\\/\\\\]"," ") as ?title).
-    }' template="{{>copyTemplate}}">
+    }' template="{{>copyTemplate}}"
+       no-result-template="<div></div>">
     <template id="copyTemplate">
       <div>
       <mp-copy-to-clipboard
@@ -103,7 +104,8 @@
       <semantic-query
         query='SELECT ?websiteLink WHERE { ?? fr:Institution_has_Original_Link ?websiteLink 
         }LIMIT 10'
-        template='{{> websiteLink }}'>
+        template='{{> websiteLink }}'
+        no-result-template="<div></div>">
         <template id='websiteLink'>
           <div>
             <h2 class="fc-label">
@@ -127,6 +129,7 @@
         ?artwork a fc:work
       }'
       template="{{>relArtwork}}"
+      no-result-template="<div></div>"
       >
       <template id="relArtwork">
         <div>

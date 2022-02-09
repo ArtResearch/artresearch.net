@@ -9,40 +9,75 @@
 
 
   {{#ifCond field.label.0.value "===" "Production Date"}}
-    {{#ifCond value.xsdDatatype.value "=="  "http://www.w3.org/2001/XMLSchema#date"}}
-      <div date="{{dateTimeFormat value.value.value "YYYY"}}">
-        {{dateTimeFormat value.value.value "YYYY"}}
-      </div>
-    {{else}}
-      {{value.value.value}}
-    {{/ifCond}}
-
+     {{#ifCond field.label.0.value ">" 0}}
+              {{#ifCond value.xsdDatatype.value "=="  "http://www.w3.org/2001/XMLSchema#date"}}
+                  <div date="{{dateTimeFormat value.value.value "YYYY"}}">
+                    {{dateTimeFormat value.value.value "YYYY"}}
+                  </div>
+                {{else}}
+                  {{value.value.value}}
+                {{/ifCond}}
+          {{else}}
+                {{value.value.value}}
+          {{/ifCond}}
   {{else}}
 
   {{#ifCond field.label.0.value "===" "Date of Birth"}}
-  <div date="{{dateTimeFormat value.value.value "YYYY"}}">
-    {{dateTimeFormat value.value.value "YYYY"}}
-  </div>
+        {{#ifCond field.label.0.value ">" 0}}
+              {{#ifCond value.xsdDatatype.value "=="  "http://www.w3.org/2001/XMLSchema#date"}}
+                  <div date="{{dateTimeFormat value.value.value "YYYY"}}">
+                    {{dateTimeFormat value.value.value "YYYY"}}
+                  </div>
+                {{else}}
+                  {{value.value.value}}
+                {{/ifCond}}
+          {{else}}
+                {{value.value.value}}
+          {{/ifCond}}
   {{else}}
 
   {{#ifCond field.label.0.value "===" "Production Date - Latest"}}
-  <div date="{{dateTimeFormat value.value.value "YYYY"}}">
-    {{dateTimeFormat value.value.value "YYYY"}}
-  </div>
+    {{#ifCond field.label.0.value ">" 0}}
+              {{#ifCond value.xsdDatatype.value "=="  "http://www.w3.org/2001/XMLSchema#date"}}
+                  <div date="{{dateTimeFormat value.value.value "YYYY"}}">
+                    {{dateTimeFormat value.value.value "YYYY"}}
+                  </div>
+                {{else}}
+                  {{value.value.value}}
+                {{/ifCond}}
+          {{else}}
+                {{value.value.value}}
+          {{/ifCond}}
   {{else}}
 
 
   {{#ifCond field.label.0.value "===" "Production Date - Earliest"}}
-  <div date="{{dateTimeFormat value.value.value "YYYY"}}">
-    {{dateTimeFormat value.value.value "YYYY"}}
-  </div>
+    {{#ifCond field.label.0.value ">" 0}}
+              {{#ifCond value.xsdDatatype.value "=="  "http://www.w3.org/2001/XMLSchema#date"}}
+                  <div date="{{dateTimeFormat value.value.value "YYYY"}}">
+                    {{dateTimeFormat value.value.value "YYYY"}}
+                  </div>
+                {{else}}
+                  {{value.value.value}}
+                {{/ifCond}}
+          {{else}}
+                {{value.value.value}}
+          {{/ifCond}}
   {{else}}
 
 
   {{#ifCond field.label.0.value "===" "Date of Death"}}
-  <div date="{{dateTimeFormat value.value.value "YYYY"}}">
-    {{dateTimeFormat value.value.value "YYYY"}}
-  </div>
+   {{#ifCond field.label.0.value ">" 0}}
+              {{#ifCond value.xsdDatatype.value "=="  "http://www.w3.org/2001/XMLSchema#date"}}
+                  <div date="{{dateTimeFormat value.value.value "YYYY"}}">
+                    {{dateTimeFormat value.value.value "YYYY"}}
+                  </div>
+                {{else}}
+                  {{value.value.value}}
+                {{/ifCond}}
+          {{else}}
+                {{value.value.value}}
+          {{/ifCond}}
   {{else}}
 
 

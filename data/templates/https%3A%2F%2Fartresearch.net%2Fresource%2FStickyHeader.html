@@ -23,6 +23,7 @@
       BIND(REPLACE(str(?label),"[-!$%^&*()_+|~=`{}\\[\\]:\";<>?,.\\/\\\\]"," ") as ?title).
     }'
       template="{{>copyTemplate}}"
+      no-template-result="<div> </div>"
     >
       <template id="copyTemplate">
         <div>
@@ -35,7 +36,7 @@
         </div>
       </template>
     </semantic-query>
-    <div class="animated-background-sm"></div>
+ 
   </div>
   <div class="animated-background-sm"></div>
 
@@ -45,6 +46,7 @@
       ?artwork a fc:work
     }"
       template="{{>relArtwork}}"
+      no-result-template="<div></div>"
     >
       <template id="relArtwork">
         <div>
