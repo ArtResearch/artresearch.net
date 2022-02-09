@@ -2,25 +2,21 @@
   <scroll-to-top querySelector=".pagination li"></scroll-to-top>
   <semantic-link iri="{{subject.value}}">
     <div class="panel-body">
-      <bs-col class="thumbnailImageContainer" lg="12" md="12" xs="12">
-        <!-- see commit at September 6 2021 for thumbnail code -->
-      </bs-col>
-      <bs-col class="cardInfo" lg="12">
-        <div data-flex-layout="row md-column center-stretch">
-          <bs-row class="cardInfoFields">
-            <h4>
-              <semantic-link iri="{{subject.value}}"></semantic-link>
-              
-            </h4>
-            {{#ifCond placeLabel.value "!=="  "http://www.geonames.org/3174725/liguria.html"}}
-            <small> {{placeLabel.value}} </small>
-            {{/ifCond}}
-          </bs-row>
-        </div>
-      </bs-col>
+        <bs-col class="thumbnailImageContainer" lg="12" md="12" xs="12">
+          <!-- see commit at September 6 2021 for thumbnail code -->
+        </bs-col>
+        <bs-col class="cardInfo" lg="12">
+          <div data-flex-layout="row md-column center-stretch">
+            <bs-row class="cardInfoFields">
+              <h4>
+                <semantic-link iri="{{subject.value}}"></semantic-link>
+              </h4>
+              {{#ifCond placeLabel.value "!=="  "http://www.geonames.org/3174725/liguria.html"}}
+              <small> {{placeLabel.value}} </small>
+              {{/ifCond}}
+            </bs-row>
+          </div>
+        </bs-col>
     </div>
-    
   </semantic-link>
-
-
 </div>

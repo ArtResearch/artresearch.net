@@ -6,32 +6,31 @@
           fields='[[ fieldDefinitionsFromQuery "SELECT ?field WHERE {  {?field <http://www.researchspace.org/resource/system/fields/category>  <http://www.researchspace.org/ontologies/platform/FieldCategories/person_info>.} UNION { ?field <http://www.researchspace.org/resource/system/fields/category>  <http://www.researchspace.org/ontologies/platform/FieldCategories/repository_info>. } OPTIONAL {?field <http://www.researchspace.org/resource/system/fields/order> ?w. BIND(xsd:integer(?w) as ?orderNo)} } ORDER BY ASC(?orderNo)" ]]'
           template='{{>workInfo}}'
           >
-        <template id="workInfo">
-          <div class="workInfoContainer">
-          <h2>Repository info</h2>
-            [[> ResourceFieldBasedVisualization subject=[[this]]  ]]
-          </div>
-        </template>
-        <div class="animated-background workInfoContainer"></div>
-        </mp-field-visualization>
-
+            <template id="workInfo">
+              <div class="workInfoContainer">
+              <h2>Repository info</h2>
+                [[> ResourceFieldBasedVisualization subject=[[this]]  ]]
+              </div>
+            </template>
+            <div class="animated-background workInfoContainer"></div>
+      </mp-field-visualization>
   <!-- Fields for Production -->
         <mp-field-visualization
-        subject="[[this]]"
-        additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { {?s owl:sameAs ?resource}UNION{?resource owl:sameAs ?s} }" resource=this.iri)]]'
-        fields='[[ fieldDefinitionsFromQuery "SELECT ?field WHERE {  ?field <http://www.researchspace.org/resource/system/fields/category>  <http://www.researchspace.org/ontologies/platform/FieldCategories/external_info>. OPTIONAL {?field <http://www.researchspace.org/resource/system/fields/order> ?w. BIND(xsd:integer(?w) as ?orderNo)} } ORDER BY ASC(?orderNo)" ]]'
-        template='{{>productionInfo}}'
+          subject="[[this]]"
+          additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { {?s owl:sameAs ?resource}UNION{?resource owl:sameAs ?s} }" resource=this.iri)]]'
+          fields='[[ fieldDefinitionsFromQuery "SELECT ?field WHERE {  ?field <http://www.researchspace.org/resource/system/fields/category>  <http://www.researchspace.org/ontologies/platform/FieldCategories/external_info>. OPTIONAL {?field <http://www.researchspace.org/resource/system/fields/order> ?w. BIND(xsd:integer(?w) as ?orderNo)} } ORDER BY ASC(?orderNo)" ]]'
+          template='{{>productionInfo}}'
         >
-      <template id="productionInfo">
-        {{#if noData}}
-        <div></div>
-        {{else}}
-        <div class="productionInfoContainer">
-        <h2>External info</h2>
-          [[> ResourceFieldBasedVisualization subject=[[this]]   ]]
-        </div>
-        {{/if}}
-      </template>
-      <div class="animated-background productionInfoContainer"></div>
-    </mp-field-visualization>
+          <template id="productionInfo">
+              {{#if noData}}
+                <div></div>
+              {{else}}
+                <div class="productionInfoContainer">
+                <h2>External info</h2>
+                  [[> ResourceFieldBasedVisualization subject=[[this]]   ]]
+                </div>
+              {{/if}}
+          </template>
+          <div class="animated-background productionInfoContainer"></div>
+        </mp-field-visualization>
   </div>
