@@ -1,7 +1,8 @@
 <semantic-context repository='ephedra'>
   <semantic-query query='
-  SELECT ?token WHERE{
+  SELECT ?token ?keywords WHERE{
     BIND(REPLACE("[[urlParam "keyword"]]","(?<!^)(?<!\\s)\\s+(?!\\s+)(?!$)", " AND ") as ?token)
+    BIND(REPLACE(str("[[urlParam "keyword"]]"),"\\+"," ") as ?keywords)
   }
   '
   template="{{>addAndTemplate}}"
@@ -60,21 +61,10 @@
     </bs-col>
     <bs-col lg="9" md="8" sm="7">
       <semantic-search-result-holder>
-        <semantic-search-result>
-          <semantic-query
-          id="view-more"
-          query='SELECT ?keywords WHERE {
-            BIND(REPLACE(str("[[urlParam "keyword"]]"),"\\+"," ") as ?keywords)
-          }'
-          template="{{>currentSearchText}}"
-        >
-          <template id="currentSearchText">
-            <h2>
-              Searched in artists for:
-              <i>{{bindings.0.keywords.value}}</i>
-            </h2>
-          </template>
-        </semantic-query>
+        <h2>
+          Searched in artists for:
+          <i>{{bindings.0.keywords.value}}</i>
+        </h2>
         <semantic-query
           id="view-more"
           query='SELECT (COUNT(DISTINCT ?subject) as ?count) WHERE {
