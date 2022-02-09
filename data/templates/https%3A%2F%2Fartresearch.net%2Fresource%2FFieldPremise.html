@@ -1,4 +1,5 @@
 <div class='page page--assertion'>
+    
       <h1>
         Assertion
       </h1>
@@ -8,19 +9,19 @@
       </p>
       <label>Description</label>
       <p>
-          [[#if (ask "ASK { ?? crm:P3_has_note ?description }")]]
-            [[singleValueFromSelect "SELECT ?description WHERE { ?? crm:P3_has_note ?description }"]]
-          [[else]]
-            n/a
-          [[/if]]
+        [[#if (ask "ASK { ?? crm:P3_has_note ?description }")]]
+      		[[singleValueFromSelect "SELECT ?description WHERE { ?? crm:P3_has_note ?description }"]]
+        [[else]]
+        	n/a
+        [[/if]]
       </p>
       <label>Narrative</label>
       <p>
-          [[#if (ask "ASK { ?? crm:P70i_is_documented_in ?narrative }")]]
-            <semantic-link iri='[[singleValueFromSelect "SELECT ?narrative WHERE { ?? crm:P70i_is_documented_in ?narrative }"]]'></semantic-link>
-          [[else]]
-            n/a
-          [[/if]]
+        [[#if (ask "ASK { ?? crm:P70i_is_documented_in ?narrative }")]]
+      		<semantic-link iri='[[singleValueFromSelect "SELECT ?narrative WHERE { ?? crm:P70i_is_documented_in ?narrative }"]]'></semantic-link>
+        [[else]]
+        	n/a
+        [[/if]]
       </p>
       <!-- <h1>
         Premise

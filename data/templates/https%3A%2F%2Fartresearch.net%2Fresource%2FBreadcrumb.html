@@ -12,112 +12,112 @@
       <mp-label iri='[[this]]'></mp-label>
     </li>
     <div class="breadlinks pull-right">
-        <mp-anonymous-hidden>
-            <mp-has-permission permission="sparql:update">
-                <a
-                  href="/resource/?action=edit&?uri=[[this]]"
-                  title="Edit Page"
-                  class="btn btn-default component-page-toolbar__btn_edit"
-                  target="_self"
-                  draggable="true"
-                  ><div><i class="fa fa-pencil"></i><span> Edit Page</span></div>
-                </a>
-            </mp-has-permission>
-        </mp-anonymous-hidden>
-        <open-print querySelector="#btnPrint" ></open-print>
-          <div id="btnPrint" class="rs-body-m-M">
-            <i style="margin-right: 5px" class="fa fa-print"></i>Print
-          </div>
-        <mp-sparql-download
-          id="csv-result"
-          query="SELECT (?? as ?subject) ?property ?object WHERE {?? ?property ?object.}"
-          header="text/csv"
-          filename="export_csv_artresearch.csv"
-          message="Preparing your CSV file.."
-        >
-            <div style="margin: 0">
-                <mp-copy-to-clipboard
-                  text=""
-                  message="Your CSV file is being prepared.."
-                >
-                  <div id="btnExportCsv" class="rs-body-m-M">
-                    <i style="margin-right: 5px" class="fa fa-file-excel-o"></i>Export
-                    CSV
-                  </div>
-                </mp-copy-to-clipboard>
+      <mp-anonymous-hidden>
+        <mp-has-permission permission="sparql:update">
+        <a
+          href="/resource/?action=edit&?uri=[[this]]"
+          title="Edit Page"
+          class="btn btn-default component-page-toolbar__btn_edit"
+          target="_self"
+          draggable="true"
+          ><div><i class="fa fa-pencil"></i><span> Edit Page</span></div>
+        </a>
+        </mp-has-permission>
+      </mp-anonymous-hidden>
+      <open-print querySelector="#btnPrint" ></open-print>
+        <div id="btnPrint" class="rs-body-m-M">
+          <i style="margin-right: 5px" class="fa fa-print"></i>Print
+        </div>
+      <mp-sparql-download
+        id="csv-result"
+        query="SELECT (?? as ?subject) ?property ?object WHERE {?? ?property ?object.}"
+        header="text/csv"
+        filename="export_csv_artresearch.csv"
+        message="Preparing your CSV file.."
+      >
+        <div style="margin: 0">
+          <mp-copy-to-clipboard
+            text=""
+            message="Your CSV file is being prepared.."
+          >
+            <div id="btnExportCsv" class="rs-body-m-M">
+              <i style="margin-right: 5px" class="fa fa-file-excel-o"></i>Export
+              CSV
             </div>
-        </mp-sparql-download>
-
-        <mp-sparql-download
-          query="CONSTRUCT {?subject ?property ?object} WHERE {?? ?property ?object. BIND(?? as ?subject )}"
-          header="application/ld+json"
-          filename="export_json_ld_artresearch.json"
-        >
-        <div style="margin: 0"> 
-            <mp-copy-to-clipboard
-              text=""
-              message="Your JSON-LD file is being prepared.."
-            >
-            <div id="btnExportJson" class="rs-body-m-M">
-              <i style="margin-right: 5px" class="fa fa-file-text-o"></i>Export
-              JSON-LD
-            </div>
-        </mp-copy-to-clipboard>
-        </mp-sparql-download>
-
-        <mp-copy-to-clipboard
-          text=""
-          message="The feature is under development.."
-        >
-          <div id="btnCite" class="rs-body-m-M">
-            <i style="margin-right: 5px" class="fa fa-quote-right"></i>Cite
-          </div>
-        </mp-copy-to-clipboard>
-
-        <mp-overlay-dialog title="‎‎" type="lightbox">
-            <mp-overlay-dialog-trigger>
-              <div id="btnGraph" class="rs-body-m-M">
-                <i style="margin-right: 5px" class="fa fa-connectdevelop"></i>Graph
-              </div>
-            </mp-overlay-dialog-trigger>
-            <mp-overlay-dialog-content>
-              <mp-page-loader
-                iri="http://www.researchspace.org/resource/system/SourceGraph"
-              ></mp-page-loader>
-            </mp-overlay-dialog-content>
-        </mp-overlay-dialog>
-
-        <mp-overlay-dialog title="‎‎" type="lightbox">
-          <mp-overlay-dialog-trigger>
-            <div id="btnStatements" class="rs-body-m-M">
-              <i style="margin-right: 5px" class="fa fa-list"></i>Statements
-            </div>
-          </mp-overlay-dialog-trigger>
-          <mp-overlay-dialog-content>
-            <mp-page-loader
-              iri="http://www.researchspace.org/resource/system/SourceStatements"
-            ></mp-page-loader
-          ></mp-overlay-dialog-content>
-        </mp-overlay-dialog>
-
-        <mp-copy-to-clipboard
-          text="https://artresearch.net/resource/?uri=[[this]]"
-          message="Permalink copied"
-        >
-          <div id="btnGraph" class="rs-body-m-M">
-            <i style="margin-right: 5px" class="fa fa-link"></i>Permalink
-          </div>
-        </mp-copy-to-clipboard>
-        <mp-anonymous-hidden>
-            <mp-copy-to-clipboard
-              text="[[this]]"
-              message="Iri copied"
-            >
-              <div id="btnGraph" class="rs-body-m-M">
-                <i style="margin-right: 5px" class="fa fa-link"></i>Copy IRI
-              </div>
           </mp-copy-to-clipboard>
-        </mp-anonymous-hidden>
+        </div>
+      </mp-sparql-download>
+
+      <mp-sparql-download
+        query="CONSTRUCT {?subject ?property ?object} WHERE {?? ?property ?object. BIND(?? as ?subject )}"
+        header="application/ld+json"
+        filename="export_json_ld_artresearch.json"
+      >
+      <div style="margin: 0"> 
+          <mp-copy-to-clipboard
+            text=""
+            message="Your JSON-LD file is being prepared.."
+          >
+          <div id="btnExportJson" class="rs-body-m-M">
+            <i style="margin-right: 5px" class="fa fa-file-text-o"></i>Export
+            JSON-LD
+          </div>
+      </mp-copy-to-clipboard>
+      </mp-sparql-download>
+
+      <mp-copy-to-clipboard
+        text=""
+        message="The feature is under development.."
+      >
+        <div id="btnCite" class="rs-body-m-M">
+          <i style="margin-right: 5px" class="fa fa-quote-right"></i>Cite
+        </div>
+      </mp-copy-to-clipboard>
+
+      <mp-overlay-dialog title="‎‎" type="lightbox">
+        <mp-overlay-dialog-trigger
+          ><div id="btnGraph" class="rs-body-m-M">
+            <i style="margin-right: 5px" class="fa fa-connectdevelop"></i>Graph
+          </div>
+        </mp-overlay-dialog-trigger>
+        <mp-overlay-dialog-content>
+          <mp-page-loader
+            iri="http://www.researchspace.org/resource/system/SourceGraph"
+          ></mp-page-loader
+        ></mp-overlay-dialog-content>
+      </mp-overlay-dialog>
+
+      <mp-overlay-dialog title="‎‎" type="lightbox">
+        <mp-overlay-dialog-trigger>
+          <div id="btnStatements" class="rs-body-m-M">
+            <i style="margin-right: 5px" class="fa fa-list"></i>Statements
+          </div>
+        </mp-overlay-dialog-trigger>
+        <mp-overlay-dialog-content>
+          <mp-page-loader
+            iri="http://www.researchspace.org/resource/system/SourceStatements"
+          ></mp-page-loader
+        ></mp-overlay-dialog-content>
+      </mp-overlay-dialog>
+
+      <mp-copy-to-clipboard
+        text="https://artresearch.net/resource/?uri=[[this]]"
+        message="Permalink copied"
+      >
+        <div id="btnGraph" class="rs-body-m-M">
+          <i style="margin-right: 5px" class="fa fa-link"></i>Permalink
+        </div>
+      </mp-copy-to-clipboard>
+      <mp-anonymous-hidden>
+      <mp-copy-to-clipboard
+      text="[[this]]"
+      message="Iri copied"
+    >
+      <div id="btnGraph" class="rs-body-m-M">
+        <i style="margin-right: 5px" class="fa fa-link"></i>Copy IRI
+      </div>
+    </mp-copy-to-clipboard>
+  </mp-anonymous-hidden>
     </div>
   </ol>
 </div>
