@@ -1,149 +1,138 @@
 <div id="artwork-header"  class="page__header-body" data-flex-layout="row top-left">
-  <div class="page__header-draggable-title">
-    <mp-draggable iri="[[this]]">
-      <h2 data-flex-layout="row center-left">
-        <span class="page__header-gripper"></span>
-         <mp-label iri="[[this]]" class='page__header-gripper-label'></mp-label>
-      </h2>
-    </mp-draggable>
-    <semantic-query query='SELECT ?title WHERE{
-      ?? rdfs:label ?label. 
-      BIND(REPLACE(str(?label),"[-!$%^&*()_+|~=`{}\\[\\]:\";<>?,.\\/\\\\]"," ") as ?title).
-    }' template="{{>copyTemplate}}"
-       no-result-template="<div></div>">
-    <template id="copyTemplate">
-      <div>
-      <mp-copy-to-clipboard
-      text="{{bindings.0.title.value}}"
-      message="Copied title"
-      >
-      <li class="titleCopy fa fa-copy"></li>
-    </mp-copy-to-clipboard>
-      </div>
-  </template>
-  </semantic-query>
- 
-
-  </div>
-  <semantic-query query=' SELECT DISTINCT ?newLink WHERE { 
-                            ?? a cfc:work.
-                            ?? owl:sameAs ?newLink.
-                            ?newLink a fc:work.
-                          }'
-  template='{{> deprecated }}'
-  no-result-template='<div></div>'>
-   <template id='deprecated'>
-    <div style="
-    margin-top: 15px;
-    border-radius: 5px;
-    padding: 14px;
-    background: lightblue;">
-    <h2><i style="margin-right: 5px;" class="fa fa-info"></i>This record is deprecated. Please visit the Pharos record at:</h2>
-     {{#each bindings}}
-     <h2 style="text-decoration: underline;">
-       <i style="margin-right: 5px;" class="fa fa-external-link"></i> 
-       <semantic-link  iri='{{newLink.value}}'>
-      </semantic-link>
-    </h2>
-     {{/each}}
+    <div class="page__header-draggable-title">
+        <mp-draggable iri="[[this]]">
+          <h2 data-flex-layout="row center-left">
+            <span class="page__header-gripper"></span>
+            <mp-label iri="[[this]]" class='page__header-gripper-label'></mp-label>
+          </h2>
+        </mp-draggable>
+        <semantic-query 
+            query='SELECT ?title WHERE{
+                    ?? rdfs:label ?label. 
+                    BIND(REPLACE(str(?label),"[-!$%^&*()_+|~=`{}\\[\\]:\";<>?,.\\/\\\\]"," ") as ?title).}' 
+            template="{{>copyTemplate}}"
+            no-result-template="<div></div>">
+            <template id="copyTemplate">
+              <div>
+                <mp-copy-to-clipboard
+                  text="{{bindings.0.title.value}}"
+                  message="Copied title"
+                >
+                  <li class="titleCopy fa fa-copy"></li>
+                </mp-copy-to-clipboard>
+              </div>
+            </template>
+        </semantic-query>
     </div>
-   </template>
-   
-</semantic-query>
-
-<div class="animated-background-sm"></div>
-  <div data-flex-layout='row center-left' class="page__header-tagline subtitleInfo">
-    [[> InfoTypeRepository work=(urlParam "uri") ]]
-    <div style="position: absolute; right: 0; top: 0;">
-      <semantic-query
-        query="
-              SELECT DISTINCT ?providerRecord ?providerLabel WHERE {
-              {
-                # Artwork
-                ?originalSubject owl:sameAs ??.
-                ?originalSubject fr:Work_has_provider_Institution ?provider.
-                ?originalSubject <https://artresearch.net/custom/has_original_record> ?providerRecord.
-                ?provider rdfs:label ?providerLabel
-              }UNION{
-                # Pharos artwork
-                ?? fr:Work_has_provider_Institution ?provider.
-                ?? <https://artresearch.net/custom/has_original_record> ?providerRecord.
-                ?provider rdfs:label ?providerLabel
-              }UNION{
-                # Photograph
-                ?? fr:Photo_depicts_Work  ?subject.
-                ?subject <https://artresearch.net/custom/has_original_record> ?providerRecord.
-                ?subject fr:Work_has_provider_Institution ?provider.
-                ?provider rdfs:label ?providerLabel
-              }
-              }"
-        no-result-template="<div></div>"
-        template="{{> originalRecords}}"
-      >
-        <template id="originalRecords">
-          <div>
-            <h2 class="fc-label">
-              {{#each bindings}}
-                <a style="margin-left: 5px;" href="{{providerRecord.value}}" target="_null">
-                  <div class="fc-label original-link">
-                    <img
-                      title="{{providerLabel.value}}"
-                      class="sourceIcon"
-                      src="/assets/images/{{providerLabel.value}}.ico"
-                    />
-                    <div class="text">View {{providerLabel.value}} record</div>
-                  </div> 
-                </a>
-              {{/each}}
-            </h2>
-        </div>
-        </template>
-      </semantic-query>
-      <div class="animated-background"></div>
-
-      <semantic-query
-        query='SELECT ?websiteLink WHERE { ?? fr:Institution_has_Original_Link ?websiteLink 
-        }LIMIT 10'
-        template='{{> websiteLink }}'
-        no-result-template="<div></div>">
-        <template id='websiteLink'>
-          <div>
-            <h2 class="fc-label">
-              {{#each bindings}}
-              <a style="margin-left: 5px;" href="{{websiteLink.value}}" target="_null">
-                <div class="fc-label original-link">
-                <div class="text">View website</div>
-                <div   class="sourceIcon fa fa-external-link"></div>
-              </div> 
-              </a>
-              {{/each}}
-            </h2>
-          </div>
-        </template>
-      </semantic-query>
-      <div class="animated-background"></div>
-    </div>
-    <h2 style="margin-left: 5px; margin-top: 10px;" class="fc-label">
-      <semantic-query query='SELECT ?artwork WHERE{
-        ?? fr:Photo_depicts_Work ?artwork.
-        ?artwork a fc:work
-      }'
-      template="{{>relArtwork}}"
-      no-result-template="<div></div>"
-      >
-      <template id="relArtwork">
-        <div>
-        Related to artwork:
-        {{#each bindings}}
-          <semantic-link class="artwork-link"  iri="{{artwork.value}}" ></semantic-link>
-        {{/each}}
-      </div>
-      </template>
+    <semantic-query query=' SELECT DISTINCT ?newLink WHERE { 
+                                ?? a cfc:work.
+                                ?? owl:sameAs ?newLink.
+                                ?newLink a fc:work.}'
+      template='{{> deprecated }}'
+      no-result-template='<div></div>'>
+      <template id='deprecated'>
+            <div style=" margin-top: 15px; border-radius: 5px; padding: 14px; background: lightblue;">
+                <h2><i style="margin-right: 5px;" class="fa fa-info"></i>This record is deprecated. Please visit the Pharos record at:</h2>
+                {{#each bindings}}
+                  <h2 style="text-decoration: underline;">
+                    <i style="margin-right: 5px;" class="fa fa-external-link"></i> 
+                    <semantic-link  iri='{{newLink.value}}'></semantic-link>
+                  </h2>
+                {{/each}}
+            </div>
+      </template> 
     </semantic-query>
-   
-  </h2>
-  </div>
+    <div class="animated-background-sm"></div>
+    <div data-flex-layout='row center-left' class="page__header-tagline subtitleInfo">
+        [[> InfoTypeRepository work=(urlParam "uri") ]]
+        <div style="position: absolute; right: 0; top: 0;">
+            <semantic-query
+              query="
+                    SELECT DISTINCT ?providerRecord ?providerLabel WHERE {
+                    {
+                      # Artwork
+                      ?originalSubject owl:sameAs ??.
+                      ?originalSubject fr:Work_has_provider_Institution ?provider.
+                      ?originalSubject <https://artresearch.net/custom/has_original_record> ?providerRecord.
+                      ?provider rdfs:label ?providerLabel
+                    }UNION{
+                      # Pharos artwork
+                      ?? fr:Work_has_provider_Institution ?provider.
+                      ?? <https://artresearch.net/custom/has_original_record> ?providerRecord.
+                      ?provider rdfs:label ?providerLabel
+                    }UNION{
+                      # Photograph
+                      ?? fr:Photo_depicts_Work  ?subject.
+                      ?subject <https://artresearch.net/custom/has_original_record> ?providerRecord.
+                      ?subject fr:Work_has_provider_Institution ?provider.
+                      ?provider rdfs:label ?providerLabel
+                    }
+                    }"
+              no-result-template="<div></div>"
+              template="{{> originalRecords}}"
+            >
+              <template id="originalRecords">
+                <div>
+                  <h2 class="fc-label">
+                    {{#each bindings}}
+                      <a style="margin-left: 5px;" href="{{providerRecord.value}}" target="_null">
+                        <div class="fc-label original-link">
+                          <img
+                            title="{{providerLabel.value}}"
+                            class="sourceIcon"
+                            src="/assets/images/{{providerLabel.value}}.ico"
+                          />
+                          <div class="text">View {{providerLabel.value}} record</div>
+                        </div> 
+                      </a>
+                    {{/each}}
+                  </h2>
+                </div>
+              </template>
+            </semantic-query>
+            <div class="animated-background"></div>
+
+            <semantic-query
+              query='SELECT ?websiteLink WHERE { ?? fr:Institution_has_Original_Link ?websiteLink }LIMIT 10'
+              template='{{> websiteLink }}'
+              no-result-template="<div></div>">
+                  <template id='websiteLink'>
+                    <div>
+                      <h2 class="fc-label">
+                        {{#each bindings}}
+                            <a style="margin-left: 5px;" href="{{websiteLink.value}}" target="_null">
+                                <div class="fc-label original-link">
+                                    <div class="text">View website</div>
+                                    <div class="sourceIcon fa fa-external-link"></div>
+                                </div> 
+                            </a>
+                        {{/each}}
+                      </h2>
+                    </div>
+                  </template>
+            </semantic-query>
+            <div class="animated-background"></div>
+        </div>
+        <h2 style="margin-left: 5px; margin-top: 10px;" class="fc-label">
+          <semantic-query query='SELECT ?artwork WHERE{
+                ?? fr:Photo_depicts_Work ?artwork.
+                ?artwork a fc:work}'
+              template="{{>relArtwork}}"
+              no-result-template="<div></div>"
+          >
+              <template id="relArtwork">
+                  <div>
+                      Related to artwork:
+                      {{#each bindings}}
+                        <semantic-link class="artwork-link"  iri="{{artwork.value}}" ></semantic-link>
+                      {{/each}}
+                  </div>
+              </template>
+          </semantic-query>
+        </h2>
+    </div>
 </div>
+
 <style>
   body{
     line-height: 0 !important;
