@@ -1,12 +1,11 @@
   {{#ifCond field.iri "===" "http://www.researchspace.org/fieldDefinition/CreatorWithRole" }}
     <semantic-link iri="{{value.value.value}}"></semantic-link>  , {{value.binding.roleLabel.value}}
-  {{/ifCond}}
-
+  {{else}}
   {{#ifCond field.label.0.value "===" "Description"}}
-    <mp-text-truncate lines="3" expand='<span style="color: gray;">...<a>read more</a></span>' collapse='<span style="color: gray;">(<a>show less</a>)</span>'>
-      {{value.value.value}}
-    </mp-text-truncate>
-  {{/ifCond}}
+  <mp-text-truncate lines="3" expand='<span style="color: gray;">...<a>read more</a></span>' collapse='<span style="color: gray;">(<a>show less</a>)</span>'>
+    {{value.value.value}}
+  </mp-text-truncate>
+  {{else}}
 
 
   {{#ifCond field.label.0.value "===" "Production Date"}}
