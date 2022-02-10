@@ -1,6 +1,4 @@
-<div
-class="rs-page__summary-image summaryImages summary-image-with-thumbs"
->
+<div class="rs-page__summary-image summaryImages summary-image-with-thumbs" >
   <div class="summary-image-main">
     <mp-event-target-template-render
       id="event-target"
@@ -8,94 +6,93 @@ class="rs-page__summary-image summaryImages summary-image-with-thumbs"
     >
       <template id="mainImageTemplate">
         <div>
-        <semantic-query
-          query='SELECT DISTINCT ?rectoVersoImage ?rectoVersoImageThumbnail ?imageManifest WHERE{
-            # Previously we selected only rectos, now we expand to include versos
-            {{#ifCond image "===" undefined}}
-              ?photo crm:P129i_is_subject_of <{{bindings.0.image.value}}>; #Default first
-                {{else}}
-              ?photo crm:P129i_is_subject_of <{{image}}>; #User clicked on a thumbnail
-            {{/ifCond}}
-            crm:P129i_is_subject_of ?rectoVersoImage.
-            ?rectoVersoImage crm:P2_has_type ?type.
-            ?type rdfs:label ?typeLabel.
-            OPTIONAL{
-              ?rectoVersoImage crm:P129i_is_subject_of ?imageManifest.
-              FILTER NOT EXISTS{
-                ?imageManifest crm:P2_has_type <https://artresearch.net/resource/hertziana/type/presentation_api_manifest>
-              }
-            }
-            FILTER(?typeLabel = "verso" || ?typeLabel = "recto"  ).
-            BIND(REPLACE(STR(?rectoVersoImage),"full/full","full/!350,350") AS ?rectoVersoImageThumbnail).
-          }ORDER BY ASC(?typeLabel)'
-          template="{{> mediumImageSize}}"
-        >
-          <template id="mediumImageSize">
-            <div>
-              <mp-overlay-dialog title="‎‎" type="lightbox">
-                <mp-overlay-dialog-trigger>
-                  <div class="summary-image-main imageAndSourceContainer">  
-                    <semantic-query
-                      query="     
-                      SELECT ?providerLabel WHERE{   
-                        # Get the little icon on the top left to please providers
-                        ?photo crm:P129i_is_subject_of <{{bindings.0.rectoVersoImage.value}}>.
-                        ?photo custom:has_provider ?provider.
-                        ?provider rdfs:label ?providerLabel.
-                      }limit 1
-                      "
-                      template="{{> imageSourceIcon}}"
-                    >
-                      <template id="imageSourceIcon">
-                        <div class="imageSourceIcon fade-in">
-                          <img
-                            title="{{bindings.0.providerLabel.value}}"
-                            class="sourceIcon"
-                            src="/assets/images/{{bindings.0.providerLabel.value}}.ico"
-                          />
-                        </div>
-                      </template>
-                    </semantic-query>
-                     {{#ifCond (objectLength bindings) ">" 2 }}
-                        {{#each bindings}}
-                          <img
-                            class="imageThumbnailSingle tripleThumb"
-                            alt="Issue with image provider"
-                            src="{{rectoVersoImageThumbnail.value}}"
-                          />
-                        {{/each}}
-                      {{else}}
-                      {{#ifCond (objectLength bindings) "===" 2 }}
-                      {{#each bindings}}
-                        <img
-                          class="imageThumbnailSingle doubleThumb"
-                          alt="Issue with image provider"
-                          src="{{rectoVersoImageThumbnail.value}}"
-                        />
-                      {{/each}}
+          <semantic-query
+            query='SELECT DISTINCT ?rectoVersoImage ?rectoVersoImageThumbnail ?imageManifest WHERE{
+                # Previously we selected only rectos, now we expand to include versos
+                {{#ifCond image "===" undefined}}
+                  ?photo crm:P129i_is_subject_of <{{bindings.0.image.value}}>; #Default first
                     {{else}}
-                        {{#each bindings}}
-                          <img
-                            class="imageThumbnailSingle "
-                            alt="Issue with image provider"
-                            src="{{rectoVersoImageThumbnail.value}}"
-                          />
-                        {{/each}}
-                      {{/ifCond}}
-                      {{/ifCond}}
+                  ?photo crm:P129i_is_subject_of <{{image}}>; #User clicked on a thumbnail
+                {{/ifCond}}
+                crm:P129i_is_subject_of ?rectoVersoImage.
+                ?rectoVersoImage crm:P2_has_type ?type.
+                ?type rdfs:label ?typeLabel.
+                OPTIONAL{
+                  ?rectoVersoImage crm:P129i_is_subject_of ?imageManifest.
+                  FILTER NOT EXISTS{
+                    ?imageManifest crm:P2_has_type <https://artresearch.net/resource/hertziana/type/presentation_api_manifest>
+                  }
+                }
+                FILTER(?typeLabel = "verso" || ?typeLabel = "recto"  ).
+                BIND(REPLACE(STR(?rectoVersoImage),"full/full","full/!350,350") AS ?rectoVersoImageThumbnail).
+              }ORDER BY ASC(?typeLabel)'
+            template="{{> mediumImageSize}}"
+          >
+              <template id="mediumImageSize">
+                  <div>
+                    <mp-overlay-dialog title="‎‎" type="lightbox">
+                      <mp-overlay-dialog-trigger>
+                          <div class="summary-image-main imageAndSourceContainer">  
+                            <semantic-query
+                              query="     
+                                SELECT ?providerLabel WHERE{   
+                                  # Get the little icon on the top left to please providers
+                                  ?photo crm:P129i_is_subject_of <{{bindings.0.rectoVersoImage.value}}>.
+                                  ?photo custom:has_provider ?provider.
+                                  ?provider rdfs:label ?providerLabel.
+                                }limit 1 "
+                              template="{{> imageSourceIcon}}"
+                            >
+                              <template id="imageSourceIcon">
+                                <div class="imageSourceIcon fade-in">
+                                  <img
+                                    title="{{bindings.0.providerLabel.value}}"
+                                    class="sourceIcon"
+                                    src="/assets/images/{{bindings.0.providerLabel.value}}.ico"
+                                  />
+                                </div>
+                              </template>
+                            </semantic-query>
+                            {{#ifCond (objectLength bindings) ">" 2 }}
+                                {{#each bindings}}
+                                  <img
+                                    class="imageThumbnailSingle tripleThumb"
+                                    alt="Issue with image provider"
+                                    src="{{rectoVersoImageThumbnail.value}}"
+                                  />
+                                {{/each}}
+                              {{else}}
+                              {{#ifCond (objectLength bindings) "===" 2 }}
+                              {{#each bindings}}
+                                <img
+                                  class="imageThumbnailSingle doubleThumb"
+                                  alt="Issue with image provider"
+                                  src="{{rectoVersoImageThumbnail.value}}"
+                                />
+                              {{/each}}
+                            {{else}}
+                                {{#each bindings}}
+                                  <img
+                                    class="imageThumbnailSingle "
+                                    alt="Issue with image provider"
+                                    src="{{rectoVersoImageThumbnail.value}}"
+                                  />
+                                {{/each}}
+                              {{/ifCond}}
+                              {{/ifCond}}
 
+                          </div>
+                      </mp-overlay-dialog-trigger>
+                      <mp-overlay-dialog-content>
+                        {{#ifCond  bindings.0.imageManifest.value "!==" undefined}}
+                          [[> SummaryImagesWorkIIIFModal]]
+                        {{else}}
+                          [[> SummaryImagesWorkImageModal]]
+                        {{/ifCond}}
+                      </mp-overlay-dialog-content>
+                    </mp-overlay-dialog>
                   </div>
-                </mp-overlay-dialog-trigger>
-                <mp-overlay-dialog-content>
-                  {{#ifCond  bindings.0.imageManifest.value "!==" undefined}}
-                    [[> SummaryImagesWorkIIIFModal]]
-                  {{else}}
-                    [[> SummaryImagesWorkImageModal]]
-                  {{/ifCond}}
-                </mp-overlay-dialog-content>
-              </mp-overlay-dialog>
-              </div>
-            </template>
+              </template>
           </semantic-query>
           <div class="animated-background mediumImageSizeAnimate"></div>
         </div>

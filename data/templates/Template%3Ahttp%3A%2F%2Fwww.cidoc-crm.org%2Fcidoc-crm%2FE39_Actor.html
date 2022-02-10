@@ -2,42 +2,43 @@
 
 <div class="page rs-page">
   [[#> ClipboardSidebar]]
-  <div class="page__header-navtabs">
-    [[> Header ]]
-  </div>
-  [[#if (urlParam "tab")]]
-  <bs-tab-container id="tab-container" class="page__body-navtabs--borderless" default-active-key="[[urlParam 'tab']]">
-    [[else]]
-    <bs-tab-container id="tab-container" class="page__body-navtabs--borderless" default-active-key="summary">
-      [[/if]]
-      <div>
-        <bs-nav bs-style="tabs">
-          <bs-nav-item event-key="summary">Summary</bs-nav-item>
-           [[#if (ask "ASK {?work fr:Photo_created_by_Photographer ?? }") ]] 
-          <bs-nav-item event-key="photographs"><div style="display:flex;">Artworks
-            (
-              <semantic-query query='
-               SELECT (COUNT(DISTINCT ?artwork) AS ?count) WHERE{
-                ?artwork a cfc:photo.
-                ?artwork  fr:Photo_created_by_Photographer  ?? .
-               }
-             '></semantic-query>)
-            </div>
-           </bs-nav-item>
-           [[/if]]
-        </bs-nav>
-
-        <bs-tab-content unmount-on-exit=true>
-          <bs-tab-pane event-key="summary">
-             [[> InfoArtist]]
-          </bs-tab-pane>
-          <bs-tab-pane event-key="photographs">
-            [[> TabSearchPhotograph]]
-          </bs-tab-pane>
-        </bs-tab-content>
-      </div>
-    </bs-tab-container>
-    [[/:ClipboardSidebar]]
+    <div class="page__header-navtabs">
+      [[> Header ]]
+    </div>
+        [[#if (urlParam "tab")]]
+        <bs-tab-container id="tab-container" class="page__body-navtabs--borderless" default-active-key="[[urlParam 'tab']]">
+        [[else]]
+          <bs-tab-container id="tab-container" class="page__body-navtabs--borderless" default-active-key="summary">
+        [[/if]]
+        <div>
+          <bs-nav bs-style="tabs">
+            <bs-nav-item event-key="summary">Summary</bs-nav-item>
+            [[#if (ask "ASK {?work fr:Photo_created_by_Photographer ?? }") ]] 
+              <bs-nav-item event-key="photographs">
+                <div style="display:flex;">Artworks
+                  (
+                    <semantic-query 
+                      query='
+                      SELECT (COUNT(DISTINCT ?artwork) AS ?count) WHERE{
+                        ?artwork a cfc:photo.
+                        ?artwork  fr:Photo_created_by_Photographer  ?? .
+                      }'>
+                    </semantic-query>)
+                </div>
+              </bs-nav-item>
+            [[/if]]
+          </bs-nav>
+          <bs-tab-content unmount-on-exit=true>
+            <bs-tab-pane event-key="summary">
+              [[> InfoArtist]]
+            </bs-tab-pane>
+            <bs-tab-pane event-key="photographs">
+              [[> TabSearchPhotograph]]
+            </bs-tab-pane>
+          </bs-tab-content>
+        </div>
+      </bs-tab-container>
+ [[/:ClipboardSidebar]]
 </div>
 
 <style>

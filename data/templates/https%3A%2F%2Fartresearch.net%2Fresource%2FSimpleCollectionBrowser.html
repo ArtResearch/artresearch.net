@@ -19,38 +19,40 @@
     <div class="rs-vocabulary-terms-area">
       <h1>{{itemLabel}}s</h1>
       <mp-event-target-refresh id='mytree'>
-        <semantic-lazy-tree id='scheme-tree' info-template='{{> template}}' type='simple' 
-                            config='{"scheme": "{{collection}}", 
-                                    {{#if broaderProperty}}
-                                    "relationPattern": "?item <{{broaderProperty}}> ?parent",
-                                    {{/if}}
-                                    {{#if orderByPattern}}
-                                    "orderByPattern": "{{orderByPattern}}",
-                                    {{/if}}
-                                    "schemePattern": "?item <{{membershipProperty}}> ?__scheme__"
-                                    }'>
-          <template id='template'>
-            <span class="tree-item-actions-container">
-              {{#if editable}}
-                <mp-event-trigger id='form-edit-trigger' type='Component.TemplateUpdate'
-                                  data='{"node":"{{iri}}",  "mode": "edit" }' targets='["term-forms"]'>
-                  <span class='tree-item-action' style="margin-right: 7px;"><i class='fa fa-pencil' title="Edit {{itemLabel}}"></i></span>
-                </mp-event-trigger>
-
-                {{#if broaderProperty}}
-                <mp-event-trigger id='form-new-trigger' type='Component.TemplateUpdate' data='{"broader": "{{iri}}", "mode": "new" }' targets='["term-forms"]'>
-                  <span class='tree-item-action'><i class='fa fa-plus' title="Add narrower {{itemLabel}}"></i></span>
-                </mp-event-trigger>
+          <semantic-lazy-tree 
+            id='scheme-tree' 
+            info-template='{{> template}}' 
+            type='simple'                     
+            config='{"scheme": "{{collection}}", 
+                                        {{#if broaderProperty}}
+                                        "relationPattern": "?item <{{broaderProperty}}> ?parent",
+                                        {{/if}}
+                                        {{#if orderByPattern}}
+                                        "orderByPattern": "{{orderByPattern}}",
+                                        {{/if}}
+                                        "schemePattern": "?item <{{membershipProperty}}> ?__scheme__"
+                                        }'>
+            <template id='template'>
+              <span class="tree-item-actions-container">
+                {{#if editable}}
+                  <mp-event-trigger id='form-edit-trigger' type='Component.TemplateUpdate'
+                                    data='{"node":"{{iri}}",  "mode": "edit" }' targets='["term-forms"]'>
+                    <span class='tree-item-action' style="margin-right: 7px;"><i class='fa fa-pencil' title="Edit {{itemLabel}}"></i></span>
+                  </mp-event-trigger>
+                    {{#if broaderProperty}}
+                    <mp-event-trigger id='form-new-trigger' type='Component.TemplateUpdate' data='{"broader": "{{iri}}", "mode": "new" }' targets='["term-forms"]'>
+                      <span class='tree-item-action'><i class='fa fa-plus' title="Add narrower {{itemLabel}}"></i></span>
+                    </mp-event-trigger>
+                    {{/if}}
+                {{else}}
+                  <mp-event-trigger id='form-edit-trigger' type='Component.TemplateUpdate'
+                                    data='{"node":"{{iri}}",  "mode": "view" }' targets='["term-forms"]'>
+                    <span class='tree-item-action' style="margin-right: 7px;"><i class='fa fa-eye' title="View {{itemLabel}}"></i></span>
+                  </mp-event-trigger>
                 {{/if}}
-              {{else}}
-                <mp-event-trigger id='form-edit-trigger' type='Component.TemplateUpdate'
-                                  data='{"node":"{{iri}}",  "mode": "view" }' targets='["term-forms"]'>
-                  <span class='tree-item-action' style="margin-right: 7px;"><i class='fa fa-eye' title="View {{itemLabel}}"></i></span>
-                </mp-event-trigger>
-              {{/if}}
-            </span>
-          </template>
-        </semantic-lazy-tree>    
+              </span>
+            </template>
+          </semantic-lazy-tree>    
       </mp-event-target-refresh>
     </div>
   </div>

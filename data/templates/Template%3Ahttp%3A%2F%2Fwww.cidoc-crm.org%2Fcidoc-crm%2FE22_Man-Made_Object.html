@@ -1,42 +1,37 @@
 [[> Breadcrumb category="Artworks"]]
 <div class="page rs-page">
   [[#> ClipboardSidebar]]
-  <div class="page__header-navtabs">
-    [[> HeaderDeprecated]]
-  </div>
-  <!-- Loads all IIIF images as 500px thumbnails (clickable with mirador popup) -->
-  [[> SummaryImagesWork]]
-  [[#if (urlParam "tab")]]
-  <bs-tab-container id="tab-container" class="page__body-navtabs--borderless" default-active-key="[[urlParam 'tab']]">
-    [[else]]
-    <bs-tab-container id="tab-container" class="page__body-navtabs--borderless" default-active-key="summary">
-      [[/if]]
-      <div>
-        <bs-nav bs-style="tabs">
-          <bs-nav-item event-key="summary">Summary</bs-nav-item>
-          [[#if (ask "ASK { {?? custom:has_provider ?provider. ?provider <https://artresearch.net/custom/has_iiif_server> ?iiifServer. }UNION{?original owl:sameAs ??. ?original custom:has_provider ?provider. ?provider <https://artresearch.net/custom/has_iiif_server> ?iiifServer.} }") ]] 
-              <bs-nav-item event-key="PhotographLightbox">Photograph Lightbox</bs-nav-item>
-          [[/if]]
-           <bs-nav-item event-key="similar">Visually similar artworks</bs-nav-item>
-        </bs-nav>
-
-        <bs-tab-content unmount-on-exit=true>
-          <bs-tab-pane event-key="summary">
-            <!-- Loads two tables with information regarding work & production -->
-            <!-- Loads photographs with info (id, photographer, keeper) -->
-              [[> InfoWorkAndProduction]]
-          </bs-tab-pane>
-          <bs-tab-pane event-key="PhotographLightbox">
-            [[> PhotographLightbox record=(this)]]
-          </bs-tab-pane>
-          <bs-tab-pane event-key="similar">
-            <!-- Show similar artworks -->
-              [[> SimilarArtworks]]
-          </bs-tab-pane>
-        </bs-tab-content>
+      <div class="page__header-navtabs">
+        [[> HeaderDeprecated]]
       </div>
-    </bs-tab-container>
-    [[/:ClipboardSidebar]]
+      [[> SummaryImagesWork]]
+      [[#if (urlParam "tab")]]
+        <bs-tab-container id="tab-container" class="page__body-navtabs--borderless" default-active-key="[[urlParam 'tab']]">
+      [[else]]
+        <bs-tab-container id="tab-container" class="page__body-navtabs--borderless" default-active-key="summary">
+      [[/if]]
+          <div>
+            <bs-nav bs-style="tabs">
+              <bs-nav-item event-key="summary">Summary</bs-nav-item>
+              [[#if (ask "ASK { {?? custom:has_provider ?provider. ?provider <https://artresearch.net/custom/has_iiif_server> ?iiifServer. }UNION{?original owl:sameAs ??. ?original custom:has_provider ?provider. ?provider <https://artresearch.net/custom/has_iiif_server> ?iiifServer.} }") ]] 
+                  <bs-nav-item event-key="PhotographLightbox">Photograph Lightbox</bs-nav-item>
+              [[/if]]
+              <bs-nav-item event-key="similar">Visually similar artworks</bs-nav-item>
+            </bs-nav>
+            <bs-tab-content unmount-on-exit=true>
+              <bs-tab-pane event-key="summary">
+                  [[> InfoWorkAndProduction]]
+              </bs-tab-pane>
+              <bs-tab-pane event-key="PhotographLightbox">
+                [[> PhotographLightbox record=(this)]]
+              </bs-tab-pane>
+              <bs-tab-pane event-key="similar">
+                  [[> SimilarArtworks]]
+              </bs-tab-pane>
+            </bs-tab-content>
+          </div>
+        </bs-tab-container>
+  [[/:ClipboardSidebar]]
 </div>
 
 <style>

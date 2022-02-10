@@ -1,69 +1,70 @@
 [[> Breadcrumb category="Types"]]
   <div class="page rs-page">
     [[#> ClipboardSidebar]]
-    <div class="page__header-navtabs">
-      [[> Header ]]
-    </div>
-  
-    [[#if (urlParam "tab")]]
-    <bs-tab-container id="tab-container" class="page__body-navtabs--borderless" default-active-key="[[urlParam 'tab']]">
+      <div class="page__header-navtabs">
+        [[> Header ]]
+      </div>
+    
+      [[#if (urlParam "tab")]]
+        <bs-tab-container id="tab-container" class="page__body-navtabs--borderless" default-active-key="[[urlParam 'tab']]">
       [[else]]
-      <bs-tab-container id="tab-container" class="page__body-navtabs--borderless" default-active-key="summary">
-        [[/if]]
-        <div>
-          <bs-nav bs-style="tabs">
-            <bs-nav-item event-key="summary">Summary</bs-nav-item>
-            [[#if (ask "ASK {  { ?artwork <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ??.}union{?artwork fr:Work_depicted_by_Photo ?photo. ?photo fr:Photo_produced_using_Technique|crm:P45_consists_of ??} ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>. }") ]] 
-            <bs-nav-item event-key="artworks"><div style="display:flex;">Related entities
-              (
-                <semantic-query query='
-                 SELECT (COUNT(DISTINCT ?artwork) AS ?count) WHERE{
-                  ?artwork fr:Photo_produced_using_Technique|crm:P33_used_specific_technique|fr:Work_produced_using_technique_Technique|crm:P2_has_type|crm:P45_consists_of  ??
-                 }
-               '></semantic-query>)
-              </div>
-             </bs-nav-item>
-             [[/if]]
-          </bs-nav>
-  
-          <bs-tab-content unmount-on-exit=true>
-            <bs-tab-pane event-key="summary">
-              <div style="text-align: left; width: 100%;">
-                <h2>
-                  <div style="color: gray !important; font-weight: bold;">Number of entities with this type:</div>
-                </h2>
-                <h2>
-                  <semantic-query
-                  query='
-                  select (count(?subject) as ?count) where {
-                      ?subject fr:Photo_produced_using_Technique|crm:P33_used_specific_technique|fr:Work_produced_using_technique_Technique|crm:P2_has_type|crm:P45_consists_of  ??
-                  }'
-                ></semantic-query>
-                </h2>
-              </div>
-              <div style="text-align: left; width: 100%; margin-top: 20px;">
-                <h2>
-                  <div style="color: gray !important; font-weight: bold;">Related types:</div>
-                </h2>
-                <h2 class="techniques">
-                  <semantic-query
-                  query='
-                  select DISTINCT  ?type where {
-                      ?subject fr:Photo_produced_using_Technique|crm:P33_used_specific_technique|fr:Work_produced_using_technique_Technique|crm:P2_has_type|crm:P45_consists_of  ??.
-                      ?subject fr:Photo_produced_using_Technique|crm:P33_used_specific_technique|fr:Work_produced_using_technique_Technique|crm:P2_has_type|crm:P45_consists_of  ?type
-                      FILTER(?type != ??)
-                  }LIMIT 1000'
-                ></semantic-query>
-                </h2>
-              </div>
-            </bs-tab-pane>
-            <bs-tab-pane event-key="artworks">
-              [[> TabSearchArtworkType ]]
-            </bs-tab-pane>
-          </bs-tab-content>
-        </div>
-      </bs-tab-container>
-      [[/:ClipboardSidebar]]
+        <bs-tab-container id="tab-container" class="page__body-navtabs--borderless" default-active-key="summary">
+      [[/if]]
+            <div>
+              <bs-nav bs-style="tabs">
+                <bs-nav-item event-key="summary">Summary</bs-nav-item>
+                [[#if (ask "ASK {  { ?artwork <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ??.}union{?artwork fr:Work_depicted_by_Photo ?photo. ?photo fr:Photo_produced_using_Technique|crm:P45_consists_of ??} ?subject a <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>. }") ]] 
+                <bs-nav-item event-key="artworks">
+                  <div style="display:flex;">Related entities
+                  (
+                    <semantic-query query='
+                    SELECT (COUNT(DISTINCT ?artwork) AS ?count) WHERE{
+                      ?artwork fr:Photo_produced_using_Technique|crm:P33_used_specific_technique|fr:Work_produced_using_technique_Technique|crm:P2_has_type|crm:P45_consists_of  ??
+                    }
+                  '></semantic-query>)
+                  </div>
+                </bs-nav-item>
+                [[/if]]
+              </bs-nav>
+      
+              <bs-tab-content unmount-on-exit=true>
+                <bs-tab-pane event-key="summary">
+                    <div style="text-align: left; width: 100%;">
+                      <h2>
+                        <div style="color: gray !important; font-weight: bold;">Number of entities with this type:</div>
+                      </h2>
+                      <h2>
+                          <semantic-query
+                            query='
+                            select (count(?subject) as ?count) where {
+                                ?subject fr:Photo_produced_using_Technique|crm:P33_used_specific_technique|fr:Work_produced_using_technique_Technique|crm:P2_has_type|crm:P45_consists_of  ??
+                            }'
+                        ></semantic-query>
+                      </h2>
+                    </div>
+                    <div style="text-align: left; width: 100%; margin-top: 20px;">
+                      <h2>
+                        <div style="color: gray !important; font-weight: bold;">Related types:</div>
+                      </h2>
+                      <h2 class="techniques">
+                          <semantic-query
+                            query='
+                            select DISTINCT  ?type where {
+                                ?subject fr:Photo_produced_using_Technique|crm:P33_used_specific_technique|fr:Work_produced_using_technique_Technique|crm:P2_has_type|crm:P45_consists_of  ??.
+                                ?subject fr:Photo_produced_using_Technique|crm:P33_used_specific_technique|fr:Work_produced_using_technique_Technique|crm:P2_has_type|crm:P45_consists_of  ?type
+                                FILTER(?type != ??)
+                            }LIMIT 1000'
+                        ></semantic-query>
+                      </h2>
+                    </div>
+                </bs-tab-pane>
+                <bs-tab-pane event-key="artworks">
+                  [[> TabSearchArtworkType ]]
+                </bs-tab-pane>
+              </bs-tab-content>
+            </div>
+        </bs-tab-container>
+    [[/:ClipboardSidebar]]
   </div>
   
   <style>

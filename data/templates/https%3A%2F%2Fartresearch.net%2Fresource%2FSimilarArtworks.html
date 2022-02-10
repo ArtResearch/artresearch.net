@@ -1,4 +1,3 @@
-<!-- Displays a list of similar artworks -->
 <div id="similar-artwork-list">
   <h1>Search for visually similar artworks</h1>
   <semantic-query
@@ -17,29 +16,26 @@
       <div class="similarArtworkCardContainer">
         {{#each bindings}}
         <div class="similarArtworkCard">
-        <div class="card" style="width: 36rem; padding: 1vh;">
-          <img
-            class="card-img-top"
-            src="{{thumb.value}}"
-            alt="Card image cap"
-          />
-          <div class="card-body">
-            <h3 class="card-title"><semantic-link iri="{{photo.value}}"></semantic-link></h3>
-            <mp-overlay-dialog title="‎‎{{match.value}} " type="lightbox">
-              <mp-overlay-dialog-trigger
-                >
-                <div
-                class="btn btn-info"
-              >
-                Search
-              </div>
-              </mp-overlay-dialog-trigger>
-              <mp-overlay-dialog-content>
-                <iframe src="https://vision.artresearch.net/resource/?image={{image.value}}&uri=rsp%3ASearchInline"></iframe>
-              </mp-overlay-dialog-content>
-            </mp-overlay-dialog>
+          <div class="card" style="width: 36rem; padding: 1vh;">
+            <img
+              class="card-img-top"
+              src="{{thumb.value}}"
+              alt="Card image cap"
+            />
+            <div class="card-body">
+              <h3 class="card-title"><semantic-link iri="{{photo.value}}"></semantic-link></h3>
+              <mp-overlay-dialog title="‎‎{{match.value}} " type="lightbox">
+                <mp-overlay-dialog-trigger >
+                  <div class="btn btn-info" >
+                    Search
+                  </div>
+                </mp-overlay-dialog-trigger>
+                <mp-overlay-dialog-content>
+                  <iframe src="https://vision.artresearch.net/resource/?image={{image.value}}&uri=rsp%3ASearchInline"></iframe>
+                </mp-overlay-dialog-content>
+              </mp-overlay-dialog>
+            </div>
           </div>
-        </div>
         </div>
         {{/each}}
       </div>

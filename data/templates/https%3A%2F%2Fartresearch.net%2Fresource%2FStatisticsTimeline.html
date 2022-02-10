@@ -2,88 +2,87 @@
   Timeline <small style="text-transform:lowercase">per provider</small>
 </h3>
 <div class="download-options"> 
-  <mp-sparql-download
-  id="csv-result"
-  query='
-  select DISTINCT ?provider ?count  ?date where {
-      ## This query returns the number of works for each provider
-      GRAPH <https://artresearch.net/resource/statistics/namedgraphs/graph> {
-      ?x ?y ?z.
-      }
-      GRAPH ?z {
-      ?l <https://artresearch.net/custom/has_date> ?date.
-      ?l <https://artresearch.net/custom/consists_of> ?n
-      
-      }
-      GRAPH ?n {
-        ?provider <[[property]]> ?count.
-      }
-      FILTER(!STRSTARTS(STR(?provider), "https://artresearch.net/resource/total"))
-    } ORDER BY ASC(?provider)
-  '
-  header="text/xml"
-  filename="[[datasetLabel]]_timeline_artresearch.xml"
-  >
-  <button class="btn btn-default fa fa-download" style="margin-right: 10px">
-    XML
-  </button>
-  </mp-sparql-download>
-  <mp-sparql-download
-  id="csv-result"
-  query='
-  select DISTINCT ?provider ?count  ?date where {
-      ## This query returns the number of works for each provider
-      GRAPH <https://artresearch.net/resource/statistics/namedgraphs/graph> {
-      ?x ?y ?z.
-      }
-      GRAPH ?z {
-      ?l <https://artresearch.net/custom/has_date> ?date.
-      ?l <https://artresearch.net/custom/consists_of> ?n
-      
-      }
-      GRAPH ?n {
-        ?provider <[[property]]> ?count.
-      }
-      FILTER(!STRSTARTS(STR(?provider), "https://artresearch.net/resource/total"))
-    } ORDER BY ASC(?provider)
-  '
-  header="text/csv"
-  filename="[[datasetLabel]]_timeline_artresearch.csv"
-  >
-  <button class="btn btn-default fa fa-download" style="margin-right: 10px">
-    CSV
-  </button>
-  </mp-sparql-download>
+    <mp-sparql-download
+        id="csv-result"
+        query='
+        select DISTINCT ?provider ?count  ?date where {
+            ## This query returns the number of works for each provider
+            GRAPH <https://artresearch.net/resource/statistics/namedgraphs/graph> {
+            ?x ?y ?z.
+            }
+            GRAPH ?z {
+            ?l <https://artresearch.net/custom/has_date> ?date.
+            ?l <https://artresearch.net/custom/consists_of> ?n
+            
+            }
+            GRAPH ?n {
+              ?provider <[[property]]> ?count.
+            }
+            FILTER(!STRSTARTS(STR(?provider), "https://artresearch.net/resource/total"))
+          } ORDER BY ASC(?provider)
+        '
+        header="text/xml"
+        filename="[[datasetLabel]]_timeline_artresearch.xml"
+        >
+        <button class="btn btn-default fa fa-download" style="margin-right: 10px">
+          XML
+        </button>
+    </mp-sparql-download>
+    <mp-sparql-download
+        id="csv-result"
+        query='
+        select DISTINCT ?provider ?count  ?date where {
+            ## This query returns the number of works for each provider
+            GRAPH <https://artresearch.net/resource/statistics/namedgraphs/graph> {
+            ?x ?y ?z.
+            }
+            GRAPH ?z {
+            ?l <https://artresearch.net/custom/has_date> ?date.
+            ?l <https://artresearch.net/custom/consists_of> ?n
+            
+            }
+            GRAPH ?n {
+              ?provider <[[property]]> ?count.
+            }
+            FILTER(!STRSTARTS(STR(?provider), "https://artresearch.net/resource/total"))
+          } ORDER BY ASC(?provider)
+        '
+        header="text/csv"
+        filename="[[datasetLabel]]_timeline_artresearch.csv"
+        >
+      <button class="btn btn-default fa fa-download" style="margin-right: 10px">
+        CSV
+      </button>
+    </mp-sparql-download>
 </div>
 <mp-component-toolbar>
-  <mp-component-toolbar-actions>
-    <semantic-chart-type-selector
-      default="line"
-      types='["line","bar"]'
-    />
-  </mp-component-toolbar-actions>
-  <mp-component-toolbar-component>
-    <semantic-chart
-      type="pie"
-      query='
-     select DISTINCT ?provider ?count  ?date where {
-      ## This query returns the number of works for each provider
-      GRAPH <https://artresearch.net/resource/statistics/namedgraphs/graph> {
-      ?x ?y ?z.
-      }
-      GRAPH ?z {
-      ?l <https://artresearch.net/custom/has_date> ?date.
-      ?l <https://artresearch.net/custom/consists_of> ?n
-      
-      }
-      GRAPH ?n {
-        ?provider <[[property]]> ?count.
-      }
-      FILTER(!STRSTARTS(STR(?provider), "https://artresearch.net/resource/total"))
-    } ORDER BY ASC(?provider)
-      '
-      multi-data-set='{"dataSetVariable":"provider", "dataSetName": "[[datasetLabel]]", "category":"date", "value":"count" }'
-      >
-    </semantic-chart>
-  </mp-component-toolbar-component>
+    <mp-component-toolbar-actions>
+      <semantic-chart-type-selector
+        default="line"
+        types='["line","bar"]'
+      />
+    </mp-component-toolbar-actions>
+    <mp-component-toolbar-component>
+      <semantic-chart
+        type="pie"
+        query='
+              select DISTINCT ?provider ?count  ?date where {
+                ## This query returns the number of works for each provider
+                GRAPH <https://artresearch.net/resource/statistics/namedgraphs/graph> {
+                ?x ?y ?z.
+                }
+                GRAPH ?z {
+                ?l <https://artresearch.net/custom/has_date> ?date.
+                ?l <https://artresearch.net/custom/consists_of> ?n
+                
+                }
+                GRAPH ?n {
+                  ?provider <[[property]]> ?count.
+                }
+                FILTER(!STRSTARTS(STR(?provider), "https://artresearch.net/resource/total"))
+              } ORDER BY ASC(?provider) '
+        multi-data-set='{"dataSetVariable":"provider", "dataSetName": "[[datasetLabel]]", "category":"date", "value":"count" }'
+        >
+      </semantic-chart>
+    </mp-component-toolbar-component>
 </mp-component-toolbar>

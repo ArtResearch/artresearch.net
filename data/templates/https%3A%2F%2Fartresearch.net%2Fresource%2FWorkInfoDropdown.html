@@ -26,18 +26,18 @@
     <template id="providerOption">
       <div>
       {{#each bindings}}
-      <mp-event-trigger
-        id="event-trigger-tab-{{providerLabel.value}}"
-        type="Component.TemplateUpdate"
-        data='{"selectedTab":"{{providerLabel.value}}"}'
-        targets='["event-target-infowork","event-target-rsbv"]'
-      >
-        <bs-menu-item active event-key="{{providerLabel.value}}">
-          <h2>{{providerLabel.value}}</h2>
-        </bs-menu-item>
-      </mp-event-trigger>
+        <mp-event-trigger
+          id="event-trigger-tab-{{providerLabel.value}}"
+          type="Component.TemplateUpdate"
+          data='{"selectedTab":"{{providerLabel.value}}"}'
+          targets='["event-target-infowork","event-target-rsbv"]'
+        >
+          <bs-menu-item active event-key="{{providerLabel.value}}">
+            <h2>{{providerLabel.value}}</h2>
+          </bs-menu-item>
+        </mp-event-trigger>
       {{/each}}
-    </div>
+      </div>
     </template>
   </semantic-query>
 
