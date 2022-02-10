@@ -3,58 +3,56 @@
 </h3>
 <div class="download-options"> 
   <mp-sparql-download
-  id="csv-result"
-  query='
-  SELECT DISTINCT ?provider ?count WHERE {
-    ## This query returns the most recent count for a specific property
-    ## e.g. (number of works) https://artresearch.net/custom/numOfWorks 
-      {
-      SELECT ?graph ?date WHERE {
-            ?graph <https://artresearch.net/custom/has_date> ?date.
-            BIND(strbefore(STR(?date),"-") as ?day)
-            BIND(strafter(STR(?date),"-") as ?tmp)
-            BIND(strbefore(?tmp,"-") as ?month)
-            BIND(strafter(STR(?tmp),"-") as ?year)
-          } order by DESC(?year) DESC(?month) DESC(?day) LIMIT 1
-      }
-      ?graph <https://artresearch.net/custom/consists_of> ?n
-      GRAPH ?n {
-        ?provider <[[property]]> ?count
-      }
-      FILTER(!STRSTARTS(STR(?provider), "https://artresearch.net/resource/total"))
-    } ORDER BY ASC(?provider)
-  '
-  header="text/xml"
-  filename="[[datasetLabel]]_statistics_artresearch.xml"
+    id="csv-result"
+    query='
+        SELECT DISTINCT ?provider ?count WHERE {
+          ## This query returns the most recent count for a specific property
+          ## e.g. (number of works) https://artresearch.net/custom/numOfWorks 
+            {
+            SELECT ?graph ?date WHERE {
+                  ?graph <https://artresearch.net/custom/has_date> ?date.
+                  BIND(strbefore(STR(?date),"-") as ?day)
+                  BIND(strafter(STR(?date),"-") as ?tmp)
+                  BIND(strbefore(?tmp,"-") as ?month)
+                  BIND(strafter(STR(?tmp),"-") as ?year)
+                } order by DESC(?year) DESC(?month) DESC(?day) LIMIT 1
+            }
+            ?graph <https://artresearch.net/custom/consists_of> ?n
+            GRAPH ?n {
+              ?provider <[[property]]> ?count
+            }
+            FILTER(!STRSTARTS(STR(?provider), "https://artresearch.net/resource/total"))
+          } ORDER BY ASC(?provider) '
+    header="text/xml"
+    filename="[[datasetLabel]]_statistics_artresearch.xml"
   >
-  <button class="btn btn-default fa fa-download" style="margin-right: 10px">
-    XML
-  </button>
+    <button class="btn btn-default fa fa-download" style="margin-right: 10px">
+      XML
+    </button>
   </mp-sparql-download>
   <mp-sparql-download
-  id="csv-result"
-  query='
-  SELECT DISTINCT ?provider ?count WHERE {
-    ## This query returns the most recent count for a specific property
-    ## e.g. (number of works) https://artresearch.net/custom/numOfWorks 
-      {
-      SELECT ?graph ?date WHERE {
-            ?graph <https://artresearch.net/custom/has_date> ?date.
-            BIND(strbefore(STR(?date),"-") as ?day)
-            BIND(strafter(STR(?date),"-") as ?tmp)
-            BIND(strbefore(?tmp,"-") as ?month)
-            BIND(strafter(STR(?tmp),"-") as ?year)
-          } order by DESC(?year) DESC(?month) DESC(?day) LIMIT 1
-      }
-      ?graph <https://artresearch.net/custom/consists_of> ?n
-      GRAPH ?n {
-        ?provider <[[property]]> ?count
-      }
-      FILTER(!STRSTARTS(STR(?provider), "https://artresearch.net/resource/total"))
-    } ORDER BY ASC(?provider)
-  '
-  header="text/csv"
-  filename="[[datasetLabel]]_statistics_artresearch.csv"
+    id="csv-result"
+    query='
+        SELECT DISTINCT ?provider ?count WHERE {
+          ## This query returns the most recent count for a specific property
+          ## e.g. (number of works) https://artresearch.net/custom/numOfWorks 
+            {
+            SELECT ?graph ?date WHERE {
+                  ?graph <https://artresearch.net/custom/has_date> ?date.
+                  BIND(strbefore(STR(?date),"-") as ?day)
+                  BIND(strafter(STR(?date),"-") as ?tmp)
+                  BIND(strbefore(?tmp,"-") as ?month)
+                  BIND(strafter(STR(?tmp),"-") as ?year)
+                } order by DESC(?year) DESC(?month) DESC(?day) LIMIT 1
+            }
+            ?graph <https://artresearch.net/custom/consists_of> ?n
+            GRAPH ?n {
+              ?provider <[[property]]> ?count
+            }
+            FILTER(!STRSTARTS(STR(?provider), "https://artresearch.net/resource/total"))
+          } ORDER BY ASC(?provider) '
+    header="text/csv"
+    filename="[[datasetLabel]]_statistics_artresearch.csv"
   >
   <button class="btn btn-default fa fa-download" style="margin-right: 10px">
     CSV
@@ -89,8 +87,7 @@
               ?provider <[[property]]> ?count
             }
             FILTER(!STRSTARTS(STR(?provider), "https://artresearch.net/resource/total"))
-          } ORDER BY ASC(?provider)
-      '
+          } ORDER BY ASC(?provider)  '
       sets='[{"dataSetName": "[[datasetLabel]]", "category": "provider", "value": "count"}]'
     >
     </semantic-chart>

@@ -50,7 +50,6 @@
     template="{{> multipleProv}}">
       <template id="multipleProv">
           {{#each bindings}}
-          <!-- Checks provider and return an icon -->
             <div title="{{providerLabel.value}}">
               <semantic-link  iri="{{provider.value}}">
                 <img
@@ -64,15 +63,14 @@
       </template>
     </semantic-query>
 [[else]]
-  <!-- Checks provider and return an icon -->
-  <div title="{{value.binding.providerLabel.value}}">
-    <semantic-link  iri="{{value.binding.provider.value}}">
+    <div title="{{value.binding.providerLabel.value}}">
+      <semantic-link  iri="{{value.binding.provider.value}}">
 
-      <img
-        title="{{value.binding.providerLabel.value}}"
-        class="sourceIcon"
-        src="/assets/images/{{value.binding.providerLabel.value}}.ico"
-      />
-    </semantic-link>
-  </div>
+        <img
+          title="{{value.binding.providerLabel.value}}"
+          class="sourceIcon"
+          src="/assets/images/{{value.binding.providerLabel.value}}.ico"
+        />
+      </semantic-link>
+    </div>
 [[/if]]

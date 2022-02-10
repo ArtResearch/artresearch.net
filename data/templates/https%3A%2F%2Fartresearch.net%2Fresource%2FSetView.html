@@ -1,5 +1,4 @@
 <div style='display: flex; align-items: center; justify-content: space-between;'>
-
   <div style='overflow: hidden;'>
     <span style='display: flex;'>
       <mp-label 	 iri='{{iri.value}}' highlight='{{highlight}}'
@@ -8,11 +7,12 @@
       ></mp-label>
     </span>
   </div>
-
   <div class='set-management__item-actions' style='margin-left: auto;'>
-
-    <bs-dropdown-button pull-right=true bs-style='link' title=''
-                        id='set-actions-{{iri.value}}'>
+    <bs-dropdown-button 
+        pull-right=true 
+        bs-style='link' 
+        title=''                  
+        id='set-actions-{{iri.value}}'>
 
       [[#if (hasPermission "forms:ldp:*")]]
         <mp-set-management-action-rename-set>
@@ -23,6 +23,5 @@
         </mp-set-management-action-remove-set>
       [[/if]]
     </bs-dropdown-button>
-    
   </div>
 </div>

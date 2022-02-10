@@ -1,5 +1,4 @@
 [[#if (hasPermission "api:ldp:container:<http://www.researchspace.org/resource/system/fieldDefinitionContainer>:read:any")]]
-
     <ol class="page-breadcrumb">
         <li style="padding-top:10px">
             <mp-link title="Home" url="/resource/start">Home</mp-link>
@@ -9,19 +8,13 @@
         </li>
         <li class="active">Knowledge Patterns</li>
     </ol>
-
     <div class="page rs-fields">
-
         <style>
-
          input[type="checkbox"] {
              margin: 2px 8px 0 0;
          }
-         
         </style>
-        
         [[> adminPageHeader title="Knowledge Patterns" icon="fa fa-list-ul fa-lg"]]
-        
         <div class="container-fluid" style="margin-bottom:40px;">
             <bs-row class="row-center">
                 <bs-col xs=12 sm=11 md=10 lg=9 class="rs-col-xl-8 pr-0">
@@ -31,11 +24,9 @@
                         </p>
                         <p>Please consult <semantic-link iri="[[resolvePrefix "Help:SemanticForm"]]">Semantic Form</semantic-link> help page for further details.<br></p>
                     </bs-alert>
-
                     <div style="margin: 28px 0 20px 0">
                         <semantic-link iri="assets:NewField" style="font-size: 16px;"><strong>Create New Knowledge Pattern ...</strong></semantic-link>
                     </div>
-
                     <mp-selection-group>
                         <div>
 
@@ -123,14 +114,10 @@
                 </bs-col>   
             </bs-row> <!--  close row -->
         </div>
-        
     </div>
-
-    [[else]]
-
+[[else]]
     <p>No Permission</p>
-
-    [[/if]]
+[[/if]]
 <style>
    .btn-primary{
   	background:lightgray !important;
