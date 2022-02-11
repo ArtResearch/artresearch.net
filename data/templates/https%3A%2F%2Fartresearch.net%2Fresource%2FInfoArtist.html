@@ -30,16 +30,26 @@
         </template>
       </semantic-query>
       [[#if (ask "ASK { FILTER CONTAINS(STR(??),'ulan') }")]]
-        <h2 class="fc-label" >
-          <a style="margin-left: 5px" href="[[this]]" target="_null">
-            <div class="fc-label original-linkDNB">
-              <div class="linkImageWrapper">
-                <img class="sourceIconDNB" src="../../assets/images/getty.ico"/>
-                <h2 class="text">View GETTY record</h2>
+        <semantic-query
+          query=' SELECT ?gettyPage WHERE {             
+                    BIND(IRI(REPLACE(STR(??),"http://vocab.getty.edu/ulan/","http://vocab.getty.edu/page/ulan/")) AS ?gettyPage)
+          }'
+          no-result-template="<div></div>"
+          template="{{> GettyLink}}"
+        >
+          <template id="GettyLink">  
+          <h2 class="fc-label" >
+            <a style="margin-left: 5px" href="{{bindings.0.gettyPage.value}}" target="_null">
+              <div class="fc-label original-linkDNB">
+                <div class="linkImageWrapper">
+                  <img class="sourceIconDNB" src="../../assets/images/getty.ico"/>
+                  <h2 class="text">View GETTY record</h2>
+                </div>
               </div>
-            </div>
-          </a>
-        </h2>
+            </a>
+          </h2>
+          </template>
+        </semantic-query>
       [[/if]]
       [[#if (ask "ASK { FILTER CONTAINS(STR(??),'wikidata') }")]]
           <h2 class="fc-label" >
