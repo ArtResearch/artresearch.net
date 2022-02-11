@@ -8,31 +8,46 @@
   
   <semantic-table id='resources-results'
                 number-of-displayed-rows=10
-                query='SELECT ?g ?document ?documentTitle ?image  ?username ?time  WHERE{
+                query='SELECT ?g  ?documentTitle ?image ?photo ?username ?time  WHERE{
                   GRAPH ?g {
                       Platform:formContainer <http://www.w3.org/ns/ldp#contains> ?y.
                       ?document prov:generatedAtTime ?time.
                       ?document prov:wasAttributedTo ?username.
                       ?document rdf:type <http://www.w3.org/ns/ldp#Resource>.
                       ?l rso:displayLabel ?documentTitle.
-                      ?l crmdig:L49_is_primary_area_of ?image.
+                      ?l crmdig:L49_is_primary_area_of ?imageman.
                     }
+                     ?photo <http://www.cidoc-crm.org/cidoc-crm/P129i_is_subject_of> ?image.
+                      ?image <http://www.cidoc-crm.org/cidoc-crm/P129i_is_subject_of> ?imageman.
+                      ?image <http://www.ics.forth.gr/isl/CRMext/CRMdig.rdfs/L58_has_thumbnail> ?thumb.
                     
                   }'
                   no-result-template='<h1 style="color:#d13239 ">There are no Photo Annotations</h1>'
                   column-configuration='[
-                              {"variableName":"document","displayName":"document", "cellTemplate": "</semantic-link uri=\"{{g.value}}\">{{document.value}}</semantic-link>"},
+                             {
+                                "displayName": "Image", 
+                                "cellTemplate": "{{>tableImageTemplate}}"
+                              },
+                              {"variableName": "subject", "displayName": "Title","cellTemplate": "{{>titleTemplate}}"},
                               {"variableName":"documentTitle","displayName":"documentTitle", "cellTemplate": "{{documentTitle.value}}"},
-                              {"variableName":"image","displayName":"image", "cellTemplate": "{{image.value}}"},
                               {"variableName":"ModificationDate","displayName":"Modified", "cellTemplate": "{{dateTimeFormat time.value \"LLL\"}}" },
                               {"variableName":"attribution","displayName":"Attribution", "cellTemplate": "<semantic-link iri=\"{{username.value}}\">{{username.value}}</semantic-link>" },
                               {"displayName":"Actions", "cellTemplate": "{{> actions}}"}
                           ]'
                 
 >
+<template id="titleTemplate">
+    <span><semantic-link iri="{{photo.value}}"></semantic-link></span>
+</template>
+  <template id="tableImageTemplate">
+    <div class="thumbnailImageContainerTabular">
+      <scroll-to-top querySelector=".pagination li"></scroll-to-top>
+      <img alt="   " class="thumbnailImageTabular" src="{{image.value}}" />
+    </div>
+  </template>
     <template id='actions'>
       <div style="display: flex;">
-        <semantic-link iri="{{document.value}}">
+        <semantic-link iri="{{photo.value}}">
             <button class='btn btn-default btn-xs pull-right' title='View Annotation' style='margin-right: 15px; '>
                 <i class='fa fa-folder-open'></i> View 
             </button>          

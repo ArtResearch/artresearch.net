@@ -1,61 +1,76 @@
 <div class="row">
-    <div class="col-sm-7">
-      <header>
-        <h1> All platform Photo Annotations</h1>
-      </header>
-    </div>
+      <div class="col-sm-7">
+        <header>
+          <h1> All platform Photo Annotations</h1>
+        </header>
+      </div>
 </div>
   
-<semantic-table id='resources-results'
-              number-of-displayed-rows=10
-              query='SELECT ?g ?document ?documentTitle ?image  ?username ?time  WHERE{
-                GRAPH ?g {
-                    Platform:formContainer <http://www.w3.org/ns/ldp#contains> ?y.
-                    ?document prov:generatedAtTime ?time.
-                    ?document prov:wasAttributedTo ?username.
-                    ?document rdf:type <http://www.w3.org/ns/ldp#Resource>.
-                    ?l rso:displayLabel ?documentTitle.
-                    ?l crmdig:L49_is_primary_area_of ?image.
-                  }
-                  BIND(?__useruri__ as ?username)
-                  
-                }'
-                no-result-template='<h1 style="color:#d13239 ">You do not have Photo Annotations</h1>'
-                column-configuration='[
-                            {"variableName":"document","displayName":"document", "cellTemplate": "</semantic-link uri=\"{{g.value}}\">{{document.value}}</semantic-link>"},
-                            {"variableName":"documentTitle","displayName":"documentTitle", "cellTemplate": "{{documentTitle.value}}"},
-                            {"variableName":"image","displayName":"image", "cellTemplate": "{{image.value}}"},
-                            {"variableName":"ModificationDate","displayName":"Modified", "cellTemplate": "{{dateTimeFormat time.value \"LLL\"}}" },
-                            {"variableName":"attribution","displayName":"Attribution", "cellTemplate": "<semantic-link iri=\"{{username.value}}\">{{username.value}}</semantic-link>" },
-                            {"displayName":"Actions", "cellTemplate": "{{> actions}}"}
-                        ]'
-              
+  <semantic-table id='resources-results'
+                number-of-displayed-rows=10
+                query='SELECT ?g  ?documentTitle ?image ?photo ?username ?time  WHERE{
+                  GRAPH ?g {
+                      Platform:formContainer <http://www.w3.org/ns/ldp#contains> ?y.
+                      ?document prov:generatedAtTime ?time.
+                      ?document prov:wasAttributedTo ?username.
+                      ?document rdf:type <http://www.w3.org/ns/ldp#Resource>.
+                      ?l rso:displayLabel ?documentTitle.
+                      ?l crmdig:L49_is_primary_area_of ?imageman.
+                         BIND(?__useruri__ as ?username)
+                    }
+                     ?photo <http://www.cidoc-crm.org/cidoc-crm/P129i_is_subject_of> ?image.
+                      ?image <http://www.cidoc-crm.org/cidoc-crm/P129i_is_subject_of> ?imageman.
+                      ?image <http://www.ics.forth.gr/isl/CRMext/CRMdig.rdfs/L58_has_thumbnail> ?thumb.
+                    
+                  }'
+                  no-result-template='<h1 style="color:#d13239 ">There are no Photo Annotations</h1>'
+                  column-configuration='[
+                             {
+                                "displayName": "Image", 
+                                "cellTemplate": "{{>tableImageTemplate}}"
+                              },
+                              {"variableName": "subject", "displayName": "Title","cellTemplate": "{{>titleTemplate}}"},
+                              {"variableName":"documentTitle","displayName":"documentTitle", "cellTemplate": "{{documentTitle.value}}"},
+                              {"variableName":"ModificationDate","displayName":"Modified", "cellTemplate": "{{dateTimeFormat time.value \"LLL\"}}" },
+                              {"variableName":"attribution","displayName":"Attribution", "cellTemplate": "<semantic-link iri=\"{{username.value}}\">{{username.value}}</semantic-link>" },
+                              {"displayName":"Actions", "cellTemplate": "{{> actions}}"}
+                          ]'
+                
 >
+<template id="titleTemplate">
+    <span><semantic-link iri="{{photo.value}}"></semantic-link></span>
+</template>
+  <template id="tableImageTemplate">
+    <div class="thumbnailImageContainerTabular">
+      <scroll-to-top querySelector=".pagination li"></scroll-to-top>
+      <img alt="   " class="thumbnailImageTabular" src="{{image.value}}" />
+    </div>
+  </template>
     <template id='actions'>
-        <div style="display: flex;">
-            <semantic-link" iri="{{document.value}}">
-                <button class='btn btn-default btn-xs pull-right' title='View Annotation' style='margin-right: 15px; '>
-                    <i class='fa fa-folder-open'></i> View 
-                </button>          
-            </semantic-link>
-          <mp-ldp-duplicate-resource-action iri="{{document.value}}" container="http://www.researchspace.org/resource/system/formContainer">
-            <button class='btn btn-default btn-xs pull-right' title='Duplicate Annotation' style='margin-right: 15px; '><i class="fa fa-files-o btn-icon-left" aria-hidden=true></i> Duplicate</button>
-          </mp-ldp-duplicate-resource-action>
+      <div style="display: flex;">
+        <semantic-link iri="{{photo.value}}">
+            <button class='btn btn-default btn-xs pull-right' title='View Annotation' style='margin-right: 15px; '>
+                <i class='fa fa-folder-open'></i> View 
+            </button>          
+        </semantic-link>
+        <mp-ldp-duplicate-resource-action iri="{{document.value}}" container="http://www.researchspace.org/resource/system/formContainer">
+          <button class='btn btn-default btn-xs pull-right' title='Duplicate Annotation' style='margin-right: 15px; '><i class="fa fa-files-o btn-icon-left" aria-hidden=true></i> Duplicate</button>
+        </mp-ldp-duplicate-resource-action>
 
-          <mp-ldp-export-resource iri="{{document.value}}">
-              <button class='btn btn-default btn-xs pull-right' title='Export Annotation' style='margin-right: 15px; '>
-                <i class='fa fa-download btn-icon-left' aria-hidden=true></i> Export
-              </button>
-          </mp-ldp-export-resource>
+        <mp-ldp-export-resource iri="{{document.value}}">
+          <button class='btn btn-default btn-xs pull-right' title='Export Annotation' style='margin-right: 15px; '>
+            <i class='fa fa-download btn-icon-left' aria-hidden=true></i> Export
+          </button>
+        </mp-ldp-export-resource>
 
-          <mp-ldp-remove-from-container-action
-                container="Platform:formContainer"
-                iri="{{document.value}}" 
-                post-action='reload'>
-              <button class='btn btn-default btn-xs pull-right' title='Delete Annotation' style='margin-right: 15px; '>
-                <i class='fa fa-trash'></i>Delete
-              </button>
-          </mp-ldp-remove-from-container-action>       
-        </div>
+        <mp-ldp-remove-from-container-action
+              container="Platform:formContainer"
+              iri="{{document.value}}" 
+              post-action='reload'>
+            <button class='btn btn-default btn-xs pull-right' title='Delete Annotation' style='margin-right: 15px; '>
+            <i class='fa fa-trash'></i>Delete
+            </button>
+        </mp-ldp-remove-from-container-action>
+      </div>
     </template>
-</semantic-table>
+  </semantic-table>
