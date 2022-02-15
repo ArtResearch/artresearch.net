@@ -1,21 +1,7 @@
 <div id="artwork-header" class="page__header-body " style="display:flex" data-flex-layout="row top-left" >
   <div data-flex-layout="row center-left" class="page__header-tagline subtitleInfo" >
     <div class="header-options">
-      <semantic-query
-      query='
-      SELECT ?x WHERE{
-          ?x owl:sameAs ??. 
-          BIND(CONCAT(STR("https://vision.artresearch.net/resource/:ReportError?artwork="), str(?x))  AS ?urltovision ) .
-      }'
-      template="{{>linkError}}"
-      >
-        <template id="linkError">
-          {{#each bindings}}
-              <semantic-link iri="https://vision.artresearch.net/resource/:ReportError" urlqueryparam-artworks="{{x.value}}"
-               ><div class="fieldsToAssert"><h2>Report Error</h2></div></semantic-link>
-           {{/each}}
-        </template>
-      </semantic-query>
+     
       <semantic-query
         query="
               SELECT DISTINCT ?providerRecord ?providerLabel WHERE {
