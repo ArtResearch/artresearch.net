@@ -2,7 +2,7 @@
       query='SELECT ?error ?errorTitle ?user ?time WHERE{
         ?error rdf:type rs:Semantic_Narrative.
         ?error rdfs:label ?errorTitle.
-        ?error rs:targetsRecord <[[urlParam "subject"]]>.
+        ?error rs:targetsRecord <https://artresearch.net/resource/pharos/artwork/f1ac5fb07767fbb4e1cb171443f1a7d4c905b12c>.
         ?error prov:wasAttributedTo ?user.
         ?error prov:generatedAtTime ?time.
       }'
@@ -15,34 +15,34 @@
             <ol>
               {{#each bindings}}
                 <li style="display: flex; font-size: 16px; margin-top: 20px; align-items: center;">
-                  <mp-event-trigger id='assert-new-value' type='Component.TemplateUpdate' targets='["annotation-editor"]' data='{"error": "{{error.value}}","editMode":"false"}'>
-                    <button class='btn btn-default btn-xs pull-right' title='Edit annotation' style='margin-right: 15px; '>
+                  <mp-event-trigger id='assert-new-value' type='Component.TemplateUpdate' targets='["error-editor"]' data='{"error": "{{error.value}}","editMode":"false"}'>
+                    <button class='btn btn-default btn-xs pull-right' title='Edit error' style='margin-right: 15px; '>
                       <i class='fa fa-folder-open'></i> View
                     </button>
                   </mp-event-trigger>
                   [[#if (hasPermission "api:ldp:container:<http://www.researchspace.org/resource/system/fieldDefinitionContainer>:create:any")]]
-                    <mp-event-trigger id='assert-new-value' type='Component.TemplateUpdate' targets='["annotation-editor"]' data='{"error": "{{error.value}}","editMode":"true"}'>
-                      <button class='btn btn-default btn-xs pull-right' title='Edit annotation' style='margin-right: 15px; '>
+                    <mp-event-trigger id='assert-new-value' type='Component.TemplateUpdate' targets='["error-editor"]' data='{"error": "{{error.value}}","editMode":"true"}'>
+                      <button class='btn btn-default btn-xs pull-right' title='Edit error' style='margin-right: 15px; '>
                         <i class='fa fa-pencil'></i> Edit
                       </button>
                     </mp-event-trigger>
                   [[/if]]
                 
                 [[#if (hasPermission "api:ldp:container:<http://www.researchspace.org/resource/system/fieldDefinitionContainer>:delete:any")]]
-                <mp-overlay-dialog title="Delete annotation" >
+                <mp-overlay-dialog title="Delete error" >
                     <mp-overlay-dialog-trigger>
-                      <button class='btn btn-default btn-xs pull-right' title='Delete annotation' style='margin-right: 15px; '>
+                      <button class='btn btn-default btn-xs pull-right' title='Delete error' style='margin-right: 15px; '>
                         <i class='fa fa-trash'></i>Delete
                       </button>
                     </mp-overlay-dialog-trigger>
                       <mp-overlay-dialog-content>
-                          <h1>Are you sure you would like to delete this annotation?</h1>
+                          <h1>Are you sure you would like to delete this error?</h1>
                           <mp-ldp-remove-from-container-action 
-                              container="http://www.researchspace.org/resource/system/fileContainer"
+                              container="http://www.researchspace.org/resource/system/ErrorContainer"
                               iri="{{error.value}}" 
                               post-action='reload'>
                                 <button class="btn btn-danger pull-right" 
-                                        title="Delete annotation" 
+                                        title="Delete error" 
                                         style="margin-left: 35px;font-size: 22px;">
                                         <i class="fa fa-trash"></i> Yes delete
                                 </button>
@@ -51,7 +51,7 @@
                 </mp-overlay-dialog>
                 [[/if]]
                   <p style="margin:0;" class="fa fa-file">
-                      Annotation <b>
+                      Error <b>
                         "{{errorTitle.value}}"</b>
                         about field 
                         <b>
@@ -71,10 +71,11 @@
   </semantic-query>
 
 <mp-event-target-template-render
-    id="annotation-editor"
+    id="error-editor"
     template="{{> tableEventTargetFormQueryTemplate}}"
 >  
     <template id="tableEventTargetFormQueryTemplate"> 
+      <h3>Provide a description for your Error</h3>
       <rs-text-editor
         readonly='{{#if editMode}}{{#ifCond editMode "===" "true"}}false{{else}}true{{/ifCond}}{{else}}false{{/if}}'
         error-iri='{{#if error}}{{error}}{{/if}}'
@@ -82,7 +83,7 @@
         {
           "id": "image",
           "type": "http://www.researchspace.org/ontology/EX_Digital_Image",
-          "label": "Annotated Image",
+          "label": "Error Image",
           "template": "{{> image}}",
           "resizable": true,
           "defaults": {
@@ -144,7 +145,7 @@
         ]'
         generate-iri-query='
           SELECT ?resourceIri WHERE {
-            BIND(URI(CONCAT(STR(<[[urlParam "field"]]>),"/annotation/",MD5(STR(<[[urlParam "subject"]]>)),?__fileName__)) as ?resourceIri)
+            BIND(URI(CONCAT(STR(<[[urlParam "subject"]]>),"/error/",MD5(STR(<{{errorTitle.value}}>)),?__fileName__)) as ?resourceIri)
           }
           '
         resource-query='
@@ -161,7 +162,7 @@
             ?__resourceIri__ Platform:fileName ?__fileName__.
             ?__resourceIri__ Platform:mediaType "text/html".
             ?__resourceIri__ rdfs:label ?__label__.
-            ?__resourceIri__ rs:targetsField <[[urlParam "field"]]>.
+            ?__resourceIri__ crm:P2_has_type "Data".
             ?__resourceIri__ rs:targetsRecord <[[urlParam "subject"]]>.
           }WHERE {}
           '
