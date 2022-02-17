@@ -1,13 +1,12 @@
   <semantic-query
       query='SELECT ?error ?errorTitle ?user ?time WHERE{
-        BIND("[[urlParam "errortype"]]" as ?Type).
         ?error rdfs:label ?errorTitle.
         ?error rs:targetsRecord <[[urlParam "subject"]]>.
         ?error rs:targetsField <https://artresearch.net/container/fieldDefinitionContainer/Error_URI> .
         ?error prov:wasAttributedTo ?user.
         ?error prov:generatedAtTime ?time.
         ?error rdf:type rs:Semantic_Error.
-        ?error crm:P2_has_type ?Type .
+        ?error crm:P2_has_type "[[urlParam "errortype"]]"
       }'
       template="{{>supererrors}}"
   >
@@ -166,11 +165,9 @@
             ?__resourceIri__ Platform:fileName ?__fileName__.
             ?__resourceIri__ Platform:mediaType "text/html".
             ?__resourceIri__ rdfs:label ?__label__.
-            BIND("[[urlParam "errortype"]]" as ?Type).
-            ?__resourceIri__ crm:P2_has_type ?Type.
+            ?__resourceIri__ crm:P2_has_type "[[urlParam "errortype"]]"
             ?__resourceIri__ rs:targetsRecord <[[urlParam "subject"]]>.
             ?__resourceIri__ rs:targetsField <https://artresearch.net/container/fieldDefinitionContainer/Error_URI> .
-
           }WHERE {}
           '
       >
