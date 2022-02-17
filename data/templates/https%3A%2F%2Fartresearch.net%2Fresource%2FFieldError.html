@@ -53,10 +53,10 @@
                   <p style="margin:0;" class="fa fa-file">
                       Error <b>
                         "{{errorTitle.value}}"</b>
-                        about field 
+                        about subject 
                         <b>
                           <semantic-context repository='assets'>
-                            <mp-label iri='[[urlParam "subject"]]' class="field-type-title"></mp-label>
+                            <semantic-link iri='[[urlParam "subject"]]' class="field-type-title"></semantic-link>
                           </semantic-context>
                         </b>
                         by <mp-label iri='{{user.value}}'></mp-label>, {{dateTimeFormat time.value "LLL"}}
@@ -145,7 +145,7 @@
         ]'
         generate-iri-query='
           SELECT ?resourceIri WHERE {
-            BIND(URI(CONCAT(STR(<[[urlParam "subject"]]>),"/error/",MD5(STR(<{{errorTitle.value}}>)),?__fileName__)) as ?resourceIri)
+            BIND(URI(CONCAT(STR(<[[urlParam "subject"]]>),"/error/",MD5(STR(<{{errorTitle}}>)),?__fileName__)) as ?resourceIri)
           }
           '
         resource-query='
