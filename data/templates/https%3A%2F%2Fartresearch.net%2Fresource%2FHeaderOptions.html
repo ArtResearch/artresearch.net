@@ -58,43 +58,60 @@
 [[#if (hasPermission "api:ldp:*")]]
     <mp-overlay-dialog type="lightbox" title="For Review - Please choose a type of Error you want to add">
             <mp-overlay-dialog-trigger trigger='["click"]' placement="bottom"  >
-          <div class="fieldsToAssert"><h2>Report Error</h2></div>
+          <div class="ReportError" ><h2>Report Error</h2></div>
         </mp-overlay-dialog-trigger>
     <mp-overlay-dialog-content >
-      <div style="place-self:center">
-            <h1>Choose Type of Error</h1>
+      <div style="text-align:center; text-align: -webkit-center;">
+            <h1>Choose Type of Error for <semantic-link iri='[[this]]'></semantic-link></h1>
+            <div class="ErrorButtons">
                   <semantic-link
                               iri="https://artresearch.net/resource/FieldError"
                               urlqueryparam-subject="[[this]]"
                               urlqueryparam-errorType="https://artresearch.net/resource/type/error/DataError"
-                            >Data
+                            >
+                            <div class="ButtonError">
+                              Data Error
+                            </div>
                   </semantic-link>
                   <semantic-link
                               iri="https://artresearch.net/resource/FieldError"
                               urlqueryparam-subject="[[this]]"
                               urlqueryparam-errorType="https://artresearch.net/resource/type/error/LicenseError"
-                            >License
+                            >
+                            <div class="ButtonError">
+                              License Error
+                            </div>
                   </semantic-link>
                    <semantic-link
                               iri="https://artresearch.net/resource/FieldError"
                               urlqueryparam-subject="[[this]]"
                               urlqueryparam-errorType="https://artresearch.net/resource/type/error/ImageError"
-                            >Image
+                            >
+                              <div class="ButtonError">
+                                Image Error
+                              </div>
                   </semantic-link>
                   <semantic-link
                               iri="https://artresearch.net/resource/FieldError"
                               urlqueryparam-subject="[[this]]"
                               urlqueryparam-errorType="https://artresearch.net/resource/type/error/MatchError"
-                            >Mathing
+                            >
+                            <div  class="ButtonError">
+                              Mathing Error
+                            </div>
                   </semantic-link>
                   <semantic-link
                               iri="https://artresearch.net/resource/FieldError"
                               urlqueryparam-subject="[[this]]"
                               urlqueryparam-errorType="https://artresearch.net/resource/type/error/OtherError"
-                            >Other
+                            >
+                             <div  class="ButtonError">
+                               Other
+                              </div>
                   </semantic-link>
-      </div>
-          </mp-overlay-dialog-content>
+                  </div>
+            </div>
+      </mp-overlay-dialog-content>
     </mp-overlay-dialog-content>
   </mp-overlay-dialog>
 [[/if]]
@@ -102,7 +119,7 @@
 
 <mp-overlay-dialog  title="assertions">
         <mp-overlay-dialog-trigger trigger='["click"]' placement="bottom"  >
-          <div class="fieldsToAssert"><h2>Fields to assert</h2></div>
+          <div class="fieldsToAssert" ><h2>Fields to assert</h2></div>
         </mp-overlay-dialog-trigger>
         <mp-overlay-dialog-content>
             <mp-event-target-template-render
@@ -340,5 +357,14 @@
 <style>
   body{
     line-height: 0 !important;
+  }
+
+
+  .modal-dialog.overlay-lightbox__dialog.modal-dialog{
+    width: 50%;
+    left: 24vw;
+    backdrop-filter: blur(5px);
+    background-color: rgba(0, 0, 0, 0.61);
+    backdrop-filter: blur(5px);
   }
 </style>
