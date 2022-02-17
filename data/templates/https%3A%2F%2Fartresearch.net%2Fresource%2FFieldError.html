@@ -148,7 +148,7 @@
         ]'
         generate-iri-query='
           SELECT ?resourceIri WHERE {
-            BIND(URI(CONCAT(STR("http://www.researchspace.org/fieldDefinition/Error_URI/error/",MD5(STR(<{{errorTitle}}>)),?__fileName__),"/context") as ?resourceIri)
+           BIND(URI(CONCAT(STR(<[[urlParam "subject"]]>),"/error/",MD5(STR(<{{errorTitle}}>)),?__fileName__)) as ?resourceIri)
           }
           '
         resource-query='
