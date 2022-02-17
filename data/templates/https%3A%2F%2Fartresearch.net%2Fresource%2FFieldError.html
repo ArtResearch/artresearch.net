@@ -1,17 +1,18 @@
   <semantic-query
       query='SELECT ?error ?errorTitle ?user ?time WHERE{
         ?error rdfs:label ?errorTitle.
-        ?error rs:targetsRecord <https://artresearch.net/resource/pharos/artwork/f1ac5fb07767fbb4e1cb171443f1a7d4c905b12c>.
+        ?error rs:targetsRecord <[[urlParam "subject"]]>.
         ?error rs:targetsField <https://artresearch.net/container/fieldDefinitionContainer/Error_URI> .
         ?error prov:wasAttributedTo ?user.
         ?error prov:generatedAtTime ?time.
         ?error rdf:type rs:Semantic_Error.
+        ?error crm:P2_has_type <[[urlParam "errorType"]]>.
       }'
       template="{{>supererrors}}"
   >
   <template id="supererrors">
       <div class="errors-panel">
-        <bs-panel  header="errors"  collapsible="true" default-expanded="true">
+        <bs-panel  header="Errors"  collapsible="true" default-expanded="true">
           <div>
             <ol>
               {{#each bindings}}
@@ -76,7 +77,7 @@
     template="{{> tableEventTargetFormQueryTemplate}}"
 >  
     <template id="tableEventTargetFormQueryTemplate"> 
-      <h3>Provide a description for your Error</h3>
+      <h3>Provide a description for your <mp-link iri='[[urlParam "errorType"]]'></mp-link> for artwork  <semantic-link iri='[[urlParam "subject"]]' class="field-type-title"></semantic-link></h3>
       <rs-text-editor
         readonly='{{#if editMode}}{{#ifCond editMode "===" "true"}}false{{else}}true{{/ifCond}}{{else}}false{{/if}}'
         document-iri='{{#if document}}{{document}}{{/if}}'
@@ -164,7 +165,7 @@
             ?__resourceIri__ Platform:fileName ?__fileName__.
             ?__resourceIri__ Platform:mediaType "text/html".
             ?__resourceIri__ rdfs:label ?__label__.
-            ?__resourceIri__ crm:P2_has_type "Data".
+            ?__resourceIri__ crm:P2_has_type <[[urlParam "errorType"]]>.
             ?__resourceIri__ rs:targetsRecord <[[urlParam "subject"]]>.
             ?__resourceIri__ rs:targetsField <https://artresearch.net/container/fieldDefinitionContainer/Error_URI> .
 
