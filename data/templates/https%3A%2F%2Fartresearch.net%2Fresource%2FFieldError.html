@@ -79,7 +79,7 @@
       <h3>Provide a description for your Error</h3>
       <rs-text-editor
         readonly='{{#if editMode}}{{#ifCond editMode "===" "true"}}false{{else}}true{{/ifCond}}{{else}}false{{/if}}'
-        error-iri='{{#if error}}{{error}}{{/if}}'
+        document-iri='{{#if document}}{{document}}{{/if}}'
         resource-templates='[
         {
           "id": "image",
@@ -159,6 +159,7 @@
           CONSTRUCT {
             ?__resourceIri__ rdf:type crm:E33_Linguistic_Object.
             ?__resourceIri__ rdf:type crmdig:D1_Digital_Object.
+            ?__resourceIri__ rdf:type rs:Semantic_Narrative.
             ?__resourceIri__ rdf:type rs:Semantic_Error.
             ?__resourceIri__ Platform:fileName ?__fileName__.
             ?__resourceIri__ Platform:mediaType "text/html".
