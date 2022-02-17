@@ -77,7 +77,7 @@
     template="{{> tableEventTargetFormQueryTemplate}}"
 >  
     <template id="tableEventTargetFormQueryTemplate"> 
-      <h3>Provide a description for your <mp-link iri='[[urlParam "errorType"]]'></mp-link> for artwork  <semantic-link iri='[[urlParam "subject"]]' class="field-type-title"></semantic-link></h3>
+      <h3>Provide a description for your [[urlParam "errorType"]] for artwork  <semantic-link iri='[[urlParam "subject"]]' class="field-type-title"></semantic-link></h3>
       <rs-text-editor
         readonly='{{#if editMode}}{{#ifCond editMode "===" "true"}}false{{else}}true{{/ifCond}}{{else}}false{{/if}}'
         document-iri='{{#if document}}{{document}}{{/if}}'
