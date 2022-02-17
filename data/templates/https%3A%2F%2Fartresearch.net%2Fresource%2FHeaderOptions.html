@@ -56,37 +56,43 @@
     
 <!-- Report Error -->
 [[#if (hasPermission "api:ldp:*")]]
-    <mp-overlay-dialog type="lightbox" title="For Review - Please add information about the reviewer">
+    <mp-overlay-dialog type="lightbox" title="For Review - Please choose a type of Error you want to add">
             <mp-overlay-dialog-trigger trigger='["click"]' placement="bottom"  >
           <div class="fieldsToAssert"><h2>Report Error</h2></div>
         </mp-overlay-dialog-trigger>
     <mp-overlay-dialog-content >
       <div style="place-self:center">
-            <h1>Are you sure you want to report error for this artwork?</h1>
-            <h2>If yes, please provide the type of the error, a reason why this has a problem and any other info needed.</h2>
-            <semantic-form
-                new-subject-template="[[this]]"
-                browser-persistance="true"
-                persistence='ldp'
-                post-action="reload"
-                form-id="Errorform"
-                fields='[[fieldDefinitions
-                          review_later="https://artresearch.net/fieldDefinitionContainer/for_review"
-                        ]]'
-              >
-            <semantic-form-text-input 
-                for="review_later" 
-                multiline="true"
-                default-value="">
-            </semantic-form-text-input>
-              <button
-              name="submit"
-              class="btn btn-warning action reject confirm-btn"
-              title="This artwork has an error"
-            >
-            <div class="color-white">Report Error</div>
-          </button>
-          </semantic-form>
+            <h1>Choose Type of Error</h1>
+                  <semantic-link
+                              iri="https://artresearch.net/resource/FieldError"
+                              urlqueryparam-subject="[[this]]"
+                              urlqueryparam-errorType="Data_Error"
+                            >Data
+                  </semantic-link>
+                  <semantic-link
+                              iri="https://artresearch.net/resource/FieldError"
+                              urlqueryparam-subject="[[this]]"
+                              urlqueryparam-errorType="License_Error"
+                            >License
+                  </semantic-link>
+                   <semantic-link
+                              iri="https://artresearch.net/resource/FieldError"
+                              urlqueryparam-subject="[[this]]"
+                              urlqueryparam-errorType="Image_Error"
+                            >Image
+                  </semantic-link>
+                  <semantic-link
+                              iri="https://artresearch.net/resource/FieldError"
+                              urlqueryparam-subject="[[this]]"
+                              urlqueryparam-errorType="Match_Error"
+                            >Mathing
+                  </semantic-link>
+                  <semantic-link
+                              iri="https://artresearch.net/resource/FieldError"
+                              urlqueryparam-subject="[[this]]"
+                              urlqueryparam-errorType="Other_Error"
+                            >Other
+                  </semantic-link>
       </div>
           </mp-overlay-dialog-content>
     </mp-overlay-dialog-content>

@@ -1,12 +1,13 @@
   <semantic-query
       query='SELECT ?error ?errorTitle ?user ?time WHERE{
+        BIND("[[urlParam "errortype"]]" as ?Type).
         ?error rdfs:label ?errorTitle.
         ?error rs:targetsRecord <[[urlParam "subject"]]>.
         ?error rs:targetsField <https://artresearch.net/container/fieldDefinitionContainer/Error_URI> .
         ?error prov:wasAttributedTo ?user.
         ?error prov:generatedAtTime ?time.
         ?error rdf:type rs:Semantic_Error.
-        ?error crm:P2_has_type [[urlParam "errorType"]].
+        ?error crm:P2_has_type ?Type .
       }'
       template="{{>supererrors}}"
   >
@@ -77,7 +78,7 @@
     template="{{> tableEventTargetFormQueryTemplate}}"
 >  
     <template id="tableEventTargetFormQueryTemplate"> 
-      <h3>Provide a description for your [[urlParam "errorType"]] for artwork  <semantic-link iri='[[urlParam "subject"]]' class="field-type-title"></semantic-link></h3>
+      <h2 style="text-align:-webkit-center;text-align: center;">Provide a description for your Error in [[urlParam "errortype"]] for artwork  <semantic-link iri='[[urlParam "subject"]]' class="field-type-title"></semantic-link></h2>
       <rs-text-editor
         readonly='{{#if editMode}}{{#ifCond editMode "===" "true"}}false{{else}}true{{/ifCond}}{{else}}false{{/if}}'
         document-iri='{{#if document}}{{document}}{{/if}}'
@@ -165,7 +166,7 @@
             ?__resourceIri__ Platform:fileName ?__fileName__.
             ?__resourceIri__ Platform:mediaType "text/html".
             ?__resourceIri__ rdfs:label ?__label__.
-            ?__resourceIri__ crm:P2_has_type [[urlParam "errorType"]].
+            ?__resourceIri__ crm:P2_has_type \"[[urlParam "errortype"]]\".
             ?__resourceIri__ rs:targetsRecord <[[urlParam "subject"]]>.
             ?__resourceIri__ rs:targetsField <https://artresearch.net/container/fieldDefinitionContainer/Error_URI> .
 
