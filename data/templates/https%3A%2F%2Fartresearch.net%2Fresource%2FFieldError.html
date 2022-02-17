@@ -159,13 +159,14 @@
           CONSTRUCT {
             ?__resourceIri__ rdf:type crm:E33_Linguistic_Object.
             ?__resourceIri__ rdf:type crmdig:D1_Digital_Object.
-            ?__resourceIri__ rdf:type rs:Semantic_Narrative.
+            ?__resourceIri__ rdf:type rs:Semantic_Error.
             ?__resourceIri__ Platform:fileName ?__fileName__.
             ?__resourceIri__ Platform:mediaType "text/html".
             ?__resourceIri__ rdfs:label ?__label__.
             ?__resourceIri__ crm:P2_has_type "Data".
             ?__resourceIri__ rs:targetsRecord <[[urlParam "subject"]]>.
-            ?__resourceIri__ rs:targetsRecord <https://artresearch.net/container/fieldDefinitionContainer/Error_URI>.
+            ?__resourceIri__ rs:targetsField <https://artresearch.net/container/fieldDefinitionContainer/Error_URI> .
+
           }WHERE {}
           '
       >
