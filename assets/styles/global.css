@@ -21,6 +21,34 @@
 @import "./footer.css";
 
 
+.ErrorButtons > a{
+  color: white !important;
+}
+
+.ErrorButtons{
+    font-weight: 700;
+    display: flex;
+    gap: 3vw;
+    color: white !important;
+    font-size: 18px;
+    flex-direction: column;
+    max-width: 19vw;
+}
+.ButtonError{
+    padding: 32px;
+    border: 1px solid #a7a7a7;
+    border-radius: 20px;
+    min-width: 120px;
+    display: flex;
+    place-content: center;
+    background: #3e8aae;
+    transition: 0.1s;
+}
+.ButtonError:hover{
+   box-shadow: 0px 7px 14px -4px #505050;
+}
+
+
 
 .AnnotationDashboard{
   width: 100%;
@@ -38,7 +66,10 @@
   width: 96%;
 }
 
-
+.overlay-lightbox{
+background-color: rgba(0, 0, 0, 0.61);
+backdrop-filter: blur(5px);
+}
 .WrapperBioRelations{
   width: 50% ;
 }
@@ -135,6 +166,24 @@
   }
 
   .fieldsToAssert{
+    max-height: 39px;
+    cursor: pointer;
+    padding-bottom: 1px;
+    margin-top: 9px ;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 15px !important;
+    border: 1px solid #c4c4c4 !important;
+    border-radius: 5px !important;
+    text-overflow: ellipsis;
+    overflow-x: clip;
+  }
+
+
+    .ReportError{
+    background: #ffe59b;
+    margin-right: 10px;
     max-height: 39px;
     cursor: pointer;
     padding-bottom: 1px;
