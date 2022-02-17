@@ -3,8 +3,10 @@
         ?error rdf:type rs:Semantic_Narrative.
         ?error rdfs:label ?errorTitle.
         ?error rs:targetsRecord <https://artresearch.net/resource/pharos/artwork/f1ac5fb07767fbb4e1cb171443f1a7d4c905b12c>.
+        ?error rs:targetsField <https://artresearch.net/container/fieldDefinitionContainer/Error_URI> .
         ?error prov:wasAttributedTo ?user.
         ?error prov:generatedAtTime ?time.
+        FILTER
       }'
       template="{{>supererrors}}"
   >
@@ -164,6 +166,7 @@
             ?__resourceIri__ rdfs:label ?__label__.
             ?__resourceIri__ crm:P2_has_type "Data".
             ?__resourceIri__ rs:targetsRecord <[[urlParam "subject"]]>.
+            ?__resourceIri__ rs:targetsRecord <https://artresearch.net/container/fieldDefinitionContainer/Error_URI>.
           }WHERE {}
           '
       >
@@ -242,7 +245,6 @@
                     </mp-draggable>
                     {{/inline}}
                     {{/rsp:itemCardTemplate}}
-
                 </template>
             </semantic-table>
           </div>
