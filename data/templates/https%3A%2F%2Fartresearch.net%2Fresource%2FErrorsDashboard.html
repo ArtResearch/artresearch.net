@@ -1,0 +1,75 @@
+ [[#if (hasPermission "api:ldp:*")]]
+  <div class="row">
+    <div class="col-sm-7">
+      <header>
+        <h1>All Assertions</h1>
+      </header>
+    </div>
+  </div>
+   <semantic-table id='resources-results'
+                number-of-displayed-rows=10
+                query='SELECT ?error ?errorTitle ?artwork ?errorType ?user ?time WHERE{
+                        ?error rdfs:label ?errorTitle.
+                        ?error rs:targetsRecord ?artwork.
+                        ?error rs:targetsField <https://artresearch.net/container/fieldDefinitionContainer/Error_URI> .
+                        ?error prov:wasAttributedTo ?user.
+                        ?error prov:generatedAtTime ?time.
+                        ?error rdf:type rs:Semantic_Error.
+                        ?error crm:P2_has_type ?errorType .}'
+                 no-result-template='<h1 style="color:#d13239 ">There are no Errors to Display</h1>'
+                 column-configuration='[
+                              {"variableName":"artwork","displayName":"Field", "cellTemplate": "<semantic-link iri=\"{{artwork.value}}\"></semantic-link>"},
+                              {"variableName":"errorTitle","displayName":"Subject", "cellTemplate": "{{errorTitle.value}}"},
+                              {"variableName":"errorType","displayName":"Field", "cellTemplate": "<mp-label iri=\"{{errorType.value}}\"></mp-label>"},
+                              {"variableName":"ModificationDate","displayName":"Modified", "cellTemplate": "{{dateTimeFormat time.value \"LLL\"}}" },
+                              {"variableName":"attribution","displayName":"Attribution", "cellTemplate": "<mp-label iri=\"{{username.value}}\"></mp-label>" },
+                              {"displayName":"Actions", "cellTemplate": "{{> actions}}"}
+                          ]'
+>
+      <template id='actions'>
+          <div style="display: flex;">
+            <semantic-link
+                      iri="http://www.researchspace.org/resource/FieldError"
+                      urlqueryparam-errortype="{{errorType.value}}"
+                      urlqueryparam-subject="{{artwork.value}}"
+                    >
+                    <button class='btn btn-default btn-xs pull-right' title='View Error' style='margin-right: 15px; '>
+                      <i class='fa fa-folder-open'></i> View 
+                    </button>          
+              </semantic-link>
+
+            <mp-ldp-duplicate-resource-action iri="{{error.value}}" container="http://www.researchspace.org/ontology/system/ErrorContainer">
+              <button class='btn btn-default btn-xs pull-right' title='Duplicate Error' style='margin-right: 15px; '><i class="fa fa-files-o btn-icon-left" aria-hidden=true></i> Duplicate</button>
+            </mp-ldp-duplicate-resource-action>
+
+            <mp-ldp-export-resource iri="{{error.value}}">
+              <button class='btn btn-default btn-xs pull-right' title='Export Error' style='margin-right: 15px; '>
+                <i class='fa fa-download btn-icon-left' aria-hidden=true></i> Export
+              </button>
+            </mp-ldp-export-resource>
+
+            <mp-overlay-dialog title="Delete annotation" >
+                    <mp-overlay-dialog-trigger>
+                      <button class='btn btn-default btn-xs pull-right' title='Delete Error' style='margin-right: 15px; '>
+                        <i class='fa fa-trash'></i> Delete
+                      </button>
+                    </mp-overlay-dialog-trigger>
+                    <mp-overlay-dialog-content>
+                        <h1>Are you sure you would like to delete this Error?</h1>
+                        <mp-ldp-remove-from-container-action 
+                              container="http://www.researchspace.org/ontology/system/ErrorContainer"
+                              iri="{{error.value}}" 
+                              post-action='reload'>
+                              <button 
+                                  class="btn btn-danger pull-right" 
+                                  title="Delete Error" 
+                                  style="margin-left: 35px;font-size: 22px;">
+                                  <i class="fa fa-trash"></i> Yes delete
+                              </button>
+                        </mp-ldp-remove-from-container-action>
+                    </mp-overlay-dialog-content>
+            </mp-overlay-dialog>
+          </div>
+      </template>
+</semantic-table>
+ [[/if]]
