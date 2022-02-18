@@ -15,14 +15,16 @@
                         ?error prov:wasAttributedTo ?user.
                         ?error prov:generatedAtTime ?time.
                         ?error rdf:type rs:Semantic_Error.
-                        ?error crm:P2_has_type ?errorType .}'
+                        ?error crm:P2_has_type ?errorType .
+                        ?errorType rdfs:label ?labelType.
+                      }'
                  no-result-template='<h1 style="color:#d13239 ">There are no Errors to Display</h1>'
                  column-configuration='[
-                              {"variableName":"artwork","displayName":"Field", "cellTemplate": "<semantic-link iri=\"{{artwork.value}}\"></semantic-link>"},
-                              {"variableName":"errorTitle","displayName":"Subject", "cellTemplate": "{{errorTitle.value}}"},
-                              {"variableName":"errorType","displayName":"Field", "cellTemplate": "<mp-label iri=\"{{errorType.value}}\"></mp-label>"},
+                              {"variableName":"artwork","displayName":"Artwork", "cellTemplate": "<semantic-link iri=\"{{artwork.value}}\"></semantic-link>"},
+                              {"variableName":"errorTitle","displayName":"Error", "cellTemplate": "{{errorTitle.value}}"},
+                              {"variableName":"errorType","displayName":"Type", "cellTemplate": "{{labelType.value}}"},
                               {"variableName":"ModificationDate","displayName":"Modified", "cellTemplate": "{{dateTimeFormat time.value \"LLL\"}}" },
-                              {"variableName":"attribution","displayName":"Attribution", "cellTemplate": "<mp-label iri=\"{{username.value}}\"></mp-label>" },
+                              {"variableName":"attribution","displayName":"Attribution", "cellTemplate": "<mp-label iri=\"{{user.value}}\"></mp-label>" },
                               {"displayName":"Actions", "cellTemplate": "{{> actions}}"}
                           ]'
 >
