@@ -90,21 +90,22 @@
                 domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
                 placeholder="Search for any field, a title, repository or any other identifier"
                 escape-lucene-syntax="false"
-                default-query='
-                SELECT DISTINCT ?subject WHERE {
-                  ?subject fr:Work_kept_by_Institution ??.
-                }LIMIT 1000'
-                query='
+                default-query="
                         SELECT DISTINCT ?subject WHERE {
+                          ?someOther owl:sameAs ?subject.
                           ?subject fr:Work_kept_by_Institution ??.
-                          ?subject ?p ?o.
-                          ?o rdfs:label ?someLabel.
-                          ?someLabel bds:search ?__token__  .
-                          ?someLabel bds:minRelevance "0.3"^^xsd:double;
-                          bds:matchAllTerms "true"  .
-                        } 
-                      '
-              ></semantic-search-query-keyword>
+                        }LIMIT 1000"
+                query='
+                    SELECT DISTINCT ?subject WHERE { 
+                        ?someOther owl:sameAs ?subject.         
+                        ?subject fr:Work_kept_by_Institution ??.
+                        ?subject ?p ?o.
+                        ?subject rdfs:label ?someLabel.
+                        ?someLabel bds:search ?__token__ .
+                        ?someLabel bds:minRelevance "0.3"^^xsd:double;
+                        bds:matchAllTerms "true"  .
+                    }'
+                    ></semantic-search-query-keyword>
             
     </div>
 

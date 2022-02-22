@@ -83,6 +83,7 @@
         ]
       }'
   >
+
     <div id="header-search" class="search-page">
         <semantic-search-query-keyword
           domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
@@ -90,23 +91,20 @@
           escape-lucene-syntax="false"
           default-query="
                   SELECT DISTINCT ?subject WHERE {
+                    ?someOther owl:sameAs ?subject.
                     ?subject fr:Work_created_from_Artist ??.
                   }LIMIT 1000"
           query='
-              PREFIX fts: <http://www.bigdata.com/rdf/fts#>
-              SELECT DISTINCT ?subject WHERE {          
+              SELECT DISTINCT ?subject WHERE { 
+                  ?someOther owl:sameAs ?subject.         
                   ?subject fr:Work_created_from_Artist ??.
-                  ?subject fts:search ?__token__.
-                  ?subject fts:endpoint "http://213.171.209.34:8983/solr/artworks_artresearch/select"  .
-                  ?subject fts:endpointType "SOLR" .
-                  ?subject fts:params "rows=1000".
-                  ?subject fts:searchField "uri" .
-                  ?subject fts:fieldToSearch "label_t" .
-                  ?subject fts:snippetField "label_t" .
-                  ?subject fts:searchResultType "URI" .
-                  BIND(REPLACE(str("[[urlParam "keyword"]]"),"&&"," ") as ?keywords)
-              }  '
+                  ?subject rdfs:label ?someLabel.
+                  ?someLabel bds:search ?__token__ .
+                  ?someLabel bds:minRelevance "0.3"^^xsd:double;
+                  bds:matchAllTerms "true"  .
+              }'
         ></semantic-search-query-keyword>
+      
     </div>
     <div class="row">
       <bs-col
@@ -187,5 +185,6 @@
         </semantic-search-result-holder>
       </bs-col>
     </div>
+ 
   </semantic-search>
 </div>
