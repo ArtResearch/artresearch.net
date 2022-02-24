@@ -55,10 +55,10 @@
                               "deletePattern": "DELETE { $subject fr:hasDescription $value } WHERE {}"
                             }
                           ]'
-                   new-subject-template='https://artresearch.net/resource/type/news/News{{UUID}}'
+                   new-subject-template='https://artresearch.net/resource/news/News{{UUID}}'
                     generate-iri-query='
                       SELECT ?resourceIri WHERE {
-                      BIND(URI(CONCAT(STR($subject),"/news/",?title)) as ?resourceIri)
+                      BIND(URI(CONCAT(STR("https://artresearch.net/resource"),"/news/",?title)) as ?resourceIri)
                       }'
                         >
                   <bs-panel>
