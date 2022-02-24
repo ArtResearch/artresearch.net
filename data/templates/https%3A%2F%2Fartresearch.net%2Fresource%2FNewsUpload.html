@@ -1,0 +1,105 @@
+<div class="row row-center">
+    <div
+      id="main-containers"
+      style="max-width: 1300px"
+      class="col-md-10 col-xs-10">
+      <!-- Title -->
+          <div class="row">
+            <div class="col-sm-7">
+              <header>
+                <h1 style="display: flex;"><div style="color: #dd3737;">art</div>research.net  Upload News</h1>
+              </header>
+            </div>
+          </div>
+          <div class="news-uploader">
+            <semantic-form
+                    form-id='multi-field-validation-1'
+                    post-action='reload'
+                    persistence='ldp'
+                    browser-persistence=true
+                     fields='[
+                            {
+                              "id": "file",
+                              "label": "Document File",
+                              "description": "The attached file",
+                              "xsdDatatype": "xsd:anyURI",
+                              "selectPattern": "SELECT $value WHERE { $subject fr:hasAttachedDocument $value }",
+                              "insertPattern": "INSERT { $subject fr:hasAttachedDocument $value } WHERE {}",
+                              "deletePattern": "DELETE { $subject fr:hasAttachedDocument $value } WHERE {}"
+                            } ,
+                              {
+                              "id": "image",
+                              "label": "Image file",
+                              "description": "The image file",
+                              "xsdDatatype": "xsd:anyURI",
+                              "selectPattern": "SELECT $value WHERE { $subject fr:hasAttachedImage $value }",
+                              "insertPattern": "INSERT { $subject fr:hasAttachedImage $value } WHERE {}",
+                              "deletePattern": "DELETE { $subject fr:hasAttachedImage $value } WHERE {}"
+                            } ,
+                            {
+                              "id": "Title",
+                              "label": "Title",
+                              "description": "Add Title for News Here",
+                              "xsdDatatype": "xsd:string",
+                              "selectPattern": "SELECT $value WHERE { $subject fr:hasTitle ?title }",
+                              "insertPattern": "INSERT { $subject fr:hasTitle $value } WHERE {}",
+                              "deletePattern": "DELETE { $subject fr:hasTitle $value } WHERE {}"
+                            },
+                            {
+                              "id": "Description",
+                              "label": "Description",
+                              "description": "Add News Here",
+                              "xsdDatatype": "xsd:string",
+                              "selectPattern": "SELECT $value WHERE { $subject fr:hasDescription $value }",
+                              "insertPattern": "INSERT { $subject fr:hasDescription $value } WHERE {}",
+                              "deletePattern": "DELETE { $subject fr:hasDescription $value } WHERE {}"
+                            }
+                          ]'
+                    subject='https://artresearch.net/resource/type/news/News{{UUID}}'
+                    generate-iri-query='
+                      SELECT ?resourceIri WHERE {
+                      BIND(URI(CONCAT(STR($subject),"/news/",?title)) as ?resourceIri)
+                      }'
+                        >
+                  <bs-panel>
+                    </semantic-form-hidden-input>
+                    <semantic-form-text-input for="Title"> </semantic-form-text-input>
+                    <semantic-form-text-input for="Description"> </semantic-form-text-input>
+                      <h4>Add attached file</h4>
+                      <semantic-form-recover-notification></semantic-form-recover-notification>
+                      <semantic-form-file-input
+                          for='file'
+                          placeholder='Please drag&drop your file here'
+                          generate-iri-query='
+                              SELECT ?resourceIri WHERE {
+                              BIND(URI(CONCAT(STR("https://artresearch.net/resource"),"/news/files/",?title)) as ?resourceIri)
+                              }'
+                          resource-query='
+                            CONSTRUCT {
+                              ?__resourceIri__ rdfs:label ?__label__.
+                              ?__resourceIri__ Platform:mediaType "image/png".
+                            }WHERE {}
+                            '
+                          storage='pharos/files/'
+                      ></semantic-form-file-input>
+                      <h4>Add image</h4>
+                      <semantic-form-file-input
+                          accept-pattern='image/*'
+                          for='image'
+                          placeholder='Please drag&drop your image here'
+                          generate-iri-query='
+                            SELECT ?resourceIri WHERE {
+                            BIND(URI(CONCAT(STR("https://artresearch.net/resource"),"/news/images/",?title)) as ?resourceIri)
+                            }'
+                          storage=' '
+                          temp-storage=' '
+                      ></semantic-form-file-input>
+                      <semantic-form-errors></semantic-form-errors>
+                      <!-- save and reset button for form -->
+                      <button name="submit" class="btn btn-secondary">Save</button>
+                      <button name="reset" class="btn btn-secondary">Reset</button>
+                  </bs-panel>
+            </semantic-form>
+         </div>
+    </div>
+</div>
