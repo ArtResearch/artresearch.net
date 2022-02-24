@@ -55,7 +55,7 @@
                               "deletePattern": "DELETE { $subject fr:hasDescription $value } WHERE {}"
                             }
                           ]'
-                    subject='https://artresearch.net/resource/type/news/News{{UUID}}'
+                   new-subject-template='https://artresearch.net/resource/type/news/News{{UUID}}'
                     generate-iri-query='
                       SELECT ?resourceIri WHERE {
                       BIND(URI(CONCAT(STR($subject),"/news/",?title)) as ?resourceIri)
@@ -75,11 +75,13 @@
                               BIND(URI(CONCAT(STR("https://artresearch.net/resource"),"/news/files/",?title)) as ?resourceIri)
                               }'
                           resource-query='
-                            CONSTRUCT {
-                              ?__resourceIri__ rdfs:label ?__label__.
-                              ?__resourceIri__ Platform:mediaType "image/png".
-                            }WHERE {}
-                            '
+                              PREFIX mp: <http://www.metaphacts.com/ontologies/platform#>
+                              CONSTRUCT {
+                                ?__resourceIri__ a mp:FileImage.
+                                ?__resourceIri__ mp:fileName ?__fileName__.
+                                ?__resourceIri__ mp:mediaType ?__mediaType__.
+                              } WHERE {}
+                              '
                           storage='pharos/files/'
                       ></semantic-form-file-input>
                       <h4>Add image</h4>
@@ -91,8 +93,16 @@
                             SELECT ?resourceIri WHERE {
                             BIND(URI(CONCAT(STR("https://artresearch.net/resource"),"/news/images/",?title)) as ?resourceIri)
                             }'
-                          storage=' '
-                          temp-storage=' '
+                          resource-query='
+                          PREFIX mp: <http://www.metaphacts.com/ontologies/platform#>
+                          CONSTRUCT {
+                            ?__resourceIri__ a mp:FileImage.
+                            ?__resourceIri__ mp:fileName ?__fileName__.
+                            ?__resourceIri__ mp:mediaType ?__mediaType__.
+                          } WHERE {}
+                          '
+                          storage='pharos/files/ '
+                          
                       ></semantic-form-file-input>
                       <semantic-form-errors></semantic-form-errors>
                       <!-- save and reset button for form -->
