@@ -16,7 +16,7 @@
                     form-id='multi-field-validation-1'
                     post-action='reload'
                     persistence='ldp'
-                    browser-persistence=true
+                    browser-persistence="true"
                      fields='[
                             {
                               "id": "file",
@@ -63,8 +63,12 @@
                         >
                   <bs-panel>
                     </semantic-form-hidden-input>
-                    <semantic-form-text-input for="Title"> </semantic-form-text-input>
-                    <semantic-form-text-input for="Description"> </semantic-form-text-input>
+                    <semantic-form-text-input 
+                          for="Title"> 
+                    </semantic-form-text-input>
+                    <semantic-form-text-input 
+                          for="Description"
+                          multiline="true"> </semantic-form-text-input>
                       <h4>Add attached file</h4>
                       <semantic-form-recover-notification></semantic-form-recover-notification>
                       <semantic-form-file-input
@@ -82,7 +86,8 @@
                                 ?__resourceIri__ mp:mediaType ?__mediaType__.
                               } WHERE {}
                               '
-                          storage='pharos/files/'
+                          storage='pharos'
+                          temp-storage='runtime'
                       ></semantic-form-file-input>
                       <h4>Add image</h4>
                       <semantic-form-file-input
@@ -101,12 +106,12 @@
                             ?__resourceIri__ mp:mediaType ?__mediaType__.
                           } WHERE {}
                           '
-                          storage='pharos/files/ '
-                          
+                          storage='pharos'
+                          temp-storage='runtime'
                       ></semantic-form-file-input>
                       <semantic-form-errors></semantic-form-errors>
                       <!-- save and reset button for form -->
-                      <button name="submit" class="btn btn-secondary">Save</button>
+                      <button name="submit" class="btn btn-secondary">Submit</button>
                       <button name="reset" class="btn btn-secondary">Reset</button>
                   </bs-panel>
             </semantic-form>
