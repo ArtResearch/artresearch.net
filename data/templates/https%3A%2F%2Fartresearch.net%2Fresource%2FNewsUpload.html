@@ -41,7 +41,8 @@
                               "label": "Title",
                               "description": "Add Title for News Here",
                               "xsdDatatype": "xsd:string",
-                              "selectPattern": "SELECT $value WHERE { $subject fr:hasTitle ?title }",
+                              "minOccurs": "1",
+                              "selectPattern": "SELECT $value WHERE { $subject fr:hasTitle ?title; a fc:news }",
                               "insertPattern": "INSERT { $subject fr:hasTitle $value } WHERE {}",
                               "deletePattern": "DELETE { $subject fr:hasTitle $value } WHERE {}"
                             },
@@ -62,7 +63,7 @@
                       }'
                         >
                   <bs-panel>
-                    </semantic-form-hidden-input>
+                    <semantic-form-hidden-input>
                     <semantic-form-text-input 
                           for="Title"> 
                     </semantic-form-text-input>
