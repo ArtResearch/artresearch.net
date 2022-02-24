@@ -42,9 +42,9 @@
                               "description": "Add Title for News Here",
                               "xsdDatatype": "xsd:string",
                               "minOccurs": "1",
-                              "selectPattern": "SELECT $value WHERE { $subject fr:hasTitle ?title; a fc:news }",
-                              "insertPattern": "INSERT { $subject fr:hasTitle $value } WHERE {}",
-                              "deletePattern": "DELETE { $subject fr:hasTitle $value } WHERE {}"
+                              "selectPattern": "SELECT $value WHERE { $subject fr:hasTitle $value; a fc:news }",
+                              "insertPattern": "INSERT { $subject fr:hasTitle $value; a fc:news } WHERE {}",
+                              "deletePattern": "DELETE { $subject fr:hasTitle $value; a fc:news } WHERE {$subject fr:hasTitle $value; a fc:news}"
                             },
                             {
                               "id": "Description",
@@ -53,7 +53,7 @@
                               "xsdDatatype": "xsd:string",
                               "selectPattern": "SELECT $value WHERE { $subject fr:hasDescription $value }",
                               "insertPattern": "INSERT { $subject fr:hasDescription $value } WHERE {}",
-                              "deletePattern": "DELETE { $subject fr:hasDescription $value } WHERE {}"
+                              "deletePattern": "DELETE { $subject fr:hasDescription $value } WHERE {$subject fr:hasDescription $value}"
                             }
                           ]'
                    new-subject-template='https://artresearch.net/resource/news/News{{UUID}}'
