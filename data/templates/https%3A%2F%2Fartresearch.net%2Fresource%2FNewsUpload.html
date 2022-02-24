@@ -79,11 +79,11 @@
                               BIND(URI(CONCAT(STR("https://artresearch.net/resource"),"/news/files/",?title)) as ?resourceIri)
                               }'
                           resource-query='
-                              PREFIX mp: <http://www.metaphacts.com/ontologies/platform#>
+                               PREFIX Platform: <http://www.researchspace.org/resource/system/>
                               CONSTRUCT {
-                                ?__resourceIri__ a mp:FileImage.
-                                ?__resourceIri__ mp:fileName ?__fileName__.
-                                ?__resourceIri__ mp:mediaType ?__mediaType__.
+                                ?__resourceIri__ a Platform:FileDoc.
+                                ?__resourceIri__ Platform:fileName ?__fileName__.
+                                ?__resourceIri__ Platform:mediaType ?__mediaType__.
                               } WHERE {}
                               '
                           storage='pharos'
@@ -99,11 +99,11 @@
                             BIND(URI(CONCAT(STR("https://artresearch.net/resource"),"/news/images/",?title)) as ?resourceIri)
                             }'
                           resource-query='
-                          PREFIX mp: <http://www.metaphacts.com/ontologies/platform#>
+                           PREFIX Platform: <http://www.researchspace.org/resource/system/>
                           CONSTRUCT {
-                            ?__resourceIri__ a mp:FileImage.
-                            ?__resourceIri__ mp:fileName ?__fileName__.
-                            ?__resourceIri__ mp:mediaType ?__mediaType__.
+                            ?__resourceIri__ a Platform:FileImage.
+                            ?__resourceIri__ Platform:fileName ?__fileName__.
+                            ?__resourceIri__ Platform:mediaType ?__mediaType__.
                           } WHERE {}
                           '
                           storage='pharos'
