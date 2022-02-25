@@ -1,35 +1,56 @@
-[[> Breadcrumb category="News"]]
+[[> Breadcrumb category="News" categoryUrl="/resource/News"]]
 <div class="page rs-page">
     [[#> ClipboardSidebar]]
       <div class="news-header" style="display: flex; flex-direction: column; align-items: flex-end; border-bottom: initial; padding: 20px 12px 0;">
-        [[> HeaderOptions ]]
+        <!-- need to add button for curator to edit news ? -->
       </div>
       <div id="tab-container" style="display: flex;flex-direction: column;" class="page__body-navtabs--borderless">
         <div class="old-fashioned-grid">
           <div class="super-cheesy">
               <semantic-query
-                  query='SELECT ?newsLink WHERE { 
-                    ?newsLink a fc:news.
-                    ?newsLink fr:hasDate ?date.
-                    ?newsLink fr:hasAttachedDocument ?doc. 
-                    ?newsLink fr:hasAttachedImage ?image .
-                    ?newsLink fr:hasTitle ?title. 
-                    ?newsLink fr:hasDescription ?description.
-                  }LIMIT 10'
+                  query='SELECT * WHERE{
+                         GRAPH ?g {
+                            ?? a fc:news.
+                            ?? fr:hasTitle ?newsTitle.
+                            ?? fr:hasDate ?date.
+                            OPTIONAL{
+                            ?? fr:hasDescription ?description.
+                            }
+                            OPTIONAL {
+                            ?? fr:hasAttachedImage ?image .
+                            }
+                            OPTIONAL {
+                            ?? fr:hasAttachedDocument ?doc.
+                            }
+                          }
+                          OPTIONAL {
+                          ?image Platform:fileName ?filename.
+                          }
+                      }'
                   template='{{> deprecated }}'>
               <template id='deprecated'>
-                  <div style="
-                      margin-top: 15px;
-                      border-radius: 5px;
-                      padding: 14px;
-                      background: lightblue;">
-                        {{#each bindings}}
-                            <h2 style="text-decoration: underline;">
-                              <i style="margin-right: 5px;" class="fa fa-external-link"></i> 
-                              <semantic-link  iri='{{newsLink.value}}'></semantic-link>
-                            </h2>
-                        {{/each}}
+                {{#each bindings}}
+                  <div id="NewsSection">
+                        <h1 style="line-height:unset !important">{{newsTitle.value}}</h1>
+                        <h3>{{dateTimeFormat date.value "LLL"}}</h3>
+
+                        <div>
+                         <a class="FileManager--uploadedImageDepiction" href="/file?fileName={{filename.value}}&storage=news"><img style="height: 20vh;" src="https://artresearch.net/file?fileName={{filename.value}}&storage=news"/></a>
+                        </div>  
+                        {{#if description.value}}
+                          <div class="NewsDescription">{{description.value}}</div>
+                        {{/if}}
+
+                      </br>
+                        {{#if doc.value}}
+                            <h3>Download attached files:</h3>
+                            <semantic-link
+                            iri="{{doc.value}}">
+                            Download Here 
+                            </semantic-link>
+                        {{/if}}
                   </div>
+                 {{/each}}
               </template>
               </semantic-query>
           </div>
