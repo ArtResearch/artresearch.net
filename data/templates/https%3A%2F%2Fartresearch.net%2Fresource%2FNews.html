@@ -32,7 +32,7 @@
                               ?newsLink fr:hasAttachedDocument ?doc.
                             }
                           }
-                        }'
+                        }ORDER BY DESC (?date)'
                  no-result-template='<h1 style="color:#d13239 ">There are no News to Display</h1>'
                  column-configuration='[
                               {"variableName":"newsTitle","displayName":"News", "cellTemplate": "{{>Title}}"},
@@ -50,12 +50,6 @@
                       <i class='fa fa-folder-open'></i> View More
                     </button>          
               </semantic-link>
-
-            <mp-ldp-export-resource iri="{{newsLink.value}}">
-              <button class='btn btn-default btn-xs pull-right' title='Export News' style='margin-right: 15px; '>
-                <i class='fa fa-download btn-icon-left' aria-hidden=true></i> Export
-              </button>
-            </mp-ldp-export-resource>
 
             <mp-overlay-dialog title="Delete News" >
                     <mp-overlay-dialog-trigger>
@@ -89,7 +83,7 @@
                   white-space: nowrap;
                   overflow: hidden;
                   text-overflow: ellipsis;" >
-          {{description.value}}</div>
+          {{description}}</div>
   </semantic-link>
 </template>
 </semantic-table>
