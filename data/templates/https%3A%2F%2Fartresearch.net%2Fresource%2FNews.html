@@ -35,12 +35,47 @@
                  column-configuration='[
                               {"variableName":"newsTitle","displayName":"News", "cellTemplate": "{{>Title}}"},
                               {"variableName":"Description","displayName":"Description", "cellTemplate": "{{>Description}}"},
-                              {"variableName":"Date","displayName":"Date", "cellTemplate": "{{dateTimeFormat date.value \"LLL\"}}" ,"visible": "false" }
+                              {"variableName":"Date","displayName":"Date", "cellTemplate": "{{dateTimeFormat date.value \"LLL\"}}" ,"visible": "false" },
+                              {"displayName":"Actions", "cellTemplate": "{{> actions}}"}
                           ]'
             
                         
 >
+     <template id='actions'>
+          <div style="display: flex;">
+                  <semantic-link iri="{{newsLink.value}}">
+                    <button class='btn btn-default btn-xs pull-right' title='View More' style='margin-right: 15px; '>
+                      <i class='fa fa-folder-open'></i> View More
+                    </button>          
+              </semantic-link>
 
+            <mp-ldp-export-resource iri="{{newsLink.value}}">
+              <button class='btn btn-default btn-xs pull-right' title='Export News' style='margin-right: 15px; '>
+                <i class='fa fa-download btn-icon-left' aria-hidden=true></i> Export
+              </button>
+            </mp-ldp-export-resource>
+
+            <mp-overlay-dialog title="Delete News" >
+                    <mp-overlay-dialog-trigger>
+                      <button class='btn btn-default btn-xs pull-right' title='Delete News' style='margin-right: 15px; '>
+                        <i class='fa fa-trash'></i>Delete News
+                      </button>
+                    </mp-overlay-dialog-trigger>
+                    <mp-overlay-dialog-content>
+                      <h1>Are you sure you would like to delete this News?</h1>
+                      <mp-ldp-remove-from-container-action 
+                          container="http://www.researchspace.org/resource/system/formContainer"
+                          iri="{{newsLink.value}}" 
+                          post-action='reload'>
+                            <button class="btn btn-danger pull-right" title="Delete annotation" 
+                                style="margin-left: 35px;font-size: 22px;">
+                                <i class="fa fa-trash"></i> Yes delete
+                              </button>
+                      </mp-ldp-remove-from-container-action>
+                    </mp-overlay-dialog-content>
+            </mp-overlay-dialog>
+          </div>
+      </template>
 <template id="Title">
     <semantic-link iri="{{newsLink.value}}">
       {{newsTitle.value}}

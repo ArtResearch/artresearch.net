@@ -35,7 +35,9 @@
                         <h3>{{dateTimeFormat date.value "LLL"}}</h3>
 
                         <div>
-                         <a class="FileManager--uploadedImageDepiction" href="/file?fileName={{filename.value}}&storage=news"><img style="height: 20vh;" src="https://artresearch.net/file?fileName={{filename.value}}&storage=news"/></a>
+                         <a class="FileManager--uploadedImageDepiction" href="/file?fileName={{filename.value}}&storage=news">
+                           <img style="height: 20vh;" src="/file?fileName={{filename.value}}&storage=news"/>
+                          </a>
                         </div>  
                         {{#if description.value}}
                           <div class="NewsDescription">{{description.value}}</div>
