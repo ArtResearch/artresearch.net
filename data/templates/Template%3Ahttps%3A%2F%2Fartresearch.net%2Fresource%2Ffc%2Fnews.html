@@ -16,16 +16,18 @@
                             OPTIONAL{
                             ?? fr:hasDescription ?description.
                             }
+                          }
                             OPTIONAL {
                             ?? fr:hasAttachedImage ?image .
-                            }
-                            OPTIONAL {
-                            ?? fr:hasAttachedDocument ?doc.
-                            }
+                            ?image a Platform:FileImage.
+                            ?image Platform:fileName ?filename.
                           }
-                          OPTIONAL {
-                          ?image Platform:fileName ?filename.
-                          }
+                           OPTIONAL {
+                          ?? fr:hasAttachedDocument ?doc.
+                          ?doc a Platform:FileDoc.
+                          ?doc Platform:fileName ?filename2.
+                        }
+                                              
                       }'
                   template='{{> deprecated }}'>
               <template id='deprecated'>
@@ -33,12 +35,13 @@
                   <div id="NewsSection">
                         <h1 style="line-height:unset !important">{{newsTitle.value}}</h1>
                         <h3>{{dateTimeFormat date.value "LLL"}}</h3>
-
+                        {{#if image.value}}
                         <div>
                          <a class="FileManager--uploadedImageDepiction" href="/file?fileName={{filename.value}}&storage=news">
                            <img style="height: 20vh;" src="/file?fileName={{filename.value}}&storage=news"/>
                           </a>
                         </div>  
+                        {{/if}}
                         {{#if description.value}}
                           <div class="NewsDescription"><h2> {{description.value}}</h2></div>
                         {{/if}}
@@ -46,10 +49,8 @@
                       </br>
                         {{#if doc.value}}
                             <h3>Download attached files:</h3>
-                            <semantic-link
-                            iri="{{doc.value}}">
-                            Download Here 
-                            </semantic-link>
+                            <a class="FileManager--uploadedImageDepiction" href="/file?fileName={{filename2.value}}&storage=news">Download {{filename2.value}}
+                            </a>
                         {{/if}}
                   </div>
                  {{/each}}

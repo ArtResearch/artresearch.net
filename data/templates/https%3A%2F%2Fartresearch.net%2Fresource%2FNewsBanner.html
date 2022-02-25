@@ -1,3 +1,50 @@
-<semantic-carousel>
-  
-</semantic-carousel>
+
+<semantic-query 
+  query="
+  PREFIX ldp: <http://www.w3.org/ns/ldp#>
+                        SELECT ?parent ?newscontainer ?filename ?newsLink ?newsTitle ?image ?date WHERE{
+                          GRAPH ?g {
+                            ?parent ldp:contains ?newscontainer.
+                            ?newsLink a fc:news.
+                            ?newsLink fr:hasTitle ?newsTitle.
+                            ?newsLink fr:hasDate ?date.
+                            OPTIONAL{
+                              ?newsLink fr:hasDescription ?description.
+                            }
+                            OPTIONAL {
+                              ?newsLink fr:hasAttachedImage ?image .
+                            }
+                          }
+                          OPTIONAL{
+                            ?image Platform:fileName ?filename.
+                          }
+                        }ORDER BY DESC (?date) LIMIT 6
+        "
+template='{{> carouselNews}}'
+>
+<template id="carouselNews">
+  {{#each bindings}}
+   <semantic-link  style="align-self: center;" iri="{{newsLink.value}}">
+  <div class="CardCarousel">
+  <div class="imgCarouselNews">
+      {{#if image.value}}
+            <div>  
+                <img style="height: 90px;
+                            width: 90px ;
+                            object-fit:cover;
+                            border-radius: 50px;" src="/file?fileName={{filename.value}}&storage=news"/>
+            </div>  
+      {{/if}}
+  </div>
+  <div class="TextWrapperCarousel">
+  <div class="titleCarouselNews">{{newsTitle.value}}</div>
+
+
+
+  </div>
+</div>
+</semantic-link>
+  {{/each}}
+</template>
+
+</semantic-query>
