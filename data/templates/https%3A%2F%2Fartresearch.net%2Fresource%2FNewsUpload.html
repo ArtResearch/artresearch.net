@@ -18,14 +18,24 @@
                     persistence='ldp'
                     browser-persistence="true"
                      fields='[
+                            {
+                              "id": "user-id",
+                              "label": "UserId",
+                              "description": "User",
+                              "xsdDatatype": "xsd:anyURI",
+                              "minOccurs": "1",
+                              "maxOccurs": "1",
+                              "selectPattern": "SELECT $value WHERE { $subject  fr:hasAttributor ?value }",
+                              "insertPattern": "INSERT { $subject  fr:hasAttributor $value } WHERE {}",
+                              "deletePattern": "DELETE { $subject  fr:hasAttributor $value } WHERE {}"
+                            },
                           {
                               "id": "date",
                               "label": "Date",
                               "description": "Add the date for the news",
                               "xsdDatatype": "xsd:dateTime",
-                              "minOccurs": "0",
+                              "minOccurs": "1",
                               "maxOccurs": "1",
-                              "defaultValue": "{{currentDateTime}}",
                               "selectPattern": "SELECT $value WHERE { $subject  fr:hasDate ?value }",
                               "insertPattern": "INSERT { $subject  fr:hasDate $value } WHERE {}",
                               "deletePattern": "DELETE { $subject  fr:hasDate $value } WHERE {}"
@@ -71,6 +81,10 @@
                    new-subject-template='https://artresearch.net/resource/news/{{UUID}}'
                   >
                   <bs-panel>
+                    <semantic-form-hidden-input for="user-id" append-value='[[singleValueFromSelect "SELECT ?user WHERE { BIND(?__useruri__ as ?user) }" ]]'>
+                    </semantic-form-hidden-input>
+
+                    </semantic-form-hidden-input>
                     <semantic-form-datetime-input for="date">
                     </semantic-form-datetime-input>
                     <semantic-form-text-input 

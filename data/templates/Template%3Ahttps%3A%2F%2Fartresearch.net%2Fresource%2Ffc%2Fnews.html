@@ -1,0 +1,205 @@
+[[> Breadcrumb category="News"]]
+<div class="page rs-page">
+    [[#> ClipboardSidebar]]
+      <div class="news-header" style="display: flex; flex-direction: column; align-items: flex-end; border-bottom: initial; padding: 20px 12px 0;">
+        [[> HeaderOptions ]]
+      </div>
+      <div id="tab-container" style="display: flex;flex-direction: column;" class="page__body-navtabs--borderless">
+        <div class="old-fashioned-grid">
+          <div class="super-cheesy">
+              <semantic-query
+                  query='SELECT ?newsLink WHERE { 
+                    ?newsLink a fc:news.
+                    ?newsLink fr:hasDate ?date.
+                    ?newsLink fr:hasAttachedDocument ?doc. 
+                    ?newsLink fr:hasAttachedImage ?image .
+                    ?newsLink fr:hasTitle ?title. 
+                    ?newsLink fr:hasDescription ?description.
+                  }LIMIT 10'
+                  template='{{> deprecated }}'>
+              <template id='deprecated'>
+                  <div style="
+                      margin-top: 15px;
+                      border-radius: 5px;
+                      padding: 14px;
+                      background: lightblue;">
+                        {{#each bindings}}
+                            <h2 style="text-decoration: underline;">
+                              <i style="margin-right: 5px;" class="fa fa-external-link"></i> 
+                              <semantic-link  iri='{{newsLink.value}}'></semantic-link>
+                            </h2>
+                        {{/each}}
+                  </div>
+              </template>
+              </semantic-query>
+          </div>
+        </div>
+      </div>
+    [[/:ClipboardSidebar]]
+</div>
+
+<style>
+  body {
+    line-height: 0 !important;
+  }
+  .hide-next-row + tr {
+    display: none;
+  }
+  .no-hide-next-row {
+    display: none;
+  }
+  .hide-next-row {
+      display: none;
+  }
+  .artworkLocation {
+      height: 45vh;
+  }
+
+  #filter-dropdown {
+    display: flex;
+    padding-left: 10px;
+    align-self: center;
+  }
+
+#filter-dropdown .dropdown.btn-group {
+    cursor: pointer;
+    margin-right: 1vw;
+ 
+  }
+#filter-dropdown .dropdown.btn-group button {
+    min-width: 150px;
+    background: white;
+    min-width: 95px;
+    font-size: 16px;
+    color: gray !important;
+    box-shadow: 0px 0px -7px 0px #eaeaea;
+    border: 1px solid #c4c4c4 !important;
+    border-radius: 5px;
+    content: "Artwork";
+  }
+  #filter-dropdown h2{
+    background: none !important;
+    color:#9b0400 !important; 
+    border-radius: 0;
+    text-align: center;
+    margin: 0;
+  }
+  .old-fashioned-grid h2 {
+    background: white;
+    border-radius: 5px 5px 0px 0px;
+    color: black;
+    padding: 12px;
+    margin-left: -10px;
+    margin-right: -10px;
+    margin-top: -10px;
+    margin: 0;
+    border-bottom: 1px solid #9b0400;
+    font-size: 17px;
+  }
+
+  .page__body-navtabs--borderless .system-spinner {
+    display: none !important;
+  }
+  .old-fashioned-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .old-fashioned-grid #work-summary-images .summary-image-main {
+    min-height: 55vh !important;
+  }
+  .old-fashioned-grid #work-summary-images .imageThumbnailSingle {
+    height: 55vh !important;
+  }
+  .old-fashioned-grid #work-summary-images .imageThumbnailSingle.tripleThumb {
+    height: 35vh !important;
+    max-width: 16.6vw;
+  }
+  .old-fashioned-grid #work-summary-images .imageThumbnailSingle.doubleThumb {
+    max-width: 25vw;
+  }
+  .old-fashioned-grid #work-summary-images .smallThumbsSingle {
+    height: 65px !important;
+  }
+  .old-fashioned-grid #photoTable .photographFieldView {
+    width: 100% !important;
+  }
+  .old-fashioned-grid .workAndProductionInfo .workInfoContainer {
+    width: 100% !important;
+  }
+  .old-fashioned-grid .workAndProductionInfo .productionInfoContainer {
+    width: 100% !important;
+  }
+
+  .old-fashioned-grid .super-cheesy > div {
+    position: sticky;
+    display: flex;
+    flex-direction: column;
+    top: 12vh;
+  }
+
+  button.close {
+    opacity: 1;
+    font-size: 55px !important;
+  }
+  .modal-content {
+    border: none !important;
+    box-shadow: none !important;
+  }
+  .modal-content .modal-header {
+        padding: 2px 21px 0px !important;
+  }
+  .modal-content {
+    background-color: #f5f5f5 !important;
+  }
+
+  .component-page-toolbar {
+    display: none !important;
+  }
+
+  .miradorViewerPopup .grid-demo {
+    height: 92vh;
+  }
+  .miradorViewerPopup .modal-dialog {
+    width: 85%;
+  }
+  .miradorViewerPopup .modal-title {
+    text-align: center;
+  }
+  .mirador-main-menu-bar {
+    display: none !important;
+  }
+
+  .navbar-default {
+    box-shadow: none !important;
+  }
+
+  .mirador-viewer {
+    top: 0px !important;
+  }
+  a.mirador-btn.mirador-icon-view-type {
+    display: none !important;
+  }
+  a.mirador-btn.mirador-icon-window-menu {
+    display: none !important;
+  }
+
+  a.mirador-btn.mirador-icon-metadata-view.mirador-tooltip {
+    display: none !important;
+  }
+
+  a.mirador-btn.mirador-icon-view-type {
+    display: none !important;
+  }
+  a.mirador-osd-toggle-bottom-panel.hud-control {
+    display: none !important;
+  }
+
+  @media (max-width: 1200px) {
+    .old-fashioned-grid .super-cheesy > div {
+      position: unset;
+    }
+    .old-fashioned-grid {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
+</style>
