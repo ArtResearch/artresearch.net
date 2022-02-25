@@ -15,22 +15,24 @@
                 <semantic-table id='resources-results'
                 number-of-displayed-rows=10
                 options='{"pageSizeSelection": true, "showColumnFilters": true}'
-                query='SELECT ?newsLink ?newsTitle ?image ?doc ?description ?date WHERE{
-                         GRAPH ?g {
+                query=' PREFIX ldp: <http://www.w3.org/ns/ldp#>
+                        SELECT ?parent ?newscontainer ?newsLink ?newsTitle ?image ?doc ?description ?date WHERE{
+                          GRAPH ?g {
+                            ?parent ldp:contains ?newscontainer.
                             ?newsLink a fc:news.
                             ?newsLink fr:hasTitle ?newsTitle.
                             ?newsLink fr:hasDate ?date.
                             OPTIONAL{
-                            ?newsLink fr:hasDescription ?description.
+                              ?newsLink fr:hasDescription ?description.
                             }
                             OPTIONAL {
-                            ?newsLink fr:hasAttachedImage ?image .
+                              ?newsLink fr:hasAttachedImage ?image .
                             }
                             OPTIONAL {
-                            ?newsLink fr:hasAttachedDocument ?doc.
+                              ?newsLink fr:hasAttachedDocument ?doc.
                             }
                           }
-                      }'
+                        }'
                  no-result-template='<h1 style="color:#d13239 ">There are no News to Display</h1>'
                  column-configuration='[
                               {"variableName":"newsTitle","displayName":"News", "cellTemplate": "{{>Title}}"},
@@ -63,65 +65,15 @@
                     </mp-overlay-dialog-trigger>
                     <mp-overlay-dialog-content>
                       <h1>Are you sure you would like to delete this News?</h1>
-                      <semantic-form
-                      
-                           fields='[
-                          {
-                              "id": "date",
-                              "label": "Date",
-                              "description": "Add the date for the news",
-                              "xsdDatatype": "xsd:dateTime",
-                              "minOccurs": "1",
-                              "maxOccurs": "1",
-                              "selectPattern": "SELECT $value WHERE { $subject  fr:hasDate ?value }",
-                              "insertPattern": "INSERT { $subject  fr:hasDate $value } WHERE {}",
-                              "deletePattern": "DELETE { $subject  fr:hasDate $value } WHERE {}"
-                            },
-                            {
-                              "id": "file",
-                              "label": "Document File",
-                              "description": "The attached file",
-                              "xsdDatatype": "xsd:anyURI",
-                              "selectPattern": "SELECT $value WHERE { $subject fr:hasAttachedDocument $value }",
-                              "insertPattern": "INSERT { $subject fr:hasAttachedDocument $value } WHERE {}",
-                              "deletePattern": "DELETE { $subject fr:hasAttachedDocument $value } WHERE {}"
-                            } ,
-                              {
-                              "id": "image",
-                              "label": "Image file",
-                              "description": "The image file",
-                              "xsdDatatype": "xsd:anyURI",
-                              "selectPattern": "SELECT $value WHERE { $subject fr:hasAttachedImage $value }",
-                              "insertPattern": "INSERT { $subject fr:hasAttachedImage $value } WHERE {}",
-                              "deletePattern": "DELETE { $subject fr:hasAttachedImage $value } WHERE {}"
-                            } ,
-                            {
-                              "id": "Title",
-                              "label": "Title",
-                              "description": "Add Title for News Here",
-                              "xsdDatatype": "xsd:string",
-                              "minOccurs": "1",
-                              "selectPattern": "SELECT $value WHERE { $subject fr:hasTitle $value; a fc:news }",
-                              "insertPattern": "INSERT { $subject fr:hasTitle $value; a fc:news } WHERE {}",
-                              "deletePattern": "DELETE { $subject fr:hasTitle $value; a fc:news } WHERE {$subject fr:hasTitle $value; a fc:news}"
-                            },
-                            {
-                              "id": "Description",
-                              "label": "Description",
-                              "description": "Add News Here",
-                              "xsdDatatype": "xsd:string",
-                              "selectPattern": "SELECT $value WHERE { $subject fr:hasDescription $value }",
-                              "insertPattern": "INSERT { $subject fr:hasDescription $value } WHERE {}",
-                              "deletePattern": "DELETE { $subject fr:hasDescription $value } WHERE {$subject fr:hasDescription $value}"
-                            }
-                          ]'>
-                         <button
-                            name="delete"
-                            class="btn btn-warning action reject confirm-btn"
-                          >
-                          <div class="color-white">Delete</div>
-                        </button>
-                      </semantic-form>
+                        <mp-ldp-remove-from-container-action 
+                            container="{{parent.value}}"
+                            iri="{{newscontainer.value}}" 
+                            post-action='reload'>
+                              <button class="btn btn-danger pull-right" title="Delete annotation" 
+                                  style="margin-left: 35px;font-size: 22px;">
+                                  <i class="fa fa-trash"></i> Yes delete
+                                </button>
+                        </mp-ldp-remove-from-container-action>
                     </mp-overlay-dialog-content>
             </mp-overlay-dialog>
           </div>
