@@ -1,5 +1,5 @@
 [[> Breadcrumb category="News" categoryUrl="/resource/News"]]
-<div class="page rs-page">
+<div class="page rs-page"  style="background:#fff8ea">
     [[#> ClipboardSidebar]]
       <div class="news-header" style="display: flex; flex-direction: column; align-items: flex-end; border-bottom: initial; padding: 20px 12px 0;">
         <!-- need to add button for curator to edit news ? -->
@@ -48,8 +48,8 @@
 
                       </br>
                         {{#if doc.value}}
-                            <h3>Download attached files:</h3>
-                            <a class="FileManager--uploadedImageDepiction" href="/file?fileName={{filename2.value}}&storage=news">Download {{filename2.value}}
+                            <h3 >Download attached files:</h3>
+                            <a  class="FileManager--uploadedImageDepiction" href="/file?fileName={{filename2.value}}&storage=news">Download {{filename2.value}}
                             </a>
                         {{/if}}
                   </div>
@@ -63,6 +63,9 @@
 </div>
 
 <style>
+.FileManager--uploadedImageDepiction{
+  color:#3498db !important;
+}
   body {
     line-height: 0 !important;
   }
@@ -109,10 +112,9 @@
     margin: 0;
   }
   .old-fashioned-grid h2 {
-    background: white;
     border-radius: 5px 5px 0px 0px;
     color: black;
-    padding: 12px;
+    padding-bottom: 10px;
     margin-left: -10px;
     margin-right: -10px;
     margin-top: -10px;
