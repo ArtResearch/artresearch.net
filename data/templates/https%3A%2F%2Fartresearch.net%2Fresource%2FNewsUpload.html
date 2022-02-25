@@ -68,6 +68,7 @@
                           multiline="true"> </semantic-form-text-input>
                       <h4>Add attached file</h4>
                       <semantic-form-recover-notification></semantic-form-recover-notification>
+                      <semantic-context repository="assets">
                       <semantic-form-file-input
                           for='file'
                           placeholder='Please drag&drop your file here'
@@ -104,9 +105,9 @@
                           } WHERE {}
                           '
                           storage='news'
-                          
                           temp-storage='runtime'
                       ></semantic-form-file-input>
+                      </semantic-context>
                       <semantic-form-errors></semantic-form-errors>
                       <!-- save and reset button for form -->
                       <button name="submit" class="btn btn-secondary">Submit</button>
