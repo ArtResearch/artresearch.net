@@ -18,6 +18,18 @@
                     persistence='ldp'
                     browser-persistence="true"
                      fields='[
+                          {
+                              "id": "date",
+                              "label": "Date",
+                              "description": "Add the date for the news",
+                              "xsdDatatype": "xsd:dateTime",
+                              "minOccurs": "0",
+                              "maxOccurs": "1",
+                              "defaultValue": "{{currentDateTime}}",
+                              "selectPattern": "SELECT $value WHERE { $subject  fr:hasDate ?value }",
+                              "insertPattern": "INSERT { $subject  fr:hasDate $value } WHERE {}",
+                              "deletePattern": "DELETE { $subject  fr:hasDate $value } WHERE {}"
+                            },
                             {
                               "id": "file",
                               "label": "Document File",
@@ -59,7 +71,8 @@
                    new-subject-template='https://artresearch.net/resource/news/{{UUID}}'
                   >
                   <bs-panel>
-            
+                    <semantic-form-datetime-input for="date">
+                    </semantic-form-datetime-input>
                     <semantic-form-text-input 
                           for="Title"> 
                     </semantic-form-text-input>
