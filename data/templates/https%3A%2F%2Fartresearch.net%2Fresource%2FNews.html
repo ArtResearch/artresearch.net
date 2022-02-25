@@ -1,0 +1,54 @@
+<div class="row row-center">
+    <div
+      id="main-containers"
+      style="max-width: 1300px"
+      class="col-md-10 col-xs-10">
+      <!-- Title -->
+          <div class="row">
+            <div class="col-sm-7">
+              <header>
+                <h1 style="display: flex;"><div style="color: #dd3737;">art</div>research.net News</h1>
+              </header>
+            </div>
+          </div>
+          <div class="news-content">
+                <semantic-table id='resources-results'
+                number-of-displayed-rows=10
+                query='SELECT ?newsLink ?newsTitle ?image ?doc ?user ?time ?description ?date WHERE{
+                         GRAPH ?g {
+                            ?newsLink a fc:news.
+                            ?newsLink fr:hasTitle ?newsTitle.
+                            ?newsLink fr:hasAttributor ?user.
+                            ?newsLink fr:hasDate ?date.
+                            OPTIONAL{
+                            ?newsLink fr:hasDescription ?description.
+                            }
+                            OPTIONAL {
+                            ?newsLink fr:hasAttachedImage ?image .
+                            }
+                            OPTIONAL {
+                            ?newsLink fr:hasAttachedDocument ?doc.
+                            }
+                          }
+                      }'
+                 no-result-template='<h1 style="color:#d13239 ">There are no News to Display</h1>'
+                 column-configuration='[
+                              {"variableName":"newsTitle","displayName":"News", "cellTemplate": "{{>Title}}"},
+                              {"variableName":"description","displayName":"Description", "cellTemplate": "{{>Description}}"},
+                              {"variableName":"date","displayName":"Date", "cellTemplate": "{{dateTimeFormat date.value \"LLL\"}}" }
+                          ]'
+>
+<template id="Title">
+    <semantic-link iri="{{newsLink.value}}">
+      {{newsTitle.value}}
+    </semantic-link>
+</template>
+<template id="Description">
+  <semantic-link iri="{{newsLink.value}}">
+    <div>{{description.value}}</div>
+  </semantic-link>
+</template>
+</semantic-table>
+         </div>
+    </div>
+</div>
