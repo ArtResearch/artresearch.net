@@ -56,12 +56,8 @@
                               "deletePattern": "DELETE { $subject fr:hasDescription $value } WHERE {$subject fr:hasDescription $value}"
                             }
                           ]'
-                   new-subject-template='https://artresearch.net/resource/news/News{{UUID}}'
-                    generate-iri-query='
-                      SELECT ?resourceIri WHERE {
-                      BIND(URI(CONCAT(STR("https://artresearch.net/resource"),"/news/",?title)) as ?resourceIri)
-                      }'
-                        >
+                   new-subject-template='https://artresearch.net/resource/news/{{UUID}}'
+                  >
                   <bs-panel>
             
                     <semantic-form-text-input 
@@ -77,7 +73,7 @@
                           placeholder='Please drag&drop your file here'
                           generate-iri-query='
                               SELECT ?resourceIri WHERE {
-                              BIND(URI(CONCAT(STR("https://artresearch.net/resource"),"/news/",?title)) as ?resourceIri)
+                              BIND(URI(CONCAT(STR("https://artresearch.net/resource"),"/news/",?__fileName__)) as ?resourceIri)
                               }'
                           resource-query='
                                PREFIX Platform: <http://www.researchspace.org/resource/system/>
@@ -88,7 +84,7 @@
                               } WHERE {}
                               '
                           storage='news'
-                          temp-storage='newstemp'
+                          temp-storage='runtime'
                       ></semantic-form-file-input>
                       <h4>Add image</h4>
                       <semantic-form-file-input
@@ -97,7 +93,7 @@
                           placeholder='Please drag&drop your image here'
                           generate-iri-query='
                             SELECT ?resourceIri WHERE {
-                            BIND(URI(CONCAT(STR("https://artresearch.net/resource"),"/news/",?title)) as ?resourceIri)
+                            BIND(URI(CONCAT(STR("https://artresearch.net/resource"),"/news/",?__fileName__)) as ?resourceIri)
                             }'
                           resource-query='
                            PREFIX Platform: <http://www.researchspace.org/resource/system/>
@@ -108,7 +104,7 @@
                           } WHERE {}
                           '
                           storage='news'
-                          temp-storage='newstemp'
+                          temp-storage='runtime'
                       ></semantic-form-file-input>
                       <semantic-form-errors></semantic-form-errors>
                       <!-- save and reset button for form -->
