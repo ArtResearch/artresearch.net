@@ -14,7 +14,8 @@
           <div class="news-content">
                 <semantic-table id='resources-results'
                 number-of-displayed-rows=10
-                query='SELECT ?newsLink ?newsTitle ?image ?doc ?user ?time ?description ?date WHERE{
+                 options='{"pageSizeSelection": true, "showColumnFilters": true}'
+                query='SELECT ?newsLink ?newsTitle ?image ?doc ?description ?date WHERE{
                          GRAPH ?g {
                             ?newsLink a fc:news.
                             ?newsLink fr:hasTitle ?newsTitle.
@@ -33,10 +34,13 @@
                  no-result-template='<h1 style="color:#d13239 ">There are no News to Display</h1>'
                  column-configuration='[
                               {"variableName":"newsTitle","displayName":"News", "cellTemplate": "{{>Title}}"},
-                              {"variableName":"description","displayName":"Description", "cellTemplate": "{{>Description}}"},
-                              {"variableName":"date","displayName":"Date", "cellTemplate": "{{dateTimeFormat date.value \"LLL\"}}" }
+                              {"variableName":"Description","displayName":"Description", "cellTemplate": "{{>Description}}"},
+                              {"variableName":"Date","displayName":"Date", "cellTemplate": "{{dateTimeFormat date.value \"LLL\"}}" ,"visible": "false" }
                           ]'
+            
+                        
 >
+
 <template id="Title">
     <semantic-link iri="{{newsLink.value}}">
       {{newsTitle.value}}
