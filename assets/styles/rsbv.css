@@ -1,0 +1,213 @@
+/* css for ResourceFieldBasedVisualization component */
+
+#rsbv {
+  overflow-x: hidden;
+}
+
+#rsbv .headLine {
+  border-bottom-color: #f4f4f4 !important;
+  border-bottom: 1px solid;
+}
+
+#rsbv .rs-page-resource__field-label {
+  font-size: medium !important;
+  color: #616161;
+  white-space: normal;
+}
+
+#rsbv .sourceIcons {
+  width: 30px !important;
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+}
+
+#rsbv .multivalueTd {
+  padding: 0 !important;
+}
+
+#rsbv .visualizationValue {
+  font-size: medium !important;
+  display: flex;
+  align-items: center;
+  width: 42ch;
+}
+
+#rsbv .visualizationValue div[date="Invalid date"] {
+  display: none;
+}
+#rsbv .visualizationValue div + span {
+  display: none;
+}
+#rsbv .visualizationValue div[date="Invalid date"] + span {
+  display: block;
+}
+
+#rsbv .visualizationValue a {
+  text-decoration: none !important;
+}
+
+#rsbv .rs-page-resource__field-value {
+  white-space: normal !important;
+}
+
+#rsbv .sourceIcon {
+  height: 21.6px;
+  width: 21.6px;
+  padding: 2px;
+  margin: 4px;
+  cursor: pointer;
+  border-radius: 100%;
+  box-shadow: 1px 1px 3px 1px #e7e7e7;
+}
+
+#rsbv .icon--database {
+  margin-right: 2px;
+  font-weight: bold;
+}
+
+#rsbv .icon--annotation {
+  margin-right: 0px !important;
+}
+
+#rsbv .icon--assertion {
+  margin-right: 0px !important;
+}
+
+#rsbv .badge {
+  background: #c5c5c5 !important;
+  width: 18px;
+  height: 18px;
+}
+
+#rsbv .rs-page__count--title {
+  padding: 0 !important;
+}
+
+#rsbv .rs-page__count--field-assertion a {
+  text-decoration: none !important;
+}
+
+#rsbv .rs-page__count--field-annotation a {
+  text-decoration: none !important;
+}
+#rsbv a {
+  color: #6b0000 !important;
+}
+
+#rsbv .copyText {
+  margin-left: 25px;
+  cursor: copy;
+}
+
+#rsbv .createAssertion {
+  transition: 0.3s;
+  font-size: 0px;
+}
+/* #rsbv tr:hover .createAssertion {
+  font-size: unset;
+  border-bottom: 0px !important;
+} */
+
+#rsbv .rsbv-viewmore-panel .panel-default > .panel-heading {
+  background: none !important;
+}
+
+#rsbv .rsbv-viewmore-panel h4.panel-title {
+  text-transform: none;
+  font-size: 16px;
+}
+#rsbv .rsbv-viewmore-panel h4.panel-title a {
+  font-weight: normal;
+}
+
+#rsbv .rsbv-viewmore-panel h4.panel-title a::before {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  content: "\f077";
+}
+
+#rsbv .rsbv-viewmore-panel h4.panel-title a.collapsed::before {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  content: "\f078";
+}
+
+#rsbv .rsbv-viewmore-panel .panel-default {
+  width: 125%;
+  box-shadow: none;
+  border: none !important;
+  margin: 0;
+}
+#rsbv .rsbv-viewmore-panel .panel-collapse.collapse.in {
+  width: 94%;
+}
+
+#rsbv .rsbv-viewmore-panel .panel-body {
+  padding: 0px;
+}
+
+
+#rsbv .rsbv-value-cell {
+  width: 68vw;
+  font-size: 14px !important;
+}
+
+
+
+@media (min-width:1200px) and  (max-width:1480px){
+  #rsbv .rsbv-viewmore-panel .panel-default {
+    max-width: 68vw;
+    width: 116%;
+  }
+  #rsbv > div.panel-heading{
+    width: 100px !important;
+  }
+ 
+}
+
+
+
+
+@media (min-width: 1480px) {
+  #rsbv .rsbv-viewmore-panel .panel-default {
+    max-width: 36.5vw;
+    width: 117%;
+  }
+ 
+}
+
+@media (min-width: 1800px) {
+  #rsbv .rsbv-viewmore-panel .panel-default {
+    width: 116% !important ;
+  }
+ 
+}
+
+@media (min-width: 2000px) {
+  #rsbv .rsbv-viewmore-panel .panel-default {
+    max-width: 35.6vw;
+    width: 116%;
+  }
+}
+
+@media(max-width:1200px) {
+  #rsbv .rsbv-value-cell {
+    width: 66vw;
+  }
+}
+
+
+@media(max-width:800px) {
+  #rsbv .visualizationValue {
+    width: 24ch;
+  }
+}
