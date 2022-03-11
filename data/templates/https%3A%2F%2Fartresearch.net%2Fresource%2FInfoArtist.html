@@ -1,32 +1,33 @@
 <div class="header-options artistAdditionalOptions">
   <div style="display:flex;">
       <semantic-query
-        query='SELECT ?tLabel ?link WHERE {             
-                ?subject owl:sameAs <[[this]]>.
-                ?subject crm:P1_is_identified_by ?value.
-                ?value <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ?type.
-                ?type rdfs:label "GND or ULAN".
-                ?type rdfs:label ?tLabel.
-                ?value rdfs:label ?id.
-                BIND(IRI(REPLACE(?id,"gnd", "https://d-nb.info/gnd/")) AS ?link)
-                FILTER CONTAINS(?id,"gnd") }'
+        query=' SELECT DISTINCT (IRI(REPLACE(STR(?m),"http://d-nb.info/gnd/tp/","https://d-nb.info/gnd/")) AS ?link) ?icon ?title WHERE {
+                  ?og skos:exactMatch  ?m.
+                  ?og owl:sameAs <[[this]]>.
+                  BIND(IF(CONTAINS(STR(?m),"gnd"),"/assets/images/DNB.ico",IF(CONTAINS(STR(?m),"wikidata"),"/assets/images/Wikidata.ico",IF(CONTAINS(STR(?m),"wikipedia"),"/assets/images/Wikipedia.ico",IF(CONTAINS(STR(?m),"viaf"),"/assets/images/Viaf.ico",IF(CONTAINS(STR(?m),"dbpedia"),"/assets/images/DBpedia.ico",""))))) AS ?icon)
+                  BIND(REPLACE(REPLACE(?icon,".ico",""),"/assets/images/","") AS ?title)
+                }
+              '
         no-result-template="<div></div>"
         template="{{> DNBLink}}"
       >
         <template id="DNBLink">
+          {{#each bindings}}
             <h2 class="fc-label"> 
-              <a  style="margin-left: 5px"  href="{{bindings.0.link.value}}" target="_null" >
+              <a  style="margin-left: 5px"  href="{{link.value}}" target="_null" >
                 <div class="fc-label original-linkDNB">
                     <div class="linkImageWrapper">
                         <img
                           class="sourceIconDNB"
-                          src="/assets/images/DNB.ico"
+                          title="{{title.value}}"
+                          src="{{icon.value}}"
                         />
-                        <h2 class="text">View GND record</h2>
+                        <h2 class="text">View {{title.value}} record</h2>
                     </div>
                 </div>
               </a>    
             </h2>
+          {{/each}}
         </template>
       </semantic-query>
       [[#if (ask "ASK { FILTER CONTAINS(STR(??),'ulan') }")]]
