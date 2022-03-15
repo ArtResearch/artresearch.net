@@ -38,6 +38,7 @@
                     FILTER(?graph=?scheme)
                   }
           '
+          number-of-displayed-rows='15'
           options='{"showFilter": false}'
           column-configuration='[
             {
@@ -65,13 +66,13 @@
                     <bs-menu-item event-key=2>
                       <mp-graph-store-action title="Download" action="GET" graphuri="{{graph.value}}" file-ending="ttl" class="mp-rdf-graph-action__download-dropdown-item">TURTLE</mp-graph-store-action>
                     </bs-menu-item>
-                  <bs-menu-item event-key=3>
+                    <bs-menu-item event-key=3>
                       <mp-graph-store-action title="Download" action="GET" graphuri="{{graph.value}}" file-ending="nt" class="mp-rdf-graph-action__download-dropdown-item">NTRIPLES</mp-graph-store-action>
                     </bs-menu-item>
-                  <bs-menu-item event-key=4>
+                    <bs-menu-item event-key=4>
                       <mp-graph-store-action title="Download" action="GET" graphuri="{{graph.value}}" file-ending="rdf" class="mp-rdf-graph-action__download-dropdown-item">RDF/XML</mp-graph-store-action>
                     </bs-menu-item>
-                    <bs-menu-item event-key=4>
+                    <bs-menu-item event-key=5>
                       <mp-graph-store-action title="Download" action="GET" graphuri="{{graph.value}}" file-ending="owl" class="mp-rdf-graph-action__download-dropdown-item">OWL</mp-graph-store-action>
                     </bs-menu-item>
                   </bs-dropdown-button>
@@ -98,6 +99,7 @@
                 }
               }
             '
+            number-of-displayed-rows='15'
             options='{"showFilter": false}'
             column-configuration='[
               {
