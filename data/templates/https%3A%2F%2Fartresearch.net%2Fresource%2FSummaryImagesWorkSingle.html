@@ -30,6 +30,13 @@
           >
               <template id="mediumImageSize">
                   <div>
+                    {{#each bindings}}
+                    <div class="downloadImageButton">
+                     <a href="{{rectoVersoImageThumbnail.value}}" download>
+                                        Download
+                      </a>
+                      </div>
+                    {{/each}}
                     <mp-overlay-dialog title="‎‎" type="lightbox">
                       <mp-overlay-dialog-trigger>
                           <div class="summary-image-main imageAndSourceContainer">  
@@ -60,8 +67,6 @@
                                     alt="Issue with image provider"
                                     src="{{rectoVersoImageThumbnail.value}}"
                                   />
-
-
                                 {{/each}}
                               {{else}}
                               {{#ifCond (objectLength bindings) "===" 2 }}
@@ -71,7 +76,6 @@
                                   alt="Issue with image provider"
                                   src="{{rectoVersoImageThumbnail.value}}"
                                 />
-
                               {{/each}}
                             {{else}}
                                 {{#each bindings}}
@@ -80,7 +84,6 @@
                                     alt="Issue with image provider"
                                     src="{{rectoVersoImageThumbnail.value}}"
                                   />
-     
                                 {{/each}}
                               {{/ifCond}}
                               {{/ifCond}}
