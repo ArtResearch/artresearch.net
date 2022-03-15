@@ -6,6 +6,21 @@
     >
       <template id="mainImageTemplate">
         <div>
+
+            <semantic-query
+                          query='SELECT DISTINCT ?imagelink ?rectoVersoImageThumbnail WHERE {
+                                              ?image <https://artresearch.net/resource/fr/Photo_depicts_Work> ??.
+                                              ?image  crm:P129i_is_subject_of ?imagelink.
+                                               BIND(REPLACE(STR(?rectoVersoImage),"full/full","full/!350,350") AS ?rectoVersoImageThumbnail).
+                                            }LIMIT 1'
+                            template="{{> DownloadButton}}">
+                          <template id="DownloadButton">
+                            <a href="{{bindings.0.rectoVersoImageThumbnail.value}}" download="image.jpg"> download</a>
+
+                          </template>
+
+            </semantic-query>
+           
           <semantic-query
             query='SELECT DISTINCT ?rectoVersoImage ?rectoVersoImageThumbnail ?imageManifest WHERE{
                 # Previously we selected only rectos, now we expand to include versos
