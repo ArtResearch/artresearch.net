@@ -56,27 +56,32 @@
         >
           <template id='actions'>
             <div>
-              <bs-dropdown-button id="download" bs-size="xsmall" title="" class="mp-rdf-graph-action__download-dropdown" no-caret="true">
-                <bs-menu-item event-key=1>
-                  <mp-graph-store-action title="Download" action="GET" graphuri="{{graph.value}}" file-ending="trig" class="mp-rdf-graph-action__download-dropdown-item">TRIG</mp-graph-store-action>
-                </bs-menu-item>
-                 <bs-menu-item event-key=2>
-                  <mp-graph-store-action title="Download" action="GET" graphuri="{{graph.value}}" file-ending="ttl" class="mp-rdf-graph-action__download-dropdown-item">TURTLE</mp-graph-store-action>
-                </bs-menu-item>
-               <bs-menu-item event-key=3>
-                  <mp-graph-store-action title="Download" action="GET" graphuri="{{graph.value}}" file-ending="nt" class="mp-rdf-graph-action__download-dropdown-item">NTRIPLES</mp-graph-store-action>
-                </bs-menu-item>
-               <bs-menu-item event-key=4>
-                  <mp-graph-store-action title="Download" action="GET" graphuri="{{graph.value}}" file-ending="rdf" class="mp-rdf-graph-action__download-dropdown-item">RDF/XML</mp-graph-store-action>
-                </bs-menu-item>
-                <bs-menu-item event-key=4>
-                  <mp-graph-store-action title="Download" action="GET" graphuri="{{graph.value}}" file-ending="owl" class="mp-rdf-graph-action__download-dropdown-item">OWL</mp-graph-store-action>
-                </bs-menu-item>
-              </bs-dropdown-button>
- 
-              <span style='margin-left: 20px;'>
-                <mp-graph-store-action title="Delete" action="DELETE" graphuri="{{graph.value}}"><i class="fa fa-trash-o"></i></mp-graph-store-action>
-              </span>
+              <tr>
+                <td>
+                  <bs-dropdown-button id="download" bs-size="xsmall" title="" class="mp-rdf-graph-action__download-dropdown" no-caret="true">
+                    <bs-menu-item event-key=1>
+                      <mp-graph-store-action title="Download" action="GET" graphuri="{{graph.value}}" file-ending="trig" class="mp-rdf-graph-action__download-dropdown-item">TRIG</mp-graph-store-action>
+                    </bs-menu-item>
+                    <bs-menu-item event-key=2>
+                      <mp-graph-store-action title="Download" action="GET" graphuri="{{graph.value}}" file-ending="ttl" class="mp-rdf-graph-action__download-dropdown-item">TURTLE</mp-graph-store-action>
+                    </bs-menu-item>
+                  <bs-menu-item event-key=3>
+                      <mp-graph-store-action title="Download" action="GET" graphuri="{{graph.value}}" file-ending="nt" class="mp-rdf-graph-action__download-dropdown-item">NTRIPLES</mp-graph-store-action>
+                    </bs-menu-item>
+                  <bs-menu-item event-key=4>
+                      <mp-graph-store-action title="Download" action="GET" graphuri="{{graph.value}}" file-ending="rdf" class="mp-rdf-graph-action__download-dropdown-item">RDF/XML</mp-graph-store-action>
+                    </bs-menu-item>
+                    <bs-menu-item event-key=4>
+                      <mp-graph-store-action title="Download" action="GET" graphuri="{{graph.value}}" file-ending="owl" class="mp-rdf-graph-action__download-dropdown-item">OWL</mp-graph-store-action>
+                    </bs-menu-item>
+                  </bs-dropdown-button>
+                </td>
+                <td>
+                  <span style='margin-left: 20px;'>
+                    <mp-graph-store-action title="Delete" action="DELETE" graphuri="{{graph.value}}"><i class="fa fa-trash-o"></i></mp-graph-store-action>
+                  </span>
+                </td>
+              </tr>
             </div>
           </template>
         </semantic-table>
@@ -107,48 +112,54 @@
           >
             <template id='actions'>
               <div class="alignmentsTable">
-                <mp-sparql-download
-                        query='
-                          PREFIX rs: <http://www.researchspace.org/ontology/>
-                          PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
- 
-                          CONSTRUCT {
-                            ?source ?predicate ?target .
-                            ?sourceHierarchy skos:broaderTransitive ?target .
-                          } WHERE {
-                            GRAPH <{{graph.value}}> {
-                              {
-                                ?source rs:PX_exact_match ?t .
-                                BIND(skos:exactMatch AS ?predicate) .
-                              } UNION {
-                                ?source rs:PX_narrow_match ?t . 
-                                BIND(skos:broaderTransitive AS ?predicate) .
+                <tr>
+                  <td>
+                    <mp-sparql-download
+                            query='
+                              PREFIX rs: <http://www.researchspace.org/ontology/>
+                              PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+    
+                              CONSTRUCT {
+                                ?source ?predicate ?target .
+                                ?sourceHierarchy skos:broaderTransitive ?target .
+                              } WHERE {
+                                GRAPH <{{graph.value}}> {
+                                  {
+                                    ?source rs:PX_exact_match ?t .
+                                    BIND(skos:exactMatch AS ?predicate) .
+                                  } UNION {
+                                    ?source rs:PX_narrow_match ?t . 
+                                    BIND(skos:broaderTransitive AS ?predicate) .
+                                  }
+                                  ?t rs:PX_match_target ?target .
+    
+                                  OPTIONAL {
+                                    ?t rs:PX_match_excludes ?exclude .
+                                  }
+                                }
+                                {
+                                  FILTER(BOUND(?exclude)) .
+                                  ?sourceHierarchy skos:broader+ ?source .
+                                  MINUS {
+                                    ?sourceHierarchy skos:broader+ ?exclude .
+                                  }
+                                } UNION {
+                                  FILTER(!BOUND(?exclude)) .
+                                  ?sourceHierarchy skos:broader+ ?source .
+                                }
                               }
-                              ?t rs:PX_match_target ?target .
- 
-                              OPTIONAL {
-                                ?t rs:PX_match_excludes ?exclude .
-                              }
-                            }
-                            {
-                              FILTER(BOUND(?exclude)) .
-                              ?sourceHierarchy skos:broader+ ?source .
-                              MINUS {
-                                ?sourceHierarchy skos:broader+ ?exclude .
-                              }
-                            } UNION {
-                              FILTER(!BOUND(?exclude)) .
-                              ?sourceHierarchy skos:broader+ ?source .
-                            }
-                          }
-                        '
-                        header="text/turtle"
-                        filename="alignment.ttl">
-                  <i class="fa fa-download" aria-hidden="true"></i>
-                </mp-sparql-download>
-                <span style='margin-left: 20px;'>
-                  <mp-ldp-remove-from-container-action title="Delete" action="DELETE" container="http://www.researchspace.org/ontology/Alignment.Container" iri="{{alignment.value}}"><i class="fa fa-trash-o"></i></mp-ldp-remove-from-container-action>
-                </span>
+                            '
+                            header="text/turtle"
+                            filename="alignment.ttl">
+                      <i class="fa fa-download" aria-hidden="true"></i>
+                    </mp-sparql-download>
+                  </td>
+                  <td>
+                    <span style='margin-left: 20px;'>
+                      <mp-ldp-remove-from-container-action title="Delete" action="DELETE" container="http://www.researchspace.org/ontology/Alignment.Container" iri="{{alignment.value}}"><i class="fa fa-trash-o"></i></mp-ldp-remove-from-container-action>
+                    </span>
+                  </td>
+                </tr>
               </div>
             </template>
           </semantic-table>
