@@ -1,0 +1,217 @@
+<ol class="page-breadcrumb">
+  <li style="padding-top:10px">
+    <mp-link title="Home" url="/resource/start">Home</mp-link>
+  </li>
+  <li class="active">
+    <mp-label iri='[[this]]'></mp-label>
+  </li>
+</ol>
+
+<style>
+  #tabs .tab-ontodia {
+    margin: 0px;
+    padding: 2px 0px 0px;
+    width: 100%;
+    height: calc(100vh - 300px);
+  }
+</style>
+
+<div class="page">
+	[[#if (ask "ASK { {SELECT * WHERE {?? ?p ?o}LIMIT 1}UNION {SELECT * WHERE {?s ?? ?o}LIMIT 1}UNION {SELECT * WHERE {?s ?p ??}LIMIT 1}UNION{ {SELECT * WHERE {?a ?p ?o. FILTER(??=<Template:http://www.w3.org/2000/01/rdf-schema#Resource> )} LIMIT 1} } }")]]
+    <div class='page__header-navtabs'>
+      [[> Platform:DefaultResourceHeader]]
+    </div>
+    <bs-tabs id="tabs" class='page__body-navtabs' unmount-on-exit=true>
+      <bs-tab event-key="0" class="tab-ontodia" title="Knowledge Graph">
+        <ontodia id='ontodia' hide-toolbar=true hide-panels=true hide-scroll-bars=true hide-navigation-confirmation=true auto-zoom=true settings=nostats iri='[[this]]'></ontodia>
+      </bs-tab>
+      <bs-tab event-key="1" title="Source">
+        [[> Platform:SourceStatements]]
+      </bs-tab>
+    </bs-tabs>
+  [[else]]
+    <div class='page__body'>
+      <semantic-query 
+        query="SELECT ?rand WHERE{ 
+            BIND(str(RAND()) AS ?rand)
+          }LIMIT 1"
+        template="{{> randomNotFoundPage}}"
+
+      >
+        <template id="randomNotFoundPage">
+            <div class="row row-center" id="not-found-container">
+                  <div class="col-md-10 col-xs-10">
+                        <mp-link url="/resource/start"><i style="color:white !important; font-size: 16px;" class="fa fa-arrow-left">Go home</i></mp-link>
+                      <h1>404 - The page you are looking for was not found..</h1>
+                      {{#ifCond bindings.0.rand.value ">" "0.8" }}
+                        <h2>but you can always search for something</h2>
+                        <div id="new-start-page">
+                          <div class="search-actions">
+                            <div
+                              style="width: 100%"
+                              data-intro="This is the search-bar. Use this to make simple queries by keywords"
+                              data-position="top"
+                            >
+                              [[> Searchbar selectedCategory="Artworks"]]
+                            </div>
+                            <div style="margin-top: 15px">or use</div>
+                            <div style="margin-top: 15px">
+                              <div data-flex-layout="row center-center">
+                                <mp-link url="/resource/Search">
+                                  <div
+                                    title="Make use of the artresearch full power!"
+                                    class="advancedBtn"
+                                    data-intro="Click here to go to the Contextual Search page. There you can create complex queries and explore data in new-found ways."
+                                    data-position="right"
+                                  >
+                                    <li class="fa">
+                                      <img src="/assets/images/icons/concept.svg" />
+                                    </li>
+                                    Contextual Search
+                                  </div>
+                                </mp-link>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      {{else}}
+                      {{#ifCond bindings.0.rand.value ">" "0.6" }}
+                        <h2>but here is a nice map with Museums, Collections etc.!</h2>
+                        <div class="mapContainer">
+                            <semantic-map
+                              id="repository-map"
+                              query="SELECT ?subject ?label ?lat ?lng WHERE {
+                                ?subject fr:Institution_from_Place ?place.
+                                ?place <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat.
+                                ?place <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng.
+                                ?subject rdfs:label ?label.
+                              } LIMIT 1000"
+                              tuple-template='<p></p><a style="text-decoration: none;"  href="https://artresearch.net/resource/?uri={{subject.value}}" target="_blank"><b style="color: #6b0000;">{{label.value}}</b><p></p><p></p></a><hr>'
+                            >
+                            </semantic-map>
+                        </div>
+                      {{else}}
+                      {{#ifCond bindings.0.rand.value ">" "0.4" }}
+                        <h2>in the meantime, discover our collections spotlight:</h2>
+                        <div id="new-start-page">
+                          <section title="Collection Spotlights">
+                            <div class="section-title">Collection Spotlights</div>
+                            <div class="section-body">
+                              <div class="grid-card-list">
+                                <div
+                                  class="grid-card"
+                                  style=" background: url(/assets/images/media/alinari.jpg) center no-repeat; "
+                                >
+                                <mp-link url="/resource/DisplayCollectionAlinari">  
+                                    <div class="grid-card-body">
+                                      <div class="grid-card-title">Fratelli Alinari</div>
+                                      <div class="grid-card-subtitle">Browse one of the world's oldest photographic firms </div>
+                                    </div>
+                                </div>
+                                <div
+                                  style=" background: url(/assets/images/media/oil_on_wood_dali.jpg) center no-repeat; "
+                                  class="grid-card"
+                                >
+                                  <mp-link url="/resource/DisplayCollectionOilOnWood">  
+                                    <div class="grid-card-body">
+                                        <div class="grid-card-title">Oil on wood</div>
+                                        <div class="grid-card-subtitle">Explore using medium</div>
+                                    </div>
+                                  </mp-link>
+                                </div>
+                                <div
+                                  style=" background: url(/assets/images/media/builtworks_middleast.jpg) center no-repeat;"
+                                  class="grid-card"
+                                >
+                                  <mp-link url="/resource/DisplayCollectionBuiltworksMiddleEast">  
+                                      <div class="grid-card-body">
+                                          <div class="grid-card-title">Built Works</div>
+                                          <div class="grid-card-subtitle">In the Middle-East</div>
+                                      </div>
+                                  </mp-link>
+                                </div>
+                                <div
+                                  style=" background: url(/assets/images/media/kahlo.jpg) center no-repeat; "
+                                  class="grid-card"
+                                >
+                                  <a href='?uri=Default%3ASearch&semanticSearch=N4IgziBcoCYPZRAMwMaQO5wE4GsQBoQUoBtULAUynIENFVIasAXASzGYJEvq0gHVsOAPopKNZhRjCkWOAFthAQRbtOhGKRIgAyhSYoAFgVgJoIVllbUQAFUQBJK1wBqNyVnm2AngAcqkCAAcjTyUkFwMFSEAG40ADYArgEghszMvmCQAPTZvoZMcGAAdEzMlGD6WEbFAHYUzNkVcInVFNmo2WVqIAC%2BvYTxNABGFPGIKmwcXFFgYqy%2BbHC1E6rThMyGifLDtTSs44FdYJXMYNms8jQA5hTnrCjL590cxWAx11zMib7xAaC%2BORIA7-OyOZyENzmDxePwpEJhGARKJcOJJFJpDI5bLoXHFCpVIxgXw0FAUYrYa55IEgrrxcb9QgoCQUa7Ybw2eyBJzWSHuCieHz%2BRAI8KRaIgNHJRCYzLY-KFEplAkGQx1BpNO4tNodFBdNacRkgIajQ6gLkgAAyrA8CVc-MFcMQ1tt41iCWlgUmPQ0EgkTvMFp59uhAthwsCoqR4tRHox6V82Nx6GK6AAzBSsFSAEwABlzAEZsgANACylp0RgoVwAxBwrLVPkaho3EjcUn0BiBNttdvszWDAi6BXa%2BaHHRGrTaR27JXHEMdTvcrrd7o9as8DW8PjM-cwA%2BbwbyQFDQDChfDQmKUe70TKE0m8enMzn80WyxWq7X66xG53BjQrbtog-4gLM8yLKwyycs605YKOJ4OuGKTDvBs5Sik3rrGBe4HoOIDBmOZ5hheIpXtGN5znegSyo%2BKbPpS2R5oWJblpWhjVjQdblL%2BTZdi21xtrcIH9EaxCQGQICJLUrAAI7JA4miQAWhA4L%2BSkgAASmMEhQSshDwTYljWIGR4hsRE6XoiyIShh94ZFkuQKnISosCq1RqvUjTNK0ZK6tkty1FEWCgSaYyIAA4hQQUCjMdwQUsKyBFFMUhRsWw7HsBwLjQJwNMu7Zrk8AXRcF26fBsPx-DYgJwMC1WmdyEKIeOyFkdZMa3p6qQPrkyb4nchKGMSpLkoxtX1e0CQMl2zKSGyWAco1BHNae3YkQGwTkTZsbUT1DnygULmlG5g2quq3lar57SdIFwWhSM4XLahCFreem0veh87JaVsW%2Bsw-oRoeTXHm9G2TlGO1dfGWJ9U%2BGaMcx75sV%2BXE-n%2BzaAYJwGBKBPaZf2MFDnBr1IaRxOurt3WLvlFwrncFzrucd0CuVu4A-uQP4YRLUWW1kbbZ1VHdbRcP0QjWZMW%2BrGfhx348Rj-FY0JHZGuBViQdBz0k7OYOWbBlPQ5Fv1pThHN4UGq1k5tkNC3ZNG9Ti8MvlLLEfuxnHcQ2fEAUBwm46JXY8OYxlEytoPWxDguUfb%2B1yk5R1FCd5RnR5F2amA2p%2BbI2QAAoCpntTCAUYDCCl92Y6aMq5QABCzpvqwsiXV2Adcm1wJeaVjoKh8tPN6-zW0dTH31x45eSJ65KeVOdXkZ1nN16vXD1Vz9qVxXMGvN2v93pb2WWHCANNnHThWM8V9ds5VvyghNIJh-3kdWdetmj6LTspu5RIkmSLt338dIZpMhZAtJawNw7mXWvrAWw9X57VlOPZySdlSpxqHPHyOpbrt0rk9cBn1IHvUnPgo2O8-pm0BqCS2EdWrkyHi-KmMNExi1TBLV8bsUZyzRgrH2xplY4xAHjDKfZsra0NrzKBg9iHCxSMfAqq5z4bhKqlK%2B5DOaULMkRCRtDbYj3gY7fqDFJZIxlh7eW3sHp%2B1Vl2Rumskp4J1gQ8GKEHEkJAOXMhMBcJcyoY46BdCKJwJFvo52iNpbu1Rl7XiFjsb%2BwEYHQgJcAAiCh9h2IsM4PuVsaE22joExhiDJ7Jy-p5DUGDs56heIaJWq8QBYXUGBeKW89KrCmPU-GwjD6yNPvIh4xVKkqO%2BDfGqNIGrgMftkqOsCGH2SYR-AaM8PIjV-uNEZU16SgTmqydkD8sl820bk6ZDsDoJ0VEU1BJTLqZ2uv5SpK9cH4SkQPWhUjY51PZhQnZ1C9k5Kma49%2BBjWGu2RrLT26MeECRViJLs7SD5h0eU-A2M5DlH1ykubpDNemKP6e8CqqiLYaPEYQ5%2BATkX-JCUYsJHDQXcOiZCgO1jGlN2aaIpFmiiWIrQsit5-0PmZK%2BVon59C-nBPFi7Yx4TOGRMVr7GJVijSDNGSAf%2B6iQa%2BMHjovJMy6LzKGkssaktlWANAsHMZuyBWTKFdImZBTTkoIWWg0pV1MFYDzgXZYxdcpl2wdU%2B5Fp4UTOcWI2OJc27rx5Woz5ar9m-KtUc2ZAKxWUpBWYqJmNLFQo0Iy2xcKXGEqcRyhCwba7L3Dfi1VbL80wMtcGkVLDE3sOTVw8xabZUZtSLlZJVxfyRorX4jVpKEw2uOnaoa6cymL31K00Cndu49rzX2g5wrjkT1tade1Fz57XKwevI02B7oss5b2yRubY65neRGvlUbBUkqXfG8lbDgWmK4r%2BeasUW10riaJJkywABW0kUDMAcDFAAHqQXM%2BBwO5gALoaFIKANSQVEDaSuW0Q5oBe6mv5eyqtN7Y1x2xDEOAzJhjFFuOkbwxQpCJC6BIbIaY3wAA4ACcABWFjAB2O5h8kCcWqpmzeTKtbIF4xKBVoIwCJGuKubemGr0WtwzW2G2RCPEdIw0fclGYDUZoLR%2BjhZmNsc4zggcfrc1PI%2Bie0ePGrh8bxd4gl5n5NQzw2S0VjECxMc89kXM2YmLZgALRYBgEgfzYBvC1ABsB-zG4awCR0DS99-DoqdjVuwP9tQANAaiKBiSkGIMQag70QrxXCuEGknJBSSlcxFa7EgUgMHuB3ESPETg0BrF%2BiXPVwgCRWDXFqGECLYdEl%2BmKKWGg3hRjmSNNceC%2BRKxwH8HoVUQ2RtjYmxKU8okgA'> 
+                                  <div class="grid-card-body">
+                                      <div class="grid-card-title">Women Artists</div>
+                                      <div class="grid-card-subtitle">Across centuries</div>
+                                  </div>
+                                </div>
+                                </a>
+                                <div
+                                  style=" background: url(/assets/images/media/madonna.jpg) center no-repeat; "
+                                  class="grid-card"
+                                >
+                                  <mp-link url="/resource/DisplayCollectionMadonnaAndChild">  
+                                    <div class="grid-card-body">
+                                        <div class="grid-card-title">Madonna and Child</div>
+                                        <div class="grid-card-subtitle">
+                                          Artworks from 12th - 15th century
+                                        </div>
+                                    </div>
+                                  </mp-link>
+
+                                </div>
+                                <div
+                                  style="  background: url(/assets/images/media/women_saints.jpg) center no-repeat; "
+                                  class="grid-card"
+                                >
+                                  <mp-link url="/resource/DisplayCollectionWomenSaints">  
+                                    <div class="grid-card-body">
+                                        <div class="grid-card-title">Women Saints</div>
+                                        <div class="grid-card-subtitle">Explore using subject</div>
+                                    </div>
+                                  </mp-link>
+                                </div>
+                                <div
+                                  style="  background: url(/assets/images/media/italian_ren.jpg) center no-repeat; "
+                                  class="grid-card"
+                                >
+                                  <mp-link url="/resource/DisplayCollectionItalian">  
+                                    <div class="grid-card-body">
+                                        <div class="grid-card-title">Italian Renaissance</div>
+                                        <div class="grid-card-subtitle">Discover masterpieces</div>
+                                    </div>
+                                  </mp-link>
+
+                                </div>
+                                <div
+                                  style=" background: url(/assets/images/media/datedphotographs.jpg) center no-repeat; "
+                                  class="grid-card"
+                                >
+                                  <mp-link url="/resource/DisplayCollectionPhotoDatedBetween">  
+                                    <div class="grid-card-body">
+                                        <div class="grid-card-title">1800-1900 AD</div>
+                                        <div class="grid-card-subtitle">A century of photographs</div>
+                                    </div>
+                                  </mp-link>
+
+                                </div>
+                              </div>
+                            </div>
+                          </section>
+                        </div>
+                      {{else}}
+                      {{#ifCond bindings.0.rand.value ">" "0.2" }}
+                        <h2>in the meantime, you can take a closer look to artworks created by women artists</h2>
+                        [[> FilterSearchCollection domain="<https://artresearch.net/resource/fc/work>"  searchQuery='?subject a fc:work. ?subject fr:Work_created_from_Artist ?artist. ?artist fr:Person_has_Gender <http://vocab.getty.edu/aat/300189557>.'  ]]
+                      {{else}}
+                      {{#ifCond bindings.0.rand.value ">" "0.0" }}
+                        <h2>in the meantime, feel free to discover artists:</h2>
+                        [[> FilterSearchPersonPharos]]
+                      {{else}}
+                      {{/ifCond}}
+                      {{/ifCond}}
+                      {{/ifCond}}
+                      {{/ifCond}}
+                      {{/ifCond}}
+                  </div>
+            </div>
+        </template>
+      </semantic-query>
+    </div>
+  [[/if]]
+</div>
