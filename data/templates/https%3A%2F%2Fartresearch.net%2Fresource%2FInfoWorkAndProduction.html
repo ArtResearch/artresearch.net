@@ -125,6 +125,26 @@ template="{{> fieldsFilter}}"
         </div>
     </template>
     <div class="animated-background generalInfoContainer"></div>
+    
+  </mp-field-visualization>
+    <!--Vision Assertions -->
+    <mp-field-visualization
+    subject="[[this]]"
+    additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
+    fields='[[ fieldDefinitionsFromQuery "SELECT ?field WHERE {    ?field <http://www.researchspace.org/resource/system/fields/category>  <http://www.researchspace.org/ontologies/platform/FieldCategories/vision_assertions>.   OPTIONAL {?field <http://www.researchspace.org/resource/system/fields/order> ?w. BIND(xsd:integer(?w) as ?orderNo)}} ORDER BY ASC(?orderNo)"]]'
+    template="{{>workInfo}}"
+  >
+    <template id="workInfo">
+        {{#if noData}} 
+          <div></div>
+        {{else}}
+          <div class="workInfoContainer">
+            <h2>Vision Assertions</h2>
+            [[> ResourceFieldBasedVisualization showSourceIcon="true"  subject=[[this]] ]]
+          </div>
+        {{/if}}
+    </template>
+    <div class="animated-background workInfoContainer"></div>
   </mp-field-visualization>
 
   <!-- References -->
