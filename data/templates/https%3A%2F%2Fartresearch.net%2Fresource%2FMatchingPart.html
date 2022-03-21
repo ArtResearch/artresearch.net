@@ -1,3 +1,5 @@
+<bs-tabs>
+  <bs-tab event-key="1" title="Is Part Of">
 <semantic-table
   query="
       SELECT distinct ?value ?label ?provider ?providerLabel WHERE {
@@ -44,3 +46,53 @@ column-configuration='[
 </template>
 
 </semantic-table>
+</bs-tab>
+ <bs-tab event-key="2" title="Has Part">
+    <semantic-table
+  query="
+      SELECT distinct ?value ?label ?provider ?providerLabel WHERE {
+        {
+          BIND(?? as ?subject)
+        }UNION{
+          ?temp owl:sameAs ??.
+          BIND(?temp as ?subject)
+        }
+        GRAPH ?graph { ?subject crm:P46_is_composed_of  ?og. }
+        ?graph custom:has_provider ?provider.
+        ?provider rdfs:label ?providerLabel.
+        ?og owl:sameAs ?value.
+        ?value rdf:type fc:work.
+        ?value rdfs:label ?label.
+      }LIMIT 1000"
+no-result-template="<div>This artwork does not have any matchings that indicates the relation of  'Is Part Of'</div>"
+column-configuration='[       
+                              {"displayName":"Photo", "cellTemplate": "{{> photo2}}"},
+                               {"variableName":"value","displayName":"Has Part", "cellTemplate": "<semantic-link iri=\"{{value.value}}\">{{label.value}}</semantic-link>"},
+                              {"variableName":"provider","displayName":"Provider", "cellTemplate": "<semantic-link iri=\"{{provider.value}}\">{{providerLabel.value}}</semantic-link>"}
+                          ]'
+>
+<template id="photo2">
+<div class="thumbnailImageContainerTabular">
+    <semantic-query 
+    query='
+    SELECT ?image WHERE{
+      <{{value.value}}> <https://artresearch.net/resource/fr/Work_depicted_by_Photo> ?photo.
+      OPTIONAL{
+      ?photo <http://www.cidoc-crm.org/cidoc-crm/P129i_is_subject_of> ?fullsizeImgUrl.
+      ?fullsizeImgUrl crm:P2_has_type <http://vocab.getty.edu/aat/300078817>.
+      BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/!100,100") as ?smallerImgUrl)
+    }
+    BIND("/assets/images/media/image_placeholder.jpg" as ?default_imageUrl)
+    BIND(coalesce(?smallerImgUrl, ?default_imageUrl) as ?image)
+    }LIMIT 1'
+    template="{{> thumb}}">
+    <template id="thumb">
+      <img alt="    " style="min-height: 100px;" class="thumbnailImageTabular" src="{{image.value}}" />
+    </template>
+    </semantic-query>
+  </div>
+</template>
+
+</semantic-table>
+  </bs-tab>
+</bs-tabs>
