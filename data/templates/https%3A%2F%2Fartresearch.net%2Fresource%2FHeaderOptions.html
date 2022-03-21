@@ -53,14 +53,23 @@
               </div>
         </template>
       </semantic-query>
-    
+      <!-- Has part of -->
+    <mp-overlay-dialog type="lightbox" title="Has part / Is part of">
+            <mp-overlay-dialog-trigger trigger='["click"]' placement="bottom"  >
+          <div class="matchingsButt"><h2>Photo matchings</h2></div>
+        </mp-overlay-dialog-trigger>
+           <mp-overlay-dialog-content>
+
+            
+           </mp-overlay-dialog-content>
+           </mp-overlay-dialog>
 <!-- Report Error -->
 [[#if (hasPermission "api:ldp:*")]]
     <mp-overlay-dialog type="lightbox" title="For Review - Please choose a type of Error you want to add">
             <mp-overlay-dialog-trigger trigger='["click"]' placement="bottom"  >
           <div class="ReportError" ><h2>Report Error</h2></div>
         </mp-overlay-dialog-trigger>
-    <mp-overlay-dialog-content >
+    <mp-overlay-dialog-content>
       <div style="text-align:center; text-align: -webkit-center;">
             <h1>Choose Type of Error for <semantic-link iri='[[this]]'></semantic-link></h1>
             <div class="ErrorButtons">
@@ -279,7 +288,7 @@
                 
                 [[#if (ask "ASK { ?? fr:Work_from_Place ?place. ?place <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat. ?place <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng. }") ]] 
                   <div class="PopupworkInfoContainer">
-                    <h2>Current artwork location ok</h2>
+                    <h2>Current artwork location</h2>
                     <div class="artworkLocation">
                         <semantic-map
                           id="event-map"

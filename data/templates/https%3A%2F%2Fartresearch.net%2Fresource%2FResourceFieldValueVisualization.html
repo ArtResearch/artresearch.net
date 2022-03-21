@@ -98,7 +98,7 @@
     {{#if value.value.datatype}}
       [[!-- in the messy data it can happen that field is anyURI but actual data is literal --]]
     {{else}}
-    <semantic-link iri="{{value.value.value}}"></semantic-link>
+    <semantic-link iri="{{value.value.value}}">{{value.value.value}}</semantic-link>
     {{/if}}
   {{/ifCond}}
   {{#ifCond field.label.0.value "===" "Description"}}
