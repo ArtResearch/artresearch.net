@@ -1,0 +1,99 @@
+<semantic-table
+  query="
+SELECT distinct ?value ?photo ?provider ?providerLabel WHERE {
+  {
+    BIND(?? as ?subject)
+  }UNION{
+    ?temp owl:sameAs ??.
+    BIND(?temp as ?subject)
+  }
+  GRAPH ?graph { ?subject crm:P46i_forms_part_of ?og. }
+  ?graph custom:has_provider ?provider.
+  ?provider rdfs:label ?providerLabel.
+  ?og owl:sameAs ?value.
+  ?value fr:Work_depicted_by_Photo ?photo.
+  ?value rdf:type fc:work.
+}LIMIT 1000"
+tuple-template="{{> Matchings}}"
+no-result-template="<div>This artwork does not have any matchings that indicates the relation of  'Is Part Of'</div>"
+>
+<template id="Matchings">
+              <td class="rectoVersoCell">
+              <semantic-query
+                query='
+                  SELECT  ?photoUri ?rectoImage where{
+                    BIND(str(<{{photo.value}}>) as ?photoUri).
+                    <{{photo.value}}> crm:P129i_is_subject_of ?fullsizeImages.
+                    BIND(REPLACE(STR(?fullsizeImages),"full/full","full/!100,100") AS ?rectoImage).
+                    FILTER NOT EXISTS { 
+                      ?fullsizeImages crm:P2_has_type ?type.
+                      ?type rdfs:label "verso"
+                    }
+                  }LIMIT 1
+                '
+                template="{{>rectoImageThumb}}"
+              >
+                <template id="rectoImageThumb">
+                  <semantic-link iri="{{bindings.0.photoUri.value}}">
+                    <img
+                      src="{{bindings.0.rectoImage.value}}"
+                      style="max-height: 100px; margin: 0 auto"
+                      class="img-rounded"
+                    />
+                  </semantic-link>
+                </template>
+              </semantic-query>
+              <semantic-query
+                query='
+                  SELECT ?photoUri ?versoImage where{
+                    BIND(str(<{{photo.value}}>) as ?photoUri).
+                    <{{photo.value}}> crm:P129i_is_subject_of ?fullsizeImages.
+                    BIND(REPLACE(STR(?fullsizeImages),"full/full","full/!100,100") AS ?versoImage).
+                    FILTER NOT EXISTS { 
+                      ?fullsizeImages crm:P2_has_type ?type.
+                      ?type rdfs:label "recto"
+                    }
+                  }LIMIT 1
+                '
+                template="{{>versoImageThumb}}"
+              >
+                <template id="versoImageThumb">
+                  <semantic-link iri="{{bindings.0.photoUri.value}}">
+                    <img
+                      src="{{bindings.0.versoImage.value}}"
+                      style="max-height: 70px; max-width: 70px"
+                      class="img-rounded vercoCell"
+                    />
+                  </semantic-link>
+                </template>
+              </semantic-query>
+            </td>
+                  <div class="photographFieldViewData">
+              <mp-field-visualization
+                subject="{{value.value}}"
+                fields='[[fieldDefinitions  
+                  Title="https://artresearch.net/fieldDefinition/2"  
+                  Archive="http://www.researchspace.org/fieldDefinition/Photo_Archive" 
+                ]]'
+                template="{{>productionInfo}}"
+              >
+                <template id="productionInfo">
+                  {{#if noData}}
+                    <div id="rsbv" class="table-responsive rs-table">
+                      <table class="table table-hover">
+                        <tbody>
+                          <tr>
+                            <td>No quick preview available. Click on the photo to view details.</td>
+                            <td></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  {{else}} 
+                    [[> ResourceFieldBasedVisualization showSourceIcon="true"  subject=[[this]] ]]
+                  {{/if}}
+                </template>
+              </mp-field-visualization>
+            </div>
+</template>
+</semantic-table>
