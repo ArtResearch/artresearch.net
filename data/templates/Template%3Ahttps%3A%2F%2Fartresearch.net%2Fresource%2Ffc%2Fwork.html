@@ -2,6 +2,8 @@
   <semantic-table id="thisTempl" query="SELECT ?iri WHERE { ?s owl:sameAs ?iri.?iri a fc:work.?s <https://similarity.net/custom/is_deprecated> ?? }" 
     template="{{>thisTempl}}">
     <template id="thisTempl">
+      {{#each bindings}}
+      {{/each}}
     </template>
   </semantic-table>
   <semantic-query
