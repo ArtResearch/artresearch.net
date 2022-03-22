@@ -1,19 +1,23 @@
 [[#if (ask "ASK { ?s <https://similarity.net/custom/is_deprecated> ?? }")]]
-  <semantic-table query="SELECT ?iri WHERE { ?s owl:sameAs ?iri.?iri a fc:work.?s <https://similarity.net/custom/is_deprecated> ?? }" 
-    column-configuration='[
-    {
-      "displayName": "iri",
-      "cellTemplate": "{{>thisTempl}}"
-    }
-  ]'>
+  <semantic-table id="thisTempl" query="SELECT ?iri WHERE { ?s owl:sameAs ?iri.?iri a fc:work.?s <https://similarity.net/custom/is_deprecated> ?? }" 
+    template="{{>thisTempl}}">
     <template id="thisTempl">
-      <mp-event-trigger id="event-trigger-redirect" type="RedirectAction.perform" targets='["event-target-redirect"]' data='{"iri": "{{iri.value}}"}'>
-        <a><i class="fa fa-user" aria-hidden="true"></i>redirect to non-deprecated</a>
-      </mp-event-trigger>
-
-      <mp-event-target-redirect id="event-target-redirect" action="redirect" ></mp-event-target-redirect>
     </template>
   </semantic-table>
+  <semantic-query
+   query="SELECT ?iri WHERE { ?s owl:sameAs ?iri.?iri a fc:work.?s <https://similarity.net/custom/is_deprecated> ?? } LIMIT 1"
+  template="{{>templa}}"
+   >
+   <template id="templa"> 
+     {{#each bindings}}
+    <mp-event-proxy on-event-type="Component.Loaded" on-event-source="thisTempl" proxy-event-type="RedirectAction.perform" proxy-targets='["event-target-redirect"]' data='{"iri": "{{iri.value}}"}'>
+    </mp-event-proxy>
+      <!-- <mp-event-trigger id="event-trigger-redirect" type="Component.Loaded" targets='["event-target-redirect"]' data='{"iri": "{{iri.value}}"}'></mp-event-trigger> -->
+      <mp-event-target-redirect id="event-target-redirect" action="redirect" iri="{{iri.value}}"></mp-event-target-redirect>
+    {{/each}}  
+    </template>
+  </semantic-query>
+  
 [[else]]
   [[> Breadcrumb category="Artworks"]]
   <div class="page rs-page">

@@ -4,7 +4,7 @@
         query=' SELECT DISTINCT (IRI(REPLACE(STR(?m),"http://d-nb.info/gnd/tp/","https://d-nb.info/gnd/")) AS ?link) ?icon ?title WHERE {
                   ?og skos:exactMatch  ?m.
                   ?og owl:sameAs <[[this]]>.
-                  BIND(IF(CONTAINS(STR(?m),"gnd"),"/assets/images/DNB.ico",IF(CONTAINS(STR(?m),"wikidata"),"/assets/images/wikidata.ico",IF(CONTAINS(STR(?m),"wikipedia"),"/assets/images/wikipedia.ico",IF(CONTAINS(STR(?m),"viaf"),"/assets/images/Viaf.ico",IF(CONTAINS(STR(?m),"dbpedia"),"/assets/images/DBpedia.ico",""))))) AS ?icon)
+                  BIND(IF(CONTAINS(STR(?m),"gnd"),"/assets/images/DNB.ico",IF(CONTAINS(STR(?m),"wikidata"),"/assets/images/Wikidata.ico",IF(CONTAINS(STR(?m),"wikipedia"),"/assets/images/Wikipedia.ico",IF(CONTAINS(STR(?m),"viaf"),"/assets/images/Viaf.ico",IF(CONTAINS(STR(?m),"dbpedia"),"/assets/images/DBpedia.ico",""))))) AS ?icon)
                   BIND(REPLACE(REPLACE(?icon,".ico",""),"/assets/images/","") AS ?title)
                 }
               '
