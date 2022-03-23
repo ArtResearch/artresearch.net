@@ -142,11 +142,13 @@
                       placeholder="Search for any field (e.g. a creator or title)"
                       escape-lucene-syntax="false"
                       default-query='SELECT DISTINCT ?subject WHERE {
-                          GRAPH <https://artresearch.net/resource/pharos/matched/artworks/graph> {?og <http://www.w3.org/2002/07/owl#sameAs> ?subject}.
+                          ?og <http://www.w3.org/2002/07/owl#sameAs> ?subject;
+                            <https://similarity.net/custom/is_deprecated> ?depr.
                       }'
                       query='
                           SELECT DISTINCT ?subject WHERE {
-                              GRAPH <https://artresearch.net/resource/pharos/matched/artworks/graph> {?og <http://www.w3.org/2002/07/owl#sameAs> ?subject}.
+                            ?og <http://www.w3.org/2002/07/owl#sameAs> ?subject;
+                              <https://similarity.net/custom/is_deprecated> ?depr.
                             ?subject ?p ?o.
                             ?o rdfs:label ?someLabel.
                             ?someLabel bds:search ?__token__  .
@@ -211,6 +213,10 @@
                                                     xs="12"
                                                   >
                                                   <!-- Show thumbnail -->
+                                                      <semantic-query query="SELECT DISTINCT * WHERE {<https://og_test_22/HERTZIANA> owl:sameAs <{{subject.value}}>; ?x ?y.} LIMIT 1" 
+                                                      template="<h2>Ignore this, it's just for testing :)</h2>"
+                                                      no-result-template="<div></div>"
+                                                      ></semantic-query>
                                                       <semantic-query
                                                           query='SELECT DISTINCT ?imgUrl WHERE{
                                                                     BIND("/assets/images/media/image_placeholder.jpg" as ?default_imageUrl)
