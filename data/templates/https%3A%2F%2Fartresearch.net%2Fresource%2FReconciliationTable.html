@@ -64,7 +64,7 @@
         {
           ?workA owl:sameAs ??.
         }
-          [[#if haspart]]
+        [[#if haspart]]
           GRAPH ?graph { ?workA crm:P46_is_composed_of ?workB. }
         [[/if]]
         [[#if ispart]]
@@ -126,7 +126,8 @@
             </td>
             <div class="photographFieldViewData">
               <mp-field-visualization
-                subject="{{workB.value}}"
+                subject="{{workB_pharos.value}}"
+                additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
                 fields='[[fieldDefinitions  
                   Title="https://artresearch.net/fieldDefinition/2"  
                   Archive="http://www.researchspace.org/fieldDefinition/Photo_Archive" 
