@@ -11,10 +11,10 @@
           ?workA owl:sameAs ??.
         }
         [[#if haspart]]
-          GRAPH ?graph { ?workB crm:P46i_forms_part_of ?workA. }
+          GRAPH ?graph { ?workA crm:P46i_forms_part_of ?workB. }
         [[/if]]
         [[#if ispart]]
-          GRAPH ?graph { ?workB crm:P46_is_composed_of ?workA. }
+          GRAPH ?graph { ?workA crm:P46_is_composed_of ?workB. }
         [[/if]]
          {{#if selectedTab}}
           {{#ifCond selectedTab "!==" "All"}}
@@ -64,11 +64,11 @@
         {
           ?workA owl:sameAs ??.
         }
-        [[#if haspart]]
-          GRAPH ?graph { ?workB crm:P46i_forms_part_of ?workA. }
+          [[#if haspart]]
+          GRAPH ?graph { ?workA crm:P46i_forms_part_of ?workB. }
         [[/if]]
         [[#if ispart]]
-          GRAPH ?graph { ?workB crm:P46_is_composed_of ?workA. }
+          GRAPH ?graph { ?workA crm:P46_is_composed_of ?workB. }
         [[/if]]
          {{#if selectedTab}}
           {{#ifCond selectedTab "!==" "All"}}
@@ -78,24 +78,22 @@
         {{/if}}
          ?workB owl:sameAs ?workB_pharos.
          ?workB_pharos rdf:type fc:work;
-         OPTIONAL{
-          ?workB_pharos fr:Work_depicted_by_Photo ?photo.
-         }
+  
       }
       '
 
     tuple-template="{{> photos}}"
-    no-result-template=''
 
   >
       <template id="photos">
-        <semantic-link class="photographFieldView" iri="{{photo.value}}">
+        <semantic-link class="photographFieldView" iri="{{workB_pharos.value}}">
             <td class="rectoVersoCell">
               <semantic-query
                 query='
-                  SELECT  ?photoUri ?rectoImage where{
-                    BIND(str(<{{photo.value}}>) as ?photoUri).
-                    <{{photo.value}}> crm:P129i_is_subject_of ?fullsizeImages.
+                  SELECT distinct ?photoUri ?rectoImage ?work where{
+                    BIND (<{{workB_pharos.value}}> as ?work).
+                    ?work fr:Work_depicted_by_Photo ?photo.
+                    ?photo crm:P129i_is_subject_of ?fullsizeImages.
                     BIND(REPLACE(STR(?fullsizeImages),"full/full","full/!100,100") AS ?rectoImage).
                     FILTER NOT EXISTS { 
                       ?fullsizeImages crm:P2_has_type ?type.
@@ -104,9 +102,19 @@
                   }
                 '
                 template="{{>rectoImageThumb}}"
+                no-result-templte="{{>noimage}}"
               >
+              <template id="noimage">
+                <semantic-link iri="{{bindings.0.work.value}}">
+                    <img
+                      src="/assets/images/media/image_placeholder.jpg"
+                      style="max-height: 100px; margin: 0 auto"
+                      class="img-rounded"
+                    />
+                  </semantic-link>
+              </template>
                 <template id="rectoImageThumb">
-                  <semantic-link iri="{{bindings.0.photoUri.value}}">
+                  <semantic-link iri="{{bindings.0.work.value}}">
                     <img
                       src="{{bindings.0.rectoImage.value}}"
                       style="max-height: 100px; margin: 0 auto"
@@ -115,34 +123,10 @@
                   </semantic-link>
                 </template>
               </semantic-query>
-              <semantic-query
-                query='
-                  SELECT ?photoUri ?versoImage where{
-                    BIND(str(<{{photo.value}}>) as ?photoUri).
-                    <{{photo.value}}> crm:P129i_is_subject_of ?fullsizeImages.
-                    BIND(REPLACE(STR(?fullsizeImages),"full/full","full/!100,100") AS ?versoImage).
-                    FILTER NOT EXISTS { 
-                      ?fullsizeImages crm:P2_has_type ?type.
-                      ?type rdfs:label "recto"
-                    }
-                  }
-                '
-                template="{{>versoImageThumb}}"
-              >
-                <template id="versoImageThumb">
-                  <semantic-link iri="{{bindings.0.photoUri.value}}">
-                    <img
-                      src="{{bindings.0.versoImage.value}}"
-                      style="max-height: 70px; max-width: 70px"
-                      class="img-rounded vercoCell"
-                    />
-                  </semantic-link>
-                </template>
-              </semantic-query>
             </td>
             <div class="photographFieldViewData">
               <mp-field-visualization
-                subject="{{photo.value}}"
+                subject="{{workB.value}}"
                 fields='[[fieldDefinitions  
                   Title="https://artresearch.net/fieldDefinition/2"  
                   Archive="http://www.researchspace.org/fieldDefinition/Photo_Archive" 
