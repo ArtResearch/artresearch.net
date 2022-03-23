@@ -102,35 +102,34 @@
                   }
                 '
                 template="{{>rectoImageThumb}}"
-                no-result-templte="{{>noimage}}"
+                no-result-template="{{>noimage}}"
               >
               <template id="noimage">
-                <semantic-link iri="{{bindings.0.work.value}}">
+               
                     <img
                       src="/assets/images/media/image_placeholder.jpg"
                       style="max-height: 100px; margin: 0 auto"
                       class="img-rounded"
                     />
-                  </semantic-link>
+                 
               </template>
                 <template id="rectoImageThumb">
-                  <semantic-link iri="{{bindings.0.work.value}}">
+                 
                     <img
                       src="{{bindings.0.rectoImage.value}}"
                       style="max-height: 100px; margin: 0 auto"
                       class="img-rounded"
                     />
-                  </semantic-link>
+                  
                 </template>
               </semantic-query>
             </td>
             <div class="photographFieldViewData">
               <mp-field-visualization
-                subject="{{workB_pharos.value}}"
-                additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?s owl:sameAs ?resource }" resource=this.iri)]]'
+                subject="{{workB.value}}"
                 fields='[[fieldDefinitions  
                   Title="https://artresearch.net/fieldDefinition/2"  
-                  Archive="http://www.researchspace.org/fieldDefinition/Photo_Archive" 
+                  Archive="https://artresearch.net/container/fieldDefinitionContainer/Photo_Archive_2" 
                 ]]'
                 template="{{>productionInfo}}"
               >
