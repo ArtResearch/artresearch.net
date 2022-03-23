@@ -1,24 +1,44 @@
 <div id="photoTable">
   <semantic-query
     query='  
-      SELECT distinct ?value 
+       SELECT * WHERE 
       {
-         GRAPH ?graph { ?? crm:P46i_forms_part_of ?og. }
-         ?og owl:sameAs ?value.
-         ?value rdf:type fc:work.
-        {{#if selectedTab}}
+        { 
+          BIND(?? AS ?workA) 
+        }
+        UNION
+        {
+          ?workA owl:sameAs ??.
+        }
+        [[#if haspart]]
+          GRAPH ?graph { ?workB crm:P46i_forms_part_of ?workA. }
+        [[/if]]
+        [[#if ispart]]
+          GRAPH ?graph { ?workB crm:P46_is_composed_of ?workA. }
+        [[/if]]
+         {{#if selectedTab}}
           {{#ifCond selectedTab "!==" "All"}}
               ?graph custom:has_provider ?provider.
               ?provider rdfs:label "{{selectedTab}}".
           {{/ifCond}}
         {{/if}}
+         ?workB owl:sameAs ?workB_pharos.
+         ?workB_pharos rdf:type fc:work;
+         OPTIONAL{
+          ?workB_pharos fr:Work_depicted_by_Photo ?photo.
+         }
       }LIMIT 1'
     no-result-template="<div></div>"
     template="{{> showTitle}}"
   >
       <template id="showTitle">
           <div>
-            <div style="margin-top: 45px"><h2>Has Part</h2></div>
+        [[#if haspart]]
+                     <div style="margin-top: 45px"><h2>Has Part</h2></div>
+        [[/if]]
+        [[#if ispart]]
+                      <div style="margin-top: 45px"><h2>Is Part Of</h2></div>
+        [[/if]]
           </div>
       </template>
   </semantic-query> 
@@ -35,17 +55,32 @@
     number-of-displayed-rows="4"
     query='
 
-    SELECT ?photo ?value ?provider ?providerLabel WHERE {
-        GRAPH ?graph { ?? crm:P46i_forms_part_of ?og. }
+    SELECT * WHERE 
+      {
+        { 
+          BIND(?? AS ?workA) 
+        }
+        UNION
+        {
+          ?workA owl:sameAs ??.
+        }
+        [[#if haspart]]
+          GRAPH ?graph { ?workB crm:P46i_forms_part_of ?workA. }
+        [[/if]]
+        [[#if ispart]]
+          GRAPH ?graph { ?workB crm:P46_is_composed_of ?workA. }
+        [[/if]]
          {{#if selectedTab}}
           {{#ifCond selectedTab "!==" "All"}}
               ?graph custom:has_provider ?provider.
               ?provider rdfs:label "{{selectedTab}}".
           {{/ifCond}}
         {{/if}}
-        ?og owl:sameAs ?value.
-        ?value rdf:type fc:work.
-        ?value fr:Work_depicted_by_Photo ?f.
+         ?workB owl:sameAs ?workB_pharos.
+         ?workB_pharos rdf:type fc:work;
+         OPTIONAL{
+          ?workB_pharos fr:Work_depicted_by_Photo ?photo.
+         }
       }
       '
 
