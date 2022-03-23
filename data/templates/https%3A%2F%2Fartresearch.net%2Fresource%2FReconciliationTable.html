@@ -11,10 +11,10 @@
           ?workA owl:sameAs ??.
         }
         [[#if haspart]]
-          GRAPH ?graph { ?workA crm:P46i_forms_part_of ?workB. }
+          GRAPH ?graph { ?workA crm:P46_is_composed_of ?workB. }
         [[/if]]
         [[#if ispart]]
-          GRAPH ?graph { ?workA crm:P46_is_composed_of ?workB. }
+          GRAPH ?graph { ?workA crm:P46i_forms_part_of ?workB. }
         [[/if]]
          {{#if selectedTab}}
           {{#ifCond selectedTab "!==" "All"}}
@@ -65,10 +65,10 @@
           ?workA owl:sameAs ??.
         }
           [[#if haspart]]
-          GRAPH ?graph { ?workA crm:P46i_forms_part_of ?workB. }
+          GRAPH ?graph { ?workA crm:P46_is_composed_of ?workB. }
         [[/if]]
         [[#if ispart]]
-          GRAPH ?graph { ?workA crm:P46_is_composed_of ?workB. }
+          GRAPH ?graph { ?workA crm:P46i_forms_part_of ?workB. }
         [[/if]]
          {{#if selectedTab}}
           {{#ifCond selectedTab "!==" "All"}}
