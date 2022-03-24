@@ -1,14 +1,14 @@
 <div id="photoTable">
   <semantic-query
     query='  
-      SELECT distinct ?related_document 
-      {
-         GRAPH ?graph {
-          ?subject crm:P67i_is_referred_to_by ?related_document.
+      SELECT distinct ?pharos_value {
+        ?subject owl:sameAs ?? .
+        GRAPH ?graph {
+          $subject crm:P67i_is_referred_to_by ?related_document.
           ?related_document crm:P2_has_type <http://vocab.getty.edu/aat/300435412>.
-          ?related_document crm:P70i_is_documented_in ?value.
         }
-        ?subject owl:sameAs ??.
+        ?related_document crm:P70i_is_documented_in/owl:sameAs ?pharos_value.
+        ?pharos_value a fc:work
         {{#if selectedTab}}
           {{#ifCond selectedTab "!==" "All"}}
             ?graph fr:Photo_has_provider_Institution ?provider.
@@ -37,15 +37,15 @@
     options='{"showFilter":false}'
     number-of-displayed-rows="4"
     query='
-      SELECT distinct ?related_document ?subject WHERE 
-      {
-      
-           GRAPH ?graph {
-            ?subject crm:P67i_is_referred_to_by ?related_document.
+      SELECT distinct  ?pharos_value WHERE {
+          ?subject owl:sameAs ?? .
+          GRAPH ?graph {
+            $subject crm:P67i_is_referred_to_by ?related_document.
             ?related_document crm:P2_has_type <http://vocab.getty.edu/aat/300435412>.
-            ?related_document crm:P70i_is_documented_in ?value.
           }
-          ?subject owl:sameAs ??.
+          ?related_document crm:P70i_is_documented_in ?doc.
+          ?doc owl:sameAs ?pharos_value.
+          ?pharos_value a fc:work
           {{#if selectedTab}}
             {{#ifCond selectedTab "!==" "All"}}
               ?graph fr:Photo_has_provider_Institution ?provider.
@@ -59,12 +59,12 @@
 
   >
       <template id="photos">
-        <semantic-link class="photographFieldView" iri="{{related_document.value}}">
+        <semantic-link class="photographFieldView" iri="{{pharos_value.value}}">
             <td class="rectoVersoCell">
               <semantic-query
                 query='
                   SELECT distinct ?photoUri ?rectoImage ?work where{
-                    BIND (<{{related_document.value}}> as ?work).
+                    BIND (<{{pharos_value.value}}> as ?work).
                     ?work fr:Work_depicted_by_Photo ?photo.
                     ?photo crm:P129i_is_subject_of ?fullsizeImages.
                     BIND(REPLACE(STR(?fullsizeImages),"full/full","full/!100,100") AS ?rectoImage).
@@ -95,8 +95,8 @@
             </td>
             <div class="photographFieldViewData">
               <mp-field-visualization
-                subject="{{subject.value}}"
-                additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?s WHERE { ?resource <http://www.cidoc-crm.org/cidoc-crm/P67i_is_referred_to_by> ?related_document }" resource=this.iri)]]'
+                subject="{{pharos_value.value}}"
+                additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?doc WHERE { ?doc owl:sameAs ?resource }" resource=this.iri)]]'
                 fields='[[fieldDefinitions  
                   Title="https://artresearch.net/fieldDefinition/2"  
                   Archive="https://artresearch.net/container/fieldDefinitionContainer/Photo_Archive_2" 
