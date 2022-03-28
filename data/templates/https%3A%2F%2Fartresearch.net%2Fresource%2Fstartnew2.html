@@ -491,6 +491,32 @@
         </div>
     </div>
   </section>
+    <section class="cool-background">
+    <div class="section-title">Compare images with deep zoom</div>
+    <div class="section-subtitle">Using a <img src="/assets/images/logos/iiif.png"> viewer you can view, analyze, compare & annotate images </div>
+    <div class="section-body">
+      <div class="mirador-container">
+        <div class="mirador">
+        <rs-iiif-mirador
+                        id="candidateAmirador"
+                        image-or-region="https://artresearch.net/resource/zeri/work/31583" 
+                        image-api-manifest-pattern='
+                                          BIND(<https://iiif.artresearch.net/iiif/2/zeri!78800!78415_g.jpg/info.json> AS ?manifestUrl)'
+                        >
+        </rs-iiif-mirador>
+        </div>
+        <div class="mirador">
+        <rs-iiif-mirador
+                        id="candidateBmirador"
+                        image-or-region="https://artresearch.net/resource/itatti/work/W00018357" 
+                        image-api-manifest-pattern='
+                        BIND(<https://iiif.itatti.harvard.edu/iiif/2/fotoindex!034_recto_d!034_recto_box05_d!034_recto_box05_d_00016.jpg/info.json> AS ?manifestUrl)'
+        >
+        </rs-iiif-mirador>
+        </div>
+      </div>
+    </div>
+  </section> 
   <section  title="Contextualized & connected histories">
     <div class="section-title" id ="Contextualtitle" >Contextualized & connected histories</div>
     <div class="section-body">
@@ -528,32 +554,7 @@
       </div>
     </div>
   </section>
-  <section class="cool-background">
-    <div class="section-title">Compare images with deep zoom</div>
-    <div class="section-subtitle">Using a <img src="/assets/images/logos/iiif.png"> viewer you can view, analyze, compare & annotate images </div>
-    <div class="section-body">
-      <div class="mirador-container">
-        <div class="mirador">
-        <rs-iiif-mirador
-                        id="candidateAmirador"
-                        image-or-region="https://artresearch.net/resource/zeri/work/31583" 
-                        image-api-manifest-pattern='
-                                          BIND(<https://iiif.artresearch.net/iiif/2/zeri!78800!78415_g.jpg/info.json> AS ?manifestUrl)'
-                        >
-        </rs-iiif-mirador>
-        </div>
-        <div class="mirador">
-        <rs-iiif-mirador
-                        id="candidateBmirador"
-                        image-or-region="https://artresearch.net/resource/itatti/work/W00018357" 
-                        image-api-manifest-pattern='
-                        BIND(<https://iiif.itatti.harvard.edu/iiif/2/fotoindex!034_recto_d!034_recto_box05_d!034_recto_box05_d_00016.jpg/info.json> AS ?manifestUrl)'
-        >
-        </rs-iiif-mirador>
-        </div>
-      </div>
-    </div>
-  </section> 
+
 </div>
 <style>
 
