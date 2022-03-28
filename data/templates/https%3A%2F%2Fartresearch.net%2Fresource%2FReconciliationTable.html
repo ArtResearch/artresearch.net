@@ -16,6 +16,12 @@
         [[#if ispart]]
           GRAPH ?graph { ?workA crm:P46i_forms_part_of ?workB. }
         [[/if]]
+        [[#if version]]
+          GRAPH ?graph { ?workA fr:Work_is_version_of_Work  ?workB. }
+        [[/if]]
+        [[#if imitation]]
+          GRAPH ?graph { ?workA fr:Work_is_imitation_or_copy_of_Work  ?workB. }
+        [[/if]]
          {{#if selectedTab}}
           {{#ifCond selectedTab "!==" "All"}}
               ?graph custom:has_provider ?provider.
@@ -38,6 +44,12 @@
         [[/if]]
         [[#if ispart]]
                       <div style="margin-top: 45px"><h2>Is Part Of</h2></div>
+        [[/if]]
+        [[#if version]]
+                      <div style="margin-top: 45px"><h2>Is Version Of</h2></div>
+        [[/if]]
+        [[#if imitation]]
+                      <div style="margin-top: 45px"><h2>Is Imitation / Copy Of</h2></div>
         [[/if]]
           </div>
       </template>
@@ -69,6 +81,12 @@
         [[/if]]
         [[#if ispart]]
           GRAPH ?graph { ?workA crm:P46i_forms_part_of ?workB. }
+        [[/if]]
+         [[#if version]]
+          GRAPH ?graph { ?workA fr:Work_is_version_of_Work  ?workB. }
+        [[/if]]
+        [[#if imitation]]
+          GRAPH ?graph { ?workA fr:Work_is_imitation_or_copy_of_Work  ?workB. }
         [[/if]]
          {{#if selectedTab}}
           {{#ifCond selectedTab "!==" "All"}}
