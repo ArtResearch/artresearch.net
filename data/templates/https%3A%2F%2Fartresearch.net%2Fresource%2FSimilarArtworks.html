@@ -3,7 +3,11 @@
   <semantic-query
     query='SELECT distinct ?photo ?thumb ?image WHERE { 
       # Artwork
+      {
+        BIND(?? as ?photo)
+      }UNION{
       ?? fr:Work_depicted_by_Photo ?photo.
+      }
       ?photo crm:P129i_is_subject_of ?image.
       BIND(REPLACE(STR(?image), "full/full", "full/!350,350") AS ?thumb)
       
