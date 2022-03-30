@@ -1,0 +1,96 @@
+
+#photoTiles {
+  position: absolute;
+  display: flex;
+  z-index: -1;
+  width: 100vw;
+  overflow: hidden;
+  top: 1%;
+}
+#photoTiles img {
+  width: 100%;
+  height: 40vh;
+  object-fit: cover;
+
+}
+
+#photoTiles  .flip-card {
+    animation: spinner 36s ease-in-out infinite alternate ;
+    background-color: transparent;
+    height: 40vh;
+    width: 20%;
+    -webkit-animation: fade-in 1.5s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+    animation: fade-in 1.5s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+  }
+
+#photoTiles  .flip-card-inner {
+    position: relative;
+    animation: spinner 36s ease-in-out infinite alternate ;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+  }
+
+
+#photoTiles  .flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden; /* Safari */
+    backface-visibility: hidden;
+  }
+
+#photoTiles  .flip-card-front {
+    background-color: #bbb;
+  }
+
+#photoTiles  .flip-card-back {
+    background-color: #bbb;
+    transform: rotateY(180deg);
+  }
+
+  
+/* WebKit and Opera browsers */ 
+@-webkit-keyframes spinner { 
+ 0% 
+ { 
+   -webkit-transform: rotateY(0deg); 
+ } 
+ 40% 
+ { 
+   -webkit-transform: rotateY(0deg); 
+ } 
+ 50% { 
+  -webkit-transform: rotateY(-180deg); 
+} 
+ 100% { 
+   -webkit-transform: rotateY(-180deg); 
+ } 
+} 
+/* all other browsers */ 
+@keyframes spinner { 
+
+  0% { 
+   -moz-transform: rotateY(0deg); 
+   -ms-transform: rotateY(0deg); 
+   transform: rotateY(0deg); 
+  } 
+  40% { 
+    -moz-transform: rotateY(0deg); 
+    -ms-transform: rotateY(0deg); 
+    transform: rotateY(0deg); 
+   }
+  50%{
+    -moz-transform: rotateY(-180deg); 
+    -ms-transform: rotateY(-180deg); 
+    transform: rotateY(-180deg); 
+   }
+  100% 
+  { 
+    -moz-transform: rotateY(-180deg); 
+    -ms-transform: rotateY(-180deg); 
+    transform: rotateY(-180deg); 
+  } 
+}
