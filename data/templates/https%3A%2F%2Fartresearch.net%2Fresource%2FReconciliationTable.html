@@ -1,4 +1,4 @@
-<div id="photoTable">
+
   <semantic-query
     query='  
        SELECT * WHERE 
@@ -22,6 +22,24 @@
         [[#if imitation]]
           GRAPH ?graph { ?workA fr:Work_is_imitation_or_copy_of_Work  ?workB. }
         [[/if]]
+        [[#if study]]
+          GRAPH ?graph { ?workA fr:fr:Work_is_study_or_sketch_of_Work  ?workB. }
+        [[/if]]
+        [[#if similar]]
+           GRAPH ?graph { ?workA fr:Work_is_similar_to_Work  ?workB. }
+        [[/if]]
+        [[#if hasimitation]]
+            GRAPH ?graph { ?workB fr:Work_is_imitation_or_copy_of_Work  ?workA. }
+        [[/if]]
+        [[#if hasversion]]
+            GRAPH ?graph { ?workB fr:Work_is_version_of_Work  ?workA. }
+        [[/if]]
+        [[#if hasstudy]]
+            GRAPH ?graph { ?workB fr:fr:Work_is_study_or_sketch_of_Work  ?workA. }
+        [[/if]]
+        [[#if hasstudy]]
+                    <div style="margin-top: 45px"><h2>Study/Sketch Of</h2></div>
+        [[/if]]
          {{#if selectedTab}}
           {{#ifCond selectedTab "!==" "All"}}
               ?graph custom:has_provider ?provider.
@@ -38,6 +56,7 @@
     template="{{> showTitle}}"
   >
       <template id="showTitle">
+
           <div>
         [[#if haspart]]
                      <div style="margin-top: 45px"><h2>Has Part</h2></div>
@@ -51,7 +70,22 @@
         [[#if imitation]]
                       <div style="margin-top: 45px"><h2>Is Imitation / Copy Of</h2></div>
         [[/if]]
-          </div>
+        [[#if study]]
+                      <div style="margin-top: 45px"><h2>Study/Sketch Of</h2></div>
+        [[/if]]
+        [[#if similar]]
+                    <div style="margin-top: 45px"><h2>Similar</h2></div>
+        [[/if]]
+        [[#if hasimitation]]
+                    <div style="margin-top: 45px"><h2>Has Imitation/Copy</h2></div>
+        [[/if]]
+        [[#if hasversion]]
+                    <div style="margin-top: 45px"><h2>Has Version of</h2></div>
+        [[/if]]
+        [[#if hasstudy]]
+                    <div style="margin-top: 45px"><h2>Has Study/Sketch of</h2></div>
+        [[/if]]
+        </div>
       </template>
   </semantic-query> 
   <div class="table-of-animation">
@@ -87,6 +121,24 @@
         [[/if]]
         [[#if imitation]]
           GRAPH ?graph { ?workA fr:Work_is_imitation_or_copy_of_Work  ?workB. }
+        [[/if]]
+         [[#if study]]
+          GRAPH ?graph { ?workA fr:fr:Work_is_study_or_sketch_of_Work  ?workB. }
+        [[/if]]
+        [[#if similar]]
+           GRAPH ?graph { ?workA fr:Work_is_similar_to_Work  ?workB. }
+        [[/if]]
+        [[#if hasimitation]]
+            GRAPH ?graph { ?workB fr:Work_is_imitation_or_copy_of_Work  ?workA. }
+        [[/if]]
+        [[#if hasversion]]
+            GRAPH ?graph { ?workB fr:Work_is_version_of_Work  ?workA. }
+        [[/if]]
+        [[#if hasstudy]]
+            GRAPH ?graph { ?workB fr:fr:Work_is_study_or_sketch_of_Work  ?workA. }
+        [[/if]]
+        [[#if hasstudy]]
+                    <div style="margin-top: 45px"><h2>Study/Sketch Of</h2></div>
         [[/if]]
          {{#if selectedTab}}
           {{#ifCond selectedTab "!==" "All"}}
@@ -168,5 +220,4 @@
         </semantic-link>
       </template>
   </semantic-table>
-</div>
 
