@@ -261,10 +261,9 @@
                                                             <table class="table table-hover">
                                                                 <tbody>
                                                                     <semantic-query 
-                                                                      query='SELECT ?subject WHERE { 
-                                                                              <{{subject.value}}> a fc:work
-                                                                            BIND(<{{subject.value}}> as ?subject)
-                                                                            }LIMIT 1'
+                                                                      query='SELECT (<{{subject.value}}> as ?subject) WHERE { 
+                                                                              <{{subject.value}}> a fc:work.
+                                                                            }'
                                                                       no-result-template='<div></div>'
                                                                       template="{{> workTitleTemplate}}"
                                                                     >
@@ -298,44 +297,14 @@
                                                                       <div class="animated-background-sm8 rs-page-resource__field-label-holder"></div>
                                                                     </div>
                                                                     <semantic-query 
-                                                                        query='SELECT ?photographer WHERE { 
+                                                                      query='SELECT DISTINCT ?artist WHERE { 
                                                                           {
-                                                                          <{{subject.value}}> fr:Photo_created_by_Photographer ?photographer
+                                                                            <{{subject.value}}> fr:Work_created_from_Artist ?artist
                                                                           }union{
-                                                                          ?original owl:sameAs <{{subject.value}}>.
-                                                                          ?original fr:Photo_created_by_Photographer ?photographer 
+                                                                            ?original owl:sameAs <{{subject.value}}>.
+                                                                            ?original cfr:Work_created_from_Artist ?artist 
                                                                           }
-                                                                        }LIMIT 2'
-                                                                        template="{{> photographerTemplate}}"
-                                                                    >
-                                                                      <template id="photographerTemplate">
-                                                                          <div>
-                                                                            <tr  class="rs-page-resource__field">
-                                                                              <td class="rs-page-resource__field-label-holder headLine">
-                                                                                <span class="rs-page-resource__field-label">
-                                                                                  Photographer
-                                                                                </span>
-                                                                              </td>
-                                                                              <td>
-                                                                                  <span class="rs-page-resource__field-value">
-                                                                                    <div style="width:25vw; max-width: 450px;">
-                                                                                      <semantic-link iri="{{bindings.0.photographer.value}}"></semantic-link>
-                                                                                    </div>
-                                                                                  </span>
-                                                                              </td>
-                                                                            </tr>
-                                                                          </div>
-                                                                      </template>
-                                                                    </semantic-query>
-                                                                    <semantic-query 
-                                                                      query='SELECT ?artist WHERE { 
-                                                                        {
-                                                                        <{{subject.value}}> fr:Work_created_from_Artist ?artist
-                                                                        }union{
-                                                                        ?original owl:sameAs <{{subject.value}}>.
-                                                                        ?original fr:Work_created_from_Artist ?artist 
-                                                                        }
-                                                                      }LIMIT 2'
+                                                                      }'
                                                                       template="{{> artistTemplate}}"
                                                                       >
                                                                         <template id="artistTemplate">
@@ -347,25 +316,27 @@
                                                                                       </span>
                                                                                     </td>
                                                                                     <td>
+                                                                                      {{#each bindings}}
                                                                                         <span class="rs-page-resource__field-value">
                                                                                           <div style="width:25vw; max-width: 450px;">
-                                                                                            <semantic-link iri="{{bindings.0.artist.value}}"></semantic-link>
+                                                                                            <semantic-link iri="{{artist.value}}"></semantic-link>
                                                                                           </div>
                                                                                         </span>
+                                                                                      {{/each}}
                                                                                     </td>
                                                                                 </tr>
                                                                             </div>
                                                                         </template>
                                                                     </semantic-query>
                                                                     <semantic-query 
-                                                                        query='SELECT ?institution WHERE { 
+                                                                        query='SELECT DISTINCT ?institution WHERE { 
                                                                           {
-                                                                          <{{subject.value}}> fr:Work_kept_by_Institution ?institution
+                                                                            <{{subject.value}}> fr:Work_kept_by_Institution ?institution
                                                                           }union{
-                                                                          ?original owl:sameAs <{{subject.value}}>.
-                                                                          ?original fr:Work_kept_by_Institution ?institution 
+                                                                            ?original owl:sameAs <{{subject.value}}>.
+                                                                            ?original cfr:Work_kept_by_Institution ?institution 
                                                                           }
-                                                                        }LIMIT 2'
+                                                                        }'
                                                                         template="{{>repoTemplate}}"
                                                                     >
                                                                       <template id="repoTemplate">
@@ -377,28 +348,22 @@
                                                                                 </span>
                                                                               </td>
                                                                               <td>
+                                                                                {{#each bindings}}
                                                                                   <span class="rs-page-resource__field-value">
                                                                                     <div style="width:25vw; max-width: 450px;">
-                                                                                      <semantic-link iri="{{bindings.0.institution.value}}"></semantic-link>
+                                                                                      <semantic-link iri="{{institution.value}}"></semantic-link>
                                                                                     </div>
                                                                                   </span>
+                                                                                {{/each}}
                                                                               </td>
                                                                           </tr>
                                                                         </div> 
                                                                       </template>
                                                                     </semantic-query>
                                                                     <semantic-query 
-                                                                        query='SELECT DISTINCT ?provider WHERE { 
-                                                                          {
-                                                                            <{{subject.value}}> fr:Work_has_provider_Institution ?provider
-                                                                          }union{
-                                                                            ?original owl:sameAs <{{subject.value}}>.
-                                                                            ?original fr:Work_has_provider_Institution ?provider 
-                                                                          }union{
-                                                                            <{{subject.value}}> fr:Photo_depicts_Work  ?work.
-                                                                            ?work fr:Work_has_provider_Institution ?provider.
-                                                                          }
-                                                                        }LIMIT 2'
+                                                                        query=' SELECT DISTINCT ?provider WHERE { 
+                                                                                    <{{subject.value}}> fr:Work_has_provider_Institution ?provider
+                                                                                }'
                                                                         template="{{>archiveTemplate}}"
                                                                     >
                                                                       <template id="archiveTemplate">
@@ -410,30 +375,22 @@
                                                                                   </span>
                                                                                 </td>
                                                                                 <td>
+                                                                                  {{#each bindings}}
                                                                                     <span class="rs-page-resource__field-value">
                                                                                       <div style="width:25vw; max-width: 450px;">
-                                                                                        <semantic-link iri="{{bindings.0.provider.value}}"></semantic-link>
+                                                                                        <semantic-link iri="{{provider.value}}"></semantic-link>
                                                                                       </div>
                                                                                     </span>
-                                                                                    <span class="rs-page-resource__field-value">
-                                                                                      <div style="width:25vw; max-width: 450px;">
-                                                                                        <semantic-link iri="{{bindings.1.provider.value}}"></semantic-link>
-                                                                                      </div>
-                                                                                    </span>
+                                                                                  {{/each}}
                                                                                 </td>
                                                                             </tr>
                                                                           </div>
                                                                       </template>
                                                                     </semantic-query>
                                                                     <semantic-query 
-                                                                        query='SELECT ?date WHERE { 
-                                                                          {
-                                                                          <{{subject.value}}> fr:Work_from_Date ?date
-                                                                          }union{
-                                                                          ?original owl:sameAs <{{subject.value}}>.
-                                                                          ?original fr:Work_from_Date ?date 
-                                                                          }
-                                                                        }LIMIT 2'
+                                                                        query='SELECT DISTINCT ?date WHERE {
+                                                                            <{{subject.value}}> fr:Work_from_Date ?date.
+                                                                        }'
                                                                         template="{{>repoTemplate}}"
                                                                     >
                                                                         <template id="repoTemplate">
@@ -445,11 +402,13 @@
                                                                                   </span>
                                                                                 </td>
                                                                                 <td>
+                                                                                  {{#each bindings}}
                                                                                     <span class="rs-page-resource__field-value">
                                                                                       <div style="width:25vw; max-width: 450px;">
                                                                                         {{bindings.0.date.value}}
                                                                                       </div>
                                                                                     </span>
+                                                                                  {{/each}}
                                                                                 </td>
                                                                               </tr>
                                                                           </div>
@@ -539,10 +498,9 @@
                                                             <table class="table table-hover">
                                                               <tbody>
                                                                 <semantic-query 
-                                                                  query='SELECT ?subject WHERE { 
-                                                                        <{{subject.value}}> a fc:work
-                                                                        BIND(<{{subject.value}}> as ?subject)
-                                                                      }LIMIT 1'
+                                                                  query='SELECT (<{{subject.value}}> as ?subject) WHERE { 
+                                                                        <{{subject.value}}> a fc:work.
+                                                                      }'
                                                                   no-result-template='<div></div>'
                                                                   template="{{> workTitleTemplate}}"
                                                                 >
@@ -575,45 +533,15 @@
                                                                     <div class="animated-background-sm7 rs-page-resource__field-label-holder"></div>
                                                                     <div class="animated-background-sm8 rs-page-resource__field-label-holder"></div>
                                                                   </div>
-                                                                  <semantic-query 
-                                                                      query='SELECT ?photographer WHERE { 
-                                                                          {
-                                                                          <{{subject.value}}> fr:Photo_created_by_Photographer ?photographer
-                                                                          }union{
-                                                                            ?original owl:sameAs <{{subject.value}}>.
-                                                                            ?original fr:Photo_created_by_Photographer ?photographer 
-                                                                          }
-                                                                        }LIMIT 2'
-                                                                      template="{{> photographerTemplate}}"
-                                                                  >
-                                                                    <template id="photographerTemplate">
-                                                                      <div>
-                                                                          <tr  class="rs-page-resource__field">
-                                                                            <td class="rs-page-resource__field-label-holder headLine">
-                                                                              <span class="rs-page-resource__field-label">
-                                                                                Photographer
-                                                                              </span>
-                                                                            </td>
-                                                                              <td>
-                                                                                <span class="rs-page-resource__field-value">
-                                                                                  <div style="width:25vw; max-width: 450px;">
-                                                                                    <semantic-link iri="{{bindings.0.photographer.value}}"></semantic-link>
-                                                                                  </div>
-                                                                                </span>
-                                                                              </td>
-                                                                          </tr>
-                                                                      </div>
-                                                                    </template>
-                                                                  </semantic-query>
                                                                 <semantic-query 
-                                                                      query='SELECT ?artist WHERE { 
+                                                                      query='SELECT DISTINCT ?artist WHERE { 
                                                                         {
                                                                             <{{subject.value}}> fr:Work_created_from_Artist ?artist
                                                                         }union{
                                                                             ?original owl:sameAs <{{subject.value}}>.
-                                                                            ?original fr:Work_created_from_Artist ?artist 
+                                                                            ?original cfr:Work_created_from_Artist ?artist 
                                                                         }
-                                                                      }LIMIT 2'
+                                                                      }'
                                                                       template="{{> artistTemplate}}"
                                                                   >
                                                                     <template id="artistTemplate">
@@ -625,25 +553,27 @@
                                                                                 </span>
                                                                               </td>
                                                                               <td>
-                                                                                <span class="rs-page-resource__field-value">
-                                                                                  <div style="width:25vw; max-width: 450px;">
-                                                                                    <semantic-link iri="{{bindings.0.artist.value}}"></semantic-link>
-                                                                                  </div>
-                                                                                </span>
+                                                                                {{#each bindings}}
+                                                                                  <span class="rs-page-resource__field-value">
+                                                                                    <div style="width:25vw; max-width: 450px;">
+                                                                                      <semantic-link iri="{{artist.value}}"></semantic-link>
+                                                                                    </div>
+                                                                                  </span>
+                                                                                {{/each}}
                                                                               </td>
                                                                             </tr>
                                                                         </div>
                                                                     </template>
                                                                 </semantic-query>
                                                                 <semantic-query 
-                                                                    query='SELECT ?institution WHERE { 
+                                                                    query='SELECT DISTINCT ?institution WHERE { 
                                                                       {
                                                                         <{{subject.value}}> fr:Work_kept_by_Institution ?institution
                                                                       }union{
                                                                         ?original owl:sameAs <{{subject.value}}>.
-                                                                        ?original fr:Work_kept_by_Institution ?institution 
+                                                                        ?original cfr:Work_kept_by_Institution ?institution 
                                                                       }
-                                                                    }LIMIT 2'
+                                                                    }'
                                                                     template="{{>repoTemplate}}"
                                                                 >
                                                                 <template id="repoTemplate">
@@ -655,28 +585,22 @@
                                                                           </span>
                                                                         </td>
                                                                         <td>
+                                                                          {{#each bindings}}
                                                                             <span class="rs-page-resource__field-value">
                                                                               <div style="width:25vw; max-width: 450px;">
-                                                                                <semantic-link iri="{{bindings.0.institution.value}}"></semantic-link>
+                                                                                <semantic-link iri="{{institution.value}}"></semantic-link>
                                                                               </div>
                                                                             </span>
+                                                                          {{/each}}
                                                                         </td>
                                                                       </tr>
                                                                   </div>
                                                                 </template>
                                                                 </semantic-query>
                                                                 <semantic-query 
-                                                                    query='SELECT DISTINCT ?provider WHERE { 
-                                                                      {
+                                                                    query='SELECT DISTINCT ?provider WHERE {
                                                                         <{{subject.value}}> fr:Work_has_provider_Institution ?provider
-                                                                      }union{
-                                                                        ?original owl:sameAs <{{subject.value}}>.
-                                                                        ?original fr:Work_has_provider_Institution ?provider 
-                                                                      }union{
-                                                                        <{{subject.value}}> fr:Photo_depicts_Work  ?work.
-                                                                        ?work fr:Work_has_provider_Institution ?provider.
-                                                                      }
-                                                                    }LIMIT 2'
+                                                                    }'
                                                                     template="{{>archiveTemplate}}"
                                                                 >
                                                                   <template id="archiveTemplate">
@@ -688,30 +612,22 @@
                                                                           </span>
                                                                         </td>
                                                                         <td>
+                                                                          {{#each bindings}}
                                                                             <span class="rs-page-resource__field-value">
                                                                               <div style="width:25vw; max-width: 450px;">
-                                                                                <semantic-link iri="{{bindings.0.provider.value}}"></semantic-link>
+                                                                                <semantic-link iri="{{provider.value}}"></semantic-link>
                                                                               </div>
                                                                             </span>
-                                                                            <span class="rs-page-resource__field-value">
-                                                                              <div style="width:25vw; max-width: 450px;">
-                                                                                <semantic-link iri="{{bindings.1.provider.value}}"></semantic-link>
-                                                                              </div>
-                                                                            </span>
+                                                                          {{/each}}
                                                                         </td>
                                                                       </tr>
                                                                     </div>
                                                                   </template>
                                                                 </semantic-query>
                                                                 <semantic-query 
-                                                                      query='SELECT ?date WHERE { 
-                                                                        {
+                                                                      query='SELECT DISTINCT ?date WHERE { 
                                                                           <{{subject.value}}> fr:Work_from_Date ?date
-                                                                        }union{
-                                                                          ?original owl:sameAs <{{subject.value}}>.
-                                                                          ?original fr:Work_from_Date ?date 
-                                                                        }
-                                                                      }LIMIT 2'
+                                                                      }'
                                                                       template="{{>repoTemplate}}"
                                                                 >
                                                                   <template id="repoTemplate">
@@ -723,11 +639,13 @@
                                                                             </span>
                                                                           </td>
                                                                           <td>
+                                                                            {{#each bindings}}
                                                                               <span class="rs-page-resource__field-value">
                                                                                 <div style="width:25vw; max-width: 450px;">
-                                                                                  {{bindings.0.date.value}}
+                                                                                  {{date.value}}
                                                                                 </div>
                                                                               </span>
+                                                                            {{/each}}
                                                                           </td>
                                                                         </tr>
                                                                     </div>
