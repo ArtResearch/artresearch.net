@@ -144,12 +144,14 @@
                       default-query='SELECT DISTINCT ?subject WHERE {
                           ?og <http://www.w3.org/2002/07/owl#sameAs> ?subject;
                             <https://similarity.net/custom/is_deprecated> ?depr.
+                          FILTER NOT EXISTS {?x <https://similarity.net/custom/is_deprecated> ?subject.}
                           ?subject a fc:work.
                       }'
                       query='
                           SELECT DISTINCT ?subject WHERE {
                             ?og <http://www.w3.org/2002/07/owl#sameAs> ?subject;
                               <https://similarity.net/custom/is_deprecated> ?depr.
+                            FILTER NOT EXISTS {?x <https://similarity.net/custom/is_deprecated> ?subject.}
                             ?subject a fc:work.
                             ?subject ?p ?o.
                             ?o rdfs:label ?someLabel.
