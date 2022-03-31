@@ -8,10 +8,11 @@
         <div class="old-fashioned-grid">
           <div class="super-cheesy">
               <semantic-query
-                  query='SELECT ?newLink WHERE { 
+                  query='SELECT DISTINCT ?newLink WHERE { 
                     ?s owl:sameAs ?newLink.
                     ?newLink a fc:work.
-                    ?s <https://similarity.net/custom/is_deprecated> ??
+                    ?s <https://similarity.net/custom/is_deprecated> ??.
+                    FILTER NOT EXISTS{?something <https://similarity.net/custom/is_deprecated> ?newLink}
                   }LIMIT 10'
                   template='{{> deprecated }}'>
               <template id='deprecated'>
