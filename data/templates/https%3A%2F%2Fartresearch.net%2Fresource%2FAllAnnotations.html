@@ -15,7 +15,7 @@
               <div>
                     <bs-nav bs-style="tabs">
                       [[#if (hasPermission "api:ldp:*")]]
-                        <bs-nav-item event-key="allannotations">All platform Annotations
+                        <bs-nav-item event-key="allannotations">All platform Text Annotations
                               <semantic-query query='SELECT (COUNT(DISTINCT ?document) AS ?count) WHERE {
                                               ?document rdf:type rs:Semantic_Narrative.
                                               ?document rdfs:label ?documentTitle.
@@ -29,7 +29,7 @@
                         </bs-nav-item>
                         [[/if]]
                         <bs-nav-item event-key="myannotations">
-                                    My annotations
+                                    My Text annotations
                                     <semantic-query 
                                       query='SELECT (COUNT(DISTINCT ?document) AS ?count) WHERE {
                                           ?document rdf:type rs:Semantic_Narrative.
@@ -62,7 +62,7 @@
                         </bs-nav-item>
                         [[#if (hasPermission "api:ldp:*")]]
                         <bs-nav-item event-key="photoAnnotations">
-                                All Photo annotations
+                                All platform Photo annotations
                                   <semantic-query
                                   query='SELECT (COUNT(DISTINCT ?document) AS ?count) WHERE {
                                       GRAPH ?g {
