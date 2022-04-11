@@ -70,7 +70,15 @@
             <div class="tall-card-body">
               <div class="tall-card-button">Discover</div>
               <div class="tall-card-title">Artists</div>
-              <div class="tall-card-subtitle">28,000 records</div>
+              <semantic-query
+              query="SELECT (COUNT (distinct ?x) AS ?count) WHERE { 
+                    ?x a fc:artist.
+                    }"
+                    template="{{> records}}">
+                    <template id="records">
+                       <div class="tall-card-subtitle">{{bindings.0.count.value}} records</div>
+                    </template>
+              </semantic-query>
             </div>
           </mp-link>
         </div>
@@ -79,7 +87,15 @@
             <div class="tall-card-body">
               <div class="tall-card-button">Discover</div>
               <div class="tall-card-title">Photographers</div>
-              <div class="tall-card-subtitle">129,000 records</div>
+              <semantic-query
+              query="SELECT (COUNT (distinct ?x) AS ?count) WHERE { 
+                    ?x a fc:Photographer.
+                    }"
+                    template="{{> records}}">
+                    <template id="records">
+                       <div class="tall-card-subtitle">{{bindings.0.count.value}} records</div>
+                    </template>
+              </semantic-query>
             </div>
           </mp-link>
         </div>
