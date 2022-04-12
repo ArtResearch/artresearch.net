@@ -9,12 +9,6 @@
         }
         ?related_document crm:P70i_is_documented_in/owl:sameAs ?pharos_value.
         ?pharos_value a fc:work
-        {{#if selectedTab}}
-          {{#ifCond selectedTab "!==" "All"}}
-            ?graph fr:Photo_has_provider_Institution ?provider.
-            ?provider rdfs:label "{{selectedTab}}"
-          {{/ifCond}}
-        {{/if}}
       }LIMIT 1'
     no-result-template="<div></div>"
     template="{{> showTitle}}"
@@ -47,12 +41,6 @@
           ?related_document crm:P70i_is_documented_in ?doc.
           ?doc owl:sameAs ?pharos_value.
           ?pharos_value a fc:work
-          {{#if selectedTab}}
-            {{#ifCond selectedTab "!==" "All"}}
-              ?graph fr:Photo_has_provider_Institution ?provider.
-              ?provider rdfs:label "{{selectedTab}}"
-            {{/ifCond}}
-          {{/if}}
       }'
 
     tuple-template="{{> photos}}"
