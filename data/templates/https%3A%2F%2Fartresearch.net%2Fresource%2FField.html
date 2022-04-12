@@ -127,19 +127,16 @@
                           <rs-assertion 
                             assertion='{{assertion}}'
                             fields='[[fieldDefinitions field=(urlParam "field")]]'
-                            value-template='{{> ResourceFieldValueVisualization}}'
-                            form-template='{{> AssertionFormTemplate}}'>
+                            value-template='{{>  Default:ResourceFieldValueVisualization}}'
+                            form-template='[[> Default:AssertionFormTemplate]]'>
                           </rs-assertion>
                           {{else}}
                           <rs-assertion 
                             subject='{{bindings.0.iri.value}}'
                             target='[[urlParam "subject"]]'
-                            fields='[[fieldDefinitions 
-                              field=(urlParam "field")
-                          
-                            ]]'
-                            value-template='{{> ResourceFieldValueVisualization}}'
-                            form-template='{{> AssertionFormTemplate }}'>
+                            fields='[[fieldDefinitions field=(urlParam "field")]]'
+                            value-template='{{>  Default:ResourceFieldValueVisualization}}'
+                            form-template='{{> Default:AssertionFormTemplate }}'>
                           </rs-assertion>
                           {{/if}}
                   </template>
