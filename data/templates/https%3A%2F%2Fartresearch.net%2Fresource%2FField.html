@@ -63,11 +63,6 @@
                                                     template='{{> Default:FieldBasedAssertedValueVisualization}}'
                                                   ></mp-field-visualization>
                                                 </div>
-                                                <mp-event-trigger id='assert-new-value' type='Component.TemplateUpdate' targets='["assertion"]' data='{"assertion": "{{assertion.value}}"}'>
-                                                    <button class='btn btn-default btn-xs pull-right' title='Edit assertion' style='margin-left: 5px;'>
-                                                      <i class='fa fa-pencil'></i> Edit
-                                                    </button>
-                                                </mp-event-trigger>
                                               [[#if (hasPermission "api:ldp:container:<http://www.researchspace.org/resource/system/fieldDefinitionContainer>:create:any")]]
                                                 <mp-event-trigger id='assert-new-value' type='Component.TemplateUpdate' targets='["assertion"]' data='{"assertion": "{{assertion.value}}"}'>
                                                   <button class='btn btn-default btn-xs pull-right' title='Edit assertion' style='margin-left: 5px;'>
