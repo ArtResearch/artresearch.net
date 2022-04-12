@@ -60,7 +60,7 @@
                                                   <mp-field-visualization
                                                     subject='[[urlParam "subject"]]'
                                                     fields='[[fieldDefinitions field=(urlParam "field")]]'
-                                                    template='{{> FieldBasedAssertedValueVisualization}}'
+                                                    template='{{> Default:FieldBasedAssertedValueVisualization}}'
                                                   ></mp-field-visualization>
                                                 </div>
                                                 <mp-event-trigger id='assert-new-value' type='Component.TemplateUpdate' targets='["assertion"]' data='{"assertion": "{{assertion.value}}"}'>
@@ -199,11 +199,17 @@
 The class bellow hides the semantic narrative option. Please be careful,
 it might hide something else in the future!!! 
 */
+
+
   .form-group:nth-child(5) {
     display: none;
   }
 .form-group {
   height: fit-content;
+}
+
+.AssertionComponent--valueCell{
+  align-self: center;
 }
 
 span.label.AssertionComponent--label.AssertionComponent--canonical{
