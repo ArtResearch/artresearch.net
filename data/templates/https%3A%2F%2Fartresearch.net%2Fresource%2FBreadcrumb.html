@@ -28,6 +28,69 @@
                 </a>
             </mp-has-permission>
         </mp-anonymous-hidden>
+        <mp-anonymous-hidden>
+           <mp-has-permission permission="api:ldp:*">
+                <mp-overlay-dialog type="lightbox" title="For Review - Please choose a type of Error you want to add">
+                    <mp-overlay-dialog-trigger trigger='["click"]' placement="bottom"  >
+                      <div id="btnExportCsv" class="rs-body-m-M">
+                            <i class="fa fa-exclamation"></i>Report Error
+                          </div>
+                    </mp-overlay-dialog-trigger>
+                    <mp-overlay-dialog-content>
+                  <div style="text-align:center; text-align: -webkit-center;">
+                        <h1>Choose Type of Error for <semantic-link iri='[[this]]'></semantic-link></h1>
+                        <div class="ErrorButtons">
+                              <semantic-link
+                                          iri="https://artresearch.net/resource/FieldError"
+                                          urlqueryparam-subject="[[this]]"
+                                          urlqueryparam-errorType="https://artresearch.net/resource/type/error/DataError"
+                                        >
+                                        <div class="ButtonError">
+                                          Data Error
+                                        </div>
+                              </semantic-link>
+                              <semantic-link
+                                          iri="https://artresearch.net/resource/FieldError"
+                                          urlqueryparam-subject="[[this]]"
+                                          urlqueryparam-errorType="https://artresearch.net/resource/type/error/LicenseError"
+                                        >
+                                        <div class="ButtonError">
+                                          License Error
+                                        </div>
+                              </semantic-link>
+                              <semantic-link
+                                          iri="https://artresearch.net/resource/FieldError"
+                                          urlqueryparam-subject="[[this]]"
+                                          urlqueryparam-errorType="https://artresearch.net/resource/type/error/ImageError"
+                                        >
+                                          <div class="ButtonError">
+                                            Image Error
+                                          </div>
+                              </semantic-link>
+                              <semantic-link
+                                          iri="https://artresearch.net/resource/FieldError"
+                                          urlqueryparam-subject="[[this]]"
+                                          urlqueryparam-errorType="https://artresearch.net/resource/type/error/MatchError"
+                                        >
+                                        <div  class="ButtonError">
+                                          Matching Error
+                                        </div>
+                              </semantic-link>
+                              <semantic-link
+                                          iri="https://artresearch.net/resource/FieldError"
+                                          urlqueryparam-subject="[[this]]"
+                                          urlqueryparam-errorType="https://artresearch.net/resource/type/error/OtherError"
+                                        >
+                                        <div  class="ButtonError">
+                                          Other
+                                          </div>
+                              </semantic-link>
+                              </div>
+                        </div>
+                    </mp-overlay-dialog-content>
+                </mp-overlay-dialog>
+          </mp-has-permission>
+        </mp-anonymous-hidden>
         <open-print querySelector="#btnPrint" ></open-print>
           <div id="btnPrint" class="rs-body-m-M">
             <i style="margin-right: 5px" class="fa fa-print"></i>Print
