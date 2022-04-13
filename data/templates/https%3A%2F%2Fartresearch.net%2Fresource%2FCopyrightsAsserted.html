@@ -1,0 +1,61 @@
+
+
+  <div class="row">
+      <div class="col-sm-7">
+        <header>
+          <h1>With Copyrights</h1>
+        </header>
+      </div>
+    </div>
+<semantic-table id='resources-results'
+                number-of-displayed-rows=10
+                query='SELECT * WHERE{
+                          GRAPH ?g {
+                             ?photo <http://www.cidoc-crm.org/cidoc-crm/P104_is_subject_to> ?rights. 
+                             ?rights rdfs:label ?comment.
+    						             ?photo <http://www.cidoc-crm.org/cidoc-crm/P129i_is_subject_of> ?native.
+                             BIND(REPLACE(STR(?native),"full/full","full/!100,100") as ?smallerImgUrl)
+                             BIND("/assets/images/media/image_placeholder.jpg" as ?default_imageUrl)
+                             BIND(coalesce(?smallerImgUrl, ?default_imageUrl) as ?image)
+                          }
+
+                      }LIMIT 1000'
+                column-configuration='[
+                             {
+                                "displayName": "photo", 
+                                "cellTemplate": "{{>tableImageTemplate}}"
+                              },
+                              {"variableName": "photo", "displayName": "Title","cellTemplate": "{{>titleTemplate}}"},
+                              {"variableName": "comment", "displayName": "Copyrights","cellTemplate": "{{comment.value}}"},
+                              {"displayName":"Actions", "cellTemplate": "{{> actions}}"}
+                          ]'
+>
+        <template id="titleTemplate">
+            <span><semantic-link iri="{{photo.value}}"></semantic-link></span>
+        </template>
+          <template id="tableImageTemplate">
+            <div class="thumbnailImageContainerTabular">
+              <scroll-to-top querySelector=".pagination li"></scroll-to-top>
+              <img alt="   " class="thumbnailImageTabular" src="{{image.value}}" />
+            </div>
+          </template>
+
+
+
+          <template id='actions'>
+              <div style="display: flex;">
+                <semantic-link
+                        iri="Default:Field"
+                        urlqueryparam-tab="assertions"
+                        urlqueryparam-field="https://artresearch.net/container/fieldDefinitionContainer/Rights"
+                        urlqueryparam-subject="{{photo.value}}"
+                        title="Create an annotation or assertion"
+                      >
+                          <button class='btn btn-default btn-xs pull-right' title='View opyright' style='margin-right: 15px; '>
+                                    <i class='fa fa-folder-open'></i> View 
+                                  </button> 
+                      </semantic-link>
+              </div>
+          </template>
+</semantic-table>
+ 

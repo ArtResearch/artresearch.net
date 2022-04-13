@@ -1,0 +1,89 @@
+
+
+  <div class="row">
+      <div class="col-sm-7">
+        <header>
+          <h1>Without Copyrights</h1>
+        </header>
+      </div>
+    </div>
+<semantic-table id='resources-results'
+                number-of-displayed-rows=10
+                query='SELECT * WHERE{
+                  ?photo a cfc:photo.
+                          GRAPH ?g { 
+                             FILTER NOT EXISTS {?photo <http://www.cidoc-crm.org/cidoc-crm/P104_is_subject_to> ?rights. }
+    						             ?photo <http://www.cidoc-crm.org/cidoc-crm/P129i_is_subject_of> ?native.
+                             BIND(REPLACE(STR(?native),"full/full","full/!100,100") as ?smallerImgUrl)
+                             BIND("/assets/images/media/image_placeholder.jpg" as ?default_imageUrl)
+                             BIND(coalesce(?smallerImgUrl, ?default_imageUrl) as ?image)
+                          }
+
+                      }LIMIT 1000'
+                column-configuration='[
+                             {
+                                "displayName": "photo", 
+                                "cellTemplate": "{{>tableImageTemplate}}"
+                              },
+                              {"variableName": "photo", "displayName": "Title","cellTemplate": "{{>titleTemplate}}"},
+                              {"displayName":"Actions", "cellTemplate": "{{> actions}}"}
+                          ]'
+>
+        <template id="titleTemplate">
+            <span><semantic-link iri="{{photo.value}}"></semantic-link></span>
+        </template>
+          <template id="tableImageTemplate">
+            <div class="thumbnailImageContainerTabular">
+              <scroll-to-top querySelector=".pagination li"></scroll-to-top>
+              <img alt="   " class="thumbnailImageTabular" src="{{image.value}}" />
+            </div>
+          </template>
+
+
+
+          <template id='actions'>
+              <div style="display: flex;">
+                <semantic-link
+                                    iri="http://www.researchspace.org/resource/Field"
+                                    urlqueryparam-tab="annotations"
+                                    urlqueryparam-field="{{field.value}}"
+                                    urlqueryparam-subject="{{subject.value}}"
+                                  >
+                                  <button class='btn btn-default btn-xs pull-right' title='View opyright' style='margin-right: 15px; '>
+                                    <i class='fa fa-folder-open'></i> View 
+                                  </button>          
+                </semantic-link>
+
+                <mp-ldp-duplicate-resource-action iri="{{document.value}}" container="http://www.researchspace.org/resource/system/fileContainer">
+                  <button class='btn btn-default btn-xs pull-right' title='Duplicate Annotation' style='margin-right: 15px; '><i class="fa fa-files-o btn-icon-left" aria-hidden=true></i> Duplicate</button>
+                </mp-ldp-duplicate-resource-action>
+
+                <mp-ldp-export-resource iri="{{document.value}}">
+                  <button class='btn btn-default btn-xs pull-right' title='Export Annotation' style='margin-right: 15px; '>
+                    <i class='fa fa-download btn-icon-left' aria-hidden=true></i> Export
+                  </button>
+                </mp-ldp-export-resource>
+
+                <mp-overlay-dialog title="Delete annotation" >
+                        <mp-overlay-dialog-trigger>
+                            <button class='btn btn-default btn-xs pull-right' title='Delete annotation' style='margin-right: 15px; '>
+                              <i class='fa fa-trash'></i> Delete
+                            </button>
+                        </mp-overlay-dialog-trigger>
+                        <mp-overlay-dialog-content>
+                          <h1>Are you sure you would like to delete this copyright?</h1>
+                          <mp-ldp-remove-from-container-action 
+                              container="http://www.researchspace.org/resource/system/fileContainer"
+                              iri="{{document.value}}" 
+                              post-action='reload'>
+                                <button class="btn btn-danger pull-right" title="Delete annotation" 
+                                    style="margin-left: 35px;font-size: 22px;">
+                                    <i class="fa fa-trash"></i> Yes delete
+                                  </button>
+                          </mp-ldp-remove-from-container-action>
+                        </mp-overlay-dialog-content>
+                  </mp-overlay-dialog>
+              </div>
+          </template>
+</semantic-table>
+ 
