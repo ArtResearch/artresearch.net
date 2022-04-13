@@ -25,7 +25,26 @@
         data-intro="This is the search-bar. Use this to make simple queries by keywords"
         data-position="top"
       >
-        [[> Searchbar selectedCategory="Artworks"]]
+       
+        <div class="searchbar-switch">
+          <div class="button-simple-search">
+                  [[> Searchbar selectedCategory="Artworks"]]
+        </div>
+                    <mp-event-trigger type="Component.TemplateUpdate"  targets='["my-render"]' data='{"iri": "{{iri}}"}' >
+              <button class="switch-visual-search">
+                <div style="color:white">Open Visual Searchbar</div>
+              </button>
+            </mp-event-trigger>
+        </div>
+            <mp-event-target-template-render id="my-render" template="{{> combined}}">
+              <template id="combined">
+                {{#if iri}}
+                <div class ="button-visual-search">[[> VisionSearchBar]]</div>
+                {{/if}}
+
+              </template>
+            </mp-event-target-template-render>
+
         <div class="linksTo">
           <div>
             <mp-link title="Documentation for New Users" url="/resource/SearchContextual">Contextual Search</mp-link>
