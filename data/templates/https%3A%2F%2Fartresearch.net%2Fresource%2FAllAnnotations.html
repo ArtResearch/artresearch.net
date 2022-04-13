@@ -14,34 +14,83 @@
         <bs-tab-container id="tab-container" class="user-tabs" default-active-key="allannotations">
               <div>
                     <bs-nav bs-style="tabs">
-                        <bs-nav-item event-key="withoutcopyrights">
-                                    Without Copyrights
+                      [[#if (hasPermission "api:ldp:*")]]
+                        <bs-nav-item event-key="allannotations">All platform Text Annotations
+                              <semantic-query query='SELECT (COUNT(DISTINCT ?document) AS ?count) WHERE {
+                                              ?document rdf:type rs:Semantic_Narrative.
+                                              ?document rdfs:label ?documentTitle.
+                                              ?document prov:wasAttributedTo ?username.
+                                              ?document prov:generatedAtTime ?time.
+                                              ?document <http://www.researchspace.org/ontology/targetsField> ?field.
+                                              ?document <http://www.researchspace.org/ontology/targetsRecord> ?subject.
+                                          }'
+                                          template='{{#each bindings}}<span class="badge">{{count.value}}</span>{{/each}}'>\
+                              </semantic-query>
+                        </bs-nav-item>
+                        [[/if]]
+                        <bs-nav-item event-key="myannotations">
+                                    My Text annotations
                                     <semantic-query 
-                                      query='SELECT (COUNT(DISTINCT ?copyright) AS ?count) WHERE {
-                                         ?photo a cfc:photo.
-                                         FILTER NOT EXISTS { ?x fr:hascopyrights ?copyright}
+                                      query='SELECT (COUNT(DISTINCT ?document) AS ?count) WHERE {
+                                          ?document rdf:type rs:Semantic_Narrative.
+                                          ?document rdfs:label ?documentTitle.
+                                          ?document prov:wasAttributedTo ?username.
+                                          ?document prov:generatedAtTime ?time.
+                                          ?document <http://www.researchspace.org/ontology/targetsField> ?field.
+                                          ?document <http://www.researchspace.org/ontology/targetsRecord> ?subject.
+                                          ?document prov:wasAttributedTo ?__useruri__.
                                       }'
                                       template='{{#each bindings}}<span class="badge">{{count.value}}</span>{{/each}}'>\
                                   </semantic-query>
                         </bs-nav-item>
-                        <bs-nav-item event-key="withcopyrights">
-                                With Copyrights
+                        <bs-nav-item event-key="MyphotoAnnotations">
+                                  My Photo annotations
                                 <semantic-query 
-                                    query='SELECT (COUNT(DISTINCT ?copyright) AS ?count) WHERE {
-                                      ?photo a cfc:photo.
-                                      ?x fr:hascopyrights ?copyright.
+                                    query='SELECT (COUNT(DISTINCT ?document) AS ?count) WHERE {
+                                        GRAPH ?g {
+                                                      Platform:formContainer <http://www.w3.org/ns/ldp#contains> ?y.
+                                                      ?document prov:generatedAtTime ?time.
+                                                      ?document prov:wasAttributedTo ?username.
+                                                      ?document rdf:type <http://www.w3.org/ns/ldp#Resource>.
+                                                      ?l rso:displayLabel ?documentTitle.
+                                                      ?l crmdig:L49_is_primary_area_of ?image.
+                                                    }
+                                                    BIND ( ?__useruri__ as ?username)
                                   }'
                                   template='{{#each bindings}}<span class="badge">{{count.value}}</span>{{/each}}'>\
                                   </semantic-query>
                         </bs-nav-item>
-
+                        [[#if (hasPermission "api:ldp:*")]]
+                        <bs-nav-item event-key="photoAnnotations">
+                                All platform Photo annotations
+                                  <semantic-query
+                                  query='SELECT (COUNT(DISTINCT ?document) AS ?count) WHERE {
+                                      GRAPH ?g {
+                                                    Platform:formContainer <http://www.w3.org/ns/ldp#contains> ?y.
+                                                    ?document prov:generatedAtTime ?time.
+                                                    ?document prov:wasAttributedTo ?username.
+                                                    ?document rdf:type <http://www.w3.org/ns/ldp#Resource>.
+                                                    ?l rso:displayLabel ?documentTitle.
+                                                    ?l crmdig:L49_is_primary_area_of ?image.
+                                                  } 
+                                    }'
+                                    template='{{#each bindings}}<span class="badge">{{count.value}}</span>{{/each}}'>\
+                              </semantic-query>
+                        </bs-nav-item>
+                        [[/if]]
                     </bs-nav>
                 <bs-tab-content unmount-on-exit=true>
-                        <bs-tab-pane event-key="withoutcopyrights">
-                          [[> CopyrightsNeeded]]
+                        <bs-tab-pane event-key="allannotations">
+                          [[> AnnotationsDashboard]]
                         </bs-tab-pane>
-                        <bs-tab-pane event-key="withcopyrights">
-                          [[> CopyrightsAsserted]]
+                        <bs-tab-pane event-key="myannotations">
+                          [[> MyAnnotationsDashboard]]
+                        </bs-tab-pane>
+                        <bs-tab-pane event-key="MyphotoAnnotations">
+                          [[> MyphotoAnnotations]]
+                        </bs-tab-pane>
+                        <bs-tab-pane event-key="photoAnnotations">
+                          [[> photoAnnotations]]
                         </bs-tab-pane>
                 </bs-tab-content>
               </div>
