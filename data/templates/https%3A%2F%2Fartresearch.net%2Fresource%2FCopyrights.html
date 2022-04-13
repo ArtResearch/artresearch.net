@@ -11,25 +11,28 @@
                 </header>
               </div>
         </div>
-        <bs-tab-container id="tab-container" class="user-tabs" default-active-key="allannotations">
+        <bs-tab-container id="tab-container" class="user-tabs" default-active-key="withcopyrights">
               <div>
                     <bs-nav bs-style="tabs">
                         <bs-nav-item event-key="withoutcopyrights">
-                                    Without Copyrights
-                                    <semantic-query 
-                                      query='SELECT (COUNT(DISTINCT ?copyright) AS ?count) WHERE {
-                                         ?photo a cfc:photo.
-                                         FILTER NOT EXISTS { ?x fr:hascopyrights ?copyright}
-                                      }'
+                                    Without Copyrights <span class="badge">too many</span>
+                                    <!-- <semantic-query 
+                                      query='SELECT (COUNT(DISTINCT ?g) AS ?count) WHERE {
+                                          ?photo a cfc:photo.
+                                        graph ?g {
+                                        FILTER NOT EXISTS {?photo <http://www.cidoc-crm.org/cidoc-crm/P104_is_subject_to> ?rights.}
+                                        }
+                                    }'
                                       template='{{#each bindings}}<span class="badge">{{count.value}}</span>{{/each}}'>\
-                                  </semantic-query>
+                                  </semantic-query> -->
                         </bs-nav-item>
                         <bs-nav-item event-key="withcopyrights">
                                 With Copyrights
                                 <semantic-query 
-                                    query='SELECT (COUNT(DISTINCT ?copyright) AS ?count) WHERE {
-                                      ?photo a cfc:photo.
-                                      ?x fr:hascopyrights ?copyright.
+                                    query='SELECT (COUNT(DISTINCT ?rights) AS ?count) WHERE {
+                                    graph ?g {
+                                     ?photo <http://www.cidoc-crm.org/cidoc-crm/P104_is_subject_to> ?rights.
+                                    }
                                   }'
                                   template='{{#each bindings}}<span class="badge">{{count.value}}</span>{{/each}}'>\
                                   </semantic-query>
