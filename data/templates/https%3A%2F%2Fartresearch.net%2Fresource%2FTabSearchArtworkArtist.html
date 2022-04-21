@@ -91,12 +91,12 @@
           escape-lucene-syntax="false"
           default-query="
                   SELECT DISTINCT ?subject WHERE {
-                    ?someOther owl:sameAs ?subject.
+                   # ?someOther owl:sameAs ?subject.
                     ?subject fr:Work_created_from_Artist ??.
                   }LIMIT 1000"
           query='
               SELECT DISTINCT ?subject WHERE { 
-                  ?someOther owl:sameAs ?subject.         
+                  #?someOther owl:sameAs ?subject.         
                   ?subject fr:Work_created_from_Artist ??.
                   ?subject rdfs:label ?someLabel.
                   ?someLabel bds:search ?__token__ .
