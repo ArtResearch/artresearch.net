@@ -1,4 +1,8 @@
-[[> Breadcrumb category="Artworks"]]
+[[#if (ask "ASK { ?? rdf:type cfc:photo})]]
+  [[> Breadcrumb category="Photos"]]
+[[else]]
+  [[> Breadcrumb category="Artworks"]]
+[[/if]]
 <div class="page rs-page">
     [[#> ClipboardSidebar]]
       <div class="artwork-header" style="display: flex; flex-direction: column; align-items: flex-end; border-bottom: initial; padding: 20px 12px 0;">
