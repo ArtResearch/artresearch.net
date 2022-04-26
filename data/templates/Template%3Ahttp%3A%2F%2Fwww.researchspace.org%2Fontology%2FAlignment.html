@@ -34,7 +34,10 @@
       <rs-alignment-tool
         id="first"
         alignment-container='[[this]]'
-        info-template='{{> template}}'
+        info-template='{
+          "source":"{{>template}}",
+          "options" : "{"{{iri}}":"{{item}}" } , {"{{label}}":"{{label}}"}"
+        }'
         queries='{
           "rootsQuery": " SELECT DISTINCT ?item ?label ?hasChildren FROM <alignment:__graph__> where {
                             {
