@@ -47,6 +47,7 @@
       <div>
           <bs-nav bs-style="tabs">
             <bs-nav-item event-key="summary">Summary</bs-nav-item>
+            [[#if dataAvailable]]
               <bs-nav-item event-key="artworks">
                   <div style="display:flex;">Artworks (
                     <semantic-query 
@@ -90,6 +91,7 @@
                 </semantic-query>)
                 </div>
               </bs-nav-item>
+            [[/if]]
           </bs-nav>
           <bs-tab-content unmount-on-exit=true>
               <bs-tab-pane event-key="summary">
