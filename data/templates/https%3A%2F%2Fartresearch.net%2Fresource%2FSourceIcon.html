@@ -44,6 +44,11 @@
         BIND("Wikidata" as ?providerLabel)
         FILTER(BOUND(?provider))
       }
+       UNION {
+        BIND(IRI(IF(CONTAINS("{{value.binding.providerLabel.value}}","PMC"),"https://artresearch.net/resource/pmc/source/PMC", false)) AS ?provider)
+        BIND("PMC" as ?providerLabel)
+        FILTER(BOUND(?provider))
+      }
     }
       '
     template="{{> multipleProv}}">
