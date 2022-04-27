@@ -167,7 +167,7 @@
                     escape-lucene-syntax="false"
                     domain="<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>"
                     default-query="
-                    SELECT  ?subject  WHERE { ?subject a fc:photographer. }LIMIT 1000"
+                    SELECT  ?subject  WHERE { ?subject a fc:photographer. }LIMIT 1500"
                     query='SELECT ?subject WHERE {
                             ?subject a fc:photographer.
                             ?subject rdfs:label ?someLabel.
@@ -227,7 +227,7 @@
                                               ?wikiPerson fr:Person_depicted_by ?withImage.
                                               ?subject rdfs:label ?photographerName.
                                             }
-                                          }ORDER BY DESC (?withImage) LIMIT 1000'
+                                          }ORDER BY DESC (?withImage) LIMIT 1500'
                                         tuple-template="{{>tupleTemplate}}"
                                         no-result-template='[[> CardNoResult ]]'
                                     >
