@@ -38,15 +38,14 @@
         BIND(IRI(IF(CONTAINS("{{value.binding.providerLabel.value}}","KHI"),"https://artresearch.net/resource/khi/source/KHI", false)) AS ?provider)
         BIND("KHI" as ?providerLabel)
         FILTER(BOUND(?provider))
+      }UNION {
+        BIND(IRI(IF(CONTAINS("{{value.binding.providerLabel.value}}","PMC"),"https://artresearch.net/resource/pmc/source/PMC", false)) AS ?provider)
+        BIND("PMC" as ?providerLabel)
+        FILTER(BOUND(?provider))
       }
       UNION {
         BIND(IRI(IF(CONTAINS("{{value.binding.providerLabel.value}}","Wikidata"),"https://artresearch.net/resource/wikidata/source/Wikidata", false)) AS ?provider)
         BIND("Wikidata" as ?providerLabel)
-        FILTER(BOUND(?provider))
-      }
-       UNION {
-        BIND(IRI(IF(CONTAINS("{{value.binding.providerLabel.value}}","PMC"),"https://artresearch.net/resource/pmc/source/PMC", false)) AS ?provider)
-        BIND("PMC" as ?providerLabel)
         FILTER(BOUND(?provider))
       }
     }
