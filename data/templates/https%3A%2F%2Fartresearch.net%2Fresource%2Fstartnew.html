@@ -30,16 +30,60 @@
           <div class="button-simple-search">
                   [[> Searchbar selectedCategory="Artworks"]]
           </div>
+           <div style="display: none;" class="button-visual-search">
+                  [[> VisionSearchBar]]
+                </div>
             <mp-event-trigger type="Component.TemplateUpdate"  targets='["my-render"]' data='{"iri": "{{iri}}"}' >
               <button class="switch-visual-search">
                 <div style="color:white">Open Visual Searchbar</div>
+              </button>
+            </mp-event-trigger>
+            <mp-event-trigger type="Component.TemplateUpdate"  targets='["my-render2"]' data='{"iri": "{{iri}}"}' >
+              <button style="display:none;" class="switch-simple-search">
+                <div style=" color:white">Open Simple Searchbar</div>
               </button>
             </mp-event-trigger>
         </div>
             <mp-event-target-template-render id="my-render" template="{{> combined}}">
               <template id="combined">
                 {{#if iri}}
-                <div class ="button-visual-search">[[> VisionSearchBar]]</div>
+               <style>
+                 .button-simple-search{
+                   display: none !important;
+                 }
+                 .button-visual-search
+                 {
+                   display: block !important;
+                 }
+                 .switch-simple-search{
+                   display: block !important;
+                 }
+                 .switch-visual-search{
+                   display: none !important;
+                 }
+               </style>
+                {{/if}}
+
+              </template>
+            </mp-event-target-template-render>
+                        <mp-event-target-template-render id="my-render2" template="{{> combined2}}">
+              <template id="combined2">
+                {{#if iri}}
+               <style>
+                 .button-simple-search{
+                   display: block !important;
+                 }
+                 .button-visual-search
+                 {
+                   display: none !important;
+                 }
+                 .switch-visual-search{
+                   display: block !important;
+                 }
+                 .switch-simple-search{
+                   display: none !important;
+                 }
+               </style>
                 {{/if}}
 
               </template>
