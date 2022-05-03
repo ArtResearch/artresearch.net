@@ -8,7 +8,7 @@
                   } UNION {
                     <[[this]]> skos:exactMatch  ?m.
                   }
-                  BIND(IF(CONTAINS(STR(?m),"gnd"),"/assets/images/DNB.ico",IF(CONTAINS(STR(?m),"wikidata"),"/assets/images/Wikidata.ico",IF(CONTAINS(STR(?m),"wikipedia"),"/assets/images/Wikipedia.ico",IF(CONTAINS(STR(?m),"viaf"),"/assets/images/Viaf.ico",IF(CONTAINS(STR(?m),"dbpedia"),"/assets/images/DBpedia.ico",""))))) AS ?icon)
+                  BIND(IF(CONTAINS(STR(?m),"gnd"),"/assets/images/DNB.ico",IF(CONTAINS(STR(?m),"wikidata"),"/assets/images/Wikidata.ico",IF(CONTAINS(STR(?m),"wikipedia"),"/assets/images/Wikipedia.ico",IF(CONTAINS(STR(?m),"viaf"),"/assets/images/Viaf.ico",IF(CONTAINS(STR(?m),"dbpedia"),"/assets/images/DBpedia.ico", IF(CONTAINS(STR(?m), "loc"), "/assets/images/loc.ico", "")))))) AS ?icon)
                   BIND(REPLACE(REPLACE(?icon,".ico",""),"/assets/images/","") AS ?title)
                 }
               '
@@ -68,6 +68,7 @@
             </a>
           </h2>
       [[/if]]
+      
   </div>
 </div>
 <div id="printableInfo"  class="workAndProductionInfo">
