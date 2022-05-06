@@ -19,11 +19,8 @@
       </div>
             <semantic-query
               query="SELECT (COUNT (distinct ?x) AS ?count) WHERE { 
-                    {
                        ?x a fc:work.
-                    }UNION{
-                      ?x a cfc:work.
-                    }
+
                     }"
                     template="{{> records}}">
                     <template id="records">
