@@ -16,7 +16,7 @@
                 number-of-displayed-rows=10
                 options='{"pageSizeSelection": true, "showColumnFilters": true}'
                 query=' PREFIX ldp: <http://www.w3.org/ns/ldp#>
-                        SELECT ?parent ?newscontainer ?newsLink ?newsTitle  ?filename ?filename2 ?doc  ?date WHERE{
+                        SELECT ?parent ?newscontainer ?newsLink ?newsTitle  ?filename ?date WHERE{
                           GRAPH ?g {
                             ?parent ldp:contains ?newscontainer.
                             ?newsLink a fc:news.
@@ -67,13 +67,9 @@
             <div class="news-card-title">
               <h3>{{newsTitle.value}}</h3>
             </div>
-            <div class="news-card-doc">
-              <!-- doc if exists -->
-               {{#ifCond filename2.value "!==" undefiend}}
-                            <a  class="FileManager--uploadedImageDepiction" href="/file?fileName={{filename2.value}}&storage=news">Download {{filename2.value}}
-                            </a>
-                {{/ifCond}}
-            </div>
+            <div date="{{dateTimeFormat date.value "YYYY"}}">
+                    {{dateTimeFormat date.value "MM/YYYY"}}
+                  </div>
           </div>
         </div>
       </div>
