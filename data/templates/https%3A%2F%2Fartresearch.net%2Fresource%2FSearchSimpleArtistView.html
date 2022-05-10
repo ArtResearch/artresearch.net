@@ -10,7 +10,7 @@
   
   <div>
     <mp-event-target-template-render
-    id="event-target-tables"
+    id="event-target-tables-ULAN"
     template="{{> tableEventTargetTemplate}}"
   >
     <template id="tableEventTargetTemplate">
@@ -30,10 +30,8 @@
                   solr:setRowsNumber 1000;
                   solr:hasResults ?subject
       }
-      {{#ifCond withImages "===" "true"}}
-        ?subject fr:Work_depicted_by_Photo ?photograph.
-        ?photograph crm:P129i_is_subject_of ?images.
-        ?images crm:P2_has_type <http://vocab.getty.edu/aat/300078817>.
+      {{#ifCond withULAN "===" "false"}}
+        ?subject fr:Artist_created_Work ?work.
       {{/ifCond}}
     }
     '
@@ -101,6 +99,7 @@
                 </template>
                 </semantic-query>
                 <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
+                 [[> ULANSwitches]]
                 <semantic-table
                     id="grid-result"
                     query="SELECT DISTINCT ?subject  WHERE {} LIMIT 1000"
