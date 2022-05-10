@@ -1,4 +1,9 @@
 <div id="person-filter-search">
+   <mp-event-target-template-render
+    id="event-target-tables-ULAN"
+    template="{{> tableEventTargetTemplate}}"
+  >
+    <template id="tableEventTargetTemplate">
   <semantic-search
         relations='{
           "<https://artresearch.net/resource/fr/Person_has_Gender>":[
@@ -173,9 +178,9 @@
                 default-query=' SELECT DISTINCT ?subject WHERE {
                                   ?someOther owl:sameAs ?subject.
                                   ?subject a fc:artist.
-                               [[#if withULAN "===" "true"]]
+                              {{#ifCond withULAN "===" "false"}}
                                 ?subject fr:Artist_created_Work ?work.
-                             [[/if]]
+                              {{/ifCond}}
                                 }LIMIT 1000'
                 query='SELECT DISTINCT ?subject WHERE {
                           ?someOther owl:sameAs ?subject.
@@ -184,10 +189,10 @@
                           ?someLabel bds:search ?__token__ .
                           ?someLabel bds:minRelevance "0.3"^^xsd:double;
                           bds:matchAllTerms "true" .
-                           [[#if withULAN "===" "true"]]
-                                ?subject fr:Artist_created_Work ?work.
-                             [[/if]]
-                        } '
+                           {{#ifCond withULAN "===" "false"}}
+                            ?subject fr:Artist_created_Work ?work.
+                          {{/ifCond}}
+                        }LIMIT 1000'
               ></semantic-search-query-keyword>
               </template>
     </mp-event-target-template-render>
@@ -325,6 +330,8 @@
         </bs-col>
     </div>
   </semantic-search>
+  </template>
+  </mp-event-target-template-render>
 </div>
 
 <style>
