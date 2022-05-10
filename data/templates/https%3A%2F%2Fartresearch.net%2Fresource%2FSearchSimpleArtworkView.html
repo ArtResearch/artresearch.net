@@ -30,7 +30,7 @@
                   solr:setRowsNumber 1000;
                   solr:hasResults ?subject
       }
-      {{#ifCond withImages "===" "true"}}
+      {{#ifCond withImages "!==" "true"}}
         ?subject fr:Work_depicted_by_Photo ?photograph.
         ?photograph crm:P129i_is_subject_of ?images.
         ?images crm:P2_has_type <http://vocab.getty.edu/aat/300078817>.

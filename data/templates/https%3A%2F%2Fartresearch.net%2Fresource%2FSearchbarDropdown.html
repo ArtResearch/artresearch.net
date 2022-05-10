@@ -17,7 +17,18 @@
               </mp-popover-content>
           </mp-popover>
       </div>
-      <div>1.343.631 artworks</div>
+            <semantic-query
+              query="SELECT (COUNT (distinct ?x) AS ?count) WHERE { 
+                       ?x a fc:work.
+
+                    }"
+                    template="{{> records}}">
+                    <template id="records">
+                       <div>{{bindings.0.count.value}} artworks</div>
+                       
+                    </template>
+              </semantic-query>
+               <div class="animated-background-x-sm"></div>
     </bs-menu-item>
   </mp-event-trigger>
   <mp-event-trigger
@@ -38,7 +49,16 @@
               </mp-popover-content>
           </mp-popover>
       </div>
-      <div>2.662.877 photographs</div>
+      <semantic-query
+              query="SELECT (COUNT (distinct ?x) AS ?count) WHERE { 
+                    ?x a cfc:photo .
+                    }" 
+                    template="{{> records}}">
+                    <template id="records">
+                       <div>{{bindings.0.count.value}} photographs</div>
+                    </template>
+              </semantic-query>
+               <div class="animated-background-x-sm"></div>
     </bs-menu-item>
   </mp-event-trigger>
   <mp-event-trigger
@@ -59,7 +79,16 @@
               </mp-popover-content>
           </mp-popover>
       </div>
-      <div>28.893 artists</div>  
+            <semantic-query
+              query="SELECT (COUNT (distinct ?x) AS ?count) WHERE { 
+                    ?x a fc:artist .
+                    }"
+                    template="{{> records}}">
+                    <template id="records">
+                       <div> {{bindings.0.count.value}} artists</div>
+                    </template>
+              </semantic-query>
+               <div class="animated-background-x-sm"></div>
     </bs-menu-item>
   </mp-event-trigger>
   <mp-event-trigger
@@ -80,7 +109,16 @@
               </mp-popover-content>
           </mp-popover>
       </div>
-      <div>129.095 photographers</div>    
+           <semantic-query
+              query="SELECT (COUNT (distinct ?x) AS ?count) WHERE { 
+                    ?x a fc:photographer.
+                    }"
+                    template="{{> records}}">
+                    <template id="records">
+                       <div>{{bindings.0.count.value}} photographers</div>
+                    </template>
+                     <div class="animated-background-x-sm"></div>
+              </semantic-query>
     </bs-menu-item>
   </mp-event-trigger>
 </bs-dropdown-button>
