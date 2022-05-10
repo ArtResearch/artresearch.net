@@ -16,13 +16,12 @@
                         template="{{> switches}}"
                       >
                             <template id="switches">
-                              {{#if selectedTab}}
                                       {{#ifCond withULAN "===" "true"}}
                                         <label class="switch">   
                                           <mp-event-trigger
                                             id="event-trigger-tab-photograph"
                                             type="Component.TemplateUpdate"
-                                            data='{"selectedTab":"{{selectedTab}}","withULAN":"false"}'
+                                            data='{"withULAN":"false"}'
                                             targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select","event-target-tables"]'
                                             >
                                             <div>        
@@ -37,7 +36,7 @@
                                         <mp-event-trigger
                                           id="event-trigger-tab-photograph"
                                           type="Component.TemplateUpdate"
-                                          data='{"selectedTab":"{{selectedTab}}","withULAN":"true"}'
+                                          data='{"withULAN":"true"}'
                                           targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select","event-target-tables"]'
                                           >
                                           <div>        
@@ -52,7 +51,7 @@
                                         <mp-event-trigger
                                           id="event-trigger-tab-photograph"
                                           type="Component.TemplateUpdate"
-                                          data='{"selectedTab":"{{selectedTab}}","withULAN":"false"}'
+                                          data='{"withULAN":"false"}'
                                           targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select","event-target-tables"]'
                                           >
                                           <div>
@@ -66,7 +65,7 @@
                                         <mp-event-trigger
                                           id="event-trigger-tab-photograph"
                                           type="Component.TemplateUpdate"
-                                          data='{"selectedTab":"{{selectedTab}}","withULAN":"true"}'
+                                          data='{"withULAN":"true"}'
                                           targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select","event-target-tables"]'
                                           >
                                             <div>
@@ -76,104 +75,8 @@
                                         </mp-event-trigger>
                                       </label>
                                       {{/ifCond}}
-                                        {{/ifCond}}
-                                      
                                       {{/ifCond}}
-                                {{else}}
-                                  {{#ifCond (objectLength "[[urlParam "selectedTab"]]") "!==" 0}}
-                                    {{#ifCond withULAN "===" "true"}}
-                                      <label class="switch">   
-                                        <mp-event-trigger
-                                          id="event-trigger-tab-photograph"
-                                          type="Component.TemplateUpdate"
-                                          data='{"selectedTab":"[[urlParam "selectedTab"]]","withULAN":"false"}'
-                                          targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select","event-target-tables"]'
-                                          >
-                                          <div>
-                                            <input checked type="checkbox">
-                                            <span class="slider round"></span>
-                                          </div>
-                                        </mp-event-trigger>
-                                      </label>
-                                      {{else}}
-                                        {{#ifCond "[[urlParam "withULAN"]]" "===" "true"}}
-                                          <label class="switch">   
-                                            <mp-event-trigger
-                                              id="event-trigger-tab-photograph"
-                                              type="Component.TemplateUpdate"
-                                              data='{"selectedTab":"[[urlParam "selectedTab"]]","withULAN":"false"}'
-                                              targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select","event-target-tables"]'
-                                              >
-                                              <div>
-                                                <input checked type="checkbox">
-                                                <span class="slider round"></span>
-                                              </div>
-                                            </mp-event-trigger>
-                                          </label>
-                                          {{else}}
-                                          <label class="switch">   
-                                            <mp-event-trigger
-                                              id="event-trigger-tab-photograph"
-                                              type="Component.TemplateUpdate"
-                                              data='{"selectedTab":"[[urlParam "selectedTab"]]","withULAN":"true"}'
-                                              targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select","event-target-tables"]'
-                                              >
-                                                <div>
-                                                  <input type="checkbox">
-                                                  <span class="slider round"></span>
-                                                </div>
-                                            </mp-event-trigger>
-                                          </label>
-                                          {{/ifCond}}
                                       {{/ifCond}}
-                                  {{else}}
-                                      {{#ifCond withULAN "===" "true"}}
-                                        <label class="switch">   
-                                          <mp-event-trigger
-                                            id="event-trigger-tab-photograph"
-                                            type="Component.TemplateUpdate"
-                                            data='{"selectedTab":"Artworks","withULAN":"false"}'
-                                            targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select","event-target-tables"]'
-                                            >
-                                            <div>
-                                              <input checked type="checkbox">
-                                              <span class="slider round"></span>
-                                            </div>
-                                          </mp-event-trigger>
-                                        </label>
-                                      {{else}}
-                                        {{#ifCond "[[urlParam "withULAN"]]" "===" "true"}}
-                                          <label class="switch">   
-                                            <mp-event-trigger
-                                              id="event-trigger-tab-photograph"
-                                              type="Component.TemplateUpdate"
-                                              data='{"selectedTab":"Artworks","withULAN":"false"}'
-                                              targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select","event-target-tables"]'
-                                              >
-                                              <div>
-                                                <input checked type="checkbox">
-                                                <span class="slider round"></span>
-                                              </div>
-                                            </mp-event-trigger>
-                                          </label>
-                                        {{else}}
-                                          <label class="switch">   
-                                            <mp-event-trigger
-                                              id="event-trigger-tab-photograph"
-                                              type="Component.TemplateUpdate"
-                                              data='{"selectedTab":"Artworks","withULAN":"true"}'
-                                              targets='["event-target-search-btn","event-target-search-switches","event-target-tab-select","event-target-tables"]'
-                                              >
-                                                <div>
-                                                  <input type="checkbox">
-                                                  <span class="slider round"></span>
-                                                </div>
-                                            </mp-event-trigger>
-                                          </label>
-                                        {{/ifCond}}
-                                    {{/ifCond}}
-                                  {{/ifCond}}
-                              {{/if}}    
                             </template>
                     </mp-event-target-template-render>
                     <h4>Must include image</h4>
