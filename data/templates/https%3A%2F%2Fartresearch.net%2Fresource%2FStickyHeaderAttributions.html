@@ -1,43 +1,46 @@
   <div id="variant-attribution-dropdown">
-    <semantic-query
-        query='SELECT DISTINCT ?attribution WHERE { 
-          {
-              ?? fr:Work_influenced_by_Artist|fr:Work_created_from_Artist ?attribution.
-          }UNION{
-            ?work owl:sameAs ??.
-            ?work fr:Work_influenced_by_Artist|fr:Work_created_from_Artist ?attribution.
-          }
-        }'
-        template='{{> variantAttributions }}'
-        no-result-template='<div></div>'
-        >
-       <template id='variantAttributions'>
+
          <bs-panel header="Variant Attributions" collapsible="true">
             <semantic-query
-              query='SELECT DISTINCT ?attribution ?providerLabel WHERE{
+              query='SELECT DISTINCT ?attrLabel  (GROUP_CONCAT(DISTINCT ?provider; SEPARATOR=", ") AS ?provider) (GROUP_CONCAT(DISTINCT ?providerLabel; SEPARATOR=", ") AS ?providerLabel) (count(distinct ?provider) as ?countProviders) WHERE{
                       {
-                        ?? fr:Work_influenced_by_Artist|fr:Work_created_from_Artist ?attribution.
+                        ??  fr:Work_influenced_by_Artist|fr:Work_created_from_Artist ?attribution.
                       } UNION {
-                        ?work owl:sameAs ??.
+                        ?work owl:sameAs ?? .
                         ?work ((crm:P108i_was_produced_by|crm:P19i_motivated)/crm:P140i_was_attributed_by/<http://www.cidoc-crm.org/cidoc-crm/P141_assigned>/crm:P02_has_range)|cfr:Work_influenced_by_Artist|cfr:Work_created_from_Artist ?attribution.
                       }
                       GRAPH ?graph {
                         ?s ((crm:P108i_was_produced_by|crm:P19i_motivated)/crm:P140i_was_attributed_by/<http://www.cidoc-crm.org/cidoc-crm/P141_assigned>/crm:P02_has_range)|cfr:Work_influenced_by_Artist|cfr:Work_created_from_Artist|fr:Work_influenced_by_Artist|fr:Work_created_from_Artist ?attribution.
+                        
                       }
-                      ?graph <https://artresearch.net/custom/has_provider>/rdfs:label ?provLabel.
-                      BIND(IF( CONTAINS(STR(?attribution),"ulan"), "ULAN", ?provLabel) AS ?providerLabel)
-                  }'
+                          {
+                      ?attribution skos:prefLabel ?attrLabel.
+                      FILTER ( lang(?attrLabel) = "en" ). 
+                    } UNION {
+                      ?attribution skos:prefLabel ?attrLabel.
+                      FILTER NOT EXISTS {
+                          ?attribution skos:prefLabel ?c.
+                        FILTER ( lang(?c) = "en" ). 
+                      }
+                    }UNION{
+                      FILTER NOT EXISTS{ ?attribution skos:prefLabel ?c.}
+                      ?attribution rdfs:label ?attrLabel.
+                    }
+                      
+                      ?graph <https://artresearch.net/custom/has_provider> ?provider. 
+      				        ?provider rdfs:label ?providerLabel.
+        
+             } GROUP BY ?attrLabel order by desc(COUNT(distinct ?providerLabel))'
               template='{{> byAttribution }}'>
                 <template id='byAttribution'>
                   {{#each bindings}}
                     <div class="attribution-wrapper">
-                      <img title="{{providerLabel.value}}" class="sourceIcon" src="/assets/images/{{providerLabel.value}}.ico"/>
-                      <div class="attribution"><semantic-link iri="{{attribution.value}}"></semantic-link></div>
+                      [[> SourceIcon multiple=true ]]
+                      <div class="attribution">{{attrLabel.value}}</div>
                     </div>
                   {{/each}}
                 </template>
             </semantic-query>
          </bs-panel>
-       </template>
-    </semantic-query>
+
   </div>

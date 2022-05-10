@@ -22,6 +22,41 @@
 @import "./footer.css";
 
 
+.mailTo{
+  color: royalblue !important;
+  text-decoration: underline;
+}
+
+#main-containers > div.news-content > div > div > div > div.griddle-container > div > div.griddle-custom-row{
+  flex-direction: column !important;
+  align-items: unset !important;
+  gap:1vw;
+  padding-bottom: 100px;
+}
+.news-card{
+  padding: 15px;
+  border: 1px solid #e9e9e9;
+    border-radius: 5px;
+}
+
+.news-card-doc{
+  
+}
+.news-card-text{
+  flex-direction: column;
+}
+
+.news-card-wrapper{
+  display: flex;
+  gap: 1vw;
+}
+
+#rsbv > table > tbody > tr > table > tbody > tr > td:nth-child(2){
+  padding-left: 1px !important;
+  padding-right: 1px !important;
+}
+
+
 .table>tbody>tr>td {
       padding: 6px 8px !important; 
 }
@@ -472,6 +507,16 @@ td + .animated-background-sm {
 a + .animated-background-sm {
   display: none !important;
 }
+
+div + .animated-background-x-sm {
+  display: none !important;
+}
+td + .animated-background-x-sm {
+  display: none !important;
+}
+a + .animated-background-x-sm {
+  display: none !important;
+}
 #rs-page-resource__field + .animated-background-bg {
   display: none !important;
 }
@@ -647,6 +692,27 @@ a + .animated-background-filters {
   height: 10%;
   margin-bottom: 10px;
   min-width: 20vw;
+  box-sizing: inherit;
+  position: relative;
+}
+
+.animated-background-x-sm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1vh;
+  border-radius: 5px;
+  animation-duration: 1.5s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-name: placeHolderShimmer;
+  background: #f6f7f8;
+  background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 44%);
+  background-size: 800px 104px;
+  height: 10%;
+  margin-bottom: 10px;
+  min-width: 8vw;
   box-sizing: inherit;
   position: relative;
 }
