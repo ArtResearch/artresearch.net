@@ -178,7 +178,7 @@
                 default-query=' SELECT DISTINCT ?subject WHERE {
                                   ?someOther owl:sameAs ?subject.
                                   ?subject a fc:artist.
-                              {{#ifCond withArtwork "===" "false"}}
+                              {{#ifCond withULAN "===" "false"}}
                                 ?subject fr:Artist_created_Work ?work.
                               {{/ifCond}}
                                 }LIMIT 1000'
@@ -189,7 +189,7 @@
                           ?someLabel bds:search ?__token__ .
                           ?someLabel bds:minRelevance "0.3"^^xsd:double;
                           bds:matchAllTerms "true" .
-                           {{#ifCond withArtwork "===" "false"}}
+                           {{#ifCond withULAN "===" "false"}}
                             ?subject fr:Artist_created_Work ?work.
                           {{/ifCond}}
                         }LIMIT 1000'
@@ -244,7 +244,7 @@
                                                           OPTIONAL{
                                                             ?subject fr:Person_depicted_by ?withImage
                                                           }
-                                                          {{#ifCond withArtwork "===" "false"}}
+                                                          {{#ifCond withULAN "===" "false"}}
                                                             ?subject fr:Artist_created_Work ?work.
                                                           {{/ifCond}}
                                                         }ORDER BY DESC (?withImage) LIMIT 1000'
