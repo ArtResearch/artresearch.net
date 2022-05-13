@@ -1,7 +1,7 @@
 <div class="row row-center">
     <div
       id="main-containers"
-      style="max-width: 1300px"
+      style="max-width: 1600px"
       class="col-md-10 col-xs-10"
     >
       <div class="row">
@@ -205,7 +205,7 @@
                                     <div class="rs-grid-element panel panel-default artwork-card-big fade-in-fwd ">
                                       <scroll-to-top querySelector=".pagination li"></scroll-to-top>
                                       <semantic-link iri="{{subject.value}}">
-                                        <bs-row style="display: flex; align-items: center; flex-wrap: wrap;">
+                                        <bs-row style="display: flex; align-items: center; flex-wrap: wrap; width: 50vw;">
                                           <bs-col
                                             lg="4"
                                             md="12"
@@ -290,151 +290,24 @@
                                                               <div class="animated-background-sm2 rs-page-resource__field-label-holder"></div>
                                                               <div class="animated-background-sm3 rs-page-resource__field-label-holder"></div>
                                                             </div>
-                                                            <semantic-query 
-                                                                  query='SELECT DISTINCT ?artist ?providerLabel WHERE { 
-                                                                    {
-                                                                      GRAPH ?g {
-                                                                        <{{subject.value}}> fr:Work_created_from_Artist ?artist
-                                                                      }
-                                                                    }union{
-                                                                      ?original owl:sameAs <{{subject.value}}>.
-                                                                      GRAPH ?g {                                                                          
-                                                                        ?original cfr:Work_created_from_Artist ?artist 
-                                                                      }
-                                                                    }
-                                                                    ?g custom:has_provider/rdfs:label ?providerLabel.
-                                                                  }'
-                                                                  no-result-template="<div></div>"
-                                                                  template="{{> artistTemplate}}"
-                                                              >
-                                                                <template id="artistTemplate">
-                                                                    <div>
-                                                                        <tr  class="rs-page-resource__field">
-                                                                          <td class="rs-page-resource__field-label-holder headLine">
-                                                                            <span class="rs-page-resource__field-label">
-                                                                              Creator
-                                                                            </span>
-                                                                          </td>
-                                                                          <td>
-                                                                            {{#each bindings}}
-                                                                              <span class="rs-page-resource__field-value">
-                                                                                <div style="width:25vw; max-width: 450px;">
-                                                                                  <semantic-link iri="{{artist.value}}"></semantic-link>
-                                                                                  <img
-                                                                                    title="{{providerLabel.value}}"
-                                                                                    class="sourceIcon"
-                                                                                    src="/assets/images/{{providerLabel.value}}.ico"
-                                                                                  />
-                                                                                </div>
-                                                                              </span>
-                                                                            {{/each}}
-                                                                          </td>
-                                                                        </tr>
-                                                                    </div>
-                                                                </template>
-                                                            </semantic-query>
-                                                            <semantic-query 
-                                                                query='SELECT DISTINCT ?institution ?providerLabel WHERE { 
-                                                                  {
-                                                                    GRAPH ?g {
-                                                                      <{{subject.value}}> fr:Work_kept_by_Institution ?institution
-                                                                    }
-                                                                  }union{
-                                                                    ?original owl:sameAs <{{subject.value}}>.
-                                                                    GRAPH ?g {
-                                                                      ?original cfr:Work_kept_by_Institution ?institution 
-                                                                    }
-                                                                  }
-                                                                  ?g custom:has_provider/rdfs:label ?providerLabel.
-                                                                }'
-                                                                no-result-template="<div></div>"
-                                                                template="{{>repoTemplate}}"
-                                                            >
-                                                              <template id="repoTemplate">
-                                                                <div>
-                                                                  <tr class="rs-page-resource__field">
-                                                                      <td class="rs-page-resource__field-label-holder headLine">
-                                                                        <span class="rs-page-resource__field-label">
-                                                                          Repository
-                                                                        </span>
-                                                                      </td>
-                                                                      <td>
-                                                                        {{#each bindings}}
-                                                                          <span class="rs-page-resource__field-value">
-                                                                            <div style="width:25vw; max-width: 450px;">
-                                                                              <semantic-link iri="{{institution.value}}"></semantic-link>
-                                                                              <img
-                                                                                title="{{providerLabel.value}}"
-                                                                                class="sourceIcon"
-                                                                                src="/assets/images/{{providerLabel.value}}.ico"
-                                                                              />
-                                                                            </div>
-                                                                          </span>
-                                                                        {{/each}}
-                                                                      </td>
-                                                                  </tr>
-                                                                </div> 
-                                                              </template>
-                                                            </semantic-query>
-                                                            <semantic-query 
-                                                                query=' SELECT DISTINCT ?provider WHERE { 
-                                                                            <{{subject.value}}> fr:Work_has_provider_Institution ?provider
-                                                                        }'
-                                                                no-result-template="<div></div>"
-                                                                template="{{>archiveTemplate}}"
-                                                            >
-                                                              <template id="archiveTemplate">
-                                                                  <div>
-                                                                    <tr class="rs-page-resource__field">
-                                                                        <td class="rs-page-resource__field-label-holder headLine">
-                                                                          <span class="rs-page-resource__field-label">
-                                                                            Photo archive
-                                                                          </span>
-                                                                        </td>
-                                                                        <td>
-                                                                          {{#each bindings}}
-                                                                            <span class="rs-page-resource__field-value">
-                                                                              <div style="width:25vw; max-width: 450px;">
-                                                                                <semantic-link iri="{{provider.value}}"></semantic-link>
-                                                                              </div>
-                                                                            </span>
-                                                                          {{/each}}
-                                                                        </td>
-                                                                    </tr>
+                                                          <semantic-query
+                                                            query='
+                                                            SELECT (GROUP_CONCAT(DISTINCT ?provider; SEPARATOR=", ") AS ?provider) (GROUP_CONCAT(DISTINCT ?providerLabel; SEPARATOR=", ") AS ?providerLabel) (count(distinct ?provider) as ?countProviders) WHERE { 
+                                                              <{{subject.value}}> ?relation ?something.
+                                                              ?something <https://artresearch.net/custom/has_provider> ?provider.
+                                                              ?provider rdfs:label ?providerLabel.
+                                                            }order by desc(COUNT(distinct ?provider)) LIMIT 1'
+                                                            template="{{>attr}}">
+                                                              <template id="attr">
+                                                                <div class="provRow">
+                                                                  <div>Photo Archive:</div>
+                                                                  <div class="attribution-wrapper">
+                                                                  {{#each bindings}}
+                                                                    [[> SourceIcon attr=true]]
+                                                                  {{/each}}
                                                                   </div>
+                                                                </div>
                                                               </template>
-                                                            </semantic-query>
-                                                            <semantic-query 
-                                                                query=' SELECT DISTINCT ?date WHERE {
-                                                                          GRAPH ?g {
-                                                                            <{{subject.value}}> fr:Work_from_Date ?d.
-                                                                          }
-                                                                          BIND(REPLACE(STR(?d), "-01-01", "") AS ?d2)
-                                                                          BIND(REPLACE(STR(?d2), "-12-31", "") AS ?date)
-                                                                        }'
-                                                                no-result-template="<div></div>"
-                                                                template="{{>repoTemplate}}"
-                                                            >
-                                                                <template id="repoTemplate">
-                                                                  <div>
-                                                                      <tr class="rs-page-resource__field">
-                                                                        <td class="rs-page-resource__field-label-holder headLine">
-                                                                          <span class="rs-page-resource__field-label">
-                                                                            Date
-                                                                          </span>
-                                                                        </td>
-                                                                        <td>
-                                                                          {{#each bindings}}
-                                                                            <span class="rs-page-resource__field-value">
-                                                                              <div style="width:25vw; max-width: 450px;">
-                                                                                {{date.value}}
-                                                                              </div>
-                                                                            </span>
-                                                                          {{/each}}
-                                                                        </td>
-                                                                      </tr>
-                                                                  </div>
-                                                                </template>
                                                             </semantic-query>
                                                         </tbody>
                                                     </table>
