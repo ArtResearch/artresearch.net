@@ -209,14 +209,6 @@ template="{{> fieldsFilter}}"
         </div>
     </div>
   [[/if]]
-
-  [[#if (ask "ASK { ?? a cfc:photo}") ]] 
-  [[else]]
-        <!-- Photographs detailed information -->
-      <div style="width: 93.5%" class="productionInfoContainer">
-        [[> PhotographTable]]
-      </div>
-  [[/if]]
   
         [[> ReconciliationTable haspart="true"]]
         [[> ReconciliationTable ispart="true"]]
@@ -228,6 +220,13 @@ template="{{> fieldsFilter}}"
         [[> ReconciliationTable hasstudy="true"]]
         [[> ReconciliationTable study="true"]]
         [[> RelatedObjectsTable]]
+        [[#if (ask "ASK { ?? a cfc:photo}") ]] 
+        [[else]]
+              <!-- Photographs detailed information -->
+            <div style="width: 93.5%" class="productionInfoContainer">
+              [[> PhotographTable]]
+            </div>
+        [[/if]]
 
 </div>
 </template>
