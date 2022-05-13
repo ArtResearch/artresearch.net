@@ -2,7 +2,7 @@
 
          <bs-panel header="Variant Attributions" collapsible="true">
             <semantic-query
-              query='SELECT DISTINCT ?attrLabel  (GROUP_CONCAT(DISTINCT ?provider; SEPARATOR=", ") AS ?provider) (GROUP_CONCAT(DISTINCT ?providerLabel; SEPARATOR=", ") AS ?providerLabel) (count(distinct ?provider) as ?countProviders) WHERE{
+              query='SELECT DISTINCT ?label  (GROUP_CONCAT(DISTINCT ?provider; SEPARATOR=", ") AS ?provider) (GROUP_CONCAT(DISTINCT ?providerLabel; SEPARATOR=", ") AS ?providerLabel) (count(distinct ?provider) as ?countProviders) WHERE{
                       {
                         ??  fr:Work_influenced_by_Artist|fr:Work_created_from_Artist ?attribution.
                       } UNION {
@@ -29,14 +29,14 @@
                       
                       ?graph <https://artresearch.net/custom/has_provider> ?provider. 
       				        ?provider rdfs:label ?providerLabel.
-        
-             } GROUP BY ?attrLabel order by desc(COUNT(distinct ?providerLabel))'
+        BIND(STR(?attrLabel) as ?label)
+             } GROUP BY ?label order by desc(COUNT(distinct ?providerLabel))'
               template='{{> byAttribution }}'>
                 <template id='byAttribution'>
                   {{#each bindings}}
                     <div class="attribution-wrapper">
-                      [[> SourceIcon multiple=true ]]
-                      <div class="attribution">{{attrLabel.value}}</div>
+                       [[> SourceIcon attr=true ]]
+                       <div class="attribution">{{label.value}}</div>
                     </div>
                   {{/each}}
                 </template>
