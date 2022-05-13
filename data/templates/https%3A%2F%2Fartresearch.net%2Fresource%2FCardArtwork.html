@@ -200,37 +200,28 @@
                   </semantic-query>
               
                   <semantic-query 
-                  query='SELECT DISTINCT ?institution ?placeLabel WHERE {
-                          <{{subject.value}}> <https://artresearch.net/resource/fr/Work_kept_by_Institution>|crm:P50_has_current_keeper ?institution.
-                          {
-                            ?institution crm:P74_has_current_or_former_residence|crm:P55_has_current_location ?place.
-                            ?place a cfc:place.
-                            ?place rdfs:label ?placeLabel.
-                          } union{
-                          <{{subject.value}}> crm:P74_has_current_or_former_residence|crm:P55_has_current_location ?place.
-                            ?place a cfc:place.
-                            ?place rdfs:label ?placeLabel
-                          } union{
-                          <{{subject.value}}> crm:P74_has_current_or_former_residence ?place.
-                            ?place a cfc:place.
-                            ?place rdfs:label ?placeLabel
-                          }  union{
-                            ?original owl:sameAs <{{subject.value}}>.
-                            ?original crm:P74_has_current_or_former_residence|crm:P55_has_current_location ?place.
-                            ?place a cfc:place.
-                            ?place rdfs:label ?placeLabel
-                          }union{
-                            ?original owl:sameAs ?institution.
-                            ?original crm:P74_has_current_or_former_residence ?place.
-                            ?place a cfc:place.
-                            ?place rdfs:label ?placeLabel
-                          }union{
-                            ?original owl:sameAs <{{subject.value}}>.
-                            ?original <https://artresearch.net/resource/fr/Work_kept_by_Institution>|crm:P50_has_current_keeper ?institution.
-                          }
-
-                        }'
+                  query='SELECT DISTINCT (concat(?repository_label,(GROUP_CONCAT(DISTINCT ?place_l;SEPARATOR=",")))as ?value)  ?provider ?providerLabel WHERE {
+                    ?subject owl:sameAs <{{subject.value}}>.
+                    ?subject a cfc:work.
+                    {
+                      ?subject crm:P50_has_current_keeper ?repo.
+                      ?repo rdfs:label ?repo_label.
+                      {
+                        ?repo crm:P74_has_current_or_former_residence/rdfs:label ?place_l.
+                      } UNION {
+                        ?subject (crm:P74_has_current_or_former_residence|crm:P55_has_current_location)/rdfs:label ?place_l.
+                      }
+                      BIND(concat(?repo_label,", ") as ?repository_label)
+                    } UNION {
+                      ?subject (crm:P74_has_current_or_former_residence|crm:P55_has_current_location)/rdfs:label ?place_l.
+                      FILTER NOT EXISTS { ?subject crm:P50_has_current_keeper ?repo. }
+                      BIND("" as ?repository_label)
+                    }  
+                    BIND(<https://artresearch.net/resource/pharos/source/Pharos> AS ?provider)
+                    BIND("Pharos" AS ?providerLabel)
+                  } group by ?repository_label ?provider ?providerLabel'
                   template="{{>repoTemplate}}"
+                  no-subject-template="<div></div>"
                   >
                   <template id="repoTemplate">
                     <div class="workTemplate">
@@ -243,18 +234,7 @@
                     <td>
                         <span class="rs-page-resource__field-value">
                           <div style="width:25vw; max-width: 450px;">
-                            <semantic-link iri="{{bindings.0.institution.value}}">
-                              <div class="informationRow">
-                              <mp-label iri="{{bindings.0.institution.value}}"></mp-label>
-                              {{#ifCond  placeLabel.value "!==" null}}
-                                {{#each bindings}} 
-                                  {{#ifCond  placeLabel.value "!==" undefined}}
-                                  , <span>{{placeLabel.value}}</span>
-                                  {{/ifCond}}
-                                {{/each}}
-                              {{/ifCond}}
-                              </div>
-                            </semantic-link>
+                              {{bindings.0.value.value}}
                           </div>
                         </span>
                     </td>
