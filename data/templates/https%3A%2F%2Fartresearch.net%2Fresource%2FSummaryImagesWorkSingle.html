@@ -36,7 +36,7 @@
                           <div class="summary-image-main imageAndSourceContainer">  
                             <semantic-query
                               query="     
-                                SELECT ?providerLabel WHERE{   
+                                SELECT ?providerLabel ?photo WHERE{   
                                   # Get the little icon on the top left to please providers
                                   ?photo crm:P129i_is_subject_of <{{bindings.0.rectoVersoImage.value}}>.
                                   ?photo custom:has_provider ?provider.
@@ -100,6 +100,11 @@
       </template>
     </mp-event-target-template-render>
   </div>
+  {{#ifCond bindings.0.photo.value '!==' undefiend}}
+  <div class="metadataButton">
+    <semantic-link iri="{{bindings.0.photo.value}}" target="_black" class="metadataText" >View photo metadata</semantic-link>
+  </div>
+  {{/ifCond}}
   <div class="summary-image-thumbs">
     {{#ifCond (objectLength bindings) ">" 1 }}
       {{#each bindings}}
