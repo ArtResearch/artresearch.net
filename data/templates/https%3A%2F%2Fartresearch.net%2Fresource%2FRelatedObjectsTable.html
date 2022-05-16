@@ -2,14 +2,13 @@
   <semantic-query
     query='  
       SELECT distinct ?pharos_value {
-        ?subject owl:sameAs ?? .
-        GRAPH ?graph {
-          $subject crm:P67i_is_referred_to_by ?related_document.
-          ?related_document crm:P2_has_type <http://vocab.getty.edu/aat/300435412>.
-        }
-        ?related_document crm:P70i_is_documented_in/owl:sameAs ?pharos_value.
-        ?pharos_value a fc:work
-      }LIMIT 1'
+         ?subject owl:sameAs ?? .
+  GRAPH ?graph {
+    ?subject crm:P67i_is_referred_to_by ?related_document.
+    ?related_document crm:P2_has_type <http://vocab.getty.edu/aat/300435412>.
+  }
+ ?related_document crm:P70i_is_documented_in ?pharos_value.
+      }LIMIT '
     no-result-template="<div></div>"
     template="{{> showTitle}}"
   >
