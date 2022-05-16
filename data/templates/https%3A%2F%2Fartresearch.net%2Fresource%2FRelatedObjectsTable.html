@@ -33,13 +33,11 @@
     query='
       SELECT distinct  ?pharos_value WHERE {
           ?subject owl:sameAs ?? .
-          GRAPH ?graph {
-            $subject crm:P67i_is_referred_to_by ?related_document.
-            ?related_document crm:P2_has_type <http://vocab.getty.edu/aat/300435412>.
-          }
-          ?related_document crm:P70i_is_documented_in ?doc.
-          ?doc owl:sameAs ?pharos_value.
-          ?pharos_value a fc:work
+  GRAPH ?graph {
+    ?subject crm:P67i_is_referred_to_by ?related_document.
+    ?related_document crm:P2_has_type <http://vocab.getty.edu/aat/300435412>.
+  }
+ ?related_document crm:P70i_is_documented_in ?pharos_value.
       }'
 
     tuple-template="{{> photos}}"
@@ -47,7 +45,7 @@
 
   >
       <template id="photos">
-        <semantic-link class="photographFieldView" iri="{{pharos_value.value}}">
+        <semantic-link class="photographFieldView" target="_black" iri="{{pharos_value.value}}">
             <td class="rectoVersoCell">
               <semantic-query
                 query='
