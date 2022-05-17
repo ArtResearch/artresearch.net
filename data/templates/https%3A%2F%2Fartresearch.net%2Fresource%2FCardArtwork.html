@@ -79,8 +79,8 @@
                                   <td>
                                       <span class="rs-page-resource__field-value">
                                         <div  style="width:25vw; max-width: 450px;">
-                                          <div class="informationRow">
-                                          <semantic-link iri="{{bindings.0.subject.value}}"></semantic-link>
+                                        <div class="informationRow">
+                                          <semantic-link title="{{bindings.0.subject.value}}" iri="{{bindings.0.subject.value}}"></semantic-link>
                                           </div>
                                         </div>
                                       </span>
@@ -121,7 +121,7 @@
                                 <span class="rs-page-resource__field-value">
                                   <div style="width:25vw; max-width: 450px;">
                                     <div class="informationRow">
-                                    <semantic-link iri="{{bindings.0.subject.value}}"></semantic-link>
+                                    <semantic-link title="{{bindings.0.subject.value}}" iri="{{bindings.0.subject.value}}"></semantic-link>
                                     </div>
                                   </div>
                                 </span>
@@ -156,7 +156,7 @@
                                   <span class="rs-page-resource__field-value">
                                     <div  style="width:25vw; max-width: 450px;">
                                       <div class="informationRow">
-                                      <semantic-link iri="{{bindings.0.photographer.value}}"></semantic-link>
+                                      <semantic-link title="{{bindings.0.photographer.value}}" iri="{{bindings.0.photographer.value}}"></semantic-link>
                                       </div>
                                     </div>
                                   </span>
@@ -189,7 +189,7 @@
                                       <span class="rs-page-resource__field-value">
                                         <div style="width:25vw; max-width: 450px;">
                                           <div class="informationRow">
-                                          <semantic-link iri="{{bindings.0.artist.value}}"></semantic-link>
+                                          <semantic-link  title="{{bindings.0.artist.value}}" iri="{{bindings.0.artist.value}}"></semantic-link>
                                           </div>
                                         </div>
                                       </span>
@@ -233,7 +233,7 @@
                     </td>
                     <td>
                         <span class="rs-page-resource__field-value">
-                          <div style="width:25vw; max-width: 450px;">
+                          <div title="{{bindings.0.value.value}}" class="informationRow">
                               {{bindings.0.value.value}}
                           </div>
                         </span>
@@ -245,12 +245,7 @@
 
                   <semantic-query 
                   query='SELECT DISTINCT ?provider WHERE { 
-                    {
                     <{{subject.value}}> fr:Work_has_provider_Institution|(fr:Photo_depicts_Work/fr:Work_has_provider_Institution) ?provider
-                    }union{
-                    ?original owl:sameAs <{{subject.value}}>.
-                    ?original fr:Work_has_provider_Institution ?provider 
-                    }
                   }'
                   template="{{>archiveTemplate}}"
                   >
@@ -266,7 +261,13 @@
                         <span class="rs-page-resource__field-value">
                           <div style="width:25vw; max-width: 450px;">
                             <div class="informationRow">
-                            <semantic-link iri="{{bindings.0.provider.value}}"></semantic-link>
+                              {{#each bindings}}
+                              {{#ifCond @index "===" 0}}
+                                <semantic-link title="{{provider.value}}" iri="{{provider.value}}"></semantic-link>
+                              {{else}}
+                                , <semantic-link title="{{provider.value}}" iri="{{provider.value}}"></semantic-link>
+                              {{/ifCond}}
+                              {{/each}}
                             </div>
                           </div>
                         </span>
@@ -294,7 +295,7 @@
                                   <span class="rs-page-resource__field-value">
                                     <div style="width:25vw; max-width: 450px;">
                                       <div class="informationRow">
-                                      <semantic-link iri="{{bindings.0.work.value}}"></semantic-link>
+                                      <semantic-link title="{{bindings.0.work.value}}" iri="{{bindings.0.work.value}}"></semantic-link>
                                       </div>
                                     </div>
                                   </span>
@@ -323,7 +324,7 @@
                                   <span class="rs-page-resource__field-value">
                                     <div style="width:25vw; max-width: 450px;">
                                       <div class="informationRow">
-                                      <semantic-link iri="{{bindings.0.creator.value}}"></semantic-link>
+                                      <semantic-link  title="{{bindings.0.creator.value}}" iri="{{bindings.0.creator.value}}"></semantic-link>
                                       </div>
                                     </div>
                                   </span>
@@ -355,8 +356,8 @@
                               <td>
                                   <span class="rs-page-resource__field-value">
                                     <div style="width:25vw; max-width: 450px;">
-                                      <div class="informationRow">
-                                      <div date="{{dateTimeFormat bindings.0.date.value "YYYY"}}">
+                                      <div title="{{bindings.0.date.value}}"  class="informationRow">
+                                      <div title="{{bindings.0.date.value}}" date="{{dateTimeFormat bindings.0.date.value "YYYY"}}">
                                         {{dateTimeFormat bindings.0.date.value "YYYY"}}
                                       </div>
                                       <span>
