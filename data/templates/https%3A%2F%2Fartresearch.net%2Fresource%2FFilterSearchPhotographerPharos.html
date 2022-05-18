@@ -178,6 +178,7 @@
                     SELECT DISTINCT ?subject  WHERE {
                       {
                         ?subject a cfc:photographer. # until full reconciliation of photographers is completed
+                        FILTER NOT EXISTS {?subject owl:sameAs/rdf:type fc:photographer}
                       } UNION {
                         ?subject a fc:photographer.
                         ?og owl:sameAs ?subject.
@@ -186,6 +187,7 @@
                     query='SELECT DISTINCT ?subject WHERE {
                             {
                               ?subject a cfc:photographer. # until full reconciliation of photographers is completed
+                              FILTER NOT EXISTS {?subject owl:sameAs/rdf:type fc:photographer}
                             } UNION {
                               ?subject a fc:photographer.
                               ?og owl:sameAs ?subject.
