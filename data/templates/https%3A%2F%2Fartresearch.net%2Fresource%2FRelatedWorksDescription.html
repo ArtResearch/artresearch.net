@@ -31,83 +31,27 @@
     options='{"showFilter":false}'
     number-of-displayed-rows="4"
     query='
-       SELECT  distinct ?related_objects WHERE { 
-        ?subject owl:sameAs ??.
-          ?subject crm:P67i_is_referred_to_by ?value.
+       SELECT DISTINCT ?subject ?pvalue WHERE { 
+        ?work owl:sameAs ??.
+          ?work crm:P67i_is_referred_to_by ?value.
           ?value crm:P2_has_type <http://vocab.getty.edu/aat/300015640>.
           ?value crm:P190_has_symbolic_content ?pvalue.
-          $subjects crm:P67i_is_referred_to_by/crm:P190_has_symbolic_content ?pvalue;
-                    owl:sameAs ?related_objects.
+          ?works crm:P67i_is_referred_to_by/crm:P190_has_symbolic_content ?pvalue;
+                    owl:sameAs ?subject.
       }'
 
-    tuple-template="{{> photos}}"
-    no-result-template=''
-
-  >
-      <template id="photos">
-        <semantic-link class="photographFieldView" target="_black" iri="{{related_objects.value}}">
-            <td class="rectoVersoCell">
-              <semantic-query
-                query='
-                  SELECT distinct ?photoUri ?rectoImage ?work where{
-                    BIND (<{{related_objects.value}}> as ?work).
-                    ?work fr:Work_depicted_by_Photo ?photo.
-                    ?photo crm:P129i_is_subject_of ?fullsizeImages.
-                    BIND(REPLACE(STR(?fullsizeImages),"full/full","full/!100,100") AS ?rectoImage).
-                    FILTER NOT EXISTS { 
-                      ?fullsizeImages crm:P2_has_type ?type.
-                      ?type rdfs:label "verso"
-                    }
-                  }
-                '
-                template="{{>rectoImageThumb}}"
-                no-result-template="{{>noimage}}"
-              >
-              <template id="noimage">
-                    <img
-                      src="/assets/images/media/image_placeholder.jpg"
-                      style="max-height: 100px; margin: 0 auto"
-                      class="img-rounded"
-                    />
-              </template>
-                <template id="rectoImageThumb">
-                    <img
-                      src="{{bindings.0.rectoImage.value}}"
-                      style="max-height: 100px; margin: 0 auto"
-                      class="img-rounded"
-                    />
-                </template>
-              </semantic-query>
-            </td>
-            <div class="photographFieldViewData">
-              <mp-field-visualization
-                subject="{{related_objects.value}}"
-                additional-subjects='[[jsonArrayFromSelect (setQueryBindings "SELECT ?doc WHERE { ?doc owl:sameAs ?resource }" resource=this.iri)]]'
-                fields='[[fieldDefinitions  
-                  Title="https://artresearch.net/fieldDefinition/2"  
-                  Archive="https://artresearch.net/container/fieldDefinitionContainer/Photo_Archive_2" 
-                ]]'
-                template="{{>productionInfo}}"
-              >
-                <template id="productionInfo">
-                  {{#if noData}}
-                    <div id="rsbv" class="table-responsive rs-table">
-                      <table class="table table-hover">
-                        <tbody>
-                          <tr>
-                            <td>No quick preview available. Click on the photo to view details.</td>
-                            <td></td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  {{else}} 
-                    [[> ResourceFieldBasedVisualization showSourceIcon="true"  subject=[[this]] ]]
-                  {{/if}}
-                </template>
-              </mp-field-visualization>
+    tuple-template="{{> related_objects}}"
+    no-result-template='<div></div>'>
+      <template id="related_objects">
+        {{log __semanticTableIndex}}
+        {{#ifCond __semanticTableIndex._value "===" "0" }}
+          <div class= "bioTemplate" >
+            <div class="BioText">
+              <h2 class=" fa fa-quote-left">&ensp;{{pvalue.value}}&ensp;</h2><h2 class="fa fa-quote-right"></h2>
             </div>
-        </semantic-link>
+          </div>
+        {{/ifCond}}
+        [[> CardArtwork]]
       </template>
   </semantic-table>
     </div>
