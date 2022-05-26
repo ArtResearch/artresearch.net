@@ -244,8 +244,14 @@
                   </semantic-query>
 
                   <semantic-query 
-                  query='SELECT DISTINCT ?provider WHERE { 
-                    <{{subject.value}}> fr:Work_has_provider_Institution|(fr:Photo_depicts_Work/fr:Work_has_provider_Institution) ?provider
+                  query='SELECT DISTINCT ?provider WHERE {
+                    {
+                      <{{subject.value}}> a fc:work.
+                      <{{subject.value}}> fr:Work_has_provider_Institution ?provider.
+                    } UNION {
+                      <{{subject.value}}> a cfc:photo.
+                      <{{subject.value}}> fr:Photo_has_provider_Institution ?provider.
+                    }
                   }'
                   template="{{>archiveTemplate}}"
                   >
