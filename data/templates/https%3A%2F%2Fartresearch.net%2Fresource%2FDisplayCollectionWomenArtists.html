@@ -150,21 +150,18 @@
                         escape-lucene-syntax="false"
                         domain="<https://artresearch.net/resource/fc/artist>"
                         default-query="
-                                SELECT DISTINCT ?subject  
-                                WHERE {
-                                  ?someOther owl:sameAs ?subject.
-                                  ?subject a fc:artist.
+                                SELECT DISTINCT ?subject WHERE {
                                   ?subject fr:Person_has_Gender <http://vocab.getty.edu/aat/300189557>.
+                                  ?subject fr:Artist_created_Work ?work.
                                 }LIMIT 1000"
                         query='
                                 SELECT DISTINCT ?subject WHERE {
-                                ?someOther owl:sameAs ?subject.
-                                ?subject a fc:artist.
-                                ?subject fr:Person_has_Gender <http://vocab.getty.edu/aat/300189557>.
-                                ?subject rdfs:label ?someLabel.
-                                ?someLabel bds:search ?__token__ .
-                                ?someLabel bds:minRelevance "0.3"^^xsd:double;
-                                bds:matchAllTerms "true"  .
+                                  ?subject fr:Person_has_Gender <http://vocab.getty.edu/aat/300189557>.
+                                  ?subject fr:Artist_created_Work ?work.
+                                  ?subject rdfs:label ?someLabel.
+                                  ?someLabel bds:search ?__token__ .
+                                  ?someLabel bds:minRelevance "0.3"^^xsd:double;
+                                  bds:matchAllTerms "true"  .
                                 } 
                               '
                       ></semantic-search-query-keyword>
