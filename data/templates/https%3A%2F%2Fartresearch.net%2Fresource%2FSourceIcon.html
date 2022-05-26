@@ -3,50 +3,49 @@
     query='
     SELECT * WHERE {
       {
-        BIND(IRI(IF(CONTAINS("{{value.binding.providerLabel.value}}","I Tatti"),"https://artresearch.net/resource/itatti/source/ITatti", false)) AS ?provider)
-        BIND("I Tatti" as ?providerLabel)
-        FILTER(BOUND(?provider))
+        BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/itatti/source/ITatti"),"I Tatti", false)) AS ?providerLabel)
+        BIND(IRI("https://artresearch.net/resource/itatti/source/ITatti") as ?provider)
+        FILTER(?providerLabel!="false")
       } UNION {
-        BIND(IRI(IF(CONTAINS("{{value.binding.providerLabel.value}}","Frick"),"https://artresearch.net/resource/frick/source/Frick", false)) AS ?provider)
-        BIND("Frick" as ?providerLabel)
-        FILTER(BOUND(?provider))
+        BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/frick/source/Frick"),"Frick", false)) AS ?providerLabel)
+        BIND(IRI("https://artresearch.net/resource/frick/source/Frick") as ?provider)
+        FILTER(?providerLabel!="false")
       }UNION {
-        BIND(IRI(IF(CONTAINS("{{value.binding.providerLabel.value}}","Pharos"),"https://artresearch.net/resource/pharos/source/Pharos", false)) AS ?provider)
-        BIND("Pharos" as ?providerLabel)
-        FILTER(BOUND(?provider))
+        BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/pharos/source/Pharos"),"Pharos", false)) AS ?providerLabel)
+        BIND(IRI("https://artresearch.net/resource/pharos/source/Pharos") as ?provider)
+        FILTER(?providerLabel!="false")
       }UNION {
-        BIND(IRI(IF(CONTAINS("{{value.binding.providerLabel.value}}","ULAN"),"https://artresearch.net/resource/ulan/source/ULAN", false)) AS ?provider)
-        BIND("ULAN" as ?providerLabel)
-        FILTER(BOUND(?provider))
+        BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/ulan/source/ULAN"),"Getty", false)) AS ?providerLabel)
+        BIND(IRI("https://artresearch.net/resource/ulan/source/ULAN") as ?provider)
+        FILTER(?providerLabel!="false")
       }UNION {
-        BIND(IRI(IF(CONTAINS("{{value.binding.providerLabel.value}}","AAT"),"https://artresearch.net/resource/getty/source/Getty", false)) AS ?provider)
-        BIND("AAT" as ?providerLabel)
-        FILTER(BOUND(?provider))
+        BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/getty/source/Getty"),"Getty", false)) AS ?providerLabel)
+        BIND(IRI("https://artresearch.net/resource/getty/source/Getty") as ?provider)
+        FILTER(?providerLabel!="false")
       }UNION {
-        BIND(IRI(IF(CONTAINS("{{value.binding.providerLabel.value}}","Hertziana"),"https://artresearch.net/resource/hertziana/source/Hertziana", false)) AS ?provider)
-        BIND("Hertziana" as ?providerLabel)
-        FILTER(BOUND(?provider))
+        BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/hertziana/source/Hertziana"),"Hertziana", false)) AS ?providerLabel)
+        BIND(IRI("https://artresearch.net/resource/hertziana/source/Hertziana") as ?provider)
+        FILTER(?providerLabel!="false")
       }UNION {
-        BIND(IRI(IF(CONTAINS("{{value.binding.providerLabel.value}}","Marburg"),"https://artresearch.net/resource/marburg/source/Marburg", false)) AS ?provider)
-        BIND("Marburg" as ?providerLabel)
-        FILTER(BOUND(?provider))
+        BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/marburg/source/Marburg"),"Marburg", false)) AS ?providerLabel)
+        BIND(IRI("https://artresearch.net/resource/marburg/source/Marburg") as ?provider)
+        FILTER(?providerLabel!="false")
       }UNION {
-        BIND(IRI(IF(CONTAINS("{{value.binding.providerLabel.value}}","Zeri"),"https://artresearch.net/resource/zeri/source/Zeri", false)) AS ?provider)
-        BIND("Zeri" as ?providerLabel)
-        FILTER(BOUND(?provider))
+        BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/zeri/source/Zeri"),"Zeri", false)) AS ?providerLabel)
+        BIND(IRI("https://artresearch.net/resource/zeri/source/Zeri") as ?provider)
+        FILTER(?providerLabel!="false")
       }UNION {
-        BIND(IRI(IF(CONTAINS("{{value.binding.providerLabel.value}}","KHI"),"https://artresearch.net/resource/khi/source/KHI", false)) AS ?provider)
-        BIND("KHI" as ?providerLabel)
-        FILTER(BOUND(?provider))
+        BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/khi/source/KHI"),"KHI", false)) AS ?providerLabel)
+        BIND(IRI("https://artresearch.net/resource/khi/source/KHI") as ?provider)
+        FILTER(?providerLabel!="false")
       }UNION {
-        BIND(IRI(IF(CONTAINS("{{value.binding.providerLabel.value}}","PMC"),"https://artresearch.net/resource/pmc/source/PMC", false)) AS ?provider)
-        BIND("PMC" as ?providerLabel)
-        FILTER(BOUND(?provider))
-      }
-      UNION {
-        BIND(IRI(IF(CONTAINS("{{value.binding.providerLabel.value}}","Wikidata"),"https://artresearch.net/resource/wikidata/source/Wikidata", false)) AS ?provider)
-        BIND("Wikidata" as ?providerLabel)
-        FILTER(BOUND(?provider))
+        BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/pmc/source/PMC"),"PMC", false)) AS ?providerLabel)
+        BIND(IRI("https://artresearch.net/resource/pmc/source/PMC") as ?provider)
+        FILTER(?providerLabel!="false")
+      }UNION {
+        BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/wikidata/source/Wikidata"),"Wikidata", false)) AS ?providerLabel)
+        BIND(IRI("https://artresearch.net/resource/wikidata/source/Wikidata") as ?provider)
+        FILTER(?providerLabel!="false")
       }
     }
       '
@@ -70,50 +69,49 @@
     query='
     SELECT * WHERE {
       {
-        BIND(IRI(IF(CONTAINS("{{providerLabel.value}}","I Tatti"),"https://artresearch.net/resource/itatti/source/ITatti", false)) AS ?provider)
-        BIND("I Tatti" as ?providerLabel)
-        FILTER(BOUND(?provider))
+        BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/itatti/source/ITatti"),"I Tatti", false)) AS ?providerLabel)
+        BIND(IRI("https://artresearch.net/resource/itatti/source/ITatti") as ?provider)
+        FILTER(?providerLabel!="false")
       } UNION {
-        BIND(IRI(IF(CONTAINS("{{providerLabel.value}}","Frick"),"https://artresearch.net/resource/frick/source/Frick", false)) AS ?provider)
-        BIND("Frick" as ?providerLabel)
-        FILTER(BOUND(?provider))
+        BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/frick/source/Frick"),"Frick", false)) AS ?providerLabel)
+        BIND(IRI("https://artresearch.net/resource/frick/source/Frick") as ?provider)
+        FILTER(?providerLabel!="false")
       }UNION {
-        BIND(IRI(IF(CONTAINS("{{providerLabel.value}}","Pharos"),"https://artresearch.net/resource/pharos/source/Pharos", false)) AS ?provider)
-        BIND("Pharos" as ?providerLabel)
-        FILTER(BOUND(?provider))
+        BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/pharos/source/Pharos"),"Pharos", false)) AS ?providerLabel)
+        BIND(IRI("https://artresearch.net/resource/pharos/source/Pharos") as ?provider)
+        FILTER(?providerLabel!="false")
       }UNION {
-        BIND(IRI(IF(CONTAINS("{{providerLabel.value}}","ULAN"),"https://artresearch.net/resource/ulan/source/ULAN", false)) AS ?provider)
-        BIND("ULAN" as ?providerLabel)
-        FILTER(BOUND(?provider))
+        BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/ulan/source/ULAN"),"Getty", false)) AS ?providerLabel)
+        BIND(IRI("https://artresearch.net/resource/ulan/source/ULAN") as ?provider)
+        FILTER(?providerLabel!="false")
       }UNION {
-        BIND(IRI(IF(CONTAINS("{{providerLabel.value}}","AAT"),"https://artresearch.net/resource/getty/source/Getty", false)) AS ?provider)
-        BIND("AAT" as ?providerLabel)
-        FILTER(BOUND(?provider))
+        BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/getty/source/Getty"),"Getty", false)) AS ?providerLabel)
+        BIND(IRI("https://artresearch.net/resource/getty/source/Getty") as ?provider)
+        FILTER(?providerLabel!="false")
       }UNION {
-        BIND(IRI(IF(CONTAINS("{{providerLabel.value}}","Hertziana"),"https://artresearch.net/resource/hertziana/source/Hertziana", false)) AS ?provider)
-        BIND("Hertziana" as ?providerLabel)
-        FILTER(BOUND(?provider))
+        BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/hertziana/source/Hertziana"),"Hertziana", false)) AS ?providerLabel)
+        BIND(IRI("https://artresearch.net/resource/hertziana/source/Hertziana") as ?provider)
+        FILTER(?providerLabel!="false")
       }UNION {
-        BIND(IRI(IF(CONTAINS("{{providerLabel.value}}","Marburg"),"https://artresearch.net/resource/marburg/source/Marburg", false)) AS ?provider)
-        BIND("Marburg" as ?providerLabel)
-        FILTER(BOUND(?provider))
+        BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/marburg/source/Marburg"),"Marburg", false)) AS ?providerLabel)
+        BIND(IRI("https://artresearch.net/resource/marburg/source/Marburg") as ?provider)
+        FILTER(?providerLabel!="false")
       }UNION {
-        BIND(IRI(IF(CONTAINS("{{providerLabel.value}}","Zeri"),"https://artresearch.net/resource/zeri/source/Zeri", false)) AS ?provider)
-        BIND("Zeri" as ?providerLabel)
-        FILTER(BOUND(?provider))
+        BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/zeri/source/Zeri"),"Zeri", false)) AS ?providerLabel)
+        BIND(IRI("https://artresearch.net/resource/zeri/source/Zeri") as ?provider)
+        FILTER(?providerLabel!="false")
       }UNION {
-        BIND(IRI(IF(CONTAINS("{{providerLabel.value}}","KHI"),"https://artresearch.net/resource/khi/source/KHI", false)) AS ?provider)
-        BIND("KHI" as ?providerLabel)
-        FILTER(BOUND(?provider))
+        BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/khi/source/KHI"),"KHI", false)) AS ?providerLabel)
+        BIND(IRI("https://artresearch.net/resource/khi/source/KHI") as ?provider)
+        FILTER(?providerLabel!="false")
       }UNION {
-        BIND(IRI(IF(CONTAINS("{{providerLabel.value}}","PMC"),"https://artresearch.net/resource/pmc/source/PMC", false)) AS ?provider)
-        BIND("PMC" as ?providerLabel)
-        FILTER(BOUND(?provider))
-      }
-      UNION {
-        BIND(IRI(IF(CONTAINS("{{providerLabel.value}}","Wikidata"),"https://artresearch.net/resource/wikidata/source/Wikidata", false)) AS ?provider)
-        BIND("Wikidata" as ?providerLabel)
-        FILTER(BOUND(?provider))
+        BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/pmc/source/PMC"),"PMC", false)) AS ?providerLabel)
+        BIND(IRI("https://artresearch.net/resource/pmc/source/PMC") as ?provider)
+        FILTER(?providerLabel!="false")
+      }UNION {
+        BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/wikidata/source/Wikidata"),"Wikidata", false)) AS ?providerLabel)
+        BIND(IRI("https://artresearch.net/resource/wikidata/source/Wikidata") as ?provider)
+        FILTER(?providerLabel!="false")
       }
     }
       '

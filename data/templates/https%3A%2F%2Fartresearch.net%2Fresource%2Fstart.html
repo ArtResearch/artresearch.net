@@ -1,8 +1,6 @@
 
 <div id="underDevAlert" class="alert alert-info" role="alert">
-  <i
-    >This instance is <b>under development</b></i
-  >
+  <i>This instance is <b>under development</b></i>
 </div>
 
 <div id="new-start-page">
@@ -118,7 +116,11 @@
      </div>
      <div class="introText">
     <p style="font-size:16px">Discover artworks through the lens of photo archives.</p>
+<<<<<<< HEAD
      <p style="font-size:12px">The collections of Pharos, the International Association of Photo Archives, document works of art and architecture and the history of photography itself, and contain more of a century of scholarly documentation. Artresearch.net provides the tools to access, research, and contextualize these resources for the 21st century.</p>
+=======
+     <p style="font-size:12px">The collections of Pharos, The International Association of Photo Archives, document works of art and architecture and the history of photography itself, and contain more of a century of scholarly documentation. Artresearch.net provides the tools to access, research, and contextualize these resources for the 21st century.</p>
+>>>>>>> de1964c34b6672daf32dd86e96c769afc3172247
     </div>
       
    </div>
@@ -150,7 +152,7 @@
               <div class="tall-card-title">Photographers</div>
               <semantic-query
               query="SELECT (COUNT (distinct ?x) AS ?count) WHERE { 
-                    ?x a fc:Photographer.
+                    ?x a fc:photographer.
                     }"
                     template="{{> records}}">
                     <template id="records">
@@ -305,7 +307,7 @@
           <mp-link url="/resource/DocumentationCards">
             <div class="doc-tall-card-body">
               <img  class="imagesDoc" src="/assets/images/icons/history-book.svg"/>
-              <div class="doc-tall-card-title">Collection Curator?</div>
+              <div class="doc-tall-card-title">Photo Archive Curator?</div>
               <div class="doc-tall-card-subtitle">Get familiar with the platform's functionality for curators</div>
             </div>
           </mp-link>
