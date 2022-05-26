@@ -1,63 +1,48 @@
 <div id="photoTable">
-  <semantic-query
-    query='  
-      SELECT  distinct ?related_objects WHERE { 
-        ?subject owl:sameAs ??.
-          ?subject crm:P67i_is_referred_to_by ?value.
-          ?value crm:P2_has_type <http://vocab.getty.edu/aat/300015640>.
-          ?value crm:P190_has_symbolic_content ?pvalue.
-          $subjects crm:P67i_is_referred_to_by/crm:P190_has_symbolic_content ?pvalue;
-                    owl:sameAs ?related_objects.
-      }LIMIT 1'
-    no-result-template="<div></div>"
-    template="{{> showTitle}}"
-  >
-      <template id="showTitle">
-        <div style="width: 93.5%" class="productionInfoContainer">
-          <div id="photoTable">
-          <div>
-            <div style="margin-top: 45px"><h2>Related Works Description</h2></div>
-          </div>
-            <div class="table-of-animation">
-              <div class="animated-background-long-line rs-page-resource__field-label-holder"></div>
-              <div class="animated-background-long-line rs-page-resource__field-label-holder"></div>
-              <div class="animated-background-long-line rs-page-resource__field-label-holder"></div>
-              <div class="animated-background-long-line rs-page-resource__field-label-holder"></div>
-              <div class="animated-background-long-line rs-page-resource__field-label-holder"></div>
-              <div class="animated-background-long-line rs-page-resource__field-label-holder"></div>
-            </div>
+  [[#if (ask "ASK { ?work owl:sameAs ??. ?work crm:P67i_is_referred_to_by ?value. ?value crm:P2_has_type <http://vocab.getty.edu/aat/300015640>. ?value crm:P190_has_symbolic_content ?pvalue. ?works crm:P67i_is_referred_to_by/crm:P190_has_symbolic_content ?pvalue; owl:sameAs ?subject. }")]]
+    <div style="width: 93.5%" class="productionInfoContainer">
+      <div id="photoTable">
+        <div>
+          <div style="margin-top: 45px"><h2>Related Works Description</h2></div>
+        </div>
+        <div class="table-of-animation">
+          <div class="animated-background-long-line rs-page-resource__field-label-holder"></div>
+          <div class="animated-background-long-line rs-page-resource__field-label-holder"></div>
+          <div class="animated-background-long-line rs-page-resource__field-label-holder"></div>
+          <div class="animated-background-long-line rs-page-resource__field-label-holder"></div>
+          <div class="animated-background-long-line rs-page-resource__field-label-holder"></div>
+          <div class="animated-background-long-line rs-page-resource__field-label-holder"></div>
+        </div>
     
         <semantic-table
-    options='{"showFilter":false}'
-    number-of-displayed-rows="4"
-    query='
-       SELECT DISTINCT ?subject ?pvalue WHERE { 
-        ?work owl:sameAs ??.
-          ?work crm:P67i_is_referred_to_by ?value.
-          ?value crm:P2_has_type <http://vocab.getty.edu/aat/300015640>.
-          ?value crm:P190_has_symbolic_content ?pvalue.
-          ?works crm:P67i_is_referred_to_by/crm:P190_has_symbolic_content ?pvalue;
-                    owl:sameAs ?subject.
-      }'
+          options='{"showFilter":false}'
+          number-of-displayed-rows="4"
+          query='
+            SELECT DISTINCT ?subject ?pvalue WHERE { 
+              ?work owl:sameAs ??.
+                ?work crm:P67i_is_referred_to_by ?value.
+                ?value crm:P2_has_type <http://vocab.getty.edu/aat/300015640>.
+                ?value crm:P190_has_symbolic_content ?pvalue.
+                ?works crm:P67i_is_referred_to_by/crm:P190_has_symbolic_content ?pvalue;
+                          owl:sameAs ?subject.
+            }'
 
-    tuple-template="{{> related_objects}}"
-    no-result-template='<div></div>'>
-      <template id="related_objects">
-        {{log __semanticTableIndex}}
-        {{#ifCond __semanticTableIndex._value "===" "0" }}
-          <div class= "bioTemplate" >
-            <div class="BioText">
-              <h2 class=" fa fa-quote-left">&ensp;{{pvalue.value}}&ensp;</h2><h2 class="fa fa-quote-right"></h2>
-            </div>
-          </div>
-        {{/ifCond}}
-        [[> CardArtwork]]
-      </template>
-  </semantic-table>
+          tuple-template="{{> related_objects}}"
+          no-result-template='<div></div>'>
+            <template id="related_objects">
+              {{log __semanticTableIndex}}
+              {{#ifCond __semanticTableIndex._value "===" "0" }}
+                <div class= "bioTemplate" >
+                  <div class="BioText">
+                    <h2 class=" fa fa-quote-left">&ensp;{{pvalue.value}}&ensp;</h2><h2 class="fa fa-quote-right"></h2>
+                  </div>
+                </div>
+              {{/ifCond}}
+              [[> CardArtwork]]
+            </template>
+        </semantic-table>
+      </div>
     </div>
-  </div>
-  </template>
-  </semantic-query> 
-
+  [[/if]]
 </div>
 
