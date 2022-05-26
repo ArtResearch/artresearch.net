@@ -16,12 +16,12 @@
                         template="{{> switches-ULAN}}"
                       >
                             <template id="switches-ULAN">
-                                      {{#ifCond withULAN "===" "true"}}
+                                      {{#ifCond withULAN "===" "falseb"}}
                                         <label class="switch">   
                                           <mp-event-trigger
                                             id="event-trigger-tab-photograph-ULAN"
                                             type="Component.TemplateUpdate"
-                                            data='{"withULAN":"false"}'
+                                            data='{"withULAN":"true"}'
                                             targets='["event-target-search-btn-ULAN","event-target-search-switches-ULAN","event-target-tab-select-ULAN","event-target-tables-ULAN"]'
                                             >
                                             <div>        
@@ -31,12 +31,12 @@
                                           </mp-event-trigger>
                                         </label>
                                       {{else}}
-                                      {{#ifCond withULAN "===" "false"}}
+                                      {{#ifCond withULAN "===" "true"}}
                                       <label class="switch-ULAN">   
                                         <mp-event-trigger
                                           id="event-trigger-tab-photograph-ULAN"
                                           type="Component.TemplateUpdate"
-                                          data='{"withULAN":"true"}'
+                                          data='{"withULAN":"falseb"}'
                                           targets='["event-target-search-btn-ULAN","event-target-search-switches-ULAN","event-target-tab-select-ULAN","event-target-tables-ULAN"]'
                                           >
                                           <div>        
@@ -46,12 +46,12 @@
                                         </mp-event-trigger>
                                       </label>
                                       {{else}}
-                                      {{#ifCond "[[urlParam "withULAN"]]" "===" "true"}}
+                                      {{#ifCond "[[urlParam "withULAN"]]" "===" "falseb"}}
                                       <label class="switch-ULAN">   
                                         <mp-event-trigger
                                           id="event-trigger-tab-photograph-ULAN"
                                           type="Component.TemplateUpdate"
-                                          data='{"withULAN":"false"}'
+                                          data='{"withULAN":"true"}'
                                           targets='["event-target-search-btn-ULAN","event-target-search-switches-ULAN","event-target-tab-select-ULAN","event-target-tables-ULAN"]'
                                           >
                                           <div>
@@ -65,7 +65,7 @@
                                         <mp-event-trigger
                                           id="event-trigger-tab-photograph-ULAN"
                                           type="Component.TemplateUpdate"
-                                          data='{"withULAN":"true"}'
+                                          data='{"withULAN":"falseb"}'
                                           targets='["event-target-search-btn-ULAN","event-target-search-switches-ULAN","event-target-tab-select-ULAN","event-target-tables-ULAN"]'
                                           >
                                             <div>
