@@ -46,6 +46,10 @@
         BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/wikidata/source/Wikidata"),"Wikidata", false)) AS ?providerLabel)
         BIND(IRI("https://artresearch.net/resource/wikidata/source/Wikidata") as ?provider)
         FILTER(?providerLabel!="false")
+      }UNION {
+        BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/nypl/source/NYPL"),"NYPL", false)) AS ?providerLabel)
+        BIND(IRI("https://artresearch.net/resource/nypl/source/NYPL") as ?provider)
+        FILTER(?providerLabel!="false")
       }
     }
       '
@@ -111,6 +115,10 @@
       }UNION {
         BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/wikidata/source/Wikidata"),"Wikidata", false)) AS ?providerLabel)
         BIND(IRI("https://artresearch.net/resource/wikidata/source/Wikidata") as ?provider)
+        FILTER(?providerLabel!="false")
+      }UNION {
+        BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/nypl/source/NYPL"),"NYPL", false)) AS ?providerLabel)
+        BIND(IRI("https://artresearch.net/resource/nypl/source/NYPL") as ?provider)
         FILTER(?providerLabel!="false")
       }
     }
