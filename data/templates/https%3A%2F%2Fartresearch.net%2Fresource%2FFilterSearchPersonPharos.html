@@ -178,9 +178,9 @@
                 default-query=' SELECT DISTINCT ?subject WHERE {
                                 #  ?someOther owl:sameAs ?subject.
                                   ?subject a fc:artist.
-                              {{#ifCond withULAN "===" "true"}}
-                                ?subject fr:Artist_created_Work ?work.
-                              {{/ifCond}}
+                                  {{#ifCond withULAN "!==" "false"}}
+                                   ?subject fr:Artist_created_Work ?work.
+                                  {{/ifCond}}
                                 }LIMIT 1000'
                 query='SELECT DISTINCT ?subject WHERE {
                         #  ?someOther owl:sameAs ?subject.

@@ -16,12 +16,12 @@
                         template="{{> switches-ULAN}}"
                       >
                             <template id="switches-ULAN">
-                                      {{#ifCond withULAN "===" "falseb"}}
+                                      {{#ifCond withULAN "===" "true"}}
                                         <label class="switch">   
                                           <mp-event-trigger
                                             id="event-trigger-tab-photograph-ULAN"
                                             type="Component.TemplateUpdate"
-                                            data='{"withULAN":"true"}'
+                                            data='{"withULAN":"false"}'
                                             targets='["event-target-search-btn-ULAN","event-target-search-switches-ULAN","event-target-tab-select-ULAN","event-target-tables-ULAN"]'
                                             >
                                             <div>        
@@ -31,12 +31,12 @@
                                           </mp-event-trigger>
                                         </label>
                                       {{else}}
-                                      {{#ifCond withULAN "===" "true"}}
+                                      {{#ifCond withULAN "===" "false"}}
                                       <label class="switch-ULAN">   
                                         <mp-event-trigger
                                           id="event-trigger-tab-photograph-ULAN"
                                           type="Component.TemplateUpdate"
-                                          data='{"withULAN":"falseb"}'
+                                          data='{"withULAN":"true"}'
                                           targets='["event-target-search-btn-ULAN","event-target-search-switches-ULAN","event-target-tab-select-ULAN","event-target-tables-ULAN"]'
                                           >
                                           <div>        
@@ -46,12 +46,12 @@
                                         </mp-event-trigger>
                                       </label>
                                       {{else}}
-                                      {{#ifCond "[[urlParam "withULAN"]]" "===" "falseb"}}
+                                      {{#ifCond "[[urlParam "withULAN"]]" "===" "true"}}
                                       <label class="switch-ULAN">   
                                         <mp-event-trigger
                                           id="event-trigger-tab-photograph-ULAN"
                                           type="Component.TemplateUpdate"
-                                          data='{"withULAN":"true"}'
+                                          data='{"withULAN":"false"}'
                                           targets='["event-target-search-btn-ULAN","event-target-search-switches-ULAN","event-target-tab-select-ULAN","event-target-tables-ULAN"]'
                                           >
                                           <div>
@@ -61,11 +61,12 @@
                                         </mp-event-trigger>
                                       </label>
                                       {{else}}
+                                       {{#ifCond "[[urlParam "withULAN"]]" "===" "false"}}
                                       <label class="switch-ULAN">   
                                         <mp-event-trigger
                                           id="event-trigger-tab-photograph-ULAN"
                                           type="Component.TemplateUpdate"
-                                          data='{"withULAN":"falseb"}'
+                                          data='{"withULAN":"true"}'
                                           targets='["event-target-search-btn-ULAN","event-target-search-switches-ULAN","event-target-tab-select-ULAN","event-target-tables-ULAN"]'
                                           >
                                             <div>
@@ -74,6 +75,7 @@
                                             </div>
                                         </mp-event-trigger>
                                       </label>
+                                      {{/ifCond}}
                                       {{/ifCond}}
                                       {{/ifCond}}
                                       {{/ifCond}}
