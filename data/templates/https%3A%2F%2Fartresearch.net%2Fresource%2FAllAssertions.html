@@ -20,9 +20,6 @@
                           <semantic-query 
                           query='SELECT (COUNT(DISTINCT ?document) AS ?count) WHERE {
                                 ?document  a <http://www.researchspace.org/ontology/EX_Assertion>.
-                                ?document rdfs:label ?documentTitle.
-                                ?document prov:wasAttributedTo ?username.
-                                ?document prov:generatedAtTime ?time.
                                 ?document <http://www.researchspace.org/ontology/targetsField> ?field.
                                 ?document <http://www.researchspace.org/ontology/targetsRecord> ?subject.
                             }'
@@ -35,9 +32,6 @@
                               <semantic-query
                                 query='SELECT (COUNT(DISTINCT ?document) AS ?count) WHERE {
                                   ?document  a <http://www.researchspace.org/ontology/EX_Assertion>.
-                                  ?document rdfs:label ?documentTitle.
-                                  ?document prov:wasAttributedTo ?username.
-                                  ?document prov:generatedAtTime ?time.
                                   ?document <http://www.researchspace.org/ontology/targetsField> ?field.
                                   ?document <http://www.researchspace.org/ontology/targetsRecord> ?subject.
                                   ?document prov:wasAttributedTo ?__useruri__.
