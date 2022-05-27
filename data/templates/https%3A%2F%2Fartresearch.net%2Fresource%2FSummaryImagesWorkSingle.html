@@ -36,22 +36,19 @@
                           <div class="summary-image-main imageAndSourceContainer">  
                             <semantic-query
                               query="     
-                                SELECT ?providerLabel ?photo WHERE{   
+                                SELECT ?provider ?photo WHERE{   
                                   # Get the little icon on the top left to please providers
                                   ?photo crm:P129i_is_subject_of <{{bindings.0.rectoVersoImage.value}}>.
                                   ?photo custom:has_provider ?provider.
-                                  ?provider rdfs:label ?providerLabel.
-                                }limit 1 "
+                                }"
                               template="{{> imageSourceIcon}}"
                             >
                               <template id="imageSourceIcon">
-                                <div class="imageSourceIcon fade-in">
-                                  <img
-                                    title="{{bindings.0.providerLabel.value}}"
-                                    class="sourceIcon"
-                                    src="/assets/images/{{bindings.0.providerLabel.value}}.ico"
-                                  />
-                                </div>
+                                {{#each bindings}}
+                                  <div class="imageSourceIcon fade-in">
+                                    [[> SourceIcon sub=true]]
+                                  </div>
+                                {{/each}}
                               </template>
                             </semantic-query>
                             {{#ifCond (objectLength bindings) ">" 2 }}
