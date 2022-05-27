@@ -22,6 +22,7 @@
                         ?s crm:P50_has_current_keeper ?__value__."
                   }]
                     }'
+
                   search-profile='{
                       "categories":  
                       [
@@ -286,19 +287,18 @@
                                                             </div>
                                                           <semantic-query
                                                             query='
-                                                            SELECT (GROUP_CONCAT(DISTINCT ?provider; SEPARATOR=", ") AS ?provider) (GROUP_CONCAT(DISTINCT ?providerLabel; SEPARATOR=", ") AS ?providerLabel) (count(distinct ?provider) as ?countProviders) WHERE { 
-                                                              <{{subject.value}}> ?relation ?something.
-                                                              ?something <https://artresearch.net/custom/has_provider> ?provider.
-                                                              ?provider rdfs:label ?providerLabel.
-                                                            }order by desc(COUNT(distinct ?provider)) LIMIT 1'
+                                                            SELECT DISTINCT ?provider WHERE { 
+                                                              ?og owl:sameAs <{{subject.value}}>.
+                                                              ?og <https://artresearch.net/custom/has_provider> ?provider.
+                                                            }'
                                                             template="{{>attr}}">
                                                               <template id="attr">
                                                                 <div class="provRow">
                                                                   <div>Photo Archive:</div>
                                                                   <div class="attribution-wrapper">
-                                                                  {{#each bindings}}
-                                                                    [[> SourceIcon attr=true]]
-                                                                  {{/each}}
+                                                                    {{#each bindings}}
+                                                                      [[> SourceIcon sub=true]]
+                                                                    {{/each}}
                                                                   </div>
                                                                 </div>
                                                               </template>
@@ -329,9 +329,9 @@
       </div>
     </div>
 </div>
-  <style>
-      #header-search .form-group {
-        margin: 0 !important;
-        display: flex;
-      }
-    </style>
+<style>
+  #header-search .form-group {
+    margin: 0 !important;
+    display: flex;
+  }
+</style>
