@@ -30,28 +30,15 @@
                   solr:setRowsNumber 1000;
                   solr:hasResults ?subject
       }
-      {{#ifCond withULAN "===" "true"}}
+      {{#ifCond withULAN "!==" "false"}}
         ?subject fr:Artist_created_Work ?work.
       {{/ifCond}}
     }
     '
   query='
-  PREFIX solr: <http://custom.solr/ontology#>
-  PREFIX fr: <https://artresearch.net/resource/fr/>
-  PREFIX fc: <https://artresearch.net/resource/fc/>
-  PREFIX cfc: <https://artresearch.net/resource/custom/fc/>
-    SELECT ?subject WHERE {
-      SERVICE <http://www.researchspace.org/resource/system/service/custom#solrartists>{
-        ?solrApi solr:setQuery "{{bindings.0.token.value}}";
-                  solr:setDefType "dismax";
-                  solr:setFilter "id";
-                  solr:setRowsNumber 1000;
-                  solr:hasResults ?subject
-      }
-      {{#ifCond withULAN "===" "true"}}
-        ?subject fr:Artist_created_Work ?work.
-      {{/ifCond}}
-    }
+  SELECT ?nothing WHERE{
+    ?nothing a <http://this_is_hidden_and_will_never_run>
+  }
   '
   class="hiddenSearchbar"
   >
