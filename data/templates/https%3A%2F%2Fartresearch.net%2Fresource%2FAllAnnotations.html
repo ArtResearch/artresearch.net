@@ -18,9 +18,6 @@
                         <bs-nav-item event-key="allannotations">All platform Text Annotations
                               <semantic-query query='SELECT (COUNT(DISTINCT ?document) AS ?count) WHERE {
                                               ?document rdf:type rs:Semantic_Narrative.
-                                              ?document rdfs:label ?documentTitle.
-                                              ?document prov:wasAttributedTo ?username.
-                                              ?document prov:generatedAtTime ?time.
                                               ?document <http://www.researchspace.org/ontology/targetsField> ?field.
                                               ?document <http://www.researchspace.org/ontology/targetsRecord> ?subject.
                                           }'
@@ -33,9 +30,6 @@
                                     <semantic-query 
                                       query='SELECT (COUNT(DISTINCT ?document) AS ?count) WHERE {
                                           ?document rdf:type rs:Semantic_Narrative.
-                                          ?document rdfs:label ?documentTitle.
-                                          ?document prov:wasAttributedTo ?username.
-                                          ?document prov:generatedAtTime ?time.
                                           ?document <http://www.researchspace.org/ontology/targetsField> ?field.
                                           ?document <http://www.researchspace.org/ontology/targetsRecord> ?subject.
                                           ?document prov:wasAttributedTo ?__useruri__.
@@ -49,13 +43,10 @@
                                     query='SELECT (COUNT(DISTINCT ?document) AS ?count) WHERE {
                                         GRAPH ?g {
                                                       Platform:formContainer <http://www.w3.org/ns/ldp#contains> ?y.
-                                                      ?document prov:generatedAtTime ?time.
-                                                      ?document prov:wasAttributedTo ?username.
+                                                      ?document prov:wasAttributedTo ?__useruri__.
                                                       ?document rdf:type <http://www.w3.org/ns/ldp#Resource>.
-                                                      ?l rso:displayLabel ?documentTitle.
                                                       ?l crmdig:L49_is_primary_area_of ?image.
                                                     }
-                                                    BIND ( ?__useruri__ as ?username)
                                   }'
                                   template='{{#each bindings}}<span class="badge">{{count.value}}</span>{{/each}}'>\
                                   </semantic-query>
@@ -66,11 +57,8 @@
                                   <semantic-query
                                   query='SELECT (COUNT(DISTINCT ?document) AS ?count) WHERE {
                                       GRAPH ?g {
-                                                    Platform:formContainer <http://www.w3.org/ns/ldp#contains> ?y.
-                                                    ?document prov:generatedAtTime ?time.
-                                                    ?document prov:wasAttributedTo ?username.
+                                                    Platform:formContainer <http://www.w3.org/ns/ldp#contains> ?document.
                                                     ?document rdf:type <http://www.w3.org/ns/ldp#Resource>.
-                                                    ?l rso:displayLabel ?documentTitle.
                                                     ?l crmdig:L49_is_primary_area_of ?image.
                                                   } 
                                     }'
