@@ -13,14 +13,26 @@
       </div>
       <div id="artwork-filter-search">
         <semantic-search
+                  categories='{
+                    "<http://www.w3.org/2001/XMLSchema#date>": [{
+                      "kind": "date-range",
+                      "datatype": "http://www.w3.org/2001/XMLSchema#date",
+                      "queryPattern": "{
+                        ?subject fr:Work_from_Date|fr:Work_to_Date ?d.
+                        FILTER(strlen(?d)=4 && STR(?d)!=\"n.d.\")
+                        FILTER(xsd:date(CONCAT(STR(?d),\"-01-01\")) >= ?__dateBeginValue__) .
+                        FILTER(xsd:date(CONCAT(STR(?d),\"-01-01\")) <= ?__dateEndValue__) .
+                      }"
+                      }]
+                }'
                   relations='{
-                  "<https://artresearch.net/resource/fr/Work_kept_by_Institution>":[
-                  {
-                    "kind": "resource",
-                    "queryPattern": "
-                        ?subject owl:sameAs ?s.
-                        ?s crm:P50_has_current_keeper ?__value__."
-                  }]
+                      "<https://artresearch.net/resource/fr/Work_kept_by_Institution>":[
+                      {
+                        "kind": "resource",
+                        "queryPattern": "
+                            ?subject owl:sameAs ?s.
+                            ?s crm:P50_has_current_keeper ?__value__."
+                      }]
                     }'
 
                   search-profile='{
@@ -37,6 +49,10 @@
                         {
                           "iri":"<https://artresearch.net/resource/fc/work>",
                           "label":"Artwork"
+                        },
+                        {
+                          "iri":"<http://www.w3.org/2001/XMLSchema#date>",
+                          "label":"Date"
                         },
                         {
                           "iri":"<http://www.cidoc-crm.org/cidoc-crm/E55_Type>",
@@ -79,6 +95,11 @@
                           "label":"Creator",
                           "hasDomain":"<https://artresearch.net/resource/fc/work>",
                           "hasRange":"<https://artresearch.net/resource/fc/artist>"
+                        },{
+                          "hasDomain": "<https://artresearch.net/resource/fc/work>",
+                          "iri": "<https://artresearch.net/resource/fr/Work_has_production_Date>",
+                          "hasRange": "<http://www.w3.org/2001/XMLSchema#date>",
+                          "label": "Date"
                         },
                         {
                           "iri": "<https://artresearch.net/resource/fr/Work_kept_by_Institution>",
