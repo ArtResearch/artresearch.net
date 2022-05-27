@@ -1,5 +1,5 @@
 <div class="header-options artistAdditionalOptions">
-  <div style="display:flex;">
+  <div style="display:flex; flex-wrap: wrap;">
       <semantic-query
         query=' SELECT DISTINCT (IRI(REPLACE(STR(?m),"http://d-nb.info/gnd/tp/","https://d-nb.info/gnd/")) AS ?link) ?icon ?title WHERE {
                   ?og owl:sameAs <[[this]]>.
@@ -99,7 +99,7 @@
                     <template id="Bio">
                       <div class= "bioTemplate" >
                         <div class="BioText">
-                          <h2 class=" fa fa-quote-left">{{bindings.0.value.value}}</h2>&ensp;<h2 class="fa fa-quote-right"></h2>
+                          <h2 class=" fa fa-quote-left">{{bindings.0.value.value}}</h2><h2 class="fa fa-quote-right"></h2>
                         </div>
                       </div>
                     </template>
