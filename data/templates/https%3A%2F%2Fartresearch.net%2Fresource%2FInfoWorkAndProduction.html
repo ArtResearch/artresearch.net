@@ -156,6 +156,7 @@ template="{{> fieldsFilter}}"
               [[#if (ask "ASK{?? fr:Work_from_Place ?place. SERVICE <http://dev.artresearch.net:10085/blazegraph/sparql>  {?place <http://www.geonames.org/ontology#featureClass> <https://www.geonames.org/ontology#P>.}}")]]
                 <semantic-map
                   id="event-map"
+                  fix-zoom-level="13"
                   query="
                       PREFIX fr: <https://artresearch.net/resource/fr/>
                       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -183,6 +184,7 @@ template="{{> fieldsFilter}}"
               [[else]]
                 <semantic-map
                   id="event-map"
+                  fix-zoom-level="13"
                   query="
                     PREFIX fr: <https://artresearch.net/resource/fr/>
                     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>

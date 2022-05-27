@@ -231,6 +231,7 @@
                                         <bs-tab-pane event-key="birthplaceMap">
                                           <div class="mapContainer">
                                             <semantic-map
+                                              fix-zoom-level="13"
                                               id="birthplace-map"
                                               query="SELECT DISTINCT ?subject ?place ?lat ?lng WHERE {
                                                       ?subject fr:Person_has_Place_of_Birth ?place .
@@ -252,6 +253,7 @@
                                         <bs-tab-pane event-key="deathplaceMap">
                                           <div class="mapContainer">
                                             <semantic-map
+                                              fix-zoom-level="13"
                                               id="deathplace-map"
                                               query="SELECT DISTINCT ?subject ?place ?lat ?lng WHERE {
                                                       ?subject fr:Person_has_Place_of_Death ?place .
