@@ -44,8 +44,6 @@
         </template>
       </semantic-query>
 
-
-
       <semantic-query
         query="SELECT ?websiteLink WHERE { ?? fr:Institution_has_Original_Link|cfr:Institution_has_Original_Link ?websiteLink }LIMIT 10"
         template="{{> websiteLink }}"
@@ -72,9 +70,9 @@
       >
         <template id="filterRsbv">
             <div id="filter-dropdown">
-              {{#if selectedTab}} 
-                [[> WorkInfoDropdown dropdownTitle="Source: {{selectedTab}}"]] 
-                {{else}} 
+              {{#if selectedTab}}
+                [[> WorkInfoDropdown dropdownTitle="Source: {{selectedTabLabel}}"]] 
+              {{else}} 
                 [[> WorkInfoDropdown dropdownTitle="Source: All" ]] 
               {{/if}}
               
