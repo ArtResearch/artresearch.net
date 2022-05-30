@@ -129,15 +129,7 @@
             <div class="tall-card-body">
               <div class="tall-card-button">Discover</div>
               <div class="tall-card-title">Artists</div>
-              <semantic-query
-              query="SELECT (COUNT (distinct ?x) AS ?count) WHERE { 
-                    ?x a fc:artist.
-                    }"
-                    template="{{> records}}">
-                    <template id="records">
-                       <div class="tall-card-subtitle">{{bindings.0.count.value}} records</div>
-                    </template>
-              </semantic-query>
+                <div class="tall-card-subtitle">[[> StatisticsTotal property="https://artresearch.net/custom/numOfArtists"]]&ensp;records</div>
             </div>
           </mp-link>
         </div>
@@ -146,15 +138,7 @@
             <div class="tall-card-body">
               <div class="tall-card-button">Discover</div>
               <div class="tall-card-title">Photographers</div>
-              <semantic-query
-              query="SELECT (COUNT (distinct ?x) AS ?count) WHERE { 
-                    ?x a fc:photographer.
-                    }"
-                    template="{{> records}}">
-                    <template id="records">
-                       <div class="tall-card-subtitle">{{bindings.0.count.value}} records</div>
-                    </template>
-              </semantic-query>
+                       <div class="tall-card-subtitle">[[> StatisticsTotal property="https://artresearch.net/custom/numOfPhotographers"]]&ensp;records</div>
             </div>
           </mp-link>
         </div>
