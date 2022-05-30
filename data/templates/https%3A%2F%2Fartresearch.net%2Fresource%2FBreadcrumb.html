@@ -168,14 +168,27 @@
           ></mp-overlay-dialog-content>
         </mp-overlay-dialog>
 
-        <mp-copy-to-clipboard
-          text="https://artresearch.net/resource/?uri=[[this]]"
-          message="Permalink copied"
-        >
-          <div id="btnGraph" class="rs-body-m-M">
-            <i style="margin-right: 5px" class="fa fa-link"></i>Permalink
-          </div>
-        </mp-copy-to-clipboard>
+        [[#if (ask "ASK {filter(CONTAINS(STR(??), 'artresearch.net/resource'))}")]]
+          <mp-copy-to-clipboard
+            text="[[this]]"
+            message="Permalink copied"
+          >
+            <div id="btnGraph" class="rs-body-m-M">
+              <i style="margin-right: 5px" class="fa fa-link"></i>Permalink
+            </div>
+          </mp-copy-to-clipboard>
+        [[else]]
+          <mp-copy-to-clipboard
+            text="https://artresearch.net/resource/?uri=[[this]]"
+            message="Permalink copied"
+          >
+            <div id="btnGraph" class="rs-body-m-M">
+              <i style="margin-right: 5px" class="fa fa-link"></i>Permalink
+            </div>
+          </mp-copy-to-clipboard>
+        [[/if]]
+
+
         <mp-has-permission permission="api:ldp:*">
             <mp-copy-to-clipboard
               text="[[this]]"
