@@ -48,25 +48,22 @@
         <div style="position: absolute; right: 0; top: 0;">
             <semantic-query
               query="
-                    SELECT DISTINCT ?providerRecord ?providerLabel WHERE {
-                    {
-                      # Artwork
-                      ?originalSubject owl:sameAs ??.
-                      ?originalSubject fr:Work_has_provider_Institution ?provider.
-                      ?originalSubject <https://artresearch.net/custom/has_original_record> ?providerRecord.
-                      ?provider rdfs:label ?providerLabel
-                    }UNION{
-                      # Pharos artwork
-                      ?? fr:Work_has_provider_Institution ?provider.
-                      ?? <https://artresearch.net/custom/has_original_record> ?providerRecord.
-                      ?provider rdfs:label ?providerLabel
-                    }UNION{
-                      # Photograph
-                      ?? fr:Photo_depicts_Work  ?subject.
-                      ?subject <https://artresearch.net/custom/has_original_record> ?providerRecord.
-                      ?subject fr:Work_has_provider_Institution ?provider.
-                      ?provider rdfs:label ?providerLabel
-                    }
+                    SELECT DISTINCT ?providerRecord ?provider WHERE {
+                      {
+                        # Artwork
+                        ?originalSubject owl:sameAs ??.
+                        ?originalSubject fr:Work_has_provider_Institution ?provider.
+                        ?originalSubject <https://artresearch.net/custom/has_original_record> ?providerRecord.
+                      }UNION{
+                        # Pharos artwork
+                        ?? fr:Work_has_provider_Institution ?provider.
+                        ?? <https://artresearch.net/custom/has_original_record> ?providerRecord.
+                      }UNION{
+                        # Photograph
+                        ?? fr:Photo_depicts_Work  ?subject.
+                        ?subject <https://artresearch.net/custom/has_original_record> ?providerRecord.
+                        ?subject fr:Work_has_provider_Institution ?provider.
+                      }
                     }"
               no-result-template="<div></div>"
               template="{{> originalRecords}}"
@@ -76,14 +73,7 @@
                   <h2 class="fc-label">
                     {{#each bindings}}
                       <a style="margin-left: 5px;" href="{{providerRecord.value}}" target="_null">
-                        <div class="fc-label original-link">
-                          <img
-                            title="{{providerLabel.value}}"
-                            class="sourceIcon"
-                            src="/assets/images/{{providerLabel.value}}.ico"
-                          />
-                          <div class="text">View {{providerLabel.value}} record</div>
-                        </div> 
+                        [[> SourceIcon sub=true]]
                       </a>
                     {{/each}}
                   </h2>
