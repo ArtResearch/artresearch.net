@@ -38,8 +38,7 @@
         [[/if]]
          {{#if selectedTab}}
           {{#ifCond selectedTab "!==" "All"}}
-              ?graph custom:has_provider ?provider.
-              ?provider rdfs:label "{{selectedTab}}".
+              ?graph custom:has_provider <{{selectedTab}}>.
           {{/ifCond}}
         {{/if}}
          ?workB owl:sameAs ?workB_pharos.
@@ -135,8 +134,7 @@
                   [[/if]]
                   {{#if selectedTab}}
                     {{#ifCond selectedTab "!==" "All"}}
-                        ?graph custom:has_provider ?provider.
-                        ?provider rdfs:label "{{selectedTab}}".
+                        ?graph custom:has_provider <{{selectedTab}}>.
                     {{/ifCond}}
                   {{/if}}
                   ?workB owl:sameAs ?workB_pharos.

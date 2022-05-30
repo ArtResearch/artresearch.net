@@ -1,13 +1,12 @@
 <div id="photoTable">
   <semantic-query
     query='  
-      SELECT distinct ?photo 
+      SELECT distinct ?photo WHERE
       {
         ?? fr:Work_depicted_by_Photo ?photo.
         {{#if selectedTab}}
           {{#ifCond selectedTab "!==" "All"}}
-            ?photo fr:Photo_has_provider_Institution ?provider.
-            ?provider rdfs:label "{{selectedTab}}"
+            ?photo fr:Photo_has_provider_Institution <{{selectedTab}}>.
           {{/ifCond}}
         {{/if}}
       }LIMIT 1'
@@ -38,8 +37,7 @@
           # TODO add recto query, add optional verso query
           {{#if selectedTab}}
             {{#ifCond selectedTab "!==" "All"}}
-              ?photo fr:Photo_has_provider_Institution ?provider.
-              ?provider rdfs:label "{{selectedTab}}"
+              ?photo fr:Photo_has_provider_Institution <{{selectedTab}}>.
             {{/ifCond}}
           {{/if}}
       }'
