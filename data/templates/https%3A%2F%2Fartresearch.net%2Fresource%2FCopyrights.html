@@ -28,14 +28,12 @@
                         </bs-nav-item>
                         <bs-nav-item event-key="withcopyrights">
                                 With Copyrights
-                                <semantic-query 
-                                    query='SELECT (COUNT(DISTINCT ?rights) AS ?count) WHERE {
-                                    graph ?g {
-                                     ?photo <http://www.cidoc-crm.org/cidoc-crm/P104_is_subject_to> ?rights.
-                                    }
-                                  }'
-                                  template='{{#each bindings}}<span class="badge">{{count.value}}</span>{{/each}}'>\
-                                  </semantic-query>
+                          <semantic-query 
+                              query='SELECT (COUNT(DISTINCT ?rights) AS ?count) WHERE {
+                                      ?photo <http://www.cidoc-crm.org/cidoc-crm/P104_is_subject_to> ?rights.
+                                    }'
+                              template='{{#each bindings}}<span class="badge">{{count.value}}</span>{{/each}}'>\
+                          </semantic-query>
                         </bs-nav-item>
 
                     </bs-nav>
