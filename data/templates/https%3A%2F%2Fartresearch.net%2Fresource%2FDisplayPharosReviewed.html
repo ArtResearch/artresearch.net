@@ -18,10 +18,9 @@
                       "kind": "date-range",
                       "datatype": "http://www.w3.org/2001/XMLSchema#date",
                       "queryPattern": "{
-                        ?subject fr:Work_from_Date|fr:Work_to_Date ?d.
-                        FILTER(strlen(?d)=4 && STR(?d)!=\"n.d.\")
-                        FILTER(xsd:date(CONCAT(STR(?d),\"-01-01\")) >= ?__dateBeginValue__) .
-                        FILTER(xsd:date(CONCAT(STR(?d),\"-01-01\")) <= ?__dateEndValue__) .
+                        $subject ?__relation__ ?date .
+                        FILTER(xsd:date(STR(?__value__)) >= ?__dateBeginValue__) .
+                        FILTER(xsd:date(STR(?__value__)) <= ?__dateEndValue__) .
                       }"
                       }]
                 }'
@@ -32,6 +31,18 @@
                         "queryPattern": "
                             ?subject owl:sameAs ?s.
                             ?s crm:P50_has_current_keeper ?__value__."
+                      }],
+                      "<https://artresearch.net/resource/fr/Work_has_production_Date>":[
+                      {
+                        "kind": "date-range",
+                        "queryPattern": "
+                        ?subject fr:Work_from_Date ?__dateBeginValue__.
+                        ?subject fr:Work_to_Date ?__dateEndValue__.
+                           FILTER(xsd:date(STR(?__dateBeginValue__)) >= ?__dateBeginValue__) .
+                          FILTER(xsd:date(STR(?__dateEndValue__)) <= ?__dateEndValue__) .
+                          BIND(?__dateBeginValue__ as ?dateBeginValue) 
+                          BIND(?__dateEndValue__ as ?dateEndValue) 
+                        "
                       }]
                     }'
 
@@ -96,8 +107,8 @@
                           "hasDomain":"<https://artresearch.net/resource/fc/work>",
                           "hasRange":"<https://artresearch.net/resource/fc/artist>"
                         },{
-                          "hasDomain": "<https://artresearch.net/resource/fc/work>",
                           "iri": "<https://artresearch.net/resource/fr/Work_has_production_Date>",
+                          "hasDomain": "<https://artresearch.net/resource/fc/work>",
                           "hasRange": "<http://www.w3.org/2001/XMLSchema#date>",
                           "label": "Date"
                         },
@@ -186,7 +197,7 @@
               style="margin-top: 8px"
             >
                 <bs-panel id="filter-panel" header="Filters"  collapsible="true" default-expanded="true">
-                  <semantic-search-facet open-by-default='true' sortby='count-desc'></semantic-search-facet>
+                  <semantic-search-facet facet-values-threshold="1000" open-by-default='true' sortby='count-desc'></semantic-search-facet>
                 </bs-panel>
             </bs-col>
             <bs-col lg="9" md="8" sm="7">
