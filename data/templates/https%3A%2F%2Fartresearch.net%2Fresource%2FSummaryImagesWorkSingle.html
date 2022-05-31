@@ -94,15 +94,9 @@
                     <div>
                   [[#if (ask "ASK{ ?? a cfc:photo.}")]]
                   [[else]]
-                  {{#ifCond image '===' undefiend}}
                    <div class="metadataButton">
                     <semantic-link iri="{{bindings.0.photo.value}}" target="_black" class="metadataText" >View photo metadata</semantic-link>
                   </div>
-                   {{else}}
-                  <div class="metadataButton ">
-                    <semantic-link iri="{{bindings.0.photo.value}}" target="_black" class="metadataText" >View photo metadata</semantic-link>
-                  </div>
-                  {{/ifCond}}
                   [[/if]]
                   </div>
                    
