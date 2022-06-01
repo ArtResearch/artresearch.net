@@ -31,6 +31,7 @@
                   solr:hasResults ?subject
       }
       {{#ifCond withImages "===" "true"}}
+      {{else}}
         ?subject crm:P129i_is_subject_of ?images.
         ?images crm:P2_has_type <http://vocab.getty.edu/aat/300078817>.
       {{/ifCond}}

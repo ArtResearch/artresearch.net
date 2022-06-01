@@ -30,7 +30,8 @@
                   solr:setRowsNumber 1000;
                   solr:hasResults ?subject
       }
-      {{#ifCond withULAN "!==" "false"}}
+      {{#ifCond withULAN "===" "false"}}
+      {{else}}
         ?subject fr:Artist_created_Work ?work.
       {{/ifCond}}
     }
