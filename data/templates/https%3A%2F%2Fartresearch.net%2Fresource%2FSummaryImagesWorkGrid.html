@@ -20,20 +20,17 @@
                       <div class="imageAndSourceContainer">
                         <semantic-query
                           query="     
-                            SELECT ?providerLabel WHERE{    
+                            SELECT ?provider WHERE{    
                               ?photo crm:P129i_is_subject_of <{{bindings.0.image.value}}>.
                               ?photo custom:has_provider ?provider.
-                              ?provider rdfs:label ?providerLabel.
                             }limit 1 "
                           template="{{> imageSourceIcon}}"
                         >
                           <template id="imageSourceIcon">
                             <div class="imageSourceIcon fade-in">
-                              <img
-                                title="{{bindings.0.providerLabel.value}}"
-                                class="sourceIcon"
-                                src="/assets/images/{{bindings.0.providerLabel.value}}.ico"
-                              />
+                              {{#each bindings}}
+                                [[> SourceIcon attr=true]]
+                              {{/each}}
                             </div>
                           </template>
                         </semantic-query>
@@ -41,6 +38,7 @@
                         <img
                           class="imageThumbnail"
                           alt="Temporarily unavailable"
+                          onerror="url(/assets/images/media/image_placeholder_broken.jpg);"
                           src="{{bindings.0.mediumThumbnail.value}}"
                         />
                       </div>

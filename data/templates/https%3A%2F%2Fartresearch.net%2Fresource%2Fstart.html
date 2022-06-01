@@ -88,13 +88,13 @@
        
         <div class="linksTo">
           <div>
-            <mp-link title="Contextual Search" url="/resource/SearchContextual">Contextual Search</mp-link>
+            <a title="Contextual Search" href="/resource/SearchContextual">Contextual Search</a>
           </div>
           <!-- <div>
-           <mp-link title="Advanced Search" url="/resource/SearchAdvanced">Advanced Search</mp-link>
+           <a title="Advanced Search" href="/resource/SearchAdvanced">Advanced Search</a>
           </div> -->
           <div>
-           <mp-link title="Visual Search" url="/resource/VisualSearch">Visual Search</mp-link>
+           <a title="Visual Search" href="/resource/VisualSearch">Visual Search</a>
           </div>
         </div>
       </div>
@@ -125,56 +125,40 @@
     <div class="section-body">
       <div class="tall-card-list">
         <div class="tall-card">
-          <mp-link url="/resource/DisplayPharosArtists?withULAN=true">
+          <a href="/resource/DisplayPharosArtists?withULAN=true">
             <div class="tall-card-body">
               <div class="tall-card-button">Discover</div>
               <div class="tall-card-title">Artists</div>
-              <semantic-query
-              query="SELECT (COUNT (distinct ?x) AS ?count) WHERE { 
-                    ?x a fc:artist.
-                    }"
-                    template="{{> records}}">
-                    <template id="records">
-                       <div class="tall-card-subtitle">{{bindings.0.count.value}} records</div>
-                    </template>
-              </semantic-query>
+                <div class="tall-card-subtitle">[[> StatisticsTotal property="https://artresearch.net/custom/numOfArtists"]]&ensp;records</div>
             </div>
-          </mp-link>
+          </a>
         </div>
         <div class="tall-card">
-          <mp-link url="/resource/DisplayPharosPhotographers">
+          <a href="/resource/DisplayPharosPhotographers">
             <div class="tall-card-body">
               <div class="tall-card-button">Discover</div>
               <div class="tall-card-title">Photographers</div>
-              <semantic-query
-              query="SELECT (COUNT (distinct ?x) AS ?count) WHERE { 
-                    ?x a fc:photographer.
-                    }"
-                    template="{{> records}}">
-                    <template id="records">
-                       <div class="tall-card-subtitle">{{bindings.0.count.value}} records</div>
-                    </template>
-              </semantic-query>
+                       <div class="tall-card-subtitle">[[> StatisticsTotal property="https://artresearch.net/custom/numOfPhotographers"]]&ensp;records</div>
             </div>
-          </mp-link>
+          </a>
         </div>
         <div class="tall-card">
-          <mp-link url="/resource/DisplayPharosInstitutions">
+          <a href="/resource/DisplayPharosInstitutions">
             <div class="tall-card-body">
               <div class="tall-card-button">Discover</div>
               <div class="tall-card-title">Repositories</div>
               <div class="tall-card-subtitle">Museums, Collections etc.</div>
             </div>
-          </mp-link>
+          </a>
         </div>
         <div class="tall-card">
-          <mp-link url="/resource/Partners">
+          <a href="/resource/Partners">
             <div class="tall-card-body">
               <div class="tall-card-button">Discover</div>
               <div class="tall-card-title">Partners</div>
               <div class="tall-card-subtitle">Photo archive collections</div>
             </div>
-          </mp-link>
+          </a>
         </div>
       </div>
     </div>
@@ -188,7 +172,7 @@
           class="grid-card"
           style=" background: url(/assets/images/media/alinari.jpg) center no-repeat; "
         >
-          <mp-link url="/resource/DisplayCollectionAlinari">  
+          <a href="/resource/DisplayCollectionAlinari">  
             <div class="grid-card-body">
                 <div class="grid-card-title">Fratelli Alinari</div>
                 <div class="grid-card-subtitle">Browse one of the world's oldest photographic firms </div>
@@ -201,69 +185,69 @@
           "
           class="grid-card"
         >
-      <mp-link url="/resource/DisplayCollectionOilOnWood">  
+      <a href="/resource/DisplayCollectionOilOnWood">  
         <div class="grid-card-body">
             <div class="grid-card-title">Oil on wood</div>
             <div class="grid-card-subtitle">Explore using medium</div>
           </div>
-        </mp-link>
+        </a>
         </div>
         <div
           style=" background: url(/assets/images/media/builtworks_middleast.jpg) center no-repeat; "
           class="grid-card"
         >
-          <mp-link url="/resource/DisplayCollectionBuiltworksMiddleEast">  
+          <a href="/resource/DisplayCollectionBuiltworksMiddleEast">  
             <div class="grid-card-body">
               <div class="grid-card-title">Built Works</div>
               <div class="grid-card-subtitle">In the Middle-East</div>
             </div>
-          </mp-link>
+          </a>
         </div>
         <div
           style=" background: url(/assets/images/media/kahlo.jpg) center no-repeat; "
           class="grid-card"
         >
-            <mp-link url="/resource/DisplayCollectionWomenArtists">  
+            <a href="/resource/DisplayCollectionWomenArtists">  
               <div class="grid-card-body">
                 <div class="grid-card-title">Women Artists</div>
                 <div class="grid-card-subtitle">Across centuries</div>
               </div>
-            </mp-link>
+            </a>
         </div>
         <div
           style=" background: url(/assets/images/media/madonna.jpg) center no-repeat; "
           class="grid-card"
         >
-          <mp-link url="/resource/DisplayCollectionMadonnaAndChild">  
+          <a href="/resource/DisplayCollectionMadonnaAndChild">  
             <div class="grid-card-body">
                 <div class="grid-card-title">Madonna and Child</div>
                 <div class="grid-card-subtitle">
                   Artworks from 12th - 15th century
                 </div>
             </div>
-          </mp-link>
+          </a>
         </div>
         <div
           style=" background: url(/assets/images/media/italian_ren.jpg) center no-repeat; "
           class="grid-card"
         >
-          <mp-link url="/resource/DisplayCollectionItalian">  
+          <a href="/resource/DisplayCollectionItalian">  
               <div class="grid-card-body">
                 <div class="grid-card-title">Italian Renaissance</div>
                 <div class="grid-card-subtitle">Discover masterpieces</div>
               </div>
-          </mp-link>
+          </a>
         </div>
         <div
           style=" background: url(/assets/images/media/datedphotographs.jpg) center no-repeat;"
           class="grid-card"
         >
-            <mp-link url="/resource/DisplayCollectionPhotoDatedBetween">  
+            <a href="/resource/DisplayCollectionPhotoDatedBetween">  
               <div class="grid-card-body">
                   <div class="grid-card-title">1839-1900 AD</div>
                   <div class="grid-card-subtitle">19th century photographs</div>
               </div>
-            </mp-link>
+            </a>
         </div>
       </div>
     </div>
@@ -273,40 +257,40 @@
     <div class="section-body">
       <div class="tall-card-list" style=" text-align: center;">
         <div class="doc-tall-card">
-          <mp-link url="/resource/Documentation">
+          <a href="/resource/Documentation">
             <div class="doc-tall-card-body">
               <img  class="imagesDoc" src="/assets/images/icons/search.svg"/>
               <div class="doc-tall-card-title">Search in platform</div>
               <div class="doc-tall-card-subtitle">They are many ways to search your favorite artwork through artresearch.</div>
             </div>
-          </mp-link>
+          </a>
         </div>
         <div class="doc-tall-card">
-          <mp-link url="/resource/DocumentationCards">
+          <a href="/resource/DocumentationCards">
             <div class="doc-tall-card-body">
               <img class="imagesDoc" src="/assets/images/icons/viewer.svg"/>
               <div class="doc-tall-card-title">IIIF Viewer</div>
               <div class="doc-tall-card-subtitle">Compare and View images with deep zoom</div>
             </div>
-          </mp-link>
+          </a>
         </div>
         <div class="doc-tall-card">
-          <mp-link url="/resource/DocumentationCards">
+          <a href="/resource/DocumentationCards">
             <div class="doc-tall-card-body">
               <img  class="imagesDoc"  src="/assets/images/icons/vision.svg"/>
               <div class="doc-tall-card-title">Vision Instance</div>
-              <div class="doc-tall-card-subtitle">Find Similar artworks</div>
+              <div class="doc-tall-card-subtitle">Find Similar Artworks</div>
             </div>
-          </mp-link>
+          </a>
         </div>
         <div class="doc-tall-card">
-          <mp-link url="/resource/DocumentationCards">
+          <a href="/resource/DocumentationCards">
             <div class="doc-tall-card-body">
               <img  class="imagesDoc" src="/assets/images/icons/history-book.svg"/>
               <div class="doc-tall-card-title">Photo Archive Curator?</div>
               <div class="doc-tall-card-subtitle">Get familiar with the platform's functionality for curators</div>
             </div>
-          </mp-link>
+          </a>
         </div>
       </div>
     </div>
@@ -315,10 +299,10 @@
         <h2 style="text-align: center;">If you’re new to <span style="color: rgb(220, 54, 54);">art</span>research.net, these research guides will give you a head start using our site. 
         The guides reflect a few key activities that attract visitors to <span style="color: rgb(220, 54, 54);">art</span>research.net, but you can explore many other interests here too.</h2>
       </div>
-      <mp-link url="/resource/DocumentationCards">
+      <a href="/resource/DocumentationCards">
       <div class="view-guides">
         <h2>View all guides</h2>
-      </div></mp-link>
+      </div></a>
     </div>
   </section>
     <section class="cool-background" title="Explore visually similar images">
@@ -332,6 +316,8 @@
                   <div class="front">
                     <div class="front-back-img-holder"  >
                       <img
+                        class="img-flip"
+                        alt="  "
                         src="https://iiif.artresearch.net/iiif/2/zeri!71200%2170925_g.jpg/full/!500,500/0/default.jpg"
                       />
                       <div class="title">Nascita di Maria Vergine</div>
@@ -341,6 +327,8 @@
                   <div class="back">
                     <div class="front-back-img-holder" >
                       <img
+                        class="img-flip"
+                        alt="  "
                         src="https://ids.lib.harvard.edu/ids/iiif/42662040/full/!500,500/0/native.jpg"
                       />
                       <div class="title">Birth of the Virgin</div>
@@ -356,6 +344,8 @@
                   <div class="front">
                     <div class="front-back-img-holder" >
                       <img
+                        class="img-flip"
+                        alt="  "
                         src="http://fotothek.biblhertz.it/bh/320px/bh002968.jpg"
                       />
                       <div class="title">Profilbildnis einer jungen Frau</div>
@@ -365,6 +355,8 @@
                   <div class="back">
                     <div class="front-back-img-holder" >
                       <img
+                        class="img-flip"
+                        alt="  "
                         src="https://iiif.itatti.harvard.edu/iiif/2/fotoindex!028_recto_d!028_recto_box01_d!028_recto_box01_d_00022.jpg/full/!500,500/0/default.jpg"
                       />
                       <div class="title">W00012940</div>
@@ -380,6 +372,8 @@
                   <div class="front">
                     <div class="front-back-img-holder" >
                       <img
+                        class="img-flip"
+                        alt="  "
                         src="https://iiif.khi.fi.it/iiif/2/thumbnails%2Ffld0006864x_p.jpg/full/!500,500/0/default.jpg"
                       />
                       <div class="title">	Maria mit dem Christuskind</div>
@@ -389,6 +383,8 @@
                   <div class="back">
                     <div class="front-back-img-holder" >
                       <img
+                        class="img-flip"
+                        alt="  "
                         src="http://fotothek.biblhertz.it/bh/320px/bh355316.jpg"
                       />
                       <div class="title">Madonna Colonna</div>
@@ -404,6 +400,8 @@
                   <div class="front">
                     <div class="front-back-img-holder" >
                       <img
+                        class="img-flip"
+                        alt="  "
                         src="https://ids.lib.harvard.edu/ids/iiif/474707461/full/!500,500/0/native.jpg"
                       />
                       <div class="title">Portrait of a youth</div>
@@ -413,6 +411,8 @@
                   <div class="back">
                     <div class="front-back-img-holder" >
                       <img
+                        class="img-flip"
+                        alt="  "
                         src="https://iiif.artresearch.net/iiif/2/zeri!74000%2173954_g.jpg/full/!500,500/0/default.jpg"
                       />
                       <div class="title">Ritratto maschile</div>
@@ -428,6 +428,8 @@
                   <div class="front">
                     <div  class="front-back-img-holder" >
                       <img
+                        class="img-flip"
+                        alt="  "
                         src="https://iiif.artresearch.net/iiif/2/marburg!mi07407f01.jpg/full/!500,500/0/default.jpg"
                       />
                       <div class="title">	Bildnis einer Dame</div>
@@ -437,6 +439,8 @@
                   <div class="back">
                     <div class="front-back-img-holder" >
                       <img
+                        class="img-flip"
+                        alt="  "
                         src="https://iiif.itatti.harvard.edu/iiif/2/fotoindex!105_recto_d!105_recto_box04_d!105_recto_box04_d_00119.jpg/full/!500,500/0/default.jpg"
                       />
                       <div class="title">W00026410</div>
@@ -452,6 +456,8 @@
                   <div class="front">
                     <div  class="front-back-img-holder" >
                       <img
+                        class="img-flip"
+                        alt="  "
                         src="https://ids.lib.harvard.edu/ids/iiif/25091201/full/!500,500/0/native.jpg"
                       />
                       <div class="title">Portrait of a gentleman</div>
@@ -461,6 +467,8 @@
                   <div class="back">
                     <div  class="front-back-img-holder" >
                       <img
+                        class="img-flip"
+                        alt="  "
                         src="https://iiif.artresearch.net/iiif/2/zeri!85200%2184998_g.jpg/full/!500,500/0/default.jpg"
                       />
                       <div class="title">Ritratto di gentiluomo</div>
@@ -476,6 +484,8 @@
                   <div class="front">
                     <div  class="front-back-img-holder" >
                       <img
+                        class="img-flip"
+                        alt="  "
                         src="https://iiif.artresearch.net/iiif/2/marburg!mi02293b08.jpg/full/!500,500/0/default.jpg"
                       />
                       <div class="title">Paris</div>
@@ -485,6 +495,8 @@
                   <div class="back">
                     <div class="front-back-img-holder" >
                       <img
+                        class="img-flip"
+                        alt="  "
                         src="https://iiif.artresearch.net/iiif/2/zeri!150800%21150760_g.jpg/full/!500,500/0/default.jpg"
                       />
                       <div class="title">Paride</div>
@@ -500,6 +512,8 @@
                   <div class="front">
                     <div class="front-back-img-holder" >
                       <img
+                        class="img-flip"
+                        alt="  "
                         src="http://fotothek.biblhertz.it/bh/320px/bhfc152e24.jpg"
                       />
                       <div class="title">Porträt des Kardinals Radzielowski</div>
@@ -509,6 +523,8 @@
                   <div class="back">
                     <div class="front-back-img-holder" >
                       <img
+                        class="img-flip"
+                        alt="  "
                         src="https://iiif.artresearch.net/iiif/2/marburg!mi10015g09.jpg/full/!500,500/0/default.jpg"
                       />
                       <div class="title">Bildnis des Kardinal-Erzbischo..</div>
@@ -524,6 +540,8 @@
                   <div class="front">
                     <div  class="front-back-img-holder" >
                       <img
+                        class="img-flip"
+                        alt="  "
                         src="https://iiif.artresearch.net/iiif/2/zeri!127200%21127189_g.jpg/full/!500,500/0/default.jpg"
                       />
                       <div class="title">Scena pastorale</div>
@@ -533,6 +551,8 @@
                   <div class="back">
                     <div class="front-back-img-holder" >
                       <img
+                        class="img-flip"
+                        alt="  "
                         src="https://iiif.artresearch.net/iiif/2/marburg!fmc660037.jpg/full/!500,500/0/default.jpg"
                       />
                       <div class="title">Ländlicher Spaziergang / Strandidylle</div>
@@ -548,6 +568,8 @@
                   <div class="front">
                     <div class="front-back-img-holder" >
                       <img
+                        class="img-flip"
+                        alt="  "
                         src="https://iiif.khi.fi.it/iiif/2/thumbnails%2Fflc0584693z_p.jpg/full/!500,500/0/default.jpg"
                       />
                       <div class="title">Tod des heiligen Franziskus</div>
@@ -557,6 +579,8 @@
                   <div class="back">
                     <div class="front-back-img-holder" >
                       <img
+                        class="img-flip"
+                        alt="  "
                         src="https://iiif.artresearch.net/iiif/2/zeri!12400%2112030_g.jpg/full/!500,500/0/default.jpg"
                       />
                       <div class="title">	Morte e verifica delle sti..</div>

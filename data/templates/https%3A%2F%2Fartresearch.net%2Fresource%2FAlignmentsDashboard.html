@@ -1,6 +1,6 @@
 <ol class="page-breadcrumb">
   <li>
-    <mp-link title="Home" url="/resource/start">Home</mp-link>
+    <a title="Home" href="/resource/start">Home</a>
   </li>
   <li class="active">Alignments</li>
 </ol>
@@ -27,6 +27,7 @@
           </mp-selection-action-choice>
         </div>
         <semantic-table
+          prefetch-labels="false"
           query=' SELECT DISTINCT ?graph ?scheme {
                     {
                       GRAPH ?graph { ?s skos:inScheme ?scheme }
@@ -90,6 +91,7 @@
         <h4>Alignments</h4>
         <semantic-context repository='assets'>
           <semantic-table
+            prefetch-labels="false"
             query='
               SELECT DISTINCT ?alignment ?graph {
                 <http://www.researchspace.org/ontology/Alignment.Container> <http://www.w3.org/ns/ldp#contains> ?alignment .
@@ -173,5 +175,9 @@
 <style>
   .form-group{
     height: unset !important;
+  }
+
+  .base-breadcrumb, div.page-breadcrumb, ol.page-breadcrumb{
+    position: fixed !important;
   }
 </style>

@@ -178,7 +178,7 @@
                 default-query=' SELECT DISTINCT ?subject WHERE {
                                 #  ?someOther owl:sameAs ?subject.
                                   ?subject a fc:artist.
-                                  {{#ifCond withULAN "!==" "false"}}
+                                  {{#ifCond withULAN "!==" "true"}}
                                    ?subject fr:Artist_created_Work ?work.
                                   {{/ifCond}}
                                 }LIMIT 1000'
@@ -237,6 +237,7 @@
                                           <bs-tab-pane event-key="defaultView">
                                               <semantic-table
                                                 id="grid-result"
+                                                prefetch-labels="false"
                                                 options='{"showFilter":false}'
                                                 number-of-displayed-rows="8"
                                                 query='SELECT DISTINCT ?subject

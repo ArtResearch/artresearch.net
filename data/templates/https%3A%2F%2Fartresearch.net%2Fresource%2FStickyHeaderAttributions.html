@@ -4,38 +4,42 @@
     <semantic-query
       query='SELECT DISTINCT ?label  (GROUP_CONCAT(DISTINCT ?provider; SEPARATOR=", ") AS ?provider) (count(distinct ?provider) as ?countProviders) WHERE{
               {
-                ??  fr:Work_influenced_by_Artist|fr:Work_created_from_Artist ?attribution.
+                GRAPH ?graph {
+                  ??  fr:Work_created_from_Artist ?attribution.
+                }
+              } UNION{
+                GRAPH ?graph {
+                  ??  fr:Work_influenced_by_Artist ?attribution.
+                }
               } UNION {
+                GRAPH ?graph { ?work a cfc:work}
                 ?work owl:sameAs ?? .
                 ?work ((crm:P108i_was_produced_by|crm:P19i_motivated)/crm:P140i_was_attributed_by/<http://www.cidoc-crm.org/cidoc-crm/P141_assigned>/crm:P02_has_range)|cfr:Work_influenced_by_Artist|cfr:Work_created_from_Artist ?attribution.
               }
-              GRAPH ?graph {
-                ?s ((crm:P108i_was_produced_by|crm:P19i_motivated)/crm:P140i_was_attributed_by/<http://www.cidoc-crm.org/cidoc-crm/P141_assigned>/crm:P02_has_range)|cfr:Work_influenced_by_Artist|cfr:Work_created_from_Artist|fr:Work_influenced_by_Artist|fr:Work_created_from_Artist ?attribution.
+              ## PREF LABEL
+              {
+                ?attribution skos:prefLabel ?attrLabel.
+                FILTER ( lang(?attrLabel) = "en" ). 
+              } UNION {
+                ?attribution skos:prefLabel ?attrLabel.
+                FILTER NOT EXISTS {
+                    ?attribution skos:prefLabel ?c.
+                  FILTER ( lang(?c) = "en" ). 
+                }
+              }UNION{
+                FILTER NOT EXISTS{ ?attribution skos:prefLabel ?c.}
+                ?attribution rdfs:label ?attrLabel.
               }
-                  {
-              ?attribution skos:prefLabel ?attrLabel.
-              FILTER ( lang(?attrLabel) = "en" ). 
-            } UNION {
-              ?attribution skos:prefLabel ?attrLabel.
-              FILTER NOT EXISTS {
-                  ?attribution skos:prefLabel ?c.
-                FILTER ( lang(?c) = "en" ). 
-              }
-            }UNION{
-              FILTER NOT EXISTS{ ?attribution skos:prefLabel ?c.}
-              ?attribution rdfs:label ?attrLabel.
-            }
-            ?graph <https://artresearch.net/custom/has_provider> ?provider. 
-            BIND(STR(?attrLabel) as ?label)
-      } GROUP BY ?label order by desc(COUNT(distinct ?provider))'
+              ?graph <https://artresearch.net/custom/has_provider> ?provider. 
+              BIND(STR(?attrLabel) as ?label)
+            } GROUP BY ?label order by desc(COUNT(distinct ?provider))'
       template='{{> byAttribution }}'>
         <template id='byAttribution'>
           {{#each bindings}}
             <div class="attribution-wrapper">
               <div class="attribution">{{label.value}}</div>
-              {{log this}}
-              [[> SourceIcon attr=true ]]
-            </div>
+                [[> SourceIcon attr=true ]]
+              </div>
           {{/each}}
         </template>
     </semantic-query>
