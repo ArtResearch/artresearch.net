@@ -1,53 +1,163 @@
 [[#if multiple]]
+<semantic-query
+query='
+SELECT * WHERE {
+  {
+    BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/itatti/source/ITatti"),"I Tatti", false)) AS ?providerLabel)
+    BIND(IRI("https://artresearch.net/resource/itatti/source/ITatti") as ?provider)
+    FILTER(?providerLabel!="false")
+  } UNION {
+    BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/frick/source/Frick"),"Frick", false)) AS ?providerLabel)
+    BIND(IRI("https://artresearch.net/resource/frick/source/Frick") as ?provider)
+    FILTER(?providerLabel!="false")
+  }UNION {
+    BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/pharos/source/Pharos"),"Pharos", false)) AS ?providerLabel)
+    BIND(IRI("https://artresearch.net/resource/pharos/source/Pharos") as ?provider)
+    FILTER(?providerLabel!="false")
+  }UNION {
+    BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/ulan/source/ULAN"),"Getty", false)) AS ?providerLabel)
+    BIND(IRI("https://artresearch.net/resource/ulan/source/ULAN") as ?provider)
+    FILTER(?providerLabel!="false")
+  }UNION {
+    BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/getty/source/Getty"),"Getty", false)) AS ?providerLabel)
+    BIND(IRI("https://artresearch.net/resource/getty/source/Getty") as ?provider)
+    FILTER(?providerLabel!="false")
+  }UNION {
+    BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/hertziana/source/Hertziana"),"Hertziana", false)) AS ?providerLabel)
+    BIND(IRI("https://artresearch.net/resource/hertziana/source/Hertziana") as ?provider)
+    FILTER(?providerLabel!="false")
+  }UNION {
+    BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/marburg/source/Marburg"),"Marburg", false)) AS ?providerLabel)
+    BIND(IRI("https://artresearch.net/resource/marburg/source/Marburg") as ?provider)
+    FILTER(?providerLabel!="false")
+  }UNION {
+    BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/zeri/source/Zeri"),"Zeri", false)) AS ?providerLabel)
+    BIND(IRI("https://artresearch.net/resource/zeri/source/Zeri") as ?provider)
+    FILTER(?providerLabel!="false")
+  }UNION {
+    BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/khi/source/KHI"),"KHI", false)) AS ?providerLabel)
+    BIND(IRI("https://artresearch.net/resource/khi/source/KHI") as ?provider)
+    FILTER(?providerLabel!="false")
+  }UNION {
+    BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/pmc/source/PMC"),"PMC", false)) AS ?providerLabel)
+    BIND(IRI("https://artresearch.net/resource/pmc/source/PMC") as ?provider)
+    FILTER(?providerLabel!="false")
+  }UNION {
+    BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/wikidata/source/Wikidata"),"Wikidata", false)) AS ?providerLabel)
+    BIND(IRI("https://artresearch.net/resource/wikidata/source/Wikidata") as ?provider)
+    FILTER(?providerLabel!="false")
+  }UNION {
+    BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/nypl/source/NYPL"),"NYPL", false)) AS ?providerLabel)
+    BIND(IRI("https://artresearch.net/resource/nypl/source/NYPL") as ?provider)
+    FILTER(?providerLabel!="false")
+  }
+}
+  '
+template="{{> multipleProv}}">
+  <template id="multipleProv">
+      {{#each bindings}}
+        <div title="{{providerLabel.value}}">
+          <semantic-link  iri="{{provider.value}}">
+            <img
+              title="{{providerLabel.value}}"
+              class="sourceIcon"
+              src="/assets/images/{{providerLabel.value}}.ico"
+            />
+          </semantic-link>
+        </div>
+      {{/each}}
+  </template>
+</semantic-query>
+[[else if test]]
+  <semantic-if query='ASK { FILTER CONTAINS ("[[test]]","ITatti") }'>
+    [[> Icon label="I Tatti" provider="https://artresearch.net/resource/itatti/source/ITatti"]]
+  </semantic-if>
+  <semantic-if query='ASK { FILTER CONTAINS ("[[test]]","Frick") }'>
+    [[> Icon label="Frick" provider="https://artresearch.net/resource/frick/source/Frick"]]
+  </semantic-if>
+  <semantic-if query='ASK { FILTER CONTAINS ("[[test]]","PMC") }'>
+    [[> Icon label="PMC" provider="https://artresearch.net/resource/pmc/source/PMC"]]
+  </semantic-if>
+  <semantic-if query='ASK { FILTER CONTAINS ("[[test]]","Zeri") }'>
+    [[> Icon label="Zeri" provider="https://artresearch.net/resource/zeri/source/Zeri"]]
+  </semantic-if>
+  <semantic-if query='ASK { FILTER CONTAINS ("[[test]]","Marburg") }'>
+    [[> Icon label="Marburg" provider="https://artresearch.net/resource/marburg/source/Marburg"]]
+  </semantic-if>
+  <semantic-if query='ASK { FILTER CONTAINS ("[[test]]","KHI") }'>
+    [[> Icon label="KHI" provider="https://artresearch.net/resource/khi/source/KHI"]]
+  </semantic-if>
+  <semantic-if query='ASK { FILTER CONTAINS ("[[test]]","Hertziana") }'>
+    [[> Icon label="Hertziana" provider="https://artresearch.net/resource/hertziana/source/Hertziana"]]
+  </semantic-if>
+  <semantic-if query='ASK { FILTER CONTAINS ("[[test]]","Pharos") }'>
+    [[> Icon label="Pharos" provider="https://artresearch.net/resource/pharos/source/Pharos"]]
+  </semantic-if>
+  <semantic-if query='ASK { FILTER CONTAINS ("[[test]]","Wikidata") }'>
+    [[> Icon label="Wikidata" provider="https://artresearch.net/resource/wikidata/source/Wikidata"]]
+  </semantic-if>
+  <semantic-if query='ASK { FILTER CONTAINS ("[[test]]","NYPL") }'>
+    [[> Icon label="NYPL" provider="https://artresearch.net/resource/nypl/source/NYPL"]]
+  </semantic-if>
+  <semantic-if query='ASK { FILTER CONTAINS ("[[test]]","ULAN") }'>
+    [[> Icon label="Getty" provider="https://artresearch.net/resource/ulan/source/ULAN"]]
+  </semantic-if>
+  <semantic-if query='ASK { FILTER CONTAINS ("[[test]]","Getty") }'>
+    [[> Icon label="Getty" provider="https://artresearch.net/resource/getty/source/Getty"]]
+  </semantic-if>
+  <semantic-if query='ASK { FILTER CONTAINS ("[[test]]","Geonames") }'>
+    [[> Icon label="Geonames" provider="https://artresearch.net/resource/geonames/source/Geonames"]]
+  </semantic-if>
+[[else if attr]]
   <semantic-query
   query='
   SELECT * WHERE {
     {
-      BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/itatti/source/ITatti"),"I Tatti", false)) AS ?providerLabel)
+      BIND(STR(IF(CONTAINS("{{provider.value}}","https://artresearch.net/resource/itatti/source/ITatti"),"I Tatti", false)) AS ?providerLabel)
       BIND(IRI("https://artresearch.net/resource/itatti/source/ITatti") as ?provider)
       FILTER(?providerLabel!="false")
     } UNION {
-      BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/frick/source/Frick"),"Frick", false)) AS ?providerLabel)
+      BIND(STR(IF(CONTAINS("{{provider.value}}","https://artresearch.net/resource/frick/source/Frick"),"Frick", false)) AS ?providerLabel)
       BIND(IRI("https://artresearch.net/resource/frick/source/Frick") as ?provider)
       FILTER(?providerLabel!="false")
     }UNION {
-      BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/pharos/source/Pharos"),"Pharos", false)) AS ?providerLabel)
+      BIND(STR(IF(CONTAINS("{{provider.value}}","https://artresearch.net/resource/pharos/source/Pharos"),"Pharos", false)) AS ?providerLabel)
       BIND(IRI("https://artresearch.net/resource/pharos/source/Pharos") as ?provider)
       FILTER(?providerLabel!="false")
     }UNION {
-      BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/ulan/source/ULAN"),"Getty", false)) AS ?providerLabel)
+      BIND(STR(IF(CONTAINS("{{provider.value}}","https://artresearch.net/resource/ulan/source/ULAN"),"Getty", false)) AS ?providerLabel)
       BIND(IRI("https://artresearch.net/resource/ulan/source/ULAN") as ?provider)
       FILTER(?providerLabel!="false")
     }UNION {
-      BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/getty/source/Getty"),"Getty", false)) AS ?providerLabel)
+      BIND(STR(IF(CONTAINS("{{provider.value}}","https://artresearch.net/resource/getty/source/Getty"),"Getty", false)) AS ?providerLabel)
       BIND(IRI("https://artresearch.net/resource/getty/source/Getty") as ?provider)
       FILTER(?providerLabel!="false")
     }UNION {
-      BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/hertziana/source/Hertziana"),"Hertziana", false)) AS ?providerLabel)
+      BIND(STR(IF(CONTAINS("{{provider.value}}","https://artresearch.net/resource/hertziana/source/Hertziana"),"Hertziana", false)) AS ?providerLabel)
       BIND(IRI("https://artresearch.net/resource/hertziana/source/Hertziana") as ?provider)
       FILTER(?providerLabel!="false")
     }UNION {
-      BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/marburg/source/Marburg"),"Marburg", false)) AS ?providerLabel)
+      BIND(STR(IF(CONTAINS("{{provider.value}}","https://artresearch.net/resource/marburg/source/Marburg"),"Marburg", false)) AS ?providerLabel)
       BIND(IRI("https://artresearch.net/resource/marburg/source/Marburg") as ?provider)
       FILTER(?providerLabel!="false")
     }UNION {
-      BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/zeri/source/Zeri"),"Zeri", false)) AS ?providerLabel)
+      BIND(STR(IF(CONTAINS("{{provider.value}}","https://artresearch.net/resource/zeri/source/Zeri"),"Zeri", false)) AS ?providerLabel)
       BIND(IRI("https://artresearch.net/resource/zeri/source/Zeri") as ?provider)
       FILTER(?providerLabel!="false")
     }UNION {
-      BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/khi/source/KHI"),"KHI", false)) AS ?providerLabel)
+      BIND(STR(IF(CONTAINS("{{provider.value}}","https://artresearch.net/resource/khi/source/KHI"),"KHI", false)) AS ?providerLabel)
       BIND(IRI("https://artresearch.net/resource/khi/source/KHI") as ?provider)
       FILTER(?providerLabel!="false")
     }UNION {
-      BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/pmc/source/PMC"),"PMC", false)) AS ?providerLabel)
+      BIND(STR(IF(CONTAINS("{{provider.value}}","https://artresearch.net/resource/pmc/source/PMC"),"PMC", false)) AS ?providerLabel)
       BIND(IRI("https://artresearch.net/resource/pmc/source/PMC") as ?provider)
       FILTER(?providerLabel!="false")
     }UNION {
-      BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/wikidata/source/Wikidata"),"Wikidata", false)) AS ?providerLabel)
+      BIND(STR(IF(CONTAINS("{{provider.value}}","https://artresearch.net/resource/wikidata/source/Wikidata"),"Wikidata", false)) AS ?providerLabel)
       BIND(IRI("https://artresearch.net/resource/wikidata/source/Wikidata") as ?provider)
       FILTER(?providerLabel!="false")
     }UNION {
-      BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/nypl/source/NYPL"),"NYPL", false)) AS ?providerLabel)
+      BIND(STR(IF(CONTAINS("{{provider.value}}","https://artresearch.net/resource/nypl/source/NYPL"),"NYPL", false)) AS ?providerLabel)
       BIND(IRI("https://artresearch.net/resource/nypl/source/NYPL") as ?provider)
       FILTER(?providerLabel!="false")
     }
@@ -68,76 +178,6 @@
         {{/each}}
     </template>
   </semantic-query>
-[[else if attr]]
-<semantic-query
-    query='
-    SELECT * WHERE {
-      {
-        BIND(STR(IF(CONTAINS("{{provider.value}}","https://artresearch.net/resource/itatti/source/ITatti"),"I Tatti", false)) AS ?providerLabel)
-        BIND(IRI("https://artresearch.net/resource/itatti/source/ITatti") as ?provider)
-        FILTER(?providerLabel!="false")
-      } UNION {
-        BIND(STR(IF(CONTAINS("{{provider.value}}","https://artresearch.net/resource/frick/source/Frick"),"Frick", false)) AS ?providerLabel)
-        BIND(IRI("https://artresearch.net/resource/frick/source/Frick") as ?provider)
-        FILTER(?providerLabel!="false")
-      }UNION {
-        BIND(STR(IF(CONTAINS("{{provider.value}}","https://artresearch.net/resource/pharos/source/Pharos"),"Pharos", false)) AS ?providerLabel)
-        BIND(IRI("https://artresearch.net/resource/pharos/source/Pharos") as ?provider)
-        FILTER(?providerLabel!="false")
-      }UNION {
-        BIND(STR(IF(CONTAINS("{{provider.value}}","https://artresearch.net/resource/ulan/source/ULAN"),"Getty", false)) AS ?providerLabel)
-        BIND(IRI("https://artresearch.net/resource/ulan/source/ULAN") as ?provider)
-        FILTER(?providerLabel!="false")
-      }UNION {
-        BIND(STR(IF(CONTAINS("{{provider.value}}","https://artresearch.net/resource/getty/source/Getty"),"Getty", false)) AS ?providerLabel)
-        BIND(IRI("https://artresearch.net/resource/getty/source/Getty") as ?provider)
-        FILTER(?providerLabel!="false")
-      }UNION {
-        BIND(STR(IF(CONTAINS("{{provider.value}}","https://artresearch.net/resource/hertziana/source/Hertziana"),"Hertziana", false)) AS ?providerLabel)
-        BIND(IRI("https://artresearch.net/resource/hertziana/source/Hertziana") as ?provider)
-        FILTER(?providerLabel!="false")
-      }UNION {
-        BIND(STR(IF(CONTAINS("{{provider.value}}","https://artresearch.net/resource/marburg/source/Marburg"),"Marburg", false)) AS ?providerLabel)
-        BIND(IRI("https://artresearch.net/resource/marburg/source/Marburg") as ?provider)
-        FILTER(?providerLabel!="false")
-      }UNION {
-        BIND(STR(IF(CONTAINS("{{provider.value}}","https://artresearch.net/resource/zeri/source/Zeri"),"Zeri", false)) AS ?providerLabel)
-        BIND(IRI("https://artresearch.net/resource/zeri/source/Zeri") as ?provider)
-        FILTER(?providerLabel!="false")
-      }UNION {
-        BIND(STR(IF(CONTAINS("{{provider.value}}","https://artresearch.net/resource/khi/source/KHI"),"KHI", false)) AS ?providerLabel)
-        BIND(IRI("https://artresearch.net/resource/khi/source/KHI") as ?provider)
-        FILTER(?providerLabel!="false")
-      }UNION {
-        BIND(STR(IF(CONTAINS("{{provider.value}}","https://artresearch.net/resource/pmc/source/PMC"),"PMC", false)) AS ?providerLabel)
-        BIND(IRI("https://artresearch.net/resource/pmc/source/PMC") as ?provider)
-        FILTER(?providerLabel!="false")
-      }UNION {
-        BIND(STR(IF(CONTAINS("{{provider.value}}","https://artresearch.net/resource/wikidata/source/Wikidata"),"Wikidata", false)) AS ?providerLabel)
-        BIND(IRI("https://artresearch.net/resource/wikidata/source/Wikidata") as ?provider)
-        FILTER(?providerLabel!="false")
-      }UNION {
-        BIND(STR(IF(CONTAINS("{{provider.value}}","https://artresearch.net/resource/nypl/source/NYPL"),"NYPL", false)) AS ?providerLabel)
-        BIND(IRI("https://artresearch.net/resource/nypl/source/NYPL") as ?provider)
-        FILTER(?providerLabel!="false")
-      }
-    }
-      '
-    template="{{> multipleProv}}">
-      <template id="multipleProv">
-          {{#each bindings}}
-            <div title="{{providerLabel.value}}">
-              <semantic-link  iri="{{provider.value}}">
-                <img
-                  title="{{providerLabel.value}}"
-                  class="sourceIcon"
-                  src="/assets/images/{{providerLabel.value}}.ico"
-                />
-              </semantic-link>
-            </div>
-          {{/each}}
-      </template>
-    </semantic-query>
 [[else if sub]]
   <semantic-query
   query='
