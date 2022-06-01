@@ -116,6 +116,7 @@
                               <div id='artwork-filter-search-inline'>
                                   <semantic-table
                                       id="grid-result"
+                                      prefetch-labels="false"
                                       query='SELECT DISTINCT  ?subject  WHERE {}LIMIT 10000'
                                       number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
                                       tuple-template="{{> subjectCellTemplate}}"

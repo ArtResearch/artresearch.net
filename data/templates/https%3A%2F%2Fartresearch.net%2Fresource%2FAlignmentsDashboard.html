@@ -27,6 +27,7 @@
           </mp-selection-action-choice>
         </div>
         <semantic-table
+          prefetch-labels="false"
           query=' SELECT DISTINCT ?graph ?scheme {
                     {
                       GRAPH ?graph { ?s skos:inScheme ?scheme }
@@ -90,6 +91,7 @@
         <h4>Alignments</h4>
         <semantic-context repository='assets'>
           <semantic-table
+            prefetch-labels="false"
             query='
               SELECT DISTINCT ?alignment ?graph {
                 <http://www.researchspace.org/ontology/Alignment.Container> <http://www.w3.org/ns/ldp#contains> ?alignment .
