@@ -50,7 +50,7 @@
                                             query="
                                               SELECT DISTINCT ?subject WHERE {
                                                 ?subject rdfs:label ?label.
-                                              }ORDER BY DESC(?label) LIMIT 1000 "
+                                              }ORDER BY DESC(?label) LIMIT 10000 "
                                             no-result-template='[[> CardNoResult ]]'
                                             tuple-template="{{>tupleTemplate}}"
                                           >
@@ -71,7 +71,7 @@
                                               WHERE {
                                                 ?subject fr:Work_depicted_by_Photo ?photo.
                                                 ?photo crm:P129i_is_subject_of ?image.
-                                              }LIMIT 1000
+                                              }LIMIT 10000
                                             "
                                           no-result-template='[[> CardNoResult ]]'
                                           tuple-template="{{>tupleTemplate}}"
