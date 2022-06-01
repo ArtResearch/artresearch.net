@@ -1,17 +1,19 @@
-[[> Breadcrumb category="Artworks"]]
+[[#if (ask "ASK { ?? rdf:type cfc:photo}")]]
+  [[> Breadcrumb category="Photos"]]
+[[else]]
+  [[> Breadcrumb category="Artworks"]]
+[[/if]]
 <div class="page rs-page">
     [[#> ClipboardSidebar]]
-      <div class="artwork-header" style="display: flex; flex-direction: column; align-items: flex-end; border-bottom: initial; padding: 20px 12px 0;">
-        [[> HeaderOptions ]]
-      </div>
       <div id="tab-container" style="display: flex;flex-direction: column;" class="page__body-navtabs--borderless">
         <div class="old-fashioned-grid">
           <div class="super-cheesy">
               <semantic-query
-                  query='SELECT ?newLink WHERE { 
+                  query='SELECT DISTINCT ?newLink WHERE { 
                     ?s owl:sameAs ?newLink.
                     ?newLink a fc:work.
-                    ?s <https://similarity.net/custom/is_deprecated> ??
+                    ?s <https://similarity.net/custom/is_deprecated> ??.
+                    FILTER NOT EXISTS{?something <https://similarity.net/custom/is_deprecated> ?newLink}
                   }LIMIT 10'
                   template='{{> deprecated }}'>
               <template id='deprecated'>
@@ -32,7 +34,10 @@
               </semantic-query>
               [[> SummaryImagesWork]]
           </div>
-          <div>
+          <div class="left-cheesy">
+            <div class="artwork-header" style="display: flex; flex-direction: column; align-items: flex-end; border-bottom: initial; padding: 20px 12px 0;">
+              [[> HeaderOptions ]]
+            </div>
             [[> InfoWorkAndProduction]]
           </div>
         </div>
@@ -41,6 +46,10 @@
 </div>
 
 <style>
+
+    .footer{
+    display: none !important;
+  }
   body {
     line-height: 0 !important;
   }
@@ -90,7 +99,7 @@
     background: white;
     border-radius: 5px 5px 0px 0px;
     color: black;
-    padding: 12px;
+    padding: 5px;
     margin-left: -10px;
     margin-right: -10px;
     margin-top: -10px;
@@ -107,36 +116,39 @@
     grid-template-columns: repeat(2, 1fr);
   }
   .old-fashioned-grid #work-summary-images .summary-image-main {
-    min-height: 55vh !important;
+    min-height: 52vh !important;
+    
   }
   .old-fashioned-grid #work-summary-images .imageThumbnailSingle {
-    height: 55vh !important;
+    height: 50vh !important;
   }
   .old-fashioned-grid #work-summary-images .imageThumbnailSingle.tripleThumb {
     height: 35vh !important;
     max-width: 16.6vw;
   }
   .old-fashioned-grid #work-summary-images .imageThumbnailSingle.doubleThumb {
-    max-width: 25vw;
+    max-width: 16vw;
   }
   .old-fashioned-grid #work-summary-images .smallThumbsSingle {
     height: 65px !important;
   }
   .old-fashioned-grid #photoTable .photographFieldView {
     width: 100% !important;
+    min-height: 130px;
   }
   .old-fashioned-grid .workAndProductionInfo .workInfoContainer {
-    width: 100% !important;
+    width: 98% !important;
   }
   .old-fashioned-grid .workAndProductionInfo .productionInfoContainer {
-    width: 100% !important;
+    width: 98% !important;
   }
 
   .old-fashioned-grid .super-cheesy > div {
+    position: -webkit-sticky;
     position: sticky;
+    top: 0;
     display: flex;
     flex-direction: column;
-    top: 12vh;
   }
 
   button.close {

@@ -7,13 +7,13 @@
        <div class="imageThumbnailContainer">
             [[> StickyHeader ]]
             <semantic-query
-              query='SELECT distinct ?thumbnail ?image  WHERE {
+              query='SELECT distinct ?thumbnail ?image ?photo WHERE {
                     {
                       # Photo object
                       ?? crm:P129i_is_subject_of ?image.
                       {{#if selectedTab}}
                         {{#ifCond selectedTab "!==" "All"}}
-                          ?? fr:Photo_has_provider_Institution ?provider.
+                          ?? fr:Photo_has_provider_Institution <{{selectedTab}}>.
                         {{/ifCond}}
                       {{/if}}
                     }UNION{
@@ -22,15 +22,10 @@
                       ?photo crm:P129i_is_subject_of ?image.
                       {{#if selectedTab}}
                         {{#ifCond selectedTab "!==" "All"}}
-                          ?photo fr:Photo_has_provider_Institution ?provider.
+                          ?photo fr:Photo_has_provider_Institution <{{selectedTab}}>.
                         {{/ifCond}}
                       {{/if}}
                     }
-                    {{#if selectedTab}}
-                      {{#ifCond selectedTab "!==" "All"}}
-                        ?provider rdfs:label "{{selectedTab}}".
-                      {{/ifCond}}
-                    {{/if}}
                     ?image crm:P2_has_type ?imageType.
                     ?imageType rdfs:label ?typeLabel.
                     FILTER(?typeLabel = "recto")  
@@ -43,22 +38,20 @@
                   <div class="imagebar">
                     <mp-overlay-dialog title="‎‎" type="lightbox">
                       <mp-overlay-dialog-trigger>
-                        <button class="Lightbox-button">Open image lightbox</button>
+                        <button class="Lightbox-button">Compare images</button>
                       </mp-overlay-dialog-trigger>
                       <mp-overlay-dialog-content>
                         [[> PhotographLightbox]]
                       </mp-overlay-dialog-content>
                     </mp-overlay-dialog>
-                    [[#if (ask "ASK{?? a fc:work}")]]
                       <mp-overlay-dialog title="‎‎" type="lightbox">
                         <mp-overlay-dialog-trigger>
-                          <button class="similar-artButton">Visually similar artworks</button>
+                          <button class="similar-artButton">Search similar images</button>
                         </mp-overlay-dialog-trigger>
                         <mp-overlay-dialog-content>
                           [[> SimilarArtworks]]
                         </mp-overlay-dialog-content>
                       </mp-overlay-dialog>
-                    [[/if]]
                   </div>
                   [[> SummaryImagesWorkSingle]]
               </template>

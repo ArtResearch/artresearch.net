@@ -148,75 +148,26 @@ template="{{> fieldsFilter}}"
   </mp-field-visualization>
     
   </div>
-  
-  [[#if (ask "ASK { ?? fr:Work_from_Place ?place. ?place <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat. ?place <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng. }") ]] 
-    <div class="workInfoContainer">
-        <h2>Current artwork location</h2>
-        <div class="artworkLocation">
-              [[#if (ask "ASK{?? fr:Work_from_Place ?place. SERVICE <http://213.171.209.34:10085/blazegraph/sparql>  {?place <http://www.geonames.org/ontology#featureClass> <https://www.geonames.org/ontology#P>.}}")]]
-                <semantic-map
-                  id="event-map"
-                  query="
-                      PREFIX fr: <https://artresearch.net/resource/fr/>
-                      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-                      SELECT DISTINCT ?place ?lat ?lng  WHERE {
-                            ?? fr:Work_from_Place ?place .
-                            ?place <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat.
-                            ?place <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng.
+   
+        [[> ReconciliationTable haspart="true"]]
+        [[> ReconciliationTable ispart="true"]]
+        [[> ReconciliationTable imitation="true"]]
+        [[> ReconciliationTable version="true"]]
+        [[> ReconciliationTable similar="true"]]
+        [[> ReconciliationTable hasimitation="true"]]
+        [[> ReconciliationTable hasversion="true"]]
+        [[> ReconciliationTable hasstudy="true"]]
+        [[> ReconciliationTable study="true"]]
+        [[> RelatedObjectsTable]]
+        [[> RelatedWorksDescription]]
+        [[#if (ask "ASK { ?? a cfc:photo}") ]] 
+        [[else]]
+              <!-- Photographs detailed information -->
+            <div style="width: 93.5%" class="productionInfoContainer">
+              [[> PhotographTable]]
+            </div>
+        [[/if]]
 
-                            SERVICE <http://213.171.209.34:10085/blazegraph/sparql>  {
-                                ?place <http://www.geonames.org/ontology#name> ?placelabel.
-                                ?place <http://www.geonames.org/ontology#featureClass> <https://www.geonames.org/ontology#P>.
-                            }
-                          } "
-                  no-result-template=''
-                  tuple-template='{{>MapPopUp}}'
-                >
-                    <template id="MapPopUp">
-                      <div style="width:12vw">
-                        <h4> 
-                          <semantic-link style="color:#6b0000;" iri="{{place.value}}"></semantic-link>
-                        </h4>
-                      </div>
-                    </template>
-                </semantic-map>
-              [[else]]
-                <semantic-map
-                  id="event-map"
-                  query="
-                    PREFIX fr: <https://artresearch.net/resource/fr/>
-                    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-                    SELECT DISTINCT ?place ?lat ?lng  WHERE {
-                          ?? fr:Work_from_Place ?place .
-                          ?place <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat.
-                          ?place <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng.
-                          SERVICE <http://213.171.209.34:10085/blazegraph/sparql>  {
-                              ?place <http://www.geonames.org/ontology#name> ?placelabel.
-                          }
-                    }"
-                  no-result-template=''
-                  tuple-template='{{>MapPopUp}}'
-                >
-                    <template id="MapPopUp">
-                      <div style="width:12vw">
-                        <h4> 
-                          <semantic-link style="color:#6b0000;" iri="{{place.value}}"></semantic-link>
-                        </h4>
-                      </div>
-                    </template>
-                </semantic-map>
-              [[/if]]
-        </div>
-    </div>
-  [[/if]]
-
-  [[#if (ask "ASK { ?? a cfc:photo}") ]] 
-  [[else]]
-      <div style="width: 93.5%" class="productionInfoContainer">
-        <!-- Photographs detailed information -->
-        [[> PhotographTable]]
-      </div>
-  [[/if]]
 </div>
 </template>
 </mp-event-target-template-render>

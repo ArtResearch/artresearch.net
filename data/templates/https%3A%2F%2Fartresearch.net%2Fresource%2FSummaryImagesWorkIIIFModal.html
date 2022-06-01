@@ -56,5 +56,10 @@
     </div>
   {{/ifCond}}
   {{/ifCond}}
-
+                  [[#if (ask "ASK{ ?? a cfc:photo.}")]]
+                  [[else]]
+                   <div class="metadataButton">
+                    <semantic-link iri="{{bindings.0.photo.value}}" target="_black" class="metadataText" >View photo metadata</semantic-link>
+                  </div>
+                  [[/if]]
 </div>

@@ -1,0 +1,88 @@
+<mp-event-target-template-render
+  id="event-target-search-switches-container-ULAN"
+  template="{{> switchContainer}}"
+  >
+    <template id="switchContainer"> 
+
+        <div id="switches-ULAN"
+            data-intro="Expand this to see additional search options"
+            data-position="right"
+            >
+                <div style="display: flex;">
+                    <br>
+                    <br>
+                    <mp-event-target-template-render
+                        id="event-target-search-switches-ULAN"
+                        template="{{> switches-ULAN}}"
+                      >
+                            <template id="switches-ULAN">
+                                      {{#ifCond withULAN "===" "true"}}
+                                        <label class="switch">   
+                                          <mp-event-trigger
+                                            id="event-trigger-tab-photograph-ULAN"
+                                            type="Component.TemplateUpdate"
+                                            data='{"withULAN":"false"}'
+                                            targets='["event-target-search-btn-ULAN","event-target-search-switches-ULAN","event-target-tab-select-ULAN","event-target-tables-ULAN"]'
+                                            >
+                                            <div>        
+                                              <input checked type="checkbox">
+                                              <span class="slider round"></span>
+                                            </div>
+                                          </mp-event-trigger>
+                                        </label>
+                                      {{else}}
+                                      {{#ifCond withULAN "===" "false"}}
+                                      <label class="switch-ULAN">   
+                                        <mp-event-trigger
+                                          id="event-trigger-tab-photograph-ULAN"
+                                          type="Component.TemplateUpdate"
+                                          data='{"withULAN":"true"}'
+                                          targets='["event-target-search-btn-ULAN","event-target-search-switches-ULAN","event-target-tab-select-ULAN","event-target-tables-ULAN"]'
+                                          >
+                                          <div>        
+                                            <input type="checkbox">
+                                            <span class="slider round"></span>
+                                          </div>
+                                        </mp-event-trigger>
+                                      </label>
+                                      {{else}}
+                                      {{#ifCond "[[urlParam "withULAN"]]" "===" "true"}}
+                                      <label class="switch-ULAN">   
+                                        <mp-event-trigger
+                                          id="event-trigger-tab-photograph-ULAN"
+                                          type="Component.TemplateUpdate"
+                                          data='{"withULAN":"false"}'
+                                          targets='["event-target-search-btn-ULAN","event-target-search-switches-ULAN","event-target-tab-select-ULAN","event-target-tables-ULAN"]'
+                                          >
+                                          <div>
+                                            <input checked type="checkbox">
+                                            <span class="slider round"></span>
+                                          </div>
+                                        </mp-event-trigger>
+                                      </label>
+                                      {{else}}
+                                       {{#ifCond "[[urlParam "withULAN"]]" "===" "false"}}
+                                      <label class="switch-ULAN">   
+                                        <mp-event-trigger
+                                          id="event-trigger-tab-photograph-ULAN"
+                                          type="Component.TemplateUpdate"
+                                          data='{"withULAN":"true"}'
+                                          targets='["event-target-search-btn-ULAN","event-target-search-switches-ULAN","event-target-tab-select-ULAN","event-target-tables-ULAN"]'
+                                          >
+                                            <div>
+                                              <input type="checkbox">
+                                              <span class="slider round"></span>
+                                            </div>
+                                        </mp-event-trigger>
+                                      </label>
+                                      {{/ifCond}}
+                                      {{/ifCond}}
+                                      {{/ifCond}}
+                                      {{/ifCond}}
+                            </template>
+                    </mp-event-target-template-render>
+                    <h4>Must have artwork</h4>
+                </div>
+        </div>
+    </template>
+</mp-event-target-template-render>

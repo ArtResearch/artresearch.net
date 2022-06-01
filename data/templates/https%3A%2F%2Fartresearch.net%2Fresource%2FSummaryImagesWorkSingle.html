@@ -22,7 +22,7 @@
             </semantic-query>
            
           <semantic-query
-            query='SELECT DISTINCT ?rectoVersoImage ?rectoVersoImageThumbnail ?imageManifest WHERE{
+            query='SELECT DISTINCT ?photo ?rectoVersoImage ?rectoVersoImageThumbnail ?imageManifest WHERE{
                 # Previously we selected only rectos, now we expand to include versos
                 {{#ifCond image "===" undefined}}
                   ?photo crm:P129i_is_subject_of <{{bindings.0.image.value}}>; #Default first
@@ -39,41 +39,39 @@
                   }
                 }
                 FILTER(?typeLabel = "verso" || ?typeLabel = "recto"  ).
-                BIND(REPLACE(STR(?rectoVersoImage),"full/full","full/!350,350") AS ?rectoVersoImageThumbnail).
+                BIND(REPLACE(STR(?rectoVersoImage),"full/full","full/!650,650") AS ?rectoVersoImageThumbnail).
               }ORDER BY ASC(?typeLabel)'
             template="{{> mediumImageSize}}"
           >
               <template id="mediumImageSize">
                   <div>
-                    
+                    <div>
                     <mp-overlay-dialog title="‎‎" type="lightbox">
                       <mp-overlay-dialog-trigger>
                           <div class="summary-image-main imageAndSourceContainer">  
                             <semantic-query
                               query="     
-                                SELECT ?providerLabel WHERE{   
+                                SELECT ?provider ?photo WHERE{   
                                   # Get the little icon on the top left to please providers
                                   ?photo crm:P129i_is_subject_of <{{bindings.0.rectoVersoImage.value}}>.
                                   ?photo custom:has_provider ?provider.
-                                  ?provider rdfs:label ?providerLabel.
-                                }limit 1 "
+                                }"
                               template="{{> imageSourceIcon}}"
                             >
                               <template id="imageSourceIcon">
-                                <div class="imageSourceIcon fade-in">
-                                  <img
-                                    title="{{bindings.0.providerLabel.value}}"
-                                    class="sourceIcon"
-                                    src="/assets/images/{{bindings.0.providerLabel.value}}.ico"
-                                  />
-                                </div>
+                                {{#each bindings}}
+                                  <div class="imageSourceIcon fade-in">
+                                    [[> SourceIcon sub=true]]
+                                  </div>
+                                {{/each}}
                               </template>
                             </semantic-query>
                             {{#ifCond (objectLength bindings) ">" 2 }}
                                 {{#each bindings}}
                                   <img
                                     class="imageThumbnailSingle tripleThumb"
-                                    alt="Issue with image provider"
+                                    alt="Temporarily unavailable"
+                                    onerror="url(/assets/images/media/image_placeholder_broken.jpg);"
                                     src="{{rectoVersoImageThumbnail.value}}"
                                   />
                                 {{/each}}
@@ -82,7 +80,8 @@
                               {{#each bindings}}
                                 <img
                                   class="imageThumbnailSingle doubleThumb"
-                                  alt="Issue with image provider"
+                                  alt="Temporarily unavailable"
+                                  onerror="url(/assets/images/media/image_placeholder_broken.jpg);"
                                   src="{{rectoVersoImageThumbnail.value}}"
                                 />
                               {{/each}}
@@ -90,13 +89,13 @@
                                 {{#each bindings}}
                                   <img
                                     class="imageThumbnailSingle "
-                                    alt="Issue with image provider"
+                                    alt="Temporarily unavailable"
+                                    onerror="url(/assets/images/media/image_placeholder_broken.jpg);"
                                     src="{{rectoVersoImageThumbnail.value}}"
                                   />
                                 {{/each}}
                               {{/ifCond}}
                               {{/ifCond}}
-
                           </div>
                       </mp-overlay-dialog-trigger>
                       <mp-overlay-dialog-content>
@@ -107,7 +106,15 @@
                         {{/ifCond}}
                       </mp-overlay-dialog-content>
                     </mp-overlay-dialog>
+                    <div>
+                  [[#if (ask "ASK{ ?? a cfc:photo.}")]]
+                  [[else]]
+                   <div class="metadataButton">
+                    <semantic-link iri="{{bindings.0.photo.value}}" target="_black" class="metadataText" >View photo metadata</semantic-link>
                   </div>
+                  [[/if]]
+                  </div>
+                   
               </template>
           </semantic-query>
           <div class="animated-background mediumImageSizeAnimate"></div>
@@ -115,6 +122,7 @@
       </template>
     </mp-event-target-template-render>
   </div>
+
   <div class="summary-image-thumbs">
     {{#ifCond (objectLength bindings) ">" 1 }}
       {{#each bindings}}

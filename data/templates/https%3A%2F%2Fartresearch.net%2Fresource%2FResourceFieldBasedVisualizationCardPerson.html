@@ -40,7 +40,7 @@
           {{#ifCond (objectLength field.values) '===' 1}} 
                     {{#if ../selectedTab}}
                           {{#ifCond ../selectedTab "!==" "All" }}
-                              {{#ifCond ../selectedTab "!==" field.values.0.binding.providerLabel.value }}
+                              {{#ifCond ../selectedTab "!==" field.values.0.binding.provider.value }}
                                 <div class="hide-next-row">hiding next row</div>
                               {{/ifCond}}
                           {{/ifCond}}
@@ -78,7 +78,7 @@
               {{#each field.values as |value|}}
                   {{#if ../../selectedTab}}
                       {{#ifCond ../../selectedTab "!==" "All" }}
-                          {{#ifCond ../../selectedTab "!==" value.binding.providerLabel.value }}
+                          {{#ifCond ../../selectedTab "!==" value.binding.provider.value }}
                             <div class="hide-next-row">hiding next row</div>
                           {{/ifCond}}
                       {{/ifCond}}
@@ -87,7 +87,7 @@
               {{#each field.values as |value|}}
                   {{#if ../../selectedTab}}
                       {{#ifCond ../../selectedTab "!==" "All" }}
-                          {{#ifCond ../../selectedTab "===" value.binding.providerLabel.value }}
+                          {{#ifCond ../../selectedTab "===" value.binding.provider.value }}
                             <div class="no-hide-next-row">no hiding next row</div>
                           {{/ifCond}}
                       {{/ifCond}}
@@ -122,7 +122,7 @@
                             <td>
                                   <div class="GeosourceIcons">
                                       {{#each field.values as |value|}} 
-                                          <div class="sourceIcons">[[> SourceIcon ]]</div>
+                                          <div class="sourceIcons">[[> SourceIcon multiple=true ]]</div>
                                       {{/each}}
                                   </div>
                             </td>
@@ -147,7 +147,7 @@
                           <td>
                                 <div class="GeosourceIcons">
                                     {{#each field.values as |value|}} 
-                                      <div class="sourceIcons">[[> SourceIcon ]]</div>
+                                      <div class="sourceIcons">[[> SourceIcon multiple=true]]</div>
                                     {{/each}}
                                 </div>
                           </td>
@@ -160,7 +160,7 @@
                         {{#ifCond @index "===" 0 }}
                                   {{#if ../../selectedTab}}
                                       {{#ifCond ../../selectedTab "!==" "All" }}
-                                          {{#ifCond ../../selectedTab "!==" value.binding.providerLabel.value }}
+                                          {{#ifCond ../../selectedTab "!==" value.binding.provider.value }}
                                             <div class="hide-next-row">hiding next row</div>
                                           {{/ifCond}}
                                       {{/ifCond}}
@@ -179,7 +179,7 @@
                       {{#ifCond @index "===" 1 }}
                                   {{#if ../../selectedTab}}
                                         {{#ifCond ../../selectedTab "!==" "All" }}
-                                              {{#ifCond ../../selectedTab "!==" value.binding.providerLabel.value }}
+                                              {{#ifCond ../../selectedTab "!==" value.binding.provider.value }}
                                                 <div class="hide-next-row">hiding next row</div>
                                               {{/ifCond}}
                                         {{/ifCond}}
@@ -197,7 +197,7 @@
                       {{#ifCond @index "===" 2 }}
                                 {{#if ../../selectedTab}}
                                       {{#ifCond ../../selectedTab "!==" "All" }}
-                                            {{#ifCond ../../selectedTab "!==" value.binding.providerLabel.value }}
+                                            {{#ifCond ../../selectedTab "!==" value.binding.provider.value }}
                                               <div class="hide-next-row">hiding next row</div>
                                             {{/ifCond}}
                                       {{/ifCond}}
@@ -216,7 +216,7 @@
                     {{#ifCond @index "===" 3 }}
                                 {{#if ../../selectedTab}}
                                       {{#ifCond ../../selectedTab "!==" "All" }}
-                                            {{#ifCond ../../selectedTab "!==" value.binding.providerLabel.value }}
+                                            {{#ifCond ../../selectedTab "!==" value.binding.provider.value }}
                                               <div class="hide-next-row">hiding next row</div>
                                             {{/ifCond}}
                                       {{/ifCond}}
@@ -235,7 +235,7 @@
                   {{#ifCond @index "===" 4 }}
                               {{#if ../../selectedTab}}
                                     {{#ifCond ../../selectedTab "!==" "All" }}
-                                          {{#ifCond ../../selectedTab "!==" value.binding.providerLabel.value }}
+                                          {{#ifCond ../../selectedTab "!==" value.binding.provider.value }}
                                             <div class="hide-next-row">hiding next row</div>
                                           {{/ifCond}}
                                     {{/ifCond}}
@@ -260,7 +260,7 @@
                                           {{#ifCond @index '>=' 5}}
                                                       {{#if ../../selectedTab}}
                                                             {{#ifCond ../../selectedTab "!==" "All" }}
-                                                                  {{#ifCond ../../selectedTab "!==" value.binding.providerLabel.value }}
+                                                                  {{#ifCond ../../selectedTab "!==" value.binding.provider.value }}
                                                                     <div class="hide-next-row">hiding next row</div>
                                                                   {{/ifCond}}
                                                             {{/ifCond}}
@@ -288,7 +288,7 @@
                 {{#each field.values as |value|}}
                         {{#if ../../selectedTab}}
                             {{#ifCond ../../selectedTab "!==" "All" }}
-                                {{#ifCond ../../selectedTab "!==" value.binding.providerLabel.value }}
+                                {{#ifCond ../../selectedTab "!==" value.binding.provider.value }}
                                   <div class="hide-next-row">hiding next row</div>
                                 {{/ifCond}}
                             {{/ifCond}}

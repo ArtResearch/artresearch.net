@@ -1,43 +1,48 @@
-  <div id="variant-attribution-dropdown">
+<div id="variant-attribution-dropdown">
+
+  <bs-panel header="Variant Attributions" collapsible="true">
     <semantic-query
-        query='SELECT DISTINCT ?attribution WHERE { 
-          {
-              ?? fr:Work_influenced_by_Artist|fr:Work_created_from_Artist ?attribution.
-          }UNION{
-            ?work owl:sameAs ??.
-            ?work fr:Work_influenced_by_Artist|fr:Work_created_from_Artist ?attribution.
-          }
-        }'
-        template='{{> variantAttributions }}'
-        no-result-template='<div></div>'
-        >
-       <template id='variantAttributions'>
-         <bs-panel header="Variant Attributions" collapsible="true">
-            <semantic-query
-              query='SELECT DISTINCT ?attribution ?providerLabel WHERE{
-                      {
-                        ?? fr:Work_influenced_by_Artist|fr:Work_created_from_Artist ?attribution.
-                      } UNION {
-                        ?work owl:sameAs ??.
-                        ?work ((crm:P108i_was_produced_by|crm:P19i_motivated)/crm:P140i_was_attributed_by/<http://www.cidoc-crm.org/cidoc-crm/P141_assigned>/crm:P02_has_range)|cfr:Work_influenced_by_Artist|cfr:Work_created_from_Artist ?attribution.
-                      }
-                      GRAPH ?graph {
-                        ?s ((crm:P108i_was_produced_by|crm:P19i_motivated)/crm:P140i_was_attributed_by/<http://www.cidoc-crm.org/cidoc-crm/P141_assigned>/crm:P02_has_range)|cfr:Work_influenced_by_Artist|cfr:Work_created_from_Artist|fr:Work_influenced_by_Artist|fr:Work_created_from_Artist ?attribution.
-                      }
-                      ?graph <https://artresearch.net/custom/has_provider>/rdfs:label ?provLabel.
-                      BIND(IF( CONTAINS(STR(?attribution),"ulan"), "ULAN", ?provLabel) AS ?providerLabel)
-                  }'
-              template='{{> byAttribution }}'>
-                <template id='byAttribution'>
-                  {{#each bindings}}
-                    <div class="attribution-wrapper">
-                      <img title="{{providerLabel.value}}" class="sourceIcon" src="/assets/images/{{providerLabel.value}}.ico"/>
-                      <div class="attribution"><semantic-link iri="{{attribution.value}}"></semantic-link></div>
-                    </div>
-                  {{/each}}
-                </template>
-            </semantic-query>
-         </bs-panel>
-       </template>
+      query='SELECT DISTINCT ?label  (GROUP_CONCAT(DISTINCT ?provider; SEPARATOR=", ") AS ?provider) (count(distinct ?provider) as ?countProviders) WHERE{
+              {
+                GRAPH ?graph {
+                  ??  fr:Work_created_from_Artist ?attribution.
+                }
+              } UNION{
+                GRAPH ?graph {
+                  ??  fr:Work_influenced_by_Artist ?attribution.
+                }
+              } UNION {
+                GRAPH ?graph { ?work a cfc:work}
+                ?work owl:sameAs ?? .
+                ?work ((crm:P108i_was_produced_by|crm:P19i_motivated)/crm:P140i_was_attributed_by/<http://www.cidoc-crm.org/cidoc-crm/P141_assigned>/crm:P02_has_range)|cfr:Work_influenced_by_Artist|cfr:Work_created_from_Artist ?attribution.
+              }
+              ## PREF LABEL
+              {
+                ?attribution skos:prefLabel ?attrLabel.
+                FILTER ( lang(?attrLabel) = "en" ). 
+              } UNION {
+                ?attribution skos:prefLabel ?attrLabel.
+                FILTER NOT EXISTS {
+                    ?attribution skos:prefLabel ?c.
+                  FILTER ( lang(?c) = "en" ). 
+                }
+              }UNION{
+                FILTER NOT EXISTS{ ?attribution skos:prefLabel ?c.}
+                ?attribution rdfs:label ?attrLabel.
+              }
+              ?graph <https://artresearch.net/custom/has_provider> ?provider. 
+              BIND(STR(?attrLabel) as ?label)
+            } GROUP BY ?label order by desc(COUNT(distinct ?provider))'
+      template='{{> byAttribution }}'>
+        <template id='byAttribution'>
+          {{#each bindings}}
+            <div class="attribution-wrapper">
+              <div class="attribution">{{label.value}}</div>
+                [[> SourceIcon attr=true ]]
+              </div>
+          {{/each}}
+        </template>
     </semantic-query>
-  </div>
+  </bs-panel>
+
+</div>

@@ -5,7 +5,15 @@
         {
           "kind": "resource",
           "queryPattern": "
-          $subject $__relation__ ?__value__ .
+          {
+            ?subject a cfc:photographer. 
+            ?subject $__relation__ ?__value__ .
+          } UNION {
+            ?subject a fc:photographer.
+            ?og owl:sameAs ?subject.
+            ?og $__relation__ ?__value__ .
+          }
+          
           FILTER(?__value__ !=  <https://artresearch.net/resource/itatti/source/FotoIndex>)
           "
         }
@@ -167,9 +175,23 @@
                     escape-lucene-syntax="false"
                     domain="<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>"
                     default-query="
-                    SELECT  ?subject  WHERE { ?subject a fc:photographer. }LIMIT 1000"
-                    query='SELECT ?subject WHERE {
-                            ?subject a fc:photographer.
+                    SELECT DISTINCT ?subject  WHERE {
+                      {
+                        ?subject a cfc:photographer. # until full reconciliation of photographers is completed
+                        FILTER NOT EXISTS {?subject owl:sameAs/rdf:type fc:photographer}
+                      } UNION {
+                        ?subject a fc:photographer.
+                        ?og owl:sameAs ?subject.
+                      }
+                    }LIMIT 1500"
+                    query='SELECT DISTINCT ?subject WHERE {
+                            {
+                              ?subject a cfc:photographer. # until full reconciliation of photographers is completed
+                              FILTER NOT EXISTS {?subject owl:sameAs/rdf:type fc:photographer}
+                            } UNION {
+                              ?subject a fc:photographer.
+                              ?og owl:sameAs ?subject.
+                            }
                             ?subject rdfs:label ?someLabel.
                             ?someLabel bds:search ?__token__ .
                             ?someLabel bds:minRelevance "0.3"^^xsd:double;
@@ -216,18 +238,12 @@
                                   <bs-tab-pane event-key="defaultView">
                                     <semantic-table
                                       id="grid-result"
+                                      prefetch-labels="false"
                                       options='{
                                               "showFilter":false
                                             }'
                                       number-of-displayed-rows="8"
-                                      query='SELECT DISTINCT ?subject ?artistName
-                                          WHERE {
-                                            OPTIONAL{
-                                              ?wikiPerson rdfs:label ?photographerName.
-                                              ?wikiPerson fr:Person_depicted_by ?withImage.
-                                              ?subject rdfs:label ?photographerName.
-                                            }
-                                          }ORDER BY DESC (?withImage) LIMIT 1000'
+                                      query='SELECT DISTINCT ?subject WHERE { }LIMIT 1500'
                                         tuple-template="{{>tupleTemplate}}"
                                         no-result-template='[[> CardNoResult ]]'
                                     >
@@ -239,6 +255,7 @@
                                   <bs-tab-pane event-key="birthplaceMap">
                                     <div class="mapContainer">
                                       <semantic-map
+                                        fix-zoom-level="13"
                                         id="birthplace-map"
                                         query="SELECT DISTINCT ?subject ?place ?lat ?lng WHERE {
                                           ?subject fr:Person_has_Place_of_Birth ?place .
@@ -260,6 +277,7 @@
                                   <bs-tab-pane event-key="deathplaceMap">
                                     <div class="mapContainer">
                                       <semantic-map
+                                        fix-zoom-level="13"
                                         id="deathplace-map"
                                         query="SELECT DISTINCT ?subject ?place ?lat ?lng WHERE {
                                           ?subject fr:Person_has_Place_of_Death ?place .

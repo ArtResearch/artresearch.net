@@ -1,0 +1,43 @@
+<div id="photoTable">
+  [[#if (ask "ASK { ?subject owl:sameAs ?? . ?subject crm:P67i_is_referred_to_by ?related_document. ?related_document crm:P2_has_type <http://vocab.getty.edu/aat/300435412>. ?related_document crm:P70i_is_documented_in/owl:sameAs ?subject. }")]]
+    <div style="width: 93.5%" class="productionInfoContainer">
+      <div id="photoTable">
+        <div>
+          <div style="margin-top: 45px"><h2>Related Objects</h2></div>
+        </div>
+        <div class="table-of-animation">
+          <div class="animated-background-long-line rs-page-resource__field-label-holder"></div>
+          <div class="animated-background-long-line rs-page-resource__field-label-holder"></div>
+          <div class="animated-background-long-line rs-page-resource__field-label-holder"></div>
+          <div class="animated-background-long-line rs-page-resource__field-label-holder"></div>
+          <div class="animated-background-long-line rs-page-resource__field-label-holder"></div>
+          <div class="animated-background-long-line rs-page-resource__field-label-holder"></div>
+        </div>
+        <semantic-table
+          options='{"showFilter":false}'
+          prefetch-labels="false"
+          number-of-displayed-rows="4"
+          query='
+            SELECT distinct  ?subject WHERE {
+                ?work owl:sameAs ?? .
+                GRAPH ?graph {
+                  ?work crm:P67i_is_referred_to_by ?related_document.
+                  ?related_document crm:P2_has_type <http://vocab.getty.edu/aat/300435412>.
+                }
+                ?related_document crm:P70i_is_documented_in ?s.
+                ?s owl:sameAs ?subject.
+            }'
+
+          tuple-template="{{> related_objects}}"
+          no-result-template=''
+
+        >
+            <template id="related_objects">
+              [[> CardArtwork]]
+            </template>
+        </semantic-table>
+      </div>
+    </div>
+  [[/if]]
+</div>
+

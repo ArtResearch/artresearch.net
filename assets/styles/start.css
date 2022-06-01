@@ -1,3 +1,47 @@
+.searchbar-switch {
+  display: flex;
+}
+
+.switch-visual-search{
+  background:none;
+  border: 1px solid grey;
+  border-radius: 10px;
+}
+
+.switch-visual-search{
+  height: 40px;
+  align-self: center;
+}
+
+.switch-visual-search{
+  text-align: center;
+  transition: 1s;
+}
+
+.switch-visual-search:hover{
+  background-color: gray;
+}
+
+.switch-simple-search{
+  background:none;
+  border: 1px solid grey;
+  border-radius: 10px;
+}
+
+.switch-simple-search{
+  height: 40px;
+  align-self: center;
+}
+
+.switch-simple-search{
+  text-align: center;
+  transition: 1s;
+}
+
+.switch-simple-search:hover{
+  background-color: gray;
+}
+
 .view-guides{
     border: 1px solid #4b7d9a;
   background-color: #4b7d9a;
@@ -39,7 +83,8 @@
 }
 
 .doc-tall-card-body{
-  min-width: 141px;
+  max-height: 40vh;
+  min-width: 180px;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -259,7 +304,10 @@
 
 #new-start-page .tall-card-body .tall-card-subtitle {
   font-size: 16px;
+  display: flex;
 }
+
+
 
 #new-start-page .tall-card-body .tall-card-button {
   align-self: center;
@@ -762,21 +810,23 @@
   #new-start-page #search-bar input#site-search {
     min-width: 67vw !important;
   }
-  #new-start-page .search-actions {
-    margin-bottom: unset !important;
-    margin-top: unset !important;
-  }
+
 }
 @media (max-width: 400px) {
   #new-start-page #search-bar input#site-search {
     min-width: 59vw !important;
   }
-  .info-circle-container {
-    width: 100%;
-  }
+
 }
 
 @media (max-width: 800px) {
+  .switch-visual-search{
+    display: none !important;
+  }
+
+  #new-start-page .search-actions{
+    align-items: unset !important;
+  }
   #new-start-page section {
     padding-right: 3.5%;
     padding-left: 3.5%;

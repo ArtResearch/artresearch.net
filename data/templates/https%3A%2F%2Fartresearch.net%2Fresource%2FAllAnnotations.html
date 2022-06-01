@@ -15,12 +15,9 @@
               <div>
                     <bs-nav bs-style="tabs">
                       [[#if (hasPermission "api:ldp:*")]]
-                        <bs-nav-item event-key="allannotations">All platform Annotations
+                        <bs-nav-item event-key="allannotations">All platform Text Annotations
                               <semantic-query query='SELECT (COUNT(DISTINCT ?document) AS ?count) WHERE {
                                               ?document rdf:type rs:Semantic_Narrative.
-                                              ?document rdfs:label ?documentTitle.
-                                              ?document prov:wasAttributedTo ?username.
-                                              ?document prov:generatedAtTime ?time.
                                               ?document <http://www.researchspace.org/ontology/targetsField> ?field.
                                               ?document <http://www.researchspace.org/ontology/targetsRecord> ?subject.
                                           }'
@@ -29,13 +26,10 @@
                         </bs-nav-item>
                         [[/if]]
                         <bs-nav-item event-key="myannotations">
-                                    My annotations
+                                    My Text annotations
                                     <semantic-query 
                                       query='SELECT (COUNT(DISTINCT ?document) AS ?count) WHERE {
                                           ?document rdf:type rs:Semantic_Narrative.
-                                          ?document rdfs:label ?documentTitle.
-                                          ?document prov:wasAttributedTo ?username.
-                                          ?document prov:generatedAtTime ?time.
                                           ?document <http://www.researchspace.org/ontology/targetsField> ?field.
                                           ?document <http://www.researchspace.org/ontology/targetsRecord> ?subject.
                                           ?document prov:wasAttributedTo ?__useruri__.
@@ -49,28 +43,22 @@
                                     query='SELECT (COUNT(DISTINCT ?document) AS ?count) WHERE {
                                         GRAPH ?g {
                                                       Platform:formContainer <http://www.w3.org/ns/ldp#contains> ?y.
-                                                      ?document prov:generatedAtTime ?time.
-                                                      ?document prov:wasAttributedTo ?username.
+                                                      ?document prov:wasAttributedTo ?__useruri__.
                                                       ?document rdf:type <http://www.w3.org/ns/ldp#Resource>.
-                                                      ?l rso:displayLabel ?documentTitle.
                                                       ?l crmdig:L49_is_primary_area_of ?image.
                                                     }
-                                                    BIND ( ?__useruri__ as ?username)
                                   }'
                                   template='{{#each bindings}}<span class="badge">{{count.value}}</span>{{/each}}'>\
                                   </semantic-query>
                         </bs-nav-item>
                         [[#if (hasPermission "api:ldp:*")]]
                         <bs-nav-item event-key="photoAnnotations">
-                                All Photo annotations
+                                All platform Photo annotations
                                   <semantic-query
                                   query='SELECT (COUNT(DISTINCT ?document) AS ?count) WHERE {
                                       GRAPH ?g {
-                                                    Platform:formContainer <http://www.w3.org/ns/ldp#contains> ?y.
-                                                    ?document prov:generatedAtTime ?time.
-                                                    ?document prov:wasAttributedTo ?username.
+                                                    Platform:formContainer <http://www.w3.org/ns/ldp#contains> ?document.
                                                     ?document rdf:type <http://www.w3.org/ns/ldp#Resource>.
-                                                    ?l rso:displayLabel ?documentTitle.
                                                     ?l crmdig:L49_is_primary_area_of ?image.
                                                   } 
                                     }'

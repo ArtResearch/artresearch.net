@@ -1,4 +1,13 @@
 {
+  "<https://artresearch.net/resource/fr/Photo_has_ColorInformation>":[
+  {
+    "kind": "literal",
+    "queryPattern": "
+      ?subject crm:P43_has_dimension ?dimension .
+      ?dimension crm:P2_has_type <http://vocab.getty.edu/aat/300127013> .
+      ?dimension crm:P90_has_value ?literal.
+      "
+  }],
   "<https://artresearch.net/resource/fr/Person_has_Date_of_Birth>":[
   {
     "kind": "numeric-range",
@@ -102,5 +111,16 @@
   "queryPattern": "
   $subject fr:Work_from_Date ?dateBeginValue.
   $subject fr:Work_from_Date ?dateEndValue .
+  "}],
+  "<https://artresearch.net/resource/fr/Work_has_rights>": [{
+  "kind": "resource",
+  "queryPattern": "
+    $subject fr:Work_has_right ?__value__.
+  "}],
+  "<https://artresearch.net/resource/fr/Photo_created_by_Photographer>": [{
+  "kind": "resource",
+  "queryPattern": "
+    $subject fr:Photo_created_by_Photographer ?__value__.
   "}]
+
 }

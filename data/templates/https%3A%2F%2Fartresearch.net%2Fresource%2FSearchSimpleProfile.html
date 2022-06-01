@@ -5,6 +5,10 @@
     "iri":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
     "label":"Photographer"
   },
+    {
+    "iri":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor2>",
+    "label":"Repository" 
+  },
   {
     "iri":"<https://artresearch.net/resource/nypl/type/gender>",
     "label":"Gender"
@@ -38,6 +42,10 @@
     "label":"Person"
   },
   {
+    "iri":"<http://www.cidoc-crm.org/cidoc-crm/E21_Person2>",
+    "label":"Photographer"
+  },
+  {
     "iri":"<https://artresearch.net/resource/fc/gender>",
     "label":"Gender"
   }, 
@@ -48,6 +56,10 @@
   {
     "iri":"<http://www.w3.org/2001/XMLSchema#integer>",
     "label":"Year"
+  },
+  {
+    "iri":"<http://www.w3.org/2001/XMLSchema#string>",
+    "label":"label"
   }, 
   {
     "iri":"<https://artresearch.net/resource/fc/Type>",
@@ -73,6 +85,10 @@
       "iri":"<http://www.cidoc-crm.org/cidoc-crm/E55_Type>",
       "label":"Type"
     }, 
+     {
+      "iri":"<http://www.cidoc-crm.org/cidoc-crm/E55_Subject>",
+      "label":"Subject"
+    }, 
     {
       "iri":"<http://www.cidoc-crm.org/cidoc-crm/E57_Material>",
       "label":"Material"
@@ -94,6 +110,10 @@
       "label":"Location"
     },
     {
+    "iri":"<http://www.cidoc-crm.org/cidoc-crm/E30_Right>",
+    "label":"Right"
+    },
+    {
       "iri":"<http://www.w3.org/2001/XMLSchema#date>",
       "label":"Date"
     }
@@ -105,6 +125,12 @@
     "label":"Gender",
     "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>",
     "hasRange":"<https://artresearch.net/resource/nypl/type/gender>"
+  },
+  {
+    "iri": "<https://artresearch.net/resource/fr/Photo_has_ColorInformation>",
+    "label":"Color Information",
+    "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
+    "hasRange":"<http://www.w3.org/2001/XMLSchema#string>"
   },
   {
     "iri": "<https://artresearch.net/resource/fr/Person_has_Nationality>",
@@ -154,11 +180,23 @@
       "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
       "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E21_Person>"
     },
+     {
+      "iri": "<https://artresearch.net/resource/fr/Photo_created_by_Photographer>",
+      "label":"Photographer",
+      "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
+      "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E21_Person2>"
+    },
+     {
+      "iri": "<https://artresearch.net/resource/fr/Work_has_rights>",
+      "label":"License",
+      "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
+      "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E30_Right>"
+    },
     {
       "iri":"<https://artresearch.net/resource/fr/Work_shows_Subject>",
       "label":"Subject",
       "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
-      "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E55_Type>"
+      "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E55_Subject>"
     },
     {
       "iri":"<https://artresearch.net/resource/fr/Work_consists_of_Material>",
@@ -171,18 +209,6 @@
       "label":"Technique",
       "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
       "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E29_Design_or_Procedure>"
-    },
-    {
-      "iri":"<https://artresearch.net/resource/fr/Photo_created_by_Photographer>",
-      "label":"Photographer",
-      "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
-      "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E21_Person>"
-    },
-    {
-      "iri":"<https://artresearch.net/resource/fr/Photo_depicts_Work>",
-      "label":"Depicts work",
-      "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
-      "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
     },
     {
       "iri":"<http://www.cidoc-crm.org/cidoc-crm/P2_has_type>",
@@ -200,7 +226,7 @@
       "iri": "<https://artresearch.net/resource/fr/Work_kept_by_Institution>",
       "label":"Repository",
       "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
-      "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor>"
+      "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E39_Actor2>"
     },
     {
       "iri": "<https://artresearch.net/resource/fr/Work_from_Date>",

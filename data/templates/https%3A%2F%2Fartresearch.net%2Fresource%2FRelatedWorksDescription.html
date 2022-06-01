@@ -1,0 +1,50 @@
+<div id="photoTable">
+  [[#if (ask "ASK { ?work owl:sameAs ??. ?work crm:P67i_is_referred_to_by ?value. ?value crm:P2_has_type <http://vocab.getty.edu/aat/300015640>. ?value crm:P190_has_symbolic_content ?pvalue. ?works crm:P67i_is_referred_to_by/crm:P190_has_symbolic_content ?pvalue; owl:sameAs ?subject. }")]]
+    <div style="width: 93.5%" class="productionInfoContainer">
+      <div id="photoTableRelated">
+        <div>
+          <div style="margin-top: 45px"><h2>Related Works Description</h2></div>
+        </div>
+        <div class="table-of-animation">
+          <div class="animated-background-long-line rs-page-resource__field-label-holder"></div>
+          <div class="animated-background-long-line rs-page-resource__field-label-holder"></div>
+          <div class="animated-background-long-line rs-page-resource__field-label-holder"></div>
+          <div class="animated-background-long-line rs-page-resource__field-label-holder"></div>
+          <div class="animated-background-long-line rs-page-resource__field-label-holder"></div>
+          <div class="animated-background-long-line rs-page-resource__field-label-holder"></div>
+        </div>
+    
+        <semantic-table
+          options='{"showFilter":false}'
+          number-of-displayed-rows="4"
+          prefetch-labels="false"
+          query='
+            SELECT DISTINCT ?subject ?pvalue WHERE { 
+              ?work owl:sameAs ??.
+              ?work crm:P67i_is_referred_to_by ?value.
+              ?value crm:P2_has_type <http://vocab.getty.edu/aat/300015640>.
+              ?value crm:P190_has_symbolic_content ?pvalue.
+              ?works crm:P67i_is_referred_to_by/crm:P190_has_symbolic_content ?pvalue;
+                        owl:sameAs ?subject.
+              FILTER(?subject!=??)
+            }'
+
+          tuple-template="{{> related_objects}}"
+          no-result-template='<div></div>'>
+            <template id="related_objects">
+              {{log __semanticTableIndex}}
+              {{#ifCond __semanticTableIndex._value "===" "0" }}
+                <div class= "bioTemplate" >
+                  <div class="BioText">
+                    <h2 class=" fa fa-quote-left">&ensp;{{pvalue.value}}&ensp;</h2><h2 class="fa fa-quote-right"></h2>
+                  </div>
+                </div>
+              {{/ifCond}}
+              [[> CardArtwork]]
+            </template>
+        </semantic-table>
+      </div>
+    </div>
+  [[/if]]
+</div>
+

@@ -1,0 +1,220 @@
+  <semantic-query
+    query='  
+       SELECT * WHERE 
+      {
+        { 
+          BIND(?? AS ?workA) 
+        }
+        UNION
+        {
+          ?workA owl:sameAs ??.
+        }
+       [[#if haspart]]
+          GRAPH ?graph { ?workA crm:P46_is_composed_of ?workB. }
+        [[/if]]
+        [[#if ispart]]
+          GRAPH ?graph { ?workA crm:P46i_forms_part_of ?workB. }
+        [[/if]]
+         [[#if version]]
+          GRAPH ?graph { ?workA fr:Work_is_version_of_Work  ?workB. }
+        [[/if]]
+        [[#if imitation]]
+          GRAPH ?graph { ?workA fr:Work_is_imitation_or_copy_of_Work  ?workB. }
+        [[/if]]
+         [[#if study]]
+          GRAPH ?graph { ?workA fr:Work_is_study_or_sketch_of_Work  ?workB. }
+        [[/if]]
+        [[#if similar]]
+           GRAPH ?graph { ?workA fr:Work_is_similar_to_Work  ?workB. }
+        [[/if]]
+        [[#if hasimitation]]
+            GRAPH ?graph { ?workB fr:Work_is_imitation_or_copy_of_Work  ?workA. }
+        [[/if]]
+        [[#if hasversion]]
+            GRAPH ?graph { ?workB fr:Work_is_version_of_Work  ?workA. }
+        [[/if]]
+        [[#if hasstudy]]
+            GRAPH ?graph { ?workB fr:Work_is_study_or_sketch_of_Work  ?workA. }
+        [[/if]]
+         {{#if selectedTab}}
+          {{#ifCond selectedTab "!==" "All"}}
+              ?graph custom:has_provider <{{selectedTab}}>.
+          {{/ifCond}}
+        {{/if}}
+         ?workB owl:sameAs ?workB_pharos.
+         ?workB_pharos rdf:type fc:work;
+         OPTIONAL{
+          ?workB_pharos fr:Work_depicted_by_Photo ?photo.
+         }
+      }LIMIT 1'
+    no-result-template="<div></div>"
+    template="{{> showTitle}}"
+  >
+      <template id="showTitle">
+      <div style="width: 93.5%" class="productionInfoContainer">
+          <div id="photoTable">
+            <div>
+          [[#if haspart]]
+                      <div style="margin-top: 20px"><h2>Has Part</h2></div>
+          [[/if]]
+          [[#if ispart]]
+                        <div style="margin-top: 20px"><h2>Is Part Of</h2></div>
+          [[/if]]
+          [[#if version]]
+                        <div style="margin-top: 20px"><h2>Is Version Of</h2></div>
+          [[/if]]
+          [[#if imitation]]
+                        <div style="margin-top: 20px"><h2>Is Imitation / Copy Of</h2></div>
+          [[/if]]
+          [[#if study]]
+                        <div style="margin-top: 20px"><h2>Is Study / Sketch Of</h2></div>
+          [[/if]]
+          [[#if similar]]
+                        <div style="margin-top: 20px"><h2>Similar</h2></div>
+          [[/if]]
+          [[#if hasimitation]]
+                        <div style="margin-top: 20px"><h2>Has Imitation / Copy </h2></div>
+          [[/if]]
+          [[#if hasversion]]
+                        <div style="margin-top: 20px"><h2>Has Version</h2></div>
+          [[/if]]
+          [[#if hasstudy]]
+                        <div style="margin-top: 20px"><h2>Has Study / Sketch</h2></div>
+          [[/if]]
+            </div>
+  
+            <div class="table-of-animation">
+              <div class="animated-background-long-line rs-page-resource__field-label-holder"></div>
+              <div class="animated-background-long-line rs-page-resource__field-label-holder"></div>
+              <div class="animated-background-long-line rs-page-resource__field-label-holder"></div>
+              <div class="animated-background-long-line rs-page-resource__field-label-holder"></div>
+              <div class="animated-background-long-line rs-page-resource__field-label-holder"></div>
+              <div class="animated-background-long-line rs-page-resource__field-label-holder"></div>
+            </div>
+            <semantic-table
+              options='{"showFilter":false}'
+              number-of-displayed-rows="4"
+              prefetch-labels="false"
+              query='
+
+              SELECT * WHERE 
+                {
+                  { 
+                    BIND(?? AS ?workA) 
+                  }
+                  UNION
+                  {
+                    ?workA owl:sameAs ??.
+                  }
+                  [[#if haspart]]
+                    GRAPH ?graph { ?workA crm:P46_is_composed_of ?workB. }
+                  [[/if]]
+                  [[#if ispart]]
+                    GRAPH ?graph { ?workA crm:P46i_forms_part_of ?workB. }
+                  [[/if]]
+                  [[#if version]]
+                    GRAPH ?graph { ?workA fr:Work_is_version_of_Work  ?workB. }
+                  [[/if]]
+                  [[#if imitation]]
+                    GRAPH ?graph { ?workA fr:Work_is_imitation_or_copy_of_Work  ?workB. }
+                  [[/if]]
+                  [[#if study]]
+                    GRAPH ?graph { ?workA fr:Work_is_study_or_sketch_of_Work  ?workB. }
+                  [[/if]]
+                  [[#if similar]]
+                    GRAPH ?graph { ?workA fr:Work_is_similar_to_Work  ?workB. }
+                  [[/if]]
+                  [[#if hasimitation]]
+                      GRAPH ?graph { ?workB fr:Work_is_imitation_or_copy_of_Work  ?workA. }
+                  [[/if]]
+                  [[#if hasversion]]
+                      GRAPH ?graph { ?workB fr:Work_is_version_of_Work  ?workA. }
+                  [[/if]]
+                  [[#if hasstudy]]
+                      GRAPH ?graph { ?workB fr:Work_is_study_or_sketch_of_Work  ?workA. }
+                  [[/if]]
+                  {{#if selectedTab}}
+                    {{#ifCond selectedTab "!==" "All"}}
+                        ?graph custom:has_provider <{{selectedTab}}>.
+                    {{/ifCond}}
+                  {{/if}}
+                  ?workB owl:sameAs ?workB_pharos.
+                  ?workB_pharos <https://artresearch.net/custom/has_type> <https://artresearch.net/resource/type/pharos>
+            
+                }
+                '
+
+              tuple-template="{{> photos}}"
+
+            >
+                <template id="photos">
+                  <semantic-link class="photographFieldView" iri="{{workB_pharos.value}}">
+                      <td class="rectoVersoCell">
+                        <semantic-query
+                          query='
+                            SELECT distinct ?photoUri ?rectoImage ?work where{
+                              BIND (<{{workB_pharos.value}}> as ?work).
+                              ?work fr:Work_depicted_by_Photo ?photo.
+                              ?photo crm:P129i_is_subject_of ?fullsizeImages.
+                              BIND(REPLACE(STR(?fullsizeImages),"full/full","full/!100,100") AS ?rectoImage).
+                              FILTER NOT EXISTS { 
+                                ?fullsizeImages crm:P2_has_type ?type.
+                                ?type rdfs:label "verso"
+                              }
+                            }
+                          '
+                          template="{{>rectoImageThumb}}"
+                          no-result-template="{{>noimage}}"
+                        >
+                        <template id="noimage">
+                              <img
+                                src="/assets/images/media/image_placeholder.jpg"
+                                style="max-height: 100px; margin: 0 auto"
+                                class="img-rounded"
+                              />
+                        </template>
+                          <template id="rectoImageThumb">
+                              <img
+                                src="{{bindings.0.rectoImage.value}}"
+                                style="max-height: 100px; margin: 0 auto"
+                                class="img-rounded"
+                              />
+                          </template>
+                        </semantic-query>
+                      </td>
+                      <div class="photographFieldViewData">
+                        <mp-field-visualization
+                          subject="{{workB.value}}"
+                          fields='[[fieldDefinitions  
+                            Title="https://artresearch.net/fieldDefinition/2"  
+                            Archive="https://artresearch.net/container/fieldDefinitionContainer/Photo_Archive_2" 
+                          ]]'
+                          template="{{>productionInfo}}"
+                        >
+                          <template id="productionInfo">
+                            {{#if noData}}
+                              <div id="rsbv" class="table-responsive rs-table">
+                                <table class="table table-hover">
+                                  <tbody>
+                                    <tr>
+                                      <td>No quick preview available. Click on the photo to view details.</td>
+                                      <td></td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                            {{else}} 
+                              [[> ResourceFieldBasedVisualization showSourceIcon="true"  subject=[[this]] ]]
+                            {{/if}}
+                          </template>
+                        </mp-field-visualization>
+                      </div>
+                  </semantic-link>
+                </template>
+            </semantic-table>
+          </div>
+          </div>
+       </template>
+  </semantic-query> 
+
+

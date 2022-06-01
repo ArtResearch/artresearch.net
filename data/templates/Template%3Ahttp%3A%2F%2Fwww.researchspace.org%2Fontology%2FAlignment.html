@@ -1,9 +1,9 @@
 <ol class="page-breadcrumb">
   <li>
-    <mp-link title="Home" url="/resource/start">Home</mp-link>
+    <a title="Home" href="/resource/start">Home</a>
   </li>
   <li>
-    <mp-link title="Alignments" url="/resource/AlignmentsDashboard">Alignments</mp-link>
+    <a title="Alignments" href="/resource/AlignmentsDashboard">Alignments</a>
   </li>
   <li class="active">
     Alignment: [[label]]
@@ -34,7 +34,6 @@
       <rs-alignment-tool
         id="first"
         alignment-container='[[this]]'
-        info-template='{{> template}}'
         queries='{
           "rootsQuery": " SELECT DISTINCT ?item ?label ?hasChildren FROM <alignment:__graph__> where {
                             {
@@ -153,7 +152,7 @@
         queries='{
           "rootsQuery": " SELECT DISTINCT ?item ?label ?hasChildren where {
                             {
-                              SERVICE <http://213.171.209.34:10085/blazegraph/sparql> {
+                              SERVICE <http://dev.artresearch.net:10085/blazegraph/sparql> {
                                 GRAPH <alignment:__graph__> {
                                   ?item <http://www.geonames.org/ontology#featureCode> <https://www.geonames.org/ontology#L.CONT>.
                                   ?item <http://www.geonames.org/ontology#name> ?label
@@ -169,7 +168,7 @@
                             }
                           }order by ?label",
           "childrenQuery": "SELECT distinct ?item ?label ?hasChildren FROM <alignment:__graph__> WHERE {
-                              SERVICE <http://213.171.209.34:10085/blazegraph/sparql>  {
+                              SERVICE <http://dev.artresearch.net:10085/blazegraph/sparql>  {
                                 ?item <http://www.geonames.org/ontology#parentFeature> ?parent.
                                 ?item <http://www.geonames.org/ontology#name> ?label.
                               }
@@ -180,7 +179,7 @@
                             PREFIX xl: <http://www.w3.org/2008/05/skos-xl#>
                             PREFIX dc: <http://purl.org/dc/elements/1.1/>
                             SELECT DISTINCT ?item ?parent ?parentLabel FROM <alignment:__graph__> WHERE {
-                              SERVICE <http://213.171.209.34:10085/blazegraph/sparql>  {
+                              SERVICE <http://dev.artresearch.net:10085/blazegraph/sparql>  {
                                 ?item <http://www.geonames.org/ontology#parentFeature> ?parent.
                                 ?parent <http://www.geonames.org/ontology#name> ?parentLabel.
                                 FILTER(STR(?parent)!=\"https://sws.geonames.org/6295630/\")
@@ -193,7 +192,7 @@
                           PREFIX dc: <http://purl.org/dc/elements/1.1/>
                           SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
                             {
-                              SERVICE <http://213.171.209.34:10085/blazegraph/sparql> {
+                              SERVICE <http://dev.artresearch.net:10085/blazegraph/sparql> {
                                 GRAPH <alignment:__graph__> {
                                   ?item a <http://www.geonames.org/ontology#Feature>.
                                   ?item <http://www.geonames.org/ontology#name> ?label.
