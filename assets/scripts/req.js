@@ -15,7 +15,11 @@ class ReqSolr extends HTMLElement {
     let xhr = new XMLHttpRequest();
     xhr.open("GET", artworks);
 
-    xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+    xhr.setRequestHeader("Access-Control-Allow-Origin", "https://dev.artresearch.net");
+    // xhr.setRequestHeader("Access-Control-Allow-Origin", "http://localhost:10214");
+    // xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+    // xhr.setRequestHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS");
+    // xhr.setRequestHeader("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token");
     // xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send();
 
