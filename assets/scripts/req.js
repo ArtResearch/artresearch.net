@@ -11,7 +11,7 @@ class ReqSolr extends HTMLElement {
     const endpoint = "https://api.imgur.com/3/image";
     const core = this.getAttribute("core");
     const keyword = this.getAttribute("keyword");
-    const artworks = "http://213.171.209.34:8983/solr/artworks_v8/select?defType=dismax&q=mona%20lisa";
+    const artworks = "https://solr.artresearch.net/solr/artworks_v8/select?defType=dismax&q=mona%20lisa";
     let xhr = new XMLHttpRequest();
     xhr.open("GET", artworks);
 
