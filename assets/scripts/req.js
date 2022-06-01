@@ -15,7 +15,7 @@ class ReqSolr extends HTMLElement {
     let xhr = new XMLHttpRequest();
     xhr.open("GET", artworks);
 
-    // xhr.setRequestHeader("Accept", "application/json");
+    xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
     // xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send();
 
