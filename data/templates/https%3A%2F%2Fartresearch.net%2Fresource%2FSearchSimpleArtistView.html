@@ -65,7 +65,7 @@
                 <semantic-query
                       id="view-more"
                       query='SELECT ?keywords WHERE {
-                        BIND(REPLACE(str("[[urlParam "keyword"]]"),"\\+"," ") as ?keywords)}'
+                        BIND(REPLACE(str("[[urlParam "keyword"]]"),"\\+"," ") as ?keywords)} LIMIT 1'
                       template="{{>currentSearchText}}"
                     >
                 <template id="currentSearchText">

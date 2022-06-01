@@ -54,7 +54,7 @@ class="hiddenSearchbar"
         id="keyword-display-photographer"
         query='SELECT ?keywords WHERE {
           BIND(REPLACE(str("[[urlParam "keyword"]]"),"\\+"," ") as ?keywords)
-        }'
+        } LIMIT 1'
         template="{{>currentSearchText}}"
       >
         <template id="currentSearchText">
