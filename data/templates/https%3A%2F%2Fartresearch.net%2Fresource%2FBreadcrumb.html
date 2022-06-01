@@ -1,11 +1,11 @@
 <div id="breadcrumb" style="display: flex">
   <ol class="page-breadcrumb">
     <li>
-      <mp-link title="Home" url="/resource/start">Home</mp-link>
+      <a title="Home" href="/resource/start">Home</a>
     </li>
     [[#if categoryUrl]]
       <li>
-        <mp-link title="[[category]]" url="[[categoryUrl]]">[[category]]</mp-link>
+        <a title="[[category]]" href="[[categoryUrl]]">[[category]]</a>
       </li>
     [[else]]
       <li>
@@ -168,14 +168,27 @@
           ></mp-overlay-dialog-content>
         </mp-overlay-dialog>
 
-        <mp-copy-to-clipboard
-          text="[[this]]"
-          message="Permalink copied"
-        >
-          <div id="btnGraph" class="rs-body-m-M">
-            <i style="margin-right: 5px" class="fa fa-link"></i>Permalink
-          </div>
-        </mp-copy-to-clipboard>
+        [[#if (ask "ASK {filter(CONTAINS(STR(??), 'artresearch.net/resource'))}")]]
+          <mp-copy-to-clipboard
+            text="[[this]]"
+            message="Permalink copied"
+          >
+            <div id="btnGraph" class="rs-body-m-M">
+              <i style="margin-right: 5px" class="fa fa-link"></i>Permalink
+            </div>
+          </mp-copy-to-clipboard>
+        [[else]]
+          <mp-copy-to-clipboard
+            text="https://artresearch.net/resource/?uri=[[this]]"
+            message="Permalink copied"
+          >
+            <div id="btnGraph" class="rs-body-m-M">
+              <i style="margin-right: 5px" class="fa fa-link"></i>Permalink
+            </div>
+          </mp-copy-to-clipboard>
+        [[/if]]
+
+
         <mp-has-permission permission="api:ldp:*">
             <mp-copy-to-clipboard
               text="[[this]]"

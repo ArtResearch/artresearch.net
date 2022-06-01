@@ -82,6 +82,25 @@
                 FILTER(!STRSTARTS(STR(?provider), "https://artresearch.net/resource/total"))
               } ORDER BY ASC(?provider) '
         multi-data-set='{"dataSetVariable":"provider", "dataSetName": "[[datasetLabel]]", "category":"date", "value":"count" }'
+        styles='[
+        {
+          "provider": "chartjs",
+          "style": {
+            "options": {
+              "spanGaps": true,
+              "scales": {
+                "xAxes": [{
+                  
+                  "type": "time",
+                  "time": {
+                    "unit": "month"
+                  }
+                }]
+              }
+            }
+          }
+        }
+      ]'
         >
       </semantic-chart>
     </mp-component-toolbar-component>

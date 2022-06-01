@@ -17,18 +17,10 @@
               </mp-popover-content>
           </mp-popover>
       </div>
-            <semantic-query
-              query="SELECT (COUNT (distinct ?x) AS ?count) WHERE { 
-                       ?x a fc:work.
-
-                    }"
-                    template="{{> records}}">
-                    <template id="records">
-                       <div>{{bindings.0.count.value}} artworks</div>
-                       
-                    </template>
-              </semantic-query>
-               <div class="animated-background-x-sm"></div>
+        <div>
+         <div> [[> StatisticsTotal property="https://artresearch.net/custom/numOfWorks"]]&ensp;artworks</div>
+        </div>
+        <div class="animated-background-x-sm"></div>
     </bs-menu-item>
   </mp-event-trigger>
   <mp-event-trigger
@@ -49,16 +41,8 @@
               </mp-popover-content>
           </mp-popover>
       </div>
-      <semantic-query
-              query="SELECT (COUNT (distinct ?x) AS ?count) WHERE { 
-                    ?x a cfc:photo .
-                    }" 
-                    template="{{> records}}">
-                    <template id="records">
-                       <div>{{bindings.0.count.value}} photographs</div>
-                    </template>
-              </semantic-query>
-               <div class="animated-background-x-sm"></div>
+      <div>[[> StatisticsTotal property="https://artresearch.net/custom/numOfPhotos"]]&ensp;photographs</div>
+      <div class="animated-background-x-sm"></div>
     </bs-menu-item>
   </mp-event-trigger>
   <mp-event-trigger
@@ -79,16 +63,8 @@
               </mp-popover-content>
           </mp-popover>
       </div>
-            <semantic-query
-              query="SELECT (COUNT (distinct ?x) AS ?count) WHERE { 
-                    ?x a fc:artist .
-                    }"
-                    template="{{> records}}">
-                    <template id="records">
-                       <div> {{bindings.0.count.value}} artists</div>
-                    </template>
-              </semantic-query>
-               <div class="animated-background-x-sm"></div>
+      <div>[[> StatisticsTotal property="https://artresearch.net/custom/numOfArtists"]]&ensp;artists </div>
+      <div class="animated-background-x-sm"></div>
     </bs-menu-item>
   </mp-event-trigger>
   <mp-event-trigger
@@ -109,16 +85,8 @@
               </mp-popover-content>
           </mp-popover>
       </div>
-           <semantic-query
-              query="SELECT (COUNT (distinct ?x) AS ?count) WHERE { 
-                    ?x a fc:photographer.
-                    }"
-                    template="{{> records}}">
-                    <template id="records">
-                       <div>{{bindings.0.count.value}} photographers</div>
-                    </template>
-                     <div class="animated-background-x-sm"></div>
-              </semantic-query>
+      <div>[[> StatisticsTotal property="https://artresearch.net/custom/numOfPhotographers"]]&ensp;photographers</div>
+      <div class="animated-background-x-sm"></div>
     </bs-menu-item>
   </mp-event-trigger>
 </bs-dropdown-button>

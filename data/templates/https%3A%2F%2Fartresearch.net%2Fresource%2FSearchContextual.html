@@ -1,7 +1,7 @@
 <div id="structured-search">
   <ol class="page-breadcrumb">
     <li style="padding-top:10px">
-      <mp-link title="Home" url="/resource/start">Home</mp-link>
+      <a title="Home" href="/resource/start">Home</a>
     </li>
     <li class="active">Contextual Search</li>
   </ol>
@@ -22,7 +22,40 @@
             resource-selector='[[> SearchResourceSelector]]'
             tree-selector-categories='[[> SearchTreeSelectorCategories]]'
             geo-selector='[[> SearchGeoSelector]]'
+            category-view-template="{{>category-template}}"
           >
+          <template id="category-template">
+            <div class="" style="display: flex; align-items: center;">
+              <div class="semantic-search__class-selector-item">
+                <img src="{{thumbnail}}">
+              </div>
+              <span><mp-label iri="{{category.value}}" ></mp-label></span>
+              {{#ifCond category.value "===" "https://artresearch.net/resource/custom/fc/institution"}}
+                <mp-popover>
+                  <mp-popover-trigger placement="right"  trigger='["hover","focus"]'> 
+                    <i style="height: 2vh; width: 2vw;" class="fa fa-info-circle" aria-hidden="true"> </i>
+                  </mp-popover-trigger>
+                   <mp-popover-content style="background:white;">
+                    <ul>
+                      <semantic-query 
+                      query="SELECT * WHERE {
+                        ?x a fc:institution.
+                        ?x a <https://artresearch.net/custom/Provider> .
+                   
+                      }"
+                      template="{{>inst-templ}}">
+                      <template id="inst-templ">
+                        {{#each bindings}}
+                          <li><mp-label iri="{{x.value}}"></mp-label></li>
+                        {{/each}}
+                      </template>
+                      </semantic-query>
+                      </ul>
+                   </mp-popover-content>
+              </mp-popover>
+              {{/ifCond}}
+            </div>
+          </template>
           </semantic-search-query-builder>
           <div class="row">
             <bs-col
@@ -240,6 +273,15 @@
 
   body{
     line-height: 0 !important;
+  }
+
+  .base-breadcrumb, div.page-breadcrumb, ol.page-breadcrumb{
+    position: fixed !important;
+  }
+
+  .row{
+    margin-left: 0px;
+    margin-right: 0px;
   }
 
 </style>

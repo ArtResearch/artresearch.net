@@ -27,10 +27,11 @@
         ?solrApi solr:setQuery "{{bindings.0.token.value}}";
                   solr:setDefType "dismax";
                   solr:setFilter "id";
-                  solr:setRowsNumber 1000;
+                  solr:setRowsNumber 10000;
                   solr:hasResults ?subject
       }
       {{#ifCond withImages "===" "true"}}
+      {{else}}
         ?subject crm:P129i_is_subject_of ?images.
         ?images crm:P2_has_type <http://vocab.getty.edu/aat/300078817>.
       {{/ifCond}}
@@ -84,16 +85,16 @@
                   <template id="currentResultCount">
                       <h2>
                               Found
-                        {{#ifCond bindings.0.count.value "==" 1000 }}
-                           more than 1000 matches, please refine your search
+                        {{#ifCond bindings.0.count.value "==" 10000 }}
+                           more than 10000 matches, please refine your search
                         {{else}}
                           {{bindings.0.count.value}} relevant results 
                         {{/ifCond}}
                       </h2>
                       <small>
                         Displaying 
-                        {{#ifCond bindings.0.count.value ">="1000 }}
-                        the first 1000 results
+                        {{#ifCond bindings.0.count.value ">="10000 }}
+                        the first 10000 results
                         {{else}}
                         all results
                         {{/ifCond}}
@@ -113,7 +114,8 @@
                       <div id='artwork-filter-search-inline'>
                           <semantic-table
                               id="grid-result"
-                              query='SELECT DISTINCT  ?subject  WHERE {}LIMIT 1000'
+                              prefetch-labels="false"
+                              query='SELECT DISTINCT  ?subject  WHERE {}LIMIT 10000'
                               number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
                               tuple-template="{{> subjectCellTemplate}}"
                               options='{"showTableHeading": false, "showFilter":false}'
