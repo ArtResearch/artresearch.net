@@ -17,22 +17,35 @@
             ?? fr:Place_of_Work $subject.
             $subject fr:Work_shows_Subject  ?__value__."
       }],
-      "<https://artresearch.net/resource/fr/Work_consists_of_Material>": [
-      {
-        "kind": "resource",
-        "queryPattern": "
-          
-            ?? fr:Place_of_Work $subject.
-            $subject fr:Work_consists_of_Material ?__value__."
+      "<https://artresearch.net/resource/fr/Work_consists_of_Material>":[{
+        "kind":"resource",
+         "queryPattern": "
+         ?? fr:Place_of_Work $subject.
+          ?subject fr:Work_consists_of_Material ?__value__ .
+          FILTER NOT EXISTS {   
+            ?subject fr:Work_consists_of_Material/<http://vocab.getty.edu/ontology#broaderPreferred> ?__value__.
+          }
+           "
       }],
-      "<https://artresearch.net/resource/fr/Work_produced_using_technique_Technique>": [
-      {
-        "kind": "resource",
-        "queryPattern": "
-          
-            ?? fr:Place_of_Work $subject.
-            $subject fr:Work_produced_using_technique_Technique ?__value__."
+      "<https://artresearch.net/resource/fr/Work_produced_using_technique_Technique>":[{
+        "kind":"resource",
+         "queryPattern": "
+         ?? fr:Place_of_Work $subject.
+          ?subject fr:Work_produced_using_technique_Technique ?__value__ .
+          FILTER NOT EXISTS {   
+            ?subject fr:Work_produced_using_technique_Technique/<http://vocab.getty.edu/ontology#broaderPreferred> ?__value__.
+          }
+           "
       }],
+      "<http://www.cidoc-crm.org/cidoc-crm/P2_has_type>":[{
+        "kind":"resource",
+         "queryPattern": "
+         ?? fr:Place_of_Work $subject.
+          ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ?__value__ .
+          FILTER NOT EXISTS {   
+            ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type>/<http://vocab.getty.edu/ontology#broaderPreferred> ?__value__.
+          }"
+          }],
       "<https://artresearch.net/resource/fr/Work_from_Place>": [
       {
         "kind": "resource",
