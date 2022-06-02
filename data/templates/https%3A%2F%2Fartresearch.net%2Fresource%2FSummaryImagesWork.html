@@ -8,8 +8,23 @@
             [[> StickyHeader ]]
             <semantic-query
               query='SELECT distinct ?thumbnail ?image ?photo WHERE {
+                    [[#if photo]]
+                      ?? crm:P129i_is_subject_of ?image.
+                      {{#if selectedTab}}
+                        {{#ifCond selectedTab "!==" "All"}}
+                          ?? fr:Photo_has_provider_Institution <{{selectedTab}}>.
+                        {{/ifCond}}
+                      {{/if}}
+                    [[else if artwork]]
+                      ?? fr:Work_depicted_by_Photo ?photo.
+                      ?photo crm:P129i_is_subject_of ?image.
+                      {{#if selectedTab}}
+                        {{#ifCond selectedTab "!==" "All"}}
+                          ?photo fr:Photo_has_provider_Institution <{{selectedTab}}>.
+                        {{/ifCond}}
+                      {{/if}}
+                    [[else]]
                     {
-                      # Photo object
                       ?? crm:P129i_is_subject_of ?image.
                       {{#if selectedTab}}
                         {{#ifCond selectedTab "!==" "All"}}
@@ -17,7 +32,6 @@
                         {{/ifCond}}
                       {{/if}}
                     }UNION{
-                      # Original & Pharos Artwork
                       ?? fr:Work_depicted_by_Photo ?photo.
                       ?photo crm:P129i_is_subject_of ?image.
                       {{#if selectedTab}}
@@ -26,6 +40,7 @@
                         {{/ifCond}}
                       {{/if}}
                     }
+                    [[/if]]
                     ?image crm:P2_has_type ?imageType.
                     ?imageType rdfs:label ?typeLabel.
                     FILTER(?typeLabel = "recto")  

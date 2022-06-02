@@ -8,7 +8,11 @@
       <div class="page__header-navtabs">
         [[> HeaderDeprecated]]
       </div>
-      [[> SummaryImagesWork]]
+      [[#if (ask "ASK { ?? rdf:type cfc:photo}")]]
+        [[> SummaryImagesWork photo="true"]]
+      [[else]]
+        [[> SummaryImagesWork artwork="true"]]
+      [[/if]]
       [[#if (urlParam "tab")]]
         <bs-tab-container id="tab-container" class="page__body-navtabs--borderless" default-active-key="[[urlParam 'tab']]">
       [[else]]
@@ -34,11 +38,7 @@
                   [[/if]]
               </bs-tab-pane>
               <bs-tab-pane event-key="similar">
-                  [[#if (ask "ASK { ?? rdf:type cfc:photo}")]]
-                    [[> SimilarArtworks photo="true"]]
-                  [[else]]
-                    [[> SimilarArtworks artwork="true"]]
-                  [[/if]]
+                  [[> SimilarArtworks]]
               </bs-tab-pane>
             </bs-tab-content>
           </div>
