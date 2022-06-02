@@ -38,15 +38,15 @@
                    <mp-popover-content style="background:white;">
                     <ul>
                       <semantic-query 
-                      query="SELECT * WHERE {
-                        ?x a fc:institution.
-                        ?x a <https://artresearch.net/custom/Provider> .
-                   
+                      query="SELECT DISTINCT ?label WHERE {
+                        ?photo_archive a fc:institution.
+                        ?photo_archive a <https://artresearch.net/custom/Provider> .
+                        ?photo_archive <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
                       }"
                       template="{{>inst-templ}}">
                       <template id="inst-templ">
                         {{#each bindings}}
-                          <li><mp-label iri="{{x.value}}"></mp-label></li>
+                          <li>{{label.value}}</li>
                         {{/each}}
                       </template>
                       </semantic-query>
