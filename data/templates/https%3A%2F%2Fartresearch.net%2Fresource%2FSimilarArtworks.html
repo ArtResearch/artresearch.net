@@ -1,95 +1,19 @@
 <div id="similar-artwork-list">
   <h1>Search for visually similar images</h1>
   <h3>Choose an image below to start a visual search.</h3>
-  [[#if photo]]
   <semantic-query
     query='SELECT distinct ?photo ?thumb ?image WHERE { 
-      BIND(?? as ?photo)
-      ?photo crm:P129i_is_subject_of ?image.
-      BIND(REPLACE(STR(?image), "full/full", "full/!350,350") AS ?thumb)
-    }'
-    template="{{>similarArtworkTemplate}}"
-    no-result-template='<i style="text-align:center">
-      <h3>No similar images were found for this work.</h3></i>'
-  >
-    <template id="similarArtworkTemplate">
-      <div class="similarArtworkCardContainer">
-        {{#each bindings}}
-        <div class="similarArtworkCard">
-          <div class="card" style="width: 36rem; padding: 1vh;">
-            <img
-              class="card-img-top"
-              src="{{thumb.value}}"
-              alt="Card image cap"
-            />
-            <div class="card-body">
-              <h3 class="card-title"><semantic-link iri="{{photo.value}}"></semantic-link></h3>
-              <mp-overlay-dialog title="‎‎{{match.value}} " type="lightbox">
-                <mp-overlay-dialog-trigger >
-                  <div class="btn btn-info" >
-                    Search
-                  </div>
-                </mp-overlay-dialog-trigger>
-                <mp-overlay-dialog-content>
-                  <iframe src="https://vision.artresearch.net/resource/?image={{image.value}}&uri=rsp%3ASearchInline"></iframe>
-                </mp-overlay-dialog-content>
-              </mp-overlay-dialog>
-            </div>
-          </div>
-        </div>
-        {{/each}}
-      </div>
-    </template>
-  </semantic-query>
-  [[else if artwork]]
-    <semantic-query
-    query='SELECT distinct ?photo ?thumb ?image WHERE { 
-      ?? fr:Work_depicted_by_Photo ?photo.
-      ?photo crm:P129i_is_subject_of ?image.
-      BIND(REPLACE(STR(?image), "full/full", "full/!350,350") AS ?thumb)
-    }'
-    template="{{>similarArtworkTemplate}}"
-    no-result-template='<i style="text-align:center">
-      <h3>No similar images were found for this work.</h3></i>'
-  >
-    <template id="similarArtworkTemplate">
-      <div class="similarArtworkCardContainer">
-        {{#each bindings}}
-        <div class="similarArtworkCard">
-          <div class="card" style="width: 36rem; padding: 1vh;">
-            <img
-              class="card-img-top"
-              src="{{thumb.value}}"
-              alt="Card image cap"
-            />
-            <div class="card-body">
-              <h3 class="card-title"><semantic-link iri="{{photo.value}}"></semantic-link></h3>
-              <mp-overlay-dialog title="‎‎{{match.value}} " type="lightbox">
-                <mp-overlay-dialog-trigger >
-                  <div class="btn btn-info" >
-                    Search
-                  </div>
-                </mp-overlay-dialog-trigger>
-                <mp-overlay-dialog-content>
-                  <iframe src="https://vision.artresearch.net/resource/?image={{image.value}}&uri=rsp%3ASearchInline"></iframe>
-                </mp-overlay-dialog-content>
-              </mp-overlay-dialog>
-            </div>
-          </div>
-        </div>
-        {{/each}}
-      </div>
-    </template>
-  </semantic-query>
-  [[else]]
-  <semantic-query
-    query='SELECT distinct ?photo ?thumb ?image WHERE { 
-      # Artwork
-      {
-        BIND(?? as ?photo)
-      }UNION{
-        ?? fr:Work_depicted_by_Photo ?photo.
-      }
+        [[#if photo]]
+           BIND(?? as ?photo)
+        [[else if artwork]]
+          ?? fr:Work_depicted_by_Photo ?photo.
+        [[else]]
+        {
+          BIND(?? as ?photo)
+        }UNION{
+          ?? fr:Work_depicted_by_Photo ?photo.
+        }
+        [[/if]]
       ?photo crm:P129i_is_subject_of ?image.
       BIND(REPLACE(STR(?image), "full/full", "full/!350,350") AS ?thumb)
       
@@ -127,7 +51,6 @@
       </div>
     </template>
   </semantic-query>
-  [[/if]]
   <div class="animated-background similarArtworkCardContainer"></div>
 </div>
 <style>
