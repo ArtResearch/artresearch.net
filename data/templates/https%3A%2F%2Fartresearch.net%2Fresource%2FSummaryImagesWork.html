@@ -53,11 +53,7 @@
                           <button class="similar-artButton">Search similar images</button>
                         </mp-overlay-dialog-trigger>
                         <mp-overlay-dialog-content>
-                            [[#if (ask "ASK { ?? rdf:type cfc:photo}")]]
-                              [[> SimilarArtworks photo="true"]]
-                            [[else]]
-                              [[> SimilarArtworks artwork="true"]]
-                            [[/if]]
+                          [[> SimilarArtworks]]
                         </mp-overlay-dialog-content>
                       </mp-overlay-dialog>
                   </div>
