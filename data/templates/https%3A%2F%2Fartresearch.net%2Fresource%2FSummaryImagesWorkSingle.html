@@ -6,21 +6,6 @@
     >
       <template id="mainImageTemplate">
         <div>
-
-            <semantic-query
-                          query='SELECT DISTINCT ?imagelink ?rectoVersoImageThumbnail WHERE {
-                                              ?image <https://artresearch.net/resource/fr/Photo_depicts_Work> ??.
-                                              ?image  crm:P129i_is_subject_of ?imagelink.
-                                               BIND(REPLACE(STR(?rectoVersoImage),"full/full","full/!350,350") AS ?rectoVersoImageThumbnail).
-                                            }LIMIT 1'
-                            template="{{> DownloadButton}}">
-                          <template id="DownloadButton">
-                            <a href="{{bindings.0.rectoVersoImageThumbnail.value}}" download="image.jpg"> download</a>
-
-                          </template>
-
-            </semantic-query>
-           
           <semantic-query
             query='SELECT DISTINCT ?photo ?rectoVersoImage ?rectoVersoImageThumbnail ?imageManifest WHERE{
                 # Previously we selected only rectos, now we expand to include versos
@@ -107,13 +92,29 @@
                       </mp-overlay-dialog-content>
                     </mp-overlay-dialog>
                     <div>
-                  [[#if (ask "ASK{ ?? a cfc:photo.}")]]
-                  [[else]]
-                   <div class="metadataButton">
-                    <semantic-link iri="{{bindings.0.photo.value}}" target="_black" class="metadataText" >View photo metadata</semantic-link>
-                  </div>
-                  [[/if]]
-                  </div>
+                      [[#if (ask "ASK{ ?? a cfc:photo.}")]]
+                      [[else]]
+                      <div class="metadataButton">
+                        <semantic-link iri="{{bindings.0.photo.value}}" target="_black" class="metadataText" >View photo metadata</semantic-link>
+                      </div>
+                      [[/if]]
+                                <semantic-query
+                                          query='SELECT DISTINCT ?download  WHERE {
+                                                    <{{bindings.0.photo.value}}> <http://www.cidoc-crm.org/cidoc-crm/P129i_is_subject_of> ?y .
+                                                    FILTER NOT EXISTS{
+                                                      ?y crm:P2_has_type <https://artresearch.net/resource/hertziana/type/presentation_api_manifest>
+                                                    }
+                                                    BIND(REPLACE(STR(?y),"full/full","full/!350,350") AS ?nmew).
+                                                    
+                                                    BIND(IRI(?nmew) as ?download)
+                                                    
+                                                  }LIMIT 1'
+                                          template="{{> DownloadButton}}">
+                                  <template id="DownloadButton">
+                                      <a class="downloadButton" href='{{bindings.0.download.value}}?download&caption' target="_null" > <button class="btn btn-secondary">download this photo</button></a>
+                                  </template>
+                                </semantic-query>
+                    </div>
                    
               </template>
           </semantic-query>
