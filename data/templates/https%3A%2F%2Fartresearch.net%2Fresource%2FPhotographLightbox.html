@@ -35,16 +35,15 @@
                     query='SELECT distinct ?photo WHERE 
                       {
                         [[#if photo]]
-                          ?? fr:Work_depicted_by_Photo ?photo.
+                           BIND(?? as ?photo)
                         [[else if artwork]]
-                          ?work fr:Work_depicted_by_Photo ??
-                            BIND(?? as ?photo)
+                          ?? fr:Work_depicted_by_Photo ?photo
+                            
                         [[else]]
                          {
-                           ?? fr:Work_depicted_by_Photo ?photo.
+                           BIND(?? as ?photo)
                           }UNION{
-                            ?work fr:Work_depicted_by_Photo ??.
-                            BIND(?? as ?photo)
+                           ?? fr:Work_depicted_by_Photo ?photo
                          }
                         [[/if]]
                       }'
