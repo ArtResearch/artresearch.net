@@ -1,0 +1,11 @@
+<semantic-query 
+  query="SELECT ?label WHERE {
+    <{{artist.value}}> skos:prefLabel ?label.
+  } LIMIT 1"
+  template="{{> artistlabel}}"
+  no-result-template="<div></div>"
+>
+  <template id="artistlabel">
+    {{bindings.0.label.value}}
+  </template>
+</semantic-query>
