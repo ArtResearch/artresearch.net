@@ -34,12 +34,19 @@
                     number-of-displayed-rows="200"
                     query='SELECT distinct ?photo WHERE 
                       {
-                        {
+                        [[#if photo]]
                           ?? fr:Work_depicted_by_Photo ?photo.
-                        }UNION{
+                        [[else if artwork]]
                           ?work fr:Work_depicted_by_Photo ??
-                          BIND(?? as ?photo)
-                        }
+                            BIND(?? as ?photo)
+                        [[else]]
+                         {
+                           ?? fr:Work_depicted_by_Photo ?photo.
+                          }UNION{
+                            ?work fr:Work_depicted_by_Photo ??.
+                            BIND(?? as ?photo)
+                         }
+                        [[/if]]
                       }'
                     tuple-template="{{> photos}}"
                     no-result-template='<h2>No photographs found</h2>'

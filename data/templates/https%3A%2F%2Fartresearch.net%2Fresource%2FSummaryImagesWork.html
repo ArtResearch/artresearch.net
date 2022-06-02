@@ -41,7 +41,11 @@
                         <button class="Lightbox-button">Compare images</button>
                       </mp-overlay-dialog-trigger>
                       <mp-overlay-dialog-content>
-                        [[> PhotographLightbox]]
+                        [[#if (ask "ASK { ?? rdf:type cfc:photo}")]]
+                          [[> PhotographLightbox record=(this) photo="true"]]
+                        [[else]]
+                          [[> PhotographLightbox record=(this) artwork="true"]]
+                        [[/if]]
                       </mp-overlay-dialog-content>
                     </mp-overlay-dialog>
                       <mp-overlay-dialog title="‎‎" type="lightbox">

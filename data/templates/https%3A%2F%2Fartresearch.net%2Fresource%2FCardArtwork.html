@@ -227,15 +227,11 @@
                   </semantic-query>
 
                   <semantic-query 
-                    query='SELECT DISTINCT ?providerLabel WHERE {
-                      {
-                        <{{subject.value}}> a fc:work.
-                        <{{subject.value}}> fr:Work_has_provider_Institution ?provider.
-                      } UNION {
-                        <{{subject.value}}> a cfc:photo.
-                        <{{subject.value}}> fr:Photo_has_provider_Institution ?provider.
-                      }
-                      ?provider <http://www.w3.org/2004/02/skos/core#prefLabel> ?providerLabel.
+                    query='SELECT DISTINCT ?providerLabel  WHERE {
+                    <{{subject.value}}> ?rel ?provider.
+                    ?provider a <https://artresearch.net/custom/Provider>.
+                    ?provider a fc:institution.
+                    ?provider <http://www.w3.org/2004/02/skos/core#prefLabel> ?providerLabel.
                     }'
                     template="{{>archiveTemplate}}"
                   >

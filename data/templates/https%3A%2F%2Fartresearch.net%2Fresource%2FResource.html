@@ -38,7 +38,11 @@
                   [[/if]]     
               </bs-tab-pane>
               <bs-tab-pane event-key="PhotographLightbox">
-                [[> PhotographLightbox record=(this)]]
+                 [[#if (ask "ASK { ?? rdf:type cfc:photo}")]]
+                     [[> PhotographLightbox record=(this) photo="true"]]
+                  [[else]]
+                     [[> PhotographLightbox record=(this) artwork="true"]]
+                  [[/if]]
               </bs-tab-pane>
               <bs-tab-pane event-key="IIIF">
                 [[> IIIF record=(this)]]
