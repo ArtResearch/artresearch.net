@@ -226,43 +226,6 @@
                   </semantic-query>
 
                   <semantic-query 
-                    query='SELECT DISTINCT ?providerLabel  WHERE {
-                    <{{subject.value}}> ?rel ?provider.
-                    ?provider a <https://artresearch.net/custom/Provider>.
-                    ?provider a fc:institution.
-                    ?provider <http://www.w3.org/2004/02/skos/core#prefLabel> ?providerLabel.
-                    }'
-                    template="{{>archiveTemplate}}"
-                  >
-                  <template id="archiveTemplate">
-                    <div class="workTemplate">
-                  <tr class="rs-page-resource__field">
-                    <td class="rs-page-resource__field-label-holder headLine">
-                      <span class="rs-page-resource__field-label">
-                        Photo archive
-                      </span>
-                    </td>
-                    <td>
-                        <span class="rs-page-resource__field-value">
-                          <div style="width:25vw; max-width: 450px;">
-                            <div class="informationRow">
-                              {{#each bindings}}
-                                {{#ifCond @index "===" 0}}
-                                  {{providerLabel.value}}
-                                {{else}}
-                                  , {{providerLabel.value}}
-                                {{/ifCond}}
-                              {{/each}}
-                            </div>
-                          </div>
-                        </span>
-                    </td>
-                  </tr>
-                    </div>
-                  </template>
-                  </semantic-query>
-
-                  <semantic-query 
                       query='SELECT DISTINCT ?workLabel WHERE { 
                         <{{subject.value}}> fr:Photo_depicts_Work ?work.
                         ?work a fc:work.
@@ -362,6 +325,38 @@
                             </tr>
                           </div>
                       </template>
+                  </semantic-query>
+                                    <semantic-query 
+                    query='SELECT DISTINCT ?providerLabel  ?provider WHERE {
+                    <{{subject.value}}> ?rel ?provider.
+                    ?provider a <https://artresearch.net/custom/Provider>.
+                    ?provider a fc:institution.
+                    ?provider <http://www.w3.org/2004/02/skos/core#prefLabel> ?providerLabel.
+                    }'
+                    template="{{>archiveTemplate}}"
+                  >
+                  <template id="archiveTemplate">
+                    <div class="workTemplate">
+                  <tr class="rs-page-resource__field">
+                    <td class="rs-page-resource__field-label-holder headLine">
+                      <span class="rs-page-resource__field-label">
+                        Photo archive
+                      </span>
+                    </td>
+                    <td>
+                        <span class="rs-page-resource__field-value">
+                          <div style="width:25vw; max-width: 450px;">
+                            <div class="informationRow">
+                              {{#each bindings}}
+                                [[> SourceIcon sub="{{provider.value}}"]]
+                              {{/each}}
+                            </div>
+                          </div>
+                        </span>
+                    </td>
+                  </tr>
+                    </div>
+                  </template>
                   </semantic-query>
                 </tbody>
               </table>
