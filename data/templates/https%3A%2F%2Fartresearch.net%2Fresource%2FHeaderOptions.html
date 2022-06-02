@@ -4,21 +4,25 @@
       <semantic-query
         query="
               SELECT DISTINCT ?providerRecord ?provider WHERE {
+               [[#if artwork]]
+                  ?originalSubject owl:sameAs ??.
+                  ?originalSubject fr:Work_has_provider_Institution ?provider.
+                  ?originalSubject <https://artresearch.net/custom/has_original_record> ?providerRecord.
+                [[else if photo]]
+                  ?? fr:Photo_depicts_Work  ?subject.
+                  ?subject <https://artresearch.net/custom/has_original_record> ?providerRecord.
+                  ?subject fr:Work_has_provider_Institution ?provider.
+                [[else]]
                 {
-                  # Artwork
                   ?originalSubject owl:sameAs ??.
                   ?originalSubject fr:Work_has_provider_Institution ?provider.
                   ?originalSubject <https://artresearch.net/custom/has_original_record> ?providerRecord.
                 }UNION{
-                  # Pharos artwork
-                  ?? fr:Work_has_provider_Institution ?provider.
-                  ?? <https://artresearch.net/custom/has_original_record> ?providerRecord.
-                }UNION{
-                  # Photograph
-                  ?? fr:Photo_depicts_Work  ?subject.
+                   ?? fr:Photo_depicts_Work  ?subject.
                   ?subject <https://artresearch.net/custom/has_original_record> ?providerRecord.
                   ?subject fr:Work_has_provider_Institution ?provider.
                 }
+                [[/if]]
               }"
         no-result-template="<div></div>"
         template="{{> originalRecords}}"
@@ -43,27 +47,7 @@
               </div>
         </template>
       </semantic-query>
-
-      <semantic-query
-        query="SELECT ?websiteLink WHERE { ?? fr:Institution_has_Original_Link|cfr:Institution_has_Original_Link ?websiteLink }LIMIT 10"
-        template="{{> websiteLink }}"
-      >
-        <template id="websiteLink">
-          <div>
-            <h2 class="fc-label">
-              {{#each bindings}}
-                  <a style="margin-left: 5px"  href="{{websiteLink.value}}" target="_null">
-                    <div class="fc-label original-link">
-                      <div class="text">View website</div>
-                      <div class="sourceIcon fa fa-external-link"></div>
-                    </div>
-                  </a>
-              {{/each}}
-            </h2>
-          </div>
-        </template>
-      </semantic-query>
-
+[[#if artwork]]
       <mp-event-target-template-render
           id="event-target-infowork"
           template="{{> filterRsbv}}"
@@ -79,6 +63,7 @@
             </div>
         </template>
       </mp-event-target-template-render>
+[[/if]]
     </div>
   </div>
 </div>
