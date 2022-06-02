@@ -136,10 +136,10 @@
                 placeholder="Search for any field, a title, repository or any other identifier"
                 escape-lucene-syntax="false"
                 default-query='
-                  SELECT DISTINCT ?subject WHERE {
+                   SELECT DISTINCT ?subject WHERE {
                     {
                       ?subject crm:P33_used_specific_technique  ??.
-                    }
+                    }union {
                       ?subject crm:P45_consists_of  ??.
                     }union{
                       ?subject crm:P2_has_type ??.
