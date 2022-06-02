@@ -6,7 +6,16 @@
  */
 class ReqSolr extends HTMLElement {
   constructor() {
+
     super();
+    var h = new Header( "Access-Control-Allow-Origin", "https://dev.artresearch.net" );
+    // var hd = new Header();
+    // hd.name = "Content-Type";
+    // hd.value = "text/html";
+    // var headers = new Array();
+    headers.push( h );
+    // headers.push( hd );
+
     this._shadowRoot = this.attachShadow({ mode: "open" });
     const endpoint = "https://api.imgur.com/3/image";
     const core = this.getAttribute("core");
