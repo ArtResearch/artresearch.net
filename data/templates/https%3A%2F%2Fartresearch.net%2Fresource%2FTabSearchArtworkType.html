@@ -136,13 +136,12 @@
                 placeholder="Search for any field, a title, repository or any other identifier"
                 escape-lucene-syntax="false"
                 default-query='
-                  SELECT DISTINCT ?subject WHERE {
+                   SELECT DISTINCT ?subject WHERE {
                     {
                       ?subject crm:P33_used_specific_technique  ??.
-                    }
+                    }union {
                       ?subject crm:P45_consists_of  ??.
-                    }union 
-                    {
+                    }union{
                       ?subject crm:P2_has_type ??.
                     }union{
                       ?subject fr:Work_produced_using_technique_Technique ??.
@@ -150,7 +149,11 @@
                       ?subject fr:Work_depicted_by_Photo ?photo.
                       ?photo fr:Photo_produced_using_Technique|crm:P45_consists_of ??
                     }
-                    ?subject a fc:work.
+                    {
+                      ?subject a fc:work.
+                    }UNION{
+                      ?subject a cfc:work.
+                    }
                   }LIMIT 1000'
                 query='
                         SELECT DISTINCT ?subject WHERE {
