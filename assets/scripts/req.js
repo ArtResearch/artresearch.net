@@ -22,7 +22,7 @@ class ReqSolr extends HTMLElement {
     const keyword = this.getAttribute("keyword");
     const artworks = "https://solr.artresearch.net/solr/artists_v5/select?defType=dismax&facet.field=roles_str&facet=true&indent=true&q.op=OR&q=leonardo%20da";
     let xhr = new XMLHttpRequest();
-    xhr.open("GET", artworks);
+    xhr.open("GET", artworks, false);
 
     xhr.setRequestHeader("Access-Control-Allow-Origin", "https://dev.artresearch.net");
     // xhr.setRequestHeader("Access-Control-Allow-Origin", "http://localhost:10214");
@@ -30,11 +30,11 @@ class ReqSolr extends HTMLElement {
     // xhr.setRequestHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS");
     // xhr.setRequestHeader("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token");
     // xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.send();
-
-    Http.onreadystatechange = (e) => {
-      console.log(Http.responseText)
-    }
+    xhr.send(null);
+    console.log(xhr.responseText);
+    // Http.onreadystatechange = (e) => {
+    //   console.log(Http.responseText)
+    // }
   }
 }
 
