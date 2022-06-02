@@ -98,6 +98,7 @@
                         <semantic-link iri="{{bindings.0.photo.value}}" target="_black" class="metadataText" >View photo metadata</semantic-link>
                       </div>
                       [[/if]]
+                      <mp-anonymous-hidden>
                                 <semantic-query
                                           query='SELECT DISTINCT ?download  WHERE {
                                                     <{{bindings.0.photo.value}}> <http://www.cidoc-crm.org/cidoc-crm/P129i_is_subject_of> ?y .
@@ -114,6 +115,7 @@
                                       <a class="downloadButton" href='{{bindings.0.download.value}}?download&caption' target="_null" > <button class="btn btn-secondary">download this photo</button></a>
                                   </template>
                                 </semantic-query>
+                        </mp-anonymous-hidden>
                     </div>
                    
               </template>
