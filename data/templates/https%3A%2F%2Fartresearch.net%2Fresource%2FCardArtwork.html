@@ -18,6 +18,17 @@
           query='SELECT DISTINCT ?imgUrl WHERE{
                   BIND("/assets/images/media/image_placeholder.jpg" as ?default_imageUrl)
                   OPTIONAL{
+                    [[#if artwork]]
+                     <{{subject.value}}> a fc:work.
+                      <{{subject.value}}> fr:Work_depicted_by_Photo/crm:P129i_is_subject_of ?fullsizeImgUrl.
+                      BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/!200,200") AS ?smallerImgUrl).
+                      ?fullsizeImgUrl crm:P2_has_type <http://vocab.getty.edu/aat/300078817>
+                    [[else if photo]]
+                    <{{subject.value}}> a cfc:photo.
+                      ?artwork fr:Work_depicted_by_Photo <{{subject.value}}> .
+                      <{{subject.value}}> crm:P129i_is_subject_of ?fullsizeImgUrl.
+                      BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/!200,200") AS ?smallerImgUrl).
+                    [[else]]
                     {
                       # Artwork Image #
                       <{{subject.value}}> a fc:work.
@@ -31,6 +42,7 @@
                       <{{subject.value}}> crm:P129i_is_subject_of ?fullsizeImgUrl.
                       BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/!200,200") AS ?smallerImgUrl).
                     }
+                    [[/if]]
                   }
                   BIND(coalesce(?smallerImgUrl, ?default_imageUrl) as ?imgUrl)
                 }ORDER BY ASC(?imgUrl) LIMIT 1'
@@ -52,6 +64,8 @@
             <div id="rsbv" class=" table-responsive rs-table">
               <table class="table table-hover">
                 <tbody>
+                  [[#if photo]]
+                  [[else]]
                   <semantic-query 
                     query='SELECT DISTINCT ?label WHERE { 
                             <{{subject.value}}> a fc:work.
@@ -81,6 +95,7 @@
                       </div>
                     </template>
                   </semantic-query>
+                  [[/if]]
 
                   <div class="table-of-animation">
                     <div class="animated-background-sm1 rs-page-resource__field-label-holder"></div>
@@ -93,6 +108,8 @@
                     <div class="animated-background-sm8 rs-page-resource__field-label-holder"></div>
                   </div>
                   
+                  [[#if artwork]]
+                  [[else]]
                   <semantic-query 
                       query='SELECT DISTINCT ?label WHERE { 
                         <{{subject.value}}> a cfc:photo.
@@ -122,7 +139,10 @@
                     </template>
                 
                   </semantic-query>
+                  [[/if]]
 
+                  [[#if artwork]]
+                  [[else]]
                   <semantic-query 
                       query='SELECT DISTINCT ?photographerLabel WHERE {
                               <{{subject.value}}> fr:Photo_created_by_Photographer|cfr:Photo_created_by_Photographer ?photographer.
@@ -151,7 +171,9 @@
                           </div>
                       </template>
                   </semantic-query>
-                
+                  [[/if]]
+                  [[#if photo]]
+                  [[else]]
                   <semantic-query 
                         query='SELECT DISTINCT ?artist WHERE { 
                             <{{subject.value}}> fr:Work_created_from_Artist|fr:Work_influenced_by_Artist ?artist.
@@ -186,6 +208,7 @@
                               </div>
                         </template>
                   </semantic-query>
+                  [[/if]]
               
                   <semantic-query 
                     query='SELECT DISTINCT (concat(?repository_label,(GROUP_CONCAT(DISTINCT ?place_l;SEPARATOR=",")))as ?value) WHERE {
@@ -224,7 +247,8 @@
                       </div>
                     </template>
                   </semantic-query>
-
+                  [[#if artwork]]
+                  [[else]]
                   <semantic-query 
                       query='SELECT DISTINCT ?workLabel WHERE { 
                         <{{subject.value}}> fr:Photo_depicts_Work ?work.
@@ -254,7 +278,9 @@
                           </div>
                       </template>
                   </semantic-query>
-            
+                  [[/if]]
+                  [[#if artwork]]
+                  [[else]]
                   <semantic-query 
                     query='SELECT DISTINCT ?creator WHERE { 
                       <{{subject.value}}> fr:Photo_depicts_Work/fr:Work_created_from_Artist ?creator
@@ -288,7 +314,7 @@
                         </div>
                     </template>
                   </semantic-query>
-            
+                  [[/if]]
                   <semantic-query 
                     query='SELECT DISTINCT ?date WHERE { 
                       {
@@ -326,7 +352,7 @@
                           </div>
                       </template>
                   </semantic-query>
-                                    <semantic-query 
+                  <semantic-query 
                     query='SELECT DISTINCT ?providerLabel  ?provider WHERE {
                     <{{subject.value}}> ?rel ?provider.
                     ?provider a <https://artresearch.net/custom/Provider>.
