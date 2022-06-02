@@ -40,6 +40,24 @@
                       ?subject fr:Work_from_Date|fr:Work_to_Date ?__literal__ .
                        FILTER(strlen(?__literal__ )=4 && STR(?__literal__ )!=\"n.d.\")
                        "
+                  }],
+                  "<https://artresearch.net/resource/fr/Work_consists_of_Material>":[{
+                    "kind":"resource",
+                     "queryPattern": "
+                      ?subject <https://artresearch.net/resource/fr/Work_consists_of_Material> ?__value__ .
+                      FILTER NOT EXISTS {   
+                        ?subject <https://artresearch.net/resource/fr/Work_consists_of_Material>/<http://vocab.getty.edu/ontology#broaderPreferred> ?__value__.
+                      }
+                       "
+                  }],
+                  "<https://artresearch.net/resource/fr/Work_produced_using_technique_Technique>":[{
+                    "kind":"resource",
+                     "queryPattern": "
+                      ?subject <https://artresearch.net/resource/fr/Work_produced_using_technique_Technique> ?__value__ .
+                      FILTER NOT EXISTS {   
+                        ?subject <https://artresearch.net/resource/fr/Work_produced_using_technique_Technique>/<http://vocab.getty.edu/ontology#broaderPreferred> ?__value__.
+                      }
+                       "
                   }]
                     }'
 
