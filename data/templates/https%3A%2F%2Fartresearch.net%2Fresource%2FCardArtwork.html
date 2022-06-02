@@ -20,11 +20,13 @@
                   OPTIONAL{
                     {
                       # Artwork Image #
+                      <{{subject.value}}> a fc:work.
                       <{{subject.value}}> fr:Work_depicted_by_Photo/crm:P129i_is_subject_of ?fullsizeImgUrl.
                       BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/!200,200") AS ?smallerImgUrl).
                       ?fullsizeImgUrl crm:P2_has_type <http://vocab.getty.edu/aat/300078817>
                     }UNION{
                       # Photo Image #
+                      <{{subject.value}}> a cfc:photo.
                       ?artwork fr:Work_depicted_by_Photo <{{subject.value}}> .
                       <{{subject.value}}> crm:P129i_is_subject_of ?fullsizeImgUrl.
                       BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/!200,200") AS ?smallerImgUrl).
@@ -155,6 +157,7 @@
                             <{{subject.value}}> fr:Work_created_from_Artist|fr:Work_influenced_by_Artist ?artist.
                         }'
                         template="{{> artistTemplate}}"
+                        no-result-template="<div></div>"
                         >
                         <template id="artistTemplate">
                               <div class="workTemplate">
@@ -170,9 +173,9 @@
                                           <div class="informationRow">
                                             {{#each bindings}}
                                               {{#ifCond @index "===" 0}}
-                                                <semantic-link  title="{{artist.value}}" iri="{{artist.value}}"></semantic-link>
+                                                [[> Artistlabel]]
                                               {{else}}
-                                                , <semantic-link  title="{{artist.value}}" iri="{{artist.value}}"></semantic-link>
+                                                &#8226; [[> Artistlabel]]
                                               {{/ifCond}}
                                             {{/each}}
                                           </div>
@@ -191,11 +194,7 @@
                       {
                         ?subject crm:P50_has_current_keeper ?repo.
                         ?repo rdfs:label ?repo_label.
-                        {
-                          ?repo crm:P74_has_current_or_former_residence/rdfs:label ?place_l.
-                        } UNION {
-                          ?subject (crm:P74_has_current_or_former_residence|crm:P55_has_current_location)/rdfs:label ?place_l.
-                        }
+                        ?repo crm:P74_has_current_or_former_residence/rdfs:label ?place_l.
                         BIND(concat(?repo_label,", ") as ?repository_label)
                       } UNION {
                         ?subject (crm:P74_has_current_or_former_residence|crm:P55_has_current_location)/rdfs:label ?place_l.
