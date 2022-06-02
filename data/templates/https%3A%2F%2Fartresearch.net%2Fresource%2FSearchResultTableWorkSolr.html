@@ -3,32 +3,28 @@
   prefetch-labels="false"
   query='SELECT DISTINCT 
 ?subject
-(SAMPLE(?image) as ?image)  
 (SAMPLE(?creator) as ?creator) 
 (SAMPLE(?date) as ?date) 
 (SAMPLE(?repository) as ?repository) 
 (SAMPLE(?provider) as ?provider) WHERE {
-    OPTIONAL{
+    {
       ?subject fr:Work_has_provider_Institution ?provider.
     }
-    OPTIONAL{
+    UNION{
       ?subject fr:Work_created_from_Artist ?creator.
     }
-    OPTIONAL{
+    UNION{
       ?subject fr:Work_from_Date ?date.
     }
-    OPTIONAL{
+    UNION{
       ?originalSubject owl:sameAs ?subject.
       ?originalSubject  crm:P50_has_current_keeper ?repository.
     }
-    OPTIONAL{
-        ?subject fr:Work_depicted_by_Photo ?photo.
-        ?photo crm:P129i_is_subject_of ?fullsizeImgUrl.
-        ?fullsizeImgUrl crm:P2_has_type <http://vocab.getty.edu/aat/300078817>.
-        BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/!100,100") as ?smallerImgUrl)
-      }
-    BIND("/assets/images/media/image_placeholder.jpg" as ?default_imageUrl)
-    BIND(coalesce(?smallerImgUrl, ?default_imageUrl) as ?image)
+    {{#ifCond withImages "!==" "true"}}
+      ?subject fr:Work_depicted_by_Photo ?photograph.
+      ?photograph crm:P129i_is_subject_of ?images.
+      ?images crm:P2_has_type <http://vocab.getty.edu/aat/300078817>.
+   {{/ifCond}}
 }GROUP BY(?subject) LIMIT 1000'
   options='{"showFilter":true, "pageSizeSelection": true,"resultsPerPage":10}'
   number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
@@ -51,9 +47,40 @@
 </template>
 
   <template id="tableImageTemplate">
-    <div class="thumbnailImageContainerTabular">
-      <scroll-to-top querySelector=".pagination li"></scroll-to-top>
-      <img alt="   " class="thumbnailImageTabular" src="{{image.value}}" />
-    </div>
+
+      <bs-col
+        lg="4"
+        md="12"
+        xs="12"
+      >
+    <semantic-query
+      query='SELECT DISTINCT ?imgUrl WHERE{
+              BIND("/assets/images/media/image_placeholder.jpg" as ?default_imageUrl)
+              OPTIONAL{
+                {
+                  # Artwork Image #
+                  <{{subject.value}}> fr:Work_depicted_by_Photo/crm:P129i_is_subject_of ?fullsizeImgUrl.
+                  BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/!200,200") AS ?smallerImgUrl).
+                  ?fullsizeImgUrl crm:P2_has_type <http://vocab.getty.edu/aat/300078817>
+                }UNION{
+                  # Photo Image #
+                  ?artwork fr:Work_depicted_by_Photo <{{subject.value}}> .
+                  <{{subject.value}}> crm:P129i_is_subject_of ?fullsizeImgUrl.
+                  BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/!200,200") AS ?smallerImgUrl).
+                }
+              }
+              BIND(coalesce(?smallerImgUrl, ?default_imageUrl) as ?imgUrl)
+            }ORDER BY ASC(?imgUrl) LIMIT 1'
+      template="{{> imageThumbnail}}"
+    >
+      <template id="imageThumbnail">
+        <div class="thumbnailContainer">
+          <img alt='   ' class="thumbnailImage" src="{{bindings.0.imgUrl.value}}" />
+        </div>
+      </template>
+    </semantic-query>
+    <div class="animated-background thumbnailContainer "></div>
+  </bs-col>
+
   </template>
 </semantic-table>
