@@ -14,9 +14,7 @@ const strURL ="https://solr.artresearch.net/solr/artists_v5/select?defType=disma
         self.xmlHttpReq = new ActiveXObject("Microsoft.XMLHTTP");
     }
     self.xmlHttpReq.open('POST', strURL, true);
-    self.xmlHttpReq.setRequestHeader(
-      "Access-Control-Allow-Origin", "https://dev.artresearch.net"
-    );
+    self.xmlHttpReq.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     self.xmlHttpReq.onreadystatechange = function() {
         if (self.xmlHttpReq.readyState == 4) {
             // updatepage(self.xmlHttpReq.responseText);
