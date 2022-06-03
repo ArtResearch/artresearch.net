@@ -102,6 +102,9 @@
                             } UNION {
                               ?item a cfc:material.
                               ?item rdfs:label ?label.
+                            } UNION {
+                              ?item a cfc:type.
+                              ?item rdfs:label ?label.
                             }
                             ?label bds:search ?__token__ ;
                             bds:relevance ?score ;
