@@ -176,14 +176,12 @@
                 escape-lucene-syntax="false"
                 domain="<https://artresearch.net/resource/fc/artist>"
                 default-query=' SELECT DISTINCT ?subject WHERE {
-                                #  ?someOther owl:sameAs ?subject.
                                   ?subject a fc:artist.
                                   {{#ifCond withULAN "!==" "true"}}
                                    ?subject fr:Artist_created_Work ?work.
                                   {{/ifCond}}
                                 }LIMIT 1000'
                 query='SELECT DISTINCT ?subject WHERE {
-                        #  ?someOther owl:sameAs ?subject.
                           ?subject a fc:artist.
                           ?subject rdfs:label ?someLabel.
                           ?someLabel bds:search ?__token__ .
@@ -241,14 +239,7 @@
                                                 options='{"showFilter":false}'
                                                 number-of-displayed-rows="8"
                                                 query='SELECT DISTINCT ?subject
-                                                        WHERE {
-                                                          OPTIONAL{
-                                                            ?subject fr:Person_depicted_by ?withImage
-                                                          }
-                                                          {{#ifCond withULAN "===" "true"}}
-                                                            ?subject fr:Artist_created_Work ?work.
-                                                          {{/ifCond}}
-                                                        }ORDER BY DESC (?withImage) LIMIT 1000'
+                                                        WHERE {} LIMIT 1000'
                                                 tuple-template="{{>tupleTemplate}}"
                                                 no-result-template='[[> CardNoResult ]]'
                                               >
