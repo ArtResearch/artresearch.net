@@ -123,7 +123,8 @@
                             assertion='{{assertion}}'
                             fields='[[fieldDefinitions field=(urlParam "field")]]'
                             value-template='{{>  Default:ResourceFieldValueVisualization}}'
-                            form-template='[[> Default:AssertionFormTemplate]]'>
+                            form-template='[[> Default:AssertionFormTemplate]]'
+                            post-action="redirect">
                           </rs-assertion>
                           {{else}}
                           <rs-assertion 
@@ -132,7 +133,8 @@
                             fields='[[fieldDefinitions field=(urlParam "field")]]'
                             value-template='{{>  Default:ResourceFieldValueVisualization}}'
                             form-template='{{> Default:AssertionFormTemplate }}'
-                            belief="true">
+                            belief="true"
+                            post-action="redirect">
                           </rs-assertion>
                           {{/if}}
                   </template>
