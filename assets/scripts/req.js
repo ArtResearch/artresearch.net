@@ -14,7 +14,10 @@ class ReqSolr extends HTMLElement {
         type: 'POST',
         // crossDomain: true,
         beforeSend: function(request) {
-          request.setRequestHeader("Access-Control-Allow-Origin", "http://dev.artresearch.net/");
+          request.setRequestHeader("Access-Control-Allow-Origin", "*");
+        //   // request.setRequestHeader("Access-Control-Allow-Credentials", "true");
+        //   // request.setRequestHeader("Access-Control-Allow-Methods", "GET");
+          // request.setRequestHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
         },
         success: function(data) {
 
