@@ -1,0 +1,90 @@
+PREFIX sp: <http://spinrdf.org/sp#>
+PREFIX spin: <http://spinrdf.org/spin#>
+PREFIX spl: <http://spinrdf.org/spl#>
+PREFIX sail: <http://www.openrdf.org/config/sail#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX example: <http://www.example.org/ontology#>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX ephedra: <http://www.researchspace.org/resource/system/ephedra#>
+PREFIX : <http://www.researchspace.org/resource/system/service/custom#>
+
+:mail a ephedra:Service ;
+	sail:sailType "researchspace:RESTSail" ;
+	rdfs:label "A wrapper for a REST API." ;
+	ephedra:hasSPARQLPattern (
+		[
+			sp:subject :_results ;
+			sp:predicate example:sender;
+			sp:object :_sender
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate example:recipient ;
+			sp:object :_recipient
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate example:subject ;
+			sp:object :_subject
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate example:message ;
+			sp:object :_message
+		]
+
+		[
+			sp:subject :_results ;
+			sp:predicate example:messageId ;
+			sp:object :_messageId
+		]
+	) ;
+	spin:constraint
+	[
+		a spl:Argument ;
+		rdfs:comment "Source email address" ;
+		spl:predicate :_sender ;
+		spl:valueType xsd:string
+    ] ;
+
+	spin:constraint
+	[
+		a spl:Argument ;
+		rdfs:comment "Recipient email address" ;
+		spl:predicate :_recipient ;
+		spl:valueType xsd:string
+    ] ;
+
+	spin:constraint
+	[
+		a spl:Argument ;
+		rdfs:comment "Message to be sent" ;
+		spl:predicate :_message ;
+		spl:valueType xsd:string
+    ] ;
+
+	spin:constraint
+	[
+		a spl:Argument ;
+		rdfs:comment "Subject of the message" ;
+		spl:predicate :_subject ;
+		spl:valueType xsd:string
+    ] ;
+
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "results (fixed column, must be present)" ;
+		spl:predicate :_results ;
+		ephedra:jsonPath "$"
+	] ;
+
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "Message Id" ;
+		spl:predicate :_messageId ;
+		spl:valueType xsd:string;
+		ephedra:jsonPath "$._MessageId"
+	] 
+.
