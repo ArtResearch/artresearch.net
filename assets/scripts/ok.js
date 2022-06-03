@@ -1,6 +1,6 @@
 
 
-class ReqSolr2 extends HTMLElement {
+class ReqSolr3 extends HTMLElement {
   constructor() {
      super();
  this._shadowRoot = this.attachShadow({ mode: "open" });
@@ -62,4 +62,4 @@ function getquerystring() {
 // }
   }}
 
-  customElements.define("request-element", ReqSolr2);
+  customElements.define("request-element", ReqSolr3);
