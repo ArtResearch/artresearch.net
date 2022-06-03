@@ -13,6 +13,9 @@ class ReqSolr extends HTMLElement {
         dataType: 'json',
         type: 'POST',
         // crossDomain: true,
+        beforeSend: function(request) {
+          request.setRequestHeader("Access-Control-Allow-Origin", "http://dev.artresearch.net/");
+        },
         success: function(data) {
 
             $("#results").append('all good');
