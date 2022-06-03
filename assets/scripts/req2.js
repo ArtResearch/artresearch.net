@@ -7,8 +7,8 @@
 class ReqSolr2 extends HTMLElement {
   constructor() {
     super();
-
-    var XMLHttpRequest = require("xhr2");
+    const req = "xhr2";
+    var XMLHttpRequest = require(req);
     var xhr = new XMLHttpRequest();
     const url =
       "https://solr.artresearch.net/solr/artists_v5/select?defType=dismax&facet.field=roles_str&facet=true&indent=true&q.op=OR&q=leonardo%20da";
