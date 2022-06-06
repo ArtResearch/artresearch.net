@@ -27,7 +27,7 @@
    "
    SELECT DISTINCT $suggestion  (SAMPLE($label) AS $label)   WHERE {
               $suggestion a ?__range__.
-              $suggestion rdfs:label $label.
+              $suggestion (skos:prefLabel|rdfs:label) $label.
               $label bds:search ?__token__ ;
               bds:relevance ?score ;
               bds:minRelevance \"0.3\" ;
