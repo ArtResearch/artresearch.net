@@ -11,14 +11,15 @@ class ReqSolr extends HTMLElement {
     $.ajax({
         url: 'https://solr.artresearch.net/solr/artists_v5/select?defType=dismax&facet.field=roles_str&facet=true&indent=true&q.op=OR&q=leonardo%20da',
         dataType: 'json',
-        // mode: 'no-cors',
+        mode: 'no-cors',
         type: 'POST',
         // crossDomain: true,
         beforeSend: function(request) {
-          request.setRequestHeader("Access-Control-Allow-Origin", "*");
-        // // //   // request.setRequestHeader("Access-Control-Allow-Credentials", "true");
-        // // //   // request.setRequestHeader("Access-Control-Allow-Methods", "GET");
-        // //   // request.setRequestHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+          // request.setRequestHeader("access-control-allow-origin", "*");
+          request.setRequestHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+          // request.setRequestHeader('Access-Control-Allow-Methods', '*');
+        
+        
         },
         success: function(data) {
 
