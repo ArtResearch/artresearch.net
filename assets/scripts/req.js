@@ -12,7 +12,7 @@ class ReqSolr extends HTMLElement {
         url: 'https://solr.artresearch.net/solr/artists_v5/select?defType=dismax&facet.field=roles_str&facet=true&indent=true&q.op=OR&q=leonardo%20da',
         dataType: 'json',
         // mode: 'no-cors',
-        type: 'POST',
+        type: 'GET',
         // crossDomain: true,
         beforeSend: function(request) {
           request.setRequestHeader("Access-Control-Allow-Origin", "*");
