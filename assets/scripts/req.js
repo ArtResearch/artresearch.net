@@ -17,8 +17,8 @@ class ReqSolr extends HTMLElement {
         beforeSend: function(request) {
           request.setRequestHeader("Access-Control-Allow-Origin", "*");
         // // //   // request.setRequestHeader("Access-Control-Allow-Credentials", "true");
-        // // //   // request.setRequestHeader("Access-Control-Allow-Methods", "GET");
-        // //   // request.setRequestHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+          request.setRequestHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+          request.setRequestHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
         },
         success: function(data) {
 
