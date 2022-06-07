@@ -7,13 +7,13 @@
   SELECT DISTINCT ?subject
   WHERE {
     {
-      {{#ifCond withImages "===" "true"}}
+      {{#ifCond withImages "===" "false"}}
         ?subject fr:Work_depicted_by_Photo ?photo.
         ?photo crm:P129i_is_subject_of ?fullsizeImgUrl.
       {{/ifCond}}
       ?subject a fc:work
     }UNION{
-      {{#ifCond withImages "===" "true"}}
+      {{#ifCond withImages "===" "false"}}
        ?subject crm:P129i_is_subject_of ?fullsizeImgUrl.
       {{/ifCond}}
       ?subject a cfc:photo
