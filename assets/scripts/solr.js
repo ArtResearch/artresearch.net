@@ -37,8 +37,9 @@ class ReqSolr extends HTMLElement {
         },
         success: function(data) {
             $("#results").append('all good');
+            // console.log(data);
             let docs = data['response']['docs']
-            console.log(docs);
+            // console.log(docs);
             let sl = document.createElement('semantic-link')
             for (var key in docs ){
 
