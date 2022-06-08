@@ -50,8 +50,12 @@
         <div class="repository-location">
           <mp-label iri="{{bindings.0.institution.value}}"></mp-label>
           {{#ifCond  placeLabel.value "!==" null}}
-            {{#each bindings}}, 
+            {{#each bindings}}
+            {{#ifCond @index "===" 0}}
               <span>{{placeLabel.value}}</span> 
+              {{else}}
+              ,<span>{{placeLabel.value}}</span> 
+            {{/ifCond}} 
             {{/each}}
           {{/ifCond}}
         </div>
