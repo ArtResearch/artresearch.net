@@ -22,7 +22,7 @@
   PREFIX fr: <https://artresearch.net/resource/fr/>
   PREFIX fc: <https://artresearch.net/resource/fc/>
   PREFIX cfc: <https://artresearch.net/resource/custom/fc/>
-    SELECT ?subject WHERE {
+    SELECT DISTINCT ?subject WHERE {
       SERVICE <http://www.researchspace.org/resource/system/service/custom#solrworks>{
         ?solrApi solr:setQuery "{{bindings.0.token.value}}";
                   solr:setDefType "dismax";
