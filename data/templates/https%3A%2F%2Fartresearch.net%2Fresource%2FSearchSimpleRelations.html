@@ -8,6 +8,13 @@
       ?dimension crm:P90_has_value ?literal.
       "
   }],
+  "<https://artresearch.net/resource/fr/Work_has_production_Date>":[{
+                    "kind":"literal",
+                     "queryPattern": "
+                      ?subject fr:Work_from_Date|fr:Work_to_Date ?__literal__ .
+                       FILTER(strlen(?__literal__ )=4 && STR(?__literal__ )!=\"n.d.\")
+                       "
+  }],
   "<https://artresearch.net/resource/fr/Person_has_Date_of_Birth>":[
   {
     "kind": "numeric-range",
