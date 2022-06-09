@@ -57,6 +57,11 @@
             </div>
           </template>
           </semantic-search-query-builder>
+                <mp-event-target-template-render
+    id="event-target-tables"
+    template="{{> tableEventTargetTemplate}}"
+  >
+  <template id="tableEventTargetTemplate">
           <div class="row">
             <bs-col
               lg="3"
@@ -73,7 +78,7 @@
             <semantic-search-result-holder>
               <bs-col lg="8" md="7" sm="6">
                 <mp-event-target-template-render
-                  id="event-target-tables"
+                  id="my-render"
                   template="{{> tableEventTargetTemplate}}"
                 >
                     <template id="tableEventTargetTemplate">
@@ -81,7 +86,7 @@
                         <semantic-search-result id="semantic-search-result">
                           [[> SearchResultCountAdvancedSearch withImages=true]]
                         </semantic-search-result>
-                        [[> SearchbarSwitches]]
+                     
                       <bs-tabs
                         default-active-key="1"
                         unmount-on-exi\t="true"
@@ -99,8 +104,9 @@
                               [[> SearchResultCardWorkPhoto withImages=false ]]
                               [[> SearchResultCardPlace ]]
                               [[> SearchResultCardArtist]]
-                              [[> SearchResultCardPhotographer]]
+                              [[> SearchResultCardPhotographer ]]
                               [[> SearchResultCardInstitution]]
+                              [[> NumberOfRowsSelector]]
                           </semantic-search-result>
                           </bs-tab>
                           <bs-tab event-key="2" title="Tabular">
@@ -108,6 +114,7 @@
                               <semantic-search-result>
                                 [[> SearchResultTableWork]]
                                 [[> SearchResultTablePhoto advancedSearch="true"]]
+                                [[> NumberOfRowsSelector]]
                               </semantic-search-result>
                             </div>
                           <div class="animated-background-sm tableView"></div>
@@ -132,7 +139,6 @@
                               </semantic-search-result-context>
                             </div>
                           </bs-tab>
-                        [[> NumberOfRowsSelector]]
                       </bs-tabs>
                     </template>
                 </mp-event-target-template-render>
@@ -192,6 +198,8 @@
               </bs-col>
             </semantic-search-result-holder>
           </div>
+          </template>
+          </mp-event-target-template-render>
       </semantic-search>
     </div>
     [[/:ClipboardSidebar]]
