@@ -97,16 +97,7 @@
                   </semantic-query>
                   [[/if]]
 
-                  <div class="table-of-animation">
-                    <div class="animated-background-sm1 rs-page-resource__field-label-holder"></div>
-                    <div class="animated-background-sm2 rs-page-resource__field-label-holder"></div>
-                    <div class="animated-background-sm3 rs-page-resource__field-label-holder"></div>
-                    <div class="animated-background-sm5 rs-page-resource__field-label-holder"></div>
-                    <div class="animated-background-sm4 rs-page-resource__field-label-holder"></div>
-                    <div class="animated-background-sm6 rs-page-resource__field-label-holder"></div>
-                    <div class="animated-background-sm7 rs-page-resource__field-label-holder"></div>
-                    <div class="animated-background-sm8 rs-page-resource__field-label-holder"></div>
-                  </div>
+         
                   
                   [[#if artwork]]
                   [[else]]
@@ -172,6 +163,7 @@
                       </template>
                   </semantic-query>
                   [[/if]]
+
                   [[#if photo]]
                   [[else]]
                   <semantic-query 
@@ -209,7 +201,16 @@
                         </template>
                   </semantic-query>
                   [[/if]]
-              
+                  <div class="table-of-animation">
+                    <div class="animated-background-sm1 rs-page-resource__field-label-holder"></div>
+                    <div class="animated-background-sm2 rs-page-resource__field-label-holder"></div>
+                    <div class="animated-background-sm3 rs-page-resource__field-label-holder"></div>
+                    <div class="animated-background-sm5 rs-page-resource__field-label-holder"></div>
+                    <div class="animated-background-sm4 rs-page-resource__field-label-holder"></div>
+                    <div class="animated-background-sm6 rs-page-resource__field-label-holder"></div>
+                    <div class="animated-background-sm7 rs-page-resource__field-label-holder"></div>
+                    <div class="animated-background-sm8 rs-page-resource__field-label-holder"></div>
+                  </div>
                   <semantic-query 
                     query='SELECT DISTINCT (concat(?repository_label,(GROUP_CONCAT(DISTINCT ?place_l;SEPARATOR=",")))as ?value) WHERE {
                       ?subject owl:sameAs <{{subject.value}}>.
@@ -247,6 +248,7 @@
                       </div>
                     </template>
                   </semantic-query>
+
                   [[#if artwork]]
                   [[else]]
                   <semantic-query 
@@ -279,6 +281,7 @@
                       </template>
                   </semantic-query>
                   [[/if]]
+
                   [[#if artwork]]
                   [[else]]
                   <semantic-query 
@@ -315,6 +318,7 @@
                     </template>
                   </semantic-query>
                   [[/if]]
+
                   <semantic-query 
                     query='SELECT DISTINCT ?date WHERE { 
                       {
@@ -352,6 +356,7 @@
                           </div>
                       </template>
                   </semantic-query>
+                  
                   <semantic-query 
                     query='SELECT DISTINCT ?providerLabel  ?provider WHERE {
                     <{{subject.value}}> ?rel ?provider.
