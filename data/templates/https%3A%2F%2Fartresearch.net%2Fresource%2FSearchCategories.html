@@ -82,6 +82,7 @@
     "kind": "date-range",
     "datatype": "http://www.w3.org/2001/XMLSchema#date",
     "queryPattern": "
+      ?subject a ?__domain__.
       $subject ?__relation__ ?date .
       FILTER(?date <= ?__dateEndValue__) 
       FILTER(?date >= ?__dateBeginValue__) 
