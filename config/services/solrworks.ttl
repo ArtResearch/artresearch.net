@@ -40,6 +40,11 @@ PREFIX : <http://www.researchspace.org/resource/system/service/custom#>
 			sp:predicate solr:hasResults ;
 			sp:object :_queryResults
 		]
+		[
+			sp:subject :_solrapi ;
+			sp:predicate solr:hasCreatorURI ;
+			sp:object :_creatorURI
+		]
 	) ;
 
 	spin:constraint
@@ -85,4 +90,12 @@ PREFIX : <http://www.researchspace.org/resource/system/service/custom#>
 		spl:predicate :_queryResults;
 		spl:valueType rdfs:Resource;
 		ephedra:jsonPath "id"
+	];
+	spin:column
+	[
+		a  spin:Column ;
+		rdfs:comment "Respone array of results";
+		spl:predicate :_creatorURI;
+		spl:valueType rdfs:Resource;
+		ephedra:jsonPath "creator_uri"
 	] .
