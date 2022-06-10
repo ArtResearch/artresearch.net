@@ -1,0 +1,139 @@
+{
+  "<https://artresearch.net/resource/fr/Photo_has_ColorInformation>":[
+  {
+    "kind": "literal",
+    "queryPattern": "
+      ?subject crm:P43_has_dimension ?dimension .
+      ?dimension crm:P2_has_type <http://vocab.getty.edu/aat/300127013> .
+      ?dimension crm:P90_has_value ?literal.
+      "
+  }],
+  "<https://artresearch.net/resource/fr/Person_has_Date_of_Birth>":[
+  {
+    "kind": "numeric-range",
+    "queryPattern": "
+      $subject fr:Person_has_Date_of_Birth ?gYear .
+        FILTER(?literal >= ?__numericRangeBeginValue__) .
+        FILTER(?literal <= ?__numericRangeEndValue__) .
+        BIND(xsd:integer(str(?gYear)) as ?literal)."
+  }],
+  "<https://artresearch.net/resource/fr/Person_has_Date_of_Death>": [
+  {
+    "kind": "numeric-range",
+    "queryPattern": "
+      $subject fr:Person_has_Date_of_Death ?gYear .
+        FILTER(?literal >= ?__numericRangeBeginValue__) .
+        FILTER(?literal <= ?__numericRangeEndValue__) .
+        BIND(xsd:integer(str(?gYear)) as ?literal)."
+  }],
+  "<https://artresearch.net/resource/fr/Event_has_Type>": [
+  {
+    "kind": "resource",
+    "queryPattern": "
+      $subject fr:Person_has_Event ?event.
+        ?event fr:Event_has_Type ?__value__ ."
+  }],
+  "<https://artresearch.net/resource/fr/Event_at_Place>": [
+  {
+    "kind": "resource",
+    "queryPattern": "
+      $subject fr:Person_has_Event ?event.
+        ?event fr:Event_at_Place ?__value__ ."
+  }],
+"<https://artresearch.net/resource/fr/Work_kept_by_Institution>":[
+{
+  "kind": "resource",
+  "queryPattern": "
+    {
+      $subject fr:Work_kept_by_Institution ?__value__.
+    } UNION {
+      ?original_subject owl:sameAs ?subject;
+        crm:P50_has_current_keeper ?__value__.
+    }
+  "
+}],
+"<https://artresearch.net/resource/fr/Artist_has_provider_Institution>":[
+{
+  "kind": "resource",
+  "queryPattern": "
+      $subject fr:Artist_has_provider_Institution ?__value__."
+}],
+"<https://artresearch.net/resource/fr/Work_from_Place>": [
+{
+  "kind": "resource",
+  "queryPattern": "
+    ?original_subject owl:sameAs ?subject;
+    fr:Work_from_Place ?__value__.
+    FILTER NOT EXISTS {?__value__ crm:P2_has_type <https://artresearch.net/resource/hertziana/type/D58E7680-364A-3F1C-A8BF-3DFBACEC79F8>. }
+    FILTER NOT EXISTS {?__value__ crm:P2_has_type <https://artresearch.net/resource/khi/type/D58E7680-364A-3F1C-A8BF-3DFBACEC79F8>. }
+    FILTER NOT EXISTS {?__value__ crm:P2_has_type <https://artresearch.net/resource/marburg/type/D58E7680-364A-3F1C-A8BF-3DFBACEC79F8>. }
+    FILTER NOT EXISTS {?__value__ crm:P2_has_type <https://artresearch.net/resource/hertziana/type/D61EBDD8-A0C0-3D57-8224-55E9F0918C65>. }
+    FILTER NOT EXISTS {?__value__ crm:P2_has_type <https://artresearch.net/resource/khi/type/D61EBDD8-A0C0-3D57-8224-55E9F0918C65>. }
+    FILTER NOT EXISTS {?__value__ crm:P2_has_type <https://artresearch.net/resource/marburg/type/D61EBDD8-A0C0-3D57-8224-55E9F0918C65>. }
+  "
+}],
+"<https://artresearch.net/resource/fr/Person_has_Date_of_Birth>":[
+{
+  "kind": "numeric-range",
+  "queryPattern": "
+      $subject fr:Person_has_Date_of_Birth ?gYear .
+      FILTER(?literal >= ?__numericRangeBeginValue__) .
+      FILTER(?literal <= ?__numericRangeEndValue__) .
+      BIND(xsd:integer(str(?gYear)) as ?literal)."
+}],
+"<https://artresearch.net/resource/fr/Person_has_Date_of_Death>": [
+{
+  "kind": "numeric-range",
+  "queryPattern": "
+      $subject fr:Person_has_Date_of_Death ?gYear .
+      FILTER(?literal >= ?__numericRangeBeginValue__) .
+      FILTER(?literal <= ?__numericRangeEndValue__) .
+      BIND(xsd:integer(str(?gYear)) as ?literal)."
+}],
+"<https://artresearch.net/resource/fr/Event_has_Type>": [
+{
+  "kind": "resource",
+  "queryPattern": "
+      $subject fr:Person_has_Event ?event.
+      ?event fr:Event_has_Type ?__value__ ."
+}],
+"<https://artresearch.net/resource/fr/Event_at_Place>": [
+{
+  "kind": "resource",
+  "queryPattern": "
+    
+      $subject fr:Person_has_Event ?event.
+      ?event fr:Event_at_Place ?__value__ ."
+}],
+"<https://artresearch.net/resource/fr/Work_created_from_Artist>": [
+{
+  "kind": "resource",
+  "queryPattern": "  
+      BIND(?__creator__  as ?__value__)
+      FILTER(BOUND(?__value__))
+
+        
+      "
+}],
+"<https://artresearch.net/resource/fr/Work_from_Date>": [{
+  "kind": "date-range",
+  "datatype": "http://www.w3.org/2001/XMLSchema#date",
+  "queryPattern": "
+  $subject fr:Work_from_Date ?dateBeginValue.
+  $subject fr:Work_from_Date ?dateEndValue .
+  "}],
+  "<https://artresearch.net/resource/fr/Work_has_rights>": [{
+  "kind": "resource",
+  "queryPattern": "
+    $subject fr:Work_has_right ?__value__.
+  "}],
+  "<https://artresearch.net/resource/fr/Photo_created_by_Photographer>": [{
+  "kind": "resource",
+  "queryPattern": "
+    $subject fr:Photo_created_by_Photographer ?__value__.
+  "}
+  
+  
+  ]
+
+}

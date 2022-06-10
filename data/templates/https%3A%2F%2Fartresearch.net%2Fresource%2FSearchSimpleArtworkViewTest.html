@@ -1,0 +1,157 @@
+<semantic-context repository='ephedra'>
+  <semantic-query query='
+  SELECT ?token WHERE{
+    BIND(REPLACE("[[urlParam "keyword"]]","(?<!^)(?<!\\s)\\s+(?!\\s+)(?!$)", " AND ") as ?token)
+  }
+  '
+  template="{{>addAndTemplate}}"
+  >
+  <template id="addAndTemplate">
+  
+  <div>
+    <mp-event-target-template-render
+    id="event-target-tables"
+    template="{{> tableEventTargetTemplate}}"
+  >
+    <template id="tableEventTargetTemplate">
+      <semantic-search-query-keyword
+  placeholder='You searched for [[urlParam "keyword"]], but you can search for anything!'
+  domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
+  default-query='
+  PREFIX solr: <http://custom.solr/ontology#>
+  PREFIX fr: <https://artresearch.net/resource/fr/>
+  PREFIX fc: <https://artresearch.net/resource/fc/>
+  PREFIX cfc: <https://artresearch.net/resource/custom/fc/>
+    SELECT DISTINCT ?subject ?__creator__ WHERE {
+      SERVICE <http://www.researchspace.org/resource/system/service/custom#solrworks>{
+        ?solrApi solr:setQuery "{{bindings.0.token.value}}";
+                  solr:setDefType "dismax";
+                  solr:setFilter "id,creator_uri";
+                  solr:setRowsNumber 1000;
+                  solr:hasResults ?subject.
+        ?solrApi solr:hasCreatorURI ?__creator__.
+      }
+      {{#ifCond withImages "!==" "true"}}
+        ?subject fr:Work_depicted_by_Photo ?photograph.
+        ?photograph crm:P129i_is_subject_of ?images.
+        ?images crm:P2_has_type <http://vocab.getty.edu/aat/300078817>.
+      {{/ifCond}}
+    }
+    '
+  query='
+  SELECT ?nothing WHERE{
+    ?nothing a <http://this_is_hidden_and_will_never_run>
+  }
+  '
+  class="hiddenSearchbar"
+  >
+</semantic-search-query-keyword>
+  </template>
+</mp-event-target-template-render>
+  <div class="row">
+    <bs-col
+      lg="3"
+      md="4"
+      sm="5"
+      class="fade-in-fwd filters-container"
+      style="margin-top: 8px"
+      id="artwork-filter-search"
+    >
+        <bs-panel id="filter-panel" header="Filters"  collapsible="true" default-expanded="true">
+          <semantic-search-facet open-by-default='true' sortby='count-desc' facet-values-threshold="1000"></semantic-search-facet>
+        </bs-panel>
+    </bs-col>
+    <mp-event-target-template-render id="my-render" template="{{> combined}}">
+      <template id='combined'>
+        <bs-col lg="9" md="8" sm="7">
+          <semantic-search-result-holder>
+            <div>
+              <semantic-search-result>
+                  <semantic-query
+                    id="view-more"
+                    query='SELECT ?keywords WHERE {
+                      BIND(REPLACE(str("[[urlParam "keyword"]]"),"\\+"," ") as ?keywords)} LIMIT 1'
+                    template="{{>currentSearchText}}"
+                  >
+                      <template id="currentSearchText">
+                        <h2>
+                          Searched in artworks for:
+                          <i>{{bindings.0.keywords.value}}</i>
+                        </h2>
+                      </template>
+                  </semantic-query>
+                  <semantic-query
+                    id="view-more"
+                    query='SELECT (COUNT(DISTINCT ?subject) as ?count) WHERE {} LIMIT 1'
+                    template="{{>currentResultCount}}"
+                  >
+                      <template id="currentResultCount">
+                          <h2>
+                                  Found
+                            {{#ifCond bindings.0.count.value "==" 1000 }}
+                               more than 1000 matches, please refine your search
+                            {{else}}
+                              {{bindings.0.count.value}} relevant results 
+                            {{/ifCond}}
+                          </h2>
+                          <small>
+                            Displaying 
+                            {{#ifCond bindings.0.count.value ">=" 1000 }}
+                            the first 1000 results
+                            {{else}}
+                            all results
+                            {{/ifCond}}
+                          </small>
+                      </template>
+                  </semantic-query>
+                  <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
+                  [[> SearchbarSwitches]]
+                  <bs-tabs
+                        default-active-key="1"
+                        unmount-on-exit="true"
+                        id="search-results"
+                        animation="false"
+                        class="tabs-right"
+                      >
+                      <bs-tab event-key="1" title="List">
+                              <div id='artwork-filter-search-inline'>
+                                  <semantic-table
+                                      id="grid-result"
+                                      prefetch-labels="false"
+                                      query='SELECT DISTINCT  ?subject ?__creator__  WHERE {}LIMIT 1000'
+                                      number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
+                                      tuple-template="{{> subjectCellTemplate}}"
+                                      options='{"showTableHeading": false, "showFilter":false}'
+                                      no-result-template='[[> CardNoResult ]]'
+                                      prefetch-labels="false"
+                                    >
+                                    <template id="subjectCellTemplate">
+                                      <semantic-context repository='default'>
+                                        [[> CardArtwork artwork="true"]]
+                                      </semantic-context>
+                                    </template>
+                                </semantic-table>
+                              </div>
+                      </bs-tab>
+                      <bs-tab event-key="2" title="Tabular">
+                        <div id="tableView">
+                          [[> SearchResultTableWorkSolr]]
+                        </div>
+                        <div class="animated-background-sm tableView"></div>
+                      </bs-tab>
+                  </bs-tabs>
+              </semantic-search-result>
+            </div>
+          </semantic-search-result-holder>
+          [[> NumberOfRowsSelector]]
+        </bs-col>
+      </template>
+    </mp-event-target-template-render>
+  </div>
+  </div>
+
+  </template>
+  </semantic-query>
+  </semantic-context>
+  
+  
