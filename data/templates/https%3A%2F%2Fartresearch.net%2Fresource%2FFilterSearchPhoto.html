@@ -119,7 +119,7 @@
                                                         id="grid-result"
                                                         prefetch-labels="false"
                                                         options='{"showFilter":false}'
-                                                        number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
+                                                        number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}25{{/if}}"
                                                         query="SELECT DISTINCT ?subject WHERE {}LIMIT 1000"
                                                         no-result-template='[[> CardNoResult ]]'
                                                         tuple-template="{{>tupleTemplate}}"
@@ -136,7 +136,7 @@
                                                           id="grid-result-2"
                                                           prefetch-labels="false"
                                                           options='{"showFilter":false}'
-                                                          number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
+                                                          number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}25{{/if}}"
                                                           query="SELECT DISTINCT ?subject WHERE {?subject crm:P129i_is_subject_of ?photo.}LIMIT 1000"
                                                           no-result-template='[[> CardNoResult ]]'
                                                           tuple-template="{{>tupleTemplate}}"
