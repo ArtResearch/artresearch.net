@@ -28,12 +28,11 @@
                   solr:setDefType "dismax";
                   solr:setFilter "id";
                   solr:setRowsNumber 1000;
-                  solr:hasResults ?subject
+                  solr:hasResults ?subject;
       }
       {{#ifCond withImages "!==" "true"}}
         ?subject fr:Work_depicted_by_Photo ?photograph.
-        ?photograph crm:P129i_is_subject_of ?images.
-        ?images crm:P2_has_type <http://vocab.getty.edu/aat/300078817>.
+        
       {{/ifCond}}
     }
     '
@@ -88,7 +87,7 @@
                           <h2>
                                   Found
                             {{#ifCond bindings.0.count.value "==" 1000 }}
-                               more than 1000 matches, please refine your search
+                              displaying the first 1000 results, please refine your search
                             {{else}}
                               {{bindings.0.count.value}} relevant results 
                             {{/ifCond}}
