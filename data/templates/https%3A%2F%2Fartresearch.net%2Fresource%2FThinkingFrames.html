@@ -1,6 +1,6 @@
 <ol class="page-breadcrumb">
   <li style="padding-top:10px">
-    <mp-link title="Home" url="/resource/start">Home</mp-link>
+    <a title="Home" href="/resource/start">Home</a>
   </li>
   <li class="active">
     <mp-label iri='[[this]]'></mp-label>
@@ -23,6 +23,12 @@
     </div>
     <bs-tabs id="tabs" class='page__body-navtabs' unmount-on-exit=true>
       <bs-tab event-key="0" class="tab-ontodia" title="Knowledge Graph">
+        <style>
+  #breadcrumb > ol
+  {
+    display: none !important;
+  }
+</style>
         <ontodia id='ontodia' hide-toolbar=true hide-panels=true hide-scroll-bars=true hide-navigation-confirmation=true auto-zoom=true settings=nostats iri='[[this]]'></ontodia>
       </bs-tab>
       <bs-tab event-key="1" title="Source">
@@ -41,7 +47,7 @@
         <template id="randomNotFoundPage">
             <div class="row row-center" id="not-found-container">
                   <div class="col-md-10 col-xs-10">
-                        <mp-link url="/resource/start"><i style="color:white !important; font-size: 16px;" class="fa fa-arrow-left">Go home</i></mp-link>
+                        <a href="/resource/start"><i style="color:white !important; font-size: 16px;" class="fa fa-arrow-left">Go home</i></a>
                       <h1>404 - The page you are looking for was not found..</h1>
                       {{#ifCond bindings.0.rand.value ">" "0.8" }}
                         <h2>but you can always search for something</h2>
@@ -57,7 +63,7 @@
                             <div style="margin-top: 15px">or use</div>
                             <div style="margin-top: 15px">
                               <div data-flex-layout="row center-center">
-                                <mp-link url="/resource/Search">
+                                <a href="/resource/Search">
                                   <div
                                     title="Make use of the artresearch full power!"
                                     class="advancedBtn"
@@ -69,7 +75,7 @@
                                     </li>
                                     Contextual Search
                                   </div>
-                                </mp-link>
+                                </a>
                               </div>
                             </div>
                           </div>
@@ -79,6 +85,7 @@
                         <h2>but here is a nice map with Museums, Collections etc.!</h2>
                         <div class="mapContainer">
                             <semantic-map
+                               
                               id="repository-map"
                               query="SELECT ?subject ?label ?lat ?lng WHERE {
                                 ?subject fr:Institution_from_Place ?place.
@@ -102,7 +109,7 @@
                                   class="grid-card"
                                   style=" background: url(/assets/images/media/alinari.jpg) center no-repeat; "
                                 >
-                                <mp-link url="/resource/DisplayCollectionAlinari">  
+                                <a href="/resource/DisplayCollectionAlinari">  
                                     <div class="grid-card-body">
                                       <div class="grid-card-title">Fratelli Alinari</div>
                                       <div class="grid-card-subtitle">Browse one of the world's oldest photographic firms </div>
@@ -112,23 +119,23 @@
                                   style=" background: url(/assets/images/media/oil_on_wood_dali.jpg) center no-repeat; "
                                   class="grid-card"
                                 >
-                                  <mp-link url="/resource/DisplayCollectionOilOnWood">  
+                                  <a href="/resource/DisplayCollectionOilOnWood">  
                                     <div class="grid-card-body">
                                         <div class="grid-card-title">Oil on wood</div>
                                         <div class="grid-card-subtitle">Explore using medium</div>
                                     </div>
-                                  </mp-link>
+                                  </a>
                                 </div>
                                 <div
                                   style=" background: url(/assets/images/media/builtworks_middleast.jpg) center no-repeat;"
                                   class="grid-card"
                                 >
-                                  <mp-link url="/resource/DisplayCollectionBuiltworksMiddleEast">  
+                                  <a href="/resource/DisplayCollectionBuiltworksMiddleEast">  
                                       <div class="grid-card-body">
                                           <div class="grid-card-title">Built Works</div>
                                           <div class="grid-card-subtitle">In the Middle-East</div>
                                       </div>
-                                  </mp-link>
+                                  </a>
                                 </div>
                                 <div
                                   style=" background: url(/assets/images/media/kahlo.jpg) center no-repeat; "
@@ -145,50 +152,50 @@
                                   style=" background: url(/assets/images/media/madonna.jpg) center no-repeat; "
                                   class="grid-card"
                                 >
-                                  <mp-link url="/resource/DisplayCollectionMadonnaAndChild">  
+                                  <a href="/resource/DisplayCollectionMadonnaAndChild">  
                                     <div class="grid-card-body">
                                         <div class="grid-card-title">Madonna and Child</div>
                                         <div class="grid-card-subtitle">
                                           Artworks from 12th - 15th century
                                         </div>
                                     </div>
-                                  </mp-link>
-                        
+                                  </a>
+
                                 </div>
                                 <div
                                   style="  background: url(/assets/images/media/women_saints.jpg) center no-repeat; "
                                   class="grid-card"
                                 >
-                                  <mp-link url="/resource/DisplayCollectionWomenSaints">  
+                                  <a href="/resource/DisplayCollectionWomenSaints">  
                                     <div class="grid-card-body">
                                         <div class="grid-card-title">Women Saints</div>
                                         <div class="grid-card-subtitle">Explore using subject</div>
                                     </div>
-                                  </mp-link>
+                                  </a>
                                 </div>
                                 <div
                                   style="  background: url(/assets/images/media/italian_ren.jpg) center no-repeat; "
                                   class="grid-card"
                                 >
-                                  <mp-link url="/resource/DisplayCollectionItalian">  
+                                  <a href="/resource/DisplayCollectionItalian">  
                                     <div class="grid-card-body">
                                         <div class="grid-card-title">Italian Renaissance</div>
                                         <div class="grid-card-subtitle">Discover masterpieces</div>
                                     </div>
-                                  </mp-link>
-                        
+                                  </a>
+
                                 </div>
                                 <div
                                   style=" background: url(/assets/images/media/datedphotographs.jpg) center no-repeat; "
                                   class="grid-card"
                                 >
-                                  <mp-link url="/resource/DisplayCollectionPhotoDatedBetween">  
+                                  <a href="/resource/DisplayCollectionPhotoDatedBetween">  
                                     <div class="grid-card-body">
                                         <div class="grid-card-title">1800-1900 AD</div>
                                         <div class="grid-card-subtitle">A century of photographs</div>
                                     </div>
-                                  </mp-link>
-                        
+                                  </a>
+
                                 </div>
                               </div>
                             </div>
@@ -215,3 +222,4 @@
     </div>
   [[/if]]
 </div>
+

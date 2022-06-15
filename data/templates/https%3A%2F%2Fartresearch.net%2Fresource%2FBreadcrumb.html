@@ -1,11 +1,15 @@
 <div id="breadcrumb" style="display: flex">
   <ol class="page-breadcrumb">
     <li>
-      <mp-link title="Home" url="/resource/start">Home</mp-link>
+      <a title="Home" href="/resource/start">Home</a>
     </li>
     [[#if categoryUrl]]
       <li>
-        <mp-link title="[[category]]" url="[[categoryUrl]]">[[category]]</mp-link>
+        <a title="[[category]]" href="[[categoryUrl]]">[[category]]</a>
+      </li>
+    [[else]]
+      <li>
+        [[category]]
       </li>
     [[/if]]
     <li class="active">
@@ -23,6 +27,69 @@
                   ><div><i class="fa fa-pencil"></i><span> Edit Page</span></div>
                 </a>
             </mp-has-permission>
+        </mp-anonymous-hidden>
+        <mp-anonymous-hidden>
+           <mp-has-permission permission="api:ldp:*">
+                <mp-overlay-dialog type="lightbox" title="For Review - Please choose a type of Error you want to add">
+                    <mp-overlay-dialog-trigger trigger='["click"]' placement="bottom"  >
+                      <div id="btnExportCsv" class="rs-body-m-M">
+                            <i class="fa fa-exclamation"></i>Report Error
+                          </div>
+                    </mp-overlay-dialog-trigger>
+                    <mp-overlay-dialog-content>
+                  <div style="text-align:center; text-align: -webkit-center;">
+                        <h1>Choose Type of Error for <semantic-link iri='[[this]]'></semantic-link></h1>
+                        <div class="ErrorButtons">
+                              <semantic-link
+                                          iri="https://artresearch.net/resource/FieldError"
+                                          urlqueryparam-subject="[[this]]"
+                                          urlqueryparam-errorType="https://artresearch.net/resource/type/error/DataError"
+                                        >
+                                        <div class="ButtonError">
+                                          Data Error
+                                        </div>
+                              </semantic-link>
+                              <semantic-link
+                                          iri="https://artresearch.net/resource/FieldError"
+                                          urlqueryparam-subject="[[this]]"
+                                          urlqueryparam-errorType="https://artresearch.net/resource/type/error/LicenseError"
+                                        >
+                                        <div class="ButtonError">
+                                          License Error
+                                        </div>
+                              </semantic-link>
+                              <semantic-link
+                                          iri="https://artresearch.net/resource/FieldError"
+                                          urlqueryparam-subject="[[this]]"
+                                          urlqueryparam-errorType="https://artresearch.net/resource/type/error/ImageError"
+                                        >
+                                          <div class="ButtonError">
+                                            Image Error
+                                          </div>
+                              </semantic-link>
+                              <semantic-link
+                                          iri="https://artresearch.net/resource/FieldError"
+                                          urlqueryparam-subject="[[this]]"
+                                          urlqueryparam-errorType="https://artresearch.net/resource/type/error/MatchError"
+                                        >
+                                        <div  class="ButtonError">
+                                          Matching Error
+                                        </div>
+                              </semantic-link>
+                              <semantic-link
+                                          iri="https://artresearch.net/resource/FieldError"
+                                          urlqueryparam-subject="[[this]]"
+                                          urlqueryparam-errorType="https://artresearch.net/resource/type/error/OtherError"
+                                        >
+                                        <div  class="ButtonError">
+                                          Other
+                                          </div>
+                              </semantic-link>
+                              </div>
+                        </div>
+                    </mp-overlay-dialog-content>
+                </mp-overlay-dialog>
+          </mp-has-permission>
         </mp-anonymous-hidden>
         <open-print querySelector="#btnPrint" ></open-print>
           <div id="btnPrint" class="rs-body-m-M">
@@ -64,7 +131,7 @@
             </div>
         </mp-copy-to-clipboard>
         </mp-sparql-download>
-
+        <!-- <mp-has-permission permission="api:ldp:*">
         <mp-copy-to-clipboard
           text=""
           message="The feature is under development.."
@@ -73,8 +140,9 @@
             <i style="margin-right: 5px" class="fa fa-quote-right"></i>Cite
           </div>
         </mp-copy-to-clipboard>
+        </mp-has-permission> -->
 
-        <mp-overlay-dialog title="‎‎" type="lightbox">
+        <!-- <mp-overlay-dialog title="‎‎" type="lightbox">
             <mp-overlay-dialog-trigger>
               <div id="btnGraph" class="rs-body-m-M">
                 <i style="margin-right: 5px" class="fa fa-connectdevelop"></i>Graph
@@ -85,7 +153,7 @@
                 iri="http://www.researchspace.org/resource/system/SourceGraph"
               ></mp-page-loader>
             </mp-overlay-dialog-content>
-        </mp-overlay-dialog>
+        </mp-overlay-dialog> -->
 
         <mp-overlay-dialog title="‎‎" type="lightbox">
           <mp-overlay-dialog-trigger>
@@ -100,15 +168,28 @@
           ></mp-overlay-dialog-content>
         </mp-overlay-dialog>
 
-        <mp-copy-to-clipboard
-          text="https://artresearch.net/resource/?uri=[[this]]"
-          message="Permalink copied"
-        >
-          <div id="btnGraph" class="rs-body-m-M">
-            <i style="margin-right: 5px" class="fa fa-link"></i>Permalink
-          </div>
-        </mp-copy-to-clipboard>
-        <mp-anonymous-hidden>
+        [[#if (ask "ASK {filter(CONTAINS(STR(??), 'artresearch.net/resource'))}")]]
+          <mp-copy-to-clipboard
+            text="[[this]]"
+            message="Permalink copied"
+          >
+            <div id="btnGraph" class="rs-body-m-M">
+              <i style="margin-right: 5px" class="fa fa-link"></i>Permalink
+            </div>
+          </mp-copy-to-clipboard>
+        [[else]]
+          <mp-copy-to-clipboard
+            text="https://artresearch.net/resource/?uri=[[this]]"
+            message="Permalink copied"
+          >
+            <div id="btnGraph" class="rs-body-m-M">
+              <i style="margin-right: 5px" class="fa fa-link"></i>Permalink
+            </div>
+          </mp-copy-to-clipboard>
+        [[/if]]
+
+
+        <mp-has-permission permission="api:ldp:*">
             <mp-copy-to-clipboard
               text="[[this]]"
               message="Iri copied"
@@ -117,7 +198,7 @@
                 <i style="margin-right: 5px" class="fa fa-link"></i>Copy IRI
               </div>
           </mp-copy-to-clipboard>
-        </mp-anonymous-hidden>
+        </mp-has-permission>
     </div>
   </ol>
 </div>

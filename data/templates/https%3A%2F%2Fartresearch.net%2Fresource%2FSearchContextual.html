@@ -1,7 +1,7 @@
 <div id="structured-search">
   <ol class="page-breadcrumb">
     <li style="padding-top:10px">
-      <mp-link title="Home" url="/resource/start">Home</mp-link>
+      <a title="Home" href="/resource/start">Home</a>
     </li>
     <li class="active">Contextual Search</li>
   </ol>
@@ -11,7 +11,7 @@
     <div class="page__body--borderless">
       <semantic-search
         id="semantic-search"
-        limit="1000"
+        limit=1000
         optimizer="blazegraph"
         categories='[[> SearchCategories]]'
         search-profile='[[> SearchProfile]]'
@@ -22,8 +22,46 @@
             resource-selector='[[> SearchResourceSelector]]'
             tree-selector-categories='[[> SearchTreeSelectorCategories]]'
             geo-selector='[[> SearchGeoSelector]]'
+            category-view-template="{{>category-template}}"
           >
+          <template id="category-template">
+            <div class="" style="display: flex; align-items: center;">
+              <div class="semantic-search__class-selector-item">
+                <img src="{{thumbnail}}">
+              </div>
+              <span><mp-label iri="{{category.value}}" ></mp-label></span>
+              {{#ifCond category.value "===" "https://artresearch.net/resource/custom/fc/institution"}}
+                <mp-popover>
+                  <mp-popover-trigger placement="right"  trigger='["hover","focus"]'> 
+                    <i style="padding:10px" class="fa fa-info-circle" aria-hidden="true"> </i>
+                  </mp-popover-trigger>
+                   <mp-popover-content style="background:white;">
+                    <ul>
+                      <semantic-query 
+                      query="SELECT DISTINCT ?label WHERE {
+                        ?photo_archive a fc:institution.
+                        ?photo_archive a <https://artresearch.net/custom/Provider> .
+                        ?photo_archive <http://www.w3.org/2004/02/skos/core#prefLabel> ?label.
+                      }"
+                      template="{{>inst-templ}}">
+                      <template id="inst-templ">
+                        {{#each bindings}}
+                          <li>{{label.value}}</li>
+                        {{/each}}
+                      </template>
+                      </semantic-query>
+                      </ul>
+                   </mp-popover-content>
+              </mp-popover>
+              {{/ifCond}}
+            </div>
+          </template>
           </semantic-search-query-builder>
+                <mp-event-target-template-render
+    id="event-target-tables"
+    template="{{> tableEventTargetTemplate}}"
+  >
+  <template id="tableEventTargetTemplate">
           <div class="row">
             <bs-col
               lg="3"
@@ -34,21 +72,21 @@
               id="artwork-filter-search"
             >
               <bs-panel id="filter-panel" header="Filters"  collapsible="true" default-expanded="true">
-                <semantic-search-facet open-by-default='true' sortby='count-desc' value-categories='[[> SearchValueCategories]]'></semantic-search-facet>
+                <semantic-search-facet open-by-default='true' sortby='count-desc' value-categories='[[> SearchValueCategories]]' facet-values-threshold="1000"></semantic-search-facet>
               </bs-panel>
             </bs-col>
             <semantic-search-result-holder>
               <bs-col lg="8" md="7" sm="6">
                 <mp-event-target-template-render
-                  id="event-target-tables"
+                  id="my-render"
                   template="{{> tableEventTargetTemplate}}"
                 >
                     <template id="tableEventTargetTemplate">
                         <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
                         <semantic-search-result id="semantic-search-result">
-                          [[> SearchResultCountAdvancedSearch]]
+                          [[> SearchResultCountAdvancedSearch withImages=true]]
                         </semantic-search-result>
-                        [[> SearchbarSwitches]]
+                     
                       <bs-tabs
                         default-active-key="1"
                         unmount-on-exi\t="true"
@@ -63,11 +101,12 @@
                         </style>
                           <bs-tab event-key="1" title="List">
                             <semantic-search-result>
-                              [[> SearchResultCardWorkPhoto]]
-                              [[> SearchResultCardPlace]]
+                              [[> SearchResultCardWorkPhoto withImages=false ]]
+                              [[> SearchResultCardPlace ]]
                               [[> SearchResultCardArtist]]
-                              [[> SearchResultCardPhotographer]]
+                              [[> SearchResultCardPhotographer ]]
                               [[> SearchResultCardInstitution]]
+                              [[> NumberOfRowsSelector]]
                           </semantic-search-result>
                           </bs-tab>
                           <bs-tab event-key="2" title="Tabular">
@@ -75,6 +114,7 @@
                               <semantic-search-result>
                                 [[> SearchResultTableWork]]
                                 [[> SearchResultTablePhoto advancedSearch="true"]]
+                                [[> NumberOfRowsSelector]]
                               </semantic-search-result>
                             </div>
                           <div class="animated-background-sm tableView"></div>
@@ -99,7 +139,6 @@
                               </semantic-search-result-context>
                             </div>
                           </bs-tab>
-                        [[> NumberOfRowsSelector]]
                       </bs-tabs>
                     </template>
                 </mp-event-target-template-render>
@@ -159,6 +198,8 @@
               </bs-col>
             </semantic-search-result-holder>
           </div>
+          </template>
+          </mp-event-target-template-render>
       </semantic-search>
     </div>
     [[/:ClipboardSidebar]]
@@ -186,11 +227,11 @@
       "position": "right"
     },{
       "text": "To search for that material, simply type in \"paper\" in this section. Select the paper (fiber-product) option. Click on next to view the next step.",
-      "selector": ".Select.QueryBuilder--resourceSelector.Select--single.is-clearable.is-searchable",
+      "selector": "#structured-search > div > div > div.Pane.vertical.Pane2 > div > div > div.QueryBuilder--searchAreaHolder > div > div > div > div.QueryBuilder--activeTerm > div > div > div > div > div > div > input",
       "position": "left"
     },{
       "text": "A first set of results will load.. to continue click next.",
-      "selector": "div[data-flex-self=\"md-full\"]",
+      "selector": "#structured-search > div > div > div.Pane.vertical.Pane2 > div > div > div.row > div.col-lg-8.col-md-7.col-sm-6",
       "position": "top"
     },{
       "text": "To continue with our query, we must now limit the query to artworks created by female artists. Select the and option.  Click on next to view the next step.",
@@ -216,6 +257,10 @@
       "text": "Type in \"female\" to search for the female option. Then select \"female\" from the results. Click on next to view the next step.",
       "selector": ".QueryBuilder--searchBasedTermSelector",
       "position": "right"
+    },{
+      "text": "The final results will load... Click next to close window.",
+      "selector": "#structured-search > div > div > div.Pane.vertical.Pane2 > div > div > div.row > div.col-lg-8.col-md-7.col-sm-6",
+      "position": "top"
     }]'></rs-guided-tour>
   
     <!-- use `mp-event-trigger` component to start guided tour -->
@@ -236,6 +281,15 @@
 
   body{
     line-height: 0 !important;
+  }
+
+  .base-breadcrumb, div.page-breadcrumb, ol.page-breadcrumb{
+    position: fixed !important;
+  }
+
+  .row{
+    margin-left: 0px;
+    margin-right: 0px;
   }
 
 </style>

@@ -1,0 +1,26 @@
+@prefix repo: <http://www.openrdf.org/config/repository#> .
+@prefix reposail: <http://www.openrdf.org/config/repository/sail#> .
+@prefix sail: <http://www.openrdf.org/config/sail#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ephedra: <http://www.researchspace.org/resource/system/ephedra#> .
+@prefix rsrepo: <http://www.researchspace.org/resource/system/repository#> .
+@prefix : <http://www.researchspace.org/resource/system/service/custom#> .
+
+
+[] a repo:Repository ;
+  repo:repositoryID "pastec" ;
+  rdfs:label "Repository to connect to pastec" ;
+  repo:repositoryImpl [
+    repo:repositoryType "openrdf:SailRepository" ;
+    reposail:sailImpl [
+      sail:sailType "researchspace:RESTSail" ;
+      ephedra:serviceURL "http://vision.artresearch.net:4212/index/searcher" ;
+      ephedra:httpMethod "POST" ;
+      ephedra:httpHeader [
+        ephedra:name "Accept" ;
+        ephedra:value "application/json"
+      ] ;
+      ephedra:implementsService :pastec 
+    ]  
+  ] .
+

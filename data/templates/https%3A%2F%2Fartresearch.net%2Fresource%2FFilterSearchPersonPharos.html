@@ -1,4 +1,9 @@
 <div id="person-filter-search">
+   <mp-event-target-template-render
+    id="event-target-tables-ULAN"
+    template="{{> tableEventTargetTemplate}}"
+  >
+    <template id="tableEventTargetTemplate">
   <semantic-search
         relations='{
           "<https://artresearch.net/resource/fr/Person_has_Gender>":[
@@ -161,23 +166,34 @@
             }'
 >
     <div id="header-search" class="search-page">
+    <mp-event-target-template-render
+    id="event-target-tables-ULAN"
+    template="{{> tableEventTargetTemplate}}"
+  >
+    <template id="tableEventTargetTemplate">
               <semantic-search-query-keyword
                 placeholder="Search for an artist e.g. Michelangelo"
                 escape-lucene-syntax="false"
                 domain="<https://artresearch.net/resource/fc/artist>"
-                default-query=" SELECT DISTINCT ?subject WHERE {
-                                  ?someOther owl:sameAs ?subject.
+                default-query=' SELECT DISTINCT ?subject WHERE {
                                   ?subject a fc:artist.
-                                }LIMIT 1000"
+                                  {{#ifCond withULAN "!==" "true"}}
+                                   ?subject fr:Artist_created_Work ?work.
+                                  {{/ifCond}}
+                                }LIMIT 1000'
                 query='SELECT DISTINCT ?subject WHERE {
-                          ?someOther owl:sameAs ?subject.
                           ?subject a fc:artist.
                           ?subject rdfs:label ?someLabel.
                           ?someLabel bds:search ?__token__ .
                           ?someLabel bds:minRelevance "0.3"^^xsd:double;
                           bds:matchAllTerms "true" .
-                        } '
+                           {{#ifCond withULAN "===" "true"}}
+                            ?subject fr:Artist_created_Work ?work.
+                          {{/ifCond}}
+                        }LIMIT 1000'
               ></semantic-search-query-keyword>
+              </template>
+    </mp-event-target-template-render>
     </div>
 
     <div class="row">
@@ -189,7 +205,7 @@
           style="margin-top: 8px"
         >
               <bs-panel id="filter-panel" header="Filters"  collapsible="true" default-expanded="true">
-                <semantic-search-facet open-by-default='true' sortby='count-desc'></semantic-search-facet>
+                <semantic-search-facet open-by-default='true' sortby='count-desc' facet-values-threshold="1000"></semantic-search-facet>
               </bs-panel>
         </bs-col>
         <bs-col lg="9" md="8" sm="7">
@@ -198,6 +214,7 @@
                 <bs-tab event-key="2" title="Grid">
                     <div>
                         <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
+                        [[> ULANSwitches]]
                         <semantic-search-result id="semantic-search-result">
                           [[> SearchResultCount]]
                         </semantic-search-result>
@@ -218,14 +235,11 @@
                                           <bs-tab-pane event-key="defaultView">
                                               <semantic-table
                                                 id="grid-result"
+                                                prefetch-labels="false"
                                                 options='{"showFilter":false}'
-                                                number-of-displayed-rows="8"
-                                                query="SELECT DISTINCT ?subject
-                                                        WHERE {
-                                                          OPTIONAL{
-                                                            ?subject fr:Person_depicted_by ?withImage
-                                                          }
-                                                        }ORDER BY DESC (?withImage) LIMIT 1000"
+                                                number-of-displayed-rows="20"
+                                                query='SELECT DISTINCT ?subject
+                                                        WHERE {} LIMIT 1000'
                                                 tuple-template="{{>tupleTemplate}}"
                                                 no-result-template='[[> CardNoResult ]]'
                                               >
@@ -237,6 +251,7 @@
                                           <bs-tab-pane event-key="eventsMap">
                                               <div class="mapContainer">
                                                   <semantic-map
+                                                     
                                                     id="event-map"
                                                     query="SELECT DISTINCT ?subject ?place ?typeLabel ?lat ?lng WHERE {
                                                         ?subject fr:Person_has_Event ?event.
@@ -260,6 +275,7 @@
                                           <bs-tab-pane event-key="birthplaceMap">
                                               <div class="mapContainer">
                                                   <semantic-map
+                                                     
                                                     id="birthplace-map"
                                                     query="SELECT DISTINCT ?subject ?place ?lat ?lng WHERE {
                                                             ?subject fr:Person_has_Place_of_Birth ?place .
@@ -281,6 +297,7 @@
                                           <bs-tab-pane event-key="deathplaceMap">
                                               <div class="mapContainer">
                                                   <semantic-map
+                                                     
                                                     id="deathplace-map"
                                                     query="SELECT DISTINCT ?subject ?place ?lat ?lng WHERE {
                                                             ?subject fr:Person_has_Place_of_Death ?place .
@@ -311,6 +328,8 @@
         </bs-col>
     </div>
   </semantic-search>
+  </template>
+  </mp-event-target-template-render>
 </div>
 
 <style>

@@ -1,0 +1,221 @@
+
+<div>
+    <semantic-table
+                    options='{"showFilter":true}'
+                    prefetch-labels="false"
+                    number-of-displayed-rows="200"
+                    query='SELECT distinct ?photo WHERE 
+                      {
+                        [[#if photo]]
+                           BIND(?? as ?photo)
+                        [[else if artwork]]
+                          ?? fr:Work_depicted_by_Photo ?photo
+                        [[else]]
+                         {
+                           BIND(?? as ?photo)
+                          }UNION{
+                           ?? fr:Work_depicted_by_Photo ?photo
+                         }
+                        [[/if]]
+                      }'
+                    tuple-template="{{> photos}}"
+                    no-result-template='<h2>No photographs found</h2>'
+                >
+                  <template id="photos">
+                      <div class="card">
+                        <div class="table-wrapp">
+                          <div>
+                          <td class="rectoVersoCell">
+                            <semantic-query
+                              query='
+                              SELECT  ?photoUri ?rectoImage ?fullsizeImages where{
+                                BIND(str(<{{photo.value}}>) as ?photoUri).
+                                <{{photo.value}}> crm:P129i_is_subject_of ?fullsizeImages.
+                                BIND(REPLACE(STR(?fullsizeImages),"full/full","full/!100,100") AS ?rectoImage).
+                                FILTER NOT EXISTS { 
+                                  ?fullsizeImages crm:P2_has_type ?type.
+                                  ?type rdfs:label "verso"
+                                }
+                              }'
+                              no-result-template="<div></div>"
+                              template="{{>rectoImageThumb}}"
+                            >
+                              <template id="rectoImageThumb">
+                                <div>
+                                  
+                                            {{#if images}}
+                                            <img
+                                                src="{{bindings.0.rectoImage.value}}"
+                                                style="max-height: 100px; margin: 0 auto"
+                                                class="img-rounded "
+                                                alt="Temporarily unvailable"
+                                              />
+                                            {{else}}
+                                              <img
+                                                src="{{bindings.0.rectoImage.value}}"
+                                                style="max-height: 100px; margin: 0 auto"
+                                                class="img-rounded grab-attention"
+                                                alt="Temporarily unvailable"
+                                              />
+                                            {{/if}}
+                                      
+                                </div>
+                              </template>
+                            </semantic-query>
+                          
+                            <semantic-query
+                              query='
+                                SELECT ?photoUri ?versoImage ?fullsizeImages where{
+                                  BIND(str(<{{photo.value}}>) as ?photoUri).
+                                  <{{photo.value}}> crm:P129i_is_subject_of ?fullsizeImages.
+                                  BIND(REPLACE(STR(?fullsizeImages),"full/full","full/!100,100") AS ?versoImage).
+                                  FILTER NOT EXISTS { 
+                                    ?fullsizeImages crm:P2_has_type ?type.
+                                    ?type rdfs:label "recto"
+                                  }
+                                }
+                              '
+                              no-result-template="<div></div>"
+                              template="{{>versoImageThumb}}"
+                            >
+                              <template id="versoImageThumb">
+                                <div>
+                                
+                                      <img
+                                        src="{{bindings.0.versoImage.value}}"
+                                        style="max-height: 70px; max-width: 70px"
+                                        class="vercoCell img-rounded"
+                                        alt="Temporarily unvailable"
+                                      />
+                                      
+                                </div>
+                              </template>
+                            </semantic-query>
+                          </td>
+                          [[#if artwork]]
+                            <semantic-link iri="{{photo.value}}">
+                                    <div class="btn"><h4>View photograph</h4></div>
+                            </semantic-link>
+                          [[/if]]
+                          <div class="copyright-section">
+                           <semantic-query 
+                                query="SELECT * WHERE{
+                                  <{{photo.value}}> crm:P104_is_subject_to  ?right
+                                }"
+                                template="{{>CopyrightImg}}"
+                                no-result-template="{{>noCopyrightImg}}">
+                                <template id="CopyrightImg">
+                                  <mp-popover>
+                                  <mp-popover-trigger placement='bottom' trigger='["click"]'>
+                                  <div class="container-copyright-img">
+                                  <img
+                                    class="imageCopyright"
+                                    alt="    "
+                                    src="/assets/images/copyright/in-copyright.svg"
+                                  />
+                                  </div>
+                                  </mp-popover-trigger>
+                                  <mp-popover-content>
+                                    <div>
+                                      <h8 class="copyright-info-text"> This Rights Statement can be used for an Item that is in copyright. Using this statement implies that the organization making this Item available has determined that the Item is in copyright and either is the rights-holder, has obtained permission from the rights-holder(s) to make their Work(s) available, or makes the Item available under an exception or limitation to copyright (including Fair Use) that entitles it to make the Item available.</h8>
+                                      <div class="copyright-uri">
+                                        <h3>URI:</h3>
+                                       <a class="copyright-stmt-link" target="_blank" href="http://rightsstatements.org/vocab/InC/1.0/">View rights statements</a>
+                                     </div>
+                                      
+                                    </div>
+
+                                  </mp-popover-content>
+                                  </mp-popover>
+                                </template>
+                                <template id="noCopyrightImg">
+                                     <mp-popover>
+                                  <mp-popover-trigger placement='bottom' trigger='["click"]'>
+                                  <div class="container-copyright-img">
+                                  <img
+                                    class="imageCopyright"
+                                    alt="    "
+                                    src="/assets/images/copyright/no-copyright.svg"
+                                  />
+                                  </div>
+                                  </mp-popover-trigger>
+                                  <mp-popover-content>
+                                    <div>
+                                      <h8 class="copyright-info-text">This Rights Statement should be used for Items for which the copyright status is unknown and for which the organization that has made the Item available has undertaken an (unsuccessful) effort to determine the copyright status of the underlying Work. Typically, this Rights Statement is used when the organization is missing key facts essential to making an accurate copyright status determination.</h8>
+                                      <div class="copyright-uri">
+                                        <h3>URI:</h3>
+                                       <a class="copyright-stmt-link" target="_blank" href="http://rightsstatements.org/vocab/UND/1.0/">View rights statements</a>
+                                     </div>
+                                    </div>
+                                  </mp-popover-content>
+                                  </mp-popover>
+                                </template>
+                                </semantic-query>
+                        </div>
+                          </div>
+                          <div class="photographFieldViewData">
+                            <mp-field-visualization
+                              subject="{{photo.value}}"
+                              fields='[[fieldDefinitions  
+                                Title="https://artresearch.net/fieldDefinition/2"  
+                                License ="http://www.researchspace.org/fieldDefinition/Image_Licence"
+                              ]]'
+                              template="{{>productionInfo}}"
+                            >
+                              <template id="productionInfo">
+                                <div>
+                                  {{#if noData}}
+                                    <div id="rsbv" class="table-responsive rs-table">
+                                      <table class="table table-hover">
+                                        <tbody>
+                                          <tr>
+                                            <td>No quick preview available. Click on the photo to view details.</td>
+                                            <td></td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  {{else}} [[> ResourceFieldBasedVisualization showSourceIcon="true"  subject=[[this]] 
+                                  ]] {{/if}}
+                                </div>
+                              </template>
+                            </mp-field-visualization>
+                          </div>
+                          </div>
+                      </div>
+                  </template>
+                </semantic-table>
+</div>
+
+
+<style>
+    .modal-content{
+        background-color: white !important;
+    }
+
+    .semantic-table-holder{
+        padding-left: 70px;
+        padding-right: 10px;
+    }
+
+    .griddle-custom-row{
+        gap: 2vw;
+    }
+    .card{
+        width: 87vw;
+        gap:1vw;
+    }
+    .rectoVersoCell{
+      display: flex;
+      padding-bottom: 10px;
+    }
+    .table-wrapp{
+      margin: 10px;
+    }
+    .copyright-section{
+      position: relative !important;
+      top: unset !important;
+      left: unset !important;
+    }
+    
+</style>

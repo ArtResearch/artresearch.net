@@ -1,7 +1,8 @@
 <semantic-table
   id="grid-result-photographer"
   options='{"showFilter":false}'
-  number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
+  prefetch-labels="false"
+  number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}25{{/if}}"
   query='
     SELECT DISTINCT ?subject
     WHERE {

@@ -71,10 +71,8 @@
     "parentsQuery": "
     SELECT distinct ?item ?parent ?parentLabel WHERE {
       ?item a ?__range__.
-      ?item a <http://www.w3.org/2004/02/skos/core#ConceptScheme>.
       ?item  <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
       ?parent <http://www.w3.org/2004/02/skos/core#prefLabel> ?parentLabel.
-      FILTER ( lang(?label) = \"en\" ) 
     }",
     "searchQuery":"
       SELECT DISTINCT ?hasChildren ?item ?label WHERE {
@@ -83,7 +81,10 @@
         ?label bds:search ?__token__ .
         ?label bds:minRelevance \"0.3\"^^xsd:double.
         ?label bds:matchAllTerms \"true\".
-        ?child  <http://vocab.getty.edu/ontology#broaderPreferred> ?item.
+        OPTIONAL {
+          ?child (<http://vocab.getty.edu/ontology#broaderPreferred>)*  ?item.
+          ?item a <http://vocab.getty.edu/ontology#Facet>.
+        }
         BIND(BOUND(?child) AS ?hasChildren)
         FILTER ( lang(?label) = \"en\" ) 
         FILTER(EXISTS { 
@@ -115,10 +116,8 @@
     "parentsQuery": "
     SELECT distinct ?item ?parent ?parentLabel WHERE {
       ?item a ?__range__.
-      ?item a <http://www.w3.org/2004/02/skos/core#ConceptScheme>.
       ?item  <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
       ?parent <http://www.w3.org/2004/02/skos/core#prefLabel> ?parentLabel.
-      FILTER ( lang(?label) = \"en\" ) 
     }",
     "searchQuery":"
       SELECT DISTINCT ?hasChildren ?item ?label WHERE {
@@ -159,10 +158,8 @@
     "parentsQuery": "
     SELECT distinct ?item ?parent ?parentLabel WHERE {
       ?item a ?__range__.
-      ?item a <http://www.w3.org/2004/02/skos/core#ConceptScheme>.
       ?item  <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
       ?parent <http://www.w3.org/2004/02/skos/core#prefLabel> ?parentLabel.
-      FILTER ( lang(?label) = \"en\" ) 
     }",
     "searchQuery":"
       SELECT DISTINCT ?hasChildren ?item ?label WHERE {
@@ -203,10 +200,8 @@
     "parentsQuery": "
     SELECT distinct ?item ?parent ?parentLabel WHERE {
       ?item a ?__range__.
-      ?item a <http://www.w3.org/2004/02/skos/core#ConceptScheme>.
       ?item  <http://vocab.getty.edu/ontology#broaderPreferred> ?parent.
       ?parent <http://www.w3.org/2004/02/skos/core#prefLabel> ?parentLabel.
-      FILTER ( lang(?label) = \"en\" ) 
     }",
     "searchQuery":"
       SELECT DISTINCT ?hasChildren ?item ?label WHERE {

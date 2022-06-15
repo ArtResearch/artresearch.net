@@ -1,89 +1,615 @@
+
 <div id="underDevAlert" class="alert alert-info" role="alert">
-  <i
-    >This instance is <b>under development</b> and will publicly launch in
-    January 2022 & is under data refresh</i
-  >
+  <i>This instance is <b>under development</b></i>
 </div>
 
 <div id="new-start-page">
   <div id="Cookiemessageid" class=" Cookiemessage alert alert-info" >
   [[> CookieMessage]]
 </div>
-
-  <section style="padding-top:100px">
-    
-    <div class="search-actions">
-      <div class="benner-text">
-        <b>
-          <span style="color: rgb(220, 54, 54);">art</span>research.net </b>provides open and consolidated access to images and metadata from
-        partners of PHAROS, the International Consortium of Photo Archives.
+<div style="background: linear-gradient(25deg, #e3e3e3, white) !important;">
+  <section style="background-image:linear-gradient(rgb(28 28 28 / 36%), rgb(182 182 182 / 23%) 92.86%), url(/assets/images/home-hero-bg.png);
+  background-size: cover;
+    color: #fff;
+    margin-bottom: -5rem;
+    padding-bottom: 3rem;">
+    <div class="search-actions" >
+         <div class="text-with-image banner"> 
+        <div>
+         <div style="font-size: 26px;">explore, connect and contextualize art histories</div>
+        </div>
       </div>
-      <div
+         <div
         data-intro="This is the search-bar. Use this to make simple queries by keywords"
         data-position="top"
       >
-        [[> Searchbar selectedCategory="Artworks"]]
-      </div>
-      <div class="text-with-image banner">
-        <div>
-          The collections document works of art and architecture and the
-          history of photography itself, together with nearly a century of
-          associated scholarly documentation.
+        <div class="searchbar-switch">
+          <div class="button-simple-search">
+                  [[> Searchbar selectedCategory="Artworks"]]
+          </div>
+           <!-- <div style="display: none;" class="button-visual-search">
+                  [[> VisionSearchBar]]
+                </div>
+            <mp-event-trigger type="Component.TemplateUpdate"  targets='["my-render"]' data='{"iri": "{{iri}}"}' >
+              <button class="switch-visual-search">
+                <div style="color:white">Open Visual Searchbar</div>
+              </button>
+            </mp-event-trigger>
+            <mp-event-trigger type="Component.TemplateUpdate"  targets='["my-render2"]' data='{"iri": "{{iri}}"}' >
+              <button style="display:none;" class="switch-simple-search">
+                <div style=" color:white">Open Simple Searchbar</div>
+              </button>
+            </mp-event-trigger> -->
         </div>
-        
-        <img src="/assets/images/pharos.png" style="
-            margin-bottom: 25px;
-            max-width: 65vw;
-            object-fit: contain;
-            height: 115px;
-            padding: 10px;">
+            <!-- <mp-event-target-template-render id="my-render" template="{{> combined}}">
+              <template id="combined">
+                {{#if iri}}
+               <style>
+                 .button-simple-search{
+                   display: none !important;
+                 }
+                 .button-visual-search
+                 {
+                   display: block !important;
+                 }
+                 .switch-simple-search{
+                   display: block !important;
+                 }
+                 .switch-visual-search{
+                   display: none !important;
+                 }
+               </style>
+                {{/if}}
+
+              </template>
+            </mp-event-target-template-render>
+            <mp-event-target-template-render id="my-render2" template="{{> combined2}}">
+              <template id="combined2">
+                {{#if iri}}
+               <style>
+                 .button-simple-search{
+                   display: block !important;
+                 }
+                 .button-visual-search
+                 {
+                   display: none !important;
+                 }
+                 .switch-visual-search{
+                   display: block !important;
+                 }
+                 .switch-simple-search{
+                   display: none !important;
+                 }
+               </style>
+                {{/if}}
+
+              </template>
+            </mp-event-target-template-render> -->
+       
+        <div class="linksTo">
+          <div>
+            <a title="Contextual Search" href="/resource/SearchContextual?withULAN=true&withImages=true">Contextual Search</a>
+          </div>
+          <!-- <div>
+           <a title="Advanced Search" href="/resource/SearchAdvanced">Advanced Search</a>
+          </div> -->
+          <div>
+           <a title="Visual Search" href="/resource/VisualSearch">Visual Search</a>
+          </div>
+        </div>
       </div>
     </div>
   </section>
+</div>
+   <div class="benner-text">
+     <div>
+      <img src="/assets/images/logos/logotransparent2.png" style="
+      margin-bottom: 15px;
+      max-width: 70vw;
+      object-fit: contain;
+      height: 150px;
+      padding: 10px;">
+        <!-- <img src="/assets/images/monalisasmile.png" style="
+            object-fit: contain;
+            height: 20vh;"> -->
+     
+     </div>
+     <div class="introText">
+    <p style="font-size:16px">Discover artworks through the lens of photo archives.</p>
+     <p style="font-size:12px">The collections of Pharos, the International Association of Photo Archives, document works of art and architecture and the history of photography itself. They contain more than of a century of scholarly documentation.  <span style="color: rgb(220, 54, 54);">art</span>research.net provides the tools to access, research, and contextualize these resources for the 21st century.</p>
+    </div>
+      
+   </div>
   <section title="Browse the collections">
     <div class="section-title">Browse the collections</div>
     <div class="section-body">
       <div class="tall-card-list">
         <div class="tall-card">
-          <mp-link url="/resource/DisplayPharosArtists">
+          <a href="/resource/DisplayPharosArtists?withULAN=true">
             <div class="tall-card-body">
               <div class="tall-card-button">Discover</div>
               <div class="tall-card-title">Artists</div>
-              <div class="tall-card-subtitle">28,000 records</div>
+                <div class="tall-card-subtitle">[[> StatisticsTotal property="https://artresearch.net/custom/numOfArtists"]]&ensp;records</div>
             </div>
-          </mp-link>
+          </a>
         </div>
         <div class="tall-card">
-          <mp-link url="/resource/DisplayPharosPhotographers">
+          <a href="/resource/DisplayPharosPhotographers">
             <div class="tall-card-body">
               <div class="tall-card-button">Discover</div>
               <div class="tall-card-title">Photographers</div>
-              <div class="tall-card-subtitle">129,000 records</div>
+                       <div class="tall-card-subtitle">[[> StatisticsTotal property="https://artresearch.net/custom/numOfPhotographers"]]&ensp;records</div>
             </div>
-          </mp-link>
+          </a>
         </div>
         <div class="tall-card">
-          <mp-link url="/resource/DisplayPharosInstitutions">
+          <a href="/resource/DisplayPharosInstitutions">
             <div class="tall-card-body">
               <div class="tall-card-button">Discover</div>
               <div class="tall-card-title">Repositories</div>
-              <div class="tall-card-subtitle">Museums, Collections etc.</div>
+              <div class="tall-card-subtitle"></div>
             </div>
-          </mp-link>
+          </a>
         </div>
         <div class="tall-card">
-          <mp-link url="/resource/Partners">
+          <a href="/resource/Partners">
             <div class="tall-card-body">
               <div class="tall-card-button">Discover</div>
               <div class="tall-card-title">Partners</div>
-              <div class="tall-card-subtitle">Photo archive collections</div>
+              <div class="tall-card-subtitle"></div>
             </div>
-          </mp-link>
+          </a>
         </div>
       </div>
     </div>
   </section>
-  <section class="cool-background" title="Contextualized & connected histories">
+    <section class="cool-background" title="Collection Spotlights">
+    <div class="section-title">Collection Spotlights</div>
+
+    <div class="section-body">
+      <div class="grid-card-list">
+        <div
+          class="grid-card"
+          style=" background: url(/assets/images/media/alinari.jpg) center no-repeat; "
+        >
+          <a href="/resource/DisplayCollectionAlinari">  
+            <div class="grid-card-body">
+                <div class="grid-card-title">A. C. Cooper</div>
+                <div class="grid-card-subtitle">Photographs</div>
+              </div>
+        </div>
+        <div
+          style=" background: url(/assets/images/media/red-chalk.jpg) center no-repeat; "
+          class="grid-card"
+        >
+          <a href="/resource/DisplayCollectionRedChalkDrawings">  
+            <div class="grid-card-body">
+              <div class="grid-card-title">Red Chalk</div>
+              <div class="grid-card-subtitle">Drawings</div>
+            </div>
+          </a>
+        </div>
+        <div
+          style=" background: url(/assets/images/media/builtworks_middleast.jpg) center no-repeat; "
+          class="grid-card"
+        >
+          <a href="/resource/DisplayCollectionBuiltworksMiddleEast">  
+            <div class="grid-card-body">
+              <div class="grid-card-title">Built Works</div>
+              <div class="grid-card-subtitle">In the Middle-East</div>
+            </div>
+          </a>
+        </div>
+        <div
+          style=" background: url(/assets/images/media/kahlo.jpg) center no-repeat; "
+          class="grid-card"
+        >
+            <a href="/resource/DisplayCollectionWomenArtists">  
+              <div class="grid-card-body">
+                <div class="grid-card-title">Women Artists</div>
+                <div class="grid-card-subtitle">Across centuries</div>
+              </div>
+            </a>
+        </div>
+        <div
+          style=" background: url(/assets/images/media/madonna.jpg) center no-repeat; "
+          class="grid-card"
+        >
+          <a href="/resource/DisplayCollectionMadonnaAndChild">  
+            <div class="grid-card-body">
+                <div class="grid-card-title">Sculptures</div>
+                <div class="grid-card-subtitle">
+                  Sculptures from 12th - 15th century
+                </div>
+            </div>
+          </a>
+        </div>
+        <div
+          style=" background: url(/assets/images/media/italian_ren.jpg) center no-repeat; "
+          class="grid-card"
+        >
+          <a href="/resource/DisplayCollectionItalian">  
+              <div class="grid-card-body">
+                <div class="grid-card-title">Italian Renaissance</div>
+                <div class="grid-card-subtitle">Discover masterpieces</div>
+              </div>
+          </a>
+        </div>
+        <div
+          style=" background: url(/assets/images/media/datedphotographs.jpg) center no-repeat;"
+          class="grid-card"
+        >
+            <a href="/resource/DisplayCollectionPhotoDatedBetween">  
+              <div class="grid-card-body">
+                  <div class="grid-card-title">1839-1900 AD</div>
+                  <div class="grid-card-subtitle">19th century photographs</div>
+              </div>
+            </a>
+        </div>
+        <!-- <div
+          style=" background: url(/assets/images/media/self-portraits.jpg) center no-repeat;"
+          class="grid-card"
+        >
+            <a href="/resource/DisplayCollectionSelfPortraits">  
+              <div class="grid-card-body">
+                  <div class="grid-card-title">Self Portraits</div>
+                  <div class="grid-card-subtitle"></div>
+              </div>
+            </a>
+        </div>
+        <div
+          style=" background: url(/assets/images/media/cooper.jpg) center no-repeat;"
+          class="grid-card"
+        >
+            <a href="/resource/DisplayCollectionSelfPortraits">  
+              <div class="grid-card-body">
+                  <div class="grid-card-title">A. C. COOPER</div>
+                  <div class="grid-card-subtitle"></div>
+              </div>
+            </a>
+        </div> -->
+
+      </div>
+    </div>
+  </section>
+    <!-- <section class="sectionDocumentation" title="How can I use Artresearch.net?">
+    <div class="section-title">How can I use <span style="color: rgb(220, 54, 54);">art</span>research.net ?</div>
+    <div class="section-body">
+      <div class="tall-card-list" style=" text-align: center;">
+        <div class="doc-tall-card">
+          <a href="/resource/Documentation">
+            <div class="doc-tall-card-body">
+              <img  class="imagesDoc" src="/assets/images/icons/search.svg"/>
+              <div class="doc-tall-card-title">Search in platform</div>
+              <div class="doc-tall-card-subtitle">There are many ways to search your favorite artwork through artresearch.</div>
+            </div>
+          </a>
+        </div>
+        <div class="doc-tall-card">
+          <a href="/resource/DocumentationCards">
+            <div class="doc-tall-card-body">
+              <img class="imagesDoc" src="/assets/images/icons/viewer.svg"/>
+              <div class="doc-tall-card-title">IIIF Viewer</div>
+              <div class="doc-tall-card-subtitle">Compare and View images with deep zoom</div>
+            </div>
+          </a>
+        </div>
+        <div class="doc-tall-card">
+          <a href="/resource/DocumentationCards">
+            <div class="doc-tall-card-body">
+              <img  class="imagesDoc"  src="/assets/images/icons/vision.svg"/>
+              <div class="doc-tall-card-title">Vision Instance</div>
+              <div class="doc-tall-card-subtitle">Find Similar Artworks</div>
+            </div>
+          </a>
+        </div>
+        <div class="doc-tall-card">
+          <a href="/resource/DocumentationCards">
+            <div class="doc-tall-card-body">
+              <img  class="imagesDoc" src="/assets/images/icons/history-book.svg"/>
+              <div class="doc-tall-card-title">Photo Archive Curator?</div>
+              <div class="doc-tall-card-subtitle">Get familiar with the platform's functionality for curators</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="DocTextWrapper">
+      <a href="/resource/DocumentationCards">
+      <div class="view-guides">
+        <h2>View all guides</h2>
+      </div></a>
+    </div>
+  </section> -->
+    <section  title="Explore visually similar images">
+    <div class="section-title">Explore visually similar images</div>
+    <div class="section-subtitle">Use machine learning and computer vision to explore similarities between artworks, images, and data</a></div>
+    <div class="section-body">
+        <div id="featured-selections">
+            <a target="vision_new_tab" href="https://artresearch.net/resource/pharos/artwork/0c477197149519beb0072507b8ff277cb9cc10a8">
+              <div id="zeri-itatti" class="flip-card-feature">
+                <div class="content">
+                  <div class="front">
+                    <div class="front-back-img-holder"  >
+                      <img
+                        class="img-flip"
+                        alt="  "
+                        src="https://iiif.artresearch.net/iiif/2/zeri!71200%2170925_g.jpg/full/!500,500/0/default.jpg"
+                      />
+                      <div class="title">Nascita di Maria Vergine</div>
+                      <small>Zeri</small>
+                    </div>
+                  </div>
+                  <div class="back">
+                    <div class="front-back-img-holder" >
+                      <img
+                        class="img-flip"
+                        alt="  "
+                        src="https://ids.lib.harvard.edu/ids/iiif/42662040/full/!500,500/0/native.jpg"
+                      />
+                      <div class="title">Birth of the Virgin</div>
+                      <small>I Tatti</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+            <a target="vision_new_tab" href="https://artresearch.net/resource/pharos/artwork/298d5478cda58be94ca09410e93c00c1eb0123ed">
+              <div id="hertziana-itatti" class="flip-card-feature">
+                <div class="content">
+                  <div class="front">
+                    <div class="front-back-img-holder" >
+                      <img
+                        class="img-flip"
+                        alt="  "
+                        src="https://hertz-foto-os1.biblhertz.it/iiif/2/320px%2Fbh002968.jpg/full/full/0/default.jpg"
+                      />
+                      <div class="title">Profilbildnis einer jungen Frau</div>
+                      <small>Hertziana</small>
+                    </div>
+                  </div>
+                  <div class="back">
+                    <div class="front-back-img-holder" >
+                      <img
+                        class="img-flip"
+                        alt="  "
+                        src="https://iiif.itatti.harvard.edu/iiif/2/fotoindex!028_recto_d!028_recto_box01_d!028_recto_box01_d_00022.jpg/full/!500,500/0/default.jpg"
+                      />
+                      <div class="title">W00012940</div>
+                      <small>I Tatti</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+            <a target="vision_new_tab" href="https://artresearch.net/resource/pharos/artwork/03a875cea5fe7ad54543b70523e81b63d8332c2b">
+              <div id="khi-hertziana" class="flip-card-feature">
+                <div class="content">
+                  <div class="front">
+                    <div class="front-back-img-holder" >
+                      <img
+                        class="img-flip"
+                        alt="  "
+                        src="https://iiif.khi.fi.it/iiif/2/thumbnails%2Ffld0006864x_p.jpg/full/!500,500/0/default.jpg"
+                      />
+                      <div class="title">	Maria mit dem Christuskind</div>
+                      <small>KHI</small>
+                    </div>
+                  </div>
+                  <div class="back">
+                    <div class="front-back-img-holder" >
+                      <img
+                        class="img-flip"
+                        alt="  "
+                        src="http://fotothek.biblhertz.it/bh/320px/bh355316.jpg"
+                      />
+                      <div class="title">Madonna Colonna</div>
+                      <small>Marburg</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+            <a target="vision_new_tab" href="https://artresearch.net/resource/pharos/artwork/a9ecffbe012c680b16e72f570620f4b1a78fbff6">
+              <div id="itatti-zeri" class="flip-card-feature">
+                <div class="content">
+                  <div class="front">
+                    <div class="front-back-img-holder" >
+                      <img
+                        class="img-flip"
+                        alt="  "
+                        src="https://ids.lib.harvard.edu/ids/iiif/474707461/full/!500,500/0/native.jpg"
+                      />
+                      <div class="title">Portrait of a youth</div>
+                      <small>I Tatti</small>
+                    </div>
+                  </div>
+                  <div class="back">
+                    <div class="front-back-img-holder" >
+                      <img
+                        class="img-flip"
+                        alt="  "
+                        src="https://iiif.artresearch.net/iiif/2/zeri!74000%2173954_g.jpg/full/!500,500/0/default.jpg"
+                      />
+                      <div class="title">Ritratto maschile</div>
+                      <small>Zeri</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+            <a target="vision_new_tab" href="https://artresearch.net/resource/pharos/artwork/0ef514d6376c7069e705f8ddbadd4afe1adefd7f">
+              <div id="marburg-itatti" class="flip-card-feature">
+                <div class="content">
+                  <div class="front">
+                    <div  class="front-back-img-holder" >
+                      <img
+                        class="img-flip"
+                        alt="  "
+                        src="https://iiif.artresearch.net/iiif/2/marburg!mi07407f01.jpg/full/!500,500/0/default.jpg"
+                      />
+                      <div class="title">	Bildnis einer Dame</div>
+                      <small>Marburg</small>
+                    </div>
+                  </div>
+                  <div class="back">
+                    <div class="front-back-img-holder" >
+                      <img
+                        class="img-flip"
+                        alt="  "
+                        src="https://iiif.itatti.harvard.edu/iiif/2/fotoindex!105_recto_d!105_recto_box04_d!105_recto_box04_d_00119.jpg/full/!500,500/0/default.jpg"
+                      />
+                      <div class="title">W00026410</div>
+                      <small>I Tatti</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+            <a target="vision_new_tab" href="https://artresearch.net/resource/pharos/artwork/5f0b63f851773198521b240d201de73784ae5763">
+              <div id="itatti-zeri-2" class="flip-card-feature">
+                <div class="content">
+                  <div class="front">
+                    <div  class="front-back-img-holder" >
+                      <img
+                        class="img-flip"
+                        alt="  "
+                        src="https://ids.lib.harvard.edu/ids/iiif/25091201/full/!500,500/0/native.jpg"
+                      />
+                      <div class="title">Portrait of a gentleman</div>
+                      <small>I Tatti</small>
+                    </div>
+                  </div>
+                  <div class="back">
+                    <div  class="front-back-img-holder" >
+                      <img
+                        class="img-flip"
+                        alt="  "
+                        src="https://iiif.artresearch.net/iiif/2/zeri!85200%2184998_g.jpg/full/!500,500/0/default.jpg"
+                      />
+                      <div class="title">Ritratto di gentiluomo</div>
+                      <small>Zeri</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+            <a target="vision_new_tab" href="https://artresearch.net/resource/pharos/artwork/1b9055976dd4ff2697e739ac1dcdb69f211555bd">
+              <div id="marburg-zeri" class="flip-card-feature">
+                <div class="content">
+                  <div class="front">
+                    <div  class="front-back-img-holder" >
+                      <img
+                        class="img-flip"
+                        alt="  "
+                        src="https://iiif.artresearch.net/iiif/2/marburg!mi02293b08.jpg/full/!500,500/0/default.jpg"
+                      />
+                      <div class="title">Paris</div>
+                      <small>Marburg</small>
+                    </div>
+                  </div>
+                  <div class="back">
+                    <div class="front-back-img-holder" >
+                      <img
+                        class="img-flip"
+                        alt="  "
+                        src="https://iiif.artresearch.net/iiif/2/zeri!150800%21150760_g.jpg/full/!500,500/0/default.jpg"
+                      />
+                      <div class="title">Paride</div>
+                      <small>Zeri</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+            <a target="vision_new_tab" href="https://artresearch.net/resource/pharos/artwork/5753d80914fd7425549ac47d2fa95c757552299c">
+              <div id="hertziana-itatti-2" class="flip-card-feature">
+                <div class="content">
+                  <div class="front">
+                    <div class="front-back-img-holder" >
+                      <img
+                        class="img-flip"
+                        alt="  "
+                        src="http://fotothek.biblhertz.it/bh/320px/bhfc152e24.jpg"
+                      />
+                      <div class="title">Porträt des Kardinals Radzielowski</div>
+                      <small>Hertziana</small>
+                    </div>
+                  </div>
+                  <div class="back">
+                    <div class="front-back-img-holder" >
+                      <img
+                        class="img-flip"
+                        alt="  "
+                        src="https://iiif.artresearch.net/iiif/2/marburg!mi10015g09.jpg/full/!500,500/0/default.jpg"
+                      />
+                      <div class="title">Bildnis des Kardinal-Erzbischo..</div>
+                      <small>Marburg</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+            <a target="vision_new_tab" href="https://artresearch.net/resource/pharos/artwork/8872b1ae30eaf6d0257b325c2579d1188eeab2dc">
+              <div id="zeri-mar" class="flip-card-feature">
+                <div class="content">
+                  <div class="front">
+                    <div  class="front-back-img-holder" >
+                      <img
+                        class="img-flip"
+                        alt="  "
+                        src="https://iiif.artresearch.net/iiif/2/zeri!127200%21127189_g.jpg/full/!500,500/0/default.jpg"
+                      />
+                      <div class="title">Scena pastorale</div>
+                      <small>Zeri</small>
+                    </div>
+                  </div>
+                  <div class="back">
+                    <div class="front-back-img-holder" >
+                      <img
+                        class="img-flip"
+                        alt="  "
+                        src="https://iiif.artresearch.net/iiif/2/marburg!fmc660037.jpg/full/!500,500/0/default.jpg"
+                      />
+                      <div class="title">Ländlicher Spaziergang / Strandidylle</div>
+                      <small>Marburg</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+            <a target="vision_new_tab" href="https://artresearch.net/resource/pharos/artwork/047e1093c0c7b87613f915a7d8eb0d4999ced0eb">
+              <div id="khi-marburg" class="flip-card-feature">
+                <div class="content">
+                  <div class="front">
+                    <div class="front-back-img-holder" >
+                      <img
+                        class="img-flip"
+                        alt="  "
+                        src="https://iiif.khi.fi.it/iiif/2/thumbnails%2Fflc0584693z_p.jpg/full/!500,500/0/default.jpg"
+                      />
+                      <div class="title">Tod des heiligen Franziskus</div>
+                      <small>KHI</small>
+                    </div>
+                  </div>
+                  <div class="back">
+                    <div class="front-back-img-holder" >
+                      <img
+                        class="img-flip"
+                        alt="  "
+                        src="https://iiif.artresearch.net/iiif/2/zeri!12400%2112030_g.jpg/full/!500,500/0/default.jpg"
+                      />
+                      <div class="title">	Morte e verifica delle sti..</div>
+                      <small>Zeri</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+        </div>
+    </div>
+  </section>
+   <section class="cool-background"  title="Contextualized & connected histories">
     <div class="section-title" id ="Contextualtitle" >Contextualized & connected histories</div>
     <div class="section-body">
       <div class="text-with-image column">
@@ -120,123 +646,7 @@
       </div>
     </div>
   </section>
-  <section title="Collection Spotlights">
-    <div class="section-title">Collection Spotlights</div>
-    <div class="section-body">
-      <div class="grid-card-list">
-        <div
-          class="grid-card"
-          style=" background: url(/assets/images/media/alinari.jpg) center no-repeat; "
-        >
-          <mp-link url="/resource/DisplayCollectionAlinari">  
-            <div class="grid-card-body">
-                <div class="grid-card-title">Fratelli Alinari</div>
-                <div class="grid-card-subtitle">Browse one of the world's oldest photographic firms </div>
-              </div>
-        </div>
-        <div
-          style="
-            background: url(/assets/images/media/oil_on_wood_dali.jpg) center
-              no-repeat;
-          "
-          class="grid-card"
-        >
-      <mp-link url="/resource/DisplayCollectionOilOnWood">  
-        <div class="grid-card-body">
-            <div class="grid-card-title">Oil on wood</div>
-            <div class="grid-card-subtitle">Explore using medium</div>
-          </div>
-        </mp-link>
-        </div>
-        <div
-          style=" background: url(/assets/images/media/builtworks_middleast.jpg) center no-repeat; "
-          class="grid-card"
-        >
-          <mp-link url="/resource/DisplayCollectionBuiltworksMiddleEast">  
-            <div class="grid-card-body">
-              <div class="grid-card-title">Built Works</div>
-              <div class="grid-card-subtitle">In the Middle-East</div>
-            </div>
-          </mp-link>
-        </div>
-        <div
-          style=" background: url(/assets/images/media/kahlo.jpg) center no-repeat; "
-          class="grid-card"
-        >
-            <mp-link url="/resource/DisplayCollectionWomenArtists">  
-              <div class="grid-card-body">
-                <div class="grid-card-title">Women Artists</div>
-                <div class="grid-card-subtitle">Across centuries</div>
-              </div>
-            </mp-link>
-        </div>
-        <div
-          style=" background: url(/assets/images/media/madonna.jpg) center no-repeat; "
-          class="grid-card"
-        >
-          <mp-link url="/resource/DisplayCollectionMadonnaAndChild">  
-            <div class="grid-card-body">
-                <div class="grid-card-title">Madonna and Child</div>
-                <div class="grid-card-subtitle">
-                  Artworks from 12th - 15th century
-                </div>
-            </div>
-          </mp-link>
-        </div>
-        <div
-          style=" background: url(/assets/images/media/italian_ren.jpg) center no-repeat; "
-          class="grid-card"
-        >
-          <mp-link url="/resource/DisplayCollectionItalian">  
-              <div class="grid-card-body">
-                <div class="grid-card-title">Italian Renaissance</div>
-                <div class="grid-card-subtitle">Discover masterpieces</div>
-              </div>
-          </mp-link>
-        </div>
-        <div
-          style=" background: url(/assets/images/media/datedphotographs.jpg) center no-repeat;"
-          class="grid-card"
-        >
-            <mp-link url="/resource/DisplayCollectionPhotoDatedBetween">  
-              <div class="grid-card-body">
-                  <div class="grid-card-title">1839-1900 AD</div>
-                  <div class="grid-card-subtitle">19th century photographs</div>
-              </div>
-            </mp-link>
-        </div>
-      </div>
-    </div>
-  </section>
-  <section class="cool-background" title="Contextual search examples">
-    <div class="section-title">Contextual search examples</div>
-    <div class="section-body">
-      <div class="bubble-card-list">
-        <div class="bubble-card">
-          <a  href="?uri=Default%3ASearch&semanticSearch=N4IgziBcoCYPZRAMwMaQO5wE4GsQBoQUoBtULAUynIENFVIBLAOzABdG2BXDuZgkJXpZIAdWw4A%2BjgoAHNpIBGAT0kBJVh269%2BhGKRIgAShTBwuWFFXyhGWRtRAAVRGvsCAao7YUsAWydlWSpIEAA5Gj8KGDC4GGsQADcaABsuEJAACzY2WUgAenz0YoA6dEYcRhgaNhoS7ABzfIpmLWV8gEUARgBOADYAdgBWEABfUcIUmkUKFMQ-LjAAS4oAAhguVYAZc0ShPVMUe3lGPnnFlfXNna49hO5ZFJDQMC4GhtMdRxdQtwdCLzQEA%2BfyBYKICJRGJxBLJNIZbK5ApFUrlSrVWr1LBNFptTq9QYjcaTaazb6ILacXypTzeXwBIIZSkgmmEOHpc7LNYbba7fYgDE1Rnk37uAF00HC0KQ6KxeICdkInJ5QrFdBlADMWKaACYAAx6rr5AAaAFktgBlFCZCh%2BGgAYnY9mYDTGExAUxdXBoH0QbvGAF0A%2B6uMxGABHdJqfSQPUTcjPQR0UIADzAMEgGISQlCSBE4lwkjzcD8kgAIjUEjGSIYAJoUGhYIw0F3WUAzBosRzKBtYKBdIYGwhyODWxAAQTLY2HzBjoB7jf7Q2Xw9ko8yE6ngeDhFDEajMa6ox3yFIAcIlFeKTY1HdgrAFDYEEgJHPIFSjAazCirRFIArmKmjQygzLS0DEiADRYDQsiZFacDBBavZjkCPz-jUdRASBCSAsA4yjEAA">
-            <div class="bubble-card-body">
-              <div class="bubble-card-subtitle">“Artworks held by Musée du Louvre that were produced between 1500 AD -1555 AD”</div>
-            </div>
-          </a>
-        </div>
-        <div class="bubble-card">
-          <a href="?uri=Default%3ASearch&semanticSearch=N4IgziBcoCYPZRAMwMaQO5wE4GsQBoQUoBtULAUynIENFVIasAXASzGYJEvq0gHVsOAPopKNZhRjCkWOAFthAQRbtOhGKRIgAyhSYoAFgVgJoIVllbUQAFUQBJK1wBqNyVnm2AngAcqkCAAcjTyUkFwMFSEAG40ADYArgEghszMvmCQAPTZTMyUYPpYRgB0AHYUzNmFcIklFNmoeaocIAC%2B7YTxNABGFPGIKmxtGhRgYqy%2BbHDlQ63qIMyGifK95TSsg4F5YEXMYNms8jQA5uNHKLOH%2BWqlYDGnXMyJvvEBoL5ySFsfdo7OQhucweLx%2BFIhMIwCJRLhxJIpNIZHLZdBo0qFYpGMC%2BGgoCilbCnbJfOA-d55eKDTqEFASCinbDeGz2QJOaxA9wUTw%2BfyISHhSLREDw5KIJGZFH5TEGQwVKo1cZ1BpNFAtEacGkgHr9bagVkgAAyrA8CVcXJ54MQxtNg1iCTFgWGai4MAkEit5gN7PNIO5YL5gQF0KFcIdiPSvhRaPQpXQAGZCVhiQAmAAMaYAjNkABoAWUNOiMFBOAGIOFZyk8tT0q4kzikOl0lis1hstizrSbuWbOX7LYGjd2sL2ReHELt9odjg3p1dyjcFvdHq73cxPfqARyQMDQKDeRDQoLYfaEeLI9H0Qmk6mM9n84Xi2WK6wq03ujQ6w3EO%2BQFEJlY0ysLMnaBDaPZ2juFoBik4EjpBoopM6ox-muG7-GygJQf2MH8keIYnmOZ6BBKl6xteRLZOmWa5gWRaGCWNDlgUr7Vs2tanPW5w-p0WrEJAZAgIk5SsAAjskDiaJAmaEDgr5SSAABKAwSMBcyECONiWNYXpbr6e7%2BgeeFQjCwqIeeGRZLk0rjFicqVNUtT1Piqrqi6NZ9AM8waq64yTEBIFOgszytusmzbCAk5VNOJznHO1xuRwy5PIQLxvH8pLkn83pYbuSyGZ6wT4aZYbEakF65DGGK2bKOJ4gSlGZb8lLUs2dKSIyWDMrpmHbnl%2B6FcGJWno65WWVKLAyiU9kKk5KrNLcbQebqoFDra%2Bn5QOsHDqO5lBT5GhoYGm69RtA2DkNoYjRGyKVVeiaUdR950U%2BTEvm%2BHlftxgS-ssqxhR2PVrRBZ0FYOcG7eOOw0Hs0VHLFFysPOi4aslq7MB6x0YSAPp9gZW3GceZlQ2NUZ3eRD3JlRd60Y%2BDHPixH3sZ%2BnHfj9Wr-v5MxzEDEOQf1YPbet13eS6h0Y%2BuWM5X10FGUGxVXURo2keTcaU7eNEPvRjHMZWbEfl9ja8c2PDmNpq249h%2BO4fLJmK3tpNWeqU1lA5ipgMqLmyNkAAK3Ie%2BUwgcIkUTlMwwhksIftYAHv46l5gTB6HzAAARkr5AFTNziBJxQYdp0gXCGDDiks385tA5bAsE7bROlcrkZOzZRSyvKjlKs5jQLcFy0JyAyGLJzgHZ-tYstv97YRVFBzw7OlwJYtzBo6lrzvDYTVr5XuWy4NCuEQ7KuouiLuGHV%2BI3iS3zNQkrW0vSnXdSdOPbzhctFXb%2B8kxKTeTTV01t%2B7T2Xc1SLzjp5PU2M%2BagxrsDeC9ckLBXFpjbKek8abRtu-OuIsSIVSPhTC%2BT1abawZnrMBhseLNj%2Bm2cKq0oFoPOkLEG2DIowynLPOK88FyJSXg8FKqEJboWltAjBl1P5lUPlVCiVNCFa1errViZDWbfRAL%2BIeWc1K0J2vzHe4MtHwNFihN0AipaoKtugt%2BojibiNwZI9W1NNYvXpm9Rm%2BttQsy4kbXihBi5gAACIKE2DzUAFcn5Vx0YeD%2BViG7jWsr-Fu-83ZzS9iAnuzMVqj0MX5YeGiMmLCoQDKerC4Yzg4UjBeS5eHPFXhlK%2Bm9Qkv2thYveUSbpkzwdVeJ2JcTn0arUxoN9fztQZEyC2DTzG70ifonBMTnZ-1drNDu80Uk%2BV7hAg0dCzEMK7MLJWCCDr8OQaMmWr8JlYN2RZNptiCE01kU4%2BRTMDZKM8alUKk9NE7OrhgjZDtp4xTnmUrhi9l4HMlig069DBaEwIi0i5ZE1bXIcXTHW71XEcQ8RQsYmcApBMgXoiFMDvkkwHujQ5W9jmNNOdCqZpM4VSI1s9JFJCFGfSeRQrUaU6kgA3mC5%2B5LxkXWadSiRx85mn26Q1Km3KWq-lNvUvlWza5UuYd-CaBRRUAKSV3LAvt-azCDi8ZOEckBR11XMVZ7ymGbMhWBPF5zE4GrzqndOSDQVHOEU0yZyqbH3QRQy4hzjSEsvRezZsajsUWrgfir5tqHa53zs6kFgjTGfI9Wcg%2B3r8GPRuY45FLjFHBpUVqHx-iTivjdVG1NSq7WO1VSfDVizkncN-D40uVYeVhJOQKz11aVWxLVZ0ma7cPad1cqArU2AohYAjaOFNhVCVlTTCS11ZL3WUuGj2jN8Ks2Iv9aWV8HVuT5rZoWrxRBZgACthIoGYA4coUQAAepA0z4GfWmAAuhoUgoA5J3sQMpYdDQpnBOcCuita77Zf1wTEOAdJeilHOOkbwpQpCJGyIkWs2QACsGYMzxgAJyYczGA9JO5uRyBQEYYC%2BAU5KDveIFOUR4jUczAAFnjJhgA-AAWlYwADl4xnLmOTSNYHI5RuA1HaMwHo4x5jbHOM8ZY-xqp6UbBgESKcOKI85Wrq7WmyDt1sjQdg-Bqo65kMwFQ%2Bhz8WGcNpnw4R4jCcn4bNnbonZDsXBkZg%2BJyTdH9AMYGHJ9j3G%2BMCZdUm8FVqYGWKFZuul9i-VyJRUe5RTYObsEveUa9t6H1PpfQV997Q33FeKyVwgwkxISSkmmUrhBC4CXIH8TSgQGCvg4CaRI2cNIpFkAIIQwgcAUGmMIXo3hhC3o6y8brf4tBKQbdEYDOkdNgb01W9NhnJGsDkkYmgF9HUmm8NkAAipmPDAA2AA7JhpzEV5CJDAAAS4oAxxIKdDR1BiDwTFQnAogHu09l7ln3ufe%2B0sapNg9oreiyIwVXrNtXm26wXb%2B2w6HZO2dq7N2%2BJ1DDtO7RnbGGRurZmVjS7Iu8t0xE-T1iEeZukdmxlTF90MkPUG49t38dU%2B2Zah2APnuvZB4kL7wpdvLuh256n62DOXJ9dupLdyUvs7S8bN9JXis9fU-ETg0BQ3uinKQD9IAEisFOOUMIeOga%2BPdKUPMNBvD9H0lqU4I5fCGCLHAfwehZSrWtxjW39vHd414kAA">
-            <div class="bubble-card-body">
-              <div class="bubble-card-subtitle">“Artworks created by Artists that were students of Andrea Del Verrocchio that are now held by Musée du Louvre”</div>
-            </div>
-          </a>
-        </div>
-        <div class="bubble-card">
-          <a href="?uri=Default%3ASearch&semanticSearch=N4IgziBcoCYPZRAMwMaQO5wE4GsQBoQUoBtULAUynIENFVIAHACzgBc4BzLGlirAiEr0skAOrYcAfRbsuPPjCkAjAJ5SACqw7dezfoJikSIAMoUaWFMwKwE0EAEssj6iAAqiAJIvBANTc2fgBbd1VGKkgQADkaYIoYaLgYKkIANxoAGwBXSJBmNjZGMEgAelLLNkowCytmADoAOwo2Uuq4bKsKUtRS2R0FfQEAX2HCTJplCkzELTldPgFCFLAUF0Y2RzhG2e15PQNCNmZs4OVGmkcZqIqwGrYwUsdgmk4KR8cUbcf%2B-cX6sBpTiCNjZRiZSKgRhYOBIK6QjzeXyEAIOIJYULhPKxeKJZKpEAZHJ5ApFMqldCU%2BrVWrWMCMGgoCj1bCcPowuEQiqZGajQgoGhBTjYVRuTxRHyuFGBEJhCKIHEJJIpQRE3KIUnFcmVGmWaxNFptd4dLo9FB9PYLIYgPkgCZTa6gcUgAAyjnRWX8Moxcrybo9M3SWXVUTmAwOSxAMEFgqxYqRUpAqNA6Mx8qiirxKqDxI1hUY5Mp6Hq6AAzCysGyAEwABhrAEZSgANACyLtM1goLwAxGAqo5GsDbRNB9lXnkbWMQMdTudLo7EVF-fxPdK0bK40v3SvA4Tg3lbvcPi83h8vo0fpbBvwAUDDDG2JunQmveufZuYnElfjVfu82TyiLEty1ZUpawbZs2w7fQez7FxB0ncYaFHcdEEQqN3jWRwNi2HYHGdZceF3ZNpw3dNXW3Ijf1zUMrwje82FjdNnwlZEk29NNsS-LMCTVEl80LKkywras60bVt207WD%2BwQ4dkM4Mc3jQ0ZbWISAyBAbJGkcABHXIvCMSB60IHAB0MkAACVpkFXDBB4NxnFcfCXzXFMyK43FlV4v8ok1Epyh1d5aQaZpWnaTomTNPoJiZdD7WmWYYoJFYsJw7ZEsZAkZzOC4rkQQ8WmPccz2%2BaLMtvYEjjBCE3GhWF4XjVjExI1NfQVbivOokN8gEwCqV1Op6XK0C6s5bosl5KcBSFEVGpASVXzc99yMzTqc26vztSwKogr1ELDXC01enBTK4smBLnK3ANFtI5a-Uo1c9xokANCShimIRZ0Ftc27OPazyf3W-iAIpISQMrMCxMgySYJoXsZKHKcRwU1ConQ7K5zyy6KOun7Wo-QjHr4-KaDuQqnhPd4nnPH4koq97H2Yxd5rYlr3P%2B79syejbetB4thNA8DxKgqS4bggdEaQlClLR20UvWTZ0uxwniI4tqrp3Lq8le07lgfJ9me%2B9i3z%2BjMOsB7ngYLPr%2BfB0SIIk6CuzFhGzulicVKnYQHEcuajbZu6OZ4rX-y1ALtoG-VQqNMATUipAsFKMM-iGKRmFJzQkqkWEpAAIWcY4zodRBlGwRoAAJBXLk7YuWTCFdsqJS6wCuq5rgl07ACz5IRX3sf9tWP1Wi3id8-N-IqCPdrqA0wuNCLumOt65OL0M3rr1YG6Vl71%2BnE4cvnEmyYeCniup0r2-pqrwQRUaGv71nB5W82udHnqQaAyPmCGpkRPZequQTXQtNCgwosCigfs1J%2BHlObeWeptcOO0ah7VnjHOOi9zTtyLhdFiONNZ43ZhrKiQMMq1yjPrJmX1H4m3Vp%2BAGr8fLv2tnzYCf8hbQydtJeCks7TyUUh7KcGNcoLgIg9VWNCCZiJDjcUmR5T6nnPheMqv9ASVXIYxRmn0XLGyWqbOhsDpFMMErbNhUNHai3htwt2KMZYgHQvLbCis8K4JVjdfG5FXEkLXrrdRH0-bUN0bQ4eDD4G8yAgLCG7DzGw0sRLax-DlIqUIJ3AAInAF4A4HK%2BEgW4wh%2Bjg5eKYRPQKyCZ7R0OvHTBdFFjYOuC9ap1oN6pScbseY15IxCMPjI4%2BRUFGfAvg0m8qiQTVVvhye%2BuCB4SOfvQuBPMP79WnnSBkv8RrjMATyYBgpQGzRyQQwOZtZmGIQZPJBwVUEVIwRaNp9EV44OZp4nRv1aGPLfsnK0hxfGaP8VA6ZMCCmW1DsY1hgszEixieLWSSM%2BGozsbaTpWMXFSP2Xo15jCCon2eGffpSjfgfKwFfL5BsqG-MCUPF%2BcyrbAoifbYWMNnaxKhVLGxAimlb2cQ85FTz3H3VxoC2iNyal6w0cS7RAc9HBMpUCm2ILIlgvpVwuJcl3aJPhaM2q6ytFNVyQc-Ja1%2BVGJlV-H%2BzI1kAPGps203tJkBOeeSo5hSTklPOeU%2BeR1E7vPaWnDOOsmTZyQHnAuNg7kiMQI88VLyuVv2bq3Ng1dd7RhFZQsV0Cg76rfpqaldtIYO3BQyyFPDkYJNllOBxaUOWiL5RGyRfLo1l0rnGrBwq-F7O5XkyVxywlg1MbmhVLsrHKpZYk5JpM0kZIrSmv5aaR6MKdVPUpUcDpusqdc8MNTbSd27oOLVLNSV2pmQYx148tpnJQa62OC8opYNtNgFIAhlZcurR4qNjCawM1FdqlFQSKWdoWSY0FvbOFwwHEKAwg7i1wqSUQbYAArLSKA2BeEaCkAAHqQGs%2BAMM1gALrLFIKAUyyHEBWQvV0aRoA%2B42r3Ty6dIT5lh1KGAdAYB6hvG2F%2BFjoEABsVYACs7DamIAAKraSCDAcupgNHvHLrCcuABBeILgBSGHro4xuIARPbnE5J7ZYAZNIHk4pz4dBr41WgHLRwYA4ONAQ0h1D6HMOOZw8MbDLmXOucIFpXS%2BlDI1jc4QJApBcNCHeNkTIbBqClpjEeILhAsiOE4I0eIjQIvYxSTGeoLYaCqCmItW0VoOxwAiOYPac10uMUy9l3LrkVJAA">
-            <div class="bubble-card-body">
-              <div class="bubble-card-subtitle">“Artworks photographed by photographers born in United States”</div>
-            </div>
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-  <section  title="Compare images with deep zoom">
+    <section >
     <div class="section-title">Compare images with deep zoom</div>
     <div class="section-subtitle">Using a <img src="/assets/images/logos/iiif.png"> viewer you can view, analyze, compare & annotate images </div>
     <div class="section-body">
@@ -244,276 +654,49 @@
         <div class="mirador">
         <rs-iiif-mirador
                         id="candidateAmirador"
-                        image-or-region="https://artresearch.net/resource/zeri/work/31583" 
+                        image-or-region="https://artresearch.net/resource/pharos/artwork/52fdd930d8665e5dcd458277bd4f6c191785b0f2" 
                         image-api-manifest-pattern='
-                                          BIND(<https://iiif.artresearch.net/iiif/2/zeri!78800!78415_g.jpg/info.json> AS ?manifestUrl)'
+                                          BIND(<https://iiif.artresearch.net/iiif/2/zeri!72400!72337_g.jpg/info.json> AS ?manifestUrl)'
                         >
         </rs-iiif-mirador>
         </div>
         <div class="mirador">
         <rs-iiif-mirador
                         id="candidateBmirador"
-                        image-or-region="https://artresearch.net/resource/itatti/work/W00018357" 
+                        image-or-region="https://artresearch.net/resource/pharos/artwork/52fdd930d8665e5dcd458277bd4f6c191785b0f2" 
                         image-api-manifest-pattern='
-                        BIND(<https://iiif.itatti.harvard.edu/iiif/2/fotoindex!034_recto_d!034_recto_box05_d!034_recto_box05_d_00016.jpg/info.json> AS ?manifestUrl)'
+                        BIND(<https://iiif.artresearch.net/iiif/2/marburg!fmc661227.jpg/info.json> AS ?manifestUrl)'
+        >
+        </rs-iiif-mirador>
+        </div>
+        <div class="mirador">
+        <rs-iiif-mirador
+                        id="candidateCmirador"
+                        image-or-region="https://artresearch.net/resource/pharos/artwork/52fdd930d8665e5dcd458277bd4f6c191785b0f2" 
+                        image-api-manifest-pattern='
+                        BIND(<https://ids.lib.harvard.edu/ids/iiif/420714604/info.json> AS ?manifestUrl)'
+        >
+        </rs-iiif-mirador>
+        </div>
+        <div class="mirador">
+        <rs-iiif-mirador
+                        id="candidateDmirador"
+                        image-or-region="https://artresearch.net/resource/pharos/artwork/52fdd930d8665e5dcd458277bd4f6c191785b0f2" 
+                        image-api-manifest-pattern='
+                        BIND(<https://iiif.itatti.harvard.edu/iiif/2/fotoindex!159_recto_d!159_recto_box04_d!159_recto_box04_d_00113.jpg/info.json> AS ?manifestUrl)'
         >
         </rs-iiif-mirador>
         </div>
       </div>
     </div>
-  </section>
-  <section class="cool-background" title="Explore visually similar images">
-    <div class="section-title">Explore visually similar images</div>
-    <div class="section-subtitle">Use machine learning and computer vision to explore similarities between artworks, images, and data</a></div>
-    <div class="section-body">
-        <div id="featured-selections">
-            <a target="vision_new_tab" href="https://vision.artresearch.net/resource/?providera=https%3A%2F%2Fartresearch.net%2Fresource%2Fzeri%2Fsource%2FZeri&providerb=https%3A%2F%2Fartresearch.net%2Fresource%2Fitatti%2Fsource%2FITatti&uri=https%3A%2F%2Fvision.artresearch.net%2Fresource%2FSimilarity%2F35545767782677875982682646">
-              <div id="zeri-itatti" class="flip-card-feature">
-                <div class="content">
-                  <div class="front">
-                    <div class="front-back-img-holder"  >
-                      <img
-                        src="https://iiif.artresearch.net/iiif/2/zeri!71200%2170925_g.jpg/full/!500,500/0/default.jpg"
-                      />
-                      <div class="title">Nascita di Maria Vergine</div>
-                      <small>Zeri</small>
-                    </div>
-                  </div>
-                  <div class="back">
-                    <div class="front-back-img-holder" >
-                      <img
-                        src="https://ids.lib.harvard.edu/ids/iiif/42662040/full/!500,500/0/native.jpg"
-                      />
-                      <div class="title">Birth of the Virgin</div>
-                      <small>I Tatti</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </a>
-            <a target="vision_new_tab" href="https://vision.artresearch.net/resource/?providera=https%3A%2F%2Fartresearch.net%2Fresource%2Fhertziana%2Fsource%2FHertziana&providerb=https%3A%2F%2Fartresearch.net%2Fresource%2Fitatti%2Fsource%2FITatti&uri=https%3A%2F%2Fvision.artresearch.net%2Fresource%2FSimilarity%2F85751267611980884191006045138">
-              <div id="hertziana-itatti" class="flip-card-feature">
-                <div class="content">
-                  <div class="front">
-                    <div class="front-back-img-holder" >
-                      <img
-                        src="http://fotothek.biblhertz.it/bh/320px/bh002968.jpg"
-                      />
-                      <div class="title">Profilbildnis einer jungen Frau</div>
-                      <small>Hertziana</small>
-                    </div>
-                  </div>
-                  <div class="back">
-                    <div class="front-back-img-holder" >
-                      <img
-                        src="https://iiif.itatti.harvard.edu/iiif/2/fotoindex!028_recto_d!028_recto_box01_d!028_recto_box01_d_00022.jpg/full/!500,500/0/default.jpg"
-                      />
-                      <div class="title">W00012940</div>
-                      <small>I Tatti</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </a>
-            <a target="vision_new_tab" href="https://vision.artresearch.net/resource/?providera=https%3A%2F%2Fartresearch.net%2Fresource%2Fhertziana%2Fsource%2FHertziana&providerb=https%3A%2F%2Fartresearch.net%2Fresource%2Fkhi%2Fsource%2FKHI&uri=https%3A%2F%2Fvision.artresearch.net%2Fresource%2FSimilarity%2F6895545511920936845294872">
-              <div id="khi-hertziana" class="flip-card-feature">
-                <div class="content">
-                  <div class="front">
-                    <div class="front-back-img-holder" >
-                      <img
-                        src="https://iiif.khi.fi.it/iiif/2/thumbnails%2Ffld0006864x_p.jpg/full/!500,500/0/default.jpg"
-                      />
-                      <div class="title">	Maria mit dem Christuskind</div>
-                      <small>KHI</small>
-                    </div>
-                  </div>
-                  <div class="back">
-                    <div class="front-back-img-holder" >
-                      <img
-                        src="http://fotothek.biblhertz.it/bh/320px/bh355316.jpg"
-                      />
-                      <div class="title">Madonna Colonna</div>
-                      <small>Marburg</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </a>
-            <a target="vision_new_tab" href="https://vision.artresearch.net/resource/?providera=https%3A%2F%2Fartresearch.net%2Fresource%2Fzeri%2Fsource%2FZeri&providerb=https%3A%2F%2Fartresearch.net%2Fresource%2Fitatti%2Fsource%2FITatti&uri=https%3A%2F%2Fvision.artresearch.net%2Fresource%2FSimilarity%2F93512608524766364099228484545">
-              <div id="itatti-zeri" class="flip-card-feature">
-                <div class="content">
-                  <div class="front">
-                    <div class="front-back-img-holder" >
-                      <img
-                        src="https://ids.lib.harvard.edu/ids/iiif/474707461/full/!500,500/0/native.jpg"
-                      />
-                      <div class="title">Portrait of a youth</div>
-                      <small>I Tatti</small>
-                    </div>
-                  </div>
-                  <div class="back">
-                    <div class="front-back-img-holder" >
-                      <img
-                        src="https://iiif.artresearch.net/iiif/2/zeri!74000%2173954_g.jpg/full/!500,500/0/default.jpg"
-                      />
-                      <div class="title">Ritratto maschile</div>
-                      <small>Zeri</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </a>
-            <a target="vision_new_tab" href="https://vision.artresearch.net/resource/?providera=https%3A%2F%2Fartresearch.net%2Fresource%2Fmarburg%2Fsource%2FMarburg&providerb=https%3A%2F%2Fartresearch.net%2Fresource%2Fitatti%2Fsource%2FITatti&uri=https%3A%2F%2Fvision.artresearch.net%2Fresource%2FSimilarity%2F8629648561661113822347745901">
-              <div id="marburg-itatti" class="flip-card-feature">
-                <div class="content">
-                  <div class="front">
-                    <div  class="front-back-img-holder" >
-                      <img
-                        src="https://iiif.artresearch.net/iiif/2/marburg!mi07407f01.jpg/full/!500,500/0/default.jpg"
-                      />
-                      <div class="title">	Bildnis einer Dame</div>
-                      <small>Marburg</small>
-                    </div>
-                  </div>
-                  <div class="back">
-                    <div class="front-back-img-holder" >
-                      <img
-                        src="https://iiif.itatti.harvard.edu/iiif/2/fotoindex!105_recto_d!105_recto_box04_d!105_recto_box04_d_00119.jpg/full/!500,500/0/default.jpg"
-                      />
-                      <div class="title">W00026410</div>
-                      <small>I Tatti</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </a>
-            <a target="vision_new_tab" href="https://vision.artresearch.net/resource/?providera=https%3A%2F%2Fartresearch.net%2Fresource%2Fzeri%2Fsource%2FZeri&providerb=https%3A%2F%2Fartresearch.net%2Fresource%2Fitatti%2Fsource%2FITatti&uri=https%3A%2F%2Fvision.artresearch.net%2Fresource%2FSimilarity%2F41017735062430712915292637959">
-              <div id="itatti-zeri-2" class="flip-card-feature">
-                <div class="content">
-                  <div class="front">
-                    <div  class="front-back-img-holder" >
-                      <img
-                        src="https://ids.lib.harvard.edu/ids/iiif/25091201/full/!500,500/0/native.jpg"
-                      />
-                      <div class="title">Portrait of a gentleman</div>
-                      <small>I Tatti</small>
-                    </div>
-                  </div>
-                  <div class="back">
-                    <div  class="front-back-img-holder" >
-                      <img
-                        src="https://iiif.artresearch.net/iiif/2/zeri!85200%2184998_g.jpg/full/!500,500/0/default.jpg"
-                      />
-                      <div class="title">Ritratto di gentiluomo</div>
-                      <small>Zeri</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </a>
-            <a target="vision_new_tab" href="https://vision.artresearch.net/resource/?providera=https%3A%2F%2Fartresearch.net%2Fresource%2Fmarburg%2Fsource%2FMarburg&providerb=https%3A%2F%2Fartresearch.net%2Fresource%2Fzeri%2Fsource%2FZeri&uri=https%3A%2F%2Fvision.artresearch.net%2Fresource%2FSimilarity%2F6461928343777462435063">
-              <div id="marburg-zeri" class="flip-card-feature">
-                <div class="content">
-                  <div class="front">
-                    <div  class="front-back-img-holder" >
-                      <img
-                        src="https://iiif.artresearch.net/iiif/2/marburg!mi02293b08.jpg/full/!500,500/0/default.jpg"
-                      />
-                      <div class="title">Paris</div>
-                      <small>Marburg</small>
-                    </div>
-                  </div>
-                  <div class="back">
-                    <div class="front-back-img-holder" >
-                      <img
-                        src="https://iiif.artresearch.net/iiif/2/zeri!150800%21150760_g.jpg/full/!500,500/0/default.jpg"
-                      />
-                      <div class="title">Paride</div>
-                      <small>Zeri</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </a>
-            <a target="vision_new_tab" href="https://vision.artresearch.net/resource/?providera=https%3A%2F%2Fartresearch.net%2Fresource%2Fhertziana%2Fsource%2FHertziana&providerb=https%3A%2F%2Fartresearch.net%2Fresource%2Fmarburg%2Fsource%2FMarburg&uri=https%3A%2F%2Fvision.artresearch.net%2Fresource%2FSimilarity%2F811720158214822544272120">
-              <div id="hertziana-itatti-2" class="flip-card-feature">
-                <div class="content">
-                  <div class="front">
-                    <div class="front-back-img-holder" >
-                      <img
-                        src="http://fotothek.biblhertz.it/bh/320px/bhfc152e24.jpg"
-                      />
-                      <div class="title">Porträt des Kardinals Radzielowski</div>
-                      <small>Hertziana</small>
-                    </div>
-                  </div>
-                  <div class="back">
-                    <div class="front-back-img-holder" >
-                      <img
-                        src="https://iiif.artresearch.net/iiif/2/marburg!mi10015g09.jpg/full/!500,500/0/default.jpg"
-                      />
-                      <div class="title">Bildnis des Kardinal-Erzbischo..</div>
-                      <small>Marburg</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </a>
-            <a target="vision_new_tab" href="https://vision.artresearch.net/resource/?providera=https%3A%2F%2Fartresearch.net%2Fresource%2Fmarburg%2Fsource%2FMarburg&providerb=https%3A%2F%2Fartresearch.net%2Fresource%2Fzeri%2Fsource%2FZeri&uri=https%3A%2F%2Fvision.artresearch.net%2Fresource%2FSimilarity%2F38912142686404744152404428041">
-              <div id="zeri-mar" class="flip-card-feature">
-                <div class="content">
-                  <div class="front">
-                    <div  class="front-back-img-holder" >
-                      <img
-                        src="https://iiif.artresearch.net/iiif/2/zeri!127200%21127189_g.jpg/full/!500,500/0/default.jpg"
-                      />
-                      <div class="title">Scena pastorale</div>
-                      <small>Zeri</small>
-                    </div>
-                  </div>
-                  <div class="back">
-                    <div class="front-back-img-holder" >
-                      <img
-                        src="https://iiif.artresearch.net/iiif/2/marburg!fmc660037.jpg/full/!500,500/0/default.jpg"
-                      />
-                      <div class="title">Ländlicher Spaziergang / Strandidylle</div>
-                      <small>Marburg</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </a>
-            <a target="vision_new_tab" href="https://vision.artresearch.net/resource/?providera=https%3A%2F%2Fartresearch.net%2Fresource%2Fzeri%2Fsource%2FZeri&providerb=https%3A%2F%2Fartresearch.net%2Fresource%2Fkhi%2Fsource%2FKHI&uri=https%3A%2F%2Fvision.artresearch.net%2Fresource%2FSimilarity%2F64897944392668563009028">
-              <div id="khi-marburg" class="flip-card-feature">
-                <div class="content">
-                  <div class="front">
-                    <div class="front-back-img-holder" >
-                      <img
-                        src="https://iiif.khi.fi.it/iiif/2/thumbnails%2Fflc0584693z_p.jpg/full/!500,500/0/default.jpg"
-                      />
-                      <div class="title">Tod des heiligen Franziskus</div>
-                      <small>KHI</small>
-                    </div>
-                  </div>
-                  <div class="back">
-                    <div class="front-back-img-holder" >
-                      <img
-                        src="https://iiif.artresearch.net/iiif/2/zeri!12400%2112030_g.jpg/full/!500,500/0/default.jpg"
-                      />
-                      <div class="title">	Morte e verifica delle sti..</div>
-                      <small>Zeri</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </a>
-        </div>
-    </div>
-  </section>
+  </section> 
+ 
+
 </div>
 <style>
 
 .benner-text {
+      box-shadow: 1px 8px 10px #d4d4d4;
   font-weight: 500;
     font-size: 18px;
     width: 60%;
@@ -523,11 +706,20 @@
 }
   .text-with-image.banner {
     font-weight: 500;
-    gap: 20px;
-    width: 60%;
-    margin-top: 4vh;
+    margin-bottom: 4vh;
+    margin-top: 7vh;
     font-size: 18px;
     text-align: center;
+}
+
+.benner-text{
+  margin: 0 auto;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+}
+#new-start-page{
+  top: -2vh;
 }
   .page-holder {
     overflow: hidden;
@@ -550,5 +742,9 @@
     grid-template-columns: repeat(1,1fr);
   }
   }
+
+  ul {
+list-style: none;
+}
 </style>
 

@@ -1,20 +1,22 @@
+[[>SearchbarSwitches]]
 <semantic-table
   id="grid-result-work"
+  prefetch-labels="false"
   options='{"showFilter":false}'
-  number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
+  number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}25{{/if}}"
   query='
   SELECT DISTINCT ?subject
   WHERE {
     {
-      {{#ifCond withImages "===" "true"}}
+      [[#if withImages]]
         ?subject fr:Work_depicted_by_Photo ?photo.
         ?photo crm:P129i_is_subject_of ?fullsizeImgUrl.
-      {{/ifCond}}
+      [[/if]]
       ?subject a fc:work
     }UNION{
-      {{#ifCond withImages "===" "true"}}
+      [[#if withImages]]
        ?subject crm:P129i_is_subject_of ?fullsizeImgUrl.
-      {{/ifCond}}
+      [[/if]]
       ?subject a cfc:photo
     }
     

@@ -31,6 +31,7 @@
                   solr:hasResults ?subject
       }
       {{#ifCond withImages "===" "true"}}
+      {{else}}
         ?subject crm:P129i_is_subject_of ?images.
         ?images crm:P2_has_type <http://vocab.getty.edu/aat/300078817>.
       {{/ifCond}}
@@ -54,7 +55,7 @@
       id="artwork-filter-search"
     >
         <bs-panel id="filter-panel" header="Filters"  collapsible="true" default-expanded="true">
-          <semantic-search-facet open-by-default='true' sortby='count-desc'></semantic-search-facet>
+          <semantic-search-facet open-by-default='true' sortby='count-desc' facet-values-threshold="1000"></semantic-search-facet>
         </bs-panel>
     </bs-col>
     <mp-event-target-template-render id="my-render" template="{{> combined}}">
@@ -66,7 +67,7 @@
                 <semantic-query
                   id="view-more"
                   query='SELECT ?keywords WHERE {
-                    BIND(REPLACE(str("[[urlParam "keyword"]]"),"\\+"," ") as ?keywords)}'
+                    BIND(REPLACE(str("[[urlParam "keyword"]]"),"\\+"," ") as ?keywords)} LIMIT 1'
                   template="{{>currentSearchText}}"
                 >
                   <template id="currentSearchText">
@@ -85,7 +86,7 @@
                       <h2>
                               Found
                         {{#ifCond bindings.0.count.value "==" 1000 }}
-                          more than 1000 relevant results
+                           more than 1000 matches, please refine your search
                         {{else}}
                           {{bindings.0.count.value}} relevant results 
                         {{/ifCond}}
@@ -113,15 +114,16 @@
                       <div id='artwork-filter-search-inline'>
                           <semantic-table
                               id="grid-result"
+                              prefetch-labels="false"
                               query='SELECT DISTINCT  ?subject  WHERE {}LIMIT 1000'
-                              number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
+                              number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}25{{/if}}"
                               tuple-template="{{> subjectCellTemplate}}"
                               options='{"showTableHeading": false, "showFilter":false}'
                               no-result-template='[[> CardNoResult ]]'
                         >
                             <template id="subjectCellTemplate">
                               <semantic-context repository='default'>
-                                [[> CardArtwork]]
+                                [[> CardArtwork photo="true"]]
                               </semantic-context>
                             </template>
                           </semantic-table>

@@ -30,6 +30,7 @@
                     <mp-label iri="{{subject.value}}" class='page__header-gripper-label'></mp-label>
                   </template>
               </semantic-query>
+              
               <div 
                   style="
                   display: flex; 
@@ -67,21 +68,21 @@
                   </semantic-query>
                   <div class="animated-background-circle"></div>
               </div>
+
               <div 
                 style="
                 display: flex; 
                 justify-content: center;  
                 min-height: 14px;
               ">
-                  <semantic-query 
-                    query='SELECT ?nationalityLabel WHERE{
-                        <{{subject.value}}> fr:Person_has_Nationality ?nationality.
-                        ?nationality rdfs:label ?nationalityLabel
-                      }LIMIT 1'
-                    no-result-template="<div></div>"
-                    >
-                  </semantic-query>
-             </div>
+                <semantic-query 
+                  query='SELECT ?nationalityLabel WHERE{
+                      <{{subject.value}}> fr:Person_has_Nationality/rdfs:label ?nationalityLabel
+                    }LIMIT 1'
+                  no-result-template="<div></div>"
+                  >
+                </semantic-query>
+              </div>
             </h4>
           </bs-row>
         </div>

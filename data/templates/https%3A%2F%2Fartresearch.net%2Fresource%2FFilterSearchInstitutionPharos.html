@@ -63,8 +63,7 @@
                             WHERE {
                               ?subject a fc:institution.   
                             }LIMIT 1000"
-                      query='
-                                    SELECT DISTINCT ?subject WHERE {
+                      query='SELECT DISTINCT ?subject WHERE {
                                     ?subject a fc:institution.   
                                     ?subject rdfs:label ?someLabel.
                                     ?someLabel bds:search ?__token__ .
@@ -95,7 +94,7 @@
             collapsible="true"
             default-expanded="true"
           >
-            <semantic-search-facet open-by-default='true' sortby='count-desc'></semantic-search-facet>
+            <semantic-search-facet open-by-default='true' sortby='count-desc' facet-values-threshold="1000"></semantic-search-facet>
               <semantic-tree
                 collapsed="true"
                 query="
@@ -162,8 +161,9 @@
                                   <bs-tab-pane event-key="defaultView">
                                       <semantic-table
                                           id="grid-result"
+                                          prefetch-labels="false"
                                           options='{"showFilter":false}'
-                                          number-of-displayed-rows="8"
+                                          number-of-displayed-rows="20"
                                           query="
                                                 SELECT DISTINCT ?subject (SAMPLE(?placeLabel) as ?placeLabel) WHERE { 
                                                   OPTIONAL{

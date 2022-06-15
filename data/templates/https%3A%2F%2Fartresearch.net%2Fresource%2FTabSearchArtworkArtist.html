@@ -1,5 +1,33 @@
 <div id="artwork-filter-search-inline">
   <semantic-search
+  relations='
+  "<https://artresearch.net/resource/fr/Work_consists_of_Material>":[{
+      "kind":"resource",
+       "queryPattern": "
+        ?subject <https://artresearch.net/resource/fr/Work_consists_of_Material> ?__value__ .
+        FILTER NOT EXISTS {   
+          ?subject <https://artresearch.net/resource/fr/Work_consists_of_Material>/<http://vocab.getty.edu/ontology#broaderPreferred> ?__value__.
+        }
+         "
+    }],
+    "<https://artresearch.net/resource/fr/Work_produced_using_technique_Technique>":[{
+      "kind":"resource",
+       "queryPattern": "
+        ?subject <https://artresearch.net/resource/fr/Work_produced_using_technique_Technique> ?__value__ .
+        FILTER NOT EXISTS {   
+          ?subject <https://artresearch.net/resource/fr/Work_produced_using_technique_Technique>/<http://vocab.getty.edu/ontology#broaderPreferred> ?__value__.
+        }
+         "
+    }],
+    "<http://www.cidoc-crm.org/cidoc-crm/P2_has_type>":[{
+      "kind":"resource",
+       "queryPattern": "
+        ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> ?__value__ .
+        FILTER NOT EXISTS {   
+          ?subject <http://www.cidoc-crm.org/cidoc-crm/P2_has_type>/<http://vocab.getty.edu/ontology#broaderPreferred> ?__value__.
+        }"
+        }]
+  '
     search-profile='{
         "categories":  
         [
@@ -91,12 +119,12 @@
           escape-lucene-syntax="false"
           default-query="
                   SELECT DISTINCT ?subject WHERE {
-                    ?someOther owl:sameAs ?subject.
+                   # ?someOther owl:sameAs ?subject.
                     ?subject fr:Work_created_from_Artist ??.
                   }LIMIT 1000"
           query='
               SELECT DISTINCT ?subject WHERE { 
-                  ?someOther owl:sameAs ?subject.         
+                  #?someOther owl:sameAs ?subject.         
                   ?subject fr:Work_created_from_Artist ??.
                   ?subject rdfs:label ?someLabel.
                   ?someLabel bds:search ?__token__ .
@@ -115,7 +143,7 @@
         style="margin-top: 8px"
       >
         <bs-panel id="filter-panel" header="Filters"  collapsible="true" default-expanded="true">
-          <semantic-search-facet open-by-default='true' sortby='count-desc'></semantic-search-facet>
+          <semantic-search-facet open-by-default='true' sortby='count-desc' facet-values-threshold="1000"></semantic-search-facet>
         </bs-panel>
       </bs-col>
       <bs-col lg="9" md="8" sm="7">
@@ -145,8 +173,9 @@
                         <bs-tab-pane event-key="all">
                           <semantic-table
                             id="grid-result"
+                            prefetch-labels="false"
                             options='{ "showFilter":false }'
-                            number-of-displayed-rows="10"
+                            number-of-displayed-rows="25"
                             query=" SELECT DISTINCT ?subject WHERE {}LIMIT 1000"
                             tuple-template="{{>tupleTemplate}}"
                             no-result-template='[[> CardNoResult ]]'
@@ -159,8 +188,9 @@
                         <bs-tab-pane event-key="photosOnly">
                           <semantic-table
                             id="grid-result-2"
+                            prefetch-labels="false"
                             options='{  "showFilter":false }'
-                            number-of-displayed-rows="10"
+                            number-of-displayed-rows="25"
                             query="
                                   SELECT DISTINCT ?subject
                                   WHERE {

@@ -1,5 +1,11 @@
 /* css for ResourceFieldBasedVisualization component */
 
+
+.rs-table{
+    margin-top: 4px !important;
+    margin-bottom: 0px !important;
+} 
+
 #rsbv {
   overflow-x: hidden;
 }
@@ -51,9 +57,9 @@
   white-space: normal !important;
 }
 
-#rsbv .sourceIcon {
-  height: 21.6px;
-  width: 21.6px;
+ .sourceIcon {
+  height: 21.6px !important;
+  width: 21.6px !important;
   padding: 2px;
   margin: 4px;
   cursor: pointer;
@@ -103,6 +109,7 @@
 #rsbv .createAssertion {
   transition: 0.3s;
   font-size: 0px;
+  padding-left: 0px !important;
 }
 /* #rsbv tr:hover .createAssertion {
   font-size: unset;
@@ -115,7 +122,7 @@
 
 #rsbv .rsbv-viewmore-panel h4.panel-title {
   text-transform: none;
-  font-size: 16px;
+  font-size: 18px;
 }
 #rsbv .rsbv-viewmore-panel h4.panel-title a {
   font-weight: normal;
@@ -142,13 +149,13 @@
 }
 
 #rsbv .rsbv-viewmore-panel .panel-default {
-  width: 125%;
+  width: 109%;
   box-shadow: none;
   border: none !important;
   margin: 0;
 }
 #rsbv .rsbv-viewmore-panel .panel-collapse.collapse.in {
-  width: 94%;
+  width: 99%;
 }
 
 #rsbv .rsbv-viewmore-panel .panel-body {
@@ -156,21 +163,30 @@
 }
 
 
-#rsbv .rsbv-value-cell {
+ #rsbv .rsbv-value-cell {
   width: 68vw;
-  font-size: 14px !important;
+  font-size: 16px !important;
 }
-
-
+#rsbv .rsbv-value-cell > a {
+  font-size: 16px !important;
+}
+ /* #rsbv > table > tbody > tr > table > tbody > tr.rs-page-resource__field.rsbv-viewmore-panel > div > div.panel-collapse.collapse.in > div > table > tbody > tr> td.rsbv-value-cell
+ {
+  width: 28vw;
+  font-size: 16px !important;
+} */
 
 @media (min-width:1200px) and  (max-width:1480px){
   #rsbv .rsbv-viewmore-panel .panel-default {
-    max-width: 68vw;
-    width: 116%;
+    width: 109%;
   }
   #rsbv > div.panel-heading{
     width: 100px !important;
   }
+   #workInfo  #rsbv .rsbv-viewmore-panel .panel-default {
+    width: 109%;
+  }
+
  
 }
 
@@ -179,23 +195,21 @@
 
 @media (min-width: 1480px) {
   #rsbv .rsbv-viewmore-panel .panel-default {
-    max-width: 36.5vw;
-    width: 117%;
+    width: 109%;
   }
  
 }
 
 @media (min-width: 1800px) {
   #rsbv .rsbv-viewmore-panel .panel-default {
-    width: 116% !important ;
+    width: 109% !important ;
   }
  
 }
 
 @media (min-width: 2000px) {
   #rsbv .rsbv-viewmore-panel .panel-default {
-    max-width: 35.6vw;
-    width: 116%;
+    width: 109%;
   }
 }
 

@@ -1,13 +1,12 @@
 <div id="photoTable">
   <semantic-query
     query='  
-      SELECT distinct ?photo 
+      SELECT distinct ?photo WHERE
       {
         ?? fr:Work_depicted_by_Photo ?photo.
         {{#if selectedTab}}
           {{#ifCond selectedTab "!==" "All"}}
-            ?photo fr:Photo_has_provider_Institution ?provider.
-            ?provider rdfs:label "{{selectedTab}}"
+            ?photo fr:Photo_has_provider_Institution <{{selectedTab}}>.
           {{/ifCond}}
         {{/if}}
       }LIMIT 1'
@@ -16,7 +15,7 @@
   >
       <template id="showTitle">
           <div>
-            <div style="margin-top: 45px"><h2>Photographs</h2></div>
+            <div style="margin-top: 20px"><h2>Photographs</h2></div>
           </div>
       </template>
   </semantic-query> 
@@ -31,6 +30,7 @@
   <semantic-table
     options='{"showFilter":false}'
     number-of-displayed-rows="4"
+    prefetch-labels="false"
     query='
       SELECT distinct ?photo ?photo_label ?photographer ?keeper WHERE 
       {
@@ -38,8 +38,7 @@
           # TODO add recto query, add optional verso query
           {{#if selectedTab}}
             {{#ifCond selectedTab "!==" "All"}}
-              ?photo fr:Photo_has_provider_Institution ?provider.
-              ?provider rdfs:label "{{selectedTab}}"
+              ?photo fr:Photo_has_provider_Institution <{{selectedTab}}>.
             {{/ifCond}}
           {{/if}}
       }'
@@ -71,6 +70,7 @@
                       src="{{bindings.0.rectoImage.value}}"
                       style="max-height: 100px; margin: 0 auto"
                       class="img-rounded"
+                      alt="Temporarily unvailable"
                     />
                   </semantic-link>
                 </template>
@@ -95,6 +95,7 @@
                       src="{{bindings.0.versoImage.value}}"
                       style="max-height: 70px; max-width: 70px"
                       class="img-rounded vercoCell"
+                      alt="Temporarily unvailable"
                     />
                   </semantic-link>
                 </template>
@@ -107,6 +108,7 @@
                   Title="https://artresearch.net/fieldDefinition/2"  
                   Photographer="https://artresearch.net/fieldDefinition/123"
                   Archive="http://www.researchspace.org/fieldDefinition/Photo_Archive" 
+                  Production="http://www.researchspace.org/fieldDefinition/Production_Date_Photo"
                 ]]'
                 template="{{>productionInfo}}"
               >

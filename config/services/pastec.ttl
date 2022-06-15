@@ -1,0 +1,90 @@
+PREFIX sp: <http://spinrdf.org/sp#>
+PREFIX spin: <http://spinrdf.org/spin#>
+PREFIX spl: <http://spinrdf.org/spl#>
+PREFIX sail: <http://www.openrdf.org/config/sail#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX example: <http://www.example.org/ontology#>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX ephedra: <http://www.researchspace.org/resource/system/ephedra#>
+PREFIX : <http://www.researchspace.org/resource/system/service/custom#>
+
+:pastec a ephedra:Service ;
+	sail:sailType "researchspace:RESTSail" ;
+	rdfs:label "A wrapper for a REST API." ;
+	ephedra:hasSPARQLPattern (
+		[
+			sp:subject :_results ;
+			sp:predicate example:hasImageUrl ;
+			sp:object :_url
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate example:hasResultingIds ;
+			sp:object :_image_ids
+		]
+		
+		[
+			sp:subject :_results ;
+			sp:predicate example:hasScore ;
+			sp:object :_scores
+		]
+    
+  		[
+			sp:subject :_results ;
+			sp:predicate example:hasImageConfirm ;
+			sp:object :_imageConfirm
+		]
+	) ;
+
+	spin:constraint
+	[
+		a spl:Argument ;
+		rdfs:comment "input parameter url" ;
+		spl:predicate :_url ;
+		spl:valueType xsd:string
+    ] ;
+
+	spin:constraint
+	[
+		a spl:Argument ;
+		rdfs:comment "image ID as endpoint parameter" ;
+		spl:predicate :_imageId ;
+		spl:valueType xsd:string
+    ] ;
+
+    spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "results (fixed column, must be present)" ;
+		spl:predicate :_results ;
+		spl:valueType rdfs:Resource;
+		ephedra:jsonPath "$"
+	] ;
+
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "output value we are looking for, retrieved using JSONPath" ;
+		spl:predicate :_image_ids ;
+		spl:valueType xsd:string;
+		ephedra:jsonPath "$.image_ids"
+	] ;
+
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "output value we are looking for, retrieved using JSONPath" ;
+		spl:predicate :_scores ;
+		spl:valueType xsd:string;
+		ephedra:jsonPath "$.scores"
+	] ;
+
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "confirmation message" ;
+		spl:predicate :_imageConfirm ;
+		spl:valueType xsd:string;
+		ephedra:jsonPath "$.type"
+	] 
+.

@@ -1,42 +1,56 @@
 <div id="underDevAlert" class="alert alert-info" role="alert">
-  <i
-    >This instance is <b>under development</b> and will publicly launch in
-    January 2022 & is under data refresh</i
-  >
+  <i>This instance is <b>under development</b></i>
 </div>
 
 <div id="new-start-page">
   <div id="Cookiemessageid" class=" Cookiemessage alert alert-info" >
   [[> CookieMessage]]
 </div>
-<div style="background: linear-gradient(25deg, #e3e3e3, white) !important;">
-  <section style="background-image: linear-gradient(rgba(105, 105, 105, 0.56), rgba(25, 25, 25, 0.73) 92.86%), url('/assets/images/home-hero-bg.png');
-  background-size: cover;
-    color: #fff;
-    margin-bottom: -5rem;
-    padding-bottom: 8rem;">
-    <div class="search-actions" >
-         <div class="text-with-image banner"> 
-        <div>
-         <div style="font-size: 26px;">explore, connect and contextualize art histories</div>
-        </div>
+
+  <section style="padding-top:100px">
+    
+    <div class="search-actions">
+      <div class="benner-text">
+        <b>
+          <span style="color: rgb(220, 54, 54);">art</span>research.net </b>provides open and consolidated access to images and metadata from
+        partners of PHAROS, the International Association of Photo Archives.
+
       </div>
-         <div
+
+      <div
         data-intro="This is the search-bar. Use this to make simple queries by keywords"
         data-position="top"
       >
         [[> Searchbar selectedCategory="Artworks"]]
+      </div>
         <div class="linksTo">
           <div>
             <mp-link title="Documentation for New Users" url="/resource/SearchContextual">Contextual Search</mp-link>
           </div>
+          <!-- <div>
+           <mp-link title="Browse by Topic" url="/resource/SearchAdvanced">Advanced Search</mp-link>
+          </div> -->
           <div>
-           <mp-link title="Browse by Topic" url="/resource/SearchAdvanced">Advance Search</mp-link>
+           <mp-link title="Visual Search" url="/resource/VisualSearch">Visual Search</mp-link>
           </div>
         </div>
+      <div class="text-with-image banner">
+        <div>
+          The collections document works of art and architecture and the
+          history of photography itself, together with nearly a century of
+          associated scholarly documentation.
+        </div>
+        
+        <img src="/assets/images/pharos.png" style="
+            margin-bottom: 25px;
+            max-width: 65vw;
+            object-fit: contain;
+            height: 115px;
+            padding: 10px;">
       </div>
     </div>
   </section>
+<<<<<<< HEAD:data/templates/https%3A%2F%2Fartresearch.net%2Fresource%2Fstartnew.html
 </div>
    <div class="benner-text">
      <div>
@@ -57,12 +71,14 @@
     </div>
       
    </div>
+=======
+>>>>>>> fb3b575b37d38eaa9a8fe0b4482d71586b8b2ee8:data/templates/https%3A%2F%2Fartresearch.net%2Fresource%2Fstartold.html
   <section title="Browse the collections">
     <div class="section-title">Browse the collections</div>
     <div class="section-body">
       <div class="tall-card-list">
         <div class="tall-card">
-          <mp-link url="/resource/DisplayPharosArtists">
+          <mp-link url="/resource/DisplayPharosArtists?withULAN=true">
             <div class="tall-card-body">
               <div class="tall-card-button">Discover</div>
               <div class="tall-card-title">Artists</div>
@@ -100,11 +116,45 @@
       </div>
     </div>
   </section>
-    <section class="cool-background" title="Collection Spotlights">
-    <div class="section-title">Collection Spotlights</div>
-    <div>
-     <mp-link url="/resource/DisplayAllCollections"><h2 class="linkText"> Browse All Collections > </h2> </mp-link>
+  <section class="cool-background" title="Contextualized & connected histories">
+    <div class="section-title" id ="Contextualtitle" >Contextualized & connected histories</div>
+    <div class="section-body">
+      <div class="text-with-image column">
+        <div class="info-circle-container">
+          <div class="info-circle">
+            <div class="info-circle-title">Digitize </div>
+            <div class="info-circle-subtitle"> Photograph Collections</div>
+          </div>
+          <div class="info-circle">
+            <div class="info-circle-title">Explore</div>
+            <div class="info-circle-subtitle">New technologies</div>
+          </div>
+          <div class="info-circle">
+            <div class="info-circle-title">Enrich</div>
+            <div class="info-circle-subtitle">Records with data from multiple sources</div>
+          </div>
+          <div class="info-circle">
+            <div class="info-circle-title">Convert</div>
+            <div class="info-circle-subtitle">Metadata to the CIDOC-CRM ontology</div>
+          </div>
+          <div class="info-circle">
+            <div class="info-circle-title">Connect</div>
+            <div class="info-circle-subtitle">Using linked open data</div>
+          </div>
+        </div>
+        <div class="text">
+          <div>
+            We are committed to creating an open and freely accessible digital research platform allowing for comprehensive consolidated access to photo archive images and their associated scholarly documentation. 
+          </div>
+          <div>
+            The PHAROS collections collectively contain an estimated 25 million images documenting works of art and architecture and the history of photography itself. Please visit our statistics page to view the number of records that are currently available online.
+          </div>
+        </div>
+      </div>
     </div>
+  </section>
+  <section title="Collection Spotlights">
+    <div class="section-title">Collection Spotlights</div>
     <div class="section-body">
       <div class="grid-card-list">
         <div
@@ -191,96 +241,7 @@
       </div>
     </div>
   </section>
-    <section title="How can I use Artresearch.net?">
-    <div class="section-title">How can I use <span style="color: rgb(220, 54, 54);">art</span>research.net ?</div>
-    <div class="section-body">
-      <div class="tall-card-list" style=" height: 100%; text-align: center;">
-        <div class="doc-tall-card">
-          <mp-link url="/resource/Documentation">
-            <div class="doc-tall-card-body">
-              <img  class="imagesDoc" src="/assets/images/icons/search.svg"/>
-              <div class="doc-tall-card-title">Search in platform</div>
-              <div class="doc-tall-card-subtitle">They are many ways to search your favorite artwork through artresearch.</div>
-            </div>
-          </mp-link>
-        </div>
-        <div class="doc-tall-card">
-          <mp-link url="/resource/Documentation">
-            <div class="doc-tall-card-body">
-              <img class="imagesDoc" src="/assets/images/icons/viewer.svg"/>
-              <div class="doc-tall-card-title">IIIF Viewer</div>
-              <div class="doc-tall-card-subtitle">Compare and View images with deep zoom</div>
-            </div>
-          </mp-link>
-        </div>
-        <div class="doc-tall-card">
-          <mp-link url="/resource/Documentation">
-            <div class="doc-tall-card-body">
-              <img  class="imagesDoc"  src="/assets/images/icons/vision.svg"/>
-              <div class="doc-tall-card-title">Vision Instance</div>
-              <div class="doc-tall-card-subtitle">Find Similar artworks</div>
-            </div>
-          </mp-link>
-        </div>
-        <div class="doc-tall-card">
-          <mp-link url="/resource/Documentation">
-            <div class="doc-tall-card-body">
-              <img  class="imagesDoc" src="/assets/images/icons/history-book.svg"/>
-              <div class="doc-tall-card-title">Collection Curator?</div>
-              <div class="doc-tall-card-subtitle">Get familiar with the platform's functionality for curators</div>
-            </div>
-          </mp-link>
-        </div>
-      </div>
-    </div>
-    <div class="DocTextWrapper">
-      <div class="DocTextIntro">
-        <h2 style="text-align: center;">If you’re new to <span style="color: rgb(220, 54, 54);">art</span>research.net, these research guides will give you a head start using our site. 
-        The guides reflect a few key activities that attract visitors to <span style="color: rgb(220, 54, 54);">art</span>research.net, but you can explore many other interests here too.</h2>
-      </div>
-      <div class="view-guides">
-        <h2>View all guides</h2>
-      </div>
-    </div>
-  </section>
-  <section class="cool-background" title="Contextualized & connected histories">
-    <div class="section-title" id ="Contextualtitle" >Contextualized & connected histories</div>
-    <div class="section-body">
-      <div class="text-with-image column">
-        <div class="info-circle-container">
-          <div class="info-circle">
-            <div class="info-circle-title">Digitize </div>
-            <div class="info-circle-subtitle"> Photograph Collections</div>
-          </div>
-          <div class="info-circle">
-            <div class="info-circle-title">Explore</div>
-            <div class="info-circle-subtitle">New technologies</div>
-          </div>
-          <div class="info-circle">
-            <div class="info-circle-title">Enrich</div>
-            <div class="info-circle-subtitle">Records with data from multiple sources</div>
-          </div>
-          <div class="info-circle">
-            <div class="info-circle-title">Convert</div>
-            <div class="info-circle-subtitle">Metadata to the CIDOC-CRM ontology</div>
-          </div>
-          <div class="info-circle">
-            <div class="info-circle-title">Connect</div>
-            <div class="info-circle-subtitle">Using linked open data</div>
-          </div>
-        </div>
-        <div class="text">
-          <div>
-            We are committed to creating an open and freely accessible digital research platform allowing for comprehensive consolidated access to photo archive images and their associated scholarly documentation. 
-          </div>
-          <div>
-            The PHAROS collections collectively contain an estimated 25 million images documenting works of art and architecture and the history of photography itself. Please visit our statistics page to view the number of records that are currently available online.
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- <section class="cool-background" title="Contextual search examples">
+  <section class="cool-background" title="Contextual search examples">
     <div class="section-title">Contextual search examples</div>
     <div class="section-body">
       <div class="bubble-card-list">
@@ -307,8 +268,8 @@
         </div>
       </div>
     </div>
-  </section> -->
-  <!-- <section  title="Compare images with deep zoom">
+  </section>
+  <section  title="Compare images with deep zoom">
     <div class="section-title">Compare images with deep zoom</div>
     <div class="section-subtitle">Using a <img src="/assets/images/logos/iiif.png"> viewer you can view, analyze, compare & annotate images </div>
     <div class="section-body">
@@ -333,8 +294,8 @@
         </div>
       </div>
     </div>
-  </section> -->
-  <section  title="Explore visually similar images">
+  </section>
+  <section class="cool-background" title="Explore visually similar images">
     <div class="section-title">Explore visually similar images</div>
     <div class="section-subtitle">Use machine learning and computer vision to explore similarities between artworks, images, and data</a></div>
     <div class="section-body">
@@ -584,33 +545,25 @@
   </section>
 </div>
 <style>
-
-.benner-text {
-      box-shadow: 1px 8px 10px #d4d4d4;
+.linksTo > div > a{
+  color: black !important;
+}
+  .benner-text {
   font-weight: 500;
     font-size: 18px;
     width: 60%;
     margin-top: 4vh;
     text-align: center;
     margin-bottom: 4vh;
-}
+  }
   .text-with-image.banner {
     font-weight: 500;
-    margin-bottom: 4vh;
-    margin-top: 7vh;
+    gap: 20px;
+    width: 60%;
+    margin-top: 4vh;
     font-size: 18px;
     text-align: center;
-}
-
-.benner-text{
-  margin: 0 auto;
-    background-color: #ffffff;
-    display: flex;
-    align-items: center;
-}
-#new-start-page{
-  top: -2vh;
-}
+  }
   .page-holder {
     overflow: hidden;
   }
@@ -632,9 +585,5 @@
     grid-template-columns: repeat(1,1fr);
   }
   }
-
-  ul {
-list-style: none;
-}
 </style>
 

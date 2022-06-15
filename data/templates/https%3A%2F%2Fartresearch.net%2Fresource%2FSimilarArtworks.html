@@ -1,16 +1,26 @@
 <div id="similar-artwork-list">
-  <h1>Search for visually similar artworks</h1>
+  <h1>Search for visually similar images</h1>
+  <h3>Choose an image below to start a visual search.</h3>
   <semantic-query
     query='SELECT distinct ?photo ?thumb ?image WHERE { 
-      # Artwork
-      ?? fr:Work_depicted_by_Photo ?photo.
+        [[#if photo]]
+           BIND(?? as ?photo)
+        [[else if artwork]]
+          ?? fr:Work_depicted_by_Photo ?photo.
+        [[else]]
+        {
+          BIND(?? as ?photo)
+        }UNION{
+          ?? fr:Work_depicted_by_Photo ?photo.
+        }
+        [[/if]]
       ?photo crm:P129i_is_subject_of ?image.
       BIND(REPLACE(STR(?image), "full/full", "full/!350,350") AS ?thumb)
       
     }'
     template="{{>similarArtworkTemplate}}"
     no-result-template='<i style="text-align:center">
-      <h3>No similar artworks were found for this work.</h3></i>'
+      <h3>No similar images were found for this work.</h3></i>'
   >
     <template id="similarArtworkTemplate">
       <div class="similarArtworkCardContainer">

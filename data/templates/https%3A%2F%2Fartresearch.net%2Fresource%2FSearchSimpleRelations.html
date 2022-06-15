@@ -1,4 +1,13 @@
 {
+  "<https://artresearch.net/resource/fr/Photo_has_ColorInformation>":[
+  {
+    "kind": "literal",
+    "queryPattern": "
+      ?subject crm:P43_has_dimension ?dimension .
+      ?dimension crm:P2_has_type <http://vocab.getty.edu/aat/300127013> .
+      ?dimension crm:P90_has_value ?literal.
+      "
+  }],
   "<https://artresearch.net/resource/fr/Person_has_Date_of_Birth>":[
   {
     "kind": "numeric-range",
@@ -16,20 +25,6 @@
         FILTER(?literal >= ?__numericRangeBeginValue__) .
         FILTER(?literal <= ?__numericRangeEndValue__) .
         BIND(xsd:integer(str(?gYear)) as ?literal)."
-  }],
-  "<https://artresearch.net/resource/fr/Event_has_Type>": [
-  {
-    "kind": "resource",
-    "queryPattern": "
-      $subject fr:Person_has_Event ?event.
-        ?event fr:Event_has_Type ?__value__ ."
-  }],
-  "<https://artresearch.net/resource/fr/Event_at_Place>": [
-  {
-    "kind": "resource",
-    "queryPattern": "
-      $subject fr:Person_has_Event ?event.
-        ?event fr:Event_at_Place ?__value__ ."
   }],
 "<https://artresearch.net/resource/fr/Work_kept_by_Institution>":[
 {
@@ -63,24 +58,6 @@
     FILTER NOT EXISTS {?__value__ crm:P2_has_type <https://artresearch.net/resource/marburg/type/D61EBDD8-A0C0-3D57-8224-55E9F0918C65>. }
   "
 }],
-"<https://artresearch.net/resource/fr/Person_has_Date_of_Birth>":[
-{
-  "kind": "numeric-range",
-  "queryPattern": "
-      $subject fr:Person_has_Date_of_Birth ?gYear .
-      FILTER(?literal >= ?__numericRangeBeginValue__) .
-      FILTER(?literal <= ?__numericRangeEndValue__) .
-      BIND(xsd:integer(str(?gYear)) as ?literal)."
-}],
-"<https://artresearch.net/resource/fr/Person_has_Date_of_Death>": [
-{
-  "kind": "numeric-range",
-  "queryPattern": "
-      $subject fr:Person_has_Date_of_Death ?gYear .
-      FILTER(?literal >= ?__numericRangeBeginValue__) .
-      FILTER(?literal <= ?__numericRangeEndValue__) .
-      BIND(xsd:integer(str(?gYear)) as ?literal)."
-}],
 "<https://artresearch.net/resource/fr/Event_has_Type>": [
 {
   "kind": "resource",
@@ -102,5 +79,16 @@
   "queryPattern": "
   $subject fr:Work_from_Date ?dateBeginValue.
   $subject fr:Work_from_Date ?dateEndValue .
+  "}],
+  "<https://artresearch.net/resource/fr/Work_has_rights>": [{
+  "kind": "resource",
+  "queryPattern": "
+    $subject fr:Work_has_right ?__value__.
+  "}],
+  "<https://artresearch.net/resource/fr/Photo_created_by_Photographer>": [{
+  "kind": "resource",
+  "queryPattern": "
+    $subject fr:Photo_created_by_Photographer ?__value__.
   "}]
+
 }

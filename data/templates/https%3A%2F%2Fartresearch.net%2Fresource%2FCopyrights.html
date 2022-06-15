@@ -1,0 +1,58 @@
+<div class="row row-center">
+    <div
+      id="main-containers"
+      style="max-width: 1600px"
+      class="col-md-10 col-xs-10"
+    >
+        <div class="row">
+              <div class="col-sm-7">
+                <header>
+                  <h1>Browse Copyrights</h1>
+                </header>
+              </div>
+        </div>
+        <bs-tab-container id="tab-container" class="user-tabs" default-active-key="withcopyrights">
+              <div>
+                    <bs-nav bs-style="tabs">
+                        <bs-nav-item event-key="withoutcopyrights">
+                                    Without Copyrights <span class="badge">too many</span>
+                                    <!-- <semantic-query 
+                                      query='SELECT (COUNT(DISTINCT ?g) AS ?count) WHERE {
+                                          ?photo a cfc:photo.
+                                        graph ?g {
+                                        FILTER NOT EXISTS {?photo <http://www.cidoc-crm.org/cidoc-crm/P104_is_subject_to> ?rights.}
+                                        }
+                                    }'
+                                      template='{{#each bindings}}<span class="badge">{{count.value}}</span>{{/each}}'>\
+                                  </semantic-query> -->
+                        </bs-nav-item>
+                        <bs-nav-item event-key="withcopyrights">
+                                With Copyrights
+                          <semantic-query 
+                              query='SELECT (COUNT(DISTINCT ?rights) AS ?count) WHERE {
+                                      ?photo <http://www.cidoc-crm.org/cidoc-crm/P104_is_subject_to> ?rights.
+                                    }'
+                              template='{{#each bindings}}<span class="badge">{{count.value}}</span>{{/each}}'>\
+                          </semantic-query>
+                        </bs-nav-item>
+
+                    </bs-nav>
+                <bs-tab-content unmount-on-exit=true>
+                        <bs-tab-pane event-key="withoutcopyrights">
+                          [[> CopyrightsNeeded]]
+                        </bs-tab-pane>
+                        <bs-tab-pane event-key="withcopyrights">
+                          [[> CopyrightsAsserted]]
+                        </bs-tab-pane>
+                </bs-tab-content>
+              </div>
+          </bs-tab-container>
+  </div>
+</div>
+
+
+<style>
+  .user-tabs .nav-tabs>li:nth-child(4){
+    float: left !important;
+  }
+</style>

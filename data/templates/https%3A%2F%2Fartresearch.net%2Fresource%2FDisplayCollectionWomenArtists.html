@@ -150,21 +150,18 @@
                         escape-lucene-syntax="false"
                         domain="<https://artresearch.net/resource/fc/artist>"
                         default-query="
-                                SELECT DISTINCT ?subject  
-                                WHERE {
-                                  ?someOther owl:sameAs ?subject.
-                                  ?subject a fc:artist.
+                                SELECT DISTINCT ?subject WHERE {
                                   ?subject fr:Person_has_Gender <http://vocab.getty.edu/aat/300189557>.
+                                  ?subject fr:Artist_created_Work ?work.
                                 }LIMIT 1000"
                         query='
                                 SELECT DISTINCT ?subject WHERE {
-                                ?someOther owl:sameAs ?subject.
-                                ?subject a fc:artist.
-                                ?subject fr:Person_has_Gender <http://vocab.getty.edu/aat/300189557>.
-                                ?subject rdfs:label ?someLabel.
-                                ?someLabel bds:search ?__token__ .
-                                ?someLabel bds:minRelevance "0.3"^^xsd:double;
-                                bds:matchAllTerms "true"  .
+                                  ?subject fr:Person_has_Gender <http://vocab.getty.edu/aat/300189557>.
+                                  ?subject fr:Artist_created_Work ?work.
+                                  ?subject rdfs:label ?someLabel.
+                                  ?someLabel bds:search ?__token__ .
+                                  ?someLabel bds:minRelevance "0.3"^^xsd:double;
+                                  bds:matchAllTerms "true"  .
                                 } 
                               '
                       ></semantic-search-query-keyword>
@@ -179,7 +176,7 @@
                     style="margin-top: 8px"
                   >
                     <bs-panel id="filter-panel" header="Filters"  collapsible="true" default-expanded="true">
-                      <semantic-search-facet open-by-default='true' sortby='count-desc'></semantic-search-facet>
+                      <semantic-search-facet open-by-default='true' sortby='count-desc' facet-values-threshold="1000"></semantic-search-facet>
                       <div class="animated-background-filters"></div>
                     </bs-panel>
                   </bs-col>
@@ -217,9 +214,10 @@
                                       <bs-tab-content unmount-on-exit="true">
                                         <bs-tab-pane event-key="defaultView">
                                           <semantic-table
+                                            prefetch-labels="false"
                                             id="grid-result"
                                             options='{ "showFilter":false }'
-                                            number-of-displayed-rows="8"
+                                            number-of-displayed-rows="25"
                                             query="
                                                 SELECT DISTINCT ?subject WHERE {} LIMIT 1000
                                               "
@@ -240,7 +238,7 @@
                                                       ?place a fc:place .
                                                       ?place <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat.
                                                       ?place <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng.
-                                                    } GROUP BY ?subject"
+                                                    }"
                                               no-result-template='<h3>No results were found to be visualized on map</h3>'
                                               tuple-template='<div style="width:20vw">
                                                 <h4> 
@@ -255,6 +253,7 @@
                                         <bs-tab-pane event-key="deathplaceMap">
                                           <div class="mapContainer">
                                             <semantic-map
+                                               
                                               id="deathplace-map"
                                               query="SELECT DISTINCT ?subject ?place ?lat ?lng WHERE {
                                                       ?subject fr:Person_has_Place_of_Death ?place .

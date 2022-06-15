@@ -31,12 +31,6 @@
         "label":"Photographer",
         "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
         "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E21_Person>"
-      },
-      {
-        "iri":"<https://artresearch.net/resource/fr/Photo_depicts_Work>",
-        "label":"Depicts work",
-        "hasDomain":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>",
-        "hasRange":"<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
       }
     ]
   }'
@@ -74,7 +68,7 @@
         style="margin-top: 8px"
       >
         <bs-panel id="filter-panel" header="Filters"  collapsible="true" default-expanded="true">
-          <semantic-search-facet open-by-default='true' sortby='count-desc'></semantic-search-facet>
+          <semantic-search-facet open-by-default='true' sortby='count-desc' facet-values-threshold="1000"></semantic-search-facet>
         </bs-panel>
       </bs-col>
       <bs-col lg="9" md="8" sm="7">
@@ -104,13 +98,14 @@
                             <semantic-table
                               id="grid-result"
                               options='{ "showFilter":false }'
-                              number-of-displayed-rows="10"
+                              number-of-displayed-rows="25"
                               query=" SELECT DISTINCT ?subject WHERE {}LIMIT 1000"
                               tuple-template="{{>tupleTemplate}}"
                               no-result-template='[[> CardNoResult ]]'
+                               prefetch-labels="false"
                             >
                               <template id="tupleTemplate">
-                                [[> CardArtwork]]
+                                [[> CardArtwork photo="true"]]
                               </template>
                             </semantic-table>
                           </bs-tab-pane>
@@ -118,7 +113,7 @@
                             <semantic-table
                               id="grid-result-2"
                               options='{ "showFilter":false }'
-                              number-of-displayed-rows="10"
+                              number-of-displayed-rows="25"
                               query="
                                   SELECT DISTINCT ?subject
                                   WHERE {
@@ -128,9 +123,10 @@
                                 "
                               tuple-template="{{>tupleTemplate}}"
                               no-result-template='[[> CardNoResult ]]'
+                              prefetch-labels="false"
                             >
                               <template id="tupleTemplate">
-                                [[> CardArtwork]]
+                                [[> CardArtwork photo="true"]]
                               </template>
                             </semantic-table>
                           </bs-tab-pane>

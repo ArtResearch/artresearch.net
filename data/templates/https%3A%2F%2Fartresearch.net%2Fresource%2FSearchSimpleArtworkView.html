@@ -22,18 +22,17 @@
   PREFIX fr: <https://artresearch.net/resource/fr/>
   PREFIX fc: <https://artresearch.net/resource/fc/>
   PREFIX cfc: <https://artresearch.net/resource/custom/fc/>
-    SELECT ?subject WHERE {
+    SELECT DISTINCT ?subject WHERE {
       SERVICE <http://www.researchspace.org/resource/system/service/custom#solrworks>{
         ?solrApi solr:setQuery "{{bindings.0.token.value}}";
                   solr:setDefType "dismax";
                   solr:setFilter "id";
                   solr:setRowsNumber 1000;
-                  solr:hasResults ?subject
+                  solr:hasResults ?subject;
       }
-      {{#ifCond withImages "===" "true"}}
+      {{#ifCond withImages "!==" "true"}}
         ?subject fr:Work_depicted_by_Photo ?photograph.
-        ?photograph crm:P129i_is_subject_of ?images.
-        ?images crm:P2_has_type <http://vocab.getty.edu/aat/300078817>.
+        
       {{/ifCond}}
     }
     '
@@ -57,7 +56,7 @@
       id="artwork-filter-search"
     >
         <bs-panel id="filter-panel" header="Filters"  collapsible="true" default-expanded="true">
-          <semantic-search-facet open-by-default='true' sortby='count-desc'></semantic-search-facet>
+          <semantic-search-facet open-by-default='true' sortby='count-desc' facet-values-threshold="1000"></semantic-search-facet>
         </bs-panel>
     </bs-col>
     <mp-event-target-template-render id="my-render" template="{{> combined}}">
@@ -69,7 +68,7 @@
                   <semantic-query
                     id="view-more"
                     query='SELECT ?keywords WHERE {
-                      BIND(REPLACE(str("[[urlParam "keyword"]]"),"\\+"," ") as ?keywords)}'
+                      BIND(REPLACE(str("[[urlParam "keyword"]]"),"\\+"," ") as ?keywords)} LIMIT 1'
                     template="{{>currentSearchText}}"
                   >
                       <template id="currentSearchText">
@@ -88,7 +87,7 @@
                           <h2>
                                   Found
                             {{#ifCond bindings.0.count.value "==" 1000 }}
-                              more than 1000 relevant results
+                              displaying the first 1000 results, please refine your search
                             {{else}}
                               {{bindings.0.count.value}} relevant results 
                             {{/ifCond}}
@@ -116,15 +115,17 @@
                               <div id='artwork-filter-search-inline'>
                                   <semantic-table
                                       id="grid-result"
+                                      prefetch-labels="false"
                                       query='SELECT DISTINCT  ?subject  WHERE {}LIMIT 1000'
-                                      number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
+                                      number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}25{{/if}}"
                                       tuple-template="{{> subjectCellTemplate}}"
                                       options='{"showTableHeading": false, "showFilter":false}'
                                       no-result-template='[[> CardNoResult ]]'
+                                      prefetch-labels="false"
                                     >
                                     <template id="subjectCellTemplate">
                                       <semantic-context repository='default'>
-                                        [[> CardArtwork]]
+                                        [[> CardArtwork artwork="true"]]
                                       </semantic-context>
                                     </template>
                                 </semantic-table>

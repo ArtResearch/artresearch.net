@@ -1,10 +1,14 @@
 <div class="header-options artistAdditionalOptions">
-  <div style="display:flex;">
+  <div style="display:flex; flex-wrap: wrap;">
       <semantic-query
         query=' SELECT DISTINCT (IRI(REPLACE(STR(?m),"http://d-nb.info/gnd/tp/","https://d-nb.info/gnd/")) AS ?link) ?icon ?title WHERE {
-                  ?og skos:exactMatch  ?m.
                   ?og owl:sameAs <[[this]]>.
-                  BIND(IF(CONTAINS(STR(?m),"gnd"),"/assets/images/DNB.ico",IF(CONTAINS(STR(?m),"wikidata"),"/assets/images/Wikidata.ico",IF(CONTAINS(STR(?m),"wikipedia"),"/assets/images/Wikipedia.ico",IF(CONTAINS(STR(?m),"viaf"),"/assets/images/Viaf.ico",IF(CONTAINS(STR(?m),"dbpedia"),"/assets/images/DBpedia.ico",""))))) AS ?icon)
+                  {
+                    ?og skos:exactMatch  ?m.
+                  } UNION {
+                    <[[this]]> skos:exactMatch  ?m.
+                  }
+                  BIND(IF(CONTAINS(STR(?m),"gnd"),"/assets/images/DNB.ico",IF(CONTAINS(STR(?m),"wikidata"),"/assets/images/Wikidata.ico",IF(CONTAINS(STR(?m),"wikipedia"),"/assets/images/Wikipedia.ico",IF(CONTAINS(STR(?m),"viaf"),"/assets/images/Viaf.ico",IF(CONTAINS(STR(?m),"dbpedia"),"/assets/images/DBpedia.ico", IF(CONTAINS(STR(?m), "loc"), "/assets/images/loc.ico", "")))))) AS ?icon)
                   BIND(REPLACE(REPLACE(?icon,".ico",""),"/assets/images/","") AS ?title)
                 }
               '
@@ -43,7 +47,7 @@
             <a style="margin-left: 5px" href="{{bindings.0.gettyPage.value}}" target="_null">
               <div class="fc-label original-linkDNB">
                 <div class="linkImageWrapper">
-                  <img class="sourceIconDNB" src="../../assets/images/getty.ico"/>
+                  <img class="sourceIconDNB" src="../../assets/images/Getty.ico"/>
                   <h2 class="text">View GETTY record</h2>
                 </div>
               </div>
@@ -57,13 +61,14 @@
             <a style="margin-left: 5px" href="[[this]]" target="_null">
               <div class="fc-label original-linkDNB">
                 <div class="linkImageWrapper">
-                  <img class="sourceIconDNB" src="../../assets/images/wikidata.ico"/>
+                  <img class="sourceIconDNB" src="../../assets/images/Wikidata.ico"/>
                   <h2 class="text">View Wikidata record</h2>
                 </div>
               </div>
             </a>
           </h2>
       [[/if]]
+      
   </div>
 </div>
 <div id="printableInfo"  class="workAndProductionInfo">
@@ -74,10 +79,12 @@
           template='{{>workInfo}}'
           >
             <template id="workInfo">
+      
               <div class="workInfoContainer">
               <h2>Person info</h2>
                 [[> ResourceFieldBasedVisualizationCardPerson subject=[[this]]  ]]
               </div>
+          
             </template>
       </mp-field-visualization>
   <div class="WrapperBioRelations">
@@ -90,9 +97,9 @@
                   no-result-template='<div></div>'
                   template="{{> Bio}}">
                     <template id="Bio">
-                      <div class= "bioTemplate " >
+                      <div class= "bioTemplate" >
                         <div class="BioText">
-                          <h2 class=" fa fa-quote-left">{{bindings.0.value.value}}</h2>&ensp;<h2 class="fa fa-quote-right"></h2>
+                          <h2 class=" fa fa-quote-left">{{bindings.0.value.value}}</h2><h2 class="fa fa-quote-right"></h2>
                         </div>
                       </div>
                     </template>
@@ -105,10 +112,12 @@
             template='{{>RelationshipsInfo}}'
             >
             <template id="RelationshipsInfo">
+              [[#if (ask "ASK { ?? <https://artresearch.net/resource/fr/Person_parent_of_Person>|<https://artresearch.net/resource/fr/Person_collaborated_with_Person>|<https://artresearch.net/resource/fr/Person_assisted_by_Person>|<https://artresearch.net/resource/fr/Person_influenced_by_Person>|<https://artresearch.net/resource/fr/Person_influenced_Person>|<https://artresearch.net/resource/fr/Person_member_of_Group>|<https://artresearch.net/resource/fr/Person_member_of_Person>|<https://artresearch.net/resource/fr/Person_child_of_Person>|<https://artresearch.net/resource/fr/Person_partner_of_Person>|<https://artresearch.net/resource/fr/Person_school_of_Person>|<https://artresearch.net/resource/fr/Person_sibling_of_Person>|<https://artresearch.net/resource/fr/Person_spouse_of_Person>|<https://artresearch.net/resource/fr/Person_teacher_of_Person>|<https://artresearch.net/resource/fr/Person_student_of_Person>|<https://artresearch.net/resource/fr/Person_apprentice_of_Person> ?value. }")]]
                 <div class="RelationshipsContainer">
                   <h2>Relationships</h2>
-                  [[> ResourceFieldBasedVisualization subject=[[this]]  ]]
+                  [[> ResourceFieldBasedVisualization showSourceIcon="true" subject=[[this]]  ]]
                 </div>
+              [[/if]]
             </template>
     </mp-field-visualization>
 
