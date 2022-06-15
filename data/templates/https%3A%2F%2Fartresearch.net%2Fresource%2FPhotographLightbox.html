@@ -17,7 +17,7 @@
               <div id="photo-cards">
                 <h2 style="
                   font-size: 22px !important;
-                  padding: 15px 0px 15px 15px;
+                  padding: 25px 0px 15px 15px;
                   border-bottom: 2px solid #be3535;
                   position: sticky;
                   top: 0px;
@@ -52,6 +52,7 @@
                 >
                   <template id="photos">
                       <div class="card">
+                        <div class="table-wrapp">
                           <td class="rectoVersoCell">
                             <semantic-query
                               query='
@@ -84,12 +85,14 @@
                                                 src="{{bindings.0.rectoImage.value}}"
                                                 style="max-height: 100px; margin: 0 auto"
                                                 class="img-rounded "
+                                                alt="Temporarily unvailable"
                                               />
                                             {{else}}
                                               <img
                                                 src="{{bindings.0.rectoImage.value}}"
                                                 style="max-height: 100px; margin: 0 auto"
                                                 class="img-rounded grab-attention"
+                                                alt="Temporarily unvailable"
                                               />
                                             {{/if}}
                                       </mp-event-trigger>
@@ -130,6 +133,7 @@
                                         src="{{bindings.0.versoImage.value}}"
                                         style="max-height: 70px; max-width: 70px"
                                         class="vercoCell img-rounded"
+                                        alt="Temporarily unvailable"
                                       />
                                       </mp-event-trigger>
                                     </template>
@@ -167,8 +171,9 @@
                               </template>
                             </mp-field-visualization>
                           </div>
+                          </div>
                           <semantic-link iri="{{photo.value}}">
-                                <div style="position: absolute;  top: 0; right: 0;" class="btn"><h4>View photograph</h4></div>
+                                <div class="btn"><h4>View photograph</h4></div>
                           </semantic-link>
                       </div>
                   </template>
@@ -250,12 +255,14 @@
                                   src="{{bindings.0.rectoImage.value}}"
                                   style="max-height: 100px; margin: 0 auto"
                                   class="img-rounded "
+                                  alt="Temporarily unvailable"
                                 />
                               {{else}}
                                 <img
                                   src="{{bindings.0.rectoImage.value}}"
                                   style="max-height: 100px; margin: 0 auto"
                                   class="img-rounded grab-attention"
+                                  alt="Temporarily unvailable"
                                 />
                               {{/if}}
                               </mp-event-trigger>
@@ -297,6 +304,7 @@
                                 src="{{bindings.0.versoImage.value}}"
                                 style="max-height: 70px; max-width: 70px"
                                 class="vercoCell img-rounded"
+                                alt="Temporarily unvailable"
                               />
                               </mp-event-trigger>
                             </template>
@@ -347,11 +355,7 @@
                       </mp-field-visualization>
                     </div>
                     <semantic-link iri="{{photo.value}}">
-                      <div style="
-                      position: absolute;
-                      top: 0;
-                      right: 0;
-                  " class="btn"><h4>View photograph</h4></div>
+                      <div class="btn"><h4>View photograph</h4></div>
                 </semantic-link>
                   </div>
                 </template>

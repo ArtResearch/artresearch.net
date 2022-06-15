@@ -1,4 +1,5 @@
 <semantic-table
+class="sol-table"
 id="semantic-search-result-table"
 prefetch-labels="false"
 query='SELECT DISTINCT 
@@ -25,8 +26,8 @@ WHERE {
     BIND("/assets/images/media/image_placeholder.jpg" as ?default_imageUrl)
     BIND(coalesce(?smallerImgUrl, ?default_imageUrl) as ?image)
   }GROUP BY(?subject) ORDER BY DESC (?score) LIMIT 1000'
-  options='{"showFilter":true, "resultsPerPage":10}'
-  number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
+  options='{"showFilter":true, "resultsPerPage":25}'
+  number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}25{{/if}}"
   column-configuration='[
   {
     "displayName": "Image", 
@@ -44,3 +45,13 @@ WHERE {
   </div>
 </template>
 </semantic-table>
+<div class="table-of-animation">
+    <div class="animated-background-sm1 sol-table"></div>
+    <div class="animated-background-sm2 sol-table"></div>
+    <div class="animated-background-sm3 sol-table"></div>
+    <div class="animated-background-sm5 sol-table"></div>
+    <div class="animated-background-sm4 sol-table"></div>
+    <div class="animated-background-sm6 sol-table"></div>
+    <div class="animated-background-sm7 sol-table"></div>
+    <div class="animated-background-sm8 sol-table"></div>
+</div>

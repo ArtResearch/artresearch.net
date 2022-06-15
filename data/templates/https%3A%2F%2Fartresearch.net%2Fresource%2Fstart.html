@@ -27,7 +27,7 @@
           <div class="button-simple-search">
                   [[> Searchbar selectedCategory="Artworks"]]
           </div>
-           <div style="display: none;" class="button-visual-search">
+           <!-- <div style="display: none;" class="button-visual-search">
                   [[> VisionSearchBar]]
                 </div>
             <mp-event-trigger type="Component.TemplateUpdate"  targets='["my-render"]' data='{"iri": "{{iri}}"}' >
@@ -39,9 +39,9 @@
               <button style="display:none;" class="switch-simple-search">
                 <div style=" color:white">Open Simple Searchbar</div>
               </button>
-            </mp-event-trigger>
+            </mp-event-trigger> -->
         </div>
-            <mp-event-target-template-render id="my-render" template="{{> combined}}">
+            <!-- <mp-event-target-template-render id="my-render" template="{{> combined}}">
               <template id="combined">
                 {{#if iri}}
                <style>
@@ -84,11 +84,11 @@
                 {{/if}}
 
               </template>
-            </mp-event-target-template-render>
+            </mp-event-target-template-render> -->
        
         <div class="linksTo">
           <div>
-            <a title="Contextual Search" href="/resource/SearchContextual">Contextual Search</a>
+            <a title="Contextual Search" href="/resource/SearchContextual?withULAN=true&withImages=true">Contextual Search</a>
           </div>
           <!-- <div>
            <a title="Advanced Search" href="/resource/SearchAdvanced">Advanced Search</a>
@@ -109,14 +109,11 @@
       object-fit: contain;
       height: 150px;
       padding: 10px;">
-        <!-- <img src="/assets/images/monalisasmile.png" style="
-            object-fit: contain;
-            height: 20vh;"> -->
      
      </div>
      <div class="introText">
     <p style="font-size:16px">Discover artworks through the lens of photo archives.</p>
-     <p style="font-size:12px">The collections of Pharos, the International Association of Photo Archives, document works of art and architecture and the history of photography itself, and contain more of a century of scholarly documentation. Artresearch.net provides the tools to access, research, and contextualize these resources for the 21st century.</p>
+     <p style="font-size:12px">The collections of Pharos, the International Association of Photo Archives, document works of art and architecture and the history of photography itself. They contain more than of a century of scholarly documentation.  <span style="color: rgb(220, 54, 54);">art</span>research.net provides the tools to access, research, and contextualize these resources for the 21st century.</p>
     </div>
       
    </div>
@@ -147,7 +144,7 @@
             <div class="tall-card-body">
               <div class="tall-card-button">Discover</div>
               <div class="tall-card-title">Repositories</div>
-              <div class="tall-card-subtitle">Museums, Collections etc.</div>
+              <div class="tall-card-subtitle"></div>
             </div>
           </a>
         </div>
@@ -156,7 +153,7 @@
             <div class="tall-card-body">
               <div class="tall-card-button">Discover</div>
               <div class="tall-card-title">Partners</div>
-              <div class="tall-card-subtitle">Photo archive collections</div>
+              <div class="tall-card-subtitle"></div>
             </div>
           </a>
         </div>
@@ -170,27 +167,24 @@
       <div class="grid-card-list">
         <div
           class="grid-card"
-          style=" background: url(/assets/images/media/alinari.jpg) center no-repeat; "
+          style=" background: url(/assets/images/media/cooper.jpg) center no-repeat; "
         >
-          <a href="/resource/DisplayCollectionAlinari">  
+          <a href="/resource/DisplayCollectionCooper">  
             <div class="grid-card-body">
-                <div class="grid-card-title">Fratelli Alinari</div>
-                <div class="grid-card-subtitle">Browse one of the world's oldest photographic firms </div>
+                <div class="grid-card-title">A. C. Cooper</div>
+                <div class="grid-card-subtitle">Photographs</div>
               </div>
         </div>
         <div
-          style="
-            background: url(/assets/images/media/oil_on_wood_dali.jpg) center
-              no-repeat;
-          "
+          style=" background: url(/assets/images/media/red-chalk.jpg) center no-repeat; "
           class="grid-card"
         >
-      <a href="/resource/DisplayCollectionOilOnWood">  
-        <div class="grid-card-body">
-            <div class="grid-card-title">Oil on wood</div>
-            <div class="grid-card-subtitle">Explore using medium</div>
-          </div>
-        </a>
+          <a href="/resource/DisplayCollectionRedChalkDrawings">  
+            <div class="grid-card-body">
+              <div class="grid-card-title">Red Chalk</div>
+              <div class="grid-card-subtitle">Drawings</div>
+            </div>
+          </a>
         </div>
         <div
           style=" background: url(/assets/images/media/builtworks_middleast.jpg) center no-repeat; "
@@ -215,26 +209,26 @@
             </a>
         </div>
         <div
-          style=" background: url(/assets/images/media/madonna.jpg) center no-repeat; "
+          style=" background: url(/assets/images/media/sculpture.jpg) center no-repeat; "
           class="grid-card"
         >
-          <a href="/resource/DisplayCollectionMadonnaAndChild">  
+          <a href="/resource/DisplayCollectionBronzeSculptures">  
             <div class="grid-card-body">
-                <div class="grid-card-title">Madonna and Child</div>
+                <div class="grid-card-title"> Bronze Sculptures</div>
                 <div class="grid-card-subtitle">
-                  Artworks from 12th - 15th century
+                 Italian Renaissance
                 </div>
             </div>
           </a>
         </div>
         <div
-          style=" background: url(/assets/images/media/italian_ren.jpg) center no-repeat; "
+          style=" background: url(/assets/images/media/portrait.jpg) center no-repeat; "
           class="grid-card"
         >
-          <a href="/resource/DisplayCollectionItalian">  
+          <a href="/resource/DisplayCollectionSelfPortraits">  
               <div class="grid-card-body">
-                <div class="grid-card-title">Italian Renaissance</div>
-                <div class="grid-card-subtitle">Discover masterpieces</div>
+                <div class="grid-card-title">Self Portraits</div>
+                <div class="grid-card-subtitle">Drawings</div>
               </div>
           </a>
         </div>
@@ -249,10 +243,33 @@
               </div>
             </a>
         </div>
+        <!-- <div
+          style=" background: url(/assets/images/media/self-portraits.jpg) center no-repeat;"
+          class="grid-card"
+        >
+            <a href="/resource/DisplayCollectionSelfPortraits">  
+              <div class="grid-card-body">
+                  <div class="grid-card-title">Self Portraits</div>
+                  <div class="grid-card-subtitle"></div>
+              </div>
+            </a>
+        </div>
+        <div
+          style=" background: url(/assets/images/media/cooper.jpg) center no-repeat;"
+          class="grid-card"
+        >
+            <a href="/resource/DisplayCollectionSelfPortraits">  
+              <div class="grid-card-body">
+                  <div class="grid-card-title">A. C. COOPER</div>
+                  <div class="grid-card-subtitle"></div>
+              </div>
+            </a>
+        </div> -->
+
       </div>
     </div>
   </section>
-    <section class="sectionDocumentation" title="How can I use Artresearch.net?">
+    <!-- <section class="sectionDocumentation" title="How can I use Artresearch.net?">
     <div class="section-title">How can I use <span style="color: rgb(220, 54, 54);">art</span>research.net ?</div>
     <div class="section-body">
       <div class="tall-card-list" style=" text-align: center;">
@@ -261,7 +278,7 @@
             <div class="doc-tall-card-body">
               <img  class="imagesDoc" src="/assets/images/icons/search.svg"/>
               <div class="doc-tall-card-title">Search in platform</div>
-              <div class="doc-tall-card-subtitle">They are many ways to search your favorite artwork through artresearch.</div>
+              <div class="doc-tall-card-subtitle">There are many ways to search your favorite artwork through artresearch.</div>
             </div>
           </a>
         </div>
@@ -295,22 +312,18 @@
       </div>
     </div>
     <div class="DocTextWrapper">
-      <div class="DocTextIntro">
-        <h2 style="text-align: center;">If you’re new to <span style="color: rgb(220, 54, 54);">art</span>research.net, these research guides will give you a head start using our site. 
-        The guides reflect a few key activities that attract visitors to <span style="color: rgb(220, 54, 54);">art</span>research.net, but you can explore many other interests here too.</h2>
-      </div>
       <a href="/resource/DocumentationCards">
       <div class="view-guides">
         <h2>View all guides</h2>
       </div></a>
     </div>
-  </section>
-    <section class="cool-background" title="Explore visually similar images">
+  </section> -->
+    <section  title="Explore visually similar images">
     <div class="section-title">Explore visually similar images</div>
     <div class="section-subtitle">Use machine learning and computer vision to explore similarities between artworks, images, and data</a></div>
     <div class="section-body">
         <div id="featured-selections">
-            <a target="vision_new_tab" href="https://vision.artresearch.net/resource/?providera=https%3A%2F%2Fartresearch.net%2Fresource%2Fzeri%2Fsource%2FZeri&providerb=https%3A%2F%2Fartresearch.net%2Fresource%2Fitatti%2Fsource%2FITatti&uri=https%3A%2F%2Fvision.artresearch.net%2Fresource%2FSimilarity%2F35545767782677875982682646">
+            <a target="vision_new_tab" href="https://artresearch.net/resource/pharos/artwork/0c477197149519beb0072507b8ff277cb9cc10a8">
               <div id="zeri-itatti" class="flip-card-feature">
                 <div class="content">
                   <div class="front">
@@ -338,7 +351,7 @@
                 </div>
               </div>
             </a>
-            <a target="vision_new_tab" href="https://vision.artresearch.net/resource/?providera=https%3A%2F%2Fartresearch.net%2Fresource%2Fhertziana%2Fsource%2FHertziana&providerb=https%3A%2F%2Fartresearch.net%2Fresource%2Fitatti%2Fsource%2FITatti&uri=https%3A%2F%2Fvision.artresearch.net%2Fresource%2FSimilarity%2F85751267611980884191006045138">
+            <a target="vision_new_tab" href="https://artresearch.net/resource/pharos/artwork/298d5478cda58be94ca09410e93c00c1eb0123ed">
               <div id="hertziana-itatti" class="flip-card-feature">
                 <div class="content">
                   <div class="front">
@@ -346,7 +359,7 @@
                       <img
                         class="img-flip"
                         alt="  "
-                        src="http://fotothek.biblhertz.it/bh/320px/bh002968.jpg"
+                        src="https://hertz-foto-os1.biblhertz.it/iiif/2/320px%2Fbh002968.jpg/full/full/0/default.jpg"
                       />
                       <div class="title">Profilbildnis einer jungen Frau</div>
                       <small>Hertziana</small>
@@ -366,7 +379,7 @@
                 </div>
               </div>
             </a>
-            <a target="vision_new_tab" href="https://vision.artresearch.net/resource/?providera=https%3A%2F%2Fartresearch.net%2Fresource%2Fhertziana%2Fsource%2FHertziana&providerb=https%3A%2F%2Fartresearch.net%2Fresource%2Fkhi%2Fsource%2FKHI&uri=https%3A%2F%2Fvision.artresearch.net%2Fresource%2FSimilarity%2F6895545511920936845294872">
+            <a target="vision_new_tab" href="https://artresearch.net/resource/pharos/artwork/03a875cea5fe7ad54543b70523e81b63d8332c2b">
               <div id="khi-hertziana" class="flip-card-feature">
                 <div class="content">
                   <div class="front">
@@ -394,7 +407,7 @@
                 </div>
               </div>
             </a>
-            <a target="vision_new_tab" href="https://vision.artresearch.net/resource/?providera=https%3A%2F%2Fartresearch.net%2Fresource%2Fzeri%2Fsource%2FZeri&providerb=https%3A%2F%2Fartresearch.net%2Fresource%2Fitatti%2Fsource%2FITatti&uri=https%3A%2F%2Fvision.artresearch.net%2Fresource%2FSimilarity%2F93512608524766364099228484545">
+            <a target="vision_new_tab" href="https://artresearch.net/resource/pharos/artwork/a9ecffbe012c680b16e72f570620f4b1a78fbff6">
               <div id="itatti-zeri" class="flip-card-feature">
                 <div class="content">
                   <div class="front">
@@ -422,7 +435,7 @@
                 </div>
               </div>
             </a>
-            <a target="vision_new_tab" href="https://vision.artresearch.net/resource/?providera=https%3A%2F%2Fartresearch.net%2Fresource%2Fmarburg%2Fsource%2FMarburg&providerb=https%3A%2F%2Fartresearch.net%2Fresource%2Fitatti%2Fsource%2FITatti&uri=https%3A%2F%2Fvision.artresearch.net%2Fresource%2FSimilarity%2F8629648561661113822347745901">
+            <a target="vision_new_tab" href="https://artresearch.net/resource/pharos/artwork/0ef514d6376c7069e705f8ddbadd4afe1adefd7f">
               <div id="marburg-itatti" class="flip-card-feature">
                 <div class="content">
                   <div class="front">
@@ -450,7 +463,7 @@
                 </div>
               </div>
             </a>
-            <a target="vision_new_tab" href="https://vision.artresearch.net/resource/?providera=https%3A%2F%2Fartresearch.net%2Fresource%2Fzeri%2Fsource%2FZeri&providerb=https%3A%2F%2Fartresearch.net%2Fresource%2Fitatti%2Fsource%2FITatti&uri=https%3A%2F%2Fvision.artresearch.net%2Fresource%2FSimilarity%2F41017735062430712915292637959">
+            <a target="vision_new_tab" href="https://artresearch.net/resource/pharos/artwork/5f0b63f851773198521b240d201de73784ae5763">
               <div id="itatti-zeri-2" class="flip-card-feature">
                 <div class="content">
                   <div class="front">
@@ -478,7 +491,7 @@
                 </div>
               </div>
             </a>
-            <a target="vision_new_tab" href="https://vision.artresearch.net/resource/?providera=https%3A%2F%2Fartresearch.net%2Fresource%2Fmarburg%2Fsource%2FMarburg&providerb=https%3A%2F%2Fartresearch.net%2Fresource%2Fzeri%2Fsource%2FZeri&uri=https%3A%2F%2Fvision.artresearch.net%2Fresource%2FSimilarity%2F6461928343777462435063">
+            <a target="vision_new_tab" href="https://artresearch.net/resource/pharos/artwork/1b9055976dd4ff2697e739ac1dcdb69f211555bd">
               <div id="marburg-zeri" class="flip-card-feature">
                 <div class="content">
                   <div class="front">
@@ -506,7 +519,7 @@
                 </div>
               </div>
             </a>
-            <a target="vision_new_tab" href="https://vision.artresearch.net/resource/?providera=https%3A%2F%2Fartresearch.net%2Fresource%2Fhertziana%2Fsource%2FHertziana&providerb=https%3A%2F%2Fartresearch.net%2Fresource%2Fmarburg%2Fsource%2FMarburg&uri=https%3A%2F%2Fvision.artresearch.net%2Fresource%2FSimilarity%2F811720158214822544272120">
+            <a target="vision_new_tab" href="https://artresearch.net/resource/pharos/artwork/5753d80914fd7425549ac47d2fa95c757552299c">
               <div id="hertziana-itatti-2" class="flip-card-feature">
                 <div class="content">
                   <div class="front">
@@ -534,7 +547,7 @@
                 </div>
               </div>
             </a>
-            <a target="vision_new_tab" href="https://vision.artresearch.net/resource/?providera=https%3A%2F%2Fartresearch.net%2Fresource%2Fmarburg%2Fsource%2FMarburg&providerb=https%3A%2F%2Fartresearch.net%2Fresource%2Fzeri%2Fsource%2FZeri&uri=https%3A%2F%2Fvision.artresearch.net%2Fresource%2FSimilarity%2F38912142686404744152404428041">
+            <a target="vision_new_tab" href="https://artresearch.net/resource/pharos/artwork/8872b1ae30eaf6d0257b325c2579d1188eeab2dc">
               <div id="zeri-mar" class="flip-card-feature">
                 <div class="content">
                   <div class="front">
@@ -562,7 +575,7 @@
                 </div>
               </div>
             </a>
-            <a target="vision_new_tab" href="https://vision.artresearch.net/resource/?providera=https%3A%2F%2Fartresearch.net%2Fresource%2Fzeri%2Fsource%2FZeri&providerb=https%3A%2F%2Fartresearch.net%2Fresource%2Fkhi%2Fsource%2FKHI&uri=https%3A%2F%2Fvision.artresearch.net%2Fresource%2FSimilarity%2F64897944392668563009028">
+            <a target="vision_new_tab" href="https://artresearch.net/resource/pharos/artwork/047e1093c0c7b87613f915a7d8eb0d4999ced0eb">
               <div id="khi-marburg" class="flip-card-feature">
                 <div class="content">
                   <div class="front">
@@ -593,7 +606,7 @@
         </div>
     </div>
   </section>
-   <section  title="Contextualized & connected histories">
+   <section class="cool-background"  title="Contextualized & connected histories">
     <div class="section-title" id ="Contextualtitle" >Contextualized & connected histories</div>
     <div class="section-body">
       <div class="text-with-image column">
@@ -630,7 +643,7 @@
       </div>
     </div>
   </section>
-    <section class="cool-background">
+    <section >
     <div class="section-title">Compare images with deep zoom</div>
     <div class="section-subtitle">Using a <img src="/assets/images/logos/iiif.png"> viewer you can view, analyze, compare & annotate images </div>
     <div class="section-body">
@@ -638,18 +651,36 @@
         <div class="mirador">
         <rs-iiif-mirador
                         id="candidateAmirador"
-                        image-or-region="https://artresearch.net/resource/zeri/work/31583" 
+                        image-or-region="https://artresearch.net/resource/pharos/artwork/52fdd930d8665e5dcd458277bd4f6c191785b0f2" 
                         image-api-manifest-pattern='
-                                          BIND(<https://iiif.artresearch.net/iiif/2/zeri!78800!78415_g.jpg/info.json> AS ?manifestUrl)'
+                                          BIND(<https://iiif.artresearch.net/iiif/2/zeri!72400!72337_g.jpg/info.json> AS ?manifestUrl)'
                         >
         </rs-iiif-mirador>
         </div>
         <div class="mirador">
         <rs-iiif-mirador
                         id="candidateBmirador"
-                        image-or-region="https://artresearch.net/resource/itatti/work/W00018357" 
+                        image-or-region="https://artresearch.net/resource/pharos/artwork/52fdd930d8665e5dcd458277bd4f6c191785b0f2" 
                         image-api-manifest-pattern='
-                        BIND(<https://iiif.itatti.harvard.edu/iiif/2/fotoindex!034_recto_d!034_recto_box05_d!034_recto_box05_d_00016.jpg/info.json> AS ?manifestUrl)'
+                        BIND(<https://iiif.artresearch.net/iiif/2/marburg!fmc661227.jpg/info.json> AS ?manifestUrl)'
+        >
+        </rs-iiif-mirador>
+        </div>
+        <div class="mirador">
+        <rs-iiif-mirador
+                        id="candidateCmirador"
+                        image-or-region="https://artresearch.net/resource/pharos/artwork/52fdd930d8665e5dcd458277bd4f6c191785b0f2" 
+                        image-api-manifest-pattern='
+                        BIND(<https://ids.lib.harvard.edu/ids/iiif/420714604/info.json> AS ?manifestUrl)'
+        >
+        </rs-iiif-mirador>
+        </div>
+        <div class="mirador">
+        <rs-iiif-mirador
+                        id="candidateDmirador"
+                        image-or-region="https://artresearch.net/resource/pharos/artwork/52fdd930d8665e5dcd458277bd4f6c191785b0f2" 
+                        image-api-manifest-pattern='
+                        BIND(<https://iiif.itatti.harvard.edu/iiif/2/fotoindex!159_recto_d!159_recto_box04_d!159_recto_box04_d_00113.jpg/info.json> AS ?manifestUrl)'
         >
         </rs-iiif-mirador>
         </div>

@@ -51,6 +51,18 @@
             >
               <template id="imageThumbnail">
                   <div class="imagebar">
+                     <mp-overlay-dialog title="‎‎" type="lightbox">
+                      <mp-overlay-dialog-trigger>
+                        <button class="Lightbox-button">Image License</button>
+                      </mp-overlay-dialog-trigger>
+                      <mp-overlay-dialog-content>
+                        [[#if (ask "ASK { ?? rdf:type cfc:photo}")]]
+                          [[> LicenseInfo photo=true ]]
+                        [[else]]
+                          [[> LicenseInfo artwork=true]]
+                        [[/if]]
+                      </mp-overlay-dialog-content>
+                    </mp-overlay-dialog>
                     <mp-overlay-dialog title="‎‎" type="lightbox">
                       <mp-overlay-dialog-trigger>
                         <button class="Lightbox-button">Compare images</button>

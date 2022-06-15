@@ -171,7 +171,7 @@
           id="artwork-filter-search"
         >
             <bs-panel id="filter-panel" header="Filters"  collapsible="true" default-expanded="true">
-              <semantic-search-facet open-by-default='true' sortby='count-desc'></semantic-search-facet>
+              <semantic-search-facet open-by-default='true' sortby='count-desc' facet-values-threshold="1000"></semantic-search-facet>
             </bs-panel>
         </bs-col>
         <mp-event-target-template-render id="my-render" template="{{> combined}}">
@@ -207,7 +207,7 @@
                                             id="grid-result"
                                             prefetch-labels="false"
                                             options='{"showFilter":false}'
-                                            number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
+                                            number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}25{{/if}}"
                                             query=" SELECT DISTINCT ?subject
                                                     WHERE {}LIMIT 1000"
                                             tuple-template="{{>tupleTemplate}}"
@@ -223,7 +223,7 @@
                                             id="grid-result-2"
                                             prefetch-labels="false"
                                             options='{ "showFilter":false }'
-                                            number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
+                                            number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}25{{/if}}"
                                             query="
                                                 SELECT DISTINCT ?subject
                                                 WHERE {
@@ -243,11 +243,11 @@
                                   </div>
                                 </bs-tab-container>
                               </div>
+                              [[> NumberOfRowsSelector]]
                             </semantic-search-result>
                       </template>
                     </mp-event-target-template-render>
-                </semantic-search-result-holder>
-                  [[> NumberOfRowsSelector]]
+                </semantic-search-result-holder>       
               </bs-col>
           </template>
         </mp-event-target-template-render>

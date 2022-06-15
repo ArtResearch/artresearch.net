@@ -1,6 +1,4 @@
 <div id="variant-attribution-dropdown">
-
-  <bs-panel header="Variant Attributions" collapsible="true">
     <semantic-query
       query='SELECT DISTINCT ?label  (GROUP_CONCAT(DISTINCT ?provider; SEPARATOR=", ") AS ?provider) (count(distinct ?provider) as ?countProviders) WHERE{
               {
@@ -35,12 +33,14 @@
             } GROUP BY ?label order by desc(COUNT(distinct ?provider))'
       template='{{> byAttribution }}'>
         <template id='byAttribution'>
+            <bs-panel header="Variant Attributions" collapsible="true">
           {{#each bindings}}
             <div class="attribution-wrapper">
               <div class="attribution">{{label.value}}</div>
                 [[> SourceIcon attr=true ]]
               </div>
           {{/each}}
+          </bs-panel>
         </template>
     </semantic-query>
   </bs-panel>
