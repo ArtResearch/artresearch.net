@@ -68,6 +68,7 @@
                                       solr:setRowsNumber 1000;
                                       solr:hasResults ?subject
                           }
+                          ?subject a cfc:photo.
                           ?subject fr:Photo_has_provider_Institution <[[provider]]>.
                         } '
                 ></semantic-search-query-keyword>
@@ -82,7 +83,7 @@
           style="margin-top: 8px"
         >
           <bs-panel id="filter-panel" header="Filters"  collapsible="true" default-expanded="true">
-            <semantic-search-facet open-by-default='true' sortby='count-desc'></semantic-search-facet>
+            <semantic-search-facet open-by-default='true' sortby='count-desc' facet-values-threshold="1000"></semantic-search-facet>
           </bs-panel>
         </bs-col>
         <mp-event-target-template-render id="my-render" template="{{> combined}}">
@@ -119,14 +120,14 @@
                                                         id="grid-result"
                                                         prefetch-labels="false"
                                                         options='{"showFilter":false}'
-                                                        number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
+                                                        number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}25{{/if}}"
                                                         query="SELECT DISTINCT ?subject WHERE {}LIMIT 1000"
                                                         no-result-template='[[> CardNoResult ]]'
                                                         tuple-template="{{>tupleTemplate}}"
                                                       >
                                                           <template id="tupleTemplate">
                                                             <semantic-context repository='default'>
-                                                              [[> CardArtwork]]
+                                                              [[> CardArtwork photo="true"]]
                                                             </semantic-context>
                                                           </template>
                                                       </semantic-table>
@@ -136,14 +137,14 @@
                                                           id="grid-result-2"
                                                           prefetch-labels="false"
                                                           options='{"showFilter":false}'
-                                                          number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
+                                                          number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}25{{/if}}"
                                                           query="SELECT DISTINCT ?subject WHERE {?subject crm:P129i_is_subject_of ?photo.}LIMIT 1000"
                                                           no-result-template='[[> CardNoResult ]]'
                                                           tuple-template="{{>tupleTemplate}}"
                                                         >
                                                             <template id="tupleTemplate">
                                                                 <semantic-context repository='default'>
-                                                                  [[> CardArtwork]]
+                                                                  [[> CardArtwork photo="true"]]
                                                                 </semantic-context>
                                                             </template>
                                                         </semantic-table>

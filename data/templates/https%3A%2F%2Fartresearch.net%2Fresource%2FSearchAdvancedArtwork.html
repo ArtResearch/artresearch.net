@@ -86,14 +86,14 @@
                                 prefetch-labels="false"
                                 query='SELECT DISTINCT ?subject WHERE {
                                 }LIMIT 1000'
-                                number-of-displayed-rows="10"
+                                number-of-displayed-rows="25"
                                 tuple-template="{{> subjectCellTemplate}}"
                                 options='{"showTableHeading": false, "showFilter":false}'
                                 no-result-template='[[> CardNoResult ]]'
                               >
                             <template id="subjectCellTemplate">
                               <semantic-context repository='default'>
-                                [[> CardArtwork]]
+                                [[> CardArtwork artwork="true"]]
                               </semantic-context>
                             </template>
                           </semantic-table>
@@ -119,7 +119,7 @@
         id="artwork-filter-search"
       >
           <bs-panel id="filter-panel" header="Filters"  collapsible="true" default-expanded="true">
-            <semantic-search-facet open-by-default='true' sortby='count-desc'></semantic-search-facet>
+            <semantic-search-facet open-by-default='true' sortby='count-desc' facet-values-threshold="1000"></semantic-search-facet>
           </bs-panel>
       </bs-col>
 

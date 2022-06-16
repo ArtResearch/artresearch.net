@@ -7,7 +7,7 @@
           style="margin-top: 8px"
         >
           <bs-panel id="filter-panel" header="Filters"  collapsible="true" default-expanded="true">
-            <semantic-search-facet open-by-default='true' sortby='count-desc'></semantic-search-facet>
+            <semantic-search-facet open-by-default='true' sortby='count-desc' facet-values-threshold="1000"></semantic-search-facet>
           </bs-panel>
       </bs-col>
       <bs-col lg="9" md="8" sm="7">
@@ -46,7 +46,7 @@
                                             id="grid-result"
                                             prefetch-labels="false"
                                             options='{"showFilter":false }'
-                                            number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
+                                            number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}25{{/if}}"
                                             query="
                                               SELECT DISTINCT ?subject WHERE {
                                                 ?subject rdfs:label ?label.
@@ -56,7 +56,7 @@
                                           >
                                               <template id="tupleTemplate">
                                                 <semantic-context repository='default'>
-                                                  [[> CardArtwork]]
+                                                  [[> CardArtwork artwork="true"]]
                                                 </semantic-context>
                                               </template>
                                           </semantic-table>
@@ -66,7 +66,7 @@
                                           id="grid-result-2"
                                           prefetch-labels="false"
                                           options='{"showFilter":false }'
-                                          number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
+                                          number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}25{{/if}}"
                                           query="SELECT DISTINCT ?subject
                                               WHERE {
                                                 ?subject fr:Work_depicted_by_Photo ?photo.
@@ -78,7 +78,7 @@
                                         >
                                           <template id="tupleTemplate">
                                             <semantic-context repository='default'>
-                                              [[> CardArtwork]]
+                                              [[> CardArtwork artwork="true"]]
                                             </semantic-context>
                                           </template>
                                         </semantic-table>

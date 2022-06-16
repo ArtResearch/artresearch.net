@@ -15,23 +15,47 @@
               <div>
                     <bs-nav bs-style="tabs">
                         <bs-nav-item event-key="withoutcopyrights">
-                                    Without Copyrights <span class="badge">too many</span>
-                                    <!-- <semantic-query 
-                                      query='SELECT (COUNT(DISTINCT ?g) AS ?count) WHERE {
-                                          ?photo a cfc:photo.
-                                        graph ?g {
-                                        FILTER NOT EXISTS {?photo <http://www.cidoc-crm.org/cidoc-crm/P104_is_subject_to> ?rights.}
+                                    Without Copyrights
+                                    <semantic-query 
+                                      query='SELECT DISTINCT ((?countPhotos-?countCopyrights) as ?count) WHERE {
+                                        {
+                                          SELECT ?graph ?date WHERE {
+                                            ?graph custom:has_date ?date.
+                                            BIND(STRBEFORE(STR(?date), "-") AS ?day)
+                                            BIND(STRAFTER(STR(?date), "-") AS ?tmp)
+                                            BIND(STRBEFORE(?tmp, "-") AS ?month)
+                                            BIND(STRAFTER(STR(?tmp), "-") AS ?year)
+                                          }
+                                          ORDER BY DESC (?year) DESC (?month) DESC (?day)
+                                          LIMIT 1
                                         }
-                                    }'
+                                        ?graph custom:consists_of ?n.
+                                        GRAPH ?n { ?provider custom:numOfCopyrightPhotos ?countCopyrights. }
+                                        GRAPH ?n { ?provider custom:numOfPhotos ?countPhotos. }
+                                        FILTER(STRSTARTS(STR(?provider), "https://artresearch.net/resource/total"))
+                                      } LIMIT 1'
                                       template='{{#each bindings}}<span class="badge">{{count.value}}</span>{{/each}}'>\
-                                  </semantic-query> -->
+                                  </semantic-query>
                         </bs-nav-item>
                         <bs-nav-item event-key="withcopyrights">
                                 With Copyrights
                           <semantic-query 
-                              query='SELECT (COUNT(DISTINCT ?rights) AS ?count) WHERE {
-                                      ?photo <http://www.cidoc-crm.org/cidoc-crm/P104_is_subject_to> ?rights.
-                                    }'
+                              query='SELECT DISTINCT ?count WHERE {
+                                {
+                                  SELECT ?graph ?date WHERE {
+                                    ?graph custom:has_date ?date.
+                                    BIND(STRBEFORE(STR(?date), "-") AS ?day)
+                                    BIND(STRAFTER(STR(?date), "-") AS ?tmp)
+                                    BIND(STRBEFORE(?tmp, "-") AS ?month)
+                                    BIND(STRAFTER(STR(?tmp), "-") AS ?year)
+                                  }
+                                  ORDER BY DESC (?year) DESC (?month) DESC (?day)
+                                  LIMIT 1
+                                }
+                                ?graph custom:consists_of ?n.
+                                GRAPH ?n { ?provider custom:numOfCopyrightPhotos ?count. }
+                                FILTER(STRSTARTS(STR(?provider), "https://artresearch.net/resource/total"))
+                              } LIMIT 1'
                               template='{{#each bindings}}<span class="badge">{{count.value}}</span>{{/each}}'>\
                           </semantic-query>
                         </bs-nav-item>

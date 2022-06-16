@@ -54,6 +54,10 @@
                               ?item a cfc:material.
                               ?item rdfs:label ?label.
                               BIND(false AS ?hasChildren)
+                            } UNION {
+                              ?item a cfc:type.
+                              ?item rdfs:label ?label.
+                              BIND(false AS ?hasChildren)
                             }
                           }order by ?label",
           "childrenQuery": "  SELECT distinct ?item ?label ?hasChildren FROM <alignment:__graph__> WHERE {
@@ -101,6 +105,9 @@
                               FILTER(?type IN (skos:Concept, <http://vocab.getty.edu/ontology#Facet>, <http://vocab.getty.edu/ontology#Facet> ) )
                             } UNION {
                               ?item a cfc:material.
+                              ?item rdfs:label ?label.
+                            } UNION {
+                              ?item a cfc:type.
                               ?item rdfs:label ?label.
                             }
                             ?label bds:search ?__token__ ;

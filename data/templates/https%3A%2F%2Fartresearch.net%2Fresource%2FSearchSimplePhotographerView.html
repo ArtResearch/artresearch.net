@@ -44,7 +44,7 @@ class="hiddenSearchbar"
   id="artwork-filter-search"
 >
 <bs-panel id="filter-panel" header="Filters"  collapsible="true" default-expanded="true">
-  <semantic-search-facet open-by-default='true' sortby='count-desc'></semantic-search-facet>
+  <semantic-search-facet open-by-default='true' sortby='count-desc' facet-values-threshold="1000"></semantic-search-facet>
 </bs-panel>
 </bs-col>
 <bs-col lg="9" md="8" sm="7">
@@ -93,7 +93,7 @@ class="hiddenSearchbar"
         id="grid-result"
         prefetch-labels="false"
         query="SELECT DISTINCT ?subject  WHERE {}LIMIT 1000"
-        number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
+        number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}20{{/if}}"
         tuple-template="{{> subjectCellTemplate}}"
         options='{"showTableHeading": false, "showFilter":false}'
         no-result-template='[[> CardNoResult ]]'

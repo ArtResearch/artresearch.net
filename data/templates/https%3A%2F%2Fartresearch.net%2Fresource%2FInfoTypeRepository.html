@@ -26,32 +26,23 @@
   </semantic-query>
 [[else]]
   <semantic-query
-    query="
-        SELECT ?placeLabel ?institution WHERE {            
-          ?? <https://artresearch.net/resource/fr/Work_kept_by_Institution>|crm:P50_has_current_keeper ?institution.
-          {
-            ?institution crm:P74_has_current_or_former_residence|crm:P55_has_current_location ?place.
-            ?place rdfs:label ?placeLabel 
-          }union{
-              ?? crm:P74_has_current_or_former_residence|crm:P55_has_current_location ?place.
-              ?place rdfs:label ?placeLabel
-          }union{
-              ?? crm:P74_has_current_or_former_residence?place.
-              ?place rdfs:label ?placeLabel
-          }union{
-            ?original owl:sameAs ??.
-            ?original crm:P74_has_current_or_former_residence|crm:P55_has_current_location ?place.
-            ?place rdfs:label ?placeLabel
-          }union{
-            ?original owl:sameAs ?institution.
-            ?original crm:P74_has_current_or_former_residence ?place.
-            ?place rdfs:label ?placeLabel
-          }union{
-            ?original owl:sameAs ??.
-            ?original <https://artresearch.net/resource/fr/Work_kept_by_Institution>|crm:P50_has_current_keeper ?institution.
-            ?place rdfs:label ?placeLabel
-          }
-        }LIMIT 1"
+    query="SELECT ?institution (group_concat( distinct ?pLabel ;Separator=', ') as ?placeLabel) WHERE {
+      ?? a fc:work.
+      { 
+        ?? fr:Work_kept_by_Institution ?institution.
+         OPTIONAL {
+           ?institution fr:Institution_from_Place ?place.
+           ?place rdfs:label ?pLabel.
+         }
+       } UNION {
+         ?og owl:sameAs ??.
+         ?og cfr:Work_kept_by_Institution ?institution.
+         OPTIONAL {
+           ?institution cfr:Institution_from_Place ?place.
+           ?place rdfs:label ?pLabel.
+         }
+       }
+     } group by (?institution) LIMIT 1"
     no-result-template="{{> noRepoResult}}"
     template="{{> fcLabelTemplate}}"
   >
@@ -59,8 +50,12 @@
         <div class="repository-location">
           <mp-label iri="{{bindings.0.institution.value}}"></mp-label>
           {{#ifCond  placeLabel.value "!==" null}}
-            {{#each bindings}}, 
+            {{#each bindings}}
+            {{#ifCond @index "===" 0}}
               <span>{{placeLabel.value}}</span> 
+              {{else}}
+              ,<span>{{placeLabel.value}}</span> 
+            {{/ifCond}} 
             {{/each}}
           {{/ifCond}}
         </div>
@@ -69,21 +64,20 @@
       <div>
           <semantic-query
             query="
-                SELECT  ?repo WHERE {
+                SELECT DISTINCT ?repoLabel WHERE {
                   ?? fr:Photo_has_provider_Institution ?repo.
                   ?? a cfc:photo.
-                } LIMIT 1"
+                  ?repo skos:prefLabel ?repoLabel.
+                }"
             template="{{> fcLabelTemplate_second}}"
             no-result-template='<div></div>'
           >
             <template id="fcLabelTemplate_second">
                 <div>
                     <h4 class="fc-label">
-                        {{#each bindings}}
-                            <div class="repoLink">
-                            <semantic-link iri="{{repo.value}}"></semantic-link>
-                            </div>
-                        {{/each}}
+                      <div class="repoLink">
+                        {{bindings.0.repoLabel.value}}
+                      </div>
                     </h4>
                 </div>
             </template>

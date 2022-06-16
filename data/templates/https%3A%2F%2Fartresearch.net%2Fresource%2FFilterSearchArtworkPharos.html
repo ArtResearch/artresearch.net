@@ -27,21 +27,23 @@
           $subject fr:Work_shows_Subject  ?__value__.
         "
     }],
-    "<https://artresearch.net/resource/fr/Work_consists_of_Material>": [
-    {
-      "kind": "resource",
-      "queryPattern": "
-        
-          $subject fr:Work_consists_of_Material ?__value__.
-       "
+    "<https://artresearch.net/resource/fr/Work_consists_of_Material>":[{
+      "kind":"resource",
+       "queryPattern": "
+        ?subject <https://artresearch.net/resource/fr/Work_consists_of_Material> ?__value__ .
+        FILTER NOT EXISTS {   
+          ?subject <https://artresearch.net/resource/fr/Work_consists_of_Material>/<http://vocab.getty.edu/ontology#broaderPreferred> ?__value__.
+        }
+         "
     }],
-    "<https://artresearch.net/resource/fr/Work_produced_using_technique_Technique>": [
-    {
-      "kind": "resource",
-      "queryPattern": "
-        
-          $subject fr:Work_produced_using_technique_Technique ?__value__.
-        "
+    "<https://artresearch.net/resource/fr/Work_produced_using_technique_Technique>":[{
+      "kind":"resource",
+       "queryPattern": "
+        ?subject <https://artresearch.net/resource/fr/Work_produced_using_technique_Technique> ?__value__ .
+        FILTER NOT EXISTS {   
+          ?subject <https://artresearch.net/resource/fr/Work_produced_using_technique_Technique>/<http://vocab.getty.edu/ontology#broaderPreferred> ?__value__.
+        }
+         "
     }],
     "<https://artresearch.net/resource/fr/Work_from_Place>": [
     {
@@ -169,7 +171,7 @@
           id="artwork-filter-search"
         >
             <bs-panel id="filter-panel" header="Filters"  collapsible="true" default-expanded="true">
-              <semantic-search-facet open-by-default='true' sortby='count-desc'></semantic-search-facet>
+              <semantic-search-facet open-by-default='true' sortby='count-desc' facet-values-threshold="1000"></semantic-search-facet>
             </bs-panel>
         </bs-col>
         <mp-event-target-template-render id="my-render" template="{{> combined}}">
@@ -205,14 +207,14 @@
                                             id="grid-result"
                                             prefetch-labels="false"
                                             options='{"showFilter":false}'
-                                            number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
+                                            number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}25{{/if}}"
                                             query=" SELECT DISTINCT ?subject
                                                     WHERE {}LIMIT 1000"
                                             tuple-template="{{>tupleTemplate}}"
                                             no-result-template='[[> CardNoResult ]]'
                                           >
                                               <template id="tupleTemplate">
-                                                [[> CardArtwork]]
+                                                [[> CardArtwork artwork="true"]]
                                               </template>
                                           </semantic-table>
                                         </bs-tab-pane>
@@ -221,7 +223,7 @@
                                             id="grid-result-2"
                                             prefetch-labels="false"
                                             options='{ "showFilter":false }'
-                                            number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
+                                            number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}25{{/if}}"
                                             query="
                                                 SELECT DISTINCT ?subject
                                                 WHERE {
@@ -233,7 +235,7 @@
                                             no-result-template='[[> CardNoResult ]]'
                                           >
                                               <template id="tupleTemplate">
-                                                [[> CardArtwork]]
+                                                [[> CardArtwork artwork="true"]]
                                               </template>
                                           </semantic-table>
                                         </bs-tab-pane>
@@ -241,11 +243,11 @@
                                   </div>
                                 </bs-tab-container>
                               </div>
+                              [[> NumberOfRowsSelector]]
                             </semantic-search-result>
                       </template>
                     </mp-event-target-template-render>
-                </semantic-search-result-holder>
-                  [[> NumberOfRowsSelector]]
+                </semantic-search-result-holder>       
               </bs-col>
           </template>
         </mp-event-target-template-render>
