@@ -14,61 +14,73 @@ PREFIX : <http://www.researchspace.org/resource/system/service/custom#>
 	ephedra:hasSPARQLPattern (
 		[
 			sp:subject :_results ;
-			sp:predicate example:sender;
-			sp:object :_sender
+			sp:predicate example:hasSender ;
+			sp:object :_sender;
 		]
 		[
 			sp:subject :_results ;
-			sp:predicate example:recipient ;
-			sp:object :_recipient
+			sp:predicate example:hasRecipient ;
+			sp:object :_recipient;
+		]		
+		[
+			sp:subject :_results ;
+			sp:predicate example:hasMessage ;
+			sp:object :_message;
+		]    
+  		[
+			sp:subject :_results ;
+			sp:predicate example:hasSubject ;
+			sp:object :_subject;
 		]
 		[
 			sp:subject :_results ;
-			sp:predicate example:subject ;
-			sp:object :_subject
-		]
-		[
-			sp:subject :_results ;
-			sp:predicate example:message ;
-			sp:object :_message
-		]
-
-		[
-			sp:subject :_results ;
-			sp:predicate example:messageId ;
-			sp:object :_messageId
+			sp:predicate example:hasType ;
+			sp:object :_type;
 		]
 	) ;
-	spin:constraint
-	[
-		a spl:Argument ;
-		rdfs:comment "Source email address" ;
-		spl:predicate :_sender ;
-		spl:valueType xsd:string
-    ] ;
 
-	spin:constraint
-	[
+	spin:constraint [
 		a spl:Argument ;
-		rdfs:comment "Recipient email address" ;
+		rdfs:comment "Recipient email" ;
 		spl:predicate :_recipient ;
-		spl:valueType xsd:string
-    ] ;
+		spl:valueType xsd:string ;
+		ephedra:inputJsonPath "personalizations[0].to[0].email"
+  	] ;
 
 	spin:constraint
 	[
 		a spl:Argument ;
-		rdfs:comment "Message to be sent" ;
-		spl:predicate :_message ;
-		spl:valueType xsd:string
+		rdfs:comment "Sender email" ;
+		spl:predicate :_sender ;
+		spl:valueType xsd:string ;
+		ephedra:inputJsonPath "from.email"
     ] ;
 
 	spin:constraint
-	[
+	[	
 		a spl:Argument ;
-		rdfs:comment "Subject of the message" ;
+		rdfs:comment "Subject term" ;
 		spl:predicate :_subject ;
-		spl:valueType xsd:string
+		spl:valueType xsd:string ;
+		ephedra:inputJsonPath "subject"
+    ] ;
+
+	spin:constraint
+	[	
+		a spl:Argument ;
+		rdfs:comment "Content type" ;
+		spl:predicate :_type ;
+		spl:valueType xsd:string ;
+		ephedra:inputJsonPath "content[0].type"
+    ] ;
+	
+	spin:constraint
+	[	
+		a spl:Argument ;
+		rdfs:comment "Content value" ;
+		spl:predicate :_message ;
+		spl:valueType xsd:string ;
+		ephedra:inputJsonPath "content[0].value"
     ] ;
 
 	spin:column
@@ -76,15 +88,6 @@ PREFIX : <http://www.researchspace.org/resource/system/service/custom#>
 		a spin:Column ;
 		rdfs:comment "results (fixed column, must be present)" ;
 		spl:predicate :_results ;
+		spl:valueType rdfs:Resource;
 		ephedra:jsonPath "$"
-	] ;
-
-	spin:column
-	[
-		a spin:Column ;
-		rdfs:comment "Message Id" ;
-		spl:predicate :_messageId ;
-		spl:valueType xsd:string;
-		ephedra:jsonPath "$._MessageId"
-	] 
-.
+	] .
