@@ -1,15 +1,15 @@
-  {{#ifCond field.iri "===" "http://www.researchspace.org/fieldDefinition/CreatorWithRole" }}
-    {{#ifCond value.binding.roleLabel.value "===" "" }}
-      <semantic-link iri="{{value.value.value}}"></semantic-link>
-    {{else}}
-      <semantic-link iri="{{value.value.value}}"></semantic-link>  , {{value.binding.roleLabel.value}}
-    {{/ifCond}}
+{{#ifCond field.iri "===" "http://www.researchspace.org/fieldDefinition/CreatorWithRole" }}
+  {{#ifCond value.binding.roleLabel.value "===" "" }}
+    <semantic-link iri="{{value.value.value}}">[[> ArtistLabel creatorField="{{value.label}}" ]]</semantic-link>
   {{else}}
-  {{#ifCond field.label.0.value "===" "Description"}}
-  <mp-text-truncate lines="3" expand='<span style="color: gray;">...<a>read more</a></span>' collapse='<span style="color: gray;">(<a>show less</a>)</span>'>
-    {{value.value.value}}
-  </mp-text-truncate>
-  {{else}}
+    <semantic-link iri="{{value.value.value}}"></semantic-link>  , {{value.binding.roleLabel.value}}
+  {{/ifCond}}
+{{else}}
+{{#ifCond field.label.0.value "===" "Description"}}
+<mp-text-truncate lines="3" expand='<span style="color: gray;">...<a>read more</a></span>' collapse='<span style="color: gray;">(<a>show less</a>)</span>'>
+  {{value.value.value}}
+</mp-text-truncate>
+{{else}}
 
 
   {{#ifCond field.label.0.value "===" "Production Date"}}
