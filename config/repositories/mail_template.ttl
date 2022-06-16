@@ -8,19 +8,21 @@
 
 
 [] a repo:Repository ;
-  repo:repositoryID "pastec" ;
-  rdfs:label "Repository to connect to pastec" ;
+  repo:repositoryID "mail" ;
+  rdfs:label "Repository to connect to sendgrid mail" ;
   repo:repositoryImpl [
     repo:repositoryType "openrdf:SailRepository" ;
     reposail:sailImpl [
       sail:sailType "researchspace:RESTSail" ;
-      ephedra:serviceURL "http://vision.artresearch.net:4212/index/searcher" ;
+      ephedra:serviceURL "https://api.sendgrid.com/v3/mail/send" ;
       ephedra:httpMethod "POST" ;
       ephedra:httpHeader [
-        ephedra:name "Accept" ;
-        ephedra:value "application/json"
+        ephedra:name "Content-Type" ;
+        ephedra:value "application/json";
+        ephedra:name "Authorization" ;
+        ephedra:value "Bearer <SENDGRID_KEY>"
       ] ;
-      ephedra:implementsService :pastec 
+      ephedra:implementsService :mail 
     ]  
   ] .
-  
+
