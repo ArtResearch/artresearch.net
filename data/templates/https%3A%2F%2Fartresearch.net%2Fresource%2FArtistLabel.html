@@ -1,3 +1,20 @@
+[[#if creatorField]]
+ <semantic-query 
+  query="SELECT ?label WHERE {
+    <{{value.value.value}}> skos:prefLabel ?label.
+  } LIMIT 1"
+  template="{{> artistlabel1}}"
+  no-result-template="{{> artistLabel2}}"
+>
+  <template id="artistlabel1">
+    {{bindings.0.label.value}}
+  </template>
+
+  <template id="artistLabel2">
+    [[creatorField]]
+  </template>
+</semantic-query>
+[[else]]
 <semantic-query 
   query="SELECT ?label WHERE {
     <{{artist.value}}> skos:prefLabel ?label.
@@ -9,3 +26,4 @@
     {{bindings.0.label.value}}
   </template>
 </semantic-query>
+[[/if]]
