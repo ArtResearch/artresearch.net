@@ -14,6 +14,7 @@
 class MyCopyright extends HTMLElement {
   constructor() {
     super();
+    // the only way to implement js in RS
     this._shadowRoot = this.attachShadow({ mode: "open" });
     this._shadowRoot.innerHTML ='<p>© ' + new Date().getFullYear() + ' PHAROS the International Association of Photo Archives</p>';
  
