@@ -214,7 +214,7 @@
       BIND(STR(IF(CONTAINS("{{provider.value}}","https://artresearch.net/resource/geonames/source/Geonames"),"Geonames", false)) AS ?providerLabel)
       BIND(IRI("https://artresearch.net/resource/geonames/source/Geonames") as ?provider)
       FILTER(?providerLabel!="false")
-  }'
+  }}'
   template="{{> multipleProv}}">
     <template id="multipleProv">
         <div class="fc-label original-link">
