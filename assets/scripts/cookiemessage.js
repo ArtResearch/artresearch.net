@@ -136,6 +136,7 @@ function cookieConsent() {
 }
 
 
+
 function AcceptCookie() {
 
   setCookie("RSCookies", "RStestcookie", 999);
