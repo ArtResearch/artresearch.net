@@ -12,12 +12,46 @@
 </div> -->
 <div style="background: linear-gradient(25deg, #e3e3e3, white) !important;">
   <section style="background-image:linear-gradient(rgb(28 28 28 / 36%), rgb(182 182 182 / 23%) 92.86%), url(/assets/images/home-hero-bg.png);
-  background-size: cover;
+    background-size: cover;
     color: #fff;
     margin-bottom: -5rem;
     padding-bottom: 3rem;">
+    <mp-overlay-dialog id="info-beta-modal" title="‎‎" type="lightbox">
+      <mp-overlay-dialog-trigger>
         <img style="height: 30vh; position: absolute; right: 0; padding-top: 15px;" src="/assets/images/logos/beta.svg"/>
-    <div class="search-actions" >
+      </mp-overlay-dialog-trigger>
+      <mp-overlay-dialog-content>
+              <style>
+              .modal-dialog.overlay-lightbox__dialog.modal-dialog{
+                height: 50%;
+                width: 35%;
+                /* display: flex; */
+                left: auto;
+                right: auto;
+                margin: 0 auto;
+                padding: 10px;
+                position: relative;
+              }
+              .modal-content .modal-header, .modal-header{
+                padding: none;
+              }
+            </style>
+        <div>
+          <div class ="info-beta-container">
+            <h1 style="font-size: 24px !important;
+                       margin-top: 10px !important;
+                       margin-bottom: 10px !important;
+                       ">Note !</h1>
+                       <h2 style="font-weight:500">
+                 <p>ArtResearch.net provides access to images and data from multiple sources in different languages and formats.</p>
+                 <p>Curators of partner institutions are currently aligning artists, repositories, photographers, techniques and other data to improve search results.</p>
+                 <p>Contextual search and facet functionalities are <span style="color: rgb(220, 54, 54) !important;">in progress</span></p></h2>
+         </div>
+        </div>
+      </mp-overlay-dialog-content>
+      </mp-overlay-dialog>
+    
+        <div class="search-actions" >
          <div class="text-with-image banner"> 
         <div>
          <div style="font-size: 26px;">explore, connect and contextualize art histories</div>
