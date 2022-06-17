@@ -19,7 +19,7 @@ class BetaInfo extends HTMLElement {
     <div class ="info-beta-container">
        <h4 style="font-size: 24px !important;
                   margin-top: 10px !important;
-                  margin-bottom: 10px !important;">Note !</h4>
+                  margin-bottom: 10px !important;">Please Note:</h4>
             <p>ArtResearch.net provides access to images and data from multiple sources in different languages and formats.</p>
             <p>Curators of partner institutions are currently aligning artists, repositories, photographers, techniques and other data to improve search results.</p>
             <p>Contextual search and facet functionalities are <span class="red-span">in progress</span></p>
