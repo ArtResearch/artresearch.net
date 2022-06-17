@@ -13,10 +13,10 @@
       [[/if]]
       <div>
         <bs-nav bs-style="tabs">
-          <bs-nav-item event-key="summary">Summary</bs-nav-item>
+          <bs-nav-item event-key="summary"><div style="font-size: 16px;">Summary</div></bs-nav-item>
           <bs-nav-item event-key="artworks">
               [[#if (ask "ASK {?work fr:Work_created_from_Artist ?? }") ]] 
-              <div style="display:flex;">Artworks
+              <div style="display:flex; font-size: 16px;">Artworks
             (
               <semantic-query query='
                SELECT (COUNT(DISTINCT ?artwork) AS ?count) WHERE{

@@ -12,11 +12,11 @@
       [[/if]]
       <div>
         <bs-nav bs-style="tabs">
-          <bs-nav-item event-key="summary">Summary</bs-nav-item>
+          <bs-nav-item event-key="summary"><div style=" font-size:16px;">Summary</div></bs-nav-item>
           [[#if (ask "ASK {?work fr:Work_created_from_Artist ?? }") ]] 
             <bs-nav-item event-key="artworks">
               [[#if (ask "ASK {?work fr:Work_created_from_Artist ?? }") ]] 
-                  <div style="display:flex;">Artworks
+                  <div style=" font-size:16px; display:flex;">Artworks
                   (
                     <semantic-query 
                       query='
@@ -31,7 +31,7 @@
           [[#if (ask "ASK { ?photograph fr:Photo_created_by_Photographer ?? }") ]] 
             <bs-nav-item event-key="photographs">
               [[#if (ask "ASK { ?photograph fr:Photo_created_by_Photographer ?? }") ]]  
-                <div style="display:flex;">Photographs(
+                <div style= "  font-size:16px; display:flex;">Photographs(
                     <semantic-query 
                         query='
                         SELECT (COUNT(DISTINCT ?photograph) AS ?count) WHERE{
