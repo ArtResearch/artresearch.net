@@ -50,6 +50,14 @@
       BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/nypl/source/NYPL"),"NYPL", false)) AS ?providerLabel)
       BIND(IRI("https://artresearch.net/resource/nypl/source/NYPL") as ?provider)
       FILTER(?providerLabel!="false")
+    }UNION {
+      BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/midas/source/MIDAS"),"MIDAS", false)) AS ?providerLabel)
+      BIND(IRI("https://artresearch.net/resource/midas/source/MIDAS") as ?provider)
+      FILTER(?providerLabel!="false")
+    }UNION {
+      BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/geonames/source/Geonames"),"Geonames", false)) AS ?providerLabel)
+      BIND(IRI("https://artresearch.net/resource/geonames/source/Geonames") as ?provider)
+      FILTER(?providerLabel!="false")
     }
   }
     '
@@ -119,6 +127,14 @@
       }UNION {
         BIND(STR(IF(CONTAINS("{{provider.value}}","https://artresearch.net/resource/nypl/source/NYPL"),"NYPL", false)) AS ?providerLabel)
         BIND(IRI("https://artresearch.net/resource/nypl/source/NYPL") as ?provider)
+        FILTER(?providerLabel!="false")
+      }UNION {
+        BIND(STR(IF(CONTAINS("{{provider.value}}","https://artresearch.net/resource/midas/source/MIDAS"),"MIDAS", false)) AS ?providerLabel)
+        BIND(IRI("https://artresearch.net/resource/midas/source/MIDAS") as ?provider)
+        FILTER(?providerLabel!="false")
+      }UNION {
+        BIND(STR(IF(CONTAINS("{{provider.value}}","https://artresearch.net/resource/geonames/source/Geonames"),"Geonames", false)) AS ?providerLabel)
+        BIND(IRI("https://artresearch.net/resource/geonames/source/Geonames") as ?provider)
         FILTER(?providerLabel!="false")
       }
     }
@@ -190,7 +206,14 @@
       BIND(STR(IF(CONTAINS("{{provider.value}}","https://artresearch.net/resource/nypl/source/NYPL"),"NYPL", false)) AS ?providerLabel)
       BIND(IRI("https://artresearch.net/resource/nypl/source/NYPL") as ?provider)
       FILTER(?providerLabel!="false")
-    }
+    }UNION {
+      BIND(STR(IF(CONTAINS("{{provider.value}}","https://artresearch.net/resource/midas/source/MIDAS"),"MIDAS", false)) AS ?providerLabel)
+      BIND(IRI("https://artresearch.net/resource/midas/source/MIDAS") as ?provider)
+      FILTER(?providerLabel!="false")
+    }UNION {
+      BIND(STR(IF(CONTAINS("{{provider.value}}","https://artresearch.net/resource/geonames/source/Geonames"),"Geonames", false)) AS ?providerLabel)
+      BIND(IRI("https://artresearch.net/resource/geonames/source/Geonames") as ?provider)
+      FILTER(?providerLabel!="false")
   }'
   template="{{> multipleProv}}">
     <template id="multipleProv">
