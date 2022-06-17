@@ -17,13 +17,13 @@
             <bs-nav-item event-key="artworks">
               [[#if (ask "ASK {?work fr:Work_created_from_Artist ?? }") ]] 
                   <div style=" font-size:16px; display:flex;">Artworks
-                  (
+                  <div style="font-weight: 700; display:flex; ">(
                     <semantic-query 
                       query='
                       SELECT (COUNT(DISTINCT ?artwork) AS ?count) WHERE{
                         ?? fr:Artist_created_Work ?artwork.
                       }'>
-                    </semantic-query>)
+                    </semantic-query>)</div>
                   </div>
               [[/if]]
             </bs-nav-item>
@@ -31,13 +31,13 @@
           [[#if (ask "ASK { ?photograph fr:Photo_created_by_Photographer ?? }") ]] 
             <bs-nav-item event-key="photographs">
               [[#if (ask "ASK { ?photograph fr:Photo_created_by_Photographer ?? }") ]]  
-                <div style= "  font-size:16px; display:flex;">Photographs(
+                <div style= "  font-size:16px; display:flex;">Photographs <div style="font-weight: 700; display:flex; ">(
                     <semantic-query 
                         query='
                         SELECT (COUNT(DISTINCT ?photograph) AS ?count) WHERE{
                           ?photograph fr:Photo_created_by_Photographer ??
                         }'>
-                    </semantic-query>)
+                    </semantic-query>)</div>
                 </div>
               [[/if]]
             </bs-nav-item>

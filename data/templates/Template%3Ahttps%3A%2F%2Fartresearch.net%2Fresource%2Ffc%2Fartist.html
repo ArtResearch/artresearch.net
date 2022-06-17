@@ -17,13 +17,13 @@
           <bs-nav-item event-key="artworks">
               [[#if (ask "ASK {?work fr:Work_created_from_Artist ?? }") ]] 
               <div style="display:flex; font-size: 16px;">Artworks
-            (
+            <div style="font-weight: 700; display:flex; ">(
               <semantic-query query='
                SELECT (COUNT(DISTINCT ?artwork) AS ?count) WHERE{
                 ?artwork a fc:work.
                 ?? fr:Artist_created_Work ?artwork
                }
-             '></semantic-query>)
+             '></semantic-query>)</div>
             </div>
             [[/if]]
           </bs-nav-item>
