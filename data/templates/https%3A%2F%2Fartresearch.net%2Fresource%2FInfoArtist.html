@@ -1,5 +1,5 @@
 <div class="header-options artistAdditionalOptions">
-  <div style="display:flex; flex-wrap: wrap;">
+  <div style="display:flex; flex-wrap: wrap; flex-direction: row-reverse;">
       <semantic-query
         query=' SELECT DISTINCT (IRI(REPLACE(STR(?m),"http://d-nb.info/gnd/tp/","https://d-nb.info/gnd/")) AS ?link) ?icon ?title WHERE {
                   ?og owl:sameAs <[[this]]>.
@@ -26,7 +26,7 @@
                           title="{{title.value}}"
                           src="{{icon.value}}"
                         />
-                        <h6 class="textsourceIconDNB">View {{title.value}} record</h6>
+                        <!-- <h6 class="textsourceIconDNB">View {{title.value}} record</h6> -->
                     </div>
                 </div>
               </a>    
@@ -48,7 +48,7 @@
               <div class="fc-label original-linkDNB">
                 <div class="linkImageWrapper">
                   <img class="sourceIconDNB" src="../../assets/images/Getty.ico"/>
-                  <h6 class="textsourceIconDNB">View GETTY record</h6>
+                  <!-- <h6 class="textsourceIconDNB">View GETTY record</h6> -->
                 </div>
               </div>
             </a>
@@ -62,7 +62,7 @@
               <div class="fc-label original-linkDNB">
                 <div class="linkImageWrapper">
                   <img class="sourceIconDNB" src="../../assets/images/Wikidata.ico"/>
-                  <h6 class="textsourceIconDNB">View Wikidata record</h6>
+                  <!-- <h6 class="textsourceIconDNB">View Wikidata record</h6> -->
                 </div>
               </div>
             </a>
