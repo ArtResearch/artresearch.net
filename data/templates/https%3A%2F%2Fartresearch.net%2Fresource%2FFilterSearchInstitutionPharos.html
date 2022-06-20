@@ -95,22 +95,21 @@
             default-expanded="true"
           >
             <semantic-search-facet open-by-default='true' sortby='count-desc' facet-values-threshold="1000"></semantic-search-facet>
+            <semantic-search-result id="semantic-search-result">
               <semantic-tree
+                id="my-tree"
                 collapsed="true"
                 query="
-                    PREFIX : <http://help.metaphacts.com/resource/>
-                    SELECT ?node ?parent WHERE {
-                      ?subject a fc:institution. 
-                      ?subject fr:Institution_from_Place ?parent.
-                      ?parent rdfs:label ?label.
-                      ?subject fr:Institution_from_Place ?node. 
-                      {
-                        ?node <http://www.geonames.org/ontology#parentCountry>  ?parent.
-                        FILTER EXISTS { ?x <http://www.geonames.org/ontology#parentADM1> ?node.}
-                      }UNION{
-                        ?node <http://www.geonames.org/ontology#parentADM1> ?parent.
-                      }
-                    }order by(?label)"
+                SELECT distinct ?node ?parent WHERE {
+                  ?subject a fc:institution. 
+                  ?subject fr:Institution_from_Place ?node.
+                  ?node <http://www.geonames.org/ontology#parentCountry>  ?parent.
+                  ?parent rdfs:label ?label.
+                  FILTER NOT EXISTS {
+                  ?subject fr:Institution_from_Place ?node2.
+                    ?node2 <http://www.geonames.org/ontology#parentADM1> ?node.
+                }
+                } order by(?label)"
                 tuple-template="{{>placeTuple}}"
               >
                 <template id="placeTuple">
@@ -128,6 +127,7 @@
                   </div>
                 </template>
               </semantic-tree>
+              </semantic-search-result>
               <div style="width: 100%;" class ="animated-background-filters okk">
                 Loading place tree..
               </div> 

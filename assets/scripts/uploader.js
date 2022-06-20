@@ -7,6 +7,7 @@
 class ImageUpload extends HTMLElement {
   constructor() {
     super();
+    // the only way to implement js in RS
     this._shadowRoot = this.attachShadow({ mode: "open" });
     const clientid = "9516b72594d77fc";
     const endpoint = "https://api.imgur.com/3/image";
