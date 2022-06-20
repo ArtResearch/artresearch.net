@@ -1,10 +1,56 @@
-<div class="row row-center">
-  <div id="main-containers" style="max-width: 1300px" class="col-md-10 col-xs-10">
-    <div class="row">
-      <header>
-        <h1>Contact Us</h1>
-      </header>
-    </div>
-
+<div class="container">
+  <div>
+    <h1>Contact us:</h1>
   </div>
+  <semantic-context repository="mail">
+    <semantic-search>      
+      <semantic-search-form-query
+         query-template='{
+           "queryString": "
+            PREFIX example: <http://www.example.org/ontology#>
+            SELECT ?subject WHERE {
+              ?subject example:hasSender ?sender;
+                       example:hasRecipient ?recipient;
+                       example:hasSubject ?subject;
+                       example:hasMessage ?message.
+            }
+            ",
+            "arguments": {
+              "sender": {"type": "xsd:string"},
+              "recipient": {"type": "xsd:string"},              
+              "subject": {"type": "xsd:string"},
+              "message": {"type": "xsd:string"}
+            }
+          }'
+          fields='[
+            {
+              "id": "sender",
+              "label": "Sender email",
+              "xsdDatatype": "xsd:string"
+            },
+            {
+              "id": "recipient",
+              "label": "Recipient email",
+              "xsdDatatype": "xsd:string"
+            },
+            {
+              "id": "subject",
+              "label": "Subject",
+              "xsdDatatype": "xsd:string"
+            },
+            {
+              "id": "message",
+              "label": "Message",
+              "xsdDatatype": "xsd:string"
+            }
+          ]'>
+            <semantic-form-text-input for="sender" placeholder='Sender email'></semantic-form-text-input>
+            <semantic-form-text-input for="recipient" placeholder='Recipient email'></semantic-form-text-input>
+            <semantic-form-text-input for="subject" placeholder='Subject'></semantic-form-text-input>
+            <semantic-form-text-input for="message" placeholder='Message'></semantic-form-text-input>
+        
+            <button type='button' name='submit' className='btn btn-default'>Submit</button>
+      </semantic-search-form-query>     
+    </semantic-search>
+  </semantic-context>
 </div>
