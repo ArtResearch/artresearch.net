@@ -18,7 +18,7 @@
                            ?? fr:Work_depicted_by_Photo ?photo
                          }
                         [[/if]]
-                      }'
+                      }order by (?photo)'
                     tuple-template="{{> photos}}"
                     no-result-template='<h2>No photographs found</h2>'
                 >
@@ -160,6 +160,8 @@
                               fields='[[fieldDefinitions  
                                 Title="https://artresearch.net/fieldDefinition/2"  
                                 License ="http://www.researchspace.org/fieldDefinition/Image_Licence"
+                                Holder = "https://artresearch.net/fieldDefinition/140"
+                                Type = "https://artresearch.net/fieldDefinition/45"
                               ]]'
                               template="{{>productionInfo}}"
                             >
