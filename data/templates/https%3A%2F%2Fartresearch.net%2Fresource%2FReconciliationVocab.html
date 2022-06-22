@@ -1,0 +1,86 @@
+
+
+    <semantic-table id='resources-results'
+      number-of-displayed-rows=10
+      query=' PREFIX ldp: <http://www.w3.org/ns/ldp#>
+      SELECT  ?subject 
+          [[#if automatic]]
+          [[else]]
+              (SAMPLE(?provider) as ?provider)
+              (SAMPLE(?providerLabel) as ?providerLabel) 
+          [[/if]]
+              (SAMPLE(?value) as ?value) 
+              (SAMPLE(?matchId) as ?matchId) 
+              (SAMPLE(?attribution) as ?attribution) 
+              (SAMPLE(?datetime) as ?datetime) 
+              (SAMPLE(?formContainer) as ?formContainer)
+              (SAMPLE(?container) as ?container) WHERE {
+        [[#if automatic]]
+        [[else]]
+            ?subject <https://artresearch.net/custom/has_provider> <[[provider]]>. 
+        [[/if]]               
+          GRAPH ?g {
+            ?formContainer ldp:contains ?container .
+            ?container prov:wasAttributedTo ?attribution;
+              prov:generatedAtTime ?datetime.
+            ?subject <http://www.w3.org/2002/07/owl#sameAs> ?value.
+          }
+          [[#if artists]]
+            ?value a fc:artist.
+          [[else if photographers]]
+            ?value a fc:photographer.
+          [[else if repositories]]
+            ?value a fc:institution.
+          [[/if]]
+      }GROUP BY ?subject ORDER BY DESC(?datetime) LIMIT 1000'
+      number-of-displayed-rows=10
+      no-result-template='<h1 style="margin-top:150px;">There are no pairs in this list</h1>'
+        column-configuration=
+          '[
+            {"variableName":"subject","displayName":"Artresearch", "cellTemplate": "{{>pharos}}"},
+            [[#if artists]]
+              {"variableName":"value","displayName":"ULAN", "cellTemplate": "<a href=\"{{value.value}}\"><mp-label iri=\"{{value.value}}\"></mp-label></a>"},
+            [[else if photographers]]
+              {"variableName":"value","displayName":"Wikidata", "cellTemplate": "<a href=\"{{value.value}}\"><mp-label iri=\"{{value.value}}\"></mp-label></a>"},
+            [[else if repositories]]
+              {"variableName":"value","displayName":"Wikidata", "cellTemplate": "<a href=\"{{value.value}}\"><mp-label iri=\"{{value.value}}\"></mp-label></a>"},
+            [[/if]]
+            {"variableName":"attribution","displayName":"Attribution", "cellTemplate": "<mp-label iri=\"{{attribution.value}}\"></mp-label>"},
+            {"variableName":"datetime","displayName":"Modified", "cellTemplate": "{{datetime.value}}"},
+            {"variableName":"actions","displayName":"Actions", "cellTemplate": "{{>Actions}}"}
+          ]'
+      >
+
+        <template id="pharos">
+          <div>
+            [[#if automatic]]
+            [[else]]
+            <mp-label iri="[[provider]]"></mp-label>: 
+            <a href="{{subject.value}}"><mp-label iri="{{subject.value}}"></mp-label></a>
+            [[/if]]
+          </div>
+        </template>
+        <template id="suggest_match">
+          {{#if value.value}}
+            <a href="{{value.value}}"><mp-label iri="{{value.value}}"></mp-label></a>
+          {{else}}
+            no suggestion
+          {{/if}}
+        </template>
+        <template id="Actions">
+            <mp-ldp-remove-from-container-action action="DELETE" post-action='reload' iri="{{container.value}}" container="http://www.researchspace.org/resource/system/formContainer">
+              <button title='This action will remove the item from your matched institutions list. It will be then available under institutions matchings for you or another reviewer to match.' class="btn action btn-danger" style="margin-right:8px;"><i style="color: white;" class="fa fa-trash" aria-hidden=true></i> Delete</button>
+            </mp-ldp-remove-from-container-action>
+        </template>
+    </semantic-table>
+ 
+
+<style>
+  .actions{
+  gap: 150px;
+  }
+  .matchingImage {
+    height: 18vh !important;
+    margin: 0vw !important;
+  }
+</style>
