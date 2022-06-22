@@ -2,7 +2,22 @@
   {{#ifCond value.binding.role.value "===" "" }}
     <semantic-link iri="{{value.value.value}}">[[> ArtistLabel creatorField="{{value.label}}" ]]</semantic-link>
   {{else}}
-    <semantic-link iri="{{value.value.value}}"></semantic-link> ,  <mp-label iri="{{value.role.value}}"></mp-label>
+  {{log this}}
+    <semantic-link iri="{{value.value.value}}"></semantic-link>
+    <semantic-query
+    query="SELECT distinct ?roleLabel WHERE{
+      ?? crm:P108i_was_produced_by/crm:P01i_is_domain_of ?domain.
+      ?domain crm:P02_has_range <{{value.value.value}}>;
+              crm:P14.1_in_the_role_of ?role.
+              ?role rdfs:label ?roleLabel
+    }"
+      template="{{>rolebox}}">
+    <template id="rolebox">
+      {{#each bindings}}
+          ,<span>{{roleLabel.value}}</span>
+      {{/each}}
+    </template>
+    </semantic-query>
   {{/ifCond}}
 {{else}}
 {{#ifCond field.label.0.value "===" "Description"}}
