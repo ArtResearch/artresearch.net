@@ -1,8 +1,8 @@
 {{#ifCond field.iri "===" "http://www.researchspace.org/fieldDefinition/CreatorWithRole" }}
-  {{#ifCond value.binding.roleLabel.value "===" "" }}
+  {{#ifCond value.binding.role.value "===" "" }}
     <semantic-link iri="{{value.value.value}}">[[> ArtistLabel creatorField="{{value.label}}" ]]</semantic-link>
   {{else}}
-    <semantic-link iri="{{value.value.value}}"></semantic-link>  , {{value.binding.roleLabel.value}}
+    <semantic-link iri="{{value.value.value}}"></semantic-link> ,  <mp-label iri="{{value.role.value}}"></mp-label>
   {{/ifCond}}
 {{else}}
 {{#ifCond field.label.0.value "===" "Description"}}
