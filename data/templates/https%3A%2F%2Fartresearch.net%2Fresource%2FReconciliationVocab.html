@@ -4,49 +4,39 @@
       number-of-displayed-rows=10
       query=' PREFIX ldp: <http://www.w3.org/ns/ldp#>
       SELECT  ?subject 
-          [[#if automatic]]
-          [[else]]
-              (SAMPLE(?provider) as ?provider)
-              (SAMPLE(?providerLabel) as ?providerLabel) 
-          [[/if]]
               (SAMPLE(?value) as ?value) 
-              (SAMPLE(?matchId) as ?matchId) 
-              (SAMPLE(?attribution) as ?attribution) 
-              (SAMPLE(?datetime) as ?datetime) 
-              (SAMPLE(?formContainer) as ?formContainer)
-              (SAMPLE(?container) as ?container) WHERE {
+              WHERE {
         [[#if automatic]]
+         ?subject <https://artresearch.net/resource/fr/sameAs> ?value.
         [[else]]
             ?subject <https://artresearch.net/custom/has_provider> <[[provider]]>. 
-        [[/if]]               
-          GRAPH ?g {
-            ?formContainer ldp:contains ?container .
-            ?container prov:wasAttributedTo ?attribution;
-              prov:generatedAtTime ?datetime.
             ?subject <http://www.w3.org/2002/07/owl#sameAs> ?value.
-          }
+            FILTER NOT EXISTS { ?subject <https://artresearch.net/resource/fr/sameAs> ?value. }
+          [[/if]] 
           [[#if artists]]
             ?value a fc:artist.
+            FILTER NOT EXISTS {?value a fc:institution}
+            FILTER NOT EXISTS {?value a fc:photographer}
           [[else if photographers]]
             ?value a fc:photographer.
+            FILTER NOT EXISTS {?value a fc:institution}
           [[else if repositories]]
             ?value a fc:institution.
+            FILTER NOT EXISTS {?value a fc:artist}
           [[/if]]
-      }GROUP BY ?subject ORDER BY DESC(?datetime) LIMIT 1000'
+      }GROUP BY ?subject  LIMIT 1000'
       number-of-displayed-rows=10
       no-result-template='<h1 style="margin-top:150px;">There are no pairs in this list</h1>'
         column-configuration=
           '[
             {"variableName":"subject","displayName":"Artresearch", "cellTemplate": "{{>pharos}}"},
             [[#if artists]]
-              {"variableName":"value","displayName":"ULAN", "cellTemplate": "<a href=\"{{value.value}}\"><mp-label iri=\"{{value.value}}\"></mp-label></a>"},
+              {"variableName":"value","displayName":"ULAN", "cellTemplate": "<semantic-link iri=\"{{value.value}}\"></semantic-link>"},
             [[else if photographers]]
-              {"variableName":"value","displayName":"Wikidata", "cellTemplate": "<a href=\"{{value.value}}\"><mp-label iri=\"{{value.value}}\"></mp-label></a>"},
+              {"variableName":"value","displayName":"Wikidata", "cellTemplate": "<semantic-link iri=\"{{value.value}}\"></semantic-link>"},
             [[else if repositories]]
-              {"variableName":"value","displayName":"Wikidata", "cellTemplate": "<a href=\"{{value.value}}\"><mp-label iri=\"{{value.value}}\"></mp-label></a>"},
+              {"variableName":"value","displayName":"Wikidata", "cellTemplate": "<semantic-link iri=\"{{value.value}}\"></semantic-link>"},
             [[/if]]
-            {"variableName":"attribution","displayName":"Attribution", "cellTemplate": "<mp-label iri=\"{{attribution.value}}\"></mp-label>"},
-            {"variableName":"datetime","displayName":"Modified", "cellTemplate": "{{datetime.value}}"},
             {"variableName":"actions","displayName":"Actions", "cellTemplate": "{{>Actions}}"}
           ]'
       >
@@ -55,17 +45,10 @@
           <div>
             [[#if automatic]]
             [[else]]
-            <mp-label iri="[[provider]]"></mp-label>: 
-            <a href="{{subject.value}}"><mp-label iri="{{subject.value}}"></mp-label></a>
+            <semantic-link iri="[[provider]]"></semantic-link>: 
             [[/if]]
+            <semantic-link iri="{{subject.value}}"></semantic-link>
           </div>
-        </template>
-        <template id="suggest_match">
-          {{#if value.value}}
-            <a href="{{value.value}}"><mp-label iri="{{value.value}}"></mp-label></a>
-          {{else}}
-            no suggestion
-          {{/if}}
         </template>
         <template id="Actions">
             <mp-ldp-remove-from-container-action action="DELETE" post-action='reload' iri="{{container.value}}" container="http://www.researchspace.org/resource/system/formContainer">
