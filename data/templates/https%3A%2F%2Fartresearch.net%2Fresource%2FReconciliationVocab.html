@@ -1,0 +1,69 @@
+
+
+    <semantic-table id='resources-results'
+      number-of-displayed-rows=10
+      query=' PREFIX ldp: <http://www.w3.org/ns/ldp#>
+      SELECT  ?subject 
+              (SAMPLE(?value) as ?value) 
+              WHERE {
+        [[#if automatic]]
+         ?subject <https://artresearch.net/resource/fr/sameAs> ?value.
+        [[else]]
+            ?subject <https://artresearch.net/custom/has_provider> <[[provider]]>. 
+            ?subject <http://www.w3.org/2002/07/owl#sameAs> ?value.
+            FILTER NOT EXISTS { ?subject <https://artresearch.net/resource/fr/sameAs> ?value. }
+          [[/if]] 
+          [[#if artists]]
+            ?value a fc:artist.
+            FILTER NOT EXISTS {?value a fc:institution}
+            FILTER NOT EXISTS {?value a fc:photographer}
+          [[else if photographers]]
+            ?value a fc:photographer.
+            FILTER NOT EXISTS {?value a fc:institution}
+          [[else if repositories]]
+            ?value a fc:institution.
+            FILTER NOT EXISTS {?value a fc:artist}
+          [[/if]]
+      }GROUP BY ?subject  LIMIT 1000'
+      number-of-displayed-rows=10
+      no-result-template='<h1 style="margin-top:150px;">There are no pairs in this list</h1>'
+        column-configuration=
+          '[
+            {"variableName":"subject","displayName":"Artresearch", "cellTemplate": "{{>pharos}}"},
+            [[#if artists]]
+              {"variableName":"value","displayName":"ULAN", "cellTemplate": "<semantic-link iri=\"{{value.value}}\"></semantic-link>"},
+            [[else if photographers]]
+              {"variableName":"value","displayName":"Wikidata", "cellTemplate": "<semantic-link iri=\"{{value.value}}\"></semantic-link>"},
+            [[else if repositories]]
+              {"variableName":"value","displayName":"Wikidata", "cellTemplate": "<semantic-link iri=\"{{value.value}}\"></semantic-link>"},
+            [[/if]]
+            {"variableName":"actions","displayName":"Actions", "cellTemplate": "{{>Actions}}"}
+          ]'
+      >
+
+        <template id="pharos">
+          <div>
+            [[#if automatic]]
+            [[else]]
+            <semantic-link iri="[[provider]]"></semantic-link>: 
+            [[/if]]
+            <semantic-link iri="{{subject.value}}"></semantic-link>
+          </div>
+        </template>
+        <template id="Actions">
+            <mp-ldp-remove-from-container-action action="DELETE" post-action='reload' iri="{{container.value}}" container="http://www.researchspace.org/resource/system/formContainer">
+              <button title='This action will remove the item from your matched institutions list. It will be then available under institutions matchings for you or another reviewer to match.' class="btn action btn-danger" style="margin-right:8px;"><i style="color: white;" class="fa fa-trash" aria-hidden=true></i> Delete</button>
+            </mp-ldp-remove-from-container-action>
+        </template>
+    </semantic-table>
+ 
+
+<style>
+  .actions{
+  gap: 150px;
+  }
+  .matchingImage {
+    height: 18vh !important;
+    margin: 0vw !important;
+  }
+</style>

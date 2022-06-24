@@ -17,6 +17,7 @@
                 crm:P129i_is_subject_of ?rectoVersoImage.
                 ?rectoVersoImage crm:P2_has_type ?type.
                 ?type rdfs:label ?typeLabel.
+                ?photo rdfs:label ?photoLabel.
                 OPTIONAL{
                   ?rectoVersoImage crm:P129i_is_subject_of ?imageManifest.
                   FILTER NOT EXISTS{
@@ -25,7 +26,7 @@
                 }
                 FILTER(?typeLabel = "verso" || ?typeLabel = "recto"  ).
                 BIND(REPLACE(STR(?rectoVersoImage),"full/full","full/!650,650") AS ?rectoVersoImageThumbnail).
-              }ORDER BY ASC(?typeLabel)'
+              }ORDER BY ASC(?photoLabel)'
             template="{{> mediumImageSize}}"
           >
               <template id="mediumImageSize">

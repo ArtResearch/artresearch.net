@@ -177,9 +177,7 @@
                 domain="<https://artresearch.net/resource/fc/artist>"
                 default-query=' SELECT DISTINCT ?subject WHERE {
                                   ?subject a fc:artist.
-                                  {{#ifCond withULAN "!==" "true"}}
                                    ?subject fr:Artist_created_Work ?work.
-                                  {{/ifCond}}
                                 }LIMIT 1000'
                 query='SELECT DISTINCT ?subject WHERE {
                           ?subject a fc:artist.
@@ -187,9 +185,7 @@
                           ?someLabel bds:search ?__token__ .
                           ?someLabel bds:minRelevance "0.3"^^xsd:double;
                           bds:matchAllTerms "true" .
-                           {{#ifCond withULAN "===" "true"}}
-                            ?subject fr:Artist_created_Work ?work.
-                          {{/ifCond}}
+                          ?subject fr:Artist_created_Work ?work.
                         }LIMIT 1000'
               ></semantic-search-query-keyword>
               </template>
@@ -214,9 +210,11 @@
                 <bs-tab event-key="2" title="Grid">
                     <div>
                         <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
-                        [[> ULANSwitches]]
                         <semantic-search-result id="semantic-search-result">
                           [[> SearchResultCount]]
+                          <div><h2>
+                            Please note! Presenting only artists with artworks.
+                          </h2></div>
                         </semantic-search-result>
                         <semantic-search-result>
                             <div id="card-results">

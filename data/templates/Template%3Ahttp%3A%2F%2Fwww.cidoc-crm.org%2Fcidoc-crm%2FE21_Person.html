@@ -1,4 +1,4 @@
-[[> Breadcrumb category="Person" categoryUrl="/resource/DisplayPharosArtists?withULAN=true" ]]
+[[> Breadcrumb category="Person" categoryUrl="/resource/DisplayPharosArtists" ]]
 
 <div class="page rs-page">
   [[#> ClipboardSidebar]]
@@ -21,7 +21,12 @@
                     <semantic-query 
                       query='
                       SELECT (COUNT(DISTINCT ?artwork) AS ?count) WHERE{
+                        OPTIONAL{
                         ?? fr:Artist_created_Work ?artwork.
+                        }
+                        OPTIONAL {
+                          ?? cfr:Artist_created_Work ?artwork.
+                        }
                       }'>
                     </semantic-query>)</div>
                   </div>

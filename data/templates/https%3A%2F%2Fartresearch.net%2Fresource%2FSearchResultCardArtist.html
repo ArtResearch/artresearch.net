@@ -5,9 +5,7 @@
   number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}25{{/if}}"
   query='SELECT DISTINCT ?subject 
     WHERE {
-      {{#ifCond withULAN "===" "true"}}
         ?subject fr:Artist_created_Work ?work.
-      {{/ifCond}}
         ?subject a fc:artist
         } LIMIT 1000'
   tuple-template="{{>tupleTemplate}}"
