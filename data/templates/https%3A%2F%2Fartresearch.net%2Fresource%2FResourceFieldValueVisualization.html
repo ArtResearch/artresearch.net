@@ -6,9 +6,14 @@
     <semantic-link iri="{{value.value.value}}"></semantic-link>
     <semantic-query
     query="SELECT distinct ?roleLabel WHERE{
-      ?? crm:P108i_was_produced_by/crm:P01i_is_domain_of ?domain.
-      ?domain crm:P02_has_range <{{value.value.value}}>;
-              crm:P14.1_in_the_role_of ?role.
+      {
+        ?og owl:sameAs ??.
+        ?og crm:P108i_was_produced_by/crm:P01i_is_domain_of ?domain.
+      }UNION{
+        ?? crm:P108i_was_produced_by/crm:P01i_is_domain_of ?domain.
+      }
+              ?domain crm:P02_has_range <{{value.value.value}}>;
+                      crm:P14.1_in_the_role_of ?role.
               ?role rdfs:label ?roleLabel
     }"
       template="{{>rolebox}}">
