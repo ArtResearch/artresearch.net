@@ -42,7 +42,7 @@ PREFIX : <http://www.researchspace.org/resource/system/service/custom#>
 	spin:constraint [
 		a spl:Argument ;
 		rdfs:comment "Recipient email" ;
-		spl:predicate :_recipient ;
+		spl:predicate :_to ;
 		spl:valueType xsd:string ;
 		ephedra:inputJsonPath "personalizations[0].to[0].email"
   	] ;
@@ -51,7 +51,7 @@ PREFIX : <http://www.researchspace.org/resource/system/service/custom#>
 	[
 		a spl:Argument ;
 		rdfs:comment "Sender email" ;
-		spl:predicate :_sender ;
+		spl:predicate :_from;
 		spl:valueType xsd:string ;
 		ephedra:inputJsonPath "from.email"
     ] ;
