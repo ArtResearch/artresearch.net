@@ -3,8 +3,7 @@ PREFIX spin: <http://spinrdf.org/spin#>
 PREFIX spl: <http://spinrdf.org/spl#>
 PREFIX sail: <http://www.openrdf.org/config/sail#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX example: <http://www.example.org/ontology#>
-PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX example: <http://www.researchspace.org/ontology#mail>
 PREFIX ephedra: <http://www.researchspace.org/resource/system/ephedra#>
 PREFIX : <http://www.researchspace.org/resource/system/service/custom#>
 
@@ -15,30 +14,31 @@ PREFIX : <http://www.researchspace.org/resource/system/service/custom#>
 		[
 			sp:subject :_results ;
 			sp:predicate example:hasSender ;
-			sp:object :_sender;
+			sp:object :_sender
 		]
 		[
 			sp:subject :_results ;
 			sp:predicate example:hasRecipient ;
-			sp:object :_recipient;
+			sp:object :_recipient
 		]		
 		[
 			sp:subject :_results ;
 			sp:predicate example:hasMessage ;
-			sp:object :_message;
+			sp:object :_message
 		]    
   		[
 			sp:subject :_results ;
 			sp:predicate example:hasSubject ;
-			sp:object :_subject;
+			sp:object :_subject
 		]
 		[
 			sp:subject :_results ;
 			sp:predicate example:hasType ;
-			sp:object :_type;
+			sp:object :_type
 		]
-	) ;
+	);
 
+	# SENDING JSON
 	spin:constraint [
 		a spl:Argument ;
 		rdfs:comment "Recipient email" ;
@@ -83,6 +83,7 @@ PREFIX : <http://www.researchspace.org/resource/system/service/custom#>
 		ephedra:inputJsonPath "content[0].value"
     ] ;
 
+	# RECEIVING COLUMNS
 	spin:column
 	[
 		a spin:Column ;
