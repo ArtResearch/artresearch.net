@@ -3,7 +3,8 @@ PREFIX spin: <http://spinrdf.org/spin#>
 PREFIX spl: <http://spinrdf.org/spl#>
 PREFIX sail: <http://www.openrdf.org/config/sail#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX example: <http://www.researchspace.org/ontology#mail>
+PREFIX example: <http://www.example.org/ontology#>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
 PREFIX ephedra: <http://www.researchspace.org/resource/system/ephedra#>
 PREFIX : <http://www.researchspace.org/resource/system/service/custom#>
 
@@ -14,46 +15,45 @@ PREFIX : <http://www.researchspace.org/resource/system/service/custom#>
 		[
 			sp:subject :_results ;
 			sp:predicate example:hasSender ;
-			sp:object :_sender
+			sp:object :_sender;
 		]
 		[
 			sp:subject :_results ;
 			sp:predicate example:hasRecipient ;
-			sp:object :_recipient
+			sp:object :_recipient;
 		]		
 		[
 			sp:subject :_results ;
 			sp:predicate example:hasMessage ;
-			sp:object :_message
+			sp:object :_message;
 		]    
   		[
 			sp:subject :_results ;
 			sp:predicate example:hasSubject ;
-			sp:object :_subject
+			sp:object :_subject;
 		]
 		[
 			sp:subject :_results ;
 			sp:predicate example:hasType ;
-			sp:object :_type
+			sp:object :_type;
 		]
-	);
+	) ;
 
-	# SENDING JSON
 	spin:constraint [
 		a spl:Argument ;
 		rdfs:comment "Recipient email" ;
-		spl:predicate :_to ;
+		spl:predicate :_recipient ;
 		spl:valueType xsd:string ;
-		ephedra:JsonPath "personalizations[0].to[0].email"
+		ephedra:inputJsonPath "personalizations[0].to[0].email"
   	] ;
 
 	spin:constraint
 	[
 		a spl:Argument ;
 		rdfs:comment "Sender email" ;
-		spl:predicate :_from;
+		spl:predicate :_sender ;
 		spl:valueType xsd:string ;
-		ephedra:JsonPath "from.email"
+		ephedra:inputJsonPath "from.email"
     ] ;
 
 	spin:constraint
@@ -62,7 +62,7 @@ PREFIX : <http://www.researchspace.org/resource/system/service/custom#>
 		rdfs:comment "Subject term" ;
 		spl:predicate :_subject ;
 		spl:valueType xsd:string ;
-		ephedra:JsonPath "subject"
+		ephedra:inputJsonPath "subject"
     ] ;
 
 	spin:constraint
@@ -71,7 +71,7 @@ PREFIX : <http://www.researchspace.org/resource/system/service/custom#>
 		rdfs:comment "Content type" ;
 		spl:predicate :_type ;
 		spl:valueType xsd:string ;
-		ephedra:JsonPath "content[0].type"
+		ephedra:inputJsonPath "content[0].type"
     ] ;
 	
 	spin:constraint
@@ -80,10 +80,9 @@ PREFIX : <http://www.researchspace.org/resource/system/service/custom#>
 		rdfs:comment "Content value" ;
 		spl:predicate :_message ;
 		spl:valueType xsd:string ;
-		ephedra:JsonPath "content[0].value"
+		ephedra:inputJsonPath "content[0].value"
     ] ;
 
-	# RECEIVING COLUMNS
 	spin:column
 	[
 		a spin:Column ;
@@ -92,4 +91,3 @@ PREFIX : <http://www.researchspace.org/resource/system/service/custom#>
 		spl:valueType rdfs:Resource;
 		ephedra:jsonPath "$"
 	] .
-
