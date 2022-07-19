@@ -8,7 +8,7 @@
                   } UNION {
                     <[[this]]> skos:exactMatch  ?m.
                   }
-                  BIND(IF(CONTAINS(STR(?m),"gnd"),"/assets/images/DNB.ico",IF(CONTAINS(STR(?m),"wikidata"),"/assets/images/Wikidata.ico",IF(CONTAINS(STR(?m),"wikipedia"),"/assets/images/Wikipedia.ico",IF(CONTAINS(STR(?m),"viaf"),"/assets/images/Viaf.ico",IF(CONTAINS(STR(?m),"dbpedia"),"/assets/images/DBpedia.ico", IF(CONTAINS(STR(?m), "loc"), "/assets/images/loc.ico", "")))))) AS ?icon)
+                  BIND(IF(CONTAINS(STR(?m),"gnd"),"/assets/images/DNB.ico",IF(CONTAINS(STR(?m),"ulan"),"/assets/images/Getty.ico",IF(CONTAINS(STR(?m),"wikidata"),"/assets/images/Wikidata.ico",IF(CONTAINS(STR(?m),"wikipedia"),"/assets/images/Wikipedia.ico",IF(CONTAINS(STR(?m),"viaf"),"/assets/images/Viaf.ico",IF(CONTAINS(STR(?m),"dbpedia"),"/assets/images/DBpedia.ico", IF(CONTAINS(STR(?m), "loc"), "/assets/images/loc.ico", ""))))))) AS ?icon)
                   BIND(REPLACE(REPLACE(?icon,".ico",""),"/assets/images/","") AS ?title)
                 }
               '
@@ -36,8 +36,16 @@
       </semantic-query>
       [[#if (ask "ASK { FILTER CONTAINS(STR(??),'ulan') }")]]
         <semantic-query
-          query=' SELECT ?gettyPage WHERE {             
-                    BIND(IRI(REPLACE(STR(??),"http://vocab.getty.edu/ulan/","http://vocab.getty.edu/page/ulan/")) AS ?gettyPage)
+          query=' SELECT ?gettyPage WHERE {           
+            {
+              FILTER NOT EXISTS {
+                 FILTER CONTAINS(STR(??),"http://vocab.getty.edu/page/ulan/")
+              }
+              BIND(IRI(REPLACE(STR(??),"http://vocab.getty.edu/ulan/","http://vocab.getty.edu/page/ulan/")) AS ?gettyPage)
+            }UNION{
+              FILTER CONTAINS(STR(??),"http://vocab.getty.edu/page/ulan/")
+              BIND(?? as ?gettyPage)
+            }
           }'
           no-result-template="<div></div>"
           template="{{> GettyLink}}"
