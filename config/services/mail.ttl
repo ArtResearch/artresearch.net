@@ -10,7 +10,7 @@ PREFIX : <http://www.researchspace.org/resource/system/service/custom#>
 
 :mail a ephedra:Service ;
 	sail:sailType "researchspace:RESTSail" ;
-	rdfs:label "A wrapper for a REST sendgrid API." ;
+	rdfs:label "A wrapper for AWS Mail Service." ;
 	ephedra:hasSPARQLPattern (
 		[
 			sp:subject :_results ;
@@ -32,11 +32,7 @@ PREFIX : <http://www.researchspace.org/resource/system/service/custom#>
 			sp:predicate example:hasSubject ;
 			sp:object :_subject;
 		]
-		[
-			sp:subject :_results ;
-			sp:predicate example:hasType ;
-			sp:object :_type;
-		]
+	
 	) ;
 
 	spin:constraint [
@@ -44,7 +40,6 @@ PREFIX : <http://www.researchspace.org/resource/system/service/custom#>
 		rdfs:comment "Recipient email" ;
 		spl:predicate :_recipient ;
 		spl:valueType xsd:string ;
-		ephedra:inputJsonPath "personalizations[0].to[0].email"
   	] ;
 
 	spin:constraint
@@ -53,7 +48,6 @@ PREFIX : <http://www.researchspace.org/resource/system/service/custom#>
 		rdfs:comment "Sender email" ;
 		spl:predicate :_sender ;
 		spl:valueType xsd:string ;
-		ephedra:inputJsonPath "from.email"
     ] ;
 
 	spin:constraint
@@ -62,16 +56,6 @@ PREFIX : <http://www.researchspace.org/resource/system/service/custom#>
 		rdfs:comment "Subject term" ;
 		spl:predicate :_subject ;
 		spl:valueType xsd:string ;
-		ephedra:inputJsonPath "subject"
-    ] ;
-
-	spin:constraint
-	[	
-		a spl:Argument ;
-		rdfs:comment "Content type" ;
-		spl:predicate :_type ;
-		spl:valueType xsd:string ;
-		ephedra:inputJsonPath "content[0].type"
     ] ;
 	
 	spin:constraint
@@ -80,7 +64,6 @@ PREFIX : <http://www.researchspace.org/resource/system/service/custom#>
 		rdfs:comment "Content value" ;
 		spl:predicate :_message ;
 		spl:valueType xsd:string ;
-		ephedra:inputJsonPath "content[0].value"
     ] ;
 
 	spin:column

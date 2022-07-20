@@ -8,11 +8,11 @@
          query-template='{
            "queryString": "
             PREFIX example: <http://www.example.org/ontology#mail>
-            SELECT ?subject WHERE {
-              ?subject example:hasSender ?sender;
-                       example:hasRecipient ?recipient;
-                       example:hasSubject ?subject;
-                       example:hasMessage ?message.
+            SELECT ?mail WHERE {
+              ?mail   example:hasSender ?sender;
+                      example:hasRecipient ?recipient;
+                      example:hasSubject ?subject;
+                      example:hasMessage ?message;
             }
             ",
             "arguments": {
@@ -20,6 +20,7 @@
               "recipient": {"type": "xsd:string"},              
               "subject": {"type": "xsd:string"},
               "message": {"type": "xsd:string"}
+              
             }
           }'
           fields='[
@@ -47,8 +48,7 @@
             <semantic-form-text-input for="sender" placeholder='Sender email'></semantic-form-text-input>
             <semantic-form-text-input for="recipient" placeholder='Recipient email'></semantic-form-text-input>
             <semantic-form-text-input for="subject" placeholder='Subject'></semantic-form-text-input>
-            <semantic-form-text-input for="message" placeholder='Message'></semantic-form-text-input>
-        
+            <semantic-form-text-input for="message" placeholder='Message'></semantic-form-text-input>        
             <button type='button' name='submit' className='btn btn-default'>Submit</button>
       </semantic-search-form-query>     
     </semantic-search>
