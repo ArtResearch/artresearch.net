@@ -5,7 +5,7 @@
       data='{"noRows":10}'
       targets='["my-render"]'>
       <button
-          style='{{#if noRows}}{{#ifCond noRows "===" 10}}color:#007bff; font-weight:bold;{{/ifCond}}{{else}}color:#007bff; font-weight:bold;{{/if}}'
+          style='{{#ifCond noRows "===" 10}}color:#007bff; font-weight:bold;{{/ifCond}}'
           class="no-option">
         10
       </button>
@@ -15,7 +15,7 @@
       data='{"noRows":25}'
       targets='["my-render"]'>
       <button 
-          style='{{#ifCond noRows "===" 25}}color:#007bff; font-weight:bold;{{/ifCond}}'
+          style='{{#if noRows}}{{#ifCond noRows "===" 25}}color:#007bff; font-weight:bold;{{/ifCond}}{{else}}color:#007bff; font-weight:bold;{{/if}}'
           class="no-option">
           25
       </button>
