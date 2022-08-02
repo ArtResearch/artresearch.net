@@ -33,14 +33,23 @@
             } GROUP BY ?label order by desc(COUNT(distinct ?provider))'
       template='{{> byAttribution }}'>
         <template id='byAttribution'>
-            <bs-panel header="Variant Attributions" collapsible="true">
-          {{#each bindings}}
-            <div class="attribution-wrapper">
-              <div class="attribution">{{label.value}}</div>
-                [[> SourceIcon attr=true ]]
-              </div>
-          {{/each}}
-          </bs-panel>
+            {{#ifCond (objectLength bindings) ">" 1 }}
+                  <bs-panel header="Variant Attributions" collapsible="true">
+                {{#each bindings}}
+                  <div class="attribution-wrapper">
+                    <div class="attribution">{{label.value}}</div>
+                      [[> SourceIcon attr=true ]]
+                    </div>
+                {{/each}}
+                </bs-panel>
+              {{else}}
+                {{#each bindings}}
+                  <div class="attribution-wrapper">
+                    <div class="attribution">{{label.value}}</div>
+                      [[> SourceIcon attr=true ]]
+                    </div>
+                {{/each}}
+              {{/ifCond}}
         </template>
     </semantic-query>
   </bs-panel>
