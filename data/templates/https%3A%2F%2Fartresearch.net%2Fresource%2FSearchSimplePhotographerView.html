@@ -17,7 +17,7 @@ default-query='
   PREFIX fr: <https://artresearch.net/resource/fr/>
   PREFIX fc: <https://artresearch.net/resource/fc/>
   PREFIX cfc: <https://artresearch.net/resource/custom/fc/>
-  SELECT ?subject WHERE {
+  SELECT DISTINCT ?subject WHERE {
     SERVICE <http://www.researchspace.org/resource/system/service/custom#solrphotographers>{
       ?solrApi solr:setQuery "{{bindings.0.token.value}}";
                 solr:setDefType "dismax";
@@ -92,7 +92,11 @@ class="hiddenSearchbar"
       <semantic-table
         id="grid-result"
         prefetch-labels="false"
-        query="SELECT DISTINCT ?subject  WHERE {}LIMIT 1000"
+        query="SELECT distinct ?subject (COUNT(distinct ?f) as ?count) WHERE {
+                                        OPTIONAL {
+                                           ?f owl:sameAs ?subject.
+                                        }
+              }group by ?subject order by DESC(?count)   LIMIT 1000"
         number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}20{{/if}}"
         tuple-template="{{> subjectCellTemplate}}"
         options='{"showTableHeading": false, "showFilter":false}'
@@ -100,7 +104,7 @@ class="hiddenSearchbar"
       >
         <template id="subjectCellTemplate">
           <semantic-context repository='default'>
-            [[> CardPerson]]
+            [[> CardPerson  ]]
           </semantic-context>
         </template>
       </semantic-table>

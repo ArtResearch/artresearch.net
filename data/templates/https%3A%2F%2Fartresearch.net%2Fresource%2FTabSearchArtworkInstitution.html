@@ -193,11 +193,14 @@
                               options='{ "showFilter":false }' 
                               number-of-displayed-rows="25" 
                               query="
-                                  SELECT DISTINCT ?subject
+                                  SELECT DISTINCT ?subject (COUNT(distinct ?f) as ?count) 
                                   WHERE {
                                     ?subject fr:Work_depicted_by_Photo ?photo.
                                     ?photo crm:P129i_is_subject_of ?image.
-                                  }LIMIT 1000 " 
+                                    OPTIONAL {
+                                        ?f owl:sameAs ?subject.
+                                      }
+                                  }group by ?subject order by DESC(?count) LIMIT 1000 " 
                               tuple-template="{{>tupleTemplate}}"
                               no-result-template='[[> CardNoResult ]]'
                             >

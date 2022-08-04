@@ -240,7 +240,11 @@
                                 id="grid-result"
                                 options='{"showFilter":false}'
                                 number-of-displayed-rows="25"
-                                query="SELECT DISTINCT ?subject WHERE {}LIMIT 2000"
+                                query="SELECT distinct ?subject (COUNT(distinct ?f) as ?count) WHERE {
+                                                      OPTIONAL {
+                                                        ?f owl:sameAs ?subject.
+                                                      }
+                                                  }group by ?subject order by DESC(?count)   LIMIT 1000"
                                 tuple-template="{{>tupleTemplate}}"
                                 no-result-template='[[> CardNoResult ]]'
                               >

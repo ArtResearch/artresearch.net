@@ -30,7 +30,6 @@
                   solr:setRowsNumber 1000;
                   solr:hasResults ?subject
       }
-        ?subject fr:Artist_created_Work ?work.
     }
     '
   query='
@@ -100,7 +99,11 @@
                 <semantic-table
                     id="grid-result"
                     prefetch-labels="false"
-                    query="SELECT DISTINCT ?subject  WHERE {} LIMIT 1000"
+                    query="SELECT ?subject (COUNT(distinct ?f) as ?count) WHERE {
+                                OPTIONAL {
+                                  ?f owl:sameAs ?subject.
+                                }
+                          }group by ?subject order by DESC(?count)   LIMIT 1000"
                     number-of-displayed-rows="20"
                     tuple-template="{{> subjectCellTemplate}}"
                     options='{"showTableHeading": false, "showFilter":false}'
@@ -108,7 +111,7 @@
                   >
                   <template id="subjectCellTemplate">
                     <semantic-context repository='default'>
-                      [[> CardPerson]]
+                      [[> CardPerson  ]]
                     </semantic-context>
                   </template>
                 </semantic-table>
