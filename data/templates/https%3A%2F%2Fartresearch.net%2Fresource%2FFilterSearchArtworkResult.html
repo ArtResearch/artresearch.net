@@ -48,11 +48,9 @@
                                             options='{"showFilter":false }'
                                             number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}25{{/if}}"
                                             query="
-                                              SELECT distinct ?subject (COUNT(distinct ?f) as ?count) WHERE {
-                                                  OPTIONAL {
-                                                    ?f owl:sameAs ?subject.
-                                                  }
-                                          }group by ?subject order by DESC(?count)   LIMIT 1000"
+                                              SELECT DISTINCT ?subject WHERE {
+                                                ?subject rdfs:label ?label.
+                                              }ORDER BY DESC(?label) LIMIT 1000 "
                                             no-result-template='[[> CardNoResult ]]'
                                             tuple-template="{{>tupleTemplate}}"
                                           >

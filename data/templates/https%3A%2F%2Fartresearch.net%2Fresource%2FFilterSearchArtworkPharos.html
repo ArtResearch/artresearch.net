@@ -208,11 +208,8 @@
                                             prefetch-labels="false"
                                             options='{"showFilter":false}'
                                             number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}25{{/if}}"
-                                            query="SELECT distinct ?subject (COUNT(distinct ?f) as ?count) WHERE {
-                                                      OPTIONAL {
-                                                        ?f owl:sameAs ?subject.
-                                                      }
-                                                  }group by ?subject order by DESC(?count)   LIMIT 1000"
+                                            query=" SELECT DISTINCT ?subject
+                                                    WHERE {}LIMIT 1000"
                                             tuple-template="{{>tupleTemplate}}"
                                             no-result-template='[[> CardNoResult ]]'
                                           >
