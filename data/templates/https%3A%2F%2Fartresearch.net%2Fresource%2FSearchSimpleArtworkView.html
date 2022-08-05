@@ -33,7 +33,6 @@
       
       {{#ifCond withImages "!==" "true"}}
         ?subject fr:Work_depicted_by_Photo ?photograph.
-        
       {{/ifCond}}
     }
     '
@@ -117,7 +116,7 @@
                                   <semantic-table
                                       id="grid-result"
                                       prefetch-labels="false"
-                                      query='SELECT ?subject (COUNT(distinct ?f) as ?count) WHERE {
+                                      query='SELECT distinct ?subject (COUNT(distinct ?f) as ?count) WHERE {
                                         OPTIONAL {
                                            ?f owl:sameAs ?subject.
                                         }
