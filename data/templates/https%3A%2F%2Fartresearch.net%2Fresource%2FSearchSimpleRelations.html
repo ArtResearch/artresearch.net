@@ -8,6 +8,15 @@
       ?dimension crm:P90_has_value ?literal.
       "
   }],
+   "<https://artresearch.net/resource/fr/Work_consists_of_Material>":[{
+              "kind":"resource",
+               "queryPattern": "
+                ?subject <https://artresearch.net/resource/fr/Work_consists_of_Material> ?__value__ .
+                FILTER NOT EXISTS {   
+                  ?subject <https://artresearch.net/resource/fr/Work_consists_of_Material>/<http://vocab.getty.edu/ontology#broaderPreferred> ?__value__.
+                }
+                 "
+  }],
   "<https://artresearch.net/resource/fr/Person_has_Date_of_Birth>":[
   {
     "kind": "numeric-range",

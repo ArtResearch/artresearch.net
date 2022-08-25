@@ -1,0 +1,15 @@
+{
+ "<https://artresearch.net/resource/fr/Work_consists_of_Material>":{
+              "kind":"resource",
+               "valuesQuery": "
+               SELECT ?value (COUNT(DISTINCT ?subject) AS ?count) WHERE {
+                    FILTER NOT EXISTS {   
+                      ?subject <https://artresearch.net/resource/fr/Work_consists_of_Material>/<http://vocab.getty.edu/ontology#broaderPreferred> ?value.
+                    }
+                  ?subject <https://artresearch.net/resource/fr/Work_consists_of_Material> ?value .
+                }GROUP BY ?value
+                  ORDER BY (?value)
+                  LIMIT 1000
+                 "
+  }
+  }
