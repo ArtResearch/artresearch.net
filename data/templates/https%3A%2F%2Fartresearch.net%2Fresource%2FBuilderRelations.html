@@ -11,5 +11,19 @@
                   ORDER BY (?value)
                   LIMIT 1000
                  "
+  },
+  "<https://artresearch.net/resource/fr/Work_produced_using_technique_Technique>":{
+    "kind":"resource",
+    "valuesQuery":"
+      SELECT ?value (COUNT(DISTINCT ?subject) AS ?count) WHERE {
+        FILTER NOT EXISTS {   
+          ?subject <https://artresearch.net/resource/fr/Work_produced_using_technique_Technique>/<http://vocab.getty.edu/ontology#broaderPreferred> ?value.
+        }
+         ?subject <https://artresearch.net/resource/fr/Work_produced_using_technique_Technique> ?value .
+      }
+      GROUP BY ?value
+      ORDER BY (?value)
+      LIMIT 1000
+    "
   }
   }
