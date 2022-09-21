@@ -27,7 +27,7 @@
         ?solrApi solr:setQuery "{{bindings.0.token.value}}";
                   solr:setDefType "dismax";
                   solr:setFilter "id";
-                  solr:setRowsNumber 4000;
+                  solr:setRowsNumber 10000;
                   solr:hasResults ?subject;
       }
       {{#ifCond withImages "!==" "true"}}
@@ -56,7 +56,7 @@
       id="artwork-filter-search"
     >
         <bs-panel id="filter-panel" header="Filters"  collapsible="true" default-expanded="true">
-          <semantic-search-facet open-by-default='true' sortby='count-desc' facet-values-threshold="4000"></semantic-search-facet>
+          <semantic-search-facet open-by-default='true' sortby='count-desc' facet-values-threshold="10000"></semantic-search-facet>
         </bs-panel>
     </bs-col>
     <mp-event-target-template-render id="my-render" template="{{> combined}}">
@@ -86,16 +86,16 @@
                       <template id="currentResultCount">
                           <h2>
                                   Found
-                            {{#ifCond bindings.0.count.value "==" 4000 }}
-                              displaying the first 4000 results, please refine your search
+                            {{#ifCond bindings.0.count.value "==" 10000 }}
+                              displaying the first 10000 results, please refine your search
                             {{else}}
                               {{bindings.0.count.value}} relevant results 
                             {{/ifCond}}
                           </h2>
                           <small>
                             Displaying 
-                            {{#ifCond bindings.0.count.value ">=" 4000 }}
-                            the first 4000 results
+                            {{#ifCond bindings.0.count.value ">=" 10000 }}
+                            the first 10000 results
                             {{else}}
                             all results
                             {{/ifCond}}
