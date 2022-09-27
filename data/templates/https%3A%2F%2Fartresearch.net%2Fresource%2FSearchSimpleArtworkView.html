@@ -116,11 +116,7 @@
                                   <semantic-table
                                       id="grid-result"
                                       prefetch-labels="false"
-                                      query='SELECT distinct ?subject (COUNT(distinct ?f) as ?count) WHERE {
-                                                  OPTIONAL {
-                                                    ?f owl:sameAs ?subject.
-                                                  }
-                                          }group by ?subject order by DESC(?count)   LIMIT 1000'
+                                      query='SELECT distinct ?subject WHERE {}group by ?subject   LIMIT 1000'
                                       number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}25{{/if}}"
                                       tuple-template="{{> subjectCellTemplate}}"
                                       options='{"showTableHeading": false, "showFilter":false}'
