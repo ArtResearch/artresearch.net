@@ -212,7 +212,7 @@
                     <div class="animated-background-sm8 rs-page-resource__field-label-holder"></div>
                   </div>
                   <semantic-query 
-                    query='SELECT DISTINCT (concat(?repository_label,(GROUP_CONCAT(DISTINCT ?place_l;SEPARATOR=",")))as ?value) WHERE {
+                    query='SELECT DISTINCT (concat(?repository_label,(GROUP_CONCAT(DISTINCT ?place_l;SEPARATOR=", ")))as ?value) WHERE {
                       ?subject owl:sameAs <{{subject.value}}>.
                       ?subject a cfc:work.
                       {
@@ -320,14 +320,20 @@
                   [[/if]]
 
                   <semantic-query 
-                    query='SELECT DISTINCT ?date WHERE { 
+                    query='SELECT DISTINCT ?date (SAMPLE(?dateTo) as ?to ) WHERE { 
                       {
                         <{{subject.value}}> fr:Work_from_Date ?date.
+                        OPTIONAL{
+                          <{{subject.value}}> fr:Work_to_Date ?dateTo.
+                        }
                       }union{
                         ?original owl:sameAs <{{subject.value}}>.
-                        ?original cfr:Work_from_Date ?date 
+                        ?original cfr:Work_from_Date ?date.
+                         OPTIONAL{
+                          <{{subject.value}}> fr:Work_to_Date ?dateTo.
+                        }
                       }
-                    }LIMIT 1'
+                    }group by ?date LIMIT 1'
                     template="{{>repoTemplate}}"
                     >
                       <template id="repoTemplate">
@@ -345,9 +351,9 @@
                                       <div title="{{bindings.0.date.value}}" date="{{dateTimeFormat bindings.0.date.value "YYYY"}}">
                                         {{dateTimeFormat bindings.0.date.value "YYYY"}}
                                       </div>
-                                      <span>
-                                        {{bindings.0.date.value}}
-                                      </span>
+                                     {{#ifCond bindings.0.to.value "!==" null}}
+                                      - {{dateTimeFormat bindings.0.to.value "YYYY"}}
+                                     {{/ifCond}}
                                     </div>
                                   </div>
                                 </span>
