@@ -1,3 +1,7 @@
+{{#ifCond field.iri "===" "http://www.researchspace.org/fieldDefinition/Last_Known_Location_1" }}
+
+<semantic-link iri="{{value.binding.repo.value}}">{{value.binding.value.value}}</semantic-link>
+{{else}}
 {{#ifCond field.iri "===" "http://www.researchspace.org/fieldDefinition/CreatorWithRole" }}
   {{#ifCond value.binding.role.value "===" "" }}
     <semantic-link iri="{{value.value.value}}">[[> ArtistLabel creatorField="{{value.label}}" ]]</semantic-link>
@@ -29,7 +33,7 @@
     {{value.value.value}}
   </mp-text-truncate>
   {{else}}
-
+  
 
       {{#ifCond field.label.0.value "===" "Production Date"}}
             {{#ifCond field.label.0.value ">" 0}}
@@ -131,5 +135,6 @@
               {{/ifCond}}
     {{/ifCond}}
   {{/ifCond}}
+   {{/ifCond}}
 
 
