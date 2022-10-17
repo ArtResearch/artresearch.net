@@ -13,7 +13,19 @@
       </li>
     [[/if]]
     <li class="active">
+      [[#if (ask "ASK { ?? <http://www.w3.org/2004/02/skos/core#prefLabel> ?label}")]]
+      <semantic-query
+        query="SELECT * WHERE {
+          ?? <http://www.w3.org/2004/02/skos/core#prefLabel> ?label
+        }"
+        template="{{>label}}">
+        <template id="label">
+          {{bindings.0.label.value}}
+        </template>
+      </semantic-query>
+      [[else]]
       <mp-label iri='[[this]]'></mp-label>
+      [[/if]]
     </li>
     <div class="breadlinks pull-right">
         <mp-anonymous-hidden>

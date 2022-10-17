@@ -27,7 +27,6 @@ class CookieMsg extends HTMLElement {
                 <button type="button" class="AcceptButton button-75 " id="btnAccept">
                     Got it!
                 </button>
-                
             </div>
     </div>
     <style>
