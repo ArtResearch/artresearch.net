@@ -26,38 +26,38 @@
   </semantic-query>
 [[else]]
   <semantic-query
-    query="SELECT ?institution (group_concat( distinct ?pLabel ;Separator=', ') as ?placeLabel) WHERE {
-      ?? a fc:work.
-      { 
-        ?? fr:Work_kept_by_Institution ?institution.
-         OPTIONAL {
-           ?institution fr:Institution_from_Place ?place.
-           ?place rdfs:label ?pLabel.
-         }
-       } UNION {
-         ?og owl:sameAs ??.
-         ?og cfr:Work_kept_by_Institution ?institution.
-         OPTIONAL {
-           ?institution cfr:Institution_from_Place ?place.
-           ?place rdfs:label ?pLabel.
-         }
-       }
-     } group by (?institution) LIMIT 1"
+    query='SELECT DISTINCT ?repo (concat(?repository_label,(GROUP_CONCAT(DISTINCT ?place_label;SEPARATOR=",")))as ?value)  ?provider  WHERE {
+            {
+              BIND(?? as ?subject)
+            }UNION{
+              ?subject owl:sameAs ??
+            }
+            ?subject a cfc:work.
+            {
+              ?subject crm:P50_has_current_keeper ?repo.
+              ?repo rdfs:label ?repo_label.
+              {
+                ?repo crm:P74_has_current_or_former_residence/rdfs:label ?place_l.
+              } UNION {
+                ?subject (crm:P74_has_current_or_former_residence|crm:P55_has_current_location)/rdfs:label ?place_l.
+              }
+              BIND(concat(?repo_label,", ") as ?repository_label)
+            } UNION {
+              ?subject (crm:P74_has_current_or_former_residence|crm:P55_has_current_location)/rdfs:label ?place_l.
+              FILTER NOT EXISTS { ?subject crm:P50_has_current_keeper ?repo. }
+              BIND("" as ?repository_label)
+            }
+            BIND( REPLACE(?place_l,"\\?","") as ?place_label)
+            ?subject <https://artresearch.net/resource/custom/fr/Work_has_provider_Institution> ?provider.
+          } group by ?repo ?repository_label ?provider'
     no-result-template="{{> noRepoResult}}"
     template="{{> fcLabelTemplate}}"
   >
     <template id="fcLabelTemplate">
         <div class="repository-location">
-          <mp-label iri="{{bindings.0.institution.value}}"></mp-label>
-          {{#ifCond  placeLabel.value "!==" null}}
-            {{#each bindings}}
-            {{#ifCond @index "===" 0}}
-              <span>{{placeLabel.value}}</span> 
-              {{else}}
-              ,<span>{{placeLabel.value}}</span> 
-            {{/ifCond}} 
-            {{/each}}
-          {{/ifCond}}
+          <semantic-link iri="{{bindings.0.repo.value}}">
+            {{bindings.0.value.value}}
+          </semantic-link>
         </div>
     </template>
     <template id="noRepoResult">
