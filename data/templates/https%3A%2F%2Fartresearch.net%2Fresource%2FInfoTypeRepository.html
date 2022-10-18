@@ -47,7 +47,7 @@
               FILTER NOT EXISTS { ?subject crm:P50_has_current_keeper ?repo. }
               BIND("" as ?repository_label)
             }
-            BIND( REPLACE(?place_l,"\\?","") as ?place_label)
+            BIND( REPLACE(?place_l,"\\?", "") as ?place_label)
             ?subject <https://artresearch.net/resource/custom/fr/Work_has_provider_Institution> ?provider.
           } group by ?repo ?repository_label ?provider'
     no-result-template="{{> noRepoResult}}"
