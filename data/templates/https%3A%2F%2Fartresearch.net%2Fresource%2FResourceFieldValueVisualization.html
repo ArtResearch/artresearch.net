@@ -2,6 +2,9 @@
 
 <semantic-link iri="{{value.binding.repo.value}}">{{value.binding.value.value}}</semantic-link>
 {{else}}
+{{#ifCond field.iri "===" "http://www.researchspace.org/fieldDefinition/Roles"}}
+<semantic-link iri="{{value.binding.value.value}}">{{value.binding.value_label.value}}</semantic-link>
+{{else}}
 {{#ifCond field.iri "===" "http://www.researchspace.org/fieldDefinition/CreatorWithRole" }}
   {{#ifCond value.binding.role.value "===" "" }}
     <semantic-link iri="{{value.value.value}}">[[> ArtistLabel creatorField="{{value.label}}" ]]</semantic-link>
@@ -134,6 +137,7 @@
               {{/ifCond}}
     {{/ifCond}}
   {{/ifCond}}
+   {{/ifCond}}
    {{/ifCond}}
 
 
