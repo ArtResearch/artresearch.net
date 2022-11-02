@@ -28,6 +28,8 @@
               ?graph <https://artresearch.net/custom/has_provider> ?provider. 
           }UNION{
                 ?attribution <https://artresearch.net/custom/has_provider> ?provider. 
+          }UNION{
+            ?attribution <https://artresearch.net/resource/fr/Artist_has_provider_Institution> ?provider.
           }
               BIND(STR(?attrLabel) as ?label)
             } GROUP BY ?attribution ?label order by desc(COUNT(distinct ?provider))'
