@@ -1,6 +1,6 @@
 <div id="variant-attribution-dropdown">
     <semantic-query
-      query='SELECT DISTINCT ?label  (GROUP_CONCAT(DISTINCT ?provider; SEPARATOR=", ") AS ?provider) (count(distinct ?provider) as ?countProviders) WHERE{
+      query='SELECT DISTINCT ?attribution ?label  (GROUP_CONCAT(DISTINCT ?provider; SEPARATOR=", ") AS ?provider) (count(distinct ?provider) as ?countProviders) WHERE{
               {
                 GRAPH ?graph {
                   ??  fr:Work_created_from_Artist ?attribution.
@@ -9,10 +9,6 @@
                 GRAPH ?graph {
                   ??  fr:Work_influenced_by_Artist ?attribution.
                 }
-              } UNION {
-                GRAPH ?graph { ?work a cfc:work}
-                ?work owl:sameAs ?? .
-                ?work ((crm:P108i_was_produced_by|crm:P19i_motivated)/crm:P140i_was_attributed_by/<http://www.cidoc-crm.org/cidoc-crm/P141_assigned>/crm:P02_has_range)|cfr:Work_influenced_by_Artist|cfr:Work_created_from_Artist ?attribution.
               }
               ## PREF LABEL
               {
@@ -28,9 +24,13 @@
                 FILTER NOT EXISTS{ ?attribution skos:prefLabel ?c.}
                 ?attribution rdfs:label ?attrLabel.
               }
+          {
               ?graph <https://artresearch.net/custom/has_provider> ?provider. 
+          }UNION{
+                ?attribution <https://artresearch.net/custom/has_provider> ?provider. 
+          }
               BIND(STR(?attrLabel) as ?label)
-            } GROUP BY ?label order by desc(COUNT(distinct ?provider))'
+            } GROUP BY ?attribution ?label order by desc(COUNT(distinct ?provider))'
       template='{{> byAttribution }}'>
         <template id='byAttribution'>
             {{#ifCond (objectLength bindings) ">" 1 }}
