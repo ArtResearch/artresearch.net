@@ -236,11 +236,8 @@
                                                 prefetch-labels="false"
                                                 options='{"showFilter":false}'
                                                 number-of-displayed-rows="20"
-                                                query='SELECT distinct ?subject (COUNT(distinct ?f) as ?count) WHERE {
-                                                              OPTIONAL {
-                                                                ?f owl:sameAs ?subject.
-                                                              }
-                                                      }group by ?subject order by DESC(?count)   LIMIT 1000'
+                                                query='SELECT distinct ?subject  WHERE {
+                                                      }LIMIT 1000'
                                                 tuple-template="{{>tupleTemplate}}"
                                                 no-result-template='[[> CardNoResult ]]'
                                               >
@@ -252,7 +249,6 @@
                                           <bs-tab-pane event-key="eventsMap">
                                               <div class="mapContainer">
                                                   <semantic-map
-                                                     
                                                     id="event-map"
                                                     query="SELECT DISTINCT ?subject ?place ?typeLabel ?lat ?lng WHERE {
                                                         ?subject fr:Person_has_Event ?event.
