@@ -91,7 +91,7 @@
   </div>
   <div style="display:flex; flex-wrap: wrap; flex-direction: row-reverse; align-items: center; gap: 1vw; flex-wrap: wrap;">
      <semantic-query
-        query=' SELECT ?m ?icon WHERE {
+        query=' SELECT distinct ?m ?icon WHERE {
                 {
                  ?? fr:Artist_has_provider_Institution ?m.
                 }UNION{
@@ -190,5 +190,11 @@
   .fa-quote-right:before {
     margin-right: 10px;
     color: #933439;
+  }
+  #tab-container-pane-summary > div.header-options.artistAdditionalOptions > div:nth-child(2) > div{
+    display: flex; 
+    flex-direction: row-reverse; 
+    align-items: center; 
+    gap: 0.5vw;
   }
 </style>
