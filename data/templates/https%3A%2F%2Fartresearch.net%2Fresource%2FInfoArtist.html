@@ -89,6 +89,39 @@
           </h2>
       [[/if]]
   </div>
+  <div style="display:flex; flex-wrap: wrap; flex-direction: row-reverse; align-items: center; gap: 1vw; flex-wrap: wrap;">
+     <semantic-query
+        query=' SELECT ?m ?icon WHERE {
+                 ?? fr:Artist_has_provider_Institution ?m.
+                
+                  BIND(IF(CONTAINS(STR(?m),"itatti"),"/assets/images/ITatti.ico",IF(CONTAINS(STR(?m),"marburg"),"/assets/images/Marburg.ico",IF(CONTAINS(STR(?m),"hertziana"),"/assets/images/Hertziana.ico",IF(CONTAINS(STR(?m),"khi"),"/assets/images/KHI.ico",IF(CONTAINS(STR(?m),"frick"),"/assets/images/FRICK.ico",IF(CONTAINS(STR(?m),"zeri"),"/assets/images/Zeri.ico", IF(CONTAINS(STR(?m), "pmc"), "/assets/images/PMC.ico", ""))))))) AS ?icon)
+                  BIND(REPLACE(REPLACE(?icon,".ico",""),"/assets/images/","") AS ?title)
+        }
+              '
+        no-result-template="<div></div>"
+        template="{{> DNBLink}}"
+      >
+        <template id="DNBLink">
+          {{#each bindings}}
+            <h2 class="fc-label"> 
+              <a  style="margin-left: 5px"  href="{{m.value}}" target="_null" >
+                <div class="fc-label original-linkDNB">
+                    <div class="linkImageWrapper">
+                        <img
+                          class="sourceIconDNB"
+                          title="{{title.value}}"
+                          src="{{icon.value}}"
+                        />
+                        <!-- <h6 class="textsourceIconDNB">View {{title.value}} record</h6> -->
+                    </div>
+                </div>
+              </a>    
+            </h2>
+          {{/each}}
+        </template>
+      </semantic-query>
+      <h2>Providers:</h2>
+  </div>
 </div>
 <div id="printableInfo"  class="workAndProductionInfo">
       <mp-field-visualization
