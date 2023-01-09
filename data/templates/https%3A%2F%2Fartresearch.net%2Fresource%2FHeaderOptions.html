@@ -3,23 +3,23 @@
     <div class="header-options">
       <semantic-query
         query="
-              SELECT DISTINCT ?providerRecord ?provider WHERE {
+              SELECT DISTINCT  ?provider (SAMPLE(?providerRecord)as ?providerRecord) WHERE {
                [[#if artwork]]
                   ?originalSubject owl:sameAs ??.
                   ?originalSubject fr:Work_has_provider_Institution ?provider.
-                  ?originalSubject <https://artresearch.net/custom/has_original_record> ?providerRecord.
+                  OPTIONAL {  ?originalSubject <https://artresearch.net/custom/has_original_record> ?providerRecord. }
                 [[else if photo]]
                   ?? fr:Photo_depicts_Work  ?subject.
-                  ?subject <https://artresearch.net/custom/has_original_record> ?providerRecord.
+                  OPTIONAL {  ?subject <https://artresearch.net/custom/has_original_record> ?providerRecord. }
                   ?subject fr:Work_has_provider_Institution ?provider.
                 [[else]]
                 {
                   ?originalSubject owl:sameAs ??.
                   ?originalSubject fr:Work_has_provider_Institution ?provider.
-                  ?originalSubject <https://artresearch.net/custom/has_original_record> ?providerRecord.
+                  OPTIONAL {  ?originalSubject <https://artresearch.net/custom/has_original_record> ?providerRecord. }
                 }UNION{
                    ?? fr:Photo_depicts_Work  ?subject.
-                  ?subject <https://artresearch.net/custom/has_original_record> ?providerRecord.
+                 OPTIONAL {  ?subject <https://artresearch.net/custom/has_original_record> ?providerRecord. }
                   ?subject fr:Work_has_provider_Institution ?provider.
                 }
                 [[/if]]
@@ -39,9 +39,13 @@
                     {{/ifCond}}
                     
                     {{#each bindings}}
+                      {{#ifCond providerRecord.value "!==" undefiend}} 
                       <a style="margin-left: 5px" href="{{providerRecord.value}}"  target="_null" >
                         [[> SourceIcon sub='{{provider.value}}']]
                       </a>
+                      {{else}}
+                       [[> SourceIcon sub='{{provider.value}}']]
+                      {{/ifCond}}
                     {{/each}}
                 </h2>
               </div>
