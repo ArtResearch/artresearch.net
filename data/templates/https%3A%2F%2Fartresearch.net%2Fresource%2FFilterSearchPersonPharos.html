@@ -246,30 +246,6 @@
                                                   </template>
                                               </semantic-table>
                                           </bs-tab-pane>
-                                          <bs-tab-pane event-key="eventsMap">
-                                              <div class="mapContainer">
-                                                  <semantic-map
-                                                    id="event-map"
-                                                    query="SELECT DISTINCT ?subject ?place ?typeLabel ?lat ?lng WHERE {
-                                                        ?subject a fc:artist.
-                                                        ?subject fr:Person_has_Event ?event.
-                                                        ?event fr:Event_has_Type ?eventType.
-                                                        ?eventType rdfs:label ?typeLabel.
-                                                        ?event fr:Event_at_Place ?place .
-                                                        ?place <http://artresearch.net/resource/fr/Place_has_Latitude> ?lat.
-                                                        ?place <http://artresearch.net/resource/fr/Place_has_Longitude> ?lng.
-                                                      }"
-                                                    no-result-template='<h3>No results were found to be visualized on map</h3>'
-                                                    tuple-template='<div style="width:20vw">
-                                                        <h4> 
-                                                          <semantic-link style="color:#6b0000;" iri="{{subject.value}}"></semantic-link>,
-                                                          {{typeLabel.value}}, <semantic-query query="SELECT ?label WHERE { <{{place.value}}> rdfs:label ?label }LIMIT 1"></semantic-query>  
-                                                        </h4>
-                                                      </div>'
-                                                  >
-                                                  </semantic-map>
-                                              </div>
-                                          </bs-tab-pane>
                                           <bs-tab-pane event-key="birthplaceMap">
                                               <div class="mapContainer">
                                                   <semantic-map
@@ -286,7 +262,7 @@
                                                     tuple-template='<div style="width:20vw">
                                                       <h4> 
                                                         <semantic-link style="color:#6b0000;" iri="{{subject.value}}"></semantic-link>,
-                                                        born at <semantic-query query="SELECT ?label WHERE { <{{place.value}}> rdfs:label ?label }LIMIT 1"></semantic-query>
+                                                        born at <mp-label iri="{{place.value}}"></mp-label>
                                                       </h4>
                                                     </div>'
                                                   >
@@ -309,7 +285,7 @@
                                                     tuple-template='<div style="width:20vw">
                                                         <h4> 
                                                           <semantic-link style="color:#6b0000;" iri="{{subject.value}}"></semantic-link>,
-                                                          died at <semantic-query query="SELECT ?label WHERE { <{{place.value}}> rdfs:label ?label }LIMIT 1"></semantic-query>
+                                                          died at <mp-label iri="{{place.value}}"></mp-label>
                                                         </h4>
                                                       </div>'
                                                   >
