@@ -234,6 +234,7 @@
                                             <semantic-map
                                               id="birthplace-map"
                                               query="SELECT DISTINCT ?subject ?place ?lat ?lng WHERE {
+                                                      ?subject a fc:artist.
                                                       ?subject fr:Person_has_Place_of_Birth ?place .
                                                       ?place a fc:place .
                                                       ?place <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat.
@@ -256,6 +257,7 @@
                                                
                                               id="deathplace-map"
                                               query="SELECT DISTINCT ?subject ?place ?lat ?lng WHERE {
+                                                      ?subject a fc:artist.
                                                       ?subject fr:Person_has_Place_of_Death ?place .
                                                       ?place a fc:place .
                                                       ?place <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat.
