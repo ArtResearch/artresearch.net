@@ -97,7 +97,7 @@
                 }UNION{
                   ??  <https://artresearch.net/custom/has_provider> ?m.
                 }
-                  BIND(IF(CONTAINS(STR(?m),"itatti"),"/assets/images/ITatti.ico",IF(CONTAINS(STR(?m),"marburg"),"/assets/images/Marburg.ico",IF(CONTAINS(STR(?m),"hertziana"),"/assets/images/Hertziana.ico",IF(CONTAINS(STR(?m),"khi"),"/assets/images/KHI.ico",IF(CONTAINS(STR(?m),"frick"),"/assets/images/Frick.ico",IF(CONTAINS(STR(?m),"zeri"),"/assets/images/Zeri.ico", IF(CONTAINS(STR(?m), "pmc"), "/assets/images/PMC.ico", ""))))))) AS ?icon)
+                  BIND(IF(CONTAINS(STR(?m),"itatti"),"/assets/images/ITatti.ico",IF(CONTAINS(STR(?m),"marburg"),"/assets/images/Marburg.ico",IF(CONTAINS(STR(?m),"hertziana"),"/assets/images/Hertziana.ico",IF(CONTAINS(STR(?m),"khi"),"/assets/images/KHI.ico",IF(CONTAINS(STR(?m),"frick"),"/assets/images/Frick.ico",IF(CONTAINS(STR(?m),"zeri"),"/assets/images/Zeri.ico", IF(CONTAINS(STR(?m), "pmc"), "/assets/images/PMC.ico", "IF(CONTAINS(STR(?m), "nga"), "/assets/images/NGA.ico", "")"))))))) AS ?icon)
                   BIND(REPLACE(REPLACE(?icon,".ico",""),"/assets/images/","") AS ?title)
         }
               '
