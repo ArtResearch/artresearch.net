@@ -3,6 +3,10 @@
   query='
   SELECT * WHERE {
     {
+      BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/nga/source/NGA"),"NGA", false)) AS ?providerLabel)
+      BIND(IRI("https://artresearch.net/resource/nga/source/NGA") as ?provider)
+      FILTER(?providerLabel!="false")
+    } UNION{
       BIND(STR(IF(CONTAINS("{{value.binding.provider.value}}","https://artresearch.net/resource/itatti/source/ITatti"),"I Tatti", false)) AS ?providerLabel)
       BIND(IRI("https://artresearch.net/resource/itatti/source/ITatti") as ?provider)
       FILTER(?providerLabel!="false")
@@ -85,6 +89,10 @@
     query='
     SELECT * WHERE {
       {
+        BIND(STR(IF(CONTAINS("{{provider.value}}","https://artresearch.net/resource/nga/source/NGA"),"NGA", false)) AS ?providerLabel)
+        BIND(IRI("https://artresearch.net/resource/nga/source/NGA") as ?provider)
+        FILTER(?providerLabel!="false")
+      } UNION{
         BIND(STR(IF(CONTAINS("{{provider.value}}","https://artresearch.net/resource/itatti/source/ITatti"),"I Tatti", false)) AS ?providerLabel)
         BIND(IRI("https://artresearch.net/resource/itatti/source/ITatti") as ?provider)
         FILTER(?providerLabel!="false")
@@ -222,7 +230,12 @@
       BIND(STR(IF(CONTAINS("{{provider.value}}","https://artresearch.net/resource/geonames/source/Geonames"),"Geonames", false)) AS ?providerLabel)
       BIND(IRI("https://artresearch.net/resource/geonames/source/Geonames") as ?provider)
       FILTER(?providerLabel!="false")
-  }}'
+  }UNION {
+      BIND(STR(IF(CONTAINS("{{provider.value}}","https://artresearch.net/resource/nga/source/NGA"),"NGA", false)) AS ?providerLabel)
+      BIND(IRI("https://artresearch.net/resource/nga/source/NGA") as ?provider)
+      FILTER(?providerLabel!="false")
+  }
+}'
   template="{{> multipleProv}}">
     <template id="multipleProv">
         <div class="fc-label original-link">
