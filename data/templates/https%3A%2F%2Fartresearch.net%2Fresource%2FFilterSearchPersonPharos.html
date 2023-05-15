@@ -257,6 +257,8 @@
                                                             ?place a fc:place .
                                                             ?place <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat.
                                                             ?place <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng.
+                                                             FILTER isIRI(?subject)
+                                                             FILTER isIRI(?place)
                                                           }"
                                                     no-result-template='<h3>No results were found to be visualized on map</h3>'
                                                     tuple-template='<div style="width:20vw">
@@ -274,10 +276,9 @@
                                                   <semantic-map
                                                      
                                                     id="deathplace-map"
-                                                    query="SELECT DISTINCT ?link ?place ?lat ?lng WHERE {
-                                                            BIND(?subject as ?link)
-                                                            ?link a fc:artist.
-                                                            ?link fr:Person_has_Place_of_Death ?place .
+                                                    query="SELECT DISTINCT ?subject ?place ?lat ?lng WHERE {
+                                                            ?subject a fc:artist.
+                                                            ?subject fr:Person_has_Place_of_Death ?place .
                                                             ?place a fc:place .
                                                             ?place <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat.
                                                             ?place <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?lng.
@@ -285,7 +286,7 @@
                                                     no-result-template='<h3>No results were found to be visualized on map</h3>'
                                                     tuple-template='<div style="width:20vw">
                                                         <h4> 
-                                                          <semantic-link style="color:#6b0000;" iri="{{link.value}}"></semantic-link>,
+                                                          <semantic-link style="color:#6b0000;" iri="{{subject.value}}"></semantic-link>,
                                                           died at <mp-label iri="{{place.value}}"></mp-label>
                                                         </h4>
                                                       </div>'
