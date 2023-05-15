@@ -252,6 +252,7 @@
                                                      
                                                     id="birthplace-map"
                                                     query="SELECT DISTINCT ?subject ?place ?lat ?lng WHERE {
+                                                            FILTER CONTAINS(STR(?place),'geonames')
                                                             ?subject a fc:artist.
                                                             ?subject fr:Person_has_Place_of_Birth ?place .
                                                             ?place a fc:place .
