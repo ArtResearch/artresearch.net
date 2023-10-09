@@ -12,17 +12,11 @@
               "kind":"resource",
                "queryPattern": "
                 ?subject <https://artresearch.net/resource/fr/Work_consists_of_Material> ?__value__ .
-                FILTER NOT EXISTS {   
-                  ?subject <https://artresearch.net/resource/fr/Work_consists_of_Material>/<http://vocab.getty.edu/ontology#broaderPreferred> ?__value__.
-                }
-                 "
+               "
   }],
   "<https://artresearch.net/resource/fr/Work_produced_using_technique_Technique>":[{
               "kind":"resource",
                "queryPattern": "
-               FILTER NOT EXISTS {   
-                    ?subject <https://artresearch.net/resource/fr/Work_produced_using_technique_Technique>/<http://vocab.getty.edu/ontology#broaderPreferred> ?__value__.
-                  }
                   ?subject <https://artresearch.net/resource/fr/Work_produced_using_technique_Technique> ?__value__ .
                  "
   }],
@@ -68,12 +62,6 @@
   "queryPattern": "
     ?original_subject owl:sameAs ?subject;
     fr:Work_from_Place ?__value__.
-    FILTER NOT EXISTS {?__value__ crm:P2_has_type <https://artresearch.net/resource/hertziana/type/D58E7680-364A-3F1C-A8BF-3DFBACEC79F8>. }
-    FILTER NOT EXISTS {?__value__ crm:P2_has_type <https://artresearch.net/resource/khi/type/D58E7680-364A-3F1C-A8BF-3DFBACEC79F8>. }
-    FILTER NOT EXISTS {?__value__ crm:P2_has_type <https://artresearch.net/resource/marburg/type/D58E7680-364A-3F1C-A8BF-3DFBACEC79F8>. }
-    FILTER NOT EXISTS {?__value__ crm:P2_has_type <https://artresearch.net/resource/hertziana/type/D61EBDD8-A0C0-3D57-8224-55E9F0918C65>. }
-    FILTER NOT EXISTS {?__value__ crm:P2_has_type <https://artresearch.net/resource/khi/type/D61EBDD8-A0C0-3D57-8224-55E9F0918C65>. }
-    FILTER NOT EXISTS {?__value__ crm:P2_has_type <https://artresearch.net/resource/marburg/type/D61EBDD8-A0C0-3D57-8224-55E9F0918C65>. }
   "
 }],
 "<https://artresearch.net/resource/fr/Event_has_Type>": [
@@ -91,13 +79,6 @@
       $subject fr:Person_has_Event ?event.
       ?event fr:Event_at_Place ?__value__ ."
 }],
-"<https://artresearch.net/resource/fr/Work_from_Date>": [{
-  "kind": "date-range",
-  "datatype": "http://www.w3.org/2001/XMLSchema#date",
-  "queryPattern": "
-  $subject fr:Work_from_Date ?dateBeginValue.
-  $subject fr:Work_from_Date ?dateEndValue .
-  "}],
   "<https://artresearch.net/resource/fr/Work_has_rights>": [{
   "kind": "resource",
   "queryPattern": "

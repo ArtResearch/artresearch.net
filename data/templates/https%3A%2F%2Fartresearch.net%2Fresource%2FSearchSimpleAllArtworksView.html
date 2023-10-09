@@ -1,66 +1,17 @@
-<!-- 
-# Solr score performance hack
-
-For solr requests that generate many results the data that is transferred from solr to blazegraph is huge, to minimize that we need to make sure that we request score from solr only when it is actually needed. And currently it is only in the actual result visualization components (list, table, etc.).
-
-To do that we make use "?params" variable in the fts:params property inside <semantic-search-query-keyword>, and then BIND this variable to the actual value in all components that use this query. Something like BIND(\"fl=id&defType=dismax&rows=100000\" AS ?params) when we don't need score and BIND(\"fl=id,score&defType=dismax&rows=100000\" AS ?params) when we do need it.
-
-When solr parameters list need to be changed, make sure to modify it everywhere where it is used - facet, semantic-query and semantic-table that is used for result visualisation and semantic-query for result counts.
--->
-
-<semantic-context repository='default'>
-  <semantic-query query='
-  SELECT ?token WHERE{
-    BIND(REPLACE("[[urlParam "keyword"]]","(?<!^)(?<!\\s)\\s+(?!\\s+)(?!$)", " AND ") as ?token)
-  }
-  '
-  template="{{>addAndTemplate}}"
-  >
-  <template id="addAndTemplate">
-  
-  <div>
-    <mp-event-target-template-render
-    id="event-target-tables"
-    template="{{> tableEventTargetTemplate}}"
-  >
-    <template id="tableEventTargetTemplate">
-      <semantic-search-query-keyword
+<div>
+      <semantic-search-query-constant
   placeholder='You searched for [[urlParam "keyword"]], but you can search for anything!'
   domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
-  default-query='
+  query='
   PREFIX fts: <http://www.bigdata.com/rdf/fts#>
   PREFIX fr: <https://artresearch.net/resource/fr/>
   PREFIX fc: <https://artresearch.net/resource/fc/>
   PREFIX cfc: <https://artresearch.net/resource/custom/fc/>
     SELECT DISTINCT ?subject WHERE {
-      # The actual fts:params string is defined in all places where this query is injected, it is a performance improvement hack, see "Solr score performance hack" at the top of the page"
-      SERVICE <http://www.bigdata.com/rdf/fts#search> {   
-        ?subject fts:search "{{bindings.0.token.value}}" .
-        ?subject fts:endpoint "http://213.171.209.34:8983/solr/artworks_v8/select" .
-        ?subject fts:fieldToSearch "_text_" .
-        ?subject fts:params ?params .
-        ?subject fts:searchField "id" .
-        ?subject fts:searchResultType "URI" .
-        ?subject fts:scoreField "score" .
-        ?subject fts:score ?score .
-      }
-            
-      {{#ifCond withImages "!==" "true"}}
-        ?subject fr:Work_depicted_by_Photo ?photograph.
-        
-      {{/ifCond}}
     }
     '
-  query='
-  SELECT ?nothing WHERE{
-    ?nothing a <http://this_is_hidden_and_will_never_run>
-  }
-  '
-  class="hiddenSearchbar"
   >
-</semantic-search-query-keyword>
-  </template>
-</mp-event-target-template-render>
+</semantic-search-query-constant>
   <div class="row">
     <bs-col
       lg="3"
@@ -70,10 +21,7 @@ When solr parameters list need to be changed, make sure to modify it everywhere 
       style="margin-top: 8px"
       id="artwork-filter-search"
     >
-      
         <bs-panel id="filter-panel" header="Filters"  collapsible="true" default-expanded="true">
-          <!-- BINDs in the facet default queryies is performance improvement hack, see Solr score performance hack at the top of the page
- -->
           <semantic-search-facet open-by-default='true' sortby='count-desc'  facet-values-threshold="10000" 
                                  default-value-queries='{
                                                           "resource": "
@@ -104,27 +52,13 @@ When solr parameters list need to be changed, make sure to modify it everywhere 
         <bs-col lg="9" md="8" sm="7">
           <semantic-search-result-holder>
             <div>
-                 <semantic-query
-                    query='SELECT ?keywords WHERE {
-                      BIND(REPLACE(str("[[urlParam "keyword"]]"),"\\+"," ") as ?keywords)} LIMIT 1'
-                    template="{{>currentSearchText}}"
-                  >
-                      <template id="currentSearchText">
-                        <h2>
-                          Searched in artworks for:
-                          <i>{{bindings.0.keywords.value}}</i>
-                        </h2>
-                      </template>
-                 </semantic-query>
-
               <semantic-search-result>
                   <semantic-query
                     id="view-more"
                     query='
-                      SELECT (COUNT(DISTINCT ?subject) as ?count) WHERE {
-                        # this BIND is performance improvement hack, see "Solr score performance hack" at the top of the page"
-                        BIND("fl=id&defType=dismax&rows=100000" AS ?params) .
-                      } LIMIT 1
+                      SELECT (COUNT(*) as ?count) WHERE {
+                        ?subject a fc:work.
+                      }
                     '
                     template="{{>currentResultCount}}"
                   >
@@ -163,9 +97,8 @@ When solr parameters list need to be changed, make sure to modify it everywhere 
                                       prefetch-labels="false"
                                       query='
                                         SELECT DISTINCT ?subject WHERE {
-                                          # this BIND is performance improvement hack, see "Solr score perf. hack at the top of the page"
-                                          BIND("fl=id,score&defType=dismax&rows=100000" AS ?params) .
-                                        } ORDER BY DESC(?score) LIMIT 100'
+                                          ?subject a fc:work.
+                                        } LIMIT 100'
                                       number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}25{{/if}}"
                                       tuple-template="{{> subjectCellTemplate}}"
                                       options='{"showTableHeading": false, "showFilter":false}'
@@ -196,9 +129,4 @@ When solr parameters list need to be changed, make sure to modify it everywhere 
     </mp-event-target-template-render>
   </div>
   </div>
-
-  </template>
-  </semantic-query>
-  </semantic-context>
-  
   

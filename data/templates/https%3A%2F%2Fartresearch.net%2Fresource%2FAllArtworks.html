@@ -1,0 +1,43 @@
+<!-- [[#>:ClipboardSidebar]] -->
+<div id="filter-search" class="row row-center no-margin">
+  <div id="main-containers" class="col-md-10">
+    <div id="simple-search-include"  class="super-tabs">
+        <bs-tab-container
+            id="tab-container"
+            class="page__body-navtabs--borderless"
+            default-active-key='Artwork/Monument'
+          >
+            <div>
+              <bs-nav bs-style="tabs">
+                <bs-nav-item event-key="Artwork/Monument">Artwork/Monument</bs-nav-item>
+              </bs-nav>
+
+              <bs-tab-content unmount-on-exit="true">
+                  <bs-tab-pane event-key="Artwork/Monument">
+                      <semantic-search
+                            limit=100
+                            relations='[[> SearchSimpleRelations]]'
+                            search-profile='[[> SearchSimpleProfile]]'
+                          >
+                          [[> SearchSimpleAllArtworksView]]
+                      </semantic-search>
+                  </bs-tab-pane>
+              </bs-tab-content>
+            </div>
+        </bs-tab-container>
+    </div>
+  </div>
+</div>
+<!-- [[/:ClipboardSidebar]] -->
+<style>
+  .navbar-default {
+  box-shadow: none !important
+}
+
+.keyword-search-container{
+  display: none !important;
+}
+.rs-icon-search{
+  display: none !important;
+}
+</style>
