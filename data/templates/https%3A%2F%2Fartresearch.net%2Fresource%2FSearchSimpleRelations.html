@@ -1,93 +1,47 @@
 {
-  "<https://artresearch.net/resource/fr/Photo_has_ColorInformation>":[
-  {
-    "kind": "literal",
-    "queryPattern": "
-      ?subject crm:P43_has_dimension ?dimension .
-      ?dimension crm:P2_has_type <http://vocab.getty.edu/aat/300127013> .
-      ?dimension crm:P90_has_value ?literal.
-      "
-  }],
-   "<https://artresearch.net/resource/fr/Work_consists_of_Material>":[{
+  "<https://artresearch.net/resource/fr/Work_consists_of_Material>":[{
               "kind":"resource",
                "queryPattern": "
-                ?subject <https://artresearch.net/resource/fr/Work_consists_of_Material> ?__value__ .
+                  ?subject crm:P45_consists_of  ?__value__ .
                "
   }],
   "<https://artresearch.net/resource/fr/Work_produced_using_technique_Technique>":[{
               "kind":"resource",
-               "queryPattern": "
-                  ?subject <https://artresearch.net/resource/fr/Work_produced_using_technique_Technique> ?__value__ .
-                 "
+              "queryPattern": "
+                ?subject crm:P108i_was_produced_by/crm:P33_used_specific_technique ?__value__ .
+              "
   }],
-  "<https://artresearch.net/resource/fr/Person_has_Date_of_Birth>":[
-  {
-    "kind": "numeric-range",
-    "queryPattern": "
-      $subject fr:Person_has_Date_of_Birth ?gYear .
-        FILTER(?literal >= ?__numericRangeBeginValue__) .
-        FILTER(?literal <= ?__numericRangeEndValue__) .
-        BIND(xsd:integer(str(?gYear)) as ?literal)."
+  "<https://artresearch.net/resource/fr/Work_created_from_Artist>":[{
+              "kind":"resource",
+              "queryPattern": "
+                ?subject crm:P108i_was_produced_by/crm:P01i_is_domain_of ?pc14 .
+                ?pc14 a crm:PC14_carried_out_by .
+                ?pc14 crm:P02_has_range ?__value__ .
+              "
   }],
-  "<https://artresearch.net/resource/fr/Person_has_Date_of_Death>": [
-  {
-    "kind": "numeric-range",
-    "queryPattern": "
-      $subject fr:Person_has_Date_of_Death ?gYear .
-        FILTER(?literal >= ?__numericRangeBeginValue__) .
-        FILTER(?literal <= ?__numericRangeEndValue__) .
-        BIND(xsd:integer(str(?gYear)) as ?literal)."
+  "<https://artresearch.net/resource/fr/Work_shows_Subject>":[{
+              "kind":"resource",
+              "queryPattern": "
+                ?subject crm:P65_shows_visual_item ?__value__ .
+              "
   }],
-"<https://artresearch.net/resource/fr/Work_kept_by_Institution>":[
-{
-  "kind": "resource",
-  "queryPattern": "
-    {
-      $subject fr:Work_kept_by_Institution ?__value__.
-    } UNION {
-      ?original_subject owl:sameAs ?subject;
-        crm:P50_has_current_keeper ?__value__.
-    }
-  "
-}],
-"<https://artresearch.net/resource/fr/Artist_has_provider_Institution>":[
-{
-  "kind": "resource",
-  "queryPattern": "
-      $subject fr:Artist_has_provider_Institution ?__value__."
-}],
-"<https://artresearch.net/resource/fr/Work_from_Place>": [
-{
-  "kind": "resource",
-  "queryPattern": "
-    ?original_subject owl:sameAs ?subject;
-    fr:Work_from_Place ?__value__.
-  "
-}],
-"<https://artresearch.net/resource/fr/Event_has_Type>": [
-{
-  "kind": "resource",
-  "queryPattern": "
-      $subject fr:Person_has_Event ?event.
-      ?event fr:Event_has_Type ?__value__ ."
-}],
-"<https://artresearch.net/resource/fr/Event_at_Place>": [
-{
-  "kind": "resource",
-  "queryPattern": "
-    
-      $subject fr:Person_has_Event ?event.
-      ?event fr:Event_at_Place ?__value__ ."
-}],
-  "<https://artresearch.net/resource/fr/Work_has_rights>": [{
-  "kind": "resource",
-  "queryPattern": "
-    $subject fr:Work_has_right ?__value__.
-  "}],
-  "<https://artresearch.net/resource/fr/Photo_created_by_Photographer>": [{
-  "kind": "resource",
-  "queryPattern": "
-    $subject fr:Photo_created_by_Photographer ?__value__.
-  "}]
-
+  "<https://artresearch.net/resource/fr/Work_from_Place>":[{
+              "kind":"resource",
+              "queryPattern": "
+  						  ?subject crm:P55_has_current_location ?__value__ .
+              "
+  }],
+  "<https://artresearch.net/resource/fr/Work_kept_by_Institution>":[{
+              "kind":"resource",
+              "queryPattern": "
+                ?subject crm:P50_has_current_keeper ?__value__.
+              "
+  }],
+  "<http://www.cidoc-crm.org/cidoc-crm/P2_has_type>":[{
+              "kind":"resource",
+              "queryPattern": "
+                ?subject crm:P2_has_type ?__value__.
+                FILTER(?__value__ != <http://vocab.getty.edu/aat/300133025>)
+              "
+  }]
 }

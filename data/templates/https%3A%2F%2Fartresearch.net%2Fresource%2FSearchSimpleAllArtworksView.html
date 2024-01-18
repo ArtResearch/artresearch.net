@@ -8,6 +8,9 @@
   PREFIX fc: <https://artresearch.net/resource/fc/>
   PREFIX cfc: <https://artresearch.net/resource/custom/fc/>
     SELECT DISTINCT ?subject WHERE {
+      # work of art
+      ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+      ?subject custom:has_image true .
     }
     '
   >
@@ -22,29 +25,40 @@
       id="artwork-filter-search"
     >
         <bs-panel id="filter-panel" header="Filters"  collapsible="true" default-expanded="true">
-          <semantic-search-facet open-by-default='true' sortby='count-desc'  facet-values-threshold="10000" 
-                                 default-value-queries='{
-                                                          "resource": "
-                                                             SELECT ?value ?label (COUNT(DISTINCT $subject) AS ?count) WHERE {
-                                                               BIND(\"fl=id&defType=dismax&rows=100000\" AS ?params) .
-                                                               FILTER(?__facetRelationPattern__) 
-                                                               OPTIONAL {
-                                                                 ?value <http://www.researchspace.org/ontology/displayLabel> ?label .
+          <semantic-context repository="qlever">
+            <semantic-search-facet open-by-default='true' sortby='count-desc'  facet-values-threshold="1000" 
+                                   default-value-queries='{
+                                                            "resource": "
+                                                               SELECT ?value (COUNT(DISTINCT $subject) AS ?count) WHERE {
+                                                                 FILTER(?__facetRelationPattern__) 
                                                                }
-                                                             }
-                                                             GROUP BY ?value ?label
-                                                             ORDER BY DESC(?count)
-                                                          ",
-                                                          "literal": "
-                                                            SELECT ?literal (COUNT(DISTINCT $subject) AS ?count) WHERE {
-                                                              BIND(\"fl=id&defType=dismax&rows=100000\" AS ?params) .
-                                                              FILTER(?__facetRelationPattern__)
-                                                            }
-                                                            GROUP BY ?literal
-                                                            ORDER BY ?literal
-                                                          "
-                                                        }'
-          ></semantic-search-facet>
+                                                               GROUP BY ?value
+                                                               ORDER BY DESC(?count)
+                                                            ",
+                                                            "literal": "
+                                                              SELECT ?literal (COUNT(DISTINCT $subject) AS ?count) WHERE {
+                                                                FILTER(?__facetRelationPattern__)
+                                                              }
+                                                              GROUP BY ?literal
+                                                              ORDER BY ?literal
+                                                            "
+                                                          }'
+                                   value-relations='{
+                                                      "<https://artresearch.net/resource/fr/Work_shows_Subject>": {
+                                                        "kind": "resource",
+                                                        "valuesQuery": "
+                                                          SELECT ?value (COUNT(DISTINCT $subject) AS ?count) WHERE {
+                                                            ?subject crm:P65_shows_visual_item ?value .
+                                                            ?value crm:P2_has_type <http://vocab.getty.edu/aat/300404126> .
+                                                          }
+                                                          GROUP BY ?value
+                                                          ORDER BY DESC(?count)
+                                                        "
+                                                      }
+                                                    
+                                                    }'
+            ></semantic-search-facet>
+          </semantic-context>
         </bs-panel>
     </bs-col>
     <mp-event-target-template-render id="my-render" template="{{> combined}}">
@@ -53,34 +67,35 @@
           <semantic-search-result-holder>
             <div>
               <semantic-search-result>
-                  <semantic-query
-                    id="view-more"
-                    query='
-                      SELECT (COUNT(*) as ?count) WHERE {
-                        ?subject a fc:work.
-                      }
-                    '
-                    template="{{>currentResultCount}}"
-                  >
-                      <template id="currentResultCount">
-                          <h2>
-                                  Found
-                            {{#ifCond bindings.0.count.value "==" 100 }}
-                              displaying the first 1000 results, please refine your search
-                            {{else}}
-                              {{bindings.0.count.value}} relevant results 
-                            {{/ifCond}}
-                          </h2>
-                          <small>
-                            Displaying 
-                            {{#ifCond bindings.0.count.value ">=" 100 }}
-                            the first 100 results
-                            {{else}}
-                            all results
-                            {{/ifCond}}
-                          </small>
-                      </template>
-                  </semantic-query>
+                  <semantic-context repository="qlever">
+                    <semantic-query
+                      id="view-more"
+                      query='
+                        SELECT (COUNT(DISTINCT ?subject) as ?count) WHERE {
+                        }
+                      '
+                      template="{{>currentResultCount}}"
+                    >
+                        <template id="currentResultCount">
+                            <h2>
+                                    Found
+                              {{#ifCond bindings.0.count.value "==" 100 }}
+                                displaying the first 1000 results, please refine your search
+                              {{else}}
+                                {{bindings.0.count.value}} relevant results 
+                              {{/ifCond}}
+                            </h2>
+                            <small>
+                              Displaying 
+                              {{#ifCond bindings.0.count.value ">=" 100 }}
+                              the first 100 results
+                              {{else}}
+                              all results
+                              {{/ifCond}}
+                            </small>
+                        </template>
+                    </semantic-query>
+                  </semantic-context>
                   <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
                   [[> SearchbarSwitches]]
                   <bs-tabs
@@ -92,25 +107,26 @@
                       >
                       <bs-tab event-key="1" title="List">
                               <div id='artwork-filter-search-inline'>
-                                  <semantic-table
-                                      id="grid-result"
-                                      prefetch-labels="false"
-                                      query='
-                                        SELECT DISTINCT ?subject WHERE {
-                                          ?subject a fc:work.
-                                        } LIMIT 100'
-                                      number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}25{{/if}}"
-                                      tuple-template="{{> subjectCellTemplate}}"
-                                      options='{"showTableHeading": false, "showFilter":false}'
-                                      no-result-template='[[> CardNoResult ]]'
-                                      prefetch-labels="false"
-                                    >
-                                    <template id="subjectCellTemplate">
-                                      <semantic-context repository='default'>
-                                        [[> CardArtwork artwork="true"]]
-                                      </semantic-context>
-                                    </template>
-                                </semantic-table>
+                                  <semantic-context repository="qlever">
+                                    <semantic-table
+                                        id="grid-result"
+                                        prefetch-labels="false"
+                                        query='
+                                          SELECT DISTINCT ?subject WHERE {
+                                          } ORDER BY ?subject LIMIT 100'
+                                        number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}25{{/if}}"
+                                        tuple-template="{{> subjectCellTemplate}}"
+                                        options='{"showTableHeading": false, "showFilter":false}'
+                                        no-result-template='[[> CardNoResult ]]'
+                                        prefetch-labels="false"
+                                      >
+                                      <template id="subjectCellTemplate">
+                                        <semantic-context repository='default'>
+                                          [[> CardArtwork artwork="true"]]
+                                        </semantic-context>
+                                      </template>
+                                  </semantic-table>
+                                </semantic-context>
                               </div>
                       </bs-tab>
                       <bs-tab event-key="2" title="Tabular">

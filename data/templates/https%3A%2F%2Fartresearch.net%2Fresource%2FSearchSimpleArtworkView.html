@@ -11,7 +11,7 @@ When solr parameters list need to be changed, make sure to modify it everywhere 
 <semantic-context repository='default'>
   <semantic-query query='
   SELECT ?token WHERE{
-    BIND(REPLACE("[[urlParam "keyword"]]","(?<!^)(?<!\\s)\\s+(?!\\s+)(?!$)", " AND ") as ?token)
+    BIND(REPLACE("[[urlParam "keyword"]]","(?<!^)(?<!\\s)\\s+(?!\\s+)(?!$)", "* ") as ?token)
   }
   '
   template="{{>addAndTemplate}}"
@@ -28,26 +28,22 @@ When solr parameters list need to be changed, make sure to modify it everywhere 
   placeholder='You searched for [[urlParam "keyword"]], but you can search for anything!'
   domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
   default-query='
-  PREFIX fts: <http://www.bigdata.com/rdf/fts#>
-  PREFIX fr: <https://artresearch.net/resource/fr/>
-  PREFIX fc: <https://artresearch.net/resource/fc/>
-  PREFIX cfc: <https://artresearch.net/resource/custom/fc/>
-    SELECT DISTINCT ?subject WHERE {
-      # The actual fts:params string is defined in all places where this query is injected, it is a performance improvement hack, see "Solr score performance hack" at the top of the page"
-      SERVICE <http://www.bigdata.com/rdf/fts#search> {   
-        ?subject fts:search "{{bindings.0.token.value}}" .
-        ?subject fts:endpoint "http://213.171.209.34:8983/solr/artworks_v8/select" .
-        ?subject fts:fieldToSearch "_text_" .
-        ?subject fts:params ?params .
-        ?subject fts:searchField "id" .
-        ?subject fts:searchResultType "URI" .
-        ?subject fts:scoreField "score" .
-        ?subject fts:score ?score .
+    PREFIX custom: <https://artresearch.net/custom/>
+    PREFIX ql: <http://qlever.cs.uni-freiburg.de/builtin-functions/>
+
+    SELECT DISTINCT ?subject WHERE {  
+      # work of art
+      ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+
+      { 
+        SELECT DISTINCT ?subject ?ql_score_subject WHERE {
+          ?text ql:contains-entity ?subject .
+          ?text ql:contains-word "{{bindings.0.token.value}}*" .
+        }
       }
-            
+      
       {{#ifCond withImages "!==" "true"}}
-        ?subject fr:Work_depicted_by_Photo ?photograph.
-        
+        ?subject custom:has_image true .        
       {{/ifCond}}
     }
     '
@@ -72,19 +68,14 @@ When solr parameters list need to be changed, make sure to modify it everywhere 
     >
       
         <bs-panel id="filter-panel" header="Filters"  collapsible="true" default-expanded="true">
-          <!-- BINDs in the facet default queryies is performance improvement hack, see Solr score performance hack at the top of the page
- -->
-          <semantic-search-facet open-by-default='true' sortby='count-desc'  facet-values-threshold="10000" 
+          <semantic-context repository="qlever">
+            <semantic-search-facet open-by-default='true' sortby='count-desc'  facet-values-threshold="1000" 
                                  default-value-queries='{
                                                           "resource": "
-                                                             SELECT ?value ?label (COUNT(DISTINCT $subject) AS ?count) WHERE {
-                                                               BIND(\"fl=id&defType=dismax&rows=100000\" AS ?params) .
+                                                             SELECT ?value (COUNT(DISTINCT $subject) AS ?count) WHERE {
                                                                FILTER(?__facetRelationPattern__) 
-                                                               OPTIONAL {
-                                                                 ?value <http://www.researchspace.org/ontology/displayLabel> ?label .
-                                                               }
                                                              }
-                                                             GROUP BY ?value ?label
+                                                             GROUP BY ?value
                                                              ORDER BY DESC(?count)
                                                           ",
                                                           "literal": "
@@ -96,7 +87,22 @@ When solr parameters list need to be changed, make sure to modify it everywhere 
                                                             ORDER BY ?literal
                                                           "
                                                         }'
-          ></semantic-search-facet>
+                                   value-relations='{
+                                                      "<https://artresearch.net/resource/fr/Work_shows_Subject>": {
+                                                        "kind": "resource",
+                                                        "valuesQuery": "
+                                                          SELECT ?value (COUNT(DISTINCT $subject) AS ?count) WHERE {
+                                                            ?subject crm:P65_shows_visual_item ?value .
+                                                            ?value crm:P2_has_type <http://vocab.getty.edu/aat/300404126> .
+                                                          }
+                                                          GROUP BY ?value
+                                                          ORDER BY DESC(?count)
+                                                        "
+                                                      }
+                                                    
+                                                    }'                                 
+              ></semantic-search-facet>
+            </semantic-context>
         </bs-panel>
     </bs-col>
     <mp-event-target-template-render id="my-render" template="{{> combined}}">
@@ -117,14 +123,13 @@ When solr parameters list need to be changed, make sure to modify it everywhere 
                       </template>
                  </semantic-query>
 
+              <semantic-context repository="qlever">
               <semantic-search-result>
                   <semantic-query
                     id="view-more"
                     query='
                       SELECT (COUNT(DISTINCT ?subject) as ?count) WHERE {
-                        # this BIND is performance improvement hack, see "Solr score performance hack" at the top of the page"
-                        BIND("fl=id&defType=dismax&rows=100000" AS ?params) .
-                      } LIMIT 1
+                      }
                     '
                     template="{{>currentResultCount}}"
                   >
@@ -163,9 +168,7 @@ When solr parameters list need to be changed, make sure to modify it everywhere 
                                       prefetch-labels="false"
                                       query='
                                         SELECT DISTINCT ?subject WHERE {
-                                          # this BIND is performance improvement hack, see "Solr score perf. hack at the top of the page"
-                                          BIND("fl=id,score&defType=dismax&rows=100000" AS ?params) .
-                                        } ORDER BY DESC(?score) LIMIT 100'
+                                        } ORDER BY DESC(?ql_score_subject) LIMIT 100'
                                       number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}25{{/if}}"
                                       tuple-template="{{> subjectCellTemplate}}"
                                       options='{"showTableHeading": false, "showFilter":false}'
@@ -188,6 +191,7 @@ When solr parameters list need to be changed, make sure to modify it everywhere 
                       </bs-tab>
                   </bs-tabs>
               </semantic-search-result>
+              </semantic-context>
             </div>
           </semantic-search-result-holder>
           [[> NumberOfRowsSelector]]

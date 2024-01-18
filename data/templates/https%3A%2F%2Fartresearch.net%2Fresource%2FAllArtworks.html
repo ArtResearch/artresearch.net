@@ -14,8 +14,23 @@
 
               <bs-tab-content unmount-on-exit="true">
                   <bs-tab-pane event-key="Artwork/Monument">
+                    <mp-user-language-switch languages='["de","en","it", "es", "nl"]'></mp-user-language-switch>
+  
                       <semantic-search
                             limit=100
+                            categories='{
+                              "<http://www.w3.org/2001/XMLSchema#date>": [{
+                                 "kind": "date-range",
+                                 "datatype": "http://www.w3.org/2001/XMLSchema#date",
+                                 "queryPattern": "
+                                   {
+                                     $subject ?__relation__ ?date .
+                                     FILTER(?date <= ?__dateEndValue__) .
+                                     FILTER(?date >= ?__dateBeginValue__) .
+                                   }"
+                                }]
+                            }'        
+                                       
                             relations='[[> SearchSimpleRelations]]'
                             search-profile='[[> SearchSimpleProfile]]'
                           >
