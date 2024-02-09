@@ -25,7 +25,6 @@
       id="artwork-filter-search"
     >
         <bs-panel id="filter-panel" header="Filters"  collapsible="true" default-expanded="true">
-          <semantic-context repository="qlever">
             <semantic-search-facet open-by-default='true' sortby='count-desc'  facet-values-threshold="1000" 
                                    default-value-queries='{
                                                             "resource": "
@@ -58,7 +57,6 @@
                                                     
                                                     }'
             ></semantic-search-facet>
-          </semantic-context>
         </bs-panel>
     </bs-col>
     <mp-event-target-template-render id="my-render" template="{{> combined}}">
@@ -67,7 +65,6 @@
           <semantic-search-result-holder>
             <div>
               <semantic-search-result>
-                  <semantic-context repository="qlever">
                     <semantic-query
                       id="view-more"
                       query='
@@ -95,7 +92,6 @@
                             </small>
                         </template>
                     </semantic-query>
-                  </semantic-context>
                   <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
                   [[> SearchbarSwitches]]
                   <bs-tabs
@@ -107,7 +103,6 @@
                       >
                       <bs-tab event-key="1" title="List">
                               <div id='artwork-filter-search-inline'>
-                                  <semantic-context repository="qlever">
                                     <semantic-table
                                         id="grid-result"
                                         prefetch-labels="false"
@@ -126,7 +121,6 @@
                                         </semantic-context>
                                       </template>
                                   </semantic-table>
-                                </semantic-context>
                               </div>
                       </bs-tab>
                       <bs-tab event-key="2" title="Tabular">

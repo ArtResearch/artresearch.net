@@ -68,7 +68,6 @@ When solr parameters list need to be changed, make sure to modify it everywhere 
     >
       
         <bs-panel id="filter-panel" header="Filters"  collapsible="true" default-expanded="true">
-          <semantic-context repository="qlever">
             <semantic-search-facet open-by-default='true' sortby='count-desc'  facet-values-threshold="1000" 
                                  default-value-queries='{
                                                           "resource": "
@@ -102,7 +101,6 @@ When solr parameters list need to be changed, make sure to modify it everywhere 
                                                     
                                                     }'                                 
               ></semantic-search-facet>
-            </semantic-context>
         </bs-panel>
     </bs-col>
     <mp-event-target-template-render id="my-render" template="{{> combined}}">
@@ -123,7 +121,6 @@ When solr parameters list need to be changed, make sure to modify it everywhere 
                       </template>
                  </semantic-query>
 
-              <semantic-context repository="qlever">
               <semantic-search-result>
                   <semantic-query
                     id="view-more"
@@ -191,7 +188,6 @@ When solr parameters list need to be changed, make sure to modify it everywhere 
                       </bs-tab>
                   </bs-tabs>
               </semantic-search-result>
-              </semantic-context>
             </div>
           </semantic-search-result-holder>
           [[> NumberOfRowsSelector]]
