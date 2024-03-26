@@ -36,7 +36,7 @@ When solr parameters list need to be changed, make sure to modify it everywhere 
       # The actual fts:params string is defined in all places where this query is injected, it is a performance improvement hack, see "Solr score performance hack" at the top of the page"
       SERVICE <http://www.bigdata.com/rdf/fts#search> {   
         ?subject fts:search "{{bindings.0.token.value}}" .
-        ?subject fts:endpoint "http://213.171.209.34:8983/solr/artworks_v8/select" .
+        ?subject fts:endpoint "http://solr:8983/solr/artworks_v8/select" .
         ?subject fts:fieldToSearch "_text_" .
         ?subject fts:params ?params .
         ?subject fts:searchField "id" .

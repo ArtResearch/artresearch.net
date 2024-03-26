@@ -159,7 +159,7 @@
         queries='{
           "rootsQuery": " SELECT DISTINCT ?item ?label ?hasChildren where {
                             {
-                              SERVICE <http://dev.artresearch.net:10085/blazegraph/sparql> {
+                              SERVICE <http://geonames:8080/blazegraph/sparql> {
                                 GRAPH <alignment:__graph__> {
                                   ?item <http://www.geonames.org/ontology#featureCode> <https://www.geonames.org/ontology#L.CONT>.
                                   ?item <http://www.geonames.org/ontology#name> ?label
@@ -175,7 +175,7 @@
                             }
                           }order by ?label",
           "childrenQuery": "SELECT distinct ?item ?label ?hasChildren FROM <alignment:__graph__> WHERE {
-                              SERVICE <http://dev.artresearch.net:10085/blazegraph/sparql>  {
+                              SERVICE <http://geonames:8080/blazegraph/sparql>  {
                                 ?item <http://www.geonames.org/ontology#parentFeature> ?parent.
                                 ?item <http://www.geonames.org/ontology#name> ?label.
                               }
@@ -186,7 +186,7 @@
                             PREFIX xl: <http://www.w3.org/2008/05/skos-xl#>
                             PREFIX dc: <http://purl.org/dc/elements/1.1/>
                             SELECT DISTINCT ?item ?parent ?parentLabel FROM <alignment:__graph__> WHERE {
-                              SERVICE <http://dev.artresearch.net:10085/blazegraph/sparql>  {
+                              SERVICE <http://geonames:8080/blazegraph/sparql>  {
                                 ?item <http://www.geonames.org/ontology#parentFeature> ?parent.
                                 ?parent <http://www.geonames.org/ontology#name> ?parentLabel.
                                 FILTER(STR(?parent)!=\"https://sws.geonames.org/6295630/\")
@@ -199,7 +199,7 @@
                           PREFIX dc: <http://purl.org/dc/elements/1.1/>
                           SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
                             {
-                              SERVICE <http://dev.artresearch.net:10085/blazegraph/sparql> {
+                              SERVICE <http://geonames:8080/blazegraph/sparql> {
                                 GRAPH <alignment:__graph__> {
                                   ?item a <http://www.geonames.org/ontology#Feature>.
                                   ?item <http://www.geonames.org/ontology#name> ?label.
