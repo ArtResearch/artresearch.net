@@ -8,21 +8,19 @@
   "<https://artresearch.net/resource/fr/Work_produced_using_technique_Technique>":[{
               "kind":"resource",
               "queryPattern": "
-                ?subject crm:P108i_was_produced_by ?production .
-                ?sub_production crm:P9i_forms_part_of ?production .
-                ?sub_production crm:P33_used_specific_technique ?__value__ .
+                ?subject crm:P108i_was_produced_by/crm:P9i_forms_part_of*/crm:P32_used_general_technique ?__value__ .
               "
   }],
   "<https://artresearch.net/resource/fr/Work_created_from_Artist>":[{
               "kind":"resource",
-              "queryPattern": "
+              "queryPattern": "{
                 ?subject crm:P108i_was_produced_by ?production .
                 ?sub_production crm:P9i_forms_part_of ?production .
 
                 ?sub_production crm:P01i_is_domain_of ?pc14 .
                 ?pc14 a crm:PC14_carried_out_by .
                 ?pc14 crm:P02_has_range ?__value__ .
-              "
+              }"
   }],
   "<https://artresearch.net/resource/fr/Work_shows_Subject>":[{
               "kind":"resource",
@@ -44,9 +42,9 @@
   }],
   "<http://www.cidoc-crm.org/cidoc-crm/P2_has_type>":[{
               "kind":"resource",
-              "queryPattern": "
+              "queryPattern": "{
                 ?subject crm:P2_has_type ?__value__.
                 FILTER(?__value__ != <http://vocab.getty.edu/aat/300133025>)
-              "
+              }"
   }]
 }

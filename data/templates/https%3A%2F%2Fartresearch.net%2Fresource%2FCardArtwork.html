@@ -62,39 +62,41 @@
 }
 </style>
 
-<div class="artwork-card">
-  <resource-info subject="{{subject.value}}" profile="artwork" template="{{> template}}">
-    <template id="template">
-      <div class="thumbnail-container">
-        {{#if data.[https://artresearch.net/resource/fieldDefinition/artworkThumbnail]}}
-          <img class="thumbnail-image" src="{{data.[https://artresearch.net/resource/fieldDefinition/artworkThumbnail].values.0.[@value]}}" alt="Artwork thumbnail" />
-        {{else}}
-          <span class="no-image-text">No image</span>
-        {{/if}}
-      </div>
-      <div class="info-container">
-        {{> fieldTemplate data=data field="https://artresearch.net/resource/fieldDefinition/title" label="Title"}}
-        {{> fieldTemplate data=data field="https://artresearch.net/resource/fieldDefinition/creator" label="Creator"}}
-        {{> fieldTemplate data=data field="http://www.cidoc-crm.org/cidoc-crm/P45_consists_of" label="Material"}}
-      </div>
-    </template>
-
-    <template id="fieldTemplate">
-      {{#if (lookup data field)}}
-        <div class="field">
-          <div class="field-label">{{label}}</div>
-          <div class="field-value">
-            {{#each (lookup (lookup data field) 'values')}}
-              {{#if [@id]}}
-                <semantic-link iri="{{[@id]}}">{{label}}</semantic-link>
-              {{else}}
-                {{[@value]}}
-              {{/if}}
-              {{#unless @last}}, {{/unless}}
-            {{/each}}
+<semantic-link-container uri="{{subject.value}}" target="_blank">
+  <div class="artwork-card">
+    <resource-info subject="{{subject.value}}" profile="artwork" template="{{> template}}">
+      <template id="template">
+          <div class="thumbnail-container">
+            {{#if data.[https://artresearch.net/resource/fieldDefinition/artworkThumbnail]}}
+              <img class="thumbnail-image" src="{{data.[https://artresearch.net/resource/fieldDefinition/artworkThumbnail].values.0.[@value]}}" alt="Artwork thumbnail" />
+            {{else}}
+              <span class="no-image-text">No image</span>
+            {{/if}}
           </div>
-        </div>
-      {{/if}}
-    </template>
-  </resource-info>
-</div>
+          <div class="info-container">
+            {{> fieldTemplate data=data field="https://artresearch.net/resource/fieldDefinition/title" label="Title"}}
+            {{> fieldTemplate data=data field="https://artresearch.net/resource/fieldDefinition/creator" label="Creator"}}
+            {{> fieldTemplate data=data field="http://www.cidoc-crm.org/cidoc-crm/P45_consists_of" label="Material"}}
+          </div>
+      </template>
+
+      <template id="fieldTemplate">
+        {{#if (lookup data field)}}
+          <div class="field">
+            <div class="field-label">{{label}}</div>
+            <div class="field-value">
+              {{#each (lookup (lookup data field) 'values')}}
+                {{#if [@id]}}
+                  <semantic-link iri="{{[@id]}}">{{label}}</semantic-link>
+                {{else}}
+                  {{[@value]}}
+                {{/if}}
+                {{#unless @last}}, {{/unless}}
+              {{/each}}
+            </div>
+          </div>
+        {{/if}}
+      </template>
+    </resource-info>
+  </div>
+</semantic-link-container>
