@@ -1,216 +1,100 @@
-<div
-  class="rs-grid-element panel panel-default artwork-card-big fade-in-fwd "
->
-<scroll-to-top querySelector=".pagination li"></scroll-to-top>
+<style>
+.artwork-card {
+  display: flex;
+  height: 200px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
 
-    <resource-info subject="{{subject.value}}" profile="artwork" template="{{> template}}">
-        <template id="template">
-            <semantic-link iri="{{subject}}">
-    <bs-row 
-        style="display: flex;
-                align-items: center; 
-                flex-wrap: wrap;">
-      <bs-col
-        lg="4"
-        md="12"
-        xs="12"
-      >
-        <!-- Show thumbnail -->
-         <div class="thumbnailContainer">
-           {{#if data.[https://artresearch.net/resource/fieldDefinition/artworkThumbnail]}}
-           <img alt='   ' class="thumbnailImage" src="{{data.[https://artresearch.net/resource/fieldDefinition/artworkThumbnail].values.0.[@value]}}" />
-           {{else}}
-             <img alt='   ' class="thumbnailImage" src="/assets/images/media/image_placeholder.jpg" />
-           {{/if}}
-         </div>
-  
-        <div class="animated-background thumbnailContainer "></div>
-      </bs-col>
+.thumbnail-container {
+  width: 200px;
+  flex-shrink: 0;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-      <bs-col  lg="8" md="12" >
-        <div data-flex-layout="row md-column center-stretch">
-          <bs-row class=" cardInfoFields">
-            <div id="rsbv" class=" table-responsive rs-table">
-              <table class="table table-hover">
-                <tbody>
-                      <div class="workTemplate">
-                        <tr  class="rs-page-resource__field">
-                          <td class="rs-page-resource__field-label-holder headLine">
-                            <span class="rs-page-resource__field-label">
-                              Title
-                            </span>
-                          </td>
-                          <td>
-                            <span class="rs-page-resource__field-value">
-                              <div  style="width:25vw; max-width: 450px;">
-                                <div class="informationRow">
-                                  {{data.[https://artresearch.net/resource/fieldDefinition/title].values.0.[@value]}}
-                                </div>
-                              </div>
-                            </span>
-                          </td>
-                        </tr>
-                      </div>
+.thumbnail-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
 
-                  {{> fieldTemplate data=data field="https://artresearch.net/resource/fieldDefinition/creator"}}
+.no-image-text {
+  color: #999;
+  font-style: italic;
+}
 
-                  {{> fieldTemplate data=data field="http://www.cidoc-crm.org/cidoc-crm/P45_consists_of"}}
+.info-container {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
 
-                  
-                  <div class="table-of-animation">
-                    <div class="animated-background-sm1 rs-page-resource__field-label-holder"></div>
-                    <div class="animated-background-sm2 rs-page-resource__field-label-holder"></div>
-                    <div class="animated-background-sm3 rs-page-resource__field-label-holder"></div>
-                    <div class="animated-background-sm5 rs-page-resource__field-label-holder"></div>
-                    <div class="animated-background-sm4 rs-page-resource__field-label-holder"></div>
-                    <div class="animated-background-sm6 rs-page-resource__field-label-holder"></div>
-                    <div class="animated-background-sm7 rs-page-resource__field-label-holder"></div>
-                    <div class="animated-background-sm8 rs-page-resource__field-label-holder"></div>
-                  </div>
-                  
-                  {{> fieldTemplate data=data field="https://artresearch.net/resource/fieldDefinition/repository"}}
-                 
-                  <div class="workTemplate">
-                    <tr class="rs-page-resource__field">
-                      <td class="rs-page-resource__field-label-holder headLine">
-                        <span class="rs-page-resource__field-label">
-                          Photo archive
-                        </span>
-                      </td>
-                      <td>
-                        <span class="rs-page-resource__field-value">
-                          <div style="width:25vw; max-width: 450px;">
-                            <div class="informationRow">
-                                {{#each data.[https://artresearch.net/resource/fieldDefinition/provider].values}}
-                                <div title="{{label}}">
-                                  <semantic-link iri='{{[@id]}}' getlabel='false'>
-                                    {{>source-icon provider=[@id]}}
-                                  </semantic-link>
-                                </div>
-                                {{/each}}
-                            </div>
-                          </div>
-                        </span>
-                      </td>
-                    </tr>
-                  </div>
-       
-                </tbody>
-              </table>
-            </div>
-            <div class="animated-background table-responsive rs-table"></div>
-          </bs-row>
-        </div>
-      </bs-col>
-    </bs-row>
-              </semantic-link>
-           </template>
-        <template id="fieldTemplate">
-          {{#if (lookup data field)}}
-          <div class="workTemplate">
-            <tr class="rs-page-resource__field">
-              <td class="rs-page-resource__field-label-holder headLine">
-                <span class="rs-page-resource__field-label">
-                  {{lookup (lookup data field) 'label'}}
-                </span>
-              </td>
-              <td>
-                <span class="rs-page-resource__field-value">
-                  <div style="width:25vw; max-width: 450px;">
-                    {{#each (lookup (lookup data field) 'values')}}
-                      <div class="informationRow">
-                        <semantic-link iri="{{[@id]}}">{{label}}</semantic-link>
-                      </div>
-                    {{/each}}
-                  </div>
-                </span>
-              </td>
-            </tr>
+.field {
+  margin-bottom: 12px;
+  display: flex;
+}
+
+.field-label {
+  width: 120px;
+  color: #666;
+  font-size: 14px;
+}
+
+.field-value {
+  flex: 1;
+  color: #333;
+  font-size: 14px;
+}
+
+.field-value a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.field-value a:hover {
+  text-decoration: underline;
+}
+</style>
+
+<div class="artwork-card">
+  <resource-info subject="{{subject.value}}" profile="artwork" template="{{> template}}">
+    <template id="template">
+      <div class="thumbnail-container">
+        {{#if data.[https://artresearch.net/resource/fieldDefinition/artworkThumbnail]}}
+          <img class="thumbnail-image" src="{{data.[https://artresearch.net/resource/fieldDefinition/artworkThumbnail].values.0.[@value]}}" alt="Artwork thumbnail" />
+        {{else}}
+          <span class="no-image-text">No image</span>
+        {{/if}}
+      </div>
+      <div class="info-container">
+        {{> fieldTemplate data=data field="https://artresearch.net/resource/fieldDefinition/title" label="Title"}}
+        {{> fieldTemplate data=data field="https://artresearch.net/resource/fieldDefinition/creator" label="Creator"}}
+        {{> fieldTemplate data=data field="http://www.cidoc-crm.org/cidoc-crm/P45_consists_of" label="Material"}}
+      </div>
+    </template>
+
+    <template id="fieldTemplate">
+      {{#if (lookup data field)}}
+        <div class="field">
+          <div class="field-label">{{label}}</div>
+          <div class="field-value">
+            {{#each (lookup (lookup data field) 'values')}}
+              {{#if [@id]}}
+                <semantic-link iri="{{[@id]}}">{{label}}</semantic-link>
+              {{else}}
+                {{[@value]}}
+              {{/if}}
+              {{#unless @last}}, {{/unless}}
+            {{/each}}
           </div>
-          {{/if}}
-        </template>
-        
-        <template id="source-icon">
-          {{#switch provider}}
-          {{#case "https://artresearch.net/resource/E13/itatti-catalog>" break=true}}
-          <img
-               title="{{label}}"
-               class="sourceIcon"
-               src="/assets/images/I Tatti.ico"
-               />           
-          {{/case}}
-          {{#case "https://artresearch.net/resource/E13/nga-catalog" break=true}}
-          <img
-               title="{{label}}"
-               class="sourceIcon"
-               src="/assets/images/NGA.ico"
-               />
-          {{/case}}
-          {{#case "https://artresearch.net/resource/E13/frick-catalog" break=true}}
-          <img
-               title="{{label}}"
-               class="sourceIcon"
-               src="/assets/images/Frick.ico"
-               />
-          {{/case}}
-          {{#case "https://artresearch.net/resource/E13/pharos-catalog" break=true}}
-          <img
-               title="{{label}}"
-               class="sourceIcon"
-               src="/assets/images/Pharos.ico"
-               />
-          {{/case}}
-          {{#case "https://artresearch.net/resource/E13/ulan-catalog" break=true}}
-          <img
-               title="{{label}}"
-               class="sourceIcon"
-               src="/assets/images/ULAN.ico"
-               />
-          {{/case}}
-          {{#case "https://artresearch.net/resource/E13/getty-catalog" break=true}}
-          <img
-               title="{{label}}"
-               class="sourceIcon"
-               src="/assets/images/Getty.ico"
-               />
-          {{/case}}
-          {{#case "https://artresearch.net/resource/E13/hertziana-catalog" break=true}}
-          <img
-               title="{{label}}"
-               class="sourceIcon"
-               src="/assets/images/Hertziana.ico"
-               />
-          {{/case}}
-          {{#case "https://artresearch.net/resource/E13/marburg-catalog" break=true}}
-          <img
-               title="{{label}}"
-               class="sourceIcon"
-               src="/assets/images/Marburg.ico"
-               />
-          {{/case}}
-          {{#case "https://artresearch.net/resource/E13/zeri-catalog" break=true}}
-          <img
-               title="{{label}}"
-               class="sourceIcon"
-               src="/assets/images/Zeri.ico"
-               />
-          {{/case}}
-          {{#case "https://artresearch.net/resource/E13/khi-catalog" break=true}}
-          <img
-               title="{{label}}"
-               class="sourceIcon"
-               src="/assets/images/KHI.ico"
-               />
-          {{/case}}
-          {{#case "https://artresearch.net/resource/E13/pmc-catalog" break=true}}
-          <img
-               title="{{label}}"
-               class="sourceIcon"
-               src="/assets/images/PMC.ico"
-               />
-          {{/case}}
-
-          {{/switch}}
-        </template>
-      </resource-info>
+        </div>
+      {{/if}}
+    </template>
+  </resource-info>
 </div>
