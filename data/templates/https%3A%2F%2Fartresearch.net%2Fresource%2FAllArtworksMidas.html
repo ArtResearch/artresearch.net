@@ -57,27 +57,30 @@
       }'
       relations='[[> SearchSimpleRelationsMidas]]'
       search-profile='[[> SearchSimpleProfile]]'
+                     
+      datasets-config='{"datasetPattern": "", "datasets": [{"label": "PHAROS", "isDefault": true, "alignments": [{"iri": "http://vocab.getty.edu/aat/", "label": "Getty", "isDefault": true}, {"iri": "https://artresearch.net/resource/midas/vocabulary", "label": "MIDAS"}, {"iri": "https://artresearch.net/resource/zeri/vocabulary", "label": "Zeri"}]}]}'
     >
       <div class="search-bar">
         <semantic-search-query-keyword
           placeholder='Search for artworks...'
           domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
-          min-search-term-length="3"
+          min-search-term-length="4"
           default-query='SELECT DISTINCT ?subject WHERE {
             ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
-            BIND(1 AS ?ql_score_text_var_subject) .
-            ?subject custom:has_image true .
+            BIND(0 AS ?ql_score_text_var_subject)
           }'
           query='PREFIX ql: <http://qlever.cs.uni-freiburg.de/builtin-functions/>
           PREFIX cfc: <https://artresearch.net/resource/custom/fc/>
           SELECT DISTINCT ?subject WHERE {
             ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
-            ?subject custom:has_image true .
             ?text ql:contains-entity ?subject .
             ?text ql:contains-word ?__token__ .
           }'
+                                       
+          initial-input="[[urlParam "keyword"]]"
         >
         </semantic-search-query-keyword>
+        <semantic-search-configuration-editor></semantic-search-configuration-editor>
       </div>
       
       <div class="content-area">
@@ -91,7 +94,13 @@
               "<https://artresearch.net/resource/fr/Work_shows_Subject>": {
                 "kind": "resource",
                 "valuesQuery": "SELECT ?value (COUNT(DISTINCT $subject) AS ?count) WHERE { ?subject crm:P65_shows_visual_item ?value . ?value crm:P2_has_type <http://vocab.getty.edu/aat/300404126> . } GROUP BY ?value ORDER BY DESC(?count)"
+              },
+              "<https://artresearch.net/resource/fr/Work_has_Image>": {
+                "kind": "resource",
+                "valuesQuery": "SELECT ?value (COUNT(DISTINCT $subject) AS ?count) WHERE {
+                OPTIONAL { ?subject custom:has_image ?has } . BIND(IF(?has = true, <http://www.w3.org/2001/XMLSchema#yes>, <http://www.w3.org/2001/XMLSchema#no>) AS ?value) . } GROUP BY ?value ORDER BY DESC(?count)"
               }
+
             }'
           >
           </semantic-search-facet>
@@ -115,7 +124,7 @@
               <semantic-query
                 id="grid-result"
                 prefetch-labels="false"
-                query='SELECT DISTINCT ?subject (SUM(?ql_score_text_var_subject) AS ?score) WHERE {} GROUP BY ?subject ORDER BY DESC(?score) ?subject LIMIT 100'
+                query='SELECT DISTINCT ?subject (SUM(?ql_score_text_var_subject) AS ?score) WHERE { } GROUP BY ?subject ORDER BY DESC(?score) ?subject LIMIT 100'
                 template="{{> subjectCellTemplate}}"
                 no-result-template='[[> CardNoResult ]]'
               >

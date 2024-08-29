@@ -40,7 +40,7 @@
 .thumbnail img {
     width: 100%;
     height: 150px;
-    object-fit: cover;
+    object-fit: contain;
     display: block;
 }
 
@@ -149,6 +149,17 @@
                             {
                                 "field": "http://www.cidoc-crm.org/cidoc-crm/P45_consists_of",
                                 "label": "Material"
+                            }
+                        ]')
+                    }}
+                  
+                  {{> fieldGroup 
+                        data=data
+                        title="Provenance" 
+                        fields=(parse '[
+                            {
+                                "field": "https://artresearch.net/resource/fieldDefinition/provider",
+                                "label": "Photo Archive"
                             }
                         ]')
                     }}

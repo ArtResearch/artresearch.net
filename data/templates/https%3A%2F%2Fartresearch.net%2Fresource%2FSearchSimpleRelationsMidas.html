@@ -1,15 +1,25 @@
 {
   "<https://artresearch.net/resource/fr/Work_consists_of_Material>":[{
-              "kind":"resource",
-               "queryPattern": "
-                  ?subject crm:P45_consists_of  ?__value__ .
-               "
+              "kind":"hierarchy",
+              "queryPattern": "{
+                ?subject crm:P45_consists_of ?material .
+                ?material owl:sameAs*/^owl:sameAs*/crm:P127_has_broader_term* ?__value__ .
+                ?__value__ crm:P71i_is_listed_in ?__alignment__ .
+              }",
+              "parentsPattern": "{ ?value crm:P127_has_broader_term ?parent . ?parent crm:P71i_is_listed_in ?__alignment__ . }",
+              "childrenPattern": "{ ?child crm:P127_has_broader_term ?value . ?child crm:P71i_is_listed_in ?__alignment__ . }",
+              "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
   }],
   "<https://artresearch.net/resource/fr/Work_produced_using_technique_Technique>":[{
-              "kind":"resource",
-              "queryPattern": "
-                ?subject crm:P108i_was_produced_by/crm:P9i_forms_part_of*/crm:P32_used_general_technique ?__value__ .
-              "
+              "kind":"hierarchy",
+              "queryPattern": "{
+                ?subject crm:P108i_was_produced_by/crm:P9i_forms_part_of*/crm:P32_used_general_technique ?techinque .
+                ?techinque owl:sameAs*/^owl:sameAs*/crm:P127_has_broader_term* ?__value__ .   
+                ?__value__ crm:P71i_is_listed_in ?__alignment__ .
+              }",
+              "parentsPattern": "{ ?value crm:P127_has_broader_term ?parent . ?parent crm:P71i_is_listed_in ?__alignment__ .}",
+              "childrenPattern": "{ ?child crm:P127_has_broader_term ?value . ?child crm:P71i_is_listed_in ?__alignment__ .}",
+              "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
   }],
   "<https://artresearch.net/resource/fr/Work_created_from_Artist>":[{
               "kind":"resource",
@@ -41,10 +51,21 @@
               "
   }],
   "<http://www.cidoc-crm.org/cidoc-crm/P2_has_type>":[{
+              "kind":"hierarchy",
+              "queryPattern": "{
+                ?subject crm:P2_has_type ?type .
+                ?type owl:sameAs*/^owl:sameAs*/crm:P127_has_broader_term* ?__value__ .
+                ?__value__ crm:P71i_is_listed_in ?__alignment__ .
+              }",
+              "parentsPattern": "{ ?value crm:P127_has_broader_term ?parent . ?parent crm:P71i_is_listed_in ?__alignment__ . }",
+              "childrenPattern": "{ ?child crm:P127_has_broader_term ?value . ?child crm:P71i_is_listed_in ?__alignment__ . }",
+              "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
+  }],
+  "<https://artresearch.net/resource/fr/Work_has_Image>":[{
               "kind":"resource",
               "queryPattern": "{
-                ?subject crm:P2_has_type ?__value__.
-                FILTER(?__value__ != <http://vocab.getty.edu/aat/300133025>)
+                BIND(IF(?__value__ = <http://www.w3.org/2001/XMLSchema#yes>, true, false) AS ?has) .
+                ?subject custom:has_image ?has .
               }"
   }]
 }
