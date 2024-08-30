@@ -1,0 +1,271 @@
+<style>
+  .main-container {
+    height: calc(100vh - 58px - 46px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .search-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .search-bar {
+	  width: 50vw;
+    align-self: center;
+  }
+  .content-area {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+  .facet-column {
+    width: 300px;
+    overflow-y: auto;
+    padding: 20px;
+    border-right: 1px solid #e9ecef;
+  }
+  .results-column {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+  }
+  .result-item {
+    margin-bottom: 20px;
+  }
+  
+  .facet__category-selector-holder {
+    display: none;
+  }
+</style>
+
+<semantic-context repository='qlever-midas'>
+  <div class="main-container">
+    <semantic-search
+      limit=100
+      categories='{
+        "<http://www.w3.org/2001/XMLSchema#date>": [{
+          "kind": "date-range",
+          "datatype": "http://www.w3.org/2001/XMLSchema#date",
+          "queryPattern": "
+            {
+              $subject ?__relation__ ?date .
+              FILTER(?date <= ?__dateEndValue__) .
+              FILTER(?date >= ?__dateBeginValue__) .
+            }"
+          }],
+                  
+          "<http://www.cidoc-crm.org/cidoc-crm/E57_Material>":[{
+              "kind":"hierarchy"
+  }]
+      }'
+      relations='[[> SearchSimpleRelationsMidas]]'
+                  
+      search-profile='[[> SearchSimpleProfile]]'
+                     
+      datasets-config='{"datasetPattern": "", "datasets": [{"label": "PHAROS", "isDefault": true, "alignments": [{"iri": "http://vocab.getty.edu/aat/", "label": "Getty", "isDefault": true}, {"iri": "https://artresearch.net/resource/midas/vocabulary", "label": "MIDAS"}, {"iri": "https://artresearch.net/resource/zeri/vocabulary", "label": "Zeri"}]}]}'
+    >
+      <div class="search-bar">
+        <semantic-search-query-builder
+          placeholder='Search for artworks...'
+          domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
+          query='
+          PREFIX cfc: <https://artresearch.net/resource/custom/fc/>
+          SELECT DISTINCT ?subject WHERE {
+            ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+          }'           
+          
+          tree-selector-relations='{
+             "<https://artresearch.net/resource/fr/Work_consists_of_Material>": {
+              "kind":"hierarchy",
+              "rootsQuery": "
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+SELECT DISTINCT (?value AS ?item) ?hasChildren ?count WHERE {
+  {
+    SELECT ?value (COUNT(DISTINCT ?subject) AS ?count) WHERE {
+      ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025>.
+      FILTER(?__baseQueryPattern__)
+
+      {
+        ?subject crm:P45_consists_of ?material.
+        ?material ((owl:sameAs*)/^(owl:sameAs*)/(crm:P127_has_broader_term*)) ?value.
+        ?value crm:P71i_is_listed_in <http://vocab.getty.edu/aat/>.
+      }
+      MINUS {
+        {
+          ?value crm:P127_has_broader_term ?parent.
+          ?parent crm:P71i_is_listed_in <http://vocab.getty.edu/aat/>.
+        }
+      }
+    }
+    GROUP BY ?value
+  }
+  OPTIONAL {
+    {
+      ?child crm:P127_has_broader_term ?value;
+        crm:P71i_is_listed_in <http://vocab.getty.edu/aat/>.
+    }
+  }
+  BIND(BOUND(?child) AS ?hasChildren)
+}
+ORDER BY DESC (?count)
+                                   ",
+              "childrenQuery": "
+                                 PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+SELECT DISTINCT (?value AS ?item) ?hasChildren ?count WHERE {
+  {
+    SELECT ?value (COUNT(DISTINCT ?subject) AS ?count) WHERE {
+      ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025>.
+      FILTER(?__baseQueryPattern__)
+      {
+        ?subject crm:P45_consists_of ?material.
+        ?material ((owl:sameAs*)/^(owl:sameAs*)/(crm:P127_has_broader_term*)) ?value.
+        ?value crm:P71i_is_listed_in <http://vocab.getty.edu/aat/>.
+      }
+      {
+        ?value crm:P127_has_broader_term <http://vocab.getty.edu/aat/300010358>.
+        <http://vocab.getty.edu/aat/300010358> crm:P71i_is_listed_in <http://vocab.getty.edu/aat/>.
+      }
+    }
+    GROUP BY ?value
+  }
+  OPTIONAL {
+    {
+      ?child crm:P127_has_broader_term ?value;
+        crm:P71i_is_listed_in <http://vocab.getty.edu/aat/>.
+    }
+  }
+  BIND(BOUND(?child) AS ?hasChildren)
+}
+ORDER BY DESC (?count)
+                                   
+                                   ",
+              "parentsQuery": "
+                                   PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+SELECT DISTINCT ?item ?parent ?count WHERE {
+  {
+    SELECT (?value AS ?item) ?parent (COUNT(DISTINCT ?subject) AS ?count) WHERE {
+      ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025>.
+
+      FILTER(?__baseQueryPattern__)
+      {
+        ?subject crm:P45_consists_of ?material.
+        ?material ((owl:sameAs*)/^(owl:sameAs*)/(crm:P127_has_broader_term*)) ?value.
+        ?value crm:P71i_is_listed_in <http://vocab.getty.edu/aat/>.
+      }
+      {
+        ?value crm:P127_has_broader_term ?parent.
+        ?parent crm:P71i_is_listed_in <http://vocab.getty.edu/aat/>.
+      }
+    }
+    GROUP BY ?parent ?value
+  }
+}
+ORDER BY DESC (?count)
+                                   ",
+              "searchQuery": "
+                                   PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX ql: <http://qlever.cs.uni-freiburg.de/builtin-functions/>
+PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT DISTINCT (?value AS ?item) ?hasChildren ?count (?ql_score_text_var_value AS ?score) WHERE {
+  {
+    SELECT ?value (COUNT(DISTINCT ?subject) AS ?count) WHERE {
+      ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025>.
+
+      FILTER(?__baseQueryPattern__)
+
+      {
+        ?subject crm:P45_consists_of ?material.
+        ?material ((owl:sameAs*)/^(owl:sameAs*)/(crm:P127_has_broader_term*)) ?value.
+        ?value crm:P71i_is_listed_in <http://vocab.getty.edu/aat/>.
+      }
+    }
+    GROUP BY ?value
+  }
+  OPTIONAL {
+    {
+      ?child crm:P127_has_broader_term ?value;
+        crm:P71i_is_listed_in <http://vocab.getty.edu/aat/>.
+    }
+  }
+  BIND(BOUND(?child) AS ?hasChildren)
+  {
+    ?text ql:contains-entity ?value;
+      ql:contains-word ?__token__.
+  }
+}
+ORDER BY DESC (?score) DESC (?count)
+                                   
+                                   "
+  }}'
+        >
+        </semantic-search-query-builder>
+        <semantic-search-configuration-editor></semantic-search-configuration-editor>
+      </div>
+      
+      <div class="content-area">
+        <div class="facet-column">
+          <semantic-search-facet open-by-default='true' sortby='count-desc' facet-values-threshold="200"
+            default-value-queries='{
+              "resource": "SELECT ?value (COUNT(DISTINCT $subject) AS ?count) WHERE { FILTER(?__facetRelationPattern__) } GROUP BY ?value ORDER BY DESC(?count)",
+              "literal": "SELECT ?literal (COUNT(DISTINCT $subject) AS ?count) WHERE { FILTER(?__facetRelationPattern__) } GROUP BY ?literal ORDER BY ?literal"
+            }'
+            value-relations='{
+              "<https://artresearch.net/resource/fr/Work_shows_Subject>": {
+                "kind": "resource",
+                "valuesQuery": "SELECT ?value (COUNT(DISTINCT $subject) AS ?count) WHERE { ?subject crm:P65_shows_visual_item ?value . ?value crm:P2_has_type <http://vocab.getty.edu/aat/300404126> . } GROUP BY ?value ORDER BY DESC(?count)"
+              },
+              "<https://artresearch.net/resource/fr/Work_has_Image>": {
+                "kind": "resource",
+                "valuesQuery": "SELECT ?value (COUNT(DISTINCT $subject) AS ?count) WHERE {
+                OPTIONAL { ?subject custom:has_image ?has } . BIND(IF(?has = true, <http://www.w3.org/2001/XMLSchema#yes>, <http://www.w3.org/2001/XMLSchema#no>) AS ?value) . } GROUP BY ?value ORDER BY DESC(?count)"
+              }
+
+            }'
+          >
+          </semantic-search-facet>
+        </div>
+        
+        <div class="results-column">
+          <semantic-search-result-holder>
+            <semantic-search-result>
+              <semantic-query
+                id="result-count"
+                query='SELECT (COUNT(DISTINCT ?subject) as ?count) WHERE {}'
+                template="{{>currentResultCount}}"
+              >
+                <template id="currentResultCount">
+                  <p>Found {{bindings.0.count.value}} results. Displaying {{#ifCond bindings.0.count.value ">=" 100}}the first 100{{else}}all{{/ifCond}} results.</p>
+                </template>
+              </semantic-query>
+              
+              <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
+              
+              <semantic-query
+                id="grid-result"
+                prefetch-labels="false"
+                query='SELECT DISTINCT ?subject WHERE { } GROUP BY ?subject ORDER BY ?subject LIMIT 100'
+                template="{{> subjectCellTemplate}}"
+                no-result-template='[[> CardNoResult ]]'
+              >
+                <template id="subjectCellTemplate">
+                    <infinite-scroll item-height="200px" batch-size="10">
+                      {{#each bindings}}
+                        <div class="result-item">
+                          {{> Default:CardArtwork }}
+                        </div>
+                      {{/each}}
+                    </infinite-scroll>
+                </template>
+              </semantic-query>
+            </semantic-search-result>
+          </semantic-search-result-holder>
+        </div>
+      </div>
+    </semantic-search>
+  </div>
+</semantic-context>
