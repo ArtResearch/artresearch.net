@@ -43,13 +43,15 @@
 .field-label {
   width: 120px;
   color: #666;
-  font-size: 14px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
 }
 
 .field-value {
   flex: 1;
   color: #333;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .field-value a {
@@ -60,24 +62,53 @@
 .field-value a:hover {
   text-decoration: underline;
 }
+  
+.provider-icons {
+    display: inline-flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.provider-icon {
+    object-fit: cover;  
+    height: 21.6px;
+    width: 21px;
+    padding: 2px;
+    margin: 4px;
+    cursor: pointer;
+    border-radius: 100%;
+    box-shadow: 1px 1px 3px 1px #e7e7e7;
+}
+
 </style>
 
 <semantic-link-container uri="{{subject.value}}" target="_blank">
   <div class="artwork-card">
-    <resource-info subject="{{subject.value}}" profile="artwork" template="{{> template}}">
+    <resource-info subject="{{subject.value}}" profile="artwork-card" template="{{> template}}">
       <template id="template">
           <div class="thumbnail-container">
-            {{#if data.[https://artresearch.net/resource/fieldDefinition/artworkThumbnail]}}
-              <img class="thumbnail-image" src="{{data.[https://artresearch.net/resource/fieldDefinition/artworkThumbnail].values.0.[@value]}}" alt="Artwork thumbnail" />
+            {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/work_thumbnail]}}
+              <img class="thumbnail-image" src="https://dev.artresearch.net{{data.[https://artresearch.net/resource/field_definition/pharos_model/work_thumbnail].values.0.[@value]}}" alt="Artwork thumbnail" />
             {{else}}
               <span class="no-image-text">No image</span>
             {{/if}}
           </div>
-          <div class="info-container">
-            {{> fieldTemplate data=data field="https://artresearch.net/resource/fieldDefinition/title" label="Title"}}
+          <div class="info-container">            
+            {{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/title" label="Title"}}
+            {{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/type" label="Types" }}
             {{> fieldTemplate data=data field="https://artresearch.net/resource/fieldDefinition/creator" label="Creator"}}
             {{> fieldTemplate data=data field="http://www.cidoc-crm.org/cidoc-crm/P45_consists_of" label="Material"}}
-            {{> fieldTemplate data=data field="https://artresearch.net/resource/fieldDefinition/provider" label="Photo Archive"}}
+            
+            <div class="field">
+              <div class="field-label">{{data.[https://artresearch.net/resource/field_definition/pharos_model/original_record_catalog].label}}</div>
+              <div class="field-value">
+                <div class="provider-icons">
+                  {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/original_record_catalog].values}}
+                    <img class="provider-icon" title="{{label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
+                  {{/each}}
+                </div>
+              </div>
+            </div>            
           </div>
       </template>
 

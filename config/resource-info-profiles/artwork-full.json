@@ -1,0 +1,125 @@
+{
+  "subject": "work",
+  "provenance": {
+    "fields": {
+      "https://artresearch.net/resource/field_definition/pharos_model/provider": {
+        "subject": "provUri",
+        "returns": [
+          {
+            "sparql_var": "value",
+            "local_var": "provider"
+          }
+        ],
+        "fields": {
+          "https://artresearch.net/resource/field_definition/pharos_model/provider_icon": {
+            "subject": "provider"
+          }
+        }
+      }
+    }
+  },
+  "fields": {
+    "https://artresearch.net/resource/field_definition/pharos_model/title": {
+      "subject": "work",
+      "returns": [
+        {
+          "sparql_var": "value",
+          "local_var": "title"
+        }
+      ],
+      "fields": {
+        "https://artresearch.net/resource/field_definition/pharos_model/p2": {
+          "subject": "title",
+          "returns": [
+            {
+              "sparql_var": "value",
+              "local_var": "type"
+            }
+          ],
+          "fields": {
+            "https://artresearch.net/resource/field_definition/pharos_model/scope_note": {
+              "subject": "type"
+            }
+          }
+        }
+      }
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/type": {
+      "subject": "work"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/material": {
+      "subject": "work"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/subject": {
+      "subject": "work"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/technique": {
+      "subject": "work"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/creator": {
+      "subject": "work",
+      "returns": [
+        {
+          "sparql_var": "value",
+          "local_var": "creator"
+        }
+      ],
+      "fields": {
+        "https://artresearch.net/resource/field_definition/pharos_model/creator_role": {
+          "subject": "creator",
+          "params": [
+            {
+              "sparql_var": "work",
+              "local_var": "work"
+            }
+          ]
+        }
+      }
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/photo": {
+      "subject": "work",
+      "returns": [
+        {
+          "sparql_var": "value",
+          "local_var": "photo"
+        }
+      ],
+      "fields": {
+        "https://artresearch.net/resource/field_definition/pharos_model/title": {
+          "subject": "photo",
+          "returns": [
+            {
+              "sparql_var": "value",
+              "local_var": "title"
+            }
+          ],
+          "fields": {
+            "https://artresearch.net/resource/field_definition/pharos_model/p2": {
+              "subject": "title",
+              "returns": [
+                {
+                  "sparql_var": "value",
+                  "local_var": "type"
+                }
+              ],
+              "fields": {
+                "https://artresearch.net/resource/field_definition/pharos_model/scope_note": {
+                  "subject": "type"
+                }
+              }
+            }
+          }
+        },
+        "https://artresearch.net/resource/field_definition/pharos_model/photo_archive": {
+          "subject": "photo"
+        },
+        "https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail": {
+          "subject": "photo"
+        },
+        "https://artresearch.net/resource/field_definition/pharos_model/photo_iiif_manifest": {
+          "subject": "photo"
+        }
+      }
+    }
+  }
+}

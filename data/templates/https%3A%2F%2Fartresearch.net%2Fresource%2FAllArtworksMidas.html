@@ -124,7 +124,7 @@
               <semantic-query
                 id="grid-result"
                 prefetch-labels="false"
-                query='SELECT DISTINCT ?subject (SUM(?ql_score_text_var_subject) AS ?score) WHERE { } GROUP BY ?subject ORDER BY DESC(?score) ?subject LIMIT 100'
+                query='SELECT DISTINCT ?subject (SUM(?ql_score_text_var_subject) AS ?score) WHERE { } GROUP BY ?subject ORDER BY DESC(?score) DESC(?subject) LIMIT 100'
                 template="{{> subjectCellTemplate}}"
                 no-result-template='[[> CardNoResult ]]'
               >
