@@ -230,6 +230,36 @@
 .photo-details .field-value {
     font-size: 0.9em;
 }
+  
+.catalog-record-icons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-top: 20px;
+  align-items: center;
+}
+
+.catalog-record-icons > span {
+  flex-basis: 100%;
+  margin-bottom: 10px;
+}
+
+.catalog-record-icons .provider-icon {
+  margin: 0 10px 10px 0;
+  transition: all 0.3s ease;
+}
+
+.catalog-record-icons a {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.catalog-record-icons a:hover .provider-icon {
+  transform: scale(1.3);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+
 
 @media (max-width: 600px) {
     .field {
@@ -299,6 +329,18 @@
                 </div>
 
                 <div class="column fields-column">
+                  <div class="catalog-record-icons">
+                    {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/catalog_record_url]}}
+                    <span><b>View original records: </b></span>
+                      {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/catalog_record_url].values}}
+                        <a href="{{[@id]}}" target="_blank" rel="noopener noreferrer">
+                          <img class="provider-icon" title="{{label}}" src="{{provenance.0.[https://artresearch.net/resource/field_definition/pharos_model/provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
+                        </a>
+                      {{/each}}
+                    {{/if}}
+                  </div>
+
+                  
                     {{> fieldGroup 
                         data=data
                         title="Artwork / Monument" 
