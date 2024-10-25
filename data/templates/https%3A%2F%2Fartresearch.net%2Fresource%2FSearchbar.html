@@ -1,50 +1,22 @@
 <div id="search-bar">
-  <div class="form-group">
-    <mp-event-target-template-render
-        id="event-target-tab-select"
-        template="{{> tabSelect}}"
-      >
-        <template id="tabSelect">
-            <div
-              data-intro="Click on here to select a search category (Artworks, Photographs, Artists)"
-              data-position="bottom"
-              >
-              {{#if selectedTab}} [[> SearchbarDropdown
-              dropdownTitle="{{selectedTab}}"]] {{else}} [[> SearchbarDropdown
-              dropdownTitle=selectedCategory ]] {{/if}}
-          </div>
-        </template>
-    </mp-event-target-template-render>
-    <mp-event-target-template-render
-        id="event-target-search-btn"
-        template="{{> searchButton}}"
-      >
-        <template id="searchButton">
             <form method="GET" action="/resource">
-              <input
-                type="hidden"
-                name="selectedTab"
-                value='{{#if selectedTab}}{{selectedTab}}{{else}}{{#ifCond (objectLength "[[urlParam "selectedTab"]]") "!==" 0}}[[urlParam "selectedTab"]]{{else}}Artwork/Monument{{/ifCond}}{{/if}}'
-              />
-              <input
-                type="hidden"
-                name="withimages"
-                value='false'
-              />
-              <input
-                required
-                minlength="2"
-                spellcheck="true"
-                class="form-control"
-                pattern='[^!@#$%^*()"{}<>]|^[A-ZÀ-Ýa-zà-ý0-9_,ß\s]+$'
-                placeholder="Search the collection"
-                type="search"
-                title="Type at least 2 characters, only alphanumeric e.g. (Mona Lisa 1503)"
-                id="site-search"
-                name="keyword"
-                aria-label="Search through site content"
-              />
-              <input type="hidden" name="uri" value="https://artresearch.net/resource/AllArtworksMidas" />
+              <div class="form-group form-group-lg">
+                <span class="input-group">
+                <input
+                  required
+                  minlength="4"
+                  spellcheck="true"
+                  class="form-control"
+                  pattern='[^!@#$%^*()"{}<>]|^[A-ZÀ-Ýa-zà-ý0-9_,ß\s]+$'
+                  placeholder="Search the collection"
+                  type="search"
+                  title="Type at least 4 characters, only alphanumeric e.g. (Mona Lisa 1503)"
+                  id="site-search"
+                  name="keyword"
+                  aria-label="Search through site content"
+                />
+              <input type="hidden" name="uri" value="https://artresearch.net/resource/AllArtworks" />
+                  <span class="input-group-btn">
               <button
                 type="submit"
                 style="background: white; height: 39px"
@@ -52,8 +24,8 @@
               >
                 <i class="fa fa-search"></i>
               </button>
+                  </span>
+                </span>
+              </div>
             </form>
-        </template>
-    </mp-event-target-template-render>
-  </div>
 </div>

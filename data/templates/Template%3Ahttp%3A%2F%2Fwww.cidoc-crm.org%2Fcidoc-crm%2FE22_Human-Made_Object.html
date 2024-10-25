@@ -288,24 +288,29 @@
                         <template id="mainImageView">
                           <mp-overlay-dialog data-title="{{label}}" data-type="lightbox">
                             <mp-overlay-dialog-trigger>
-                              <img alt='' class="object-image" src="https://dev.artresearch.net{{imageUrl}}" />
+                              <img alt='' class="object-image" src="https://staging.artresearch.net{{imageUrl}}" />
                             </mp-overlay-dialog-trigger>
                             <mp-overlay-dialog-content>
-                              <single-image-iiif-viewer iiif-manifest-url='https://dev.artresearch.net{{imageManifestUrl}}'></single-image-iiif-viewer>
+                              <single-image-iiif-viewer iiif-manifest-url='https://staging.artresearch.net{{imageManifestUrl}}'></single-image-iiif-viewer>
                             </mp-overlay-dialog-content>
                           </mp-overlay-dialog>
                         </template>
                         
                         <template id='template'>
-                            {{#if photo}}
-                              {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values}}
-                                {{#if (eq [@id] ../photo)}}
-                                  {{> mainImageView label=label imageUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value] imageManifestUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_iiif_manifest].values.0.[@value]}}
-                                {{/if}}
-                              {{/each}}
+                          {{#if photo}}
+                            {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values}}
+                              {{#if (eq [@id] ../photo)}}
+                                {{> mainImageView label=label imageUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value] imageManifestUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_iiif_manifest].values.0.[@value]}}
+                              {{/if}}
+                            {{/each}}
+                          {{else}}
+                            {{#with (find data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values 
+                                      "(not (isEmpty item.[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]))")}}
+                              {{> mainImageView label=label imageUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value] imageManifestUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_iiif_manifest].values.0.[@value]}}
                             {{else}}
-                              {{> mainImageView label=data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values.0.label imageUrl=data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values.0.[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value] imageManifestUrl=data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values.0.[https://artresearch.net/resource/field_definition/pharos_model/photo_iiif_manifest].values.0.[@value]}}
-                            {{/if}}
+                              <p>No images available</p>
+                            {{/with}}
+                          {{/if}}
                         </template>
                       </mp-event-target-template-render>
                     </div>
@@ -316,7 +321,7 @@
                             <mp-event-trigger id='event-trigger' type='Component.TemplateUpdate' targets='["work-full-image"]'
                                               data='{"photo": "{{../[@id]}}"}'>
                               <div class="thumbnail">
-                                <img alt='' class="object-thumbnails" height="150" src="https://dev.artresearch.net{{[@value]}}" />
+                                <img alt='' class="object-thumbnails" height="150" src="https://staging.artresearch.net{{[@value]}}" />
                               </div>
                             </mp-event-trigger>
                           {{/each}}
@@ -402,7 +407,7 @@
                           <div class="photo-card">
                             <div class="photo-thumbnail">
                               {{#if [https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail]}}
-                                <img alt='' src="https://dev.artresearch.net{{[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" />
+                                <img alt='' src="https://staging.artresearch.net{{[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" />
                               {{else}}
                                 <p>No Image</p>
                               {{/if}}

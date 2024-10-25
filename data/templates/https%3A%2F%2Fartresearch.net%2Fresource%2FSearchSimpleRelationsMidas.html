@@ -67,10 +67,20 @@
                 BIND(IF(?__value__ = <http://www.w3.org/2001/XMLSchema#yes>, true, false) AS ?has) .
                 ?subject custom:has_image ?has .
               }"
-  }]
-  ,
+  }],
   "<https://artresearch.net/custom/matched_in_collections>": [{
     "kind": "literal",
     "queryPattern": "?subject <https://artresearch.net/custom/matched_in_collections> ?__literal__ ."
-    }]
+    }],
+  "<https://artresearch.net/custom/number_of_matched_artworks>": [{
+    "kind": "numeric-range",
+    "queryPattern": "{ ?subject <https://artresearch.net/custom/number_of_matched_artworks> ?number . FILTER(?number >= ?__numericRangeBeginValue__ && ?number <= ?__numericRangeEndValue__)}"
+  }],
+  "<https://artresearch.net/custom/is_matched_artworks>": [{
+                  "kind":"resource",
+              "queryPattern": "{
+                BIND(IF(?__value__ = <http://www.w3.org/2001/XMLSchema#yes>, true, false) AS ?has) .
+                ?subject custom:is_matched_artworks ?has .
+              }"
+  }]
 }
