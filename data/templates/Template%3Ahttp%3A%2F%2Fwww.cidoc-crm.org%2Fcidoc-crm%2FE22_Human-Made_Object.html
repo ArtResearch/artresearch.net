@@ -355,9 +355,9 @@
                               "mode": "text"
                             },
                             "https://artresearch.net/resource/field_definition/pharos_model/type",
-                            "https://artresearch.net/resource/fieldDefinition/location_city",
-                            "https://artresearch.net/resource/fieldDefinition/is_part_of",
-                            "https://artresearch.net/resource/fieldDefinition/has_part"
+                            "https://artresearch.net/resource/field_definition/pharos_model/last_known_location",
+                            "https://artresearch.net/resource/field_definition/pharos_model/object_is_part_of",
+                            "https://artresearch.net/resource/field_definition/pharos_model/object_has_part"
                         ]')
                     }}
 
@@ -419,8 +419,7 @@
                                   fields=(parse '[
                                       { 
                                         "field": "https://artresearch.net/resource/field_definition/pharos_model/title",
-                                        "qualifiers": "true",
-                                        "mode": "text"
+                                        "qualifiers": "true"
                                       },                                      
                                       "https://artresearch.net/resource/field_definition/pharos_model/photographer",
                                       "https://artresearch.net/resource/field_definition/pharos_model/date",
@@ -461,82 +460,85 @@
                 {{#if label}}{{label}}{{else}}{{lookup (lookup data field) 'label'}}{{/if}}:
             </div>
             <div class="field-value">
-                {{#each (lookup (lookup data field) 'values')}}
-                    <div class="field-value-item">
-                        <div class="field-value-main">
-                            {{#if ../mode}}
-                                {{#if (eq ../mode "text")}}
-                                    <span>{{label}}</span>
-                                {{/if}}
-                            {{else}}
+                {{#if (eq mode "text")}}
+                    {{#each (mergeUniqueValues (lookup (lookup data field) 'values'))}}
+                        <div class="field-value-item">
+                            <div class="field-value-main">
+                                <span>{{label}}</span>
+                                <div class="provider-icons">
+                                    {{#each (uniqProviders provenance)}}
+                                        <img class="provider-icon" title="{{label}}" src="{{icon}}">
+                                    {{/each}}
+                                </div>
+                            </div>
+                        </div>
+                    {{/each}}
+                {{else}}
+                    {{#each (lookup (lookup data field) 'values')}}
+                        <div class="field-value-item">
+                            <div class="field-value-main">
                                 {{#if (lookup this '@id')}}
                                     <semantic-link iri="{{[@id]}}">{{label}}</semantic-link> 
                                 {{else}}
                                     <span>{{[@value]}}</span>
                                 {{/if}}
-                            {{/if}}
-                            <div class="provider-icons">
-                              {{#each provenance}}
-                                {{#each [https://artresearch.net/resource/field_definition/pharos_model/provider].values}}
-                                    <img class="provider-icon" title="{{label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
-                                {{/each}}
-                              {{/each}}
-                            </div>
-                        </div>
-                        {{#if ../qualifiers}}
-                        <div class="field-value-qualifiers">
-                            {{#each this}}
-                                {{#if (and (and (not (eq @key "@id")) (not (eq @key "label"))) (not (eq @key "provenance"))) }}
-                                    <div class="qualifier-group">
-                                        <span class="qualifier-label">{{label}}:</span>
-                                        {{#each this.values}}
-                                            {{#if [https://artresearch.net/resource/field_definition/pharos_model/scope_note]}}
-                                            <mp-popover>
-                                                <mp-popover-trigger placement="right" trigger='["hover"]' root-close='true'>
-                                                    <span class="field-value-qualifier">{{label}}
-                                                        <div class="provider-icons">
-                                                            {{#each provenance}}
-                                                              {{#each [https://artresearch.net/resource/field_definition/pharos_model/provider].values}}
-                                                            <img class="provider-icon" title="{{label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
-                                                              {{/each}}
-                                                            {{/each}}
-                                                        </div>
-                                                    </span>
-                                                </mp-popover-trigger>
-                                                <mp-popover-content>
-                                                    <div>
-                                                        <b>{{label}}</b> 
-                                                        <div class="provider-icons">
-                                                            {{#each provenance}}
-                                                              {{#each [https://artresearch.net/resource/field_definition/pharos_model/provider].values}}
-                                                                <img class="provider-icon" title="{{label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
-                                                              {{/each}}
-                                                            {{/each}}
-                                                        </div>
-                                                    </div>
-                                                    <div>{{[https://artresearch.net/resource/field_definition/pharos_model/scope_note].values.0.label}}</div>
-                                                </mp-popover-content>
-                                            </mp-popover>                                                    
-                                            {{else}}
-                                            <span class="field-value-qualifier">
-                                                {{label}}
-                                                <div class="provider-icons">
-                                                    {{#each provenance}}
-                                                      {{#each [https://artresearch.net/resource/field_definition/pharos_model/provider].values}}
-                                                        <img class="provider-icon" title="{{label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
-                                                      {{/each}}
-                                                    {{/each}}
-                                                </div>
-                                            </span>
-                                            {{/if}}
+                                <div class="provider-icons">
+                                    {{#each provenance}}
+                                        {{#each [https://artresearch.net/resource/field_definition/pharos_model/provider].values}}
+                                            <img class="provider-icon" title="{{label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
                                         {{/each}}
-                                    </div>
-                                {{/if}}
-                            {{/each}}
+                                    {{/each}}
+                                </div>
+                            </div>
+                            {{#if ../qualifiers}}
+                            <div class="field-value-qualifiers">
+                                {{#each this}}
+                                    {{#if (and (and (not (eq @key "@id")) (not (eq @key "label"))) (not (eq @key "provenance"))) }}
+                                        <div class="qualifier-group">
+                                            <span class="qualifier-label">{{label}}:</span>
+                                            {{#each this.values}}
+                                                {{#if [https://artresearch.net/resource/field_definition/pharos_model/scope_note]}}
+                                                <mp-popover>
+                                                    <mp-popover-trigger placement="right" trigger='["hover"]' root-close='true'>
+                                                        <span class="field-value-qualifier">{{label}}
+                                                            <div class="provider-icons">
+                                    {{#each (uniqProviders provenance)}}
+                                        <img class="provider-icon" title="{{label}}" src="{{icon}}">
+                                    {{/each}}
+                                                            </div>
+                                                        </span>
+                                                    </mp-popover-trigger>
+                                                    <mp-popover-content>
+                                                        <div>
+                                                            <b>{{label}}</b> 
+                                                            <div class="provider-icons">
+                                    {{#each (uniqProviders provenance)}}
+                                        <img class="provider-icon" title="{{label}}" src="{{icon}}">
+                                    {{/each}}
+                                                            </div>
+                                                        </div>
+                                                        <div>{{[https://artresearch.net/resource/field_definition/pharos_model/scope_note].values.0.label}}</div>
+                                                    </mp-popover-content>
+                                                </mp-popover>                                                    
+                                                {{else}}
+                                                <span class="field-value-qualifier">
+                                                    {{label}}
+                                                    <div class="provider-icons">
+                                    {{#each (uniqProviders provenance)}}
+                                        <img class="provider-icon" title="{{label}}" src="{{icon}}">
+                                    {{/each}}
+                                                    </div>
+                                                </span>
+                                                {{/if}}
+                                            {{/each}}
+                                        </div>
+                                    {{/if}}
+                                {{/each}}
+                            </div>
+                            {{/if}}
                         </div>
-                        {{/if}}
-                    </div>
-                {{/each}}
+                    {{/each}}
+                {{/if}}
             </div>
         </div>
     {{/if}}
