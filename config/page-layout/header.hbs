@@ -1,170 +1,220 @@
-<bs-navbar class="navbar navbar-default navbar-fixed-top" role="navigation">
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="rs-header">
+    <!-- Logo and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-      <bs-navbar-toggle></bs-navbar-toggle>
+      
+      <div class="navbar-toggle collapsed" data-toggle="collapse" data-target="#rs-navbar"
+                aria-expanded="false" aria-controls="rs-navbar" aria-label="Toggle navigation">
+
+
+          <a class="rs-header-logo" href="/resource/start">
+              <img src="/assets/images/logos/ar.png">
+          </a>
+
+
+      {{> navbarRight }}
+      </div>
+
+
       <a class="rs-header-logo" href="/resource/start">
           <img src="/assets/images/logos/ar.png">
       </a>
+
     </div>
-    <bs-navbar-collapse class="pull-right">
-      <bs-nav>
-          {{!-- <mp-anonymous-hidden>
-              <bs-nav-dropdown
-                title="Reconciliation"
-                id="basic-nav-dropdown"
-                class="no-bullets"
-              >
-                <bs-menu-item>
-                  <mp-link class="rs-body-m-M" url="/resource/ReconciliationVocabArtists">Reconciliation Artists</mp-link>
-                </bs-menu-item>
-                <bs-menu-item>
-                  <mp-link class="rs-body-m-M" url="/resource/ReconciliationVocabPhotographers">Reconciliation Photographers</mp-link>
-                </bs-menu-item>
-                <bs-menu-item>
-                  <mp-link class="rs-body-m-M" url="/resource/ReconciliationVocabRepositories">Reconciliation Repositories</mp-link>
-                </bs-menu-item>
-                </bs-nav-dropdown>
-          </mp-anonymous-hidden>
-        <mp-anonymous-hidden> --}}
-          <mp-has-permission permission="sparql:*:*:*">
-            <li role="presentation" class=""><a
-                      href="/sparql"
-                      title="Go to SPARQL endpoint"
-                      class="rs-body-m-M"
-                    >SPARQL</a></li>
-          </mp-has-permission>
-        </mp-anonymous-hidden>
-        <mp-has-permission permission="sparql:default:query:*">
-         <bs-nav-dropdown
-          title="Tools"
-          id="basic-nav-dropdown"
-          class="no-bullets"
-        >
-          <bs-menu-item>
-            <mp-link class="rs-body-m-M" url="/resource/X3MLDashboard">X3ML</mp-link>
-          </bs-menu-item>
-          <li>
-              <a class="rs-body-m-M" href="/proxy/jupiter/">Jupiter Notebooks</a>
-          </li>
-          <bs-menu-item>
-            <mp-link class="rs-body-m-M" url="/resource/AlignmentsDashboard">Alignment Dashboard</mp-link>
-          </bs-menu-item>
-          <bs-menu-item>
-            <mp-link class="rs-body-m-M" url="/resource/VisualSearch">Visual Search</mp-link>
-          </bs-menu-item>
-        {{!-- <bs-menu-item>
-            <mp-link class="rs-body-m-M" url="/resource/ContactUs">Contact us</mp-link>
-          </bs-menu-item> --}}
-          <bs-menu-item>
-            <mp-link class="rs-body-m-M" url="/resource/DisplayPharosReviewed">Reconciliation</mp-link>
-          </bs-menu-item>
-          <bs-menu-item>
-            <mp-link class="rs-body-m-M" url="/resource/AllAnnotations">Annotations</mp-link>
-          </bs-menu-item>
-          <bs-menu-item>
-            <mp-link class="rs-body-m-M" url="/resource/AllAssertions">Assertions</mp-link>
-          </bs-menu-item>
-          <bs-menu-item>
-            <mp-link class="rs-body-m-M" url="/resource/ErrorsDashboard">Reported Errors</mp-link>
-          </bs-menu-item>
-           
-        </bs-nav-dropdown>
-        </mp-has-permission>
-        <bs-nav-dropdown
-          title="About"
-          id="basic-nav-dropdown"
-          class="no-bullets"
-        >
-          <bs-menu-item>
-            <mp-link class="rs-body-m-M" url="/resource/About">About</mp-link>
-          </bs-menu-item>
-          <bs-menu-item>
-            <mp-link class="rs-body-m-M" url="/resource/Partners">Partners</mp-link>
-          </bs-menu-item>
-          <bs-menu-item>
-            <mp-link class="rs-body-m-M" url="/resource/IntellectualProperty">Intellectual Property</mp-link>
-          </bs-menu-item>
-          <bs-menu-item>
-            <mp-link class="rs-body-m-M" url="/resource/PrivacyNotice">Privacy Notice</mp-link>
-          </bs-menu-item>
-          <bs-menu-item>
-            <mp-link class="rs-body-m-M" url="/resource/AdvisoryBoard">Advisory Board</mp-link>
-          </bs-menu-item>
-          <bs-menu-item>
-            <mp-link class="rs-body-m-M" url="/resource/News">News</mp-link>
-          </bs-menu-item>
-          <bs-menu-item>
-            <mp-link class="rs-body-m-M" url="/resource/Statistics">Statistics</mp-link>
-          </bs-menu-item>
-          <bs-menu-item>
-            <mp-link class="rs-body-m-M" url="/resource/TermsAndConditions">Terms of Use</mp-link>
-          </bs-menu-item>
-          <bs-menu-item>
-            <mp-link class="rs-body-m-M" url="/resource/Contact">Contact us</mp-link>
-          </bs-menu-item>
-          <bs-menu-item>
-            <mp-link class="rs-body-m-M" url="/resource/ModelDocumentation">Metadata Documentation</mp-link>
-          </bs-menu-item>
-        </bs-nav-dropdown>
-        <li>
-            <a
-            style="margin: 10px; display:flex;"
-            id="create-acc-Link"
-            href="/createAcc"
-            title="Create Account"
-            class="rs-body-m-M"
-          >&nbsp;Create Account</a>
-          </li>
-        <mp-anonymous-hidden>
-          <style>
-            #create-acc-Link{
-              display: none !important;
-            }
-          </style>
-        </mp-anonymous-hidden>
-        <mp-anonymous-hidden>
-         <mp-has-permission permission="sparql:update">
-            <bs-nav-item>
-              <semantic-link
-                iri="rsp:admin"
-                title="Go to admin settings"
-                class="rs-body-m-M"
-              >Admin</semantic-link>
-            </bs-nav-item>
-          </mp-has-permission>
-        </mp-anonymous-hidden>
 
-        <bs-nav-dropdown
-          title="Account"
-          id="basic-nav-dropdown"
-          class="no-bullets"
-          style="text-align: -webkit-center"
-        >
-          <mp-anonymous-hidden>
-              <a
-                style="margin: 10px; display:flex;"
-                id="logout-Link"
-                href="/logout"
-                title="logout"
-                class="rs-body-m-M"
-              ><i class="fa fa-sign-out"></i><div>Logout</div></a>
-            </mp-anonymous-hidden>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="rs-navbar">
 
-          <a
-            style="margin: 10px; display:flex;"
-            id="login-Link"
-            href="/login"
-            title="login"
-            class="rs-body-m-M"
-          ><i class="fa fa-sign-in"></i><div>Login</div></a>
-          {{!-- <a
-          href="/">
-            Create account
-          </a> --}}
-        </bs-nav-dropdown>
+      <ul class="nav navbar-nav navbar-left">
 
-        <mp-user-language-switch></mp-user-language-switch>
-      </bs-nav>
-    </bs-navbar-collapse>
+      </ul>
+
+      {{> navbarRight }}
+    </div>
   </div>
-</bs-navbar>
+</nav>
+
+{{#*inline "navbarRight"}}
+  <ul class="nav navbar-nav navbar-right">
+    {{!-- Update profile-dropdown on resourceForm actions --}}
+    <semantic-query query='SELECT ?systemUser WHERE {
+                            BIND(IRI(REPLACE(STR(?__useruri__), "%40", "_")) as ?systemUser)
+                          }'
+                    template='\{{> template}}'>
+        <template id='template'>
+          <div>
+            <mp-event-proxy id='update-profile-dropdown-on-resourceForm-actions2'
+                            on-event-source='\{{bindings.0.systemUser.value}}-resource-form'
+                            on-event-types='["Form.ResourceCreated", "Form.ResourceUpdated", "Form.ResourceRemoved"]'         
+                            proxy-event-type='Component.TemplateUpdate' 
+                            proxy-targets='["header-profile-dropdown"]'
+            ></mp-event-proxy> 
+          </div>
+        </template>
+    </semantic-query>
+
+    <mp-user-language-switch></mp-user-language-switch>
+    <li>
+      <mp-anonymous-hidden alt='<li><a href="/login" title="login"></a></li>'>
+        <mp-event-target-template-render id='header-profile-dropdown' template='\{{> template}}'>
+          <template id='template'>
+            <semantic-query query='SELECT DISTINCT ?systemUser ?systemUserName ?actorFullName ?group ?groupFullName ?image ?imageType { 
+                                    BIND(IRI(REPLACE(STR(?__useruri__), "%40", "_")) as ?systemUser)
+                                    BIND(REPLACE(REPLACE(STR(?__useruri__), STR(User:), ""), "%40", "@") as ?systemUserName)
+
+                                    OPTIONAL {
+                                      ?systemUser crm:P2_has_type <http://www.researchspace.org/resource/system/vocab/resource_type/user> .
+                                      ?systemUser crm:P1_is_identified_by ?actorName .
+                                      ?actorName a crm:E41_Appellation .
+                                      ?actorName crm:P2_has_type <http://www.researchspace.org/resource/system/vocab/resource_type/primary_appellation> .
+                                      ?actorName crm:P190_has_symbolic_content ?actorFullName .
+                                    }
+
+                                    OPTIONAL {
+                                      ?systemUser crm:P02i_is_range_of ?pc107 .
+                                      ?pc107 rdf:type crm:PC107_has_current_or_former_member .
+                                      ?pc107 crm:P01_has_domain ?group .
+                                      ?group crm:P2_has_type <http://www.researchspace.org/resource/system/vocab/resource_type/user> .
+                                      ?group a crm:E74_Group .
+                                      ?group crm:P1_is_identified_by ?groupName .
+                                      ?groupName a crm:E41_Appellation .
+                                      ?groupName crm:P2_has_type <http://www.researchspace.org/resource/system/vocab/resource_type/primary_appellation> .
+                                      ?groupName crm:P190_has_symbolic_content ?groupFullName .
+                                    }
+
+                                    OPTIONAL {
+                                      ?systemUser rs:PX_has_main_representation ?image . 
+                                      ?image a ?imageType .
+                                      FILTER(?imageType in (rs:EX_Digital_Image, rs:EX_Digital_Image_Region))
+                                    }
+                                  }'
+                          template='\{{> template}}'>
+
+            <template id='template'>
+
+              <bs-dropdown id="navbar-dropdown" class="user-dropdown">
+                <bs-dropdown-toggle>
+                  <div class="navDropdown-iconAndLabel"> 
+                    <mp-resource-thumbnail iri='\{{bindings.0.systemUser.value}}' style="width: 25px; height:25px; border-radius:1.5px; object-fit: cover; object-position: top;">
+                      <mp-resource-thumbnail-fallback>
+                          <rs-icon icon-type="round" icon-name="account_box"></rs-icon>
+                      </mp-resource-thumbnail-fallback>
+                    </mp-resource-thumbnail>  
+                    \{{#if bindings.0.actorFullName.value}}
+                      <div>\{{bindings.0.actorFullName.value}}</div>
+                    \{{else}}
+                      <div>\{{bindings.0.systemUserName.value}}</div>
+                    \{{/if}}
+                  </div>
+                </bs-dropdown-toggle>
+                <bs-dropdown-menu>
+                  \{{#if bindings.0.actorFullName.value}}
+                    <semantic-link-container  uri="http://www.researchspace.org/resource/ThinkingFrames"
+                                              urlqueryparam-view='resource-editor' 
+                                              urlqueryparam-entity-type-config='http://www.researchspace.org/resource/system/resource_configurations_container/data/User'
+                                              urlqueryparam-resource-iri="\{{bindings.0.systemUser.value}}"
+                                              urlqueryparam-mode='edit'>
+                      <bs-menu-item>
+                        <rs-icon icon-type="rounded" icon-name="account_box" class="icon-left" symbol="true"></rs-icon>
+                        <span>My profile</span> 
+                      </bs-menu-item>
+                    </semantic-link-container>
+                  \{{else}}
+                      <bs-menu-item>
+                        <rs-icon icon-type="rounded" icon-name="account_box" class="icon-left" symbol="true"></rs-icon>
+                        <span>My profile (not registered user)</span>  
+                      </bs-menu-item>
+                  \{{/if}}
+                  
+                  \{{#if bindings.0.group.value}}
+                    \{{#each bindings}}
+                      <semantic-link-container  uri="http://www.researchspace.org/resource/ThinkingFrames"
+                                                urlqueryparam-view='resource-editor' 
+                                                urlqueryparam-entity-type-config='http://www.researchspace.org/resource/system/resource_configurations_container/data/User'
+                                                urlqueryparam-resource-iri="\{{group.value}}"
+                                                urlqueryparam-mode='edit'>
+                        <bs-menu-item>
+                          <rs-icon icon-type="rounded" icon-name="groups" class="icon-left" symbol="true"></rs-icon>
+                          <span>My team - \{{groupFullName.value}}</span>
+                        </bs-menu-item>
+                      </semantic-link-container>
+                    \{{/each}}
+                  \{{/if}}
+
+                  <bs-menu-item divider="true"></bs-menu-item>
+
+                  <bs-menu-item href="/logout" title='logout'>
+                    <rs-icon icon-type="rounded" icon-name="logout" class="icon-left" symbol="true"></rs-icon>
+                    <span>Logout</span>
+                  </bs-menu-item>
+                </bs-dropdown-menu>
+              </bs-dropdown>
+            </template>
+            </semantic-query>
+          </template>
+        </mp-event-target-template-render>
+      </mp-anonymous-hidden>
+    </li>
+
+    <li>
+        <bs-nav-dropdown
+            title="About"
+            id="basic-nav-dropdown"
+            class="no-bullets"
+        >
+
+          <bs-menu-item>
+            <semantic-link iri="https://artresearch.net/resource/About">About</semantic-link>
+          </bs-menu-item>
+
+          <bs-menu-item>
+            <semantic-link iri="https://artresearch.net/resource/Partners">Partners</semantic-link>
+          </bs-menu-item>
+
+          <bs-menu-item>
+            <semantic-link iri="https://artresearch.net/resource/IntellectualProperty">Intellectual Property</semantic-link>
+          </bs-menu-item>
+
+          <bs-menu-item>
+            <semantic-link iri="https://artresearch.net/resource/PrivacyNotice">Privacy Notice</semantic-link>
+          </bs-menu-item>
+
+          <bs-menu-item>
+            <semantic-link iri="https://artresearch.net/resource/AdvisoryBoard">Advisory Board</semantic-link>
+          </bs-menu-item>
+
+          <bs-menu-item>
+            <semantic-link iri="https://artresearch.net/resource/News">News</semantic-link>
+          </bs-menu-item>
+
+          <bs-menu-item>
+            <semantic-link iri="https://artresearch.net/resource/Statistics">Statistics</semantic-link>
+          </bs-menu-item>
+
+          <bs-menu-item>
+            <semantic-link iri="https://artresearch.net/resource/TermsAndConditions">Terms of Use</semantic-link>
+          </bs-menu-item>
+
+          <bs-menu-item>
+            <semantic-link iri="https://artresearch.net/resource/Contact">Contact us</semantic-link>
+          </bs-menu-item>
+
+          <bs-menu-item>
+            <semantic-link iri="https://artresearch.net/resource/ModelDocumentation">Metadata Documentation</semantic-link>
+          </bs-menu-item>
+        </bs-nav-dropdown>
+
+    </li>
+
+    <mp-anonymous-hidden>
+      <li>
+        <button class="btn btn-icon">
+          <semantic-link iri="http://www.researchspace.org/resource/admin" title="System settings" target="_blank">
+            <rs-icon icon-type="round" icon-name="settings"></rs-icon>
+          </semantic-link>
+        </button>
+      </li>
+    </mp-anonymous-hidden>
+
+  </ul>
+{{/inline}}

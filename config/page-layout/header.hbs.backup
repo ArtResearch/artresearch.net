@@ -1,0 +1,113 @@
+<bs-navbar class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="rs-header">
+    <div class="navbar-header">
+      <bs-navbar-toggle></bs-navbar-toggle>
+      <a class="rs-header-logo" href="/resource/start">
+          <img src="/assets/images/logos/ar.png">
+      </a>
+    </div>
+    <bs-navbar-collapse class="pull-right">
+      <bs-nav>
+          <mp-has-permission permission="sparql:*:*:*">
+            <li role="presentation" class=""><a
+                      href="/sparql"
+                      title="Go to SPARQL endpoint"
+                      class="rs-body-m-M"
+                    >SPARQL</a></li>
+          </mp-has-permission>
+        </mp-anonymous-hidden>
+        <bs-nav-dropdown
+          title="About"
+          id="basic-nav-dropdown"
+          class="no-bullets"
+        >
+
+          <bs-menu-item>
+            <semantic-link iri="https://artresearch.net/resource/About">About</semantic-link>
+          </bs-menu-item>
+
+          <bs-menu-item>
+            <semantic-link iri="https://artresearch.net/resource/Partners">Partners</semantic-link>
+          </bs-menu-item>
+
+          <bs-menu-item>
+            <semantic-link iri="https://artresearch.net/resource/IntellectualProperty">Intellectual Property</semantic-link>
+          </bs-menu-item>
+
+          <bs-menu-item>
+            <semantic-link iri="https://artresearch.net/resource/PrivacyNotice">Privacy Notice</semantic-link>
+          </bs-menu-item>
+
+          <bs-menu-item>
+            <semantic-link iri="https://artresearch.net/resource/AdvisoryBoard">Advisory Board</semantic-link>
+          </bs-menu-item>
+
+          <bs-menu-item>
+            <semantic-link iri="https://artresearch.net/resource/News">News</semantic-link>
+          </bs-menu-item>
+
+          <bs-menu-item>
+            <semantic-link iri="https://artresearch.net/resource/Statistics">Statistics</semantic-link>
+          </bs-menu-item>
+
+          <bs-menu-item>
+            <semantic-link iri="https://artresearch.net/resource/TermsAndConditions">Terms of Use</semantic-link>
+          </bs-menu-item>
+
+          <bs-menu-item>
+            <semantic-link iri="https://artresearch.net/resource/Contact">Contact us</semantic-link>
+          </bs-menu-item>
+
+          <bs-menu-item>
+            <semantic-link iri="https://artresearch.net/resource/ModelDocumentation">Metadata Documentation</semantic-link>
+          </bs-menu-item>
+        </bs-nav-dropdown>
+        <mp-anonymous-hidden>
+          <style>
+            #create-acc-Link{
+              display: none !important;
+            }
+          </style>
+        </mp-anonymous-hidden>
+        <mp-anonymous-hidden>
+         <mp-has-permission permission="sparql:update">
+            <bs-nav-item>
+              <semantic-link
+                iri="http://www.researchspace.org/resource/admin"
+                title="Go to admin settings"
+                class="rs-body-m-M"
+              >Admin</semantic-link>
+            </bs-nav-item>
+          </mp-has-permission>
+        </mp-anonymous-hidden>
+
+        <bs-nav-dropdown
+          title="Account"
+          id="basic-nav-dropdown"
+          class="no-bullets"
+          style="text-align: -webkit-center"
+        >
+          <mp-anonymous-hidden>
+              <a
+                style="margin: 10px; display:flex;"
+                id="logout-Link"
+                href="/logout"
+                title="logout"
+                class="rs-body-m-M"
+              ><i class="fa fa-sign-out"></i><div>Logout</div></a>
+            </mp-anonymous-hidden>
+
+          <a
+            style="margin: 10px; display:flex;"
+            id="login-Link"
+            href="/login"
+            title="login"
+            class="rs-body-m-M"
+          ><i class="fa fa-sign-in"></i><div>Login</div></a>
+        </bs-nav-dropdown>
+
+        <mp-user-language-switch></mp-user-language-switch>
+      </bs-nav>
+    </bs-navbar-collapse>
+  </div>
+</bs-navbar>

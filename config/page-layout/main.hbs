@@ -1,26 +1,7 @@
 <html lang="en">
 
   <head>
-      <link rel="icon" href="/assets/no_auth/images/logos/favicon.ico">
-     <script
-      src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
-    ></script>
-     <script
-      type="text/javascript"
-      src="/assets/scripts/cookiemessage.js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="/assets/scripts/beta-info.js"
-    ></script>
-     <script
-      type="text/javascript"
-      src="/assets/scripts/mycopyright.js"
-    ></script>
-       <script
-      type="text/javascript"
-      src="/assets/scripts/uploader.js"
-    ></script>
+    <link rel="icon" href="/assets/no_auth/images/logos/favicon.ico">
 
 
     <meta name="version" content="{{version}}" />
@@ -45,30 +26,7 @@
         rel="stylesheet"
         type="text/css"
     />
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-GH63C664PX"
-    ></script>
-    <script>
-      window.dataLayer = window.dataLayer || []; function gtag() {
-      dataLayer.push(arguments); } gtag('js', new Date()); gtag('config',
-      'G-GH63C664PX');
-    </script>
-    <script type="text/javascript">
-
-     const checkElement = async selector => {
-      while(document.querySelector(selector) === null) { await new
-      Promise(resolve => requestAnimationFrame(resolve)) } return
-      document.querySelector(selector); }; // This is checked on load
-      window.onload = function () {
-      checkElement('#help-button').then((selector)=> {
-      $('#help-button').on('click', function() { 
-        $('body').chardinJs('start') ;
-      }); })}
-    </script>
-  </head>
+   </head>
 
   <body>
     <div id="application" class="rs-application"></div>
