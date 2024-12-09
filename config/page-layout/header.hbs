@@ -156,12 +156,26 @@
       </mp-anonymous-hidden>
     </li>
 
+
+    <mp-anonymous-hidden>
+        <li>
+            <button class="btn btn-icon">
+                <semantic-link iri="http://www.researchspace.org/resource/admin" title="System settings" target="_blank">
+                    <rs-icon icon-type="round" icon-name="settings"></rs-icon>
+                </semantic-link>
+            </button>
+        </li>
+    </mp-anonymous-hidden>
+
+
     <li>
-        <bs-nav-dropdown
-            title="About"
-            id="basic-nav-dropdown"
-            class="no-bullets"
-        >
+        <bs-dropdown id="about-dropdown" style="margin-left: 5px;">
+                <bs-dropdown-toggle>
+                    <div class="navDropdown-iconAndLabel">
+                        About
+                    </div>
+                </bs-dropdown-toggle>
+                <bs-dropdown-menu>
 
           <bs-menu-item>
             <semantic-link iri="https://artresearch.net/resource/About">About</semantic-link>
@@ -202,19 +216,10 @@
           <bs-menu-item>
             <semantic-link iri="https://artresearch.net/resource/ModelDocumentation">Metadata Documentation</semantic-link>
           </bs-menu-item>
-        </bs-nav-dropdown>
+            </bs-dropdown-menu>
+        </bs-dropdown>
 
     </li>
-
-    <mp-anonymous-hidden>
-      <li>
-        <button class="btn btn-icon">
-          <semantic-link iri="http://www.researchspace.org/resource/admin" title="System settings" target="_blank">
-            <rs-icon icon-type="round" icon-name="settings"></rs-icon>
-          </semantic-link>
-        </button>
-      </li>
-    </mp-anonymous-hidden>
 
   </ul>
 {{/inline}}
