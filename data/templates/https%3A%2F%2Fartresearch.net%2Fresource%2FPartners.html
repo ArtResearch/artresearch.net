@@ -1,10 +1,170 @@
+<style>
+.partnerDescription{
+  font-size: 18px;
+  line-height: 27px;
+}
+
+#partner-page .card-list {
+  position: relative;
+  width: 75%;
+  left: 11%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+#partner-page .card-list .card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  cursor: pointer;
+  max-width: 18vw;
+  border-radius: 5px;
+  width: 17vw;
+  margin: 0.5vw;
+  min-width: 275px;
+  overflow: hidden;
+}
+#partner-page .card-list .partner-card .title {
+  z-index: 1;
+}
+
+#partner-page .card-list .card .title {
+  background: white;
+  text-align: center;
+  font-weight: bold;
+  border-top: 1px solid #e2e2e2;
+  padding: 1vh;
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  font-size: 14px;
+}
+
+#partner-page .card-list .card .photo {
+  height: 17vh !important;
+  min-width: 28vw !important;
+  margin: 0 !important;
+  object-fit: cover;
+}
+
+#partner-page .card-list .card .partner-photo {
+  height: 30vh;
+  margin: 0 !important;
+  object-fit: cover;
+  transition: 1.4s;
+}
+
+#partner-page .card-list .card .partner-photo:hover {
+  transform: scale(1.5);
+}
+
+#partner-page .card-list .card .photo-1 {
+  object-position: -7vw 8%;
+}
+
+#partner-page .card-list .card .photo-2 {
+  object-position: -5vw 60%;
+}
+
+#partner-page .card-list .card .photo-3 {
+  object-position: -7vw 22%;
+}
+#partner-page .card-list .card .photo-4 {
+  object-position: -1vw 30%;
+}
+#partner-page .card-list .card .photo-5 {
+  object-position: -4vw 22%;
+}
+
+#partner-page .card-list .card .photo-6 {
+  object-position: -7vw 35%;
+}
+#partner-page .card-list .card .photo-7 {
+  object-position: -7vw 42%;
+}
+#partner-page .card-list .card .photo-8 {
+  object-position: -11vw 89%;
+}
+#partner-page .card-list .card .photo-partners {
+  min-width: unset !important;
+}
+
+#partner-page .card-list .card img {
+  height: 10vh;
+  margin: 2vw;
+  object-fit: contain;
+  -webkit-animation: fade-in 1.2s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+  animation: fade-in 1.2s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+}
+
+#partner-page .card-list .card .subtitle {
+  color: #535353;
+  position: absolute;
+  font-size: 16px;
+  font-style: italic;
+  margin: 1vh;
+  align-self: center;
+  width: 100%;
+  background: #ffffff55;
+  bottom: 0;
+  text-align: center;
+}
+
+
+#partner-page .jumbotron {
+  padding-top: 15px !important;
+  padding-bottom: 15px !important;
+}
+#partner-page .jumbotron .h1,
+#partner-page .jumbotron h1 {
+  font-size: 45px;
+}
+
+
+@media (max-width: 800px) {
+  #partner-page .catchy-message {
+    font-size: 25px;
+    width: 90%;
+  }
+  #partner-page .card-list .card {
+    margin: 2vw !important;
+  }
+}
+
+@media (max-width: 1300px) {
+  #partner-page .card-list .card .photo-1 {
+    object-position: unset;
+  }
+  #partner-page .card-list .card .photo-2 {
+    object-position: unset;
+  }
+  #partner-page .card-list .card .photo-3 {
+    object-position: unset;
+  }
+  #partner-page .card-list .card .photo-4 {
+    object-position: unset;
+  }
+  #partner-page .card-list .card .photo-5 {
+    object-position: unset;
+  }
+  #partner-page .card-list .card .photo-6 {
+    object-position: unset;
+  }
+  #partner-page .card-list .card .photo-7 {
+    object-position: unset;
+  }
+  #partner-page .card-list .card .photo-8 {
+    object-position: unset;
+  }
+}
+</style>
 <div id="partner-page">
   <!-- PHAROS SECTION -->
   <div>
     <div class="jumbotron">
       <h1 style="margin-left: 13vw" class="display-13">Partner institutions</h1>
     </div>
-    <h1 style="margin-left: 13vw" class="display-13">Pilot program participants</h1>
+    <!--<h1 style="margin-left: 13vw" class="display-13">Pilot program participants</h1>-->
     <div class="card-list">
       <mp-link url="/resource/hertziana/source/Hertziana">
         <div class="card partner-card">
@@ -53,9 +213,9 @@
           <div class="title">Paul Mellon Centre for Studies in British Art</div>
         </div>
       </mp-link>
-    </div>
+    <!--</div>
     <h1 style="margin-left: 13vw" class="display-13">Collections available in 2023</h1>
-    <div class="card-list">
+    <div class="card-list">-->
       <mp-link url="/resource/nga/source/NGA">
         <div class="card partner-card">
           <img class="partner-photo" src="/assets/images/media/tile_nga.png" />
@@ -75,9 +235,9 @@
           <div class="title">Yale Center for British Art</div>
         </div>
       </mp-link>
-    </div>
+    <!--</div>
     <h1 style="margin-left: 13vw" class="display-13">Coming Soon</h1>
-    <div class="card-list">
+    <div class="card-list">-->
       <mp-link url="/resource/courtauld/source/Courtauld">
         <div class="card partner-card">
           <img class="partner-photo" src="/assets/images/media/tile_courtald.png" />
@@ -90,12 +250,14 @@
           <div class="title">Getty Research Institute</div>
         </div>
       </mp-link>
-      <mp-link url="/resource/inha/source/INHA">
+      <!--
+				<mp-link url="/resource/inha/source/INHA">
         <div class="card partner-card">
           <img class="partner-photo" src="/assets/images/media/tile_inha.png" />
           <div class="title">Institut National d’Histoire de l’Art</div>
         </div>
       </mp-link>
+			-->
     </div>
     <div class="card-list">
        <mp-link url="/resource/warburg/source/Warburg">
