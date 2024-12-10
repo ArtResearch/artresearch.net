@@ -2,23 +2,22 @@
   "<https://artresearch.net/resource/fr/Work_consists_of_Material>":[{
               "kind":"hierarchy",
               "queryPattern": "{
-                ?subject crm:P45_consists_of ?material .
-                ?material owl:sameAs*/^owl:sameAs*/crm:P127_has_broader_term* ?__value__ .
-                ?__value__ crm:P71i_is_listed_in ?__alignment__ .
+                ?subject crm:P45_consists_of/crm:P127_has_broader_term* ?__value__ .
+                ?__value__ crm:P71i_is_listed_in <https://artresearch.net/resource/pharos/vocabulary/materials>
               }",
-              "parentsPattern": "{ ?value crm:P127_has_broader_term ?parent . ?parent crm:P71i_is_listed_in ?__alignment__ . }",
-              "childrenPattern": "{ ?child crm:P127_has_broader_term ?value . ?child crm:P71i_is_listed_in ?__alignment__ . }",
+              "parentsPattern": "{ ?parent crm:P71i_is_listed_in <https://artresearch.net/resource/pharos/vocabulary/materials>. ?value crm:P127_has_broader_term ?parent . }",
+              "childrenPattern": "{  ?child crm:P71i_is_listed_in <https://artresearch.net/resource/pharos/vocabulary/materials> . ?child crm:P127_has_broader_term ?value . }",
               "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
   }],
   "<https://artresearch.net/resource/fr/Work_produced_using_technique_Technique>":[{
               "kind":"hierarchy",
               "queryPattern": "{
                 ?subject crm:P108i_was_produced_by/crm:P9i_forms_part_of*/crm:P32_used_general_technique ?techinque .
-                ?techinque owl:sameAs*/^owl:sameAs*/crm:P127_has_broader_term* ?__value__ .   
-                ?__value__ crm:P71i_is_listed_in ?__alignment__ .
+                ?techinque crm:P127_has_broader_term* ?__value__ .   
+                ?__value__ crm:P71i_is_listed_in <https://artresearch.net/resource/pharos/vocabulary/techniques> .
               }",
-              "parentsPattern": "{ ?value crm:P127_has_broader_term ?parent . ?parent crm:P71i_is_listed_in ?__alignment__ .}",
-              "childrenPattern": "{ ?child crm:P127_has_broader_term ?value . ?child crm:P71i_is_listed_in ?__alignment__ .}",
+              "parentsPattern": "{ ?value crm:P127_has_broader_term ?parent . ?parent crm:P71i_is_listed_in <https://artresearch.net/resource/pharos/vocabulary/techniques> .}",
+              "childrenPattern": "{ ?child crm:P127_has_broader_term ?value . ?child crm:P71i_is_listed_in <https://artresearch.net/resource/pharos/vocabulary/techniques> .}",
               "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
   }],
   "<https://artresearch.net/resource/fr/Work_created_from_Artist>":[{
@@ -54,11 +53,11 @@
               "kind":"hierarchy",
               "queryPattern": "{
                 ?subject crm:P2_has_type ?type .
-                ?type owl:sameAs*/^owl:sameAs*/crm:P127_has_broader_term* ?__value__ .
-                ?__value__ crm:P71i_is_listed_in ?__alignment__ .
+                ?type crm:P127_has_broader_term* ?__value__ .
+                ?__value__ crm:P71i_is_listed_in <https://artresearch.net/resource/pharos/vocabulary/types> .
               }",
-              "parentsPattern": "{ ?value crm:P127_has_broader_term ?parent . ?parent crm:P71i_is_listed_in ?__alignment__ . }",
-              "childrenPattern": "{ ?child crm:P127_has_broader_term ?value . ?child crm:P71i_is_listed_in ?__alignment__ . }",
+              "parentsPattern": "{ ?value crm:P127_has_broader_term ?parent . ?parent crm:P71i_is_listed_in <https://artresearch.net/resource/pharos/vocabulary/types> . }",
+              "childrenPattern": "{ ?child crm:P127_has_broader_term ?value . ?child crm:P71i_is_listed_in <https://artresearch.net/resource/pharos/vocabulary/types> . }",
               "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
   }],
   "<https://artresearch.net/resource/fr/Work_has_Image>":[{

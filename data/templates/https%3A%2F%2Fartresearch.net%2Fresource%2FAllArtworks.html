@@ -1,10 +1,4 @@
 <style>
-  .main-container {
-    height: calc(100vh - 58px - 46px);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
   .search-container {
     display: flex;
     flex-direction: column;
@@ -13,16 +7,19 @@
   .search-bar {
 	  width: 50vw;
     align-self: center;
+    margin-top: 8px;
+    margin-bottom: 8px;
   }
   .content-area {
     display: flex;
     flex: 1;
     overflow: hidden;
+    border-top: 1px solid #e9ecef;
   }
   .facet-column {
     overflow-y: auto;
-    padding: 20px;
     border-right: 1px solid #e9ecef;
+    margin-left: 10px;
   }
   .facet-relations {
     width: 295px;
@@ -41,8 +38,17 @@
   }
 </style>
 
-<semantic-context repository='qlever-midas'>
+      <ol class="page-breadcrumb">
+  <li>
+    <mp-link title="Home" url="/">Home</mp-link>
+  </li>
+  <li class="active">Search Collections</li>
+</ol>
+
+  <div class="page">    
   <div class="main-container">
+    <semantic-context repository='qlever'>
+
     <semantic-search
       limit=100
       categories='{
@@ -82,7 +88,10 @@
           initial-input="[[urlParam "keyword"]]"
         >
         </semantic-search-query-keyword>
+        
+        [[!--
         <semantic-search-configuration-editor></semantic-search-configuration-editor>
+        --]]
       </div>
       
       <div class="content-area">
@@ -154,5 +163,6 @@
         </div>
       </div>
     </semantic-search>
+      </semantic-context>
+    </div>
   </div>
-</semantic-context>

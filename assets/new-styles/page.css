@@ -1,5 +1,5 @@
 .main-container {
-    height: calc(100vh - var(--nav-height) - var(--footer-height));
+    height: calc(100vh - var(--nav-height) - var(--footer-height) - var(--breadcrumb-height));
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -20,6 +20,15 @@
 
 .scrollable-content {
     overflow: auto;
+}
+
+.with-breadcrumbs {
+    padding-top: var(--breadcrumb-height);
+}
+
+.static-centered-content {
+    /* TODO need to have better style */
+    margin: 0 50px;
 }
 
 .page-holder {
