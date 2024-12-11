@@ -1,1 +1,160 @@
-<mp-graph-store-action title="Download" action="GET" graphuri="https://artresearch.net/resource/ulan/enrichment/graph" file-ending="trig" class="mp-rdf-graph-action__download-dropdown-item">Download ULAN TRIG</mp-graph-store-action>
+<mp-user-language-switch languages='["de","en","it", "es", "nl"]'></mp-user-language-switch>
+
+<div
+  class="rs-grid-element panel panel-default artwork-card-big fade-in-fwd "
+>
+<scroll-to-top querySelector=".pagination li"></scroll-to-top>
+
+  <semantic-link iri="https://artresearch.net/resource/itatti/work/8000791824">
+      <resource-info subject="https://artresearch.net/resource/itatti/work/8000791824" profile="artwork" template="{{> template}}">
+        <template id="template">
+          {{log this}}
+    <bs-row 
+            
+           
+        style="display: flex;
+                align-items: center; 
+                flex-wrap: wrap;">
+      <bs-col
+        lg="4"
+        md="12"
+        xs="12"
+      >
+        <!-- Show thumbnail -->
+         <div class="thumbnailContainer">
+           <img alt='   ' class="thumbnailImage" src="{{data.[https://artresearch.net/resource/fieldDefinition/artworkThumbnail].values.0.[@value]}}" />
+         </div>
+  
+        <div class="animated-background thumbnailContainer "></div>
+      </bs-col>
+
+      <bs-col  lg="8" md="12" >
+        <div data-flex-layout="row md-column center-stretch">
+          <bs-row class=" cardInfoFields">
+            <div id="rsbv" class=" table-responsive rs-table">
+              Test 3
+              <table class="table table-hover">
+                <tbody>
+                      <div class="workTemplate">
+                        <tr  class="rs-page-resource__field">
+                          <td class="rs-page-resource__field-label-holder headLine">
+                            <span class="rs-page-resource__field-label">
+                              Title
+                            </span>
+                          </td>
+                          <td>
+                            <span class="rs-page-resource__field-value">
+                              <div  style="width:25vw; max-width: 450px;">
+                                <div class="informationRow">
+                                  {{data.[https://artresearch.net/resource/fieldDefinition/title].values.0.[@value]}}
+                                </div>
+                              </div>
+                            </span>
+                          </td>
+                        </tr>
+                      </div>
+
+                  <div class="workTemplate">
+                    <tr  class="rs-page-resource__field ">
+                      <td class="rs-page-resource__field-label-holder headLine ">
+                        <span class="rs-page-resource__field-label">
+                          Creator
+                        </span>
+                      </td>
+                      <td>
+                        <span class="rs-page-resource__field-value">
+                          <div style="width:25vw; max-width: 450px;">
+                            {{#each data.[https://artresearch.net/resource/fieldDefinition/creator].values}}
+                              <div class="informationRow">
+                                <semantic-link iri="{{[@id]}}">{{label}}</semantic-link>
+                              </div>
+                            {{/each}}
+                          </div>
+                        </span>
+                      </td>
+                    </tr>
+                  </div>
+                  
+                  <div class="table-of-animation">
+                    <div class="animated-background-sm1 rs-page-resource__field-label-holder"></div>
+                    <div class="animated-background-sm2 rs-page-resource__field-label-holder"></div>
+                    <div class="animated-background-sm3 rs-page-resource__field-label-holder"></div>
+                    <div class="animated-background-sm5 rs-page-resource__field-label-holder"></div>
+                    <div class="animated-background-sm4 rs-page-resource__field-label-holder"></div>
+                    <div class="animated-background-sm6 rs-page-resource__field-label-holder"></div>
+                    <div class="animated-background-sm7 rs-page-resource__field-label-holder"></div>
+                    <div class="animated-background-sm8 rs-page-resource__field-label-holder"></div>
+                  </div>
+                  
+                  <div class="workTemplate">
+                    <tr class="rs-page-resource__field">
+                      <td class="rs-page-resource__field-label-holder headLine">
+                        <span class="rs-page-resource__field-label">
+                          Repository
+                        </span>
+                      </td>
+                      <td>
+                        <span class="rs-page-resource__field-value">
+                          {{#each data.[https://artresearch.net/resource/fieldDefinition/repository].values}}
+                            <div class="informationRow">
+                              <semantic-link iri="{{[@id]}}">{{label}}</semantic-link>
+                            </div>
+                          {{/each}}
+                        </span>
+                      </td>
+                    </tr>
+                  </div>
+                  
+                  <div class="workTemplate">
+                    <tr class="rs-page-resource__field">
+                      <td class="rs-page-resource__field-label-holder headLine">
+                        <span class="rs-page-resource__field-label">
+                          {{data.[http://www.cidoc-crm.org/cidoc-crm/P45_consists_of].label}}
+                        </span>
+                      </td>
+                      <td>
+                        <span class="rs-page-resource__field-value">
+                          {{#each data.[http://www.cidoc-crm.org/cidoc-crm/P45_consists_of].values}}
+                            <div class="informationRow">
+                              <semantic-link iri="{{[@id]}}">{{label}}</semantic-link>
+                            </div>
+                          {{/each}}
+                        </span>
+                      </td>
+                    </tr>
+                  </div>
+
+                 
+                  <div class="workTemplate">
+                    <tr class="rs-page-resource__field">
+                      <td class="rs-page-resource__field-label-holder headLine">
+                        <span class="rs-page-resource__field-label">
+                          Photo archive
+                        </span>
+                      </td>
+                      <td>
+                        <span class="rs-page-resource__field-value">
+                          <div style="width:25vw; max-width: 450px;">
+                            <div class="informationRow">
+                              {{#each data.[https://artresearch.net/resource/fieldDefinition/provider].values}}
+                                {{label}}
+                              {{/each}}
+                            </div>
+                          </div>
+                        </span>
+                      </td>
+                    </tr>
+                  </div>
+       
+                </tbody>
+              </table>
+            </div>
+            <div class="animated-background table-responsive rs-table"></div>
+          </bs-row>
+        </div>
+      </bs-col>
+    </bs-row>
+           </template>
+      </resource-info>
+  </semantic-link>
+</div>
