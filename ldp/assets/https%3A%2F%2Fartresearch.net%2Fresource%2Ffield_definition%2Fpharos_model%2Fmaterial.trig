@@ -1,0 +1,24 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/material/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/material> a <http://www.researchspace.org/resource/system/fields/Field>,
+      <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Material";
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-468be38a52db4ef491e2178432709819-ED26F43D1C91C846AEB878A1B80E8D26;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#string>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-468be38a52db4ef491e2178432709819-2F2C828BF414396C2D66C6832E33B993;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2024-12-10T12:59:15.357+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-468be38a52db4ef491e2178432709819-ED26F43D1C91C846AEB878A1B80E8D26 a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+
+SELECT ?value WHERE {
+  ?subject crm:P45_consists_of ?value. 
+}""" .
+  
+  _:genid-468be38a52db4ef491e2178432709819-2F2C828BF414396C2D66C6832E33B993 a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/material> .
+}

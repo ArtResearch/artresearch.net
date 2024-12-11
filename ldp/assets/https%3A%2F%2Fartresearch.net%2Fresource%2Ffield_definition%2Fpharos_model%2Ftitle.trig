@@ -1,0 +1,31 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/title/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/title> a <http://www.researchspace.org/resource/system/fields/Field>,
+      <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Title"@en, "Titolo"@it, "Titel"@de;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-468be38a52db4ef491e2178432709819-16E05547141EBA267A41F80F6222E0E8;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-468be38a52db4ef491e2178432709819-7D4E23AD1EE370B8F613BA786FCBBF26;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2024-12-10T12:59:15.310+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-468be38a52db4ef491e2178432709819-16E05547141EBA267A41F80F6222E0E8 a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+
+SELECT ?value WHERE {
+  {
+    ?subject crm:P1_is_identified_by ?value.
+    ?value crm:P2_has_type/crm:P127_has_broader_term+ <https://artresearch.net/resource/pharos/vocabulary/meta/name> .
+  } UNION {
+    ?subject crm:P1_is_identified_by ?value.
+    ?value crm:P2_has_type <http://vocab.getty.edu/aat/300417193> .
+  }
+}""" .
+  
+  _:genid-468be38a52db4ef491e2178432709819-7D4E23AD1EE370B8F613BA786FCBBF26 a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/title> .
+}

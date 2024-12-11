@@ -1,8 +1,9 @@
 <style>
 .content-wrapper {
     display: flex;
-    height: calc(100vh - 58px - 46px);
+    height: calc(100vh - var(--nav-height) - var(--footer-height) - var(--breadcrumb-height));
     overflow: hidden;
+    margin-top: var(--breadcrumb-height);
 }
 
 .column {
@@ -70,8 +71,8 @@
 }
 
 .fields-column {
-    background-color: white;
-    padding: 20px;
+  background-color: white;
+  padding: 0 20px 20px 20px;
 }
 
 .field-group h2 {
@@ -118,13 +119,22 @@
 .field-value-item {
     display: flex;
     flex-direction: column;
-    margin-bottom: 10px;
 }
 
 .field-value-main {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+  
+.field-value-group {
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #e0e0e0;
+}
+  
+.field-value-original-group {
+  padding-left: 15px;
 }
 
 .field-value-qualifiers {
@@ -235,13 +245,13 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  margin-top: 20px;
+  margin-top: 10px;
   align-items: center;
 }
 
 .catalog-record-icons > span {
-  flex-basis: 100%;
   margin-bottom: 10px;
+  margin-right: 10px;
 }
 
 .catalog-record-icons .provider-icon {
@@ -276,9 +286,15 @@
 </style>
 
 
-<semantic-context repository='qlever-midas'>
+<semantic-context repository='qlever'>  
     <resource-info subject="[[this]]" profile="artwork-full" template="{{> template}}">      
         <template id="template">
+          <ol class="page-breadcrumb">
+            <li>
+              <mp-link title="Home" url="/">Home</mp-link>
+            </li>
+            <li class="active"></li>
+          </ol>
             <div class="content-wrapper">
                 <div class="column image-grid-column">
                   {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/photo]}}
@@ -354,7 +370,10 @@
                               "field": "https://artresearch.net/resource/field_definition/pharos_model/title",
                               "mode": "text"
                             },
-                            "https://artresearch.net/resource/field_definition/pharos_model/type",
+                            { 
+                              "field": "https://artresearch.net/resource/field_definition/pharos_model/type",
+                              "mode": "new"
+                            },
                             "https://artresearch.net/resource/field_definition/pharos_model/last_known_location",
                             "https://artresearch.net/resource/field_definition/pharos_model/object_is_part_of",
                             "https://artresearch.net/resource/field_definition/pharos_model/object_has_part"
@@ -474,6 +493,44 @@
                         </div>
                     {{/each}}
                 {{else}}
+                  {{#if (eq mode "new")}}    
+                    {{#each (lookup (lookup data field) 'values')}}
+                      {{#if [https://artresearch.net/resource/field_definition/pharos_model/original_value]}}
+                        <div class="field-value-group">
+                          <div class="field-value-item">
+                              <div class="field-value-main">
+                                <semantic-link iri="{{[@id]}}" class="disabled">{{label}}</semantic-link> 
+                              </div>
+                          </div>
+                          <div class="field-value-original-group">
+                            {{#each [https://artresearch.net/resource/field_definition/pharos_model/original_value].values}}
+                              <div class="field-value-item">
+                                <div class="field-value-main">
+                                    <span>{{label}}</span>
+                                    <div class="provider-icons">
+                                      {{#each (uniqProviders provenance)}}
+                                          <img class="provider-icon" title="{{label}}" src="{{icon}}">
+                                      {{/each}}
+                                    </div>
+                                </div>
+                              </div>  
+                            {{/each}}
+                          </div>
+                        </div>
+                      {{else}}
+                        <div class="field-value-item">
+                            <div class="field-value-main">
+                                <span>{{label}}</span>
+                                <div class="provider-icons">
+                                    {{#each (uniqProviders provenance)}}
+                                        <img class="provider-icon" title="{{label}}" src="{{icon}}">
+                                    {{/each}}
+                                </div>
+                            </div>
+                        </div>  
+                      {{/if}}
+                    {{/each}}
+                  {{else}}
                     {{#each (lookup (lookup data field) 'values')}}
                         <div class="field-value-item">
                             <div class="field-value-main">
@@ -536,6 +593,7 @@
                             {{/if}}
                         </div>
                     {{/each}}
+                  {{/if}}
                 {{/if}}
             </div>
         </div>

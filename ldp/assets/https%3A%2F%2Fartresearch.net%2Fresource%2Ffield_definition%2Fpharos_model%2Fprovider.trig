@@ -1,0 +1,24 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/provider/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/provider> a <http://www.researchspace.org/resource/system/fields/Field>,
+      <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Provider Institution (E13 provenance)";
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-468be38a52db4ef491e2178432709819-CF5A749CE2ECA0CCBADC723CFFC8FBCC;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-468be38a52db4ef491e2178432709819-90AFC2F06C8A75F654588593C08E1A9A;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2024-12-10T12:59:15.320+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-468be38a52db4ef491e2178432709819-CF5A749CE2ECA0CCBADC723CFFC8FBCC a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+
+SELECT ?value WHERE {
+  ?subject crm:P134_continued*/crm:P9i_forms_part_of/crm:P14_carried_out_by ?value  
+}""" .
+  
+  _:genid-468be38a52db4ef491e2178432709819-90AFC2F06C8A75F654588593C08E1A9A a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/provider> .
+}

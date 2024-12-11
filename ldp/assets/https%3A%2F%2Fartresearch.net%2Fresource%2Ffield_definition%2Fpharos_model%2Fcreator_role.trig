@@ -1,0 +1,27 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/creator_role/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/creator_role> a <http://www.researchspace.org/resource/system/fields/Field>,
+      <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Role";
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-468be38a52db4ef491e2178432709819-FC4C9611A7472F0526C028AE97E652E3;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-468be38a52db4ef491e2178432709819-11F5884E40438A8C329F1084052AD1E0;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2024-12-10T12:59:15.339+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-468be38a52db4ef491e2178432709819-FC4C9611A7472F0526C028AE97E652E3 a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+
+SELECT ?value WHERE {
+  ?work crm:P108i_was_produced_by/crm:P9_consists_of* ?production .
+  ?production crm:P01i_is_domain_of ?pc14 .
+  ?pc14 crm:P02_has_range ?subject .
+  ?pc14 crm:P14.1_in_the_role_of ?value .
+}""" .
+  
+  _:genid-468be38a52db4ef491e2178432709819-11F5884E40438A8C329F1084052AD1E0 a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/creator_role> .
+}

@@ -1,0 +1,26 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/object_is_part_of/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/object_is_part_of>
+    a <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
+      <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Is Part Of";
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-468be38a52db4ef491e2178432709819-DC1A08A4EF086EC83F12EE5FCABF38CF;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-468be38a52db4ef491e2178432709819-72C7788BE50175819FE756AFBE797CDD;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2024-12-10T12:59:15.330+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-468be38a52db4ef491e2178432709819-DC1A08A4EF086EC83F12EE5FCABF38CF a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX vocab: <https://artresearch.net/resource/midas/vocabulary/>
+PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+
+SELECT DISTINCT ?value WHERE {
+  ?subject crm:P46i_forms_part_of ?value .
+}""" .
+  
+  _:genid-468be38a52db4ef491e2178432709819-72C7788BE50175819FE756AFBE797CDD a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/object_is_part_of> .
+}

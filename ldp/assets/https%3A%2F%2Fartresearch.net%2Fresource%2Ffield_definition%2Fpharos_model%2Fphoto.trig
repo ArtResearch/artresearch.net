@@ -1,0 +1,32 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/photo/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/photo> a <http://www.researchspace.org/resource/system/fields/Field>,
+      <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Photograph";
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-468be38a52db4ef491e2178432709819-73BFFED90629C56967963C65DE03A490;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-468be38a52db4ef491e2178432709819-724312DAE087F440BE8CC91CBD08E83A;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2024-12-10T12:59:15.321+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-468be38a52db4ef491e2178432709819-73BFFED90629C56967963C65DE03A490 a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+
+SELECT ?value WHERE {
+  {
+    ?subject crm:P138i_has_representation/crm:P128i_is_carried_by/crm:P56i_is_found_on ?value .
+    ?value crm:P2_has_type ?type .
+    FILTER(?type IN(<https://artresearch.net/resource/pharos/vocabulary/meta/photographic_print>, <https://artresearch.net/resource/pharos/vocabulary/meta/digital_photograph>)) .
+  } UNION {
+    ?subject crm:P138i_has_representation/crm:P128i_is_carried_by ?value . 
+    ?value crm:P2_has_type ?type .
+    FILTER(?type IN(<https://artresearch.net/resource/pharos/vocabulary/meta/photographic_print>, <https://artresearch.net/resource/pharos/vocabulary/meta/digital_photograph>)) .
+  }
+}""" .
+  
+  _:genid-468be38a52db4ef491e2178432709819-724312DAE087F440BE8CC91CBD08E83A a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/photo> .
+}

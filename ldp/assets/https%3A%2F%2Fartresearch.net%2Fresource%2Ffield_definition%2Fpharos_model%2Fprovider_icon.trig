@@ -1,0 +1,32 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/provider_icon/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/provider_icon> a <http://www.researchspace.org/resource/system/fields/Field>,
+      <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Provider Icon";
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-468be38a52db4ef491e2178432709819-C7CFF2E7F985A0B9997C2E07FCB84694;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#string>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-468be38a52db4ef491e2178432709819-64B1752E9DD2260D76220BBABDBE25C5;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2024-12-10T12:59:15.354+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-468be38a52db4ef491e2178432709819-C7CFF2E7F985A0B9997C2E07FCB84694 a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+
+SELECT ?value WHERE {
+  VALUES(?subject ?value) {
+    (<https://artresearch.net/resource/e74/bildarchiv_foto_marburg> \"/assets/images/Marburg.ico\")
+    (<https://artresearch.net/resource/e74/khi> \"/assets/images/KHI.ico\")
+    (<https://artresearch.net/resource/e74/bibliotheca_hertziana> \"/assets/images/Hertziana.ico\")
+    (<https://artresearch.net/resource/e74/fondazione_federico_zeri> \"/assets/images/Zeri.ico\")
+    (<https://artresearch.net/resource/e74/frick> \"/assets/images/Frick.ico\")
+    (<https://artresearch.net/resource/e74/itatti> \"/assets/images/ITatti.ico\")
+    (<https://artresearch.net/resource/e74/pmc> \"/assets/images/PMC.ico\")
+  }
+}""" .
+  
+  _:genid-468be38a52db4ef491e2178432709819-64B1752E9DD2260D76220BBABDBE25C5 a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/provider_icon> .
+}
