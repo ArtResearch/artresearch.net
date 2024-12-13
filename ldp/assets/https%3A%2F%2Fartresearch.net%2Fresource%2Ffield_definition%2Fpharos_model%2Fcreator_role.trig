@@ -2,32 +2,36 @@
 <https://artresearch.net/resource/field_definition/pharos_model/creator_role/context> {
   <https://artresearch.net/resource/field_definition/pharos_model/creator_role> a <http://www.researchspace.org/resource/system/fields/Field>,
       <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-181b0bd7759c4fe0b7cb0228f57161e4-s4hi2i;
     <http://www.w3.org/2000/01/rdf-schema#label> "Role";
     <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
-    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-bb33b2b8615d4095bbce3a7bc4c0ffa1-p0haka;
-    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-bb33b2b8615d4095bbce3a7bc4c0ffa1-m9w1sn;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-181b0bd7759c4fe0b7cb0228f57161e4-toockq;
     <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
-    <http://www.w3.org/ns/prov#generatedAtTime> "2024-12-11T14:41:50.691+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+    <http://www.w3.org/ns/prov#generatedAtTime> "2024-12-13T13:29:20.547+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
   
-  _:genid-bb33b2b8615d4095bbce3a7bc4c0ffa1-m9w1sn a <http://spinrdf.org/sp#Query>;
+  _:genid-181b0bd7759c4fe0b7cb0228f57161e4-toockq a <http://spinrdf.org/sp#Query>;
     <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
   
-  _:genid-bb33b2b8615d4095bbce3a7bc4c0ffa1-p0haka a <http://spinrdf.org/sp#Query>;
+  _:genid-181b0bd7759c4fe0b7cb0228f57161e4-s4hi2i a <http://spinrdf.org/sp#Query>;
     <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 
-SELECT ?value ?provUri WHERE {
-  ?work crm:P108i_was_produced_by/crm:P9_consists_of* ?production .
-  ?production crm:P01i_is_domain_of ?pc14 .
+SELECT DISTINCT ?value ?subject ?provUri WHERE {
+  {
+    ?work crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P01i_is_domain_of ?pc14 .
+    ?actorE13 crm:P140_assigned_attribute_to ?pc14 .
+  }
+  {
+    ?actorE13 crm:P177_assigned_property_of_type crm:P02_has_range .
+    ?actorE13 crm:P141_assigned ?subject .
+  }
+ 
+  {
+    ?provUri crm:P177_assigned_property_of_type crm:P14.1_in_the_role_of .
+    ?provUri crm:P9i_forms_part_of/crm:P2_has_type <http://vocab.getty.edu/aat/300054628> .
+  }
   
-  ?actorE13 crm:P140_assigned_attribute_to ?pc14 .
-  ?actorE13 crm:P177_assigned_property_of_type crm:P02_has_range .
-  ?actorE13 crm:P141_assigned ?subject .
-  
-  ?provUri crm:P9i_forms_part_of ?cataloging .
   ?provUri crm:P140_assigned_attribute_to ?pc14 .
-  ?provUri crm:P177_assigned_property_of_type crm:P14.1_in_the_role_of .
-  ?provUri crm:P141_assigned ?value .
-  ?cataloging crm:P2_has_type <http://vocab.getty.edu/aat/300054628> .
+  ?provUri crm:P141_assigned ?value .  
 }""" .
   
   <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
