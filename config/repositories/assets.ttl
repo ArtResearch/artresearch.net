@@ -1,5 +1,5 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix ns: <http://www.openrdf.org/config/sail/native#> .
+@prefix ms: <http://www.openrdf.org/config/sail/memory#> .
 @prefix rep: <http://www.openrdf.org/config/repository#> .
 @prefix sail: <http://www.openrdf.org/config/sail#> .
 @prefix sr: <http://www.openrdf.org/config/repository/sail#> .
@@ -10,12 +10,12 @@
 @prefix sparqlr: <http://www.openrdf.org/config/repository/sparql#> .
 
 [] a rep:Repository;
-    rep:repositoryID "default";
-    rdfs:label "Native store";
-    rep:repositoryImpl [
-        rep:repositoryType "openrdf:SailRepository";
-    sr:sailImpl [
-        sail:sailType "openrdf:NativeStore";
-        ns:tripleIndexes "spoc,posc,ospc"
-    ]
+  rep:repositoryID "assets";
+  rdfs:label "Assets memory store";
+  rep:repositoryImpl [
+      rep:repositoryType "openrdf:SailRepository";
+      sr:sailImpl [
+          sail:sailType "openrdf:MemoryStore";
+          ms:persist true
+        ]
     ] .
