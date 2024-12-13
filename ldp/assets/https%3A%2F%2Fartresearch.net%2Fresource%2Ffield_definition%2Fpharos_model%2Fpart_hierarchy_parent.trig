@@ -1,0 +1,28 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/part_hierarchy_parent/context> {
+  _:genid-17a3d613a20743f0b6ab92deb70ee267-28ynbm a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  <https://artresearch.net/resource/field_definition/pharos_model/part_hierarchy_parent>
+    a <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
+      <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-17a3d613a20743f0b6ab92deb70ee267-efpkm;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-17a3d613a20743f0b6ab92deb70ee267-28ynbm;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Part (parent)";
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2024-12-11T23:38:23.942+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-17a3d613a20743f0b6ab92deb70ee267-efpkm a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+SELECT DISTINCT ?value WHERE {  
+  {
+    ?value crm:P46_is_composed_of ?subject .
+  } UNION {
+    ?subject crm:P46i_forms_part_of ?value .  
+  }
+}""" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/part_hierarchy_parent> .
+}

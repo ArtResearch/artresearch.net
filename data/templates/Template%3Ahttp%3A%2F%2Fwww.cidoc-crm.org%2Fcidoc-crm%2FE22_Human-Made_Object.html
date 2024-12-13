@@ -84,6 +84,12 @@
     border-bottom: 1px solid #9b0400;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    position: sticky;
+    background: white;
+    top: 0;
+    z-index: 1;
+    margin: 0;
+    padding: 10px 0 10px 0;
 }
 
 .field {
@@ -93,12 +99,15 @@
     margin-bottom: 10px;
     align-items: baseline;
     font-size: 16px;
+    padding-top: 5px;
 }
 
 .field-label {
     font-weight: bold;
     color: #333;
     text-align: right;
+    position: sticky;
+    top: 40px;
 }
 
 .field-value {
@@ -130,23 +139,13 @@
 .field-value-group {
   margin-bottom: 10px;
   padding-bottom: 5px;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid rgba(224, 224, 224, 0.5);
 }
   
-.field-value-original-group {
-  padding-left: 15px;
-}
+.field-value-original-group {}
 
 .field-value-qualifiers {
-    margin-left: 20px;
-    margin-top: 5px;
-    font-size: 0.9em;
-    color: #666;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    border-left: 1px solid #e0e0e0;
-    padding-left: 10px;
+  color: #666;
 }
 
 .qualifier-group {
@@ -160,19 +159,9 @@
 }
 
 .field-value-qualifier {
-    display: flex;
-    align-items: center;
-    margin-left: 30px;
-    margin-bottom: 3px;
-    position: relative;
-}
-
-.field-value-qualifier::before {
-    content: '•';
-    margin-right: 5px;
-    color: #9b0400;
-    position: absolute;
-    left: -15px;
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
 }
 
 
@@ -180,7 +169,7 @@
     display: inline-flex;
     justify-content: flex-end;
     align-items: center;
-    margin-left: 10px;
+    margin-left: auto;
 }
 
 .provider-icon {
@@ -226,6 +215,7 @@
 .photo-details {
     flex: 1;
     padding: 15px;
+    position: relative;
 }
 
 .photo-details .field {
@@ -239,6 +229,12 @@
 
 .photo-details .field-value {
     font-size: 0.9em;
+}
+  
+.photo-details .provider-icon {
+  position: absolute;
+  top: 0;
+  right: 0;
 }
   
 .catalog-record-icons {
@@ -374,7 +370,11 @@
                               "field": "https://artresearch.net/resource/field_definition/pharos_model/type",
                               "mode": "new"
                             },
-                            "https://artresearch.net/resource/field_definition/pharos_model/last_known_location",
+                            "https://artresearch.net/resource/field_definition/pharos_model/current_keeper",
+                            { 
+                              "field": "https://artresearch.net/resource/field_definition/pharos_model/object_part_of_hierarchy",
+                              "mode": "part_hierarchy"
+                            },
                             "https://artresearch.net/resource/field_definition/pharos_model/object_is_part_of",
                             "https://artresearch.net/resource/field_definition/pharos_model/object_has_part"
                         ]')
@@ -386,7 +386,7 @@
                         fields=(parse '[
                             { 
                               "field": "https://artresearch.net/resource/field_definition/pharos_model/creator",
-                              "qualifiers": "true"
+                              "mode": "creator"
                             }
                         ]')
                     }}
@@ -395,8 +395,14 @@
                         data=data
                         title="Physical Properties" 
                         fields=(parse '[
-                            "https://artresearch.net/resource/field_definition/pharos_model/material",
-                            "https://artresearch.net/resource/field_definition/pharos_model/technique"
+                            { 
+                              "field": "https://artresearch.net/resource/field_definition/pharos_model/material",
+                              "mode": "new"
+                            },
+                            { 
+                              "field": "https://artresearch.net/resource/field_definition/pharos_model/technique",
+                              "mode": "new"
+                            }
                         ]')
                     }}
                   
@@ -432,14 +438,18 @@
                               {{/if}}
                             </div>
                             <div class="photo-details">
+                              {{log "photo" this}}
+                              {{#with [https://artresearch.net/resource/field_definition/pharos_model/photo_archive].values.[0]}}
+                                {{#each (uniqProviders provenance)}}
+                                  <img class="provider-icon" title="{{label}}" src="{{icon}}">
+                                {{/each}}
+                              {{/with}}
                               {{> fieldGroup 
                                   data=this
+                                  dontShowProvenance=true
                                   title="" 
                                   fields=(parse '[
-                                      { 
-                                        "field": "https://artresearch.net/resource/field_definition/pharos_model/title",
-                                        "qualifiers": "true"
-                                      },                                      
+                                      "https://artresearch.net/resource/field_definition/pharos_model/title",
                                       "https://artresearch.net/resource/field_definition/pharos_model/photographer",
                                       "https://artresearch.net/resource/field_definition/pharos_model/date",
                                       "https://artresearch.net/resource/field_definition/pharos_model/photo_archive"
@@ -461,7 +471,8 @@
                     {{/if}}
                     {{#each fields}}
                         {{> fieldTemplate 
-                            data=../data 
+                            data=../data
+                            dontShowProvenance=../dontShowProvenance
                             field=(getFieldName this)
                             label=(lookup this "label")
                   					qualifiers=(lookup this "qualifiers")
@@ -492,14 +503,65 @@
                             </div>
                         </div>
                     {{/each}}
-                {{else}}
-                  {{#if (eq mode "new")}}    
+                {{else if (eq mode "part_hierarchy")}}
+                                  <semantic-tree data='[{{#each (lookup (lookup data field) "values")}}{ "node": { "type": "uri", "value": "{{[@id]}}" } {{#if [https://artresearch.net/resource/field_definition/pharos_model/part_hierarchy_parent]}} , "parent": { "type": "uri", "value": "{{[https://artresearch.net/resource/field_definition/pharos_model/part_hierarchy_parent].values.0.[@id]}}" } {{/if}}  }   {{#if @last}}{{else}},{{/if}}{{/each}}]'></semantic-tree>
+
+                {{else if (eq mode "creator")}}  
+                  {{#each (lookup (lookup data field) 'values')}}
+                    {{#if [https://artresearch.net/resource/field_definition/pharos_model/original_value_creator]}}
+                        <div class="field-value-group">
+                          <div class="field-value-item">
+                              <div class="field-value-main">
+                                <semantic-link iri="{{[@id]}}">{{label}}</semantic-link> 
+                              </div>
+                          </div>
+                          <div class="field-value-original-group">
+                            {{#each [https://artresearch.net/resource/field_definition/pharos_model/original_value_creator].values}}
+                              <div class="field-value-item">
+                                <div class="field-value-main">
+                                    <span>{{label}}</span>
+                                    <div class="provider-icons">
+                                      {{#each (uniqProviders provenance)}}
+                                          <img class="provider-icon" title="{{label}}" src="{{icon}}">
+                                      {{/each}}
+                                    </div>
+                                </div>
+                                <div class="field-value-qualifiers">
+                                  {{#each [https://artresearch.net/resource/field_definition/pharos_model/creator_role].values }}
+                                    <span class="field-value-qualifier">
+                                      [{{label}}]
+                                      <div class="provider-icons">
+                                        {{#each (uniqProviders provenance)}}
+                                        <img class="provider-icon" title="{{label}}" src="{{icon}}">
+                                        {{/each}}
+                                      </div>
+                                    </span>
+                                  {{/each}}
+                                </div>
+                              </div>  
+                            {{/each}}
+                          </div>
+                        </div>
+                      {{else}}
+                        <div class="field-value-item">
+                            <div class="field-value-main">
+                                <span>{{label}}</span>
+                                <div class="provider-icons">
+                                    {{#each (uniqProviders provenance)}}
+                                        <img class="provider-icon" title="{{label}}" src="{{icon}}">
+                                    {{/each}}
+                                </div>
+                            </div>
+                        </div>  
+                      {{/if}}
+                    {{/each}}
+                  {{else if (eq mode "new")}}    
                     {{#each (lookup (lookup data field) 'values')}}
                       {{#if [https://artresearch.net/resource/field_definition/pharos_model/original_value]}}
                         <div class="field-value-group">
                           <div class="field-value-item">
                               <div class="field-value-main">
-                                <semantic-link iri="{{[@id]}}" class="disabled">{{label}}</semantic-link> 
+                                <semantic-link iri="{{[@id]}}">{{label}}</semantic-link> 
                               </div>
                           </div>
                           <div class="field-value-original-group">
@@ -539,11 +601,15 @@
                                 {{else}}
                                     <span>{{[@value]}}</span>
                                 {{/if}}
+                              
+                                {{#if ../dontShowProvenance}}
+                                {{else}}
                                 <div class="provider-icons">
                                     {{#each (uniqProviders provenance)}}
                                         <img class="provider-icon" title="{{label}}" src="{{icon}}">
                                     {{/each}}
                                 </div>
+                                {{/if}}
                             </div>
                             {{#if ../qualifiers}}
                             <div class="field-value-qualifiers">
@@ -593,7 +659,6 @@
                             {{/if}}
                         </div>
                     {{/each}}
-                  {{/if}}
                 {{/if}}
             </div>
         </div>
