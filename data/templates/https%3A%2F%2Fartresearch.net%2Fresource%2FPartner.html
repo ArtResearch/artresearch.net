@@ -1,101 +1,58 @@
-[[> Breadcrumb category="Partners" categoryUrl="/resource/Partners"]]
+<ol class="page-breadcrumb">
+  <li>
+    <mp-link title="Home" url="/">Home</mp-link>
+  </li>
+  <li>
+    <semantic-link title="Partners" iri="https://artresearch.net/resource/Partners">Partners</semantic-link>
+  </li>
+  <li class="active">
+    {{providerTitle}} 
+      <img
+           title="{{provider}}"
+           class="provider-icon"
+           src="/assets/images/{{provider}}.ico"
+           />    
+  </li>
+</ol>
 
-<div class="page rs-page">
-  <!-- [[#> ClipboardSidebar]] -->
-  <div class="page__header-navtabs">
-    <div id="artwork-header"  class="page__header-body" data-flex-layout="row top-left">
-      <div class="page__header-draggable-title">
-        <mp-draggable iri="[[this]]">
-          <h2 data-flex-layout="row center-left">
-            <span class="page__header-gripper"></span>
-            <div class='page__header-gripper-label'>[[providerLabel]]</div>
-          </h2>
-        </mp-draggable>
-      </div>
-      <div data-flex-layout='row center-left' class="page__header-tagline subtitleInfo">
-          <h2 class="fc-label">
-                <a style="margin-left: 5px;" href="[[website]]" target="_null">
-                  <div class="fc-label original-link">
-                    <img
-                      title="[[providerLabel]]"
-                      class="sourceIcon"
-                      src="/assets/images/[[providerLabel]].ico"
-                    />
-                    <div class="text"  style="font-size:16px;">Website</div>
-                  </div> 
-                </a>          
-                <a style="margin-left: 5px;" href="[[onlineCatalogue]]" target="_null">
-                  <div class="fc-label original-link">
-                            <img
-                              title="[[providerLabel]]"
-                              class="sourceIcon"
-                              src="/assets/images/[[providerLabel]].ico"
-                          />
-                          <div class="text" style="font-size:16px;">Online catalogue </div>
-                  </div> 
-                </a>
-          </h2>
-      </div>
-    </div>
-  </div>
-
-  [[#if (urlParam "tab")]]
-    <bs-tab-container id="tab-container" class="page__body-navtabs--borderless" default-active-key="[[urlParam 'tab']]">
-    [[else]]
-    <bs-tab-container id="tab-container" class="page__body-navtabs--borderless" default-active-key="summary">
-      [[/if]]
+<semantic-context repository='qlever'>
+<div class="page-content with-breadcrumbs partner-page">
+  <bs-tab-container id="tab-container" class="page__body-navtabs--borderless" default-active-key="summary">
       <div>
           <bs-nav bs-style="tabs">
             <bs-nav-item event-key="summary">Summary</bs-nav-item>
-            [[#if dataAvailable]]
+            {{#if dataAvailable}}
               <bs-nav-item event-key="artworks">
                   <div style="display:flex;">Artworks (
                     <semantic-query 
-                      query='  SELECT DISTINCT ?count WHERE {
-                          {
-                          SELECT ?graph ?date WHERE {
-                                ?graph <https://artresearch.net/custom/has_date> ?date.
-                                BIND(strbefore(STR(?date),"-") as ?day)
-                                BIND(strafter(STR(?date),"-") as ?tmp)
-                                BIND(strbefore(?tmp,"-") as ?month)
-                                BIND(strafter(STR(?tmp),"-") as ?year)
-                              } order by DESC(?year) DESC(?month) DESC(?day) LIMIT 1
-                          }
-                          ?graph <https://artresearch.net/custom/consists_of> ?n
-                          GRAPH ?n {
-                            ?? <https://artresearch.net/custom/numOfWorks> ?count
-                          }
-                          FILTER(!STRSTARTS(STR(??), "https://artresearch.net/resource/total"))
-                        } LIMIT 1'>
-                    </semantic-query>)
+                      query='SELECT (COUNT(DISTINCT ?work) AS ?count) WHERE {
+                        ?work crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                        ?work crm:P70i_is_documented_in <{{providerIri}}> .
+                      }'>
+                    </semantic-query>
+                    )
                   </div>
               </bs-nav-item>
               <bs-nav-item event-key="photographs">
-                <div style="display:flex;">Photographs (
-                <semantic-query query='  SELECT DISTINCT ?count WHERE {
-                    {
-                    SELECT ?graph ?date WHERE {
-                          ?graph <https://artresearch.net/custom/has_date> ?date.
-                          BIND(strbefore(STR(?date),"-") as ?day)
-                          BIND(strafter(STR(?date),"-") as ?tmp)
-                          BIND(strbefore(?tmp,"-") as ?month)
-                          BIND(strafter(STR(?tmp),"-") as ?year)
-                        } order by DESC(?year) DESC(?month) DESC(?day) LIMIT 1
-                    }
-                    ?graph <https://artresearch.net/custom/consists_of> ?n
-                    GRAPH ?n {
-                      ?? <https://artresearch.net/custom/numOfPhotos> ?count
-                    }
-                    FILTER(!STRSTARTS(STR(??), "https://artresearch.net/resource/total"))
-                  }LIMIT 1'>
-                </semantic-query>)
+                <div style="display:flex;">Photographs (TODO)
                 </div>
               </bs-nav-item>
-            [[/if]]
+            {{/if}}
           </bs-nav>
           <bs-tab-content unmount-on-exit=true>
               <bs-tab-pane event-key="summary">
-                  [[#if image]]
+                <div class="main-container scrollable-content">
+
+                  <h1>{{providerTitle}}</h1>
+                  <div class="provider-links">
+                    <a class="outside-link" href="{{website}}" target="_blank">Website</a>
+                    <a style="margin-left: 10px;" class="outside-link" href="{{onlineCatalogue}}" target="_blank">Online catalogue</a>
+                    {{#if email}}
+                    <a class="outside-link" href='mailto:{{email}}' style="margin-left: 10px;">{{email}}</a> 
+                    {{/if}}
+                  </div>
+
+                  {{#if image}}
                   <div id="work-summary-images">
                     <div  id="printableImages"  class="summaryImages">
                       <div class="rs-page__summary-image">
@@ -104,14 +61,14 @@
                             class="imageThumbnail"
                             alt="   "
                             onerror="url(/assets/images/media/image_placeholder_broken.jpg);"
-                            src="[[image]]"
+                            src="{{image}}"
                           />
                         </div>
                       </div>
                     </div>
                   </div>
-                  [[/if]]
-                  [[#if images]]
+                  {{/if}}
+                  {{#if images}}
                   <div id="work-summary-images">
                     <div  id="printableImages"  class="summaryImages">
                       <div class="rs-page__summary-image">
@@ -121,7 +78,7 @@
                                   query="
                                       SELECT ?thumbnail  WHERE {                    
                                         VALUES (?thumbnail){ 
-                                          [[images]]
+                                          {{images}}
                                         }
                                       }"
                                   options='{ "dots":true, "draggable":false, "infinite": true, "autoplay":true,"autoplaySpeed":6000, "fade": true }'
@@ -133,35 +90,66 @@
                     </div>
                   </div>
 
-                  [[/if]]
+                  {{/if}}
                   <div id="printableInfo" class="workAndProductionInfo">
                     <!-- Fields for Work (Artwork or photograph) -->
                         <div class="workInfoContainer">
                           <h2>Institute</h2>
                           <div class="partnerDescription">
-                            [[descriptionGeneral]]
+                            {{descriptionGeneral}}
                           </div>
                         </div>
                     <!-- Fields for Production -->
                         <div class="productionInfoContainer">
                               <h2>Photo Archive</h2>
                               <div class="partnerDescription">
-                                [[descriptionArchive]]
+                                {{descriptionArchive}}
                               </div>
                         </div>
                   </div>
+                </div>
               </bs-tab-pane>
               <bs-tab-pane event-key="artworks">
-                [[> FilterSearchArtwork provider=this ]]
+                <div class="main-container">
+                  <inline-template template-iri="Default:SearchTemplate" options='{"searchRestrictions":"?subject crm:P70i_is_documented_in <{{providerIri}}> ."}'></inline-template>
+                </div>              
               </bs-tab-pane>
               <bs-tab-pane event-key="photographs">
-                [[> FilterSearchPhoto provider=this ]]
+                <div></div>
               </bs-tab-pane>
           </bs-tab-content>
       </div>
     </bs-tab-container>
-    <!-- [[/:ClipboardSidebar]] -->
+
 </div>
+</semantic-context>
+
+<style>
+#tab-container-pane-artworks {
+  padding: 0;
+}
+ 
+.partner-page {
+  margin: 0 24px;
+}
+  
+.partner-page .main-container { 
+  height: calc(100vh - var(--nav-height) - var(--footer-height) - var(--breadcrumb-height) - 46px);
+}
+  
+.partner-page .page__body-navtabs--borderless > .tab-content > .tab-pane {
+  padding: 0;  
+}
+  
+.provider-links {
+  display: flex;
+}  
+  
+a.outside-link, a.outside-link:hover {
+  text-decoration: underline;
+}
+  
+</style>
 
 <style>
 #work-summary-images{
@@ -180,10 +168,6 @@ button.close {
 .modal-content {
   background-color: #f5f5f5 !important;
 }
-
-.component-page-toolbar {
-    display: none !important;
-  }
   
   .miradorViewerPopup .grid-demo{
     height: 92vh;
@@ -247,251 +231,6 @@ button.close {
 }
 }
 </style>
-  
-  
-<!-- artworkHeader.css -->
-  <style>
-  #artwork-header {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-#artwork-header h2 {
-  border-bottom: none !important;
-}
-
-.sticky-artwork-header {
-  position: sticky;
-  top: 12vh;
-  width: -moz-fit-content;
-  width: -webkit-fit-content;
-  width: fit-content;
-  margin-bottom: 15px;
-  margin-top: 10px;
-}
-
-#artwork-header .titleCopy {
-  font-size: 0;
-  margin-left: 5px;
-  transition: 0.3s;
-}
-
-#artwork-header .page__header-draggable-title:hover .titleCopy {
-  font-size: initial;
-}
-
-#artwork-header .sourceIcon {
-  height: 18px;
-  width: 18px;
-  padding: 2px;
-  cursor: pointer;
-  border-radius: 100%;
-  box-shadow: 1px 1px 3px 1px #e7e7e7;
-}
-
-#artwork-header .subtitleInfo {
-  display: flex;
-  flex-direction: column;
-  margin: 0;
-  align-items: initial !important;
-}
-
-#artwork-header .lowercase {
-  text-transform: lowercase;
-}
-#artwork-header .page__header-body {
-  display: flex;
-  flex-direction: column;
-}
-#artwork-header .fc-label {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  margin: 0;
-  padding: 0 12px;
-}
-
-#artwork-header .repository-location {
-  display: flex;
-  font-size: 16px;
-  font-weight: bold;
-  margin-left: 18px !important;
-  gap: 3px;
-  margin-top: 12px !important;
-  margin-bottom: 0 !important;
-}
-.repository-location{
-  width: 100% !important;
-  line-height: normal !important;
-}
-#artwork-header .original-link {
-  margin-top: 5px;
-  margin-bottom: 5px;
-  border: 1px solid #c4c4c4;
-  padding: 5px;
-  border-radius: 4px;
-  transition: 0.5s;
-}
-#artwork-header .original-link:hover {
-  background: #e7e7e7;
-}
-
-#artwork-header .original-link .text {
-  max-width: 160px;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-
-#artwork-header #fcLabel {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-#artwork-header #fcLabel img {
-  height: 18px;
-  margin: 1vh;
-}
-
-#artwork-header .artwork-link {
-  color: #6b0200 !important;
-  font-size: 18px;
-  border-bottom: 1px solid;
-  margin-left: 6px;
-  border-radius: 0px !important;
-}
-
-#variant-attribution-dropdown {
-  margin-bottom: 16px;
-  margin-left: 8px;
-}
-
-#variant-attribution-dropdown .panel.panel-default {
-  background: none;
-  box-shadow: none;
-  border: none;
-}
-
-#variant-attribution-dropdown .panel-default > .panel-heading {
-  height: 25px !important;
-  width: 180px;
-  background: white;
-  border: lightgrey solid 1px;
-  border-radius: 20px !important;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 15px;
-  position: absolute;
-  z-index: 2;
-}
-#variant-attribution-dropdown .collapsing {
-  height: 0 !important;
-}
-#variant-attribution-dropdown .panel-body {
- 
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    width: max-content;
-    /* min-width: 350px; */
-    border: 1px solid lightgrey;
-    padding-top: 40px;
-    padding-right: 2vw;
-    border-radius: 20px 0px 0px 0px;
-    top: 0;
-    z-index: 1;
-
-}
-
-#variant-attribution-dropdown .panel-title a {
-  font-size: 14px;
-  user-select: none;
-  color: rgb(55 88 167) !important;
-  text-transform: none;
-}
-
- .attribution-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  grid-template-columns: repeat(4, 1fr);
-}
-
-#variant-attribution-dropdown .attribution {
-  font-size: 18px;
-  line-height: 0.5 !important;
-  font-weight: bold;
-  text-align: left;
-  padding: 5px;
-  white-space: initial;
-}
-
-#variant-attribution-dropdown .attribution-qualifier {
-  padding: 5px;
-  white-space: initial;
-  text-align: center;
-  border: 1px solid lightgray;
-  border-radius: 15px;
-}
-
-#variant-attribution-dropdown .panel-heading .panel-title a::before {
-  color: rgb(55 88 167) !important;
-  margin-right: 2px;
-  transition: 0.3s;
-  display: inline-block;
-  font: normal normal normal 14px / 1 FontAwesome;
-  font-size: inherit;
-  text-rendering: auto;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  content: "\f077";
-}
-
-#variant-attribution-dropdown .panel-heading .panel-title a.collapsed::before {
-  display: inline-block;
-  font: normal normal normal 14px / 1 FontAwesome;
-  font-size: inherit;
-  text-rendering: auto;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  content: "\f078";
-}
-
-#variant-attribution-dropdown .creators-attribution {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: -12px;
-  margin-left: 24px;
-}
-
-.header-options {
- justify-content: right;
-  right: 0;
-  top: 0;
-  display: flex;
-  flex-wrap: wrap;
-}
-
-@media (max-width: 1200px) {
-  .sticky-artwork-header {
-    position: unset !important;
-  }
-
-  .header-options {
-    position: relative;
-  }
-}
-
-@media (max-width: 800px) {
-  #artwork-header {
-    padding-bottom: 20px;
-  }
-}
-
-  
-  </style>
   
 <!-- summaryImages.css-->  
   <style>
@@ -697,63 +436,6 @@ button.close {
   
   </style>
   
-<!-- breadcrumb.css -->
-  <style>
-  #breadcrumb {
-  height: -moz-fit-content;
-  height: fit-content ;
-}
-#breadcrumb .notifications-wrapper > div {
-  width: fit-content !important;
-}
-
-#breadcrumb .breadlinks {
-  padding-top: 10px;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  padding-left: 15%;
-}
-
-
-#breadcrumb .component-page-toolbar__btn_edit.btn{
-  padding: 0 !important;
-}
-
-#breadcrumb .breadlinks div {
-  cursor: pointer;
-  margin-right: 1vw;
-  width: -moz-fit-content;
-  width: fit-content;
-  min-height: 20px;
-}
-
-#breadcrumb .rs-body-m-M:hover {
-  text-decoration: underline;
-}
-#breadcrumb .system-spinner {
-  display: none;
-}
-
-.repoLink {
-  margin-left: 4px;
-  font-weight: bold;
-}
-
-@media (max-width: 800px) {
-  #breadcrumb .breadlinks div {
-    margin: 10px;
-  }
-  #breadcrumb .page-breadcrumb {
-    height: -moz-fit-content;
-    height: fit-content !important;
-    position: relative !important;
-  }
-}
-
-  </style>
-  
   <!-- resource.css -->
   <style>
   .page__header-draggable-title .page__header-gripper-label {
@@ -772,8 +454,6 @@ button.close {
 
 .workAndProductionInfo .workInfoContainer {
   width: 45%;
-  margin: 8px;
-  padding: 10px;
   min-width: 500px;
   box-shadow: 0px 0px 20px 1px #f8f8f8;
       margin-right: auto;
@@ -786,8 +466,6 @@ button.close {
 
 .workAndProductionInfo .productionInfoContainer {
   width: 45%;
-   margin: 8px;
-  padding: 10px;
   min-width: 500px;
   box-shadow: 0px 0px 20px 1px #f8f8f8;
 }

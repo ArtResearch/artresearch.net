@@ -1,0 +1,26 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/production_date/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/production_date> a
+      <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
+      <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-eac6741322634f8ebce84ca2982903a9-cuze;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Production Date";
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-eac6741322634f8ebce84ca2982903a9-72chso;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2024-12-15T23:51:32.365Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-eac6741322634f8ebce84ca2982903a9-cuze a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  _:genid-eac6741322634f8ebce84ca2982903a9-72chso a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+
+SELECT ?value WHERE {
+  $subject crm:P108i_was_produced_by/crm:P9_consists_of* ?production .
+  ?production crm:P4_has_time-span ?value.
+}""" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/production_date> .
+}

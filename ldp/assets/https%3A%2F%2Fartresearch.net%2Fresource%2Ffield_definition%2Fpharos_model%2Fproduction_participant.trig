@@ -1,0 +1,26 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/production_participant/context> {
+  _:genid-d7c04c00277141f1a0b18a461926120f-5tnfgwv a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  <https://artresearch.net/resource/field_definition/pharos_model/production_participant>
+    a <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
+      <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-d7c04c00277141f1a0b18a461926120f-5tnfgwv;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-d7c04c00277141f1a0b18a461926120f-vjhppg;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Production Participant";
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2024-12-15T23:29:16.399Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-d7c04c00277141f1a0b18a461926120f-vjhppg a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+
+SELECT ?value WHERE {
+  $subject crm:P108i_was_produced_by/crm:P9_consists_of* ?production .
+  ?production crm:P11_had_participant ?value.
+}""" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/production_participant> .
+}

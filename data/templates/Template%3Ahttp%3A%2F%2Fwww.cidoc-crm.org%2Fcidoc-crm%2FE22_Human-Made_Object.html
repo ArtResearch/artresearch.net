@@ -97,7 +97,6 @@
     grid-template-columns: 100px 1fr;
     gap: 10px;
     margin-bottom: 10px;
-    align-items: baseline;
     font-size: 16px;
     padding-top: 5px;
 }
@@ -128,12 +127,13 @@
 .field-value-item {
     display: flex;
     flex-direction: column;
+    margin-bottom: 4px;
 }
 
 .field-value-main {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 }
   
 .field-value-group {
@@ -170,17 +170,6 @@
     justify-content: flex-end;
     align-items: center;
     margin-left: auto;
-}
-
-.provider-icon {
-    object-fit: cover;  
-    height: 21.6px;
-    width: 21px;
-    padding: 2px;
-    margin: 4px;
-    cursor: pointer;
-    border-radius: 100%;
-    box-shadow: 1px 1px 3px 1px #e7e7e7;
 }
 
 .view-more {
@@ -289,7 +278,7 @@
             <li>
               <mp-link title="Home" url="/">Home</mp-link>
             </li>
-            <li class="active"></li>
+            <li class="active">{{data.label}}</li>
           </ol>
             <div class="content-wrapper">
                 <div class="column image-grid-column">
@@ -387,6 +376,10 @@
                             { 
                               "field": "https://artresearch.net/resource/field_definition/pharos_model/creator",
                               "mode": "creator"
+                            },
+                            { 
+                              "field": "https://artresearch.net/resource/field_definition/pharos_model/production_participant",
+                              "mode": "creator"
                             }
                         ]')
                     }}
@@ -411,6 +404,14 @@
                         title="Subjects" 
                         fields=(parse '[
                             "https://artresearch.net/resource/field_definition/pharos_model/subject"
+                        ]')
+                    }}
+                  
+                    {{> fieldGroup 
+                        data=data
+                        title="Dating" 
+                        fields=(parse '[
+                            "https://artresearch.net/resource/field_definition/pharos_model/production_date"
                         ]')
                     }}
                   
@@ -452,7 +453,11 @@
                                       "https://artresearch.net/resource/field_definition/pharos_model/title",
                                       "https://artresearch.net/resource/field_definition/pharos_model/photographer",
                                       "https://artresearch.net/resource/field_definition/pharos_model/date",
-                                      "https://artresearch.net/resource/field_definition/pharos_model/photo_archive"
+                                      "https://artresearch.net/resource/field_definition/pharos_model/photo_archive",
+                                      { 
+                                      "field": "https://artresearch.net/resource/field_definition/pharos_model/photo_license",
+                                      "mode": "outside_link"
+                                      }
                                   ]')
                               }}
                             </div>
@@ -512,7 +517,8 @@
                         <div class="field-value-group">
                           <div class="field-value-item">
                               <div class="field-value-main">
-                                <semantic-link iri="{{[@id]}}">{{label}}</semantic-link> 
+                                <a href="javascript:void(0)" class="disabled">{{label}}</a>
+                                [[!-- <semantic-link iri="{{[@id]}}">{{label}}</semantic-link> --]]
                               </div>
                           </div>
                           <div class="field-value-original-group">
@@ -561,7 +567,8 @@
                         <div class="field-value-group">
                           <div class="field-value-item">
                               <div class="field-value-main">
-                                <semantic-link iri="{{[@id]}}">{{label}}</semantic-link> 
+                                <a href="javascript:void(0)" class="disabled">{{label}}</a>
+                                [[!-- <semantic-link iri="{{[@id]}}">{{label}}</semantic-link> --]]
                               </div>
                           </div>
                           <div class="field-value-original-group">
@@ -597,7 +604,16 @@
                         <div class="field-value-item">
                             <div class="field-value-main">
                                 {{#if (lookup this '@id')}}
-                                    <semantic-link iri="{{[@id]}}">{{label}}</semantic-link> 
+                                  {{#if (eq ../mode "outside_link")}}
+                                    <a href="{{[@id]}}" target="_blank" rel="noopener noreferrer">{{label}}</a>
+                                  {{else}}
+                                    {{#if (eq label "timespan")}}
+                                      [[!-- hack to don't show wrong dates, for now --]]
+                                    {{else}}
+                                      {{label}}
+                                    {{/if}}
+                                  {{/if}}
+                                  [[!-- <semantic-link iri="{{[@id]}}">{{label}}</semantic-link> --]]
                                 {{else}}
                                     <span>{{[@value]}}</span>
                                 {{/if}}

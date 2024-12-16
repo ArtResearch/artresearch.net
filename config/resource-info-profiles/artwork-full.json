@@ -121,6 +121,10 @@
             {
               "sparql_var": "object",
               "local_var": "work"
+            },
+            {
+              "sparql_var": "property",
+              "constant": "http://www.cidoc-crm.org/cidoc-crm/P14_carried_out_by"
             }
           ],
           "returns": [
@@ -143,7 +147,34 @@
         }
       }
     },
+    "https://artresearch.net/resource/field_definition/pharos_model/production_participant": {
+      "subject": "work",
+      "returns": [
+        {
+          "sparql_var": "value",
+          "local_var": "participant"
+        }
+      ],
+      "fields": {
+        "https://artresearch.net/resource/field_definition/pharos_model/original_value_creator": {
+          "subject": "participant",
+          "params": [
+            {
+              "sparql_var": "object",
+              "local_var": "work"
+            },
+            {
+              "sparql_var": "property",
+              "constant": "http://www.cidoc-crm.org/cidoc-crm/P11_had_participant"
+            }
+          ]
+        }
+      }
+    },
     "https://artresearch.net/resource/field_definition/pharos_model/current_keeper": {
+      "subject": "work"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/production_date": {
       "subject": "work"
     },
     "https://artresearch.net/resource/field_definition/pharos_model/photo": {
@@ -168,6 +199,9 @@
           "subject": "photo"
         },
         "https://artresearch.net/resource/field_definition/pharos_model/photo_archive": {
+          "subject": "photo"
+        },
+        "https://artresearch.net/resource/field_definition/pharos_model/photo_license": {
           "subject": "photo"
         },
         "https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail": {
