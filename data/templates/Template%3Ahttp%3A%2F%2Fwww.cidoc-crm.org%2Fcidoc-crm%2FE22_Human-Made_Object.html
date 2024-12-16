@@ -35,6 +35,10 @@
     height: 100%;
     object-fit: contain;
 }
+  
+.object-main-image-holder {
+  height: 100%;
+}
 
 .thumbnails-container {
     height: 40%;
@@ -289,7 +293,38 @@
                         <template id="mainImageView">
                           <mp-overlay-dialog data-title="{{label}}" data-type="lightbox">
                             <mp-overlay-dialog-trigger>
-                              <img alt='' class="object-image" src="https://staging.artresearch.net{{imageUrl}}" />
+                              <div class="object-main-image-holder">
+                                <img alt='' class="object-image" src="https://staging.artresearch.net{{imageUrl}}" />
+                                <p>
+                                  {{log this}}
+
+                                  {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_archive]}}
+                                    {{photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_archive].values.[0].label}},
+                                  {{/if}}
+                                  
+                                  {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_license]}}
+                                    [{{photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_license].values.[0].label}}],
+                                  {{/if}}
+                                  
+                                  {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/title]}}
+                                    {{#each photo.[https://artresearch.net/resource/field_definition/pharos_model/title].values}}
+                                      {{label}}
+                                      {{#unless @last}}, {{/unless}}
+                                    {{/each}}
+                                    .
+                                  {{/if}}
+                                  
+                                  {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photographer]}}
+                                    Photo:
+                                    {{#each photo.[https://artresearch.net/resource/field_definition/pharos_model/photographer].values}}
+                                      {{label}}
+                                      {{#unless @last}}, {{/unless}}
+                                    {{/each}}
+
+                                    .
+                                  {{/if}}
+                                </p>
+                              </div>
                             </mp-overlay-dialog-trigger>
                             <mp-overlay-dialog-content>
                               <single-image-iiif-viewer iiif-manifest-url='{{imageManifestUrl}}'></single-image-iiif-viewer>
@@ -301,13 +336,13 @@
                           {{#if photo}}
                             {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values}}
                               {{#if (eq [@id] ../photo)}}
-                                {{> mainImageView label=label imageUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value] imageManifestUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_iiif_manifest].values.0.[@value]}}
+                                {{> mainImageView photo=this label=label imageUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value] imageManifestUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_iiif_manifest].values.0.[@value]}}
                               {{/if}}
                             {{/each}}
                           {{else}}
                             {{#with (find data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values 
                                       "(not (isEmpty item.[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value]))")}}
-                              {{> mainImageView label=label imageUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value] imageManifestUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_iiif_manifest].values.0.[@value]}}
+                              {{> mainImageView photo=this label=label imageUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value] imageManifestUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_iiif_manifest].values.0.[@value]}}
                             {{else}}
                               <p>No images available</p>
                             {{/with}}
@@ -439,7 +474,6 @@
                               {{/if}}
                             </div>
                             <div class="photo-details">
-                              {{log "photo" this}}
                               {{#with [https://artresearch.net/resource/field_definition/pharos_model/photo_archive].values.[0]}}
                                 {{#each (uniqProviders provenance)}}
                                   <img class="provider-icon" title="{{label}}" src="{{icon}}">
@@ -460,6 +494,18 @@
                                       }
                                   ]')
                               }}
+                              
+                              <div>
+                                <a href="mailto:info@artresearch.net" title="Contact us">
+                                  <i class="material-icons-round" aria-hidden="true">email</i>
+                                </a>
+                                <a href="mailto:info@artresearch.net" title="Comments" style="margin-left: 10px">
+                                  <i class="material-icons-round" aria-hidden="true">comment</i>
+                                </a>
+                                <semantic-link iri="https://artresearch.net/resource/TermsAndConditions" target="_blank" title="Terms of Use" style="margin-left: 10px">
+                                  <i class="material-icons-round" aria-hidden="true">description</i>
+                                </semantic-link>
+                              </div>
                             </div>
                           </div>
                       {{/each}}

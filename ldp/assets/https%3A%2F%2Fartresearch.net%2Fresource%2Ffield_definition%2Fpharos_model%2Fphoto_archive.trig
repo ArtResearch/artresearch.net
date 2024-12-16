@@ -2,22 +2,22 @@
 <https://artresearch.net/resource/field_definition/pharos_model/photo_archive/context> {
   <https://artresearch.net/resource/field_definition/pharos_model/photo_archive> a <http://www.researchspace.org/resource/system/fields/Field>,
       <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
-    <http://www.w3.org/2000/01/rdf-schema#label> "Photo Archive";
-    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-468be38a52db4ef491e2178432709819-2AA7C90B84D2D22F86188CA663B39632;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Credit";
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-ceaa956512e04417be9493021545f7f1-qgah0j;
     <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
-    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-468be38a52db4ef491e2178432709819-8525E0EBF2DA88C01C7E175CF8101748;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-ceaa956512e04417be9493021545f7f1-2ikrb;
     <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
-    <http://www.w3.org/ns/prov#generatedAtTime> "2024-12-10T12:59:15.360+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+    <http://www.w3.org/ns/prov#generatedAtTime> "2024-12-16T10:26:20.867+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
   
-  _:genid-468be38a52db4ef491e2178432709819-2AA7C90B84D2D22F86188CA663B39632 a <http://spinrdf.org/sp#Query>;
+  _:genid-ceaa956512e04417be9493021545f7f1-qgah0j a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  _:genid-ceaa956512e04417be9493021545f7f1-2ikrb a <http://spinrdf.org/sp#Query>;
     <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 
 SELECT ?value WHERE {
   ?subject crm:P50_has_current_keeper  ?value. 
 }""" .
-  
-  _:genid-468be38a52db4ef491e2178432709819-8525E0EBF2DA88C01C7E175CF8101748 a <http://spinrdf.org/sp#Query>;
-    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
   
   <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
       <https://artresearch.net/resource/field_definition/pharos_model/photo_archive> .
