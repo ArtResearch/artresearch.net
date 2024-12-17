@@ -63,7 +63,6 @@
         <semantic-search-query-keyword
           placeholder='Search for artworks...'
           domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
-          min-search-term-length="4"
           default-query='SELECT DISTINCT ?subject WHERE {
             ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
             {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
@@ -78,7 +77,7 @@
             ?text ql:contains-word ?__token__ .
           }'
                                        
-          initial-input="[[urlParam "keyword"]]"
+          initial-input="{{keyword}}"
         >
         </semantic-search-query-keyword>
         

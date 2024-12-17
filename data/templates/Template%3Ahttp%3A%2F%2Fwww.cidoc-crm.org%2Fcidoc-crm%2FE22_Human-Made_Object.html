@@ -306,6 +306,10 @@
                                     [{{photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_license].values.[0].label}}],
                                   {{/if}}
                                   
+                                  {{#if artwork.label}}
+                                    {{artwork.label}} -
+                                  {{/if}}
+                                  
                                   {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/title]}}
                                     {{#each photo.[https://artresearch.net/resource/field_definition/pharos_model/title].values}}
                                       {{label}}
@@ -336,13 +340,13 @@
                           {{#if photo}}
                             {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values}}
                               {{#if (eq [@id] ../photo)}}
-                                {{> mainImageView photo=this label=label imageUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value] imageManifestUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_iiif_manifest].values.0.[@value]}}
+                                {{> mainImageView artwork=../data photo=this label=label imageUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value] imageManifestUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_iiif_manifest].values.0.[@value]}}
                               {{/if}}
                             {{/each}}
                           {{else}}
                             {{#with (find data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values 
                                       "(not (isEmpty item.[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value]))")}}
-                              {{> mainImageView photo=this label=label imageUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value] imageManifestUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_iiif_manifest].values.0.[@value]}}
+                              {{> mainImageView artwork=../data photo=this label=label imageUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value] imageManifestUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_iiif_manifest].values.0.[@value]}}
                             {{else}}
                               <p>No images available</p>
                             {{/with}}
