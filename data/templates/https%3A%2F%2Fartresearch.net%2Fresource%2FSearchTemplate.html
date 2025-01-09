@@ -41,7 +41,7 @@
     <semantic-context repository='qlever'>
 
     <semantic-search
-      limit=1000
+      limit=10000
       categories='{
         "<http://www.w3.org/2001/XMLSchema#date>": [{
           "kind": "date-range",
@@ -128,7 +128,7 @@
                 template="{{>currentResultCount}}"
               >
                 <template id="currentResultCount">
-                  <p>Found {{bindings.0.count.value}} results. {{#ifCond bindings.0.count.value ">=" 1000}} Displaying the first 1000 results. {{/ifCond}}</p>
+                  <p>Found {{bindings.0.count.value}} results. {{#ifCond bindings.0.count.value ">=" 10000}} Displaying the first 10000 results. {{/ifCond}}</p>
                 </template>
               </semantic-query>
               
@@ -137,17 +137,17 @@
               <semantic-query
                 id="grid-result"
                 prefetch-labels="false"
-                query='SELECT DISTINCT ?subject (SUM(?ql_score_text_var_subject) AS ?score) WHERE { } GROUP BY ?subject ORDER BY DESC(?score) DESC(?subject) LIMIT 1000'
+                query='SELECT DISTINCT ?subject (SUM(?ql_score_text_var_subject) AS ?score) WHERE { } GROUP BY ?subject ORDER BY DESC(?score) DESC(?subject) LIMIT 10000'
                 template="{{> subjectCellTemplate}}"
                 no-result-template='[[> CardNoResult ]]'
               >
                 <template id="subjectCellTemplate">
-                    <infinite-scroll item-height="250px" batch-size="10">
-                      {{#each bindings}}
+                    <infinite-scroll item-height="250px" batch-size="10" values='{{stringify bindings}}'>
+                      <template id='template'>
                         <div class="result-item">
                           {{> Default:CardArtwork }}
                         </div>
-                      {{/each}}
+                      </template>
                     </infinite-scroll>
                 </template>
               </semantic-query>
@@ -156,4 +156,4 @@
         </div>
       </div>
     </semantic-search>
-      </semantic-context>
+</semantic-context>
