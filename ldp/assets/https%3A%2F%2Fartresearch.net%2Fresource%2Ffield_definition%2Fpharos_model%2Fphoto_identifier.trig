@@ -1,0 +1,27 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/photo_identifier/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/photo_identifier>
+    a <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
+      <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-87eb94486d7c4b01a81667487bfad814-dlisqv;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-87eb94486d7c4b01a81667487bfad814-f84x83;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Identifier";
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-01-14T14:57:18.314+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-87eb94486d7c4b01a81667487bfad814-dlisqv a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+
+SELECT ?value WHERE {
+  ?subject crm:P1_is_identified_by ?value.
+  ?value a crm:E42_Identifier .
+}""" .
+  
+  _:genid-87eb94486d7c4b01a81667487bfad814-f84x83 a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/photo_identifier> .
+}

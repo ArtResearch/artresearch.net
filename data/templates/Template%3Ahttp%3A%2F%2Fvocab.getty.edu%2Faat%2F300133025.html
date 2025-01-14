@@ -282,7 +282,7 @@
 
 
 <semantic-context repository='qlever'>  
-    <resource-info subject="[[this]]" profile="photograph-full" template="{{> template}}">      
+    <resource-info subject="[[this]]" profile="artwork-full" template="{{> template}}">      
         <template id="template">
           <ol class="page-breadcrumb">
             <li>
@@ -394,39 +394,37 @@
                   
                     {{> fieldGroup 
                         data=data
-                        title="Photograph" 
+                        title="Artwork / Monument" 
                         fields=(parse '[
                             { 
-                              "field": "https://artresearch.net/resource/field_definition/pharos_model/photo_title",
+                              "field": "https://artresearch.net/resource/field_definition/pharos_model/title",
                               "mode": "text"
-                            },
-                            { 
-                              "field": "https://artresearch.net/resource/field_definition/pharos_model/photo_identifier",
-                              "mode": "text"
-                            },
-                            {
-                              "field": "https://artresearch.net/resource/field_definition/pharos_model/photo_archive",
-                              "mode": "new"
-                            },
-                            { 
-                              "field": "https://artresearch.net/resource/field_definition/pharos_model/photo_license",
-                              "mode": "outside_link"
                             },
                             { 
                               "field": "https://artresearch.net/resource/field_definition/pharos_model/type",
                               "mode": "new"
                             },
-                            "https://artresearch.net/resource/field_definition/pharos_model/current_keeper"
+                            "https://artresearch.net/resource/field_definition/pharos_model/current_keeper",
+                            { 
+                              "field": "https://artresearch.net/resource/field_definition/pharos_model/object_part_of_hierarchy",
+                              "mode": "part_hierarchy"
+                            },
+                            "https://artresearch.net/resource/field_definition/pharos_model/object_is_part_of",
+                            "https://artresearch.net/resource/field_definition/pharos_model/object_has_part"
                         ]')
                     }}
 
                     {{> fieldGroup 
                         data=data
-                        title="Photographer" 
+                        title="Creator/Attribution" 
                         fields=(parse '[
                             { 
-                              "field": "https://artresearch.net/resource/field_definition/pharos_model/photographer",
-                              "mode": "new"
+                              "field": "https://artresearch.net/resource/field_definition/pharos_model/creator",
+                              "mode": "creator"
+                            },
+                            { 
+                              "field": "https://artresearch.net/resource/field_definition/pharos_model/production_participant",
+                              "mode": "creator"
                             }
                         ]')
                     }}
@@ -461,6 +459,68 @@
                             "https://artresearch.net/resource/field_definition/pharos_model/production_date"
                         ]')
                     }}
+                  
+                    {{> fieldGroup 
+                        data=data
+                        title="Provenance" 
+                        fields=(parse '[
+                            {
+                                "field": "https://artresearch.net/resource/fieldDefinition/provider",
+                                "label": "Photo Archive"
+                            }
+                        ]')
+                    }}
+                  
+                    {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/photo]}}
+                    <div class="field-group">
+                      <h2>Photographs</h2>
+                      {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values}}
+                          <div class="photo-card">
+                            <div class="photo-thumbnail">
+                              {{#if [https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail]}}
+                                <img alt='' src="https://staging.artresearch.net{{[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" />
+                              {{else}}
+                                <p>No Image</p>
+                              {{/if}}
+                            </div>
+                            <div class="photo-details">
+                              {{#with [https://artresearch.net/resource/field_definition/pharos_model/photo_archive].values.[0]}}
+                                {{#each (uniqProviders provenance)}}
+                                  <img class="provider-icon" title="{{label}}" src="{{icon}}">
+                                {{/each}}
+                              {{/with}}
+                              {{> fieldGroup 
+                                  data=this
+                                  dontShowProvenance=true
+                                  title="" 
+                                  fields=(parse '[
+                                      "https://artresearch.net/resource/field_definition/pharos_model/photo_title",
+                                      "https://artresearch.net/resource/field_definition/pharos_model/photographer",
+                                      "https://artresearch.net/resource/field_definition/pharos_model/date",
+                                      "https://artresearch.net/resource/field_definition/pharos_model/photo_archive",
+                                      { 
+                                      "field": "https://artresearch.net/resource/field_definition/pharos_model/photo_license",
+                                      "mode": "outside_link"
+                                      }
+                                  ]')
+                              }}
+                              
+                              <div>
+                                <a href="mailto:info@artresearch.net" title="Contact us">
+                                  <i class="material-icons-round" aria-hidden="true">email</i>
+                                </a>
+                                <a href="mailto:info@artresearch.net" title="Comments" style="margin-left: 10px">
+                                  <i class="material-icons-round" aria-hidden="true">comment</i>
+                                </a>
+                                <semantic-link iri="https://artresearch.net/resource/TermsAndConditions" target="_blank" title="Terms of Use" style="margin-left: 10px">
+                                  <i class="material-icons-round" aria-hidden="true">description</i>
+                                </semantic-link>
+                              </div>
+                            </div>
+                          </div>
+                      {{/each}}
+                    </div>
+                    {{/if}}                  
                 </div>
             </div>
         </template>

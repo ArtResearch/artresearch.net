@@ -1,0 +1,133 @@
+<style>
+.artwork-card {
+  display: flex;
+  height: 250px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+
+.thumbnail-container {
+  width: 200px;
+  flex-shrink: 0;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.thumbnail-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.no-image-text {
+  color: #999;
+  font-style: italic;
+}
+
+.info-container {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.field {
+  margin-bottom: 12px;
+  display: flex;
+}
+
+.field-label {
+  width: 120px;
+  color: #666;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.field-value {
+  flex: 1;
+  color: #333;
+  font-size: 16px;
+}
+
+.field-value a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.field-value a:hover {
+  text-decoration: underline;
+}
+  
+.provider-icons {
+    display: inline-flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+</style>
+
+<semantic-link-container uri="{{subject.value}}" target="_blank">
+  <div class="artwork-card">
+    <resource-info subject="{{subject.value}}" profile="photograph-card" template="{{> template}}">
+      <template id="template">
+          <div class="thumbnail-container">
+            {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail]}}
+              <img class="thumbnail-image" src="https://staging.artresearch.net{{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" alt="Artwork thumbnail" />
+            {{else}}
+              <span class="no-image-text">No image</span>
+            {{/if}}
+          </div>
+          <div class="info-container">            
+            {{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/photo_title" label="Title"}}
+            {{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/photo_identifier" label="Identifier"}}
+
+            {{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/photographer" label="Photograph"}}
+            {{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/photo_archive" label="Credit"}}
+            
+            {{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/photo_license" label="License"}}
+
+            {{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/production_date" label="Date"}}
+
+            <div class="field">
+              <div class="field-label">{{data.[https://artresearch.net/resource/field_definition/pharos_model/original_record_catalog].label}}</div>
+              <div class="field-value">
+                <div class="provider-icons">
+                  {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/original_record_catalog].values}}
+                    <img class="provider-icon" title="{{label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
+                  {{/each}}
+                </div>
+              </div>
+            </div>            
+          </div>
+      </template>
+
+      <template id="fieldTemplate">
+        {{#if (lookup data field)}}
+          <div class="field">
+            <div class="field-label">{{label}}</div>
+            <div class="field-value">
+              {{#each (lookup (lookup data field) 'values')}}
+                {{#if [@id]}}
+                  {{#if (eq label "timespan")}}
+                  {{else}}
+                    [[!-- <semantic-link iri="{{[@id]}}">{{label}}</semantic-link> --]]
+                    {{label}}
+                    {{#unless @last}}, {{/unless}}
+                  {{/if}}
+                {{else}}
+                  {{[@value]}}
+                  {{#unless @last}}, {{/unless}}
+                {{/if}}
+              {{/each}}
+            </div>
+          </div>
+        {{/if}}
+      </template>
+    </resource-info>
+  </div>
+</semantic-link-container>
