@@ -37,9 +37,6 @@
     display: none;
   }
 </style>
-
-    <semantic-context repository='qlever'>
-
     <semantic-search
       limit=10000
       categories='{
@@ -65,6 +62,7 @@
           domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
           default-query='SELECT DISTINCT ?subject WHERE {
             ?subject crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocabulary/meta/photograph>  .
+            ?subject custom:has_image true .
             {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
             BIND(0 AS ?ql_score_text_var_subject)
           }'
@@ -72,6 +70,8 @@
           PREFIX cfc: <https://artresearch.net/resource/custom/fc/>
           SELECT DISTINCT ?subject WHERE {
             ?subject crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocabulary/meta/photograph>  .
+            ?subject custom:has_image true .
+
             {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
             ?text ql:contains-entity ?subject .
             ?text ql:contains-word ?__token__ .
@@ -156,4 +156,3 @@
         </div>
       </div>
     </semantic-search>
-</semantic-context>

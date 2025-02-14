@@ -7,6 +7,15 @@
               "
 
     }],
+  "<https://artresearch.net/resource/fr/Work_created_from_Artist>": [{
+              "kind":"hierarchy",
+              "queryPattern": "{
+                ?subject crm:P108i_was_produced_by/crm:P14_carried_out_by/crm:P107i_is_current_or_former_member_of* ?__value__ .
+              }",
+              "parentsPattern": "{ ?value crm:P107i_is_current_or_former_member_of ?parent . }",
+              "childrenPattern": "{ ?child crm:P107i_is_current_or_former_member_of ?value . }",
+              "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
+  }],
   "<https://artresearch.net/resource/fr/Work_consists_of_Material>":[{
               "kind":"hierarchy",
               "queryPattern": "{
@@ -27,12 +36,6 @@
               "parentsPattern": "{ ?value crm:P127_has_broader_term ?parent . ?parent crm:P71i_is_listed_in <https://artresearch.net/resource/pharos/vocabulary/techniques> .}",
               "childrenPattern": "{ ?child crm:P127_has_broader_term ?value . ?child crm:P71i_is_listed_in <https://artresearch.net/resource/pharos/vocabulary/techniques> .}",
               "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
-  }],
-  "<https://artresearch.net/resource/fr/Work_created_from_Artist>":[{
-              "kind":"resource",
-              "queryPattern": "{
-                ?subject crm:P108i_was_produced_by/crm:P9i_forms_part_of*/crm:P14_carried_out_by ?__value__ .
-              }"
   }],
   "<https://artresearch.net/resource/fr/Work_shows_Subject>":[{
               "kind":"resource",
