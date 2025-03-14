@@ -1,0 +1,174 @@
+<ol class="page-breadcrumb">
+  <li>
+    <mp-link title="Home" url="/">Home</mp-link>
+  </li>
+  <li class="active">Search with AI</li>
+</ol>
+
+<div class="page">    
+  <div class="main-container">
+
+    <style>
+  .search-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .search-bar {
+	  width: 50vw;
+    align-self: center;
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+  .content-area {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    border-top: 1px solid #e9ecef;
+  }
+  .facet-column {
+    overflow-y: auto;
+    border-right: 1px solid #e9ecef;
+    margin-left: 10px;
+  }
+  .facet-relations {
+    width: 295px;
+  }
+  .results-column {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+  }
+  .result-item {
+    margin-bottom: 20px;
+  }
+  
+  .facet__category-selector-holder {
+    display: none;
+  }
+</style>
+
+    <semantic-search
+      limit=10000
+      categories='{
+        "<http://www.w3.org/2001/XMLSchema#date>": [{
+          "kind": "date-range",
+          "datatype": "http://www.w3.org/2001/XMLSchema#date",
+          "queryPattern": "
+            {
+              $subject ?__relation__ ?date .
+              FILTER(?date <= ?__dateEndValue__) .
+              FILTER(?date >= ?__dateBeginValue__) .
+            }"
+          }]
+      }'
+      relations='[[> SearchSimpleRelationsMidas]]'
+      search-profile='[[> SearchSimpleProfile]]'
+                     
+      datasets-config='{"datasetPattern": "", "datasets": [{"label": "PHAROS", "isDefault": true, "alignments": [{"iri": "http://vocab.getty.edu/aat/", "label": "Getty", "isDefault": true}, {"iri": "https://artresearch.net/resource/midas/vocabulary", "label": "MIDAS"}, {"iri": "https://artresearch.net/resource/zeri/vocabulary", "label": "Zeri"}]}]}'
+    >
+      <div class="search-bar">
+        <semantic-search-query-keyword
+          placeholder='Search for artworks...'
+          domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
+          debounce="600"
+          tokenize-lucene-query="false"
+          query='PREFIX ql: <http://qlever.cs.uni-freiburg.de/builtin-functions/>
+          PREFIX cfc: <https://artresearch.net/resource/custom/fc/>
+          SELECT DISTINCT ?subject WHERE {
+            {
+              SELECT DISTINCT ?subject (MAX(?similarity) AS ?maxSimilarity) (SAMPLE(?photo) AS ?maxPhoto) {
+                {
+                  SELECT DISTINCT ?subject ?photo ?similarity {
+                    SERVICE <http://idios-sparql.private/sparql> {
+                       ?photo <https://artresearch.net/idios/text> ?__token__ .
+                       ?photo <https://artresearch.net/idios/limit> 15000 .
+                       ?photo <https://artresearch.net/idios/similarity> ?similarity .
+                       ?photo <https://artresearch.net/idios/similarity> ?work .
+                    }
+                    BIND(?work as ?subject) .
+                  }
+                  ORDER BY ?similarity
+                }
+              } GROUP BY ?subject
+            }
+          }'
+          escape-lucene-syntax="false"        >
+        </semantic-search-query-keyword>
+        
+        [[!--
+        <semantic-search-configuration-editor></semantic-search-configuration-editor>
+        --]]
+      </div>
+      
+      <div class="content-area">
+        <div class="facet-column">
+          <semantic-search-facet open-by-default='true' sortby='count-desc' facet-values-threshold="200"
+            default-value-queries='{
+              "resource": "SELECT ?value (COUNT(DISTINCT $subject) AS ?count) WHERE { FILTER(?__facetRelationPattern__) } GROUP BY ?value ORDER BY DESC(?count)",
+              "literal": "SELECT ?literal (COUNT(DISTINCT $subject) AS ?count) WHERE { FILTER(?__facetRelationPattern__) } GROUP BY ?literal ORDER BY ?literal"
+            }'
+            value-relations='{
+              "<https://artresearch.net/resource/fr/Work_shows_Subject>": {
+                "kind": "resource",
+                "valuesQuery": "SELECT ?value (COUNT(DISTINCT $subject) AS ?count) WHERE { ?subject crm:P65_shows_visual_item ?value . ?value crm:P2_has_type <http://vocab.getty.edu/aat/300404126> . } GROUP BY ?value ORDER BY DESC(?count)"
+              },
+              "<https://artresearch.net/resource/fr/Work_has_Image>": {
+                "kind": "resource",
+                "valuesQuery": "SELECT ?value (COUNT(DISTINCT $subject) AS ?count) WHERE {
+                OPTIONAL { ?subject custom:has_image ?has } . BIND(IF(?has = true, <http://www.w3.org/2001/XMLSchema#yes>, <http://www.w3.org/2001/XMLSchema#no>) AS ?value) . } GROUP BY ?value ORDER BY DESC(?count)"
+              },
+              "<https://artresearch.net/custom/is_matched_artworks>": {
+                "kind": "resource",
+                "valuesQuery": "SELECT ?value (COUNT(DISTINCT $subject) AS ?count) WHERE {
+                OPTIONAL { ?subject custom:is_matched_artworks ?has } . BIND(IF(?has = true, <http://www.w3.org/2001/XMLSchema#yes>, <http://www.w3.org/2001/XMLSchema#no>) AS ?value) . } GROUP BY ?value ORDER BY DESC(?count)"
+              },
+              "<https://artresearch.net/custom/number_of_matched_artworks>": {
+                "kind": "numeric-range",
+                "valuesQuery": "SELECT ?numericRangeBeginValue ?numericRangeEndValue WHERE { ?subject <https://artresearch.net/custom/number_of_matched_artworks> ?value . BIND(?value as ?numericRangeBeginValue). BIND(?value as ?numericRangeEndValue) . }"
+              }
+
+            }'
+          >
+          </semantic-search-facet>
+        </div>
+        
+        <div class="results-column">
+          <semantic-search-result-holder>
+            <semantic-search-result>
+              <semantic-query
+                id="result-count"
+                query='SELECT (COUNT(DISTINCT ?subject) as ?count) WHERE {}'
+                template="{{>currentResultCount}}"
+              >
+                <template id="currentResultCount">
+                  <p>Found {{bindings.0.count.value}} results. {{#ifCond bindings.0.count.value ">=" 10000}} Displaying the first 10000 results. {{/ifCond}}</p>
+                </template>
+              </semantic-query>
+              
+              <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
+              
+              <semantic-query
+                id="grid-result"
+                prefetch-labels="false"
+                query='SELECT DISTINCT ?subject ?maxPhoto WHERE { } ORDER BY DESC(?maxSimilarity) DESC(?subject) LIMIT 10000'
+                template="{{> subjectCellTemplate}}"
+                no-result-template='[[> CardNoResult ]]'
+              >
+                <template id="subjectCellTemplate">
+                    <infinite-scroll item-height="250px" batch-size="10" values='{{stringify bindings}}'>
+                      <template id='template'>
+                        <div class="result-item">
+                          {{> Default:CardArtwork photo=maxPhoto.value}}
+                        </div>
+                      </template>
+                    </infinite-scroll>
+                </template>
+              </semantic-query>
+            </semantic-search-result>
+          </semantic-search-result-holder>
+        </div>
+      </div>
+    </semantic-search>
+  </div>
+</div>

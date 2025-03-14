@@ -21,7 +21,7 @@
 }
 
 .main-image-container {
-    height: 60%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -291,47 +291,15 @@
           </ol>
             <div class="content-wrapper">
                 <div class="column image-grid-column">
-                  {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/photo]}}
                     <div class="main-image-container">
                       <mp-event-target-template-render id='work-full-image' template='{{> template data=data}}'>
-                        
                         <template id="mainImageView">
                           <mp-overlay-dialog data-title="{{label}}" data-type="lightbox">
                             <mp-overlay-dialog-trigger>
                               <div class="object-main-image-holder">
                                 <img alt='' class="object-image" src="https://staging.artresearch.net{{imageUrl}}" />
                                 <p>
-                                  {{log this}}
-
-                                  {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_archive]}}
-                                    {{photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_archive].values.[0].label}},
-                                  {{/if}}
                                   
-                                  {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_license]}}
-                                    [{{photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_license].values.[0].label}}],
-                                  {{/if}}
-                                  
-                                  {{#if artwork.label}}
-                                    {{artwork.label}} -
-                                  {{/if}}
-                                  
-                                  {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/title]}}
-                                    {{#each photo.[https://artresearch.net/resource/field_definition/pharos_model/title].values}}
-                                      {{label}}
-                                      {{#unless @last}}, {{/unless}}
-                                    {{/each}}
-                                    .
-                                  {{/if}}
-                                  
-                                  {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photographer]}}
-                                    Photo:
-                                    {{#each photo.[https://artresearch.net/resource/field_definition/pharos_model/photographer].values}}
-                                      {{label}}
-                                      {{#unless @last}}, {{/unless}}
-                                    {{/each}}
-
-                                    .
-                                  {{/if}}
                                 </p>
                               </div>
                             </mp-overlay-dialog-trigger>
@@ -342,40 +310,11 @@
                         </template>
                         
                         <template id='template'>
-                          {{#if photo}}
-                            {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values}}
-                              {{#if (eq [@id] ../photo)}}
-                                {{> mainImageView artwork=../data photo=this label=label imageUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value] imageManifestUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_iiif_manifest].values.0.[@value]}}
-                              {{/if}}
-                            {{/each}}
-                          {{else}}
-                            {{#with (find data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values 
-                                      "(not (isEmpty item.[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value]))")}}
-                              {{> mainImageView artwork=../data photo=this label=label imageUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value] imageManifestUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_iiif_manifest].values.0.[@value]}}
-                            {{else}}
-                              <p>No images available</p>
-                            {{/with}}
-                          {{/if}}
+                          {{log "here" this}}
+                          {{> mainImageView photo=data label=label imageUrl=data.[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value] imageManifestUrl=data.[https://artresearch.net/resource/field_definition/pharos_model/photo_iiif_manifest].values.0.[@value]}}
                         </template>
                       </mp-event-target-template-render>
                     </div>
-                    <div class="thumbnails-container">
-                      <div class="thumbnail-grid">
-                        {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values}}
-                          {{#each [https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values}}
-                            <mp-event-trigger id='event-trigger' type='Component.TemplateUpdate' targets='["work-full-image"]'
-                                              data='{"photo": "{{../[@id]}}"}'>
-                              <div class="thumbnail">
-                                <img alt='' class="object-thumbnails" height="150" src="https://staging.artresearch.net{{[@value]}}" />
-                              </div>
-                            </mp-event-trigger>
-                          {{/each}}
-                        {{/each}}
-                      </div>
-                    </div>
-                  {{else}}
-                    <p>No images</p>
-                  {{/if}}
                 </div>
 
                 <div class="column fields-column">

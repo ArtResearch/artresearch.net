@@ -76,10 +76,20 @@
     <resource-info subject="{{subject.value}}" profile="artwork-card" template="{{> template}}">
       <template id="template">
           <div class="thumbnail-container">
-            {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/work_thumbnail]}}
-              <img class="thumbnail-image" src="https://staging.artresearch.net{{data.[https://artresearch.net/resource/field_definition/pharos_model/work_thumbnail].values.0.[@value]}}" alt="Artwork thumbnail" />
+            {{#if photo}}
+              {{log "photo" photo}}
+              <resource-info subject="{{photo}}" profile="photograph-thumbnail" template="{{> template}}">
+                <template id="template">
+                  <img class="thumbnail-image" src="https://staging.artresearch.net{{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" alt="Artwork thumbnail" />
+                </template>
+              </resource-info>
             {{else}}
-              <span class="no-image-text">No image</span>
+             {{log "partial block is not defined"}}
+             {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/work_thumbnail]}}
+                <img class="thumbnail-image" src="https://staging.artresearch.net{{data.[https://artresearch.net/resource/field_definition/pharos_model/work_thumbnail].values.0.[@value]}}" alt="Artwork thumbnail" />
+              {{else}}
+                <span class="no-image-text">No image</span>
+              {{/if}}
             {{/if}}
           </div>
           <div class="info-container">            
