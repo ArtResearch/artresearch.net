@@ -1,0 +1,828 @@
+<style>
+  /* Reset and base styles */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Search Overlay Styles */
+  #search-overlay {
+    background-color: #70E7C5;
+    padding: 40px;
+    overflow-y: auto;
+    font-family: "Inter", sans-serif;
+  }
+  
+  .search-overlay-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 60px;
+  }
+  
+  .search-overlay-title {
+    font-size: 6rem;
+    font-weight: normal;
+    color: #000;
+    line-height: 1.2;
+  }
+  
+  .search-overlay-title span {
+    display: block;
+    color: #fff;
+    font-weight: bold;
+  }
+  
+  .search-overlay-close {
+    background: none;
+    border: none;
+    font-size: 2.5rem;
+    cursor: pointer;
+    color: #000;
+    line-height: 1;
+  }
+  
+  .search-overlay-content {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .search-overlay-text {
+    flex: 0 0 50%;
+    padding-right: 40px;
+    margin-bottom: 40px;
+  }
+  
+  .search-overlay-text p {
+    font-size: 3rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+  
+  .search-overlay-form {
+    flex: 0 0 50%;
+    padding-left: 40px;
+    font-size: 2rem;
+  }
+  
+  .search-input-container {
+    position: relative;
+    margin-bottom: 40px;
+  }
+  
+  .search-input {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    background: transparent;
+    outline: none;
+    font-family: "Inter", sans-serif;
+  }
+  
+  .search-input::placeholder {
+    color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .search-button {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .search-button svg {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .drag-drop-container {
+    border: 2px dashed rgba(0, 0, 0, 0.3);
+    padding: 40px;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  @media (max-width: 768px) {
+    .search-overlay-content {
+      flex-direction: column;
+    }
+    
+    .search-overlay-text,
+    .search-overlay-form {
+      flex: 0 0 100%;
+      padding: 0;
+    }
+  }
+
+  /* Overrides of default RS styles */
+  .page-container {
+    height: 100vh;
+  }
+  
+  /* Main container styles */
+  .start-container {
+    font-family: "Inter", sans-serif;
+    color: #fff;
+    overflow-x: hidden;
+    position: relative;
+  }
+  
+  /* Hero section - first screen */
+  .hero-section {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* Full viewport height */
+    padding: 0;
+    color: #fff;
+    background-color: #000; /* Background color for any areas not covered by the image */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+  
+  /* Image container */
+  .hero-image-container {
+    position: relative;
+    height: 100vh; /* Fixed height */
+    width: auto; /* Allow width to adjust based on image aspect ratio */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .hero-image-credit {
+    position: absolute;
+    bottom: 0;
+    background-color: #00000073;
+    font-family: "Inter", sans-serif;
+    width: 100%;
+    font-style: italic;
+    text-align: center;
+    font-size: 11px;
+    padding: 5px 0 5px 0;
+  }
+  
+  /* The actual image */
+  .hero-image {
+    height: 100vh; /* Fixed height to fill the viewport vertically */
+    width: auto; /* Width will adjust automatically to maintain aspect ratio */
+    display: block;
+  }
+  
+  /* Content container that overlays the image */
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  
+  /* Navigation */
+  .nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    z-index: 1; /* Ensure it's positioned above the image */
+  }
+  
+  .logo {
+    height: 40px;
+  }
+  
+  .logo-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo-text {
+    display: flex;
+    flex-direction: column;
+    color: #FFF9E8;
+    font-size: 1.2rem;
+    line-height: 1.2;
+    margin-left: 10px;
+    font-weight: 300;
+    font-family: "Inter", sans-serif;
+  }
+  
+  
+  .menu-button {
+    width: 30px;
+    height: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .menu-button span {
+    width: 100%;
+    height: 3px;
+    background-color: #fff;
+    border-radius: 3px;
+  }
+  
+/* Hero content */
+.hero-content {
+  position: absolute;
+  bottom: 20%;
+  left: 0;
+  text-align: left;
+  z-index: 1;
+  background-color: #00000073; /* Semi-transparent black background */
+  padding: 2rem;
+  border-radius: 4px;
+}
+  
+  .typewriter {
+    font-size: 2rem;
+    color: #70E7C5;
+    display: block;
+    font-weight: bold;
+    font-family: "Inter", sans-serif;
+  }
+  
+  .hero-title {
+    font-size: 2rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add shadow to make text more readable on the image */
+    color: #fff;
+    font-family: "Inter", sans-serif;
+  }
+  
+  /* Interactive elements */
+  .interactive-dots {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 6; /* Ensure it's above the image */
+    pointer-events: none; /* Allow clicks to pass through to the image */
+  }
+  
+  /* Make the actual dots clickable */
+  .dot {
+    pointer-events: auto;
+  }
+  
+/* Core dot */
+.dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #70E7C5;
+  position: absolute;
+  cursor: pointer;
+  z-index: 3;
+  animation: pulse 4s infinite ease-in-out;
+  transform-origin: center;
+}
+
+/* Pulsing animation for the core dot */
+@keyframes pulse {
+  0%, 100% { 
+    opacity: 1;
+    transform: scale(1);
+  }
+  25% { 
+    opacity: 0.8;
+    transform: scale(1.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  75% {
+    opacity: 0.8;
+    transform: scale(1.3);
+  }
+}
+
+/* First concentric wave */
+@keyframes firstWave {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+  5% {
+    opacity: 0.6;
+  }
+  25% {
+    transform: translate(-50%, -50%) scale(3);
+    opacity: 0;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+  55% {
+    opacity: 0.6;
+  }
+  75% {
+    transform: translate(-50%, -50%) scale(3);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+}
+
+/* Second concentric wave */
+@keyframes secondWave {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+  5% {
+    opacity: 0.4;
+  }
+  25% {
+    transform: translate(-50%, -50%) scale(4.5);
+    opacity: 0;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+  55% {
+    opacity: 0.4;
+  }
+  75% {
+    transform: translate(-50%, -50%) scale(4.5);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+}
+
+/* First wave using ::before */
+.dot::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #70E7C5;
+  transform-origin: center;
+  animation: firstWave 4s infinite ease-in-out;
+  z-index: 2;
+  opacity: 0;
+}
+
+/* Second wave using ::after */
+.dot::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #70E7C5;
+  transform-origin: center;
+  animation: secondWave 4s infinite ease-in-out;
+  z-index: 1;
+  opacity: 0;
+}
+  
+  /* Navigation dots */
+  .nav-dots {
+    position: fixed; /* Fixed position to stay visible while scrolling */
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 2; /* Ensure it's above other elements */
+  }
+  
+  .nav-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+  }
+  
+  .nav-dot.active {
+    background-color: #fff;
+  }
+  
+  /* Info section */
+  .info-section {
+    padding: 4rem 8rem;
+    background-color: #fff9e8;
+    color: #333;
+  }
+  
+  .info-url {
+    color: #70E7C5;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .info-text {
+    font-size: 2rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+  
+  .pharos-text {
+    font-weight: bold;
+  }
+  
+  .info-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  
+  .btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .btn-primary {
+    background-color: #70E7C5;
+    color: #fff;
+    border: none;
+  }
+  
+  .btn-outline {
+    background-color: transparent;
+    border: 1px solid #70E7C5;
+    color: #70E7C5;
+  }
+  
+  /* Browse section */
+  .browse-section {
+    padding: 4rem 2rem;
+    background-color: #70E7C5;
+    color: #fff;
+  }
+  
+  .browse-container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .browse-title {
+    font-size: 3rem;
+    line-height: 1.2;
+    margin-bottom: 2rem;
+  }
+  
+  .browse-text {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    max-width: 500px;
+  }
+  
+  /* Categories */
+  .categories-section {
+    padding: 2rem;
+    background-color: #70E7C5;
+    color: #fff;
+  }
+  
+  .categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 2rem;
+  }
+  
+  .category-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .category-title {
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .category-count {
+    font-size: 0.9rem;
+    opacity: 0.8;
+  }
+  
+  .arrow-icon {
+    width: 20px;
+    height: 20px;
+  }
+  
+  /* Gallery section */
+  .gallery-section {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .gallery-item {
+    aspect-ratio: 1;
+    overflow: hidden;
+  }
+  
+  .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%);
+    transition: filter 0.3s ease;
+  }
+  
+  .gallery-item:hover img {
+    filter: grayscale(0);
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 3rem;
+    }
+    
+    .browse-container {
+      flex-direction: column;
+    }
+    
+    .categories-grid {
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+    
+    .gallery-section {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .hero-title {
+      font-size: 2.5rem;
+    }
+    
+    .info-text {
+      font-size: 1.2rem;
+    }
+    
+    .browse-title {
+      font-size: 2rem;
+    }
+    
+    .categories-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .overlay-lightbox__dialog.modal-dialog {
+    bottom: 0;
+    left: 0;
+    margin: 0;
+    right: 0;
+    top: 0;
+    width: 100%;
+  }
+
+  .overlay-lightbox__dialog .modal-content {
+    background-color: #70E7C5;
+    border: none;
+  }
+  
+  /* Main search button styles */
+  .main-search-button {
+    position: absolute;
+    top: 35vh;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    width: 320px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(1px);
+    border: 2px solid #70E7C5;
+    border-radius: 8px;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    font-family: "Inter", sans-serif;
+  }
+  
+  .main-search-button:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+    border-color: #8eefd3;
+  }
+  
+  .main-search-button .search-icon {
+    margin-right: 10px;
+    width: 24px;
+    height: 24px;
+  }
+  
+  @media (max-width: 768px) {
+    .main-search-button {
+      width: 280px;
+      font-size: 1.3rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .main-search-button {
+      width: 240px;
+      font-size: 1.1rem;
+    }
+  }
+</style>
+
+<div class="start-container">
+  <!-- Hero Section - First Screen -->
+  <section class="hero-section">
+    <div class="hero-image-container">
+      <img src="/assets/start/archiduque_frick.jpg" alt="Hero background" class="hero-image">
+      
+      <!-- Interactive dots -->
+      <div class="interactive-dots">
+        <mp-popover>
+          <mp-popover-trigger placement="right" trigger='["click"]' root-close='true'>
+            <div class="dot" style="top: 15%; left: 10%;"></div>
+          </mp-popover-trigger>
+          <mp-popover-content>
+            <div style="max-width: 300px; height: auto;">
+              <img style="width: 100%; height: auto;" src="https://staging.artresearch.net/cache/images/preview/frick/aHR0cHM6Ly9paWlmLmFydHJlc2VhcmNoLm5ldC9paWlmLzMvZnJpY2svNDEwNzEwMDMyODU1MV8wMDAxLmpwMi9mdWxsL2Z1bGwvMC9kZWZhdWx0LmpwZw.jpg">
+              <div style="font-weight: bold;">Titian</div>
+              <div>Shepherd and Nymph</div>
+              <div>The Frick Art Research Library, Photo: Braun & Cie .</div>
+            </div>
+          </mp-popover-content>
+        </mp-popover>  
+        <div class="dot" style="top: 20%; left: 25%;"></div>     
+        <div class="dot" style="top: 18%; left: 45%;"></div>
+        <div class="dot" style="top: 18%; right: 32%;"></div>
+        <div class="dot" style="top: 14%; right: 14%;"></div>
+
+        <div class="dot" style="top: 50%; left: 12%;"></div>     
+
+        <div class="dot" style="top: 65%; left: 7%;"></div>  
+        
+        <div class="dot" style="bottom: 20%; right: 32%;"></div>
+        <div class="dot" style="bottom: 15%; left: 9%;"></div>
+        <div class="dot" style="bottom: 9%; left: 17%;"></div>
+
+        <div class="dot" style="bottom: 10%; right: 22%;"></div>
+
+        <div class="dot" style="bottom: 8%; right: 15%;"></div>
+        <div class="dot" style="bottom: 8%; right: 10%;"></div>
+        <div class="dot" style="bottom: 15%; right: 7%;"></div>
+
+        <div class="dot" style="bottom: 33%; right: 5%;"></div>
+        <div class="dot" style="bottom: 33%; right: 19%;"></div>
+
+        <div class="dot" style="bottom: 39%; right: 32%;"></div>
+
+        <div class="dot" style="bottom: 32%; left: 20%;"></div>
+
+        <div class="dot" style="bottom: 45%; right: 36%;"></div>
+
+        <div class="dot" style="bottom: 47%; right: 42%;"></div>
+      </div>
+
+      <div class="hero-image-credit">
+        The Frick Art Research Library, Picture Gallery of the Archduke Leopold William at Brussels, Teniers David, 1647-1651 - Photo: Anderson, Rome .</div>
+    </div>
+    
+    <div class="hero-overlay">
+      <div class="nav-container">
+        <div class="logo-container">
+          <img src="/assets/start/pharos_logo_bw.svg" alt="Pharos Logo" class="logo">
+          <div class="logo-text">
+            <span>art</span>
+            <span>research</span>
+            <span>.net</span>
+          </div>
+        </div>
+        <button class="menu-button">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+      
+      <div class="hero-content">
+        <rs-typeit class='typewriter'
+                   instructions='[
+                                 {"type": "type", "content": "explore"},
+                                 {"type": "pause", "duration": 1000},
+                                 {"type": "break"},
+                                 {"type": "type", "content": "connect"},
+                                 {"type": "pause", "duration": 1000},
+                                 {"type": "break"},
+                                 {"type": "type", "content": "contextualize "}
+                                 ]'
+                   speed="200"
+                   life-like="true"
+                   cursor-char="|">
+        </rs-typeit>
+        <h1 class="hero-title">art histories</h1>
+      </div>
+      
+      <!-- Main Search Button -->
+      <mp-overlay-dialog id="search-overlay" type="lightbox">
+        <mp-overlay-dialog-trigger>
+          <button class="main-search-button">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="11" cy="11" r="8" stroke="#70E7C5" stroke-width="2"/>
+              <path d="M21 21L16.65 16.65" stroke="#70E7C5" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            Search the collections
+          </button>
+        </mp-overlay-dialog-trigger>
+        <mp-overlay-dialog-content>
+          <div id="search-overlay">
+            <div class="search-overlay-header">
+              <h2 class="search-overlay-title">
+                Search our
+                <span>collections</span>
+              </h2>
+              <mp-event-trigger id="close-search-overlay" type="OverlayDialog.Close" targets='["search-overlay"]'>
+                <button class="search-overlay-close">&times;</button>
+              </mp-event-trigger>
+            </div>
+            
+            <div class="search-overlay-content">
+              <div class="search-overlay-text">
+                <p>You can search for artworks, photographs, people, repositories, iconographic themes, all in one place.</p>
+                <p>You can also start from an image. Paste here the URL of an online image or drag and drop one from your computer.</p>
+              </div>
+              
+              <div class="search-overlay-form">
+                <div class="search-input-container">
+                  <input type="text" class="search-input" placeholder="enter a text or an image URL">
+                  <button class="search-button">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+                      <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                  </button>
+                </div>
+                
+                <div class="drag-drop-container">
+                  <p>drag and drop</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mp-overlay-dialog-content>
+      </mp-overlay-dialog>         
+
+    </div>
+  </section>
+  
+  <!-- Info Section -->
+  <section class="info-section">
+    <p class="info-url">artresearch.net</p>
+    
+    <p class="info-text">
+      artresearch.net is the free, open access discovery platform for the combined collections of <span class="pharos-text">PHAROS The International Association of Photo Archives</span> which provides access to millions of photographs of works of art, and over a century of art historical documentation.
+    </p>
+    
+    <div class="info-buttons">
+      <button class="btn btn-primary">About PHAROS <span>→</span></button>
+      <button class="btn btn-outline">Our PHAROS partners</button>
+    </div>
+  </section>  
+</div>
