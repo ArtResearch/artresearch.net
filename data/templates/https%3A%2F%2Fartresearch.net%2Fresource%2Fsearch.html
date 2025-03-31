@@ -95,9 +95,9 @@
             {
               SELECT DISTINCT ?subject (SUM(?maxScore) AS ?score) WHERE {
                 {
-                  SELECT ?subject ((?__aiAssist__ / 100) * (MAX(?similarity) / 100) AS ?maxScore) (SAMPLE(?photo) AS ?maxPhoto) {
+                  SELECT ?subject ((?__aiAssist__ / 100) * ((MAX(?similarity) / SAMPLE(?similarityMaxScore))) AS ?maxScore) (SAMPLE(?photo) AS ?maxPhoto) {
                     {
-                      SELECT ?subject ?photo ?similarity {
+                      SELECT ?subject ?photo ?similarity ?similarityMaxScore {
                         SERVICE <http://idios-sparql.private/sparql> {
                            ?photo <https://artresearch.net/idios/text> ?__token__ .
                            ?photo <https://artresearch.net/idios/limit> 15000 .
@@ -105,6 +105,17 @@
                            ?photo <https://artresearch.net/idios/similarity> ?work .
                         }
                         BIND(?work as ?subject) .
+
+                        {
+                          SELECT (?similarity AS ?similarityMaxScore) WHERE {
+                            SERVICE <http://idios-sparql.private/sparql> {
+                              ?photo <https://artresearch.net/idios/text> ?__token__ .
+                              ?photo <https://artresearch.net/idios/limit> 15000 .
+                              ?photo <https://artresearch.net/idios/similarity> ?similarity .
+                              ?photo <https://artresearch.net/idios/similarity> ?work .
+                            }
+                          } ORDER BY DESC(?similarity) LIMIT 1
+                        }
                       }
                       ORDER BY ?similarity
                     }      
@@ -119,12 +130,15 @@
                     ?text ql:contains-word ?__token__ .
                           
                     {
-                      SELECT (?ql_score_text_var_subject as ?textMaxScore) WHERE {
+                      SELECT (SUM(?ql_score_text_var_subject) AS ?textMaxScore) WHERE {
                           ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
                           ?subject custom:has_image true .
                           ?text ql:contains-entity ?subject .
                           ?text ql:contains-word ?__token__ .
-                      } ORDER BY DESC(?ql_score_text_var_subject) LIMIT 1      
+                      } 
+                      GROUP BY ?subject
+                      ORDER BY DESC (?textMaxScore)
+                      LIMIT 1        
                     }
                   } 
                   GROUP BY ?subject
@@ -158,7 +172,8 @@
                 "kind": "resource",
                 "valuesQuery": "SELECT ?value (COUNT(DISTINCT $subject) AS ?count) WHERE {
                 OPTIONAL { ?subject custom:has_image ?has } . BIND(IF(?has = true, <http://www.w3.org/2001/XMLSchema#yes>, <http://www.w3.org/2001/XMLSchema#no>) AS ?value) . } GROUP BY ?value ORDER BY DESC(?count)"
-              },
+              }
+                             [[!--
               "<https://artresearch.net/custom/is_matched_artworks>": {
                 "kind": "resource",
                 "valuesQuery": "SELECT ?value (COUNT(DISTINCT $subject) AS ?count) WHERE {
@@ -168,7 +183,7 @@
                 "kind": "numeric-range",
                 "valuesQuery": "SELECT ?numericRangeBeginValue ?numericRangeEndValue WHERE { ?subject <https://artresearch.net/custom/number_of_matched_artworks> ?value . BIND(?value as ?numericRangeBeginValue). BIND(?value as ?numericRangeEndValue) . }"
               }
-
+--]]
             }'
           >
           </semantic-search-facet>
