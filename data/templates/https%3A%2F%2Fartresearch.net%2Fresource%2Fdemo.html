@@ -273,138 +273,25 @@
     top: 0;
     left: 0;
     z-index: 6; /* Ensure it's above the image */
-    pointer-events: none; /* Allow clicks to pass through to the image */
+  }
+
+  .dot {
+    position: absolute;
+    cursor: pointer;
+  }
+
+  .dot i {
+    color: #70E7C5;
+    font-size: 2em;
+  }
+  
+  /* Initially hide i elements with iri attribute */
+  i[iri] {
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
   }
   
   /* Make the actual dots clickable */
-  .dot {
-    pointer-events: auto;
-  }
-  
-/* Core dot */
-.dot {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background-color: #70E7C5;
-  position: absolute;
-  cursor: pointer;
-  z-index: 3;
-  animation: pulse 4s infinite ease-in-out;
-  transform-origin: center;
-}
-
-/* Pulsing animation for the core dot */
-@keyframes pulse {
-  0%, 100% { 
-    opacity: 1;
-    transform: scale(1);
-  }
-  25% { 
-    opacity: 0.8;
-    transform: scale(1.3);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  75% {
-    opacity: 0.8;
-    transform: scale(1.3);
-  }
-}
-
-/* First concentric wave */
-@keyframes firstWave {
-  0% {
-    transform: translate(-50%, -50%) scale(0);
-    opacity: 0;
-  }
-  5% {
-    opacity: 0.6;
-  }
-  25% {
-    transform: translate(-50%, -50%) scale(3);
-    opacity: 0;
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(0);
-    opacity: 0;
-  }
-  55% {
-    opacity: 0.6;
-  }
-  75% {
-    transform: translate(-50%, -50%) scale(3);
-    opacity: 0;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(0);
-    opacity: 0;
-  }
-}
-
-/* Second concentric wave */
-@keyframes secondWave {
-  0% {
-    transform: translate(-50%, -50%) scale(0);
-    opacity: 0;
-  }
-  5% {
-    opacity: 0.4;
-  }
-  25% {
-    transform: translate(-50%, -50%) scale(4.5);
-    opacity: 0;
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(0);
-    opacity: 0;
-  }
-  55% {
-    opacity: 0.4;
-  }
-  75% {
-    transform: translate(-50%, -50%) scale(4.5);
-    opacity: 0;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(0);
-    opacity: 0;
-  }
-}
-
-/* First wave using ::before */
-.dot::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background-color: #70E7C5;
-  transform-origin: center;
-  animation: firstWave 4s infinite ease-in-out;
-  z-index: 2;
-  opacity: 0;
-}
-
-/* Second wave using ::after */
-.dot::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background-color: #70E7C5;
-  transform-origin: center;
-  animation: secondWave 4s infinite ease-in-out;
-  z-index: 1;
-  opacity: 0;
-}
   
   /* Navigation dots */
   .nav-dots {
@@ -673,56 +560,75 @@
   <!-- Hero Section - First Screen -->
   <section class="hero-section">
     <div class="hero-image-container">
-      <img src="/assets/start/archiduque_frick.jpg" alt="Hero background" class="hero-image">
+      <img src="/assets/start/archiduque_frick.jpg" dst="/assets/start/archiduque_color.jpg" alt="Hero background" class="hero-image" usemap="#src-map">
       
       <!-- Interactive dots -->
       <div class="interactive-dots">
-        <mp-popover>
-          <mp-popover-trigger placement="right" trigger='["click"]' root-close='true'>
-            <div class="dot" style="top: 15%; left: 10%;"></div>
-          </mp-popover-trigger>
-          <mp-popover-content>
-            <div style="max-width: 300px; height: auto;">
-              <img style="width: 100%; height: auto;" src="https://staging.artresearch.net/cache/images/preview/frick/aHR0cHM6Ly9paWlmLmFydHJlc2VhcmNoLm5ldC9paWlmLzMvZnJpY2svNDEwNzEwMDMyODU1MV8wMDAxLmpwMi9mdWxsL2Z1bGwvMC9kZWZhdWx0LmpwZw.jpg">
-              <div style="font-weight: bold;">Titian</div>
-              <div>Shepherd and Nymph</div>
-              <div>The Frick Art Research Library, Photo: Braun & Cie .</div>
-            </div>
-          </mp-popover-content>
-        </mp-popover>  
-        <div class="dot" style="top: 20%; left: 25%;"></div>     
-        <div class="dot" style="top: 18%; left: 45%;"></div>
-        <div class="dot" style="top: 18%; right: 32%;"></div>
-        <div class="dot" style="top: 14%; right: 14%;"></div>
-
-        <div class="dot" style="top: 50%; left: 12%;"></div>     
-
-        <div class="dot" style="top: 65%; left: 7%;"></div>  
-        
-        <div class="dot" style="bottom: 20%; right: 32%;"></div>
-        <div class="dot" style="bottom: 15%; left: 9%;"></div>
-        <div class="dot" style="bottom: 9%; left: 17%;"></div>
-
-        <div class="dot" style="bottom: 10%; right: 22%;"></div>
-
-        <div class="dot" style="bottom: 8%; right: 15%;"></div>
-        <div class="dot" style="bottom: 8%; right: 10%;"></div>
-        <div class="dot" style="bottom: 15%; right: 7%;"></div>
-
-        <div class="dot" style="bottom: 33%; right: 5%;"></div>
-        <div class="dot" style="bottom: 33%; right: 19%;"></div>
-
-        <div class="dot" style="bottom: 39%; right: 32%;"></div>
-
-        <div class="dot" style="bottom: 32%; left: 20%;"></div>
-
-        <div class="dot" style="bottom: 45%; right: 36%;"></div>
-
-        <div class="dot" style="bottom: 47%; right: 42%;"></div>
+        <inline-template template="{{> template}}">
+          <template id="template">
+            {{> popover iri="https://artresearch.net/resource/frick/work/.b14933536" top=14 left=7}}
+            {{> popover iri="https://artresearch.net/resource/zeri/work/43415" top=18 left=44}}
+          </template>
+          <template id="popover">
+            <mp-popover>
+              <mp-popover-trigger placement="right" trigger='["click"]' root-close='true'>
+                <div class="dot" style="top: {{top}}%; left: {{left}}%;">
+                  <rs-icon icon-name="frame_inspect" symbol="true" icon-type="rounded" data-iri="{{iri}}"></rs-icon>
+                </div>
+              </mp-popover-trigger>
+              <mp-popover-content>
+                <div style="width: 250px; height: 300px;">
+                  <resource-info subject="{{iri}}" profile="demo-card" template="{{> cardTemplate}}">
+                    <template id="cardTemplate">
+                      {{#if (eq data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values.length 1)}}
+                        <img style="max-height:260px; max-width: 220px; margin: 0 auto;" class="thumbnail-image" src="https://staging.artresearch.net{{data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values.0.[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value]}}" alt="Artwork thumbnail" />
+                      {{else}}
+                        <div style="height: 260px;">
+                          <rs-carousel options='{"arrows": false}' data="{{stringify data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values}}" tuple-template="{{> carouselTemplate}}">
+                            <template id="carouselTemplate">
+                              <img style="max-height:260px; max-width: 220px; margin: 0 auto;" class="thumbnail-image" src="https://staging.artresearch.net{{[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value]}}" alt="Artwork thumbnail" />
+                            </template>
+                          </rs-carousel>
+                        </div>
+                      {{/if}}
+                    </template>
+                  </resource-info>
+                </div>
+              </mp-popover-content>
+            </mp-popover>
+          </template>
+        </inline-template>
+        <map name="image-map">
+          <!-- #$-:Image map file created by GIMP Image Map plug-in -->
+          <!-- #$-:GIMP Image Map plug-in by Maurits Rijk -->
+          <!-- #$-:Please do not edit lines starting with "#$" -->
+          <!-- #$VERSION:2.3 -->
+          <!-- #$AUTHOR:Unknown  -->
+          <area shape="poly" coords="55,306,828,277,1060,1067,55,1082" alt="Nymph and Shepherd, Titian"  nohref="nohref" iri="https://artresearch.net/resource/frick/work/.b14933536"/>
+          <area shape="poly" coords="1004,546,1406,522,1550,1103,1150,1110" alt="Diana and Callisto, Titian"  nohref="nohref" />
+          <area shape="poly" coords="1554,182,2975,162,2985,1445,1555,1448" alt="Judith with the head of Holofernes, Alessandro Varotari"  nohref="nohref" iri="https://artresearch.net/resource/zeri/work/43415" />
+          <area shape="poly" coords="3113,475,3592,482,3436,1101,2975,1101" alt="Portrait of Francesco Donato, David Teniers the Younger"  nohref="nohref" />
+          <area shape="poly" coords="3751,296,4935,309,4701,1087,3547,1076" alt=" Danaë, Titian"  nohref="nohref" />
+          <area shape="poly" coords="182,1719,1113,1702,1136,2382,198,2404" alt="Raising the Young Man of Nain, Paolo Veronese"  nohref="nohref" />
+          <area shape="poly" coords="1158,1705,1385,1836,1401,2238,1179,2209" alt="Laura, Giorgione"  nohref="nohref" />
+          <area shape="poly" coords="79,3051,64,2408,925,2392,945,3018,926,3017,925,2951,126,2995,128,3047,81,3051" alt="Christ and the Adulteress, Titian"  nohref="nohref" />
+          <area shape="poly" coords="937,2746,926,2394,1186,2386,1201,2736" alt="Young Woman in Green Dress, Palma Vecchio"  nohref="nohref" />
+          <area shape="poly" coords="903,3923,679,3322,983,3237,1213,3798,925,3930" alt="Saint Sebastian, Paolo Veronese"  nohref="nohref" />
+          <area shape="poly" coords="143,3447,126,2995,829,2972,841,2978,849,3274,679,3324,887,3879,443,3884,429,3437" alt="Saint Luke painting the Virgin, Jan Gossaert"  nohref="nohref" />
+          <area shape="poly" coords="2611,1901,3073,1887,3079,2182,2621,2193" alt="Rest on the Flight into Egypt, Titian"  nohref="nohref" />
+          <area shape="poly" coords="3075,1908,3239,1814,3251,2278,3085,2292" alt="Left panel San Cassiano Altarpiece, Antonello da Messina"  nohref="nohref" />
+          <area shape="poly" coords="3093,2631,3086,2294,3493,2257,3491,2432,3124,2417" alt="Venus and Cupid, Paris Bordone"  nohref="nohref" />
+          <area shape="poly" coords="2992,3560,3124,2415,3728,2454,3663,3075,3593,3060,3592,3079,3522,3052,3519,3148,3548,3148,3548,3211,3514,3289,3514,3336,3529,3352,3531,3415,3528,3456,3520,3493,3520,3533,3551,3589,3548,3647,3514,3641,3512,3721" alt="Saint Margaret and the Dragon, Raphael"  nohref="nohref" />
+          <area shape="poly" coords="3515,3763,3516,3639,3549,3651,3550,3590,3517,3530,3521,3475,3530,3450,3529,3344,3513,3311,3523,3266,3549,3211,3548,3146,3521,3143,3524,3054,3590,3081,3597,3057,3642,3073,3649,3084,3723,3056,3764,3074,3784,3048,3820,3049,3831,3073,3859,3059,3940,3086,3953,3063,3992,3079,4004,3082,4069,3056,4065,3147,4034,3146,4032,3208,4064,3259,4064,3305,4057,3316,4056,3353,3984,3356,3987,3770" alt="Woman with a Mirror, Titian"  nohref="nohref" />
+          <area shape="poly" coords="3991,3812,3986,3353,4329,3352,4332,3807" alt="Violante, Titian"  nohref="nohref" />
+          <area shape="poly" coords="4073,3352,4073,3256,4476,3249,4484,3786,4333,3790,4331,3354,4073,3352" alt="Central panel San Cassiano Altarpiece, Antonello da Messina"  nohref="nohref" />
+          <area shape="poly" coords="4261,3250,4268,2914,4872,2915,4871,3745,4484,3751,4476,3250,4264,3250" alt="Portrait of Infanta Isabella Clara Eugenia as a nun, Anthony van Dyck"  nohref="nohref" />
+          <area shape="poly" coords="3550,2419,3578,2130,4470,2023,4489,2040,4428,2913,4267,2915,4264,3252,4061,3251,4031,3208,4032,3151,4065,3146,4068,3056,4003,3083,3956,3068,3936,3088,3860,3062,3828,3076,3821,3056,3776,3052,3762,3074,3721,3059,3657,3083,3730,2408" alt="The Circumcision, Rubens"  nohref="nohref" />
+          <area shape="poly" coords="4480,2209,4942,2212,4945,3019,4877,3018,4874,2913,4429,2914" alt="The Three Philosophers, Giorgione"  nohref="nohref" />
+        </map>                 
       </div>
-
       <div class="hero-image-credit">
-        The Frick Art Research Library, Picture Gallery of the Archduke Leopold William at Brussels, Teniers David, 1647-1651 - Photo: Anderson, Rome .</div>
+        David Teniers, Picture Gallery of the Archduke Leopold William at Brussels, 1647-1651. Photograph: Anderson, Rome, 1903-1907, courtesy of the Frick Art Research Library.</div>
     </div>
     
     <div class="hero-overlay">
@@ -791,13 +697,24 @@
               
               <div class="search-overlay-form">
                 <div class="search-input-container">
-                  <input type="text" class="search-input" placeholder="enter a text or an image URL">
-                  <button class="search-button">
-                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
-                      <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                    </svg>
-                  </button>
+                  <form-with-event id="text-search-form">
+                    <input name="query" type="text" class="search-input" placeholder="enter a text or an image URL">
+                    <button class="search-button">
+                      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+                        <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                      </svg>
+                    </button>
+                  </form-with-event>
+
+                  <mp-event-proxy id='some-refresh' on-event-source='text-search-form'
+                                     proxy-event-type='RedirectAction.perform' proxy-targets='["redirect-to-text-search"]'
+                  ></mp-event-proxy>
+
+                  <mp-event-target-redirect
+                    id='redirect-to-text-search'
+                    action='https://artresearch.net/resource/search'
+                  ></mp-event-target-redirect>
                 </div>
                 
                 <div class="drag-drop-container">
