@@ -10,7 +10,7 @@
                   placeholder="Search the collections"
                   type="search"
                   title="Type at least 3 characters, only alphanumeric e.g. (Mona Lisa 1503)"
-                  name="keyword"
+                  name="query"
                   aria-label="Search through site content"
                   style="margin: 0;"
                 />
@@ -31,24 +31,11 @@
             </form-with-event>
   
   <mp-event-proxy id='search-button-clicked' on-event-source='search-input-form' on-event-type='FormWithEvent.Submit'
-                  proxy-event-type='Component.TemplateUpdate' proxy-targets='["event-target"]'>
+                  proxy-event-type='RedirectAction.perform' proxy-targets='["redirect-to-search-page"]'>
   </mp-event-proxy>
-
-  <mp-event-target-template-render id='event-target' template='{{> template}}'>
-    <template id='template'>
-      {{log this}}
-      {{#if keyword}}      
-        <mp-event-trigger id='redirect-to-search-page-trigger' 
-                          type='RedirectAction.perform' 
-                          on='["mounted"]' 
-                          targets='["redirect-to-search-page"]'
-                          data='{"iri": "https://artresearch.net/resource/AllArtworks", "queryParams": {"keyword": "{{keyword}}"} }'></mp-event-trigger>
-      {{/if}}
-    </template>
-  </mp-event-target-template-render>
   
   <mp-event-target-redirect
           id='redirect-to-search-page'
-          action='redirect'
+          action='https://artresearch.net/resource/search'
   ></mp-event-target-redirect>
 </div>

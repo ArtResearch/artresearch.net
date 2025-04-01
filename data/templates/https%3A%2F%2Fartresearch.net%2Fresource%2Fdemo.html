@@ -5,6 +5,11 @@
     padding: 0;
     box-sizing: border-box;
   }
+
+  /* Disable header on this page */
+  .navbar-default {
+    display: none;
+  }
   
   /* Search Overlay Styles */
   #search-overlay {
@@ -102,11 +107,28 @@
   
   .drag-drop-container {
     border: 2px dashed rgba(0, 0, 0, 0.3);
-    padding: 40px;
     text-align: center;
     cursor: pointer;
   }
+
+  .dropzone-area {
+    background-color: #70e7c5;
+    border: 2px dashed rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    text-align: center;
+    font-size: 2rem;
+  }
   
+  .dropzone-area.drag-accept {
+    background-color: #4acfa8;
+    border: 2px dashed rgba(0, 0, 0, 0.6);
+    box-shadow: 0 0 10px rgba(74, 207, 168, 0.5);
+    transform: scale(1.02);
+    transition: all 0.2s ease;
+    color: #333;
+    font-weight: bold;
+  }
+
   @media (max-width: 768px) {
     .search-overlay-content {
       flex-direction: column;
@@ -707,9 +729,25 @@
                     </button>
                   </form-with-event>
 
-                  <mp-event-proxy id='some-refresh' on-event-source='text-search-form'
-                                     proxy-event-type='RedirectAction.perform' proxy-targets='["redirect-to-text-search"]'
+                  <mp-event-proxy id='text-search-proxy' on-event-source='text-search-form'
+                                  onEventData='{"inputType": "text"}'
+                                  proxy-event-type='RedirectAction.perform' proxy-targets='["redirect-to-text-search"]'
                   ></mp-event-proxy>
+
+                  <mp-event-target-redirect
+                    id='redirect-to-text-search'
+                    action='https://artresearch.net/resource/search'
+                  ></mp-event-target-redirect>
+
+                  <mp-event-proxy id='image-url-search-proxy' on-event-source='text-search-form'
+                                  onEventData='{"inputType": "imageUrl"}'
+                                  proxy-event-type='RedirectAction.perform' proxy-targets='["redirect-to-image-search"]'
+                  ></mp-event-proxy>
+
+                  <mp-event-target-redirect
+                    id='redirect-to-image-search'
+                    action='https://artresearch.net/resource/search-with-image'
+                  ></mp-event-target-redirect>
 
                   <mp-event-target-redirect
                     id='redirect-to-text-search'
@@ -717,9 +755,13 @@
                   ></mp-event-target-redirect>
                 </div>
                 
-                <div class="drag-drop-container">
+                <pharos-drag-and-drop id="demo-search-dnd"">
                   <p>drag and drop</p>
-                </div>
+                </pharos-drag-and-drop>
+
+                <mp-event-proxy id='image-dnd-search-proxy' on-event-source='demo-search-dnd'
+                  proxy-event-type='RedirectAction.perform' proxy-targets='["redirect-to-image-search"]'
+                ></mp-event-proxy>
               </div>
             </div>
           </div>

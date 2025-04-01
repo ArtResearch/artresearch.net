@@ -1,15 +1,47 @@
-.navbar-header {
-    background-color: white;
-}
-
 .rs-header {
     padding: 0 10px 0 0px;
 }
 
 .rs-header-logo {
-  height: 100%;
+    height: 100%;
+    padding: 0;
+    padding-left: 2rem;
+}
+
+.rs-header-logo img {
+    height: 40px;
 }
 
 .rs-header .dropdown-menu {
     max-height: initial;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo-text {
+    display: flex;
+    flex-direction: column;
+    color: #FFF9E8;
+    font-size: 1.2rem;
+    line-height: 1.2;
+    margin-left: 10px;
+    font-weight: 300;
+    font-family: "Inter", sans-serif;
+}
+
+.base-breadcrumb,
+div.page-breadcrumb,
+ol.page-breadcrumb {
+    box-shadow: unset;
+}
+
+ol.page-breadcrumb>.active {
+    color: (var(--color-navbar));
+}
+
+ol.page-breadcrumb>li+li::before {
+    color: (var(--color-navbar));
 }

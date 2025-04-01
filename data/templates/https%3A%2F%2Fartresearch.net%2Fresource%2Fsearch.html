@@ -1,11 +1,9 @@
-<ol class="page-breadcrumb">
-  <li>
-    <mp-link title="Home" url="/">Home</mp-link>
-  </li>
-  <li class="active">Search with AI</li>
-</ol>
-
 <div class="page">    
+  <mp-event-trigger id="breadcrumbs" type='Component.TemplateUpdate' on='["mounted"]' targets='["top-header-breadcrumbs"]'
+    data='{"breadcrumb": "Search"}'>
+  </mp-event-trigger>
+
+
   <div class="main-container">
 
     <style>
@@ -99,20 +97,24 @@
                     {
                       SELECT ?subject ?photo ?similarity ?similarityMaxScore {
                         SERVICE <http://idios-sparql.private/sparql> {
-                           ?photo <https://artresearch.net/idios/text> ?__token__ .
-                           ?photo <https://artresearch.net/idios/limit> 15000 .
-                           ?photo <https://artresearch.net/idios/similarity> ?similarity .
-                           ?photo <https://artresearch.net/idios/similarity> ?work .
+                          ?photo <https://artresearch.net/vision/service> "idios" .
+                          ?photo <https://artresearch.net/vision/request_type> "text" .
+                          ?photo <https://artresearch.net/vision/data> ?__token__ .
+                          ?photo <https://artresearch.net/vision/limit> 15000 .
+                          ?photo <https://artresearch.net/vision/similarity> ?similarity .
+                          ?photo <https://artresearch.net/vision/similarity> ?work .
                         }
                         BIND(?work as ?subject) .
 
                         {
                           SELECT (?similarity AS ?similarityMaxScore) WHERE {
                             SERVICE <http://idios-sparql.private/sparql> {
-                              ?photo <https://artresearch.net/idios/text> ?__token__ .
-                              ?photo <https://artresearch.net/idios/limit> 15000 .
-                              ?photo <https://artresearch.net/idios/similarity> ?similarity .
-                              ?photo <https://artresearch.net/idios/similarity> ?work .
+                              ?photo <https://artresearch.net/vision/service> "idios" .
+                              ?photo <https://artresearch.net/vision/request_type> "text" .
+                              ?photo <https://artresearch.net/vision/data> ?__token__ .
+                              ?photo <https://artresearch.net/vision/limit> 15000 .
+                              ?photo <https://artresearch.net/vision/similarity> ?similarity .
+                              ?photo <https://artresearch.net/vision/similarity> ?work .
                             }
                           } ORDER BY DESC(?similarity) LIMIT 1
                         }
