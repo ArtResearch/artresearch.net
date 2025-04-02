@@ -283,12 +283,10 @@
 
     <resource-info subject="[[this]]" profile="photograph-full" template="{{> template}}">      
         <template id="template">
-          <ol class="page-breadcrumb">
-            <li>
-              <mp-link title="Home" url="/">Home</mp-link>
-            </li>
-            <li class="active">{{data.label}}</li>
-          </ol>
+          <mp-event-trigger id="breadcrumbs" 
+                            type='Component.TemplateUpdate' on='["mounted"]' targets='["top-header-breadcrumbs"]'
+                            data='{"breadcrumb": "Photo: {{data.label}}"}'>
+          </mp-event-trigger>
             <div class="content-wrapper">
                 <div class="column image-grid-column">
                     <div class="main-image-container">
@@ -334,6 +332,10 @@
                         data=data
                         title="Photograph" 
                         fields=(parse '[
+                            {
+                              "field": "https://artresearch.net/resource/field_definition/pharos_model/photo_artwork",
+                              "mode": "link"
+                            }, 
                             { 
                               "field": "https://artresearch.net/resource/field_definition/pharos_model/photo_title",
                               "mode": "text"
@@ -347,14 +349,15 @@
                               "mode": "new"
                             },
                             { 
-                              "field": "https://artresearch.net/resource/field_definition/pharos_model/photo_license",
-                              "mode": "outside_link"
-                            },
-                            { 
                               "field": "https://artresearch.net/resource/field_definition/pharos_model/type",
                               "mode": "new"
                             },
-                            "https://artresearch.net/resource/field_definition/pharos_model/current_keeper"
+                            "https://artresearch.net/resource/field_definition/pharos_model/current_keeper",
+                            { 
+                              "field": "https://artresearch.net/resource/field_definition/pharos_model/photo_license",
+                              "mode": "outside_link"
+                            }
+
                         ]')
                     }}
 
@@ -434,6 +437,19 @@
                         <div class="field-value-item">
                             <div class="field-value-main">
                                 <span>{{label}}</span>
+                                <div class="provider-icons">
+                                    {{#each (uniqProviders provenance)}}
+                                        <img class="provider-icon" title="{{label}}" src="{{icon}}">
+                                    {{/each}}
+                                </div>
+                            </div>
+                        </div>
+                    {{/each}}
+                 {{else if (eq mode "link")}}
+                    {{#each (mergeUniqueValues (lookup (lookup data field) 'values'))}}
+                        <div class="field-value-item">
+                            <div class="field-value-main">
+                                <semantic-link iri='{{[@id]}}'>{{label}}</semantic-link>
                                 <div class="provider-icons">
                                     {{#each (uniqProviders provenance)}}
                                         <img class="provider-icon" title="{{label}}" src="{{icon}}">

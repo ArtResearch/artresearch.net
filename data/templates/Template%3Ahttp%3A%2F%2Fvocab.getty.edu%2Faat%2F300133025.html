@@ -1,9 +1,8 @@
 <style>
 .content-wrapper {
     display: flex;
-    height: calc(100vh - var(--nav-height) - var(--footer-height) - var(--breadcrumb-height));
+    height: calc(100vh - var(--nav-height));
     overflow: hidden;
-    margin-top: var(--breadcrumb-height);
 }
 
 .column {
@@ -283,13 +282,12 @@
 
     <resource-info subject="[[this]]" profile="artwork-full" template="{{> template}}">      
         <template id="template">
-          <ol class="page-breadcrumb">
-            <li>
-              <mp-link title="Home" url="/">Home</mp-link>
-            </li>
-            <li class="active">{{data.label}}</li>
-          </ol>
-            <div class="content-wrapper">
+          <mp-event-trigger id="breadcrumbs" 
+                            type='Component.TemplateUpdate' on='["mounted"]' targets='["top-header-breadcrumbs"]'
+                            data='{"breadcrumb": "Work: {{data.label}}"}'>
+          </mp-event-trigger>
+
+              <div class="content-wrapper">
                 <div class="column image-grid-column">
                   {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/photo]}}
                     <div class="main-image-container">
@@ -474,6 +472,7 @@
                     <div class="field-group">
                       <h2>Photographs</h2>
                       {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values}}
+                        <semantic-link-container uri="{{[@id]}}" target="_blank">
                           <div class="photo-card">
                             <div class="photo-thumbnail">
                               {{#if [https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail]}}
@@ -517,6 +516,7 @@
                               </div>
                             </div>
                           </div>
+                        </semantic-link-container>
                       {{/each}}
                     </div>
                     {{/if}}                  
