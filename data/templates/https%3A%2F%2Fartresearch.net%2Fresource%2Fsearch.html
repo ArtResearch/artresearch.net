@@ -100,7 +100,7 @@
                           ?photo <https://artresearch.net/vision/service> "idios" .
                           ?photo <https://artresearch.net/vision/request_type> "text" .
                           ?photo <https://artresearch.net/vision/data> ?__token__ .
-                          ?photo <https://artresearch.net/vision/limit> 15000 .
+                          ?photo <https://artresearch.net/vision/limit> 5000 .
                           ?photo <https://artresearch.net/vision/similarity> ?similarity .
                           ?photo <https://artresearch.net/vision/similarity> ?work .
                         }
@@ -112,7 +112,7 @@
                               ?photo <https://artresearch.net/vision/service> "idios" .
                               ?photo <https://artresearch.net/vision/request_type> "text" .
                               ?photo <https://artresearch.net/vision/data> ?__token__ .
-                              ?photo <https://artresearch.net/vision/limit> 15000 .
+                              ?photo <https://artresearch.net/vision/limit> 5000 .
                               ?photo <https://artresearch.net/vision/similarity> ?similarity .
                               ?photo <https://artresearch.net/vision/similarity> ?work .
                             }
@@ -160,7 +160,7 @@
       
       <div class="content-area">
         <div class="facet-column">
-          <semantic-search-facet open-by-default='true' sortby='count-desc' facet-values-threshold="200"
+          <semantic-search-facet open-by-default='false' sortby='count-desc' facet-values-threshold="200"
             default-value-queries='{
               "resource": "SELECT ?value (COUNT(DISTINCT $subject) AS ?count) WHERE { FILTER(?__facetRelationPattern__) } GROUP BY ?value ORDER BY DESC(?count)",
               "literal": "SELECT ?literal (COUNT(DISTINCT $subject) AS ?count) WHERE { FILTER(?__facetRelationPattern__) } GROUP BY ?literal ORDER BY ?literal"
@@ -200,7 +200,7 @@
                 template="{{>currentResultCount}}"
               >
                 <template id="currentResultCount">
-                  <p>Found {{bindings.0.count.value}} results. {{#ifCond bindings.0.count.value ">=" 10000}} Displaying the first 10000 results. {{/ifCond}}</p>
+                  <p>Found {{bindings.0.count.value}} results.</p>
                 </template>
               </semantic-query>
               
@@ -209,7 +209,7 @@
               <semantic-query
                 id="grid-result"
                 prefetch-labels="false"
-                query='SELECT DISTINCT ?subject ?maxPhoto WHERE { } ORDER BY DESC(?score) DESC(?subject) LIMIT 10000'
+                query='SELECT DISTINCT ?subject ?maxPhoto WHERE { } ORDER BY DESC(?score) DESC(?subject) LIMIT 2000'
                 template="{{> subjectCellTemplate}}"
                 no-result-template='[[> CardNoResult ]]'
               >
