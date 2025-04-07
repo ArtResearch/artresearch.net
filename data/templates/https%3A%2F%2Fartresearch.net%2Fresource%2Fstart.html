@@ -241,7 +241,7 @@
   }
   
   
-  .menu-button {
+  .burger-menu-button {
     width: 30px;
     height: 24px;
     display: flex;
@@ -252,7 +252,7 @@
     cursor: pointer;
   }
   
-  .menu-button span {
+  .burger-menu-button span {
     width: 100%;
     height: 3px;
     background-color: #fff;
@@ -366,6 +366,10 @@
     display: flex;
     gap: 1rem;
     margin-top: 2rem;
+  }
+
+  .info-buttons .btn {
+    text-shadow: none;
   }
   
   .btn {
@@ -531,7 +535,7 @@
     top: 35vh;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 100;
+    z-index: 10;
     width: 320px;
     height: 70px;
     display: flex;
@@ -576,7 +580,189 @@
       font-size: 1.1rem;
     }
   }
+
+  .site-header {
+    position: absolute;
+    background-color: #fff9e8;
+    width: 100vw;
+    height: 350px;
+    z-index: 11;
+    padding: 2rem;
+  }
+
+  .site-header .logo-text {
+    color: black;
+  }
+  
+  .close-button {
+    width: 30px;
+    height: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+  }
+  
+  .close-button::before,
+  .close-button::after {
+    content: '';
+    width: 100%;
+    height: 3px;
+    background-color: #000;
+    border-radius: 3px;
+    position: absolute;
+  }
+  
+  .close-button::before {
+    transform: rotate(45deg);
+  }
+  
+  .close-button::after {
+    transform: rotate(-45deg);
+  }
+
+  .site-header-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    height: 100%;
+  }
+
+  .site-header-top {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 2rem;
+  }
+
+  .site-header-nav {
+    display: flex;
+    margin-left: auto;
+    gap: 5rem;
+    margin-right: auto;
+  }
+
+  .nav-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .nav-column h3 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid #000;
+    padding-bottom: 0.5rem;
+  }
+
+  .nav-column a {
+    color: #000;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .nav-column a:hover {
+    color: #555;
+  }
+
+  .supporters {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: auto;
+  }
+
+  .site-header .supporters img {
+    height: 40px;
+    width: auto;
+    transition: opacity 0.3s;
+  }
+
+  .component-page-toolbar {
+    display: none;
+    z-index: -1;
+  }
 </style>
+
+<mp-event-target-template-render id='header-menu' template='{{> template}}'>
+  <template id='template'>
+    <div class="site-header" style="display: {{#if show}}block{{else}}none{{/if}};">
+      <div class="site-header-content">
+        <div class="site-header-top">
+          <div class="logo-container">
+            <img src="/assets/start/pharos_logo_bw_dark.svg" alt="Pharos Logo" class="logo">
+            <div class="logo-text">
+              <span>art</span>
+              <span>research</span>
+              <span>.net</span>
+            </div>
+          </div>
+          
+          <mp-event-trigger id='close-header-trigger' type='Component.TemplateUpdate' targets='["header-menu"]' data='{}'>
+            <button class="close-button" aria-label="Close menu"></button>
+          </mp-event-trigger>
+          
+          <div class="site-header-nav">
+          <div class="nav-column">
+            <h3>Artworks</h3>
+            <semantic-link iri="https://artresearch.net/resource/search">Artworks</semantic-link>
+          </div>
+          
+          <div class="nav-column">
+            <h3>About</h3>
+            <semantic-link iri="https://artresearch.net/resource/About">About</semantic-link>
+            <semantic-link iri="https://artresearch.net/resource/Partners">Photo archives</semantic-link>
+            <semantic-link iri="https://artresearch.net/resource/AdvisoryBoard">Advisory board</semantic-link>
+            <semantic-link iri="https://artresearch.net/resource/IntellectualProperty">Intellectual property</semantic-link>
+            <semantic-link iri="https://artresearch.net/resource/OpenAccessPolicy">Open Access Policy</semantic-link>
+            <semantic-link iri="https://artresearch.net/resource/TermsAndConditions">Terms of use</semantic-link>
+            <semantic-link iri="https://artresearch.net/resource/PrivacyNotice">Privacy notice</semantic-link>
+          </div>
+          
+          [[!--
+          <div class="nav-column">
+            <h3>Technical documentation</h3>
+            <semantic-link iri="https://artresearch.net/resource/TechnicalDocumentation">Technical documentation</semantic-link>
+            <semantic-link iri="https://artresearch.net/resource/Statistics">Statistics</semantic-link>
+          </div>
+          --]]
+          </div>
+        </div>
+        
+        <div class="supporters">
+          <a href="https://www.kressfoundation.org/" target="_blank">
+            <img src="/assets/images/logos/kress.png" alt="KRESS foundation" title="KRESS foundation">
+          </a>
+
+          <a href="https://mellon.org/" target="_blank">
+              <img src="/assets/images/logos/mellon.png" alt="the Mellon Foundation" title="the Mellon Foundation">
+          </a>
+
+          <a href="https://www.neh.gov" target="_blank" title="National Endowment for the Humanities (NEH)">
+              <img src="/assets/images/logos/neh.svg" alt="National Endowment for the Humanities (NEH)">
+          </a>
+
+          <a href="https://www.biblhertz.it" target="_blank" title="Bibliotheca Hertziana – Max Planck Institute for Art History">
+              <img src="/assets/images/logos/hertziana.svg" alt="Bibliotheca Hertziana – Max Planck Institute for Art History">
+          </a>
+
+          <a href="https://researchspace.org/" target="_blank">
+              <img src="/assets/images/logos/researchspace.svg" alt="The ResearchSpace platform" title="The ResearchSpace platform">
+          </a>
+        </div>
+      </div>
+    </div>
+  </template>
+</mp-event-target-template-render>
 
 <div class="start-container">
   <!-- Hero Section - First Screen -->
@@ -663,11 +849,14 @@
             <span>.net</span>
           </div>
         </div>
-        <button class="menu-button">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
+        <mp-event-trigger id='event-trigger' type='Component.TemplateUpdate' targets='["header-menu"]'
+             data='{"show": true}'>
+             <button class="burger-menu-button">
+              <span></span>
+              <span></span>
+              <span></span>
+             </button>
+        </mp-event-trigger>
       </div>
       
       <div class="hero-content">
