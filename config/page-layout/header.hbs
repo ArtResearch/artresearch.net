@@ -31,18 +31,7 @@
     <div class="collapse navbar-collapse" id="rs-navbar">
         <ul class="nav navbar-nav navbar-left"></ul>
 
-        <mp-event-target-template-render id='top-header-breadcrumbs' template='\{{> template}}'>
-          <template id='template'>
-            <ol class="page-breadcrumb">
-                \{{log "in header" this}}
-                \{{#if breadcrumb}}
-                  <li>
-                    <mp-link title="Home" url="/">Home</mp-link>
-                  </li>
-                  <li class="active">\{{breadcrumb}}</li>
-                \{{/if}}
-            </ol>
-          </template>
+        <mp-event-target-template-render id='top-header-breadcrumbs' template='\{{> Default:headerBreadcrumb}}'>
         </mp-event-target-template-render>
 
       {{> navbarRight }}
