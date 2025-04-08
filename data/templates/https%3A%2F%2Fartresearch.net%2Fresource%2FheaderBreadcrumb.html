@@ -7,7 +7,7 @@
     <li class="active">{{{breadcrumb}}}</li>
   {{else if breadcrumbs}}
     {{#each breadcrumbs}}
-      <li class="{{#unless @last}}active{{/unless}}">
+      <li class="{{#if @last}}active{{/if}}">
         {{#if this.iri}}
           <semantic-link title="{{this.label}}" iri="{{this.iri}}">{{this.label}}</semantic-link>
         {{else}}

@@ -19,6 +19,19 @@
                     )
                   </div>
               </bs-nav-item>
+              <bs-nav-item event-key="photographs">
+                <div style="display:flex;">Photographs (
+                      <semantic-query 
+                        query='
+                          SELECT (COUNT(DISTINCT ?photo) AS ?count) WHERE {
+                            ?photo crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocabulary/meta/photograph>  .
+                            ?photo crm:P70i_is_documented_in <{{providerIri}}> . 
+                          }
+                        '>
+                      </semantic-query>
+                    )
+                </div>
+              </bs-nav-item>
             {{/if}}
           </bs-nav>
           <bs-tab-content unmount-on-exit=true>
@@ -97,7 +110,9 @@
                 </div>              
               </bs-tab-pane>
               <bs-tab-pane event-key="photographs">
-                <div></div>
+                <div class="main-container">
+                  <inline-template template-iri="Default:SearchPhotographTemplate" options='{"searchRestrictions":"?subject crm:P70i_is_documented_in <{{providerIri}}> . "}'></inline-template>
+                </div>              
               </bs-tab-pane>
           </bs-tab-content>
       </div>
