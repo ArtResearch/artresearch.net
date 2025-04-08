@@ -733,15 +733,15 @@
                                   {{#if (eq ../mode "outside_link")}}
                                     <a href="{{[@id]}}" target="_blank" rel="noopener noreferrer">{{label}}</a>
                                   {{else}}
-                                    {{#if (eq label "timespan")}}
-                                      [[!-- hack to don't show wrong dates, for now --]]
-                                    {{else}}
-                                      {{label}}
-                                    {{/if}}
+                                    {{label}}
                                   {{/if}}
                                   [[!-- <semantic-link iri="{{[@id]}}">{{label}}</semantic-link> --]]
                                 {{else}}
-                                    <span>{{[@value]}}</span>
+                                    {{#if (eq ../field "https://artresearch.net/resource/field_definition/pharos_model/production_date")}}
+                                      <span>{{dateRangeFormat [@value]}}</span>
+                                    {{else}}
+                                      <span>{{[@value]}}</span>
+                                    {{/if}}
                                 {{/if}}
                               
                                 {{#if ../dontShowProvenance}}

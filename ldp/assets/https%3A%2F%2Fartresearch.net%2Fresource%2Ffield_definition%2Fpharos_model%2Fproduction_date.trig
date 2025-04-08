@@ -3,22 +3,46 @@
   <https://artresearch.net/resource/field_definition/pharos_model/production_date> a
       <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
       <http://www.w3.org/ns/ldp#Resource>;
-    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-eac6741322634f8ebce84ca2982903a9-cuze;
-    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
     <http://www.w3.org/2000/01/rdf-schema#label> "Production Date";
-    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-eac6741322634f8ebce84ca2982903a9-72chso;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#string>;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-004fae7299d9487d85d305d7a2fe2ecc-5fxain;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-004fae7299d9487d85d305d7a2fe2ecc-hwl93;
     <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
-    <http://www.w3.org/ns/prov#generatedAtTime> "2024-12-15T23:51:32.365Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-04-08T23:09:15.995+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
   
-  _:genid-eac6741322634f8ebce84ca2982903a9-cuze a <http://spinrdf.org/sp#Query>;
+  _:genid-004fae7299d9487d85d305d7a2fe2ecc-hwl93 a <http://spinrdf.org/sp#Query>;
     <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
   
-  _:genid-eac6741322634f8ebce84ca2982903a9-72chso a <http://spinrdf.org/sp#Query>;
+  _:genid-004fae7299d9487d85d305d7a2fe2ecc-5fxain a <http://spinrdf.org/sp#Query>;
     <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 
-SELECT ?value WHERE {
+SELECT ?value ?provUri WHERE {
   $subject crm:P108i_was_produced_by/crm:P9_consists_of* ?production .
-  ?production crm:P4_has_time-span ?value.
+  ?production crm:P4_has_time-span ?timeSpan.
+  
+  
+  BIND(IRI(CONCAT(\"http://artresearch.net/resource/e13/\", SHA256(CONCAT(STR(?production), STR(crm:P4_has_time-span), STR(?timeSpan))))) AS ?attribution)
+  
+  ?attribution crm:P134_continued* ?provUri .
+  ?provUri crm:P9i_forms_part_of ?cataloging .
+  ?cataloging crm:P2_has_type <http://vocab.getty.edu/aat/300054628> .
+
+  
+  OPTIONAL {
+    ?timeSpan crm:P190_has_symbolic_content ?staticValue .
+  }
+  OPTIONAL {
+    ?timeSpan crm:P82a_begin_of_the_begin ?begin .
+    ?timeSpan crm:P82b_end_of_the_end ?end .
+    BIND(CONCAT(?begin, \"#\", ?end) AS ?range ) .
+  }
+  OPTIONAL {
+    ?timeSpan crm:P82_at_some_time_within ?within .
+  }
+  FILTER(BOUND(?staticValue) || BOUND(?within) || BOUND(?range)) .
+  BIND(COALESCE(?staticValue, ?within, ?range) AS ?value) .
+  
+  
 }""" .
   
   <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>

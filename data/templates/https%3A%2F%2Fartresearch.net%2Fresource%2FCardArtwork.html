@@ -114,24 +114,25 @@
 
       <template id="fieldTemplate">
         {{#if (lookup data field)}}
-          <div class="field">
-            <div class="field-label">{{label}}</div>
-            <div class="field-value">
-              {{#each (lookup (lookup data field) 'values')}}
-                {{#if [@id]}}
-                  {{#if (eq label "timespan")}}
-                  {{else}}
-                    [[!-- <semantic-link iri="{{[@id]}}">{{label}}</semantic-link> --]]
+            <div class="field">
+              <div class="field-label">{{label}}</div>
+              <div class="field-value">
+                {{#each (lookup (lookup data field) 'values')}}
+                  {{#if [@id]}}
+                      [[!-- <semantic-link iri="{{[@id]}}">{{label}}</semantic-link> --]]
                     {{label}}
                     {{#unless @last}}, {{/unless}}
+                  {{else}}
+                    {{#if (eq ../field "https://artresearch.net/resource/field_definition/pharos_model/production_date")}}
+                      {{dateRangeFormat [@value]}}
+                    {{else}}
+                      {{[@value]}}
+                    {{/if}}
+                    {{#unless @last}}, {{/unless}}
                   {{/if}}
-                {{else}}
-                  {{[@value]}}
-                  {{#unless @last}}, {{/unless}}
-                {{/if}}
-              {{/each}}
+                {{/each}}
+              </div>
             </div>
-          </div>
         {{/if}}
       </template>
     </resource-info>

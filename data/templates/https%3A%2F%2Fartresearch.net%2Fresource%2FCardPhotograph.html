@@ -33,6 +33,7 @@
   flex-grow: 1;
   padding: 20px;
   overflow-y: auto;
+  position: relative;
 }
 
 .field {
@@ -63,10 +64,13 @@
   text-decoration: underline;
 }
   
-.provider-icons {
+.photo-provider-icons {
     display: inline-flex;
     justify-content: flex-end;
     align-items: center;
+    position: absolute;
+    top: 5px;
+    right: 5px;
 }
 
 </style>
@@ -82,7 +86,14 @@
               <span class="no-image-text">No image</span>
             {{/if}}
           </div>
-          <div class="info-container">            
+          <div class="info-container">   
+            <div class="photo-provider-icons">
+              {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values}}
+              <img class="provider-icon" title="{{label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
+              {{/each}}
+            </div>
+
+            
             {{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/photo_title" label="Title"}}
             {{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/photo_artwork" label="Depicts work"}}
 
@@ -91,18 +102,7 @@
             
             {{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/photo_license" label="License"}}
 
-            {{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/production_date" label="Date"}}
-
-            <div class="field">
-              <div class="field-label">{{data.[https://artresearch.net/resource/field_definition/pharos_model/original_record_catalog].label}}</div>
-              <div class="field-value">
-                <div class="provider-icons">
-                  {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/original_record_catalog].values}}
-                    <img class="provider-icon" title="{{label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
-                  {{/each}}
-                </div>
-              </div>
-            </div>            
+            {{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/production_date" label="Date"}}         
           </div>
       </template>
 
@@ -113,14 +113,15 @@
             <div class="field-value">
               {{#each (lookup (lookup data field) 'values')}}
                 {{#if [@id]}}
-                  {{#if (eq label "timespan")}}
-                  {{else}}
-                    [[!-- <semantic-link iri="{{[@id]}}">{{label}}</semantic-link> --]]
-                    {{label}}
-                    {{#unless @last}}, {{/unless}}
-                  {{/if}}
+                  [[!-- <semantic-link iri="{{[@id]}}">{{label}}</semantic-link> --]]
+                  {{label}}
+                  {{#unless @last}}, {{/unless}}
                 {{else}}
-                  {{[@value]}}
+                    {{#if (eq ../field "https://artresearch.net/resource/field_definition/pharos_model/production_date")}}
+                      {{dateRangeFormat [@value]}}
+                    {{else}}
+                      {{[@value]}}
+                    {{/if}}
                   {{#unless @last}}, {{/unless}}
                 {{/if}}
               {{/each}}
