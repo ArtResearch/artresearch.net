@@ -239,7 +239,7 @@
         <template id="template">
           <mp-event-trigger id="breadcrumbs" 
                             type='Component.TemplateUpdate' on='["mounted"]' targets='["top-header-breadcrumbs"]'
-                            data='{"breadcrumb": "Photo: {{data.label}}"}'>
+                            data='{"breadcrumb": "Photo: {{escapeForJson data.label}}"}'>
           </mp-event-trigger>
             <div class="content-wrapper">
                 <div class="column image-grid-column">

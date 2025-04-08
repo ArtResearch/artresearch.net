@@ -284,7 +284,7 @@
         <template id="template">
           <mp-event-trigger id="breadcrumbs" 
                             type='Component.TemplateUpdate' on='["mounted"]' targets='["top-header-breadcrumbs"]'
-                            data='{"breadcrumb": "Work: {{data.label}}"}'>
+                            data='{"breadcrumb": "Work: {{escapeForJson data.label}}"}'>
           </mp-event-trigger>
 
               <div class="content-wrapper">
