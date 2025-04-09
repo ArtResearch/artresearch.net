@@ -19,6 +19,12 @@
     overflow: hidden;
 }
 
+  .title-container {
+    background-color: white;
+    font-size: 1.7rem;
+    font-weight: bold;
+    padding: 10px 10px 0 20px;
+  }
 .main-image-container {
     height: 60%;
     display: flex;
@@ -66,6 +72,10 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     transition: transform 0.3s ease;
+}
+  
+.thumbnail.thumbnail-active {
+  border: 2px solid black;
 }
 
 .thumbnail:hover {
@@ -292,6 +302,10 @@
                   {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/photo]}}
                     {{#ifCond data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values.length ">" 1}}
                       <!-- Multiple photos: Show main image and thumbnails -->
+                      <div class="title-container">
+                       {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/creator]}}{{data.[https://artresearch.net/resource/field_definition/pharos_model/creator].values.0.label}}, {{/if}}{{data.label}}{{#if data.[https://artresearch.net/resource/field_definition/pharos_model/current_keeper]}}, {{data.[https://artresearch.net/resource/field_definition/pharos_model/current_keeper].values.0.label
+}}{{/if}}
+                      </div>
                       <div class="main-image-container">
                         <mp-event-target-template-render id='work-full-image' template='{{> template data=data}}'>
                           <template id="mainImageView">
@@ -300,8 +314,6 @@
                                 <div class="object-main-image-holder">
                                   <img alt='' class="object-image" src="https://staging.artresearch.net{{imageUrl}}" />
                                   <p>
-                                    {{log this}}
-
                                     {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_archive]}}
                                       {{photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_archive].values.[0].label}},
                                     {{/if}}
@@ -361,18 +373,29 @@
                       <div class="thumbnails-container">
                         <div class="thumbnail-grid">
                           {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values}}
-                            {{#each [https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values}}
-                              <mp-event-trigger id='event-trigger' type='Component.TemplateUpdate' targets='["work-full-image"]'
-                                                data='{"photo": "{{../[@id]}}"}'>
-                                <div class="thumbnail">
-                                  <img alt='' class="object-thumbnails" height="150" src="https://staging.artresearch.net{{[@value]}}" />
+                            {{#if [https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values}}
+                              <mp-event-trigger key="thumbnail-trigger-{{@index}}" id='thumnail-click-trigger-{{@index}}' type='Component.TemplateUpdate' targets='["work-full-image", "thumbnail"]'
+                                                data='{"photo": "{{[@id]}}"}'>
+                                <div>
+                                  <mp-event-target-template-render key="thumbnail-{{@index}}" id='thumbnail' template='{{> thumbnail data=data}}'>
+                                    <template id="thumbnail">
+                                      <div class="thumbnail {{#if (and (not photo) (eq @index 0))}}thumbnail-active{{/if}} {{#if (eq [@id] photo)}}thumbnail-active{{/if}}">
+                                        <img alt='' class="object-thumbnails" height="150" src="https://staging.artresearch.net{{[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" />
+                                      </div>
+                                    </template>
+                                  </mp-event-target-template-render>
                                 </div>
                               </mp-event-trigger>
-                            {{/each}}
+                            {{/if}}
                           {{/each}}
                         </div>
                       </div>
                     {{else}}
+                      <div class="title-container">
+                       {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/creator]}}{{data.[https://artresearch.net/resource/field_definition/pharos_model/creator].values.0.label}}, {{/if}}{{data.label}}{{#if data.[https://artresearch.net/resource/field_definition/pharos_model/current_keeper]}}, {{data.[https://artresearch.net/resource/field_definition/pharos_model/current_keeper].values.0.label
+}}{{/if}}
+                      </div>
+
                       <!-- Single photo: Show main image at full height -->
                       <div class="main-image-container" style="height: 100%;">
                         <mp-event-target-template-render id='work-full-image' template='{{> template data=data}}'>
@@ -382,8 +405,6 @@
                                 <div class="object-main-image-holder">
                                   <img alt='' class="object-image" src="https://staging.artresearch.net{{imageUrl}}" />
                                   <p>
-                                    {{log this}}
-
                                     {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_archive]}}
                                       {{photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_archive].values.[0].label}},
                                     {{/if}}
@@ -542,7 +563,7 @@
                     {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/photo]}}
                     <div class="field-group">
                       <h2>Photographs</h2>
-                      {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values}}
+                      {{#each (orderBy data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values "[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]")}}
                         <semantic-link-container uri="{{[@id]}}" target="_blank">
                           <div class="photo-card">
                             <div class="photo-thumbnail">
@@ -648,7 +669,7 @@
                               </div>
                           </div>
                           <div class="field-value-original-group">
-                            {{#each [https://artresearch.net/resource/field_definition/pharos_model/original_value_creator].values}}
+                            {{#each (mergeUniqueValues [https://artresearch.net/resource/field_definition/pharos_model/original_value_creator].values)}}
                               <div class="field-value-item">
                                 <div class="field-value-main">
                                     <span>{{label}}</span>
@@ -698,7 +719,7 @@
                               </div>
                           </div>
                           <div class="field-value-original-group">
-                            {{#each [https://artresearch.net/resource/field_definition/pharos_model/original_value].values}}
+                            {{#each (mergeUniqueValues [https://artresearch.net/resource/field_definition/pharos_model/original_value].values)}}
                               <div class="field-value-item">
                                 <div class="field-value-main">
                                     <span>{{label}}</span>
@@ -726,7 +747,7 @@
                       {{/if}}
                     {{/each}}
                   {{else}}
-                    {{#each (lookup (lookup data field) 'values')}}
+                    {{#each (mergeUniqueValues (lookup (lookup data field) 'values'))}}
                         <div class="field-value-item">
                             <div class="field-value-main">
                                 {{#if (lookup this '@id')}}

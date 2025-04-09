@@ -163,7 +163,7 @@
           <semantic-search-facet open-by-default='true' sortby='count-desc' facet-values-threshold="5000"
             default-value-queries='{
               "resource": "SELECT ?value (COUNT(DISTINCT $subject) AS ?count) WHERE { FILTER(?__facetRelationPattern__) } GROUP BY ?value ORDER BY DESC(?count)",
-              "literal": "SELECT ?literal (COUNT(DISTINCT $subject) AS ?count) WHERE { FILTER(?__facetRelationPattern__) } GROUP BY ?literal ORDER BY ?literal"
+              "literal": "SELECT ?literal (COUNT(DISTINCT $subject) AS ?count) WHERE { FILTER(?__facetRelationPattern__) } GROUP BY ?literal ORDER BY DESC(?count)"
             }'
             value-relations='{
               "<https://artresearch.net/resource/fr/Work_shows_Subject>": {
