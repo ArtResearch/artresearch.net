@@ -691,6 +691,10 @@
     display: none;
     z-index: -1;
   }
+
+  .semantic-carousel {
+    overflow: hidden;
+  }
 </style>
 
 <mp-event-target-template-render id='header-menu' template='{{> template}}'>
@@ -800,6 +804,9 @@
                           </rs-carousel>
                         </div>
                       {{/if}}
+                      <semantic-link iri="{{data.[@id]}}" target="_blank">
+                        {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/creator]}}{{data.[https://artresearch.net/resource/field_definition/pharos_model/creator].values.0.label}}, {{/if}}{{data.label}}{{#if data.[https://artresearch.net/resource/field_definition/pharos_model/current_keeper]}}, {{data.[https://artresearch.net/resource/field_definition/pharos_model/current_keeper].values.0.label}}{{/if}} <b>View</b>
+                      </semantic-link>
                     </template>
                   </resource-info>
                 </div>
