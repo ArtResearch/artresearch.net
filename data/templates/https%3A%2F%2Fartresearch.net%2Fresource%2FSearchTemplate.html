@@ -93,7 +93,9 @@
                   SELECT ?subject ((?__aiAssist__ / 100) * ((MAX(?similarity) / SAMPLE(?similarityMaxScore))) AS ?maxScore) (SAMPLE(?photo) AS ?maxPhoto) {
                     {
                       SELECT ?subject ?photo ?similarity ?similarityMaxScore {
-                        SERVICE <http://localhost:4280/sparql> {
+                        #
+                        #SERVICE <http://localhost:4280/sparql> {
+                         SERVICE <http://idios-sparql.private/sparql> {
                           ?photo <https://artresearch.net/vision/service> "idios" .
                           ?photo <https://artresearch.net/vision/request_type> "text" .
                           ?photo <https://artresearch.net/vision/data> ?__token__ .
@@ -105,7 +107,9 @@
 
                         {
                           SELECT (?similarity AS ?similarityMaxScore) WHERE {
-                            SERVICE <http://localhost:4280/sparql> {
+                            # SERVICE <http://localhost:4280/sparql> {
+                            SERVICE <http://idios-sparql.private/sparql> {
+
                               ?photo <https://artresearch.net/vision/service> "idios" .
                               ?photo <https://artresearch.net/vision/request_type> "text" .
                               ?photo <https://artresearch.net/vision/data> ?__token__ .
