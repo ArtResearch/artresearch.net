@@ -1,26 +1,22 @@
 
 <https://artresearch.net/resource/field_definition/pharos_model/photo_artwork/context> {
-  _:genid-c6b5876f41f14b6ea531c8a90c4a1bb2-cwnqk9 a <http://spinrdf.org/sp#Query>;
+  <https://artresearch.net/resource/field_definition/pharos_model/photo_artwork> a <http://www.researchspace.org/resource/system/fields/Field>,
+      <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-26fbd8d673c141f79b66709fce8bc6ed-wt21eb;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-26fbd8d673c141f79b66709fce8bc6ed-zrmua;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Depicts work";
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-06-01T15:06:49.177+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-26fbd8d673c141f79b66709fce8bc6ed-wt21eb a <http://spinrdf.org/sp#Query>;
     <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 
 SELECT DISTINCT ?value WHERE {
-  {
-    ?subject ^crm:P56i_is_found_on/^crm:P128i_is_carried_by/^crm:P138i_has_representation ?value .
-  } UNION {
-    ?subject ^crm:P128i_is_carried_by/^crm:P138i_has_representation ?value . 
-  }
+  ?value crm:P138i_has_representation/crm:P65i_is_shown_by ?subject .
 }""" .
   
-  <https://artresearch.net/resource/field_definition/pharos_model/photo_artwork> a <http://www.researchspace.org/resource/system/fields/Field>,
-      <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
-    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-c6b5876f41f14b6ea531c8a90c4a1bb2-uqbnz;
-    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
-    <http://www.w3.org/2000/01/rdf-schema#label> "Depicts work";
-    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-c6b5876f41f14b6ea531c8a90c4a1bb2-cwnqk9;
-    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
-    <http://www.w3.org/ns/prov#generatedAtTime> "2025-04-01T22:57:00.224+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
-  
-  _:genid-c6b5876f41f14b6ea531c8a90c4a1bb2-uqbnz a <http://spinrdf.org/sp#Query>;
+  _:genid-26fbd8d673c141f79b66709fce8bc6ed-zrmua a <http://spinrdf.org/sp#Query>;
     <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
   
   <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>

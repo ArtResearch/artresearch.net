@@ -70,11 +70,11 @@
           max="100"
           step="1"
           marks='{"0": "0%", "5": "5%", "50": "50%", "100": "100%"}'
-          default-slider-value="5"
+          default-slider-value="0"
                                            
           default-query='
             SELECT ?subject WHERE {
-              ?subject crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocabulary/meta/photograph>  .
+              ?subject crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph>  .
               {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
               BIND(0 as ?score) .
             }
@@ -119,7 +119,7 @@
                   HAVING (?maxScore > 0)
                 } UNION {
                   SELECT ?subject ((((100 - ?__aiAssist__) / 100) * (SUM(?ql_score_text_var_subject) / SAMPLE(?textMaxScore))) as ?maxScore) WHERE {
-                    ?subject crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocabulary/meta/photograph>  .
+                    ?subject crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph>  .
                     {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
                     ?subject custom:has_image true .
                     ?text ql:contains-entity ?subject .
@@ -127,7 +127,7 @@
                           
                     {
                       SELECT (SUM(?ql_score_text_var_subject) AS ?textMaxScore) WHERE {
-                          ?subject crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocabulary/meta/photograph>  .
+                          ?subject crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph>  .
                           {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
                           ?subject custom:has_image true .
                           ?text ql:contains-entity ?subject .

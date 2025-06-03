@@ -41,18 +41,13 @@
               "
   }],
   "<https://artresearch.net/resource/fr/Work_from_Place>":[{
-              "kind":"literal",
-              "queryPattern": "
-  						  ?subject crm:P55_has_current_location ?location .
-                ?location rdfs:label ?__literal__ .
-              "
-  }],
+              "kind":"resource",
+              "queryPattern": "?subject crm:P55_has_current_location/(custom:sameAs?)/(crm:P89_falls_within*) ?__value__ ."
+  }],      
   "<https://artresearch.net/resource/fr/Work_kept_by_Institution>":[{
               "kind":"resource",
-              "queryPattern": "
-                ?subject crm:P50_has_current_keeper ?__value__.
-              "
-  }],
+              "queryPattern": "?subject crm:P50_has_current_keeper/(custom:sameAs?) ?__value__ ."
+  }],          
   "<http://www.cidoc-crm.org/cidoc-crm/P2_has_type>":[{
               "kind":"hierarchy",
               "queryPattern": "{

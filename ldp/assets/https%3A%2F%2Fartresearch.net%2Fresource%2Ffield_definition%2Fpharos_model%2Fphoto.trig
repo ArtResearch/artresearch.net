@@ -4,28 +4,22 @@
       <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
     <http://www.w3.org/2000/01/rdf-schema#label> "Photograph";
     <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
-    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-14ded9aabff84ec28f8a62701b34c43e-3nke9t;
-    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-14ded9aabff84ec28f8a62701b34c43e-kwi54c;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-9017832e26d4403db86c877593c85014-ms3oci;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-9017832e26d4403db86c877593c85014-3tpmjo;
     <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
-    <http://www.w3.org/ns/prov#generatedAtTime> "2025-01-14T14:38:50.172+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-06-01T00:29:24.501+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
   
-  _:genid-14ded9aabff84ec28f8a62701b34c43e-3nke9t a <http://spinrdf.org/sp#Query>;
-    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
-  
-  _:genid-14ded9aabff84ec28f8a62701b34c43e-kwi54c a <http://spinrdf.org/sp#Query>;
+  _:genid-9017832e26d4403db86c877593c85014-3tpmjo a <http://spinrdf.org/sp#Query>;
     <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 
 SELECT ?value WHERE {
-  {
-    ?subject crm:P138i_has_representation/crm:P128i_is_carried_by/crm:P56i_is_found_on ?value .
-    ?value crm:P2_has_type ?type .
-    FILTER(?type IN(<https://artresearch.net/resource/pharos/vocabulary/meta/photographic_print>, <https://artresearch.net/resource/pharos/vocabulary/meta/photograph_negative>, <https://artresearch.net/resource/pharos/vocabulary/meta/digital_photograph>)) .
-  } UNION {
-    ?subject crm:P138i_has_representation/crm:P128i_is_carried_by ?value . 
-    ?value crm:P2_has_type ?type .
-    FILTER(?type IN(<https://artresearch.net/resource/pharos/vocabulary/meta/photographic_print>, <https://artresearch.net/resource/pharos/vocabulary/meta/photograph_negative>, <https://artresearch.net/resource/pharos/vocabulary/meta/digital_photograph>)) .
-  }
+  ?subject crm:P138i_has_representation/crm:P65i_is_shown_by ?value .
+  ?value crm:P2_has_type ?type .
+  FILTER(?type IN(<https://artresearch.net/resource/pharos/vocab/meta/photographic_print>, <https://artresearch.net/resource/pharos/vocab/meta/photograph_negative>, <https://artresearch.net/resource/pharos/vocab/meta/digital_photograph>)) .
 }""" .
+  
+  _:genid-9017832e26d4403db86c877593c85014-ms3oci a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
   
   <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
       <https://artresearch.net/resource/field_definition/pharos_model/photo> .

@@ -44,7 +44,7 @@
   "<https://artresearch.net/resource/fr/Work_kept_by_Institution>":[{
               "kind":"resource",
               "queryPattern": "
-                ?subject crm:P50_has_current_keeper ?__value__.
+                ?subject crm:P70i_is_documented_in ?__value__.
               "
   }],
   "<https://artresearch.net/resource/fr/Work_has_Image>":[{
@@ -52,6 +52,13 @@
               "queryPattern": "{
                 BIND(IF(?__value__ = <http://www.w3.org/2001/XMLSchema#yes>, true, false) AS ?has) .
                 ?subject custom:has_image ?has .
+              }"
+  }],
+  "<https://artresearch.net/resource/fr/Photo_has_License>": [{
+              "kind":"resource",
+              "queryPattern": "{
+                ?subject crm:P104_is_subject_to ?right .
+                ?right crm:P2_has_type ?__value__ .
               }"
   }]
 }
