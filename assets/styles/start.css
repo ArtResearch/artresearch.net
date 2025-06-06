@@ -82,8 +82,6 @@ a {
   display: block;
 }
 
-
-
 #search-collections {
   margin-top: 10rem;
 }
@@ -123,6 +121,43 @@ a {
   font-weight: 800;
 }
 
+/* scrolling pictures in HERO*/
+.scroll-container {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .column {
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .scroll-content {
+      display: flex;
+      flex-direction: column;
+      animation: scrollUp 20s linear infinite;
+    }
+
+    .scroll-content img {
+      width: 100%;
+      height: auto;
+      display: block;
+      margin-bottom: 10px;
+
+    }
+
+    @keyframes scrollUp {
+      0% {
+        transform: translateY(0);
+      }
+      100% {
+        transform: translateY(-50%);
+      }
+    }
 /* intro */
 #intro {
   padding-top: 15em;
