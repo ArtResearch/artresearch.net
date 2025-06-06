@@ -115,6 +115,7 @@ a {
   color: grey;
   font-size: 1.2em;
   line-height: 1.2em;
+  padding-left: 6px;
 }
 
 #search-collections-payoff .bold {
@@ -211,9 +212,18 @@ a {
   margin-bottom: 0px;
 }
 
+.collection-card h3 img {
+  height: 1.5em;
+  width: auto;
+}
+
 .collection-card p {
   font-size: 1.2em;
   margin-left: 2rem;
+}
+
+.collection-card a {
+  text-decoration: none;
 }
 
 .collection-card:nth-of-type(1) {
@@ -402,6 +412,191 @@ a.mirador-osd-toggle-bottom-panel.hud-control {
   background-position-x: 45%;
   padding-top: 15em;
 }
+
+/* Search Overlay Styles */
+.main-search-button {
+  border: none !important;
+  box-shadow: none !important;
+  font-size: 2em;
+  font-family: 'CalibreMedium',sans-serif;
+}
+.main-search-button:hover {
+    box-shadow: none;
+}
+
+  .main-search-button .search-icon {
+    margin-right: 10px;
+    margin-left: 2em;
+    width: auto;
+    height: 2em;
+  }
+
+  #search-overlay {
+    background-color: #70E7C5;
+    padding: 40px;
+    overflow-y: auto;
+    font-family: "Calibre", sans-serif;
+  }
+
+  .search-overlay-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 60px;
+  }
+
+  .search-overlay-title {
+    font-size: 6rem;
+    font-weight: normal;
+    color: #000;
+    line-height: 1.2;
+  }
+
+  .search-overlay-title span {
+    display: block;
+    color: #fff;
+    font-weight: bold;
+  }
+
+  .search-overlay-close {
+    background: none;
+    border: none;
+    font-size: 2.5rem;
+    cursor: pointer;
+    color: #000;
+    line-height: 1;
+  }
+
+  .search-overlay-content {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .search-overlay-text {
+    flex: 0 0 50%;
+    padding-right: 40px;
+    margin-bottom: 40px;
+  }
+
+  .search-overlay-text p {
+    font-size: 3rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+
+  .search-overlay-form {
+    flex: 0 0 50%;
+    padding-left: 40px;
+    font-size: 2rem;
+  }
+
+  .search-input-container {
+    position: relative;
+    margin-bottom: 40px;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    background: transparent;
+    outline: none;
+    font-family: "Calibre", sans-serif;
+  }
+
+  .search-input::placeholder {
+    color: rgba(0, 0, 0, 0.5);
+  }
+
+  .search-button {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .search-button svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .drag-drop-container {
+    border: 2px dashed rgba(0, 0, 0, 0.3);
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .dropzone-area {
+    background-color: #70e7c5;
+    border: 2px dashed rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    text-align: center;
+    font-size: 2rem;
+  }
+
+  .dropzone-area.drag-accept {
+    background-color: #4acfa8;
+    border: 2px dashed rgba(0, 0, 0, 0.6);
+    box-shadow: 0 0 10px rgba(74, 207, 168, 0.5);
+    transform: scale(1.02);
+    transition: all 0.2s ease;
+    color: #333;
+    font-weight: bold;
+  }
+
+  @media (max-width: 768px) {
+    .search-overlay-content {
+      flex-direction: column;
+    }
+
+    .search-overlay-text,
+    .search-overlay-form {
+      flex: 0 0 100%;
+      padding: 0;
+    }
+  }
+
+.overlay-lightbox__dialog.modal-dialog {
+    bottom: 0;
+    left: 0;
+    margin: 0;
+    right: 0;
+    top: 0;
+    width: 100%;
+  }
+
+  .overlay-lightbox__dialog .modal-content {
+    background-color: #70E7C5;
+    border: none;
+  }
+
+  .drag-drop-container {
+      border: 2px dashed rgba(0, 0, 0, 0.3);
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .dropzone-area {
+      background-color: #70e7c5;
+      border: 2px dashed rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      text-align: center;
+      font-size: 2rem;
+    }
+
+    .dropzone-area.drag-accept {
+      background-color: #4acfa8;
+      border: 2px dashed rgba(0, 0, 0, 0.6);
+      box-shadow: 0 0 10px rgba(74, 207, 168, 0.5);
+      transform: scale(1.02);
+      transition: all 0.2s ease;
+      color: #333;
+      font-weight: bold;
+    }
 
 /* .searchBtn {
     background: white;

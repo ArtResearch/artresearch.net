@@ -9,21 +9,102 @@
         </h1>
         <section id="search-collections">
           <section class="row" id="search-collections-launcher">
-              <h3 class="col-md-5">Search the collections</h3>
-              <section class="arrow-link col-md-5">
-                <div class="search-collections-arrow">
-                  <img src="/assets/images/arrow.png" alt="arrow">
-                </div>
-                <div class="search-collections-arrow-hover">
-                  <img src="/assets/images/arrow-hover.png" alt="Profile Image">
-                </div>
-              </section>
+            <!-- <h3 class="col-md-5">Search the collections</h3>
+            <section class="arrow-link col-md-5 main-search-button">
+              <div class="search-collections-arrow">
+                <img src="/assets/images/arrow.png" alt="arrow">
+              </div>
+              <div class="search-collections-arrow-hover">
+                <img src="/assets/images/arrow-hover.png" alt="Profile Image">
+              </div>
+            </section> -->
+
+
+              <!-- Main Search Button -->
+              <mp-overlay-dialog id="search-overlay" type="lightbox">
+                <mp-overlay-dialog-trigger>
+                  <button class="main-search-button">
+                    Search the collections
+                    <img src="/assets/images/search_arrow.svg" class="search-icon" alt="">
+                    <!-- <svg class="search-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="11" cy="11" r="8" stroke="#70E7C5" stroke-width="2"/>
+                      <path d="M21 21L16.65 16.65" stroke="#70E7C5" stroke-width="2" stroke-linecap="round"/>
+                    </svg> -->
+                  </button>
+                </mp-overlay-dialog-trigger>
+                <mp-overlay-dialog-content>
+                  <div id="search-overlay">
+                    <div class="search-overlay-header">
+                      <h2 class="search-overlay-title">
+                        Search our
+                        <span>collections</span>
+                      </h2>
+                      <mp-event-trigger id="close-search-overlay" type="OverlayDialog.Close" targets='["search-overlay"]'>
+                        <button class="search-overlay-close">&times;</button>
+                      </mp-event-trigger>
+                    </div>
+
+                    <div class="search-overlay-content">
+                      <div class="search-overlay-text">
+                        <p>You can search for artworks, photographs, people, repositories, iconographic themes, all in one place.</p>
+                        <p>You can also start from an image. Paste here the URL of an online image or drag and drop one from your computer (accepted formats include .jpg and .png).</p>
+                      </div>
+
+                      <div class="search-overlay-form">
+                        <div class="search-input-container">
+                          <form-with-event id="text-search-form">
+                            <input name="query" type="text" class="search-input" placeholder="enter a text or an image URL">
+                            <button class="search-button">
+                              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+                                <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                              </svg>
+                            </button>
+                          </form-with-event>
+
+                          <mp-event-proxy id='text-search-proxy' on-event-source='text-search-form'
+                                          on-event-data='{"inputType": "text"}'
+                                          proxy-event-type='RedirectAction.perform' proxy-targets='["redirect-to-text-search"]'
+                          ></mp-event-proxy>
+
+                          <mp-event-target-redirect
+                            id='redirect-to-text-search'
+                            action='https://artresearch.net/resource/search'
+                          ></mp-event-target-redirect>
+
+                          <mp-event-proxy id='image-url-search-proxy' on-event-source='text-search-form'
+                                          on-event-data='{"inputType": "imageUrl"}'
+                                          proxy-event-type='RedirectAction.perform' proxy-targets='["redirect-to-image-search"]'
+                          ></mp-event-proxy>
+
+                          <mp-event-target-redirect
+                            id='redirect-to-image-search'
+                            action='https://artresearch.net/resource/search-with-image'
+                          ></mp-event-target-redirect>
+
+                          <mp-event-target-redirect
+                            id='redirect-to-text-search'
+                            action='https://artresearch.net/resource/search'
+                          ></mp-event-target-redirect>
+                        </div>
+
+                        <pharos-drag-and-drop id="demo-search-dnd">
+                          <p>drag and drop</p>
+                        </pharos-drag-and-drop>
+
+                        <mp-event-proxy id='image-dnd-search-proxy' on-event-source='demo-search-dnd'
+                          proxy-event-type='RedirectAction.perform' proxy-targets='["redirect-to-image-search"]'
+                        ></mp-event-proxy>
+                      </div>
+                    </div>
+                  </div>
+                </mp-overlay-dialog-content>
+              </mp-overlay-dialog>
               <p class="col-md-12" id="search-collections-payoff">
                 <span class="wrap-line">explore, connect and contextualize</span>
                 <span class="bold">art histories</span>
               </p>
           </section>
-
         </section>
       </section>
       <section class="col-md-6" id="home-images-carousel">
@@ -37,13 +118,13 @@
       <h2>artresearch.net</h2>
       <p class="extra-big">artresearch.net is the free, open access discovery platform for the
         combined collections of 
-        <a href="https://artresearch.net/resource/About">PHAROS: The International Association of Photo Archives</a>
+        <semantic-link iri="https://artresearch.net/resource/About">PHAROS: The International Association of Photo Archives</semantic-link>
         which provides access to millions of photographs of works of art,
         and over a century of art historical documentation.</p>
       <section class="buttons-group">
-        <a class="green-btn">About PHAROS <img src="/assets/images/arrow_black.png" alt="arrow"/></a>
-        <a class="black-btn">Partners <img src="/assets/images/arrow_cream.png" alt="arrow"/></a>
-        <a class="transparent-btn">visit PHAROS website <img src="/assets/images/arrow_green.png" alt="arrow"/></a>
+        <semantic-link iri="https://artresearch.net/resource/About" class="green-btn">About PHAROS <img src="/assets/images/arrow_black.png" alt="arrow"/></semantic-link>
+        <semantic-link iri="https://artresearch.net/resource/Partners" class="black-btn">Partners <img src="/assets/images/arrow_cream.png" alt="arrow"/></semantic-link>
+        <semantic-link iri="https://pharosartresearch.org/" class="transparent-btn">visit PHAROS website <img src="/assets/images/arrow_green.png" alt="arrow"/></semantic-link>
       </section>
     </section>
   </section>
@@ -57,28 +138,30 @@
         across PHAROS partners' collections for artworks, artists,
         photographs, photographers, studios, and repositories.</p>
       <section class="collections-cards col-md-12">
+          <section class="collection-card col-md-2">
+            <semantic-link iri="https://artresearch.net/resource/search">
+              <h3>Artworks <img src="/assets/images/arrow_cream_black.svg" alt="arrow"></h3>
+              <p class="white-text">1.5 Million</p>
+              <img src="/assets/images/browse_artworks.png" alt="arnolfini">
+            </semantic-link>
+          </section>
         <section class="collection-card col-md-2">
-          <h3>Artworks</h3>
-          <p class="white-text">1.5 Million</p>
-          <img src="/assets/images/browse_artworks.png" alt="arnolfini">
-        </section>
-        <section class="collection-card col-md-2">
-          <h3>Artists</h3>
+          <h3>Artists <img src="/assets/images/arrow_cream_black.svg" alt="arrow"></h3>
           <p class="white-text">25000</p>
           <img src="/assets/images/browse_artists.png" alt="michelangelo">
         </section>
         <section class="collection-card col-md-2">
-          <h3>Photographers</h3>
+          <h3>Photographers <img src="/assets/images/arrow_cream_black.svg" alt="arrow"></h3>
           <p class="white-text">7500</p>
           <img src="/assets/images/browse_photographers.png" alt="sansoni">
         </section>
         <section class="collection-card col-md-2">
-          <h3>Photographs</h3>
+          <h3>Photographs <img src="/assets/images/arrow_cream_black.svg" alt="arrow"></h3>
           <p class="white-text">2.8 Million</p>
           <img src="/assets/images/browse_photographs.png" alt="photo mount">
         </section>
         <section class="collection-card col-md-2">
-          <h3>Repositories</h3>
+          <h3>Repositories <img src="/assets/images/arrow_cream_black.svg" alt="arrow"></h3>
           <p class="white-text">8000</p>
           <img src="/assets/images/browse_repositories.png" alt="british museum">
         </section>
