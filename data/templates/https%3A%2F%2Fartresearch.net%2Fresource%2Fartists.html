@@ -111,7 +111,7 @@
       
       <div class="content-area">
         <div class="facet-column">
-          <semantic-search-facet open-by-default='true' sortby='count-desc' facet-values-threshold="5000"
+          <semantic-search-facet open-by-default='false' sortby='count-desc' facet-values-threshold="5000"
             default-value-queries='{
               "resource": "SELECT ?value (COUNT(DISTINCT $subject) AS ?count) WHERE { FILTER(?__facetRelationPattern__) } GROUP BY ?value ORDER BY DESC(?count)",
               "literal": "SELECT ?literal (COUNT(DISTINCT $subject) AS ?count) WHERE { FILTER(?__facetRelationPattern__) } GROUP BY ?literal ORDER BY DESC(?count)"
@@ -204,7 +204,7 @@ value-relations='{
               <semantic-query
                 id="grid-result"
                 prefetch-labels="false"
-                query='SELECT DISTINCT ?subject WHERE { } ORDER BY DESC(?score) DESC(?subject) LIMIT 2000'
+                query='SELECT DISTINCT ?subject (COUNT(DISTINCT ?work) AS ?worksCount) WHERE { } GROUP BY ?subject ORDER BY DESC(?score) DESC(?worksCount) LIMIT 2000'
                 template="{{> subjectCellTemplate}}"
                 no-result-template='[[> CardNoResult ]]'
               >
@@ -212,7 +212,7 @@ value-relations='{
                     <infinite-scroll item-height="100px" batch-size="10" values='{{stringify bindings}}'>
                       <template id='template'>
                         <div class="result-item">
-                          {{> Default:CardRepository}}
+                          {{> Default:CardArtist}}
                         </div>
                       </template>
                     </infinite-scroll>

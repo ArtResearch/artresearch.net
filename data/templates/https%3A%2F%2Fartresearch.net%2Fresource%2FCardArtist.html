@@ -58,26 +58,28 @@
 
 <semantic-link-container uri="{{subject.value}}" target="_blank">
   <div class="artwork-card">
-    <resource-info subject="{{subject.value}}" profile="repository-card" template="{{> template}}">
+    {{log "in the card artist" this}}
+    <resource-info subject="{{subject.value}}" profile="artist-card" template="{{> template}}">
       <template id="template">
-          <div class="info-container">            
+        {{log "in the artist resource info" this}}
+          <div class="info-container"> 
             <div class="field">
               <div class="field-label">Name</div>
               <div class="field-value">
                 {{data.label}}
               </div>
-            </div> 
+            </div>            
             
             <div class="field">
-              <div class="field-label">{{data.[https://artresearch.net/resource/field_definition/pharos_model/repository_original_record_catalog].label}}</div>
+              <div class="field-label">{{data.[https://artresearch.net/resource/field_definition/pharos_model/artist_original_record_catalog].label}}</div>
               <div class="field-value">
                 <div class="provider-icons">
-                  {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/repository_original_record_catalog].values}}
+                  {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/artist_original_record_catalog].values}}
                     <img class="provider-icon" title="{{label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
                   {{/each}}
                 </div>
               </div>
-            </div>  
+            </div>   
             
             <div class="field">
               <div class="field-label"># of Works</div>
