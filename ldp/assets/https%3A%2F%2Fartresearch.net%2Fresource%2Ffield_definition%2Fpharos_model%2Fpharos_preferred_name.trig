@@ -1,0 +1,35 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/pharos_preferred_name/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/pharos_preferred_name>
+    a <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
+      <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-2e75ac3c27ae489f87408f5cd9627a75-yvaz89;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-2e75ac3c27ae489f87408f5cd9627a75-or2wrv;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Name";
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-06-06T23:13:09.723+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-2e75ac3c27ae489f87408f5cd9627a75-or2wrv a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  _:genid-2e75ac3c27ae489f87408f5cd9627a75-yvaz89 a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+
+SELECT ?value WHERE {
+  OPTIONAL {
+    ?subject crm:P1_is_identified_by ?pharosPrefValue.
+    ?pharosPrefValue crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/pharos_preferred_name> .
+  }
+  
+  OPTIONAL {
+    ?subject crm:P1_is_identified_by ?prefValue.
+    ?prefValue crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/preferred_name> .
+  } 
+  BIND(COALESCE(?pharosPrefValue, ?prefValue) AS ?value)
+}""" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/pharos_preferred_name> .
+}

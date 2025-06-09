@@ -1,0 +1,24 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/documented_in/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/documented_in> a <http://www.researchspace.org/resource/system/fields/Field>,
+      <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-142b44b0622f4426847a0dab430be571-suafsa;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-142b44b0622f4426847a0dab430be571-0g0br;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Documented in";
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-06-03T12:23:42.672+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-142b44b0622f4426847a0dab430be571-suafsa a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+
+SELECT ?value WHERE {
+  ?subject crm:P70i_is_documented_in  ?value. 
+}""" .
+  
+  _:genid-142b44b0622f4426847a0dab430be571-0g0br a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/documented_in> .
+}

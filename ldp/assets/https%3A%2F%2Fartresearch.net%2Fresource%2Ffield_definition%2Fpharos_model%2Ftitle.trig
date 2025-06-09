@@ -8,13 +8,8 @@
 PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 
 SELECT ?value WHERE {
-  {
-    ?subject crm:P1_is_identified_by ?value.
-    ?value crm:P2_has_type/crm:P127_has_broader_term+ <https://artresearch.net/resource/pharos/vocabulary/meta/preferred_name> .
-  } UNION {
-    ?subject crm:P1_is_identified_by ?value.
-    ?value crm:P2_has_type <http://vocab.getty.edu/aat/300417193> .
-  }
+  ?subject crm:P1_is_identified_by ?value.
+  ?value crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/preferred_name> .
 }""" .
   
   <https://artresearch.net/resource/field_definition/pharos_model/title> a <http://www.researchspace.org/resource/system/fields/Field>,

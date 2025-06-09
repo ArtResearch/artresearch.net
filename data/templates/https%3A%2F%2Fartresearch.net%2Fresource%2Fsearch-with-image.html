@@ -181,7 +181,102 @@ SELECT ?subject WHERE {
                 "kind": "resource",
                 "valuesQuery": "SELECT ?value (COUNT(DISTINCT $subject) AS ?count) WHERE {
                 OPTIONAL { ?subject custom:has_image ?has } . BIND(IF(?has = true, <http://www.w3.org/2001/XMLSchema#yes>, <http://www.w3.org/2001/XMLSchema#no>) AS ?value) . } GROUP BY ?value ORDER BY DESC(?count)"
-              }
+              },
+                                           "<https://artresearch.net/resource/fr/Work_kept_by_Institution>": {
+                "kind":"hierarchy",
+                "valuesQuery": "SELECT ?value WHERE {?subject crm:P50_has_current_keeper ?value .}",
+                "queryPattern": "{
+                    ?subject crm:P50_has_current_keeper ?keeper .
+                    ?keeper custom:sameAs ?__value__ .
+                  } UNION {
+                    ?subject crm:P50_has_current_keeper ?__value__.
+                    FILTER NOT EXISTS { ?value custom:sameAs ?wikidata. }
+                  }",
+                "parentsPattern": "{ 
+                  ?value crm:PXX ?parent . 
+                 }",
+                "childrenPattern": "{ 
+                  ?child crm:PXX ?value . 
+                }",
+                "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
+              }, 
+              "<https://artresearch.net/resource/fr/Work_from_Place>": {
+                "kind":"hierarchy",
+                "valuesQuery": "SELECT ?value WHERE {?subject crm:P55_has_current_location ?value .}",
+                "queryPattern": "{    
+                  {
+                    ?subject crm:P55_has_current_location ?place .
+                    ?place custom:sameAs/crm:P89_falls_within* ?__value__ .
+                    ?__value__ crm:P71i_is_listed_in <https://artresearch.net/resource/pharos/authority> .
+                  } UNION {
+                    ?subject crm:P55_has_current_location ?place .
+                    ?place (custom:sameAs?/(crm:P89_falls_within*)) ?value.
+                    MINUS {
+                      ?value custom:sameAs ?reconciledPlace1 .
+                    }
+                  }
+                }",
+                "parentsPattern": "{
+                  {
+                    ?value crm:P89_falls_within ?parent .
+                    ?value crm:P71i_is_listed_in <https://artresearch.net/resource/pharos/authority> .
+                    ?parent crm:P71i_is_listed_in <https://artresearch.net/resource/pharos/authority> .
+                  }
+                  UNION
+                  {
+                    ?value crm:P89_falls_within ?place.
+                    ?place custom:sameAs ?parent.
+                    ?parent crm:P71i_is_listed_in <https://artresearch.net/resource/pharos/authority> .
+
+                    MINUS { ?value custom:sameAs ?reconciledPlace3. }
+                  } 
+                  UNION {
+                    ?reconciledPlace5 custom:sameAs ?value .
+                    ?reconciledPlace5 crm:P89_falls_within ?parent .
+                  }
+                  UNION
+                  {
+                    ?value crm:P89_falls_within ?parent.
+                    MINUS { ?value custom:sameAs ?reconciledPlace4. }
+                  }              
+                }",
+                "childrenPattern": "{ 
+                  {
+                    ?value crm:P89i_contains ?child .
+                    ?child crm:P71i_is_listed_in <https://artresearch.net/resource/pharos/authority> .
+                  } UNION {
+                    ?place custom:sameAs ?value .
+                    ?place crm:P89i_contains ?child .
+                    MINUS {
+                      ?child custom:sameAs ?reconciledPlace3
+                    }
+                  } UNION {
+                    ?value crm:P89i_contains ?child . 
+                    MINUS {
+                      ?child custom:sameAs ?reconciledPlace4 .
+                    }                  
+                  }
+                }",
+                "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
+  						},
+              "<https://artresearch.net/resource/fr/Work_created_from_Artist>": {
+                "kind":"hierarchy",
+                "valuesQuery": "SELECT ?value WHERE {?subject crm:P50_has_current_keeper ?value .}",
+                "queryPattern": "{
+                    ?subject crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by ?artist .
+                    ?artist custom:sameAs ?__value__ .
+                  } UNION {
+                    ?subject crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by ?__value__.
+                    FILTER NOT EXISTS { ?value custom:sameAs ?some. }
+                  }",
+                "parentsPattern": "{ 
+                  ?value crm:PXX ?parent . 
+                 }",
+                "childrenPattern": "{ 
+                  ?child crm:PXX ?value . 
+                }",
+                "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
+  						}
                              [[!--
               "<https://artresearch.net/custom/is_matched_artworks>": {
                 "kind": "resource",

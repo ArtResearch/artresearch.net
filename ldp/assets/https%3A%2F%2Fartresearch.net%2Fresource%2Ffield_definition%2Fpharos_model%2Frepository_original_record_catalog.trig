@@ -1,0 +1,28 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/repository_original_record_catalog/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/repository_original_record_catalog>
+    a <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
+      <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Photo Archive";
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-b77324e411c74b619669168d8b184879-svc25o;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-b77324e411c74b619669168d8b184879-b50gvj;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-06-03T12:31:22.948+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-b77324e411c74b619669168d8b184879-b50gvj a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX pharos: <https://artresearch.net/custom/>
+
+SELECT ?value WHERE {
+  ?work crm:P50_has_current_keeper/pharos:sameAs? ?subject .
+  ?work crm:P70i_is_documented_in/crm:P104_is_subject_to  ?ownership. 
+  ?value crm:P75_possesses ?ownership .
+}""" .
+  
+  _:genid-b77324e411c74b619669168d8b184879-svc25o a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/repository_original_record_catalog> .
+}

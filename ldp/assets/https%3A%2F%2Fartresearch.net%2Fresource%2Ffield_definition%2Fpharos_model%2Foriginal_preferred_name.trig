@@ -1,0 +1,31 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/original_preferred_name/context> {
+  _:genid-4a3e67fe6aaf4d1e8f303697d347c503-k872mk a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  <https://artresearch.net/resource/field_definition/pharos_model/original_preferred_name>
+    a <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
+      <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Name";
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-4a3e67fe6aaf4d1e8f303697d347c503-mhbve9;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-4a3e67fe6aaf4d1e8f303697d347c503-k872mk;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-06-03T12:44:14.485+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-4a3e67fe6aaf4d1e8f303697d347c503-mhbve9 a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+
+SELECT ?value WHERE {
+  ?subject crm:P1_is_identified_by ?value.
+  ?value crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/preferred_name> .
+  
+  FILTER NOT EXISTS {
+    ?value crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/pharos_preferred_name> .
+  }  
+}""" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/original_preferred_name> .
+}

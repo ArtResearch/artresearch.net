@@ -1,0 +1,36 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/preferred_title/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/preferred_title> a
+      <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
+      <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Title";
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-f0a41a74fc434c129d4c47cb800ec6dd-q1efj;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-f0a41a74fc434c129d4c47cb800ec6dd-4k3zqt;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-06-03T12:38:51.909+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-f0a41a74fc434c129d4c47cb800ec6dd-4k3zqt a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  _:genid-f0a41a74fc434c129d4c47cb800ec6dd-q1efj a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+
+SELECT ?value WHERE {
+  OPTIONAL {
+    ?subject crm:P1_is_identified_by ?value1.
+    ?value1 crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/preferred_name> .
+  }
+  
+  OPTIONAL {
+    ?subject crm:P1_is_identified_by ?value2.
+    ?value2 crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/pharos_preferred_name> .
+  }
+  
+  BIND(COALESCE(?value2, ?value1) AS ?value ) .
+}""" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/preferred_title> .
+}
