@@ -101,9 +101,9 @@
                 <bs-dropdown-toggle>
                   <div class="navDropdown-iconAndLabel">
                     <mp-resource-thumbnail iri='\{{bindings.0.systemUser.value}}' style="width: 25px; height:25px; border-radius:1.5px; object-fit: cover; object-position: top;">
-                      <mp-resource-thumbnail-fallback>
+                      <!-- <mp-resource-thumbnail-fallback>
                           <rs-icon icon-type="round" icon-name="account_box"></rs-icon>
-                      </mp-resource-thumbnail-fallback>
+                      </mp-resource-thumbnail-fallback> -->
                     </mp-resource-thumbnail>
                     \{{#if bindings.0.actorFullName.value}}
                       <div>\{{bindings.0.actorFullName.value}}</div>
@@ -181,49 +181,153 @@
                     </div>
                 </bs-dropdown-toggle>
                 <bs-dropdown-menu>
-                    <semantic-link-container uri="https://artresearch.net/resource/About">
-                        <bs-menu-item>
-                            About
-                        </bs-menu-item>
-                    </semantic-link-container>
+                  <section class="row">
+                    <section class="col-md-3">
+                      <img class="footer-logo" src="/assets/images/logo_artresearch.png" alt="logo artresearch">
+                      <p>is developed by</p>
+                      <img class="footer-logo" src="/assets/images/pharos_logo.png" alt="">
+                      <p>and supported by</p>
+                    </section>
+                    <section class="col-md-2 footer-list">
+                      <semantic-link-container uri="https://artresearch.net/resource/About">
+                          <bs-menu-item>
+                              About
+                          </bs-menu-item>
+                      </semantic-link-container>
 
-                    <semantic-link-container uri="https://artresearch.net/resource/Partners">
-                        <bs-menu-item>
-                            Partners
-                        </bs-menu-item>
-                    </semantic-link-container>
+                      <semantic-link-container uri="https://artresearch.net/resource/Partners">
+                          <bs-menu-item>
+                              Partners
+                          </bs-menu-item>
+                      </semantic-link-container>
 
-                    <semantic-link-container uri="https://artresearch.net/resource/IntellectualProperty">
-                        <bs-menu-item>
-                            Intellectual Property
-                        </bs-menu-item>
-                    </semantic-link-container>
+                      <semantic-link-container uri="https://artresearch.net/resource/IntellectualProperty">
+                          <bs-menu-item>
+                              Intellectual Property
+                          </bs-menu-item>
+                      </semantic-link-container>
 
-                    <semantic-link-container uri="https://artresearch.net/resource/PrivacyNotice">
-                        <bs-menu-item>
-                            Privacy Notice
-                        </bs-menu-item>
-                    </semantic-link-container>
+                      <semantic-link-container uri="https://artresearch.net/resource/PrivacyNotice">
+                          <bs-menu-item>
+                              Privacy Notice
+                          </bs-menu-item>
+                      </semantic-link-container>
 
-                    <semantic-link-container uri="https://artresearch.net/resource/AdvisoryBoard">
-                        <bs-menu-item>
-                            Advisory Board
-                        </bs-menu-item>
-                    </semantic-link-container>
+                      <semantic-link-container uri="https://artresearch.net/resource/AdvisoryBoard">
+                          <bs-menu-item>
+                              Advisory Board
+                          </bs-menu-item>
+                      </semantic-link-container>
 
-                    <semantic-link-container uri="https://artresearch.net/resource/TermsAndConditions">
-                        <bs-menu-item>
-                            Terms of Use
-                        </bs-menu-item>
-                    </semantic-link-container>
-                    <mp-anonymous-hidden>
-                        <li>
-                          <semantic-link iri="http://www.researchspace.org/resource/admin" title="System settings" target="_blank">
-                              <rs-icon icon-type="round" icon-name="settings"></rs-icon>
-                          </semantic-link>
-                        </li>
-                    </mp-anonymous-hidden>
+                      <semantic-link-container uri="https://artresearch.net/resource/TermsAndConditions">
+                          <bs-menu-item>
+                              Terms of Use
+                          </bs-menu-item>
+                      </semantic-link-container>
+                      <mp-anonymous-hidden>
+                          <li>
+                            <semantic-link iri="http://www.researchspace.org/resource/admin" title="System settings" target="_blank">
+                                <rs-icon icon-type="round" icon-name="settings"></rs-icon>
+                            </semantic-link>
+                          </li>
+                      </mp-anonymous-hidden>
+                    </section>
+                    <section class="col-md-2 footer-list">
+                      <semantic-link-container uri="https://artresearch.net/resource/About">
+                          <bs-menu-item>
+                              About
+                          </bs-menu-item>
+                      </semantic-link-container>
 
+                      <semantic-link-container uri="https://artresearch.net/resource/Partners">
+                          <bs-menu-item>
+                              Partners
+                          </bs-menu-item>
+                      </semantic-link-container>
+
+                      <semantic-link-container uri="https://artresearch.net/resource/IntellectualProperty">
+                          <bs-menu-item>
+                              Intellectual Property
+                          </bs-menu-item>
+                      </semantic-link-container>
+
+                      <semantic-link-container uri="https://artresearch.net/resource/PrivacyNotice">
+                          <bs-menu-item>
+                              Privacy Notice
+                          </bs-menu-item>
+                      </semantic-link-container>
+
+                      <semantic-link-container uri="https://artresearch.net/resource/AdvisoryBoard">
+                          <bs-menu-item>
+                              Advisory Board
+                          </bs-menu-item>
+                      </semantic-link-container>
+
+                      <semantic-link-container uri="https://artresearch.net/resource/TermsAndConditions">
+                          <bs-menu-item>
+                              Terms of Use
+                          </bs-menu-item>
+                      </semantic-link-container>
+                      <mp-anonymous-hidden>
+                          <li>
+                            <semantic-link iri="http://www.researchspace.org/resource/admin" title="System settings" target="_blank">
+                                <rs-icon icon-type="round" icon-name="settings"></rs-icon>
+                            </semantic-link>
+                          </li>
+                      </mp-anonymous-hidden>
+                    </section>
+                    <section class="col-md-2 footer-list">
+                      <semantic-link-container uri="https://artresearch.net/resource/About">
+                          <bs-menu-item>
+                              About
+                          </bs-menu-item>
+                      </semantic-link-container>
+
+                      <semantic-link-container uri="https://artresearch.net/resource/Partners">
+                          <bs-menu-item>
+                              Partners
+                          </bs-menu-item>
+                      </semantic-link-container>
+
+                      <semantic-link-container uri="https://artresearch.net/resource/IntellectualProperty">
+                          <bs-menu-item>
+                              Intellectual Property
+                          </bs-menu-item>
+                      </semantic-link-container>
+
+                      <semantic-link-container uri="https://artresearch.net/resource/PrivacyNotice">
+                          <bs-menu-item>
+                              Privacy Notice
+                          </bs-menu-item>
+                      </semantic-link-container>
+
+                      <semantic-link-container uri="https://artresearch.net/resource/AdvisoryBoard">
+                          <bs-menu-item>
+                              Advisory Board
+                          </bs-menu-item>
+                      </semantic-link-container>
+
+                      <semantic-link-container uri="https://artresearch.net/resource/TermsAndConditions">
+                          <bs-menu-item>
+                              Terms of Use
+                          </bs-menu-item>
+                      </semantic-link-container>
+                      <mp-anonymous-hidden>
+                          <li>
+                            <semantic-link iri="http://www.researchspace.org/resource/admin" title="System settings" target="_blank">
+                                <rs-icon icon-type="round" icon-name="settings"></rs-icon>
+                            </semantic-link>
+                          </li>
+                      </mp-anonymous-hidden>
+                    </section>
+                    <section class="logos_sponsors col-md-12 justify-content-md-center">
+                      <img class="footer-logo-small" src="/assets/images/logo_kress.png" alt="logo kress">
+                      <img class="footer-logo-small" src="/assets/images/logo_mellon.png" alt="logo mellon">
+                      <img class="footer-logo-small" src="/assets/images/logo_neh.png" alt="logo neh">
+                      <img class="footer-logo-small" src="/assets/images/logo_hertziana.png" alt="logo hertziana">
+                      <img class="footer-logo-small" src="/assets/images/logo_researchspace.png" alt="logo researchspace">
+                    </section>
+                  </section>
 
                     <!-- <bs-menu-item  href="mailto:info@artresearch.net">
                         Contact us
