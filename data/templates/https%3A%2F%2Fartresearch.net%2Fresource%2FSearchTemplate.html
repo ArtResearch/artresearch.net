@@ -1,8 +1,4 @@
-<div class="page">    
-
-  <div class="main-container">
-
-    <style>
+<style>
   .search-container {
     display: flex;
     flex-direction: column;
@@ -45,18 +41,6 @@
     <semantic-search
       save-state-in-browser-history="false"
       limit=10000
-      categories='{
-        "<http://www.w3.org/2001/XMLSchema#date>": [{
-          "kind": "date-range",
-          "datatype": "http://www.w3.org/2001/XMLSchema#date",
-          "queryPattern": "
-            {
-              $subject ?__relation__ ?date .
-              FILTER(?date <= ?__dateEndValue__) .
-              FILTER(?date >= ?__dateBeginValue__) .
-            }"
-          }]
-      }'
       relations='[[> SearchSimpleRelationsMidas]]'
       search-profile='[[> SearchSimpleProfile]]'
                      
@@ -327,5 +311,3 @@
         </div>
       </div>
     </semantic-search>
-  </div>
-</div>

@@ -1,12 +1,14 @@
-<ol class="page-breadcrumb">
-  <li>
+<ol class="page-breadcrumb">  
+  {{#if breadcrumb}}
+    <li>
     <mp-link title="Home" url="/">Home</mp-link>
   </li>
-  
-  {{#if breadcrumb}}
     <li class="active">{{{breadcrumb}}}</li>
   {{else if breadcrumbs}}
     {{#each breadcrumbs}}
+      <li>
+        <mp-link title="Home" url="/">Home</mp-link>
+      </li>
       <li class="{{#if @last}}active{{/if}}">
         {{#if this.iri}}
           <semantic-link title="{{this.label}}" iri="{{this.iri}}">{{this.label}}</semantic-link>

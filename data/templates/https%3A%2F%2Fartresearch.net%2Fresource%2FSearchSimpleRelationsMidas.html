@@ -1,4 +1,17 @@
 {
+  "<https://artresearch.net/resource/fr/Work_has_production_Date>":[{
+    "kind": "date-range", 
+    "queryPattern": "{
+        $subject crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P4_has_time-span ?timeSpan .
+        ?timeSpan crm:P82a_begin_of_the_begin ?begin .
+        ?timeSpan crm:P82b_end_of_the_end ?end .
+    
+        OPTIONAL { ?timeSpan crm:P82a_begin_of_the_begin ?begin . }
+        OPTIONAL { ?timeSpan crm:P82b_end_of_the_end ?end . }
+
+        FILTER ((!BOUND(?begin) || ?begin <= ?__dateEndValue__) && (!BOUND(?end) || ?end >= ?__dateBeginValue__))    
+    }"
+  }],
   "<http://www.cidoc-crm.org/cidoc-crm/P70i_is_documented_in>":[{
               "kind":"resource",
               "queryPattern": "
