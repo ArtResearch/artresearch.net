@@ -2,10 +2,16 @@
   "<https://artresearch.net/resource/fr/Work_created_from_Artist>": [{
               "kind":"hierarchy",
               "queryPattern": "{
-                ?subject crm:P108i_was_produced_by/crm:P14_carried_out_by/crm:P107i_is_current_or_former_member_of* ?__value__ .
+                  {
+                    ?subject crm:P108i_was_produced_by/crm:P14_carried_out_by/crm:P107i_is_current_or_former_member_of* ?photographer .
+                    ?photographer custom:sameAs ?__value__ .
+                  } UNION {
+                    ?subject crm:P108i_was_produced_by/crm:P14_carried_out_by/crm:P107i_is_current_or_former_member_of* ?__value__.
+                    FILTER NOT EXISTS { ?__value__ custom:sameAs ?wikidata. }
+                  }
               }",
-              "parentsPattern": "{ ?value crm:P107i_is_current_or_former_member_of ?parent . }",
-              "childrenPattern": "{ ?child crm:P107i_is_current_or_former_member_of ?value . }",
+              "parentsPattern": "{ ?value custom:sameAs?/crm:P107i_is_current_or_former_member_of/custom:sameAs? ?parent . }",
+              "childrenPattern": "{ ?child custom:sameAs?/crm:P107i_is_current_or_former_member_of/custom:sameAs? ?value . }",
               "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
   }],
   "<https://artresearch.net/resource/fr/Work_consists_of_Material>":[{
