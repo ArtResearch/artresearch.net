@@ -1,0 +1,26 @@
+{
+  "<https://artresearch.net/resource/fr/Person_has_Gender>":[{
+              "kind":"resource",
+              "queryPattern": "
+                {
+                  ?subject crm:P2_has_type ?__value__ .
+                  FILTER(?__value__ in (<https://artresearch.net/resource/pharos/vocab/meta/male>, <https://artresearch.net/resource/pharos/vocab/meta/female>))
+                }
+              " 
+
+    }],
+ "<https://artresearch.net/resource/fr/Person_has_Life_Dates>":[{
+    "kind": "date-range",
+    "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+    "format": "YYYY-MM-DDTHH:mm:ss.SSS[Z]",
+    "queryPattern": "{  
+        $subject crm:P100i_died_in/crm:P4_has_time-span ?deathTimeSpan .
+        ?deathTimeSpan crm:P82b_end_of_the_end ?end .
+    
+        $subject crm:P98i_was_born/crm:P4_has_time-span ?birthTimeSpan .
+        ?birthTimeSpan crm:P82a_begin_of_the_begin ?begin .
+    
+        FILTER ((?begin <= ?__dateEndValue__) && (?end >= ?__dateBeginValue__))    
+    }"
+  }]
+}

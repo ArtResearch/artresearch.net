@@ -2,23 +2,22 @@
 <https://artresearch.net/resource/field_definition/pharos_model/photo/context> {
   <https://artresearch.net/resource/field_definition/pharos_model/photo> a <http://www.researchspace.org/resource/system/fields/Field>,
       <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-3f80e48756db4c718f2c9ba744c9e25d-ewe8y;
     <http://www.w3.org/2000/01/rdf-schema#label> "Photograph";
     <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
-    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-9017832e26d4403db86c877593c85014-ms3oci;
-    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-9017832e26d4403db86c877593c85014-3tpmjo;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-3f80e48756db4c718f2c9ba744c9e25d-2wz80q;
     <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
-    <http://www.w3.org/ns/prov#generatedAtTime> "2025-06-01T00:29:24.501+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-06-12T08:23:58.035+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
   
-  _:genid-9017832e26d4403db86c877593c85014-3tpmjo a <http://spinrdf.org/sp#Query>;
+  _:genid-3f80e48756db4c718f2c9ba744c9e25d-2wz80q a <http://spinrdf.org/sp#Query>;
     <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 
 SELECT ?value WHERE {
   ?subject crm:P138i_has_representation/crm:P65i_is_shown_by ?value .
-  ?value crm:P2_has_type ?type .
-  FILTER(?type IN(<https://artresearch.net/resource/pharos/vocab/meta/photographic_print>, <https://artresearch.net/resource/pharos/vocab/meta/photograph_negative>, <https://artresearch.net/resource/pharos/vocab/meta/digital_photograph>)) .
+  ?value crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph> .
 }""" .
   
-  _:genid-9017832e26d4403db86c877593c85014-ms3oci a <http://spinrdf.org/sp#Query>;
+  _:genid-3f80e48756db4c718f2c9ba744c9e25d-ewe8y a <http://spinrdf.org/sp#Query>;
     <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
   
   <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>

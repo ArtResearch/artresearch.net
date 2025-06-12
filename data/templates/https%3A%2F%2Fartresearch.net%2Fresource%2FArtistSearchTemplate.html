@@ -1,6 +1,3 @@
-<div class="page">    
-
-  <div class="main-container">
 
     <style>
   .search-container {
@@ -57,8 +54,8 @@
             }"
           }]
       }'
-      relations='[[> RepositorySearchRelations]]'
-      search-profile='[[> RepositorySearchProfile]]'
+      relations='[[> PersonSearchRelations]]'
+      search-profile='[[> PersonSearchProfile]]'
                      
       datasets-config='{"datasetPattern": "", "datasets": [{"label": "PHAROS", "isDefault": true, "alignments": [{"iri": "http://vocab.getty.edu/aat/", "label": "Getty", "isDefault": true}, {"iri": "https://artresearch.net/resource/midas/vocabulary", "label": "MIDAS"}, {"iri": "https://artresearch.net/resource/zeri/vocabulary", "label": "Zeri"}]}]}'
     >
@@ -73,14 +70,17 @@
           default-query='
             SELECT ?subject WHERE {
               {
-                ?work crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph> .
-                ?work crm:P108i_was_produced_by/crm:P14_carried_out_by/custom:sameAs/crm:P107i_is_current_or_former_member_of? ?subject .
+                ?work crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                ?work crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by/custom:sameAs ?subject .
               } UNION {
-                ?work crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph> .               ?work crm:P108i_was_produced_by/crm:P14_carried_out_by/crm:P107i_is_current_or_former_member_of? ?subject .
+                ?work crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                ?work crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by ?subject .
                 FILTER NOT EXISTS {
                   ?subject custom:sameAs ?reconciled .
                 }
               }
+              {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+
               BIND(0 as ?score) .
             }
           '
@@ -88,15 +88,14 @@
           PREFIX ql: <http://qlever.cs.uni-freiburg.de/builtin-functions/>
           SELECT DISTINCT ?subject WHERE {
               {
-                ?work crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph> .
-                ?work crm:P108i_was_produced_by/crm:P14_carried_out_by/custom:sameAs/crm:P107i_is_current_or_former_member_of? ?subject .
+                ?work crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by/custom:sameAs ?subject .
               } UNION {
-                ?work crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph> .
-                ?work crm:P108i_was_produced_by/crm:P14_carried_out_by/crm:P107i_is_current_or_former_member_of? ?subject .
+                ?work crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by ?subject .
                 FILTER NOT EXISTS {
                   ?subject custom:sameAs ?reconciled .
                 }
               }
+              {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
               {
                 ?text ql:contains-entity ?subject .
                 ?text ql:contains-word ?__token__ .
@@ -116,72 +115,6 @@
             default-value-queries='{
               "resource": "SELECT ?value (COUNT(DISTINCT $subject) AS ?count) WHERE { FILTER(?__facetRelationPattern__) } GROUP BY ?value ORDER BY DESC(?count)",
               "literal": "SELECT ?literal (COUNT(DISTINCT $subject) AS ?count) WHERE { FILTER(?__facetRelationPattern__) } GROUP BY ?literal ORDER BY DESC(?count)"
-            }'
-value-relations='{
-              "<https://artresearch.net/resource/fr/Repository_from_Place>": {
-                "kind":"hierarchy",
-                "valuesQuery": "SELECT ?value WHERE {?subject crm:P55_has_current_location ?value .}",
-                "queryPattern": "{    
-                  {
-                    ?subject crm:P55_has_current_location ?place .
-                    ?place custom:sameAs/crm:P89_falls_within* ?__value__ .
-                    ?__value__ crm:P71i_is_listed_in <https://artresearch.net/resource/pharos/authority> .
-                  } UNION {
-                    ?originalSubject custom:sameAs ?subject .
-                    ?orginalSubject crm:P55_has_current_location ?place .
-                    ?place custom:sameAs/crm:P89_falls_within* ?__value__ .
-                    ?__value__ crm:P71i_is_listed_in <https://artresearch.net/resource/pharos/authority> .
-                 } UNION {
-                    ?subject crm:P55_has_current_location ?place .
-                    ?place (custom:sameAs?/(crm:P89_falls_within*)) ?value.
-                    MINUS {
-                      ?value custom:sameAs ?reconciledPlace1 .
-                    }
-                  }
-                }",
-                "parentsPattern": "{
-                  {
-                    ?value crm:P89_falls_within ?parent .
-                    ?value crm:P71i_is_listed_in <https://artresearch.net/resource/pharos/authority> .
-                    ?parent crm:P71i_is_listed_in <https://artresearch.net/resource/pharos/authority> .
-                  }
-                  UNION
-                  {
-                    ?value crm:P89_falls_within ?place.
-                    ?place custom:sameAs ?parent.
-                    ?parent crm:P71i_is_listed_in <https://artresearch.net/resource/pharos/authority> .
-
-                    MINUS { ?value custom:sameAs ?reconciledPlace3. }
-                  } 
-                  UNION {
-                    ?reconciledPlace5 custom:sameAs ?value .
-                    ?reconciledPlace5 crm:P89_falls_within ?parent .
-                  }
-                  UNION
-                  {
-                    ?value crm:P89_falls_within ?parent.
-                    MINUS { ?value custom:sameAs ?reconciledPlace4. }
-                  }              
-                }",
-                "childrenPattern": "{ 
-                  {
-                    ?value crm:P89i_contains ?child .
-                    ?child crm:P71i_is_listed_in <https://artresearch.net/resource/pharos/authority> .
-                  } UNION {
-                    ?place custom:sameAs ?value .
-                    ?place crm:P89i_contains ?child .
-                    MINUS {
-                      ?child custom:sameAs ?reconciledPlace3
-                    }
-                  } UNION {
-                    ?value crm:P89i_contains ?child . 
-                    MINUS {
-                      ?child custom:sameAs ?reconciledPlace4 .
-                    }                  
-                  }
-                }",
-                "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
-  						}
             }'
           >
           </semantic-search-facet>
@@ -224,5 +157,3 @@ value-relations='{
         </div>
       </div>
     </semantic-search>
-  </div>
-</div>
