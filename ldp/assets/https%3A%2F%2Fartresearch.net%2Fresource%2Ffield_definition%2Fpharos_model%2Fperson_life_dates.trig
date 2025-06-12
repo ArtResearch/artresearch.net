@@ -1,0 +1,27 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/person_life_dates/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/person_life_dates>
+    a <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
+      <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-101a560c33604ce6b35090f80de33faf-zvq7zo;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-101a560c33604ce6b35090f80de33faf-n3859i;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#string>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Life Dates";
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-06-12T12:09:18.345+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-101a560c33604ce6b35090f80de33faf-n3859i a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  _:genid-101a560c33604ce6b35090f80de33faf-zvq7zo a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+
+SELECT ?value WHERE {
+  $subject crm:P100i_died_in/crm:P4_has_time-span/crm:P1_is_identified_by/crm:P190_has_symbolic_content ?deathDate .
+  $subject crm:P98i_was_born/crm:P4_has_time-span/crm:P1_is_identified_by/crm:P190_has_symbolic_content ?birthDate .
+  BIND(CONCAT(?birthDate, "-", ?deathDate) AS ?value)
+}""" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/person_life_dates> .
+}
