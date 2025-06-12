@@ -20,7 +20,7 @@
               {{/if}}
             {{/if}}
           </div>
-          <div class="info-container">
+          <div class="info-container cursor">
             <span class="author-name">{{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/creator" label="Creator"}}
             </span>
             <span class="bold-text">{{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/title" label="Title"}}
@@ -33,6 +33,7 @@
               <div class="field-label">{{data.[https://artresearch.net/resource/field_definition/pharos_model/original_record_catalog].label}}</div>
               <div class="field-value">
                 <div class="provider-icons">
+                  <span class="provider-icons-text bold-text">PHOTO ARCHIVES</span>
                   {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/original_record_catalog].values}}
                     <img class="provider-icon" title="{{label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
                   {{/each}}
@@ -44,7 +45,7 @@
 
       <template id="fieldTemplate">
         {{#if (lookup data field)}}
-            <div class="field">
+            <div class="field field-{{label}}">
               <div class="field-label">{{label}}</div>
               <div class="field-value">
                 {{#each (lookup (lookup data field) 'values')}}
