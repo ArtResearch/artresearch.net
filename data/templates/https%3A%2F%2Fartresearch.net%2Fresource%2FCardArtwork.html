@@ -51,14 +51,14 @@
                   {{#if [@id]}}
                       [[!-- <semantic-link iri="{{[@id]}}">{{label}}</semantic-link> --]]
                     {{label}}
-                    {{#unless @last}}, {{/unless}}
+                    {{#unless @last}} · {{/unless}}
                   {{else}}
                     {{#if (eq ../field "https://artresearch.net/resource/field_definition/pharos_model/production_date")}}
                       {{dateRangeFormat [@value]}}
                     {{else}}
                       {{[@value]}}
                     {{/if}}
-                    {{#unless @last}}, {{/unless}}
+                    {{#unless @last}} · {{/unless}}
                   {{/if}}
                 {{/each}}
               </div>
