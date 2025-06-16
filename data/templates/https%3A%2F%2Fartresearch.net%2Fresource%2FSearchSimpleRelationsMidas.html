@@ -51,10 +51,24 @@
               }"
   }],
   "<https://artresearch.net/resource/fr/Work_shows_Subject>":[{
-              "kind":"resource",
-              "queryPattern": "
-                ?subject crm:P65_shows_visual_item ?__value__ .
-              "
+              "kind":"hierarchy",
+              "queryPattern": "{
+                {
+                  ?subject crm:P65_shows_visual_item/crm:P2_has_type ?s .
+                  ?s crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/subject>  .
+    							?s custom:sameAs/crm:P130_shows_features_of?/crm:P127_has_broader_term* ?__value__ .
+                } UNION {
+                  ?subject crm:P65_shows_visual_item/crm:P2_has_type ?s .
+                  ?s crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/subject>  .
+                  ?s crm:P130_shows_features_of?/crm:P127_has_broader_term* ?__value__
+                  MINUS {
+    							  ?__value__ custom:sameAs ?some .
+                  }
+                }
+              }",
+              "parentsPattern": "{ ?value crm:P127_has_broader_term ?parent . }",
+              "childrenPattern": "{ ?child crm:P127_has_broader_term ?value . }",
+              "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
   }],
   "<https://artresearch.net/resource/fr/Work_from_Place>":[{
               "kind":"resource",

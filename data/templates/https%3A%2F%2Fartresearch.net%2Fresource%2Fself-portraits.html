@@ -1,0 +1,12 @@
+<inline-template template-iri="Default:SearchAllTemplate" 
+                 options='{
+                            "pageTitle":"Self Portrait Artworks", 
+                            "searchRestrictions": "{
+                              {
+                                ?subject crm:P65_shows_visual_item/crm:P2_has_type/custom:sameAs?/crm:P127_has_broader_term* <http://iconclass.org/48B3> . 
+                              } UNION {
+                                ?subject crm:P65_shows_visual_item/crm:P2_has_type/crm:P1_is_identified_by/crm:P190_has_symbolic_content ?label . 
+                                FILTER REGEX(?label,\\\".*(self portrait|self-portrait|autoritratto|selbestbildnis|selbstportrait|selbstdarstellung)\\\",\\\"i\\\") .
+                              }
+                             }"
+                          }'></inline-template>

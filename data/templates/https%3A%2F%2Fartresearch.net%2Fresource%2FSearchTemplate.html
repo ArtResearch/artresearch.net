@@ -114,10 +114,6 @@
               "literal": "SELECT ?literal (COUNT(DISTINCT $subject) AS ?count) WHERE { FILTER(?__facetRelationPattern__) } GROUP BY ?literal ORDER BY DESC(?count)"
             }'
             value-relations='{
-              "<https://artresearch.net/resource/fr/Work_shows_Subject>": {
-                "kind": "resource",
-                "valuesQuery": "SELECT ?value (COUNT(DISTINCT $subject) AS ?count) WHERE { ?subject crm:P65_shows_visual_item ?value . ?value crm:P2_has_type <http://vocab.getty.edu/aat/300404126> . } GROUP BY ?value ORDER BY DESC(?count)"
-              },
               "<https://artresearch.net/resource/fr/Work_kept_by_Institution>": {
                 "kind":"hierarchy",
                 "valuesQuery": "SELECT ?value WHERE {?subject crm:P50_has_current_keeper ?value .}",
