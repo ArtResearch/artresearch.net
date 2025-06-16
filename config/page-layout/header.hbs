@@ -93,66 +93,66 @@
                                   }'
                           template='\{{> template}}'>
 
-            <template id='template'>
+              <template id='template'>
 
-              <bs-dropdown id="navbar-dropdown" class="user-dropdown">
-                <bs-dropdown-toggle>
-                  <div class="navDropdown-iconAndLabel">
-                    <mp-resource-thumbnail iri='\{{bindings.0.systemUser.value}}' style="width: 25px; height:25px; border-radius:1.5px; object-fit: cover; object-position: top;">
-                      <!-- <mp-resource-thumbnail-fallback>
-                          <rs-icon icon-type="round" icon-name="account_box"></rs-icon>
-                      </mp-resource-thumbnail-fallback> -->
-                    </mp-resource-thumbnail>
+                <bs-dropdown id="navbar-dropdown" class="user-dropdown">
+                  <bs-dropdown-toggle>
+                    <div class="navDropdown-iconAndLabel">
+                      <mp-resource-thumbnail iri='\{{bindings.0.systemUser.value}}' style="width: 25px; height:25px; border-radius:1.5px; object-fit: cover; object-position: top;">
+                        <!-- <mp-resource-thumbnail-fallback>
+                            <rs-icon icon-type="round" icon-name="account_box"></rs-icon>
+                        </mp-resource-thumbnail-fallback> -->
+                      </mp-resource-thumbnail>
+                      \{{#if bindings.0.actorFullName.value}}
+                        <div>\{{bindings.0.actorFullName.value}}</div>
+                      \{{else}}
+                        <div>\{{bindings.0.systemUserName.value}}</div>
+                      \{{/if}}
+                    </div>
+                  </bs-dropdown-toggle>
+                  <bs-dropdown-menu>
                     \{{#if bindings.0.actorFullName.value}}
-                      <div>\{{bindings.0.actorFullName.value}}</div>
-                    \{{else}}
-                      <div>\{{bindings.0.systemUserName.value}}</div>
-                    \{{/if}}
-                  </div>
-                </bs-dropdown-toggle>
-                <bs-dropdown-menu>
-                  \{{#if bindings.0.actorFullName.value}}
-                    <semantic-link-container  uri="http://www.researchspace.org/resource/ThinkingFrames"
-                                              urlqueryparam-view='resource-editor'
-                                              urlqueryparam-entity-type-config='http://www.researchspace.org/resource/system/resource_configurations_container/data/User'
-                                              urlqueryparam-resource-iri="\{{bindings.0.systemUser.value}}"
-                                              urlqueryparam-mode='edit'>
-                      <bs-menu-item>
-                        <rs-icon icon-type="rounded" icon-name="account_box" class="icon-left" symbol="true"></rs-icon>
-                        <span>My profile</span>
-                      </bs-menu-item>
-                    </semantic-link-container>
-                  \{{else}}
-                      <bs-menu-item>
-                        <rs-icon icon-type="rounded" icon-name="account_box" class="icon-left" symbol="true"></rs-icon>
-                        <span>My profile (not registered user)</span>
-                      </bs-menu-item>
-                  \{{/if}}
-
-                  \{{#if bindings.0.group.value}}
-                    \{{#each bindings}}
                       <semantic-link-container  uri="http://www.researchspace.org/resource/ThinkingFrames"
                                                 urlqueryparam-view='resource-editor'
                                                 urlqueryparam-entity-type-config='http://www.researchspace.org/resource/system/resource_configurations_container/data/User'
-                                                urlqueryparam-resource-iri="\{{group.value}}"
+                                                urlqueryparam-resource-iri="\{{bindings.0.systemUser.value}}"
                                                 urlqueryparam-mode='edit'>
                         <bs-menu-item>
-                          <rs-icon icon-type="rounded" icon-name="groups" class="icon-left" symbol="true"></rs-icon>
-                          <span>My team - \{{groupFullName.value}}</span>
+                          <rs-icon icon-type="rounded" icon-name="account_box" class="icon-left" symbol="true"></rs-icon>
+                          <span>My profile</span>
                         </bs-menu-item>
                       </semantic-link-container>
-                    \{{/each}}
-                  \{{/if}}
+                    \{{else}}
+                        <bs-menu-item>
+                          <rs-icon icon-type="rounded" icon-name="account_box" class="icon-left" symbol="true"></rs-icon>
+                          <span>My profile (not registered user)</span>
+                        </bs-menu-item>
+                    \{{/if}}
 
-                  <bs-menu-item divider="true"></bs-menu-item>
+                    \{{#if bindings.0.group.value}}
+                      \{{#each bindings}}
+                        <semantic-link-container  uri="http://www.researchspace.org/resource/ThinkingFrames"
+                                                  urlqueryparam-view='resource-editor'
+                                                  urlqueryparam-entity-type-config='http://www.researchspace.org/resource/system/resource_configurations_container/data/User'
+                                                  urlqueryparam-resource-iri="\{{group.value}}"
+                                                  urlqueryparam-mode='edit'>
+                          <bs-menu-item>
+                            <rs-icon icon-type="rounded" icon-name="groups" class="icon-left" symbol="true"></rs-icon>
+                            <span>My team - \{{groupFullName.value}}</span>
+                          </bs-menu-item>
+                        </semantic-link-container>
+                      \{{/each}}
+                    \{{/if}}
 
-                  <bs-menu-item href="/logout" title='logout'>
-                    <rs-icon icon-type="rounded" icon-name="logout" class="icon-left" symbol="true"></rs-icon>
-                    <span>Logout</span>
-                  </bs-menu-item>
-                </bs-dropdown-menu>
-              </bs-dropdown>
-            </template>
+                    <bs-menu-item divider="true"></bs-menu-item>
+
+                    <bs-menu-item href="/logout" title='logout'>
+                      <rs-icon icon-type="rounded" icon-name="logout" class="icon-left" symbol="true"></rs-icon>
+                      <span>Logout</span>
+                    </bs-menu-item>
+                  </bs-dropdown-menu>
+                </bs-dropdown>
+              </template>
             </semantic-query>
           </template>
         </mp-event-target-template-render>
@@ -180,11 +180,12 @@
                 </bs-dropdown-toggle>
                 <bs-dropdown-menu>
                   <section class="row">
-                    <section class="col-md-3">
-                      <img class="footer-logo" src="/assets/images/logo_artresearch.png" alt="logo artresearch">
-                      <p>is developed by</p>
-                      <img class="footer-logo" src="/assets/images/pharos_logo.png" alt="">
-                      <p>and supported by</p>
+                    <section class="col-md-3 col-sm-6">
+                      <a href="/"><img class="footer-logo" src="/assets/images/logo_artresearch.png" alt="logo artresearch">
+                      </a>
+                      <p clasS="none-small">is developed by</p>
+                      <img class="footer-logo none-small" src="/assets/images/pharos_logo.png" alt="">
+                      <p class="none-small">and supported by</p>
                     </section>
                     <section class="col-md-2 footer-list">
                       <semantic-link-container uri="https://artresearch.net/resource/search">
@@ -286,7 +287,7 @@
 
 
                     </section>
-                    <section class="logos_sponsors col-md-12 justify-content-md-center">
+                    <section class="none-small logos_sponsors col-md-12 justify-content-md-center">
                       <img class="footer-logo-small" src="/assets/images/logo_kress.png" alt="logo kress">
                       <img class="footer-logo-small" src="/assets/images/logo_mellon.png" alt="logo mellon">
                       <img class="footer-logo-small" src="/assets/images/logo_neh.png" alt="logo neh">

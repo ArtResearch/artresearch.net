@@ -630,17 +630,7 @@ a.mirador-osd-toggle-bottom-panel.hud-control {
     font-weight: bold;
   }
 
-  @media (max-width: 768px) {
-    .search-overlay-content {
-      flex-direction: column;
-    }
 
-    .search-overlay-text,
-    .search-overlay-form {
-      flex: 0 0 100%;
-      padding: 0;
-    }
-  }
 
 .overlay-lightbox__dialog.modal-dialog {
     bottom: 0;
@@ -679,6 +669,112 @@ a.mirador-osd-toggle-bottom-panel.hud-control {
       color: #333;
       font-weight: bold;
     }
+
+/* MEDIA QUERIES */
+
+/*Devices smaller than 767px*/
+@media (max-width: 767px) {
+  .none-small {
+    display: none;
+  }
+
+  /* HERO */
+  #home-images-carousel {
+    margin-top: 10em;
+  }
+  .search-overlay-content {
+    flex-direction: column;
+  }
+
+  .search-overlay-text,
+  .search-overlay-form {
+    flex: 0 0 100%;
+    padding: 0;
+  }
+
+  /* INTRO */
+  .buttons-group a {
+    display: inline-block;
+    margin: 10px 10px 10px 0px;
+  }
+
+  /* BROWSE*/
+
+  .home-section:nth-of-type(3) {
+    border-bottom-left-radius: 100px;
+  }
+  .home-section:nth-of-type(3) p {
+    padding-right: 9rem;
+  }
+  .collection-card {
+    margin-top: 3em;
+  }
+  .collection-card:nth-of-type(1) {
+    margin-left: 0px;
+  }
+  .collection-card:nth-of-type(2),
+  .collection-card:nth-of-type(3),
+  .collection-card:nth-of-type(4),
+  .collection-card:last-of-type {
+    margin-left: 0px;
+  }
+
+  .collection-card img {
+    width: 40rem !important;
+    height: auto;
+  }
+
+  .collection-card h3 img {
+    width: auto !important;
+    margin-left: 2em;
+  }
+
+  /* EXPLORE */
+  .home-section:nth-of-type(4) {
+    background-position-y: 7%;
+  }
+  .home-section:nth-of-type(4) p .wrap-line {
+    display: inline;
+  }
+
+  .explore-card img {
+    width: 100%;
+    height: auto;
+    padding: 2em 0px 1em 0px;
+  }
+
+  .explore-card p img {
+    height: 1.4em;
+    padding: 0px;
+  }
+
+  /* STORIES */
+  .story {
+    margin-left: -30px;
+  }
+  .story-image {
+    width: 30%;
+    height: auto;
+  }
+  .popover__content {
+    left:0;
+  }
+
+  /* FOOTER */
+  .footer-logo-small {
+    margin-top: 2em;
+  }
+}
+
+/*Devices between 768px and 1024px*/
+@media (min-width: 768px) and (max-width: 1024px) {
+
+}
+
+/*Devices larger than 1024px*/
+@media (min-width: 1024px) {
+
+}
 
 /* .searchBtn {
     background: white;

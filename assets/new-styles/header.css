@@ -51,7 +51,7 @@ nav {
     overflow: initial;
     position: fixed;
     top: 1rem;
-    left: 1rem;
+    left: 0px;
     background-color: #fff9e8;
     border: none;
     box-shadow: none;
@@ -61,7 +61,7 @@ nav {
 }
 
 .user-dropdown #navbar-dropdown {
-  background-color: transparent !important;
+  background-color: #fff9e8;
   color: black;
 }
 
@@ -73,7 +73,9 @@ nav {
   display: none;
 }
 
-
+.visible {
+  display: block;
+}
 
 ol.page-breadcrumb {
     font-size: 1.8rem;
@@ -109,4 +111,48 @@ ol.page-breadcrumb li a {
 
 .rs-header .provider-icon {
     box-shadow: none;
+}
+
+
+/* MEDIA QUERIES */
+
+/*Devices smaller than 767px*/
+@media (max-width: 767px) {
+  .none-small {
+    display: none;
+  }
+
+  .navbar-right {
+    margin: 3rem 9rem;
+  }
+
+  .rs-header .dropdown-menu {
+      /* max-height: initial; */
+      min-height: 85vh;
+      overflow: initial;
+      position: fixed;
+      top: 1rem;
+      background-color: #fff9e8;
+      border: none;
+      box-shadow: none;
+      padding: 5em 9rem 5em 9rem;
+      z-index: 20;
+      box-shadow: 0px 25em rgba(112, 231, 197, 0.7);
+  }
+
+  .dropdown-menu .footer-logo {
+    height: 10rem !important;
+    padding: 1em 0px !important;
+  }
+
+}
+
+/*Devices between 768px and 1024px*/
+@media (min-width: 768px) and (max-width: 1024px) {
+
+}
+
+/*Devices larger than 1024px*/
+@media (min-width: 1024px) {
+
 }
