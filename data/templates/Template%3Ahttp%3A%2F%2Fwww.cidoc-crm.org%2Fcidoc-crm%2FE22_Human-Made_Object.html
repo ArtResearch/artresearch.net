@@ -34,15 +34,15 @@
     height: 100%;
     object-fit: contain;
 }
-  
+
 .object-main-image-holder {
   height: 100%;
   display: flex;
   flex-direction: column;
 }
-  
+
 .object-main-image-holder p {
-  margin: 0;  
+  margin: 0;
 }
 
 .thumbnails-container {
@@ -144,13 +144,13 @@
   justify-content: space-between;
   align-items: flex-start;
 }
-  
+
 .field-value-group {
   margin-bottom: 10px;
   padding-bottom: 5px;
   border-bottom: 1px solid rgba(224, 224, 224, 0.5);
 }
-  
+
 .field-value-original-group {}
 
 .field-value-qualifiers {
@@ -235,9 +235,9 @@
 </style>
 
 
-    <resource-info subject="[[this]]" profile="photograph-full" template="{{> template}}">      
+    <resource-info subject="[[this]]" profile="photograph-full" template="{{> template}}">
         <template id="template">
-          <mp-event-trigger id="breadcrumbs" 
+          <mp-event-trigger id="breadcrumbs"
                             type='Component.TemplateUpdate' on='["mounted"]' targets='["top-header-breadcrumbs"]'
                             data='{"breadcrumb": "Photo: {{escapeForJson data.label}}"}'>
           </mp-event-trigger>
@@ -251,7 +251,7 @@
                               <div class="object-main-image-holder">
                                 <img alt='' class="object-image" src="https://staging.artresearch.net{{imageUrl}}" />
                                 <p>
-                                  
+
                                 </p>
                               </div>
                             </mp-overlay-dialog-trigger>
@@ -260,7 +260,7 @@
                             </mp-overlay-dialog-content>
                           </mp-overlay-dialog>
                         </template>
-                        
+
                         <template id='template'>
                           {{> mainImageView photo=data label=data.label imageUrl=data.[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value] imageManifestUrl=data.[https://artresearch.net/resource/field_definition/pharos_model/photo_iiif_manifest].values.0.[@value]}}
                         </template>
@@ -280,20 +280,20 @@
                     {{/if}}
                   </div>
 
-                  
-                    {{> fieldGroup 
+
+                    {{> fieldGroup
                         data=data
-                        title="Photograph" 
+                        title="Photograph"
                         fields=(parse '[
                             {
                               "field": "https://artresearch.net/resource/field_definition/pharos_model/photo_artwork",
                               "mode": "link"
-                            }, 
-                            { 
+                            },
+                            {
                               "field": "https://artresearch.net/resource/field_definition/pharos_model/photo_title",
                               "mode": "text"
                             },
-                            { 
+                            {
                               "field": "https://artresearch.net/resource/field_definition/pharos_model/photo_identifier",
                               "mode": "text"
                             },
@@ -301,12 +301,12 @@
                               "field": "https://artresearch.net/resource/field_definition/pharos_model/photo_archive",
                               "mode": "new"
                             },
-                            { 
+                            {
                               "field": "https://artresearch.net/resource/field_definition/pharos_model/type",
                               "mode": "new"
                             },
                             "https://artresearch.net/resource/field_definition/pharos_model/current_keeper",
-                            { 
+                            {
                               "field": "https://artresearch.net/resource/field_definition/pharos_model/photo_license",
                               "mode": "outside_link"
                             }
@@ -314,43 +314,43 @@
                         ]')
                     }}
 
-                    {{> fieldGroup 
+                    {{> fieldGroup
                         data=data
-                        title="Photographer" 
+                        title="Photographer"
                         fields=(parse '[
-                            { 
+                            {
                               "field": "https://artresearch.net/resource/field_definition/pharos_model/photographer",
                               "mode": "new"
                             }
                         ]')
                     }}
 
-                    {{> fieldGroup 
+                    {{> fieldGroup
                         data=data
-                        title="Physical Properties" 
+                        title="Physical Properties"
                         fields=(parse '[
-                            { 
+                            {
                               "field": "https://artresearch.net/resource/field_definition/pharos_model/material",
                               "mode": "new"
                             },
-                            { 
+                            {
                               "field": "https://artresearch.net/resource/field_definition/pharos_model/technique",
                               "mode": "new"
                             }
                         ]')
                     }}
-                  
-                    {{> fieldGroup 
+
+                    {{> fieldGroup
                         data=data
-                        title="Subjects" 
+                        title="Subjects"
                         fields=(parse '[
                             "https://artresearch.net/resource/field_definition/pharos_model/subject"
                         ]')
                     }}
-                  
-                    {{> fieldGroup 
+
+                    {{> fieldGroup
                         data=data
-                        title="Dating" 
+                        title="Dating"
                         fields=(parse '[
                             "https://artresearch.net/resource/field_definition/pharos_model/production_date"
                         ]')
@@ -365,7 +365,7 @@
                       <h2>{{title}}</h2>
                     {{/if}}
                     {{#each fields}}
-                        {{> fieldTemplate 
+                        {{> fieldTemplate
                             data=../data
                             dontShowProvenance=../dontShowProvenance
                             field=(getFieldName this)
@@ -414,7 +414,7 @@
                 {{else if (eq mode "part_hierarchy")}}
                                   <semantic-tree data='[{{#each (lookup (lookup data field) "values")}}{ "node": { "type": "uri", "value": "{{[@id]}}" } {{#if [https://artresearch.net/resource/field_definition/pharos_model/part_hierarchy_parent]}} , "parent": { "type": "uri", "value": "{{[https://artresearch.net/resource/field_definition/pharos_model/part_hierarchy_parent].values.0.[@id]}}" } {{/if}}  }   {{#if @last}}{{else}},{{/if}}{{/each}}]'></semantic-tree>
 
-                {{else if (eq mode "creator")}}  
+                {{else if (eq mode "creator")}}
                   {{#each (lookup (lookup data field) 'values')}}
                     {{#if [https://artresearch.net/resource/field_definition/pharos_model/original_value_creator]}}
                         <div class="field-value-group">
@@ -447,7 +447,7 @@
                                     </span>
                                   {{/each}}
                                 </div>
-                              </div>  
+                              </div>
                             {{/each}}
                           </div>
                         </div>
@@ -461,10 +461,10 @@
                                     {{/each}}
                                 </div>
                             </div>
-                        </div>  
+                        </div>
                       {{/if}}
                     {{/each}}
-                  {{else if (eq mode "new")}}    
+                  {{else if (eq mode "new")}}
                     {{#each (lookup (lookup data field) 'values')}}
                       {{#if [https://artresearch.net/resource/field_definition/pharos_model/original_value]}}
                         <div class="field-value-group">
@@ -485,7 +485,7 @@
                                       {{/each}}
                                     </div>
                                 </div>
-                              </div>  
+                              </div>
                             {{/each}}
                           </div>
                         </div>
@@ -499,7 +499,7 @@
                                     {{/each}}
                                 </div>
                             </div>
-                        </div>  
+                        </div>
                       {{/if}}
                     {{/each}}
                   {{else}}
@@ -520,7 +520,7 @@
                                       <span>{{[@value]}}</span>
                                     {{/if}}
                                 {{/if}}
-                              
+
                                 {{#if ../dontShowProvenance}}
                                 {{else}}
                                 <div class="provider-icons">
@@ -550,7 +550,7 @@
                                                     </mp-popover-trigger>
                                                     <mp-popover-content>
                                                         <div>
-                                                            <b>{{label}}</b> 
+                                                            <b>{{label}}</b>
                                                             <div class="provider-icons">
                                     {{#each (uniqProviders provenance)}}
                                         <img class="provider-icon" title="{{label}}" src="{{icon}}">
@@ -559,7 +559,7 @@
                                                         </div>
                                                         <div>{{[https://artresearch.net/resource/field_definition/pharos_model/scope_note].values.0.label}}</div>
                                                     </mp-popover-content>
-                                                </mp-popover>                                                    
+                                                </mp-popover>
                                                 {{else}}
                                                 <span class="field-value-qualifier">
                                                     {{label}}
@@ -586,4 +586,4 @@
 
 
 
-    </resource-info>  
+    </resource-info>

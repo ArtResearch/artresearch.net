@@ -1,50 +1,10 @@
-<div class="page">    
+<div class="page search-with-image-page">
   <mp-event-trigger id="breadcrumbs" type='Component.TemplateUpdate' on='["mounted"]' targets='["top-header-breadcrumbs"]'
-    data='{"breadcrumb": "Search"}'>
+    data='{"breadcrumb": "Search Artworks"}'>
   </mp-event-trigger>
 
 
   <div class="main-container">
-
-    <style>
-  .search-container {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
-  .search-bar {
-	  width: 50vw;
-    align-self: center;
-    margin-top: 8px;
-    margin-bottom: 8px;
-  }
-  .content-area {
-    display: flex;
-    flex: 1;
-    overflow: hidden;
-    border-top: 1px solid #e9ecef;
-  }
-  .facet-column {
-    overflow-y: auto;
-    border-right: 1px solid #e9ecef;
-    margin-left: 10px;
-  }
-  .facet-relations {
-    width: 295px;
-  }
-  .results-column {
-    flex: 1;
-    overflow-y: auto;
-    padding: 20px;
-  }
-  .result-item {
-    margin-bottom: 20px;
-  }
-  
-  .facet__category-selector-holder {
-    display: none;
-  }
-</style>
 
     <semantic-search
       save-state-in-browser-history="false"
@@ -63,7 +23,7 @@
       }'
       relations='[[> SearchSimpleRelationsMidas]]'
       search-profile='[[> SearchSimpleProfile]]'
-                     
+
       datasets-config='{"datasetPattern": "", "datasets": [{"label": "PHAROS", "isDefault": true, "alignments": [{"iri": "http://vocab.getty.edu/aat/", "label": "Getty", "isDefault": true}, {"iri": "https://artresearch.net/resource/midas/vocabulary", "label": "MIDAS"}, {"iri": "https://artresearch.net/resource/zeri/vocabulary", "label": "Zeri"}]}]}'
     >
       <div class="search-bar">
@@ -76,7 +36,7 @@
           debounce="600"
           tokenize-lucene-query="false"
           escape-lucene-syntax="false"
-                                           
+
           min="0"
           max="100"
           step="1"
@@ -99,7 +59,7 @@ SELECT ?subject WHERE {
                 ?photo <https://artresearch.net/vision/work> ?work .
               }
               BIND(?work as ?subject) .
-              
+
               {
                 SELECT (?similarity AS ?similarityMaxScore) WHERE {
                   SERVICE <http://idios-sparql.private/sparql> {
@@ -110,7 +70,7 @@ SELECT ?subject WHERE {
                     ?photo <https://artresearch.net/vision/similarity> ?similarity .
                     ?photo <https://artresearch.net/vision/work> ?work .
                   }
-                } 
+                }
                 ORDER BY DESC(?similarity)
                 LIMIT 1
               }
@@ -134,7 +94,7 @@ SELECT ?subject WHERE {
               } UNION {
                 ?subject crm:P138i_has_representation/crm:P128i_is_carried_by ?photo .
               }
-              
+
               {
                 SELECT (?score AS ?scoreMaxScore) WHERE {
                   SERVICE <http://idios-sparql.private/sparql> {
@@ -143,7 +103,7 @@ SELECT ?subject WHERE {
                     ?photo <https://artresearch.net/vision/data> ?__data__ .
                     ?photo <https://artresearch.net/pastec/score> ?score .
                   }
-                } 
+                }
                 ORDER BY DESC(?score)
                 LIMIT 1
               }
@@ -158,13 +118,13 @@ SELECT ?subject WHERE {
 }
 
           '>
-        </pharos-image-search-with-slider>         
-        
+        </pharos-image-search-with-slider>
+
         [[!--
         <semantic-search-configuration-editor></semantic-search-configuration-editor>
         --]]
       </div>
-      
+
       <div class="content-area">
         <div class="facet-column">
           <semantic-search-facet open-by-default='true' sortby='count-desc' facet-values-threshold="5000"
@@ -192,18 +152,18 @@ SELECT ?subject WHERE {
                     ?subject crm:P50_has_current_keeper ?__value__.
                     FILTER NOT EXISTS { ?value custom:sameAs ?wikidata. }
                   }",
-                "parentsPattern": "{ 
-                  ?value crm:PXX ?parent . 
+                "parentsPattern": "{
+                  ?value crm:PXX ?parent .
                  }",
-                "childrenPattern": "{ 
-                  ?child crm:PXX ?value . 
+                "childrenPattern": "{
+                  ?child crm:PXX ?value .
                 }",
                 "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
-              }, 
+              },
               "<https://artresearch.net/resource/fr/Work_from_Place>": {
                 "kind":"hierarchy",
                 "valuesQuery": "SELECT ?value WHERE {?subject crm:P55_has_current_location ?value .}",
-                "queryPattern": "{    
+                "queryPattern": "{
                   {
                     ?subject crm:P55_has_current_location ?place .
                     ?place custom:sameAs/crm:P89_falls_within* ?__value__ .
@@ -229,7 +189,7 @@ SELECT ?subject WHERE {
                     ?parent crm:P71i_is_listed_in <https://artresearch.net/resource/pharos/authority> .
 
                     MINUS { ?value custom:sameAs ?reconciledPlace3. }
-                  } 
+                  }
                   UNION {
                     ?reconciledPlace5 custom:sameAs ?value .
                     ?reconciledPlace5 crm:P89_falls_within ?parent .
@@ -238,9 +198,9 @@ SELECT ?subject WHERE {
                   {
                     ?value crm:P89_falls_within ?parent.
                     MINUS { ?value custom:sameAs ?reconciledPlace4. }
-                  }              
+                  }
                 }",
-                "childrenPattern": "{ 
+                "childrenPattern": "{
                   {
                     ?value crm:P89i_contains ?child .
                     ?child crm:P71i_is_listed_in <https://artresearch.net/resource/pharos/authority> .
@@ -251,10 +211,10 @@ SELECT ?subject WHERE {
                       ?child custom:sameAs ?reconciledPlace3
                     }
                   } UNION {
-                    ?value crm:P89i_contains ?child . 
+                    ?value crm:P89i_contains ?child .
                     MINUS {
                       ?child custom:sameAs ?reconciledPlace4 .
-                    }                  
+                    }
                   }
                 }",
                 "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
@@ -269,11 +229,11 @@ SELECT ?subject WHERE {
                     ?subject crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by ?__value__.
                     FILTER NOT EXISTS { ?value custom:sameAs ?some. }
                   }",
-                "parentsPattern": "{ 
-                  ?value crm:PXX ?parent . 
+                "parentsPattern": "{
+                  ?value crm:PXX ?parent .
                  }",
-                "childrenPattern": "{ 
-                  ?child crm:PXX ?value . 
+                "childrenPattern": "{
+                  ?child crm:PXX ?value .
                 }",
                 "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
   						}
@@ -292,9 +252,10 @@ SELECT ?subject WHERE {
           >
           </semantic-search-facet>
         </div>
-        
+
         <div class="results-column">
           <semantic-search-result-holder>
+            <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
             <semantic-search-result>
               <semantic-query
                 id="result-count"
@@ -302,12 +263,11 @@ SELECT ?subject WHERE {
                 template="{{>currentResultCount}}"
               >
                 <template id="currentResultCount">
-                  <p>Found {{bindings.0.count.value}} results.</p>
+                  <p><span class="bold-text">results</span> {{bindings.0.count.value}}</p>
                 </template>
               </semantic-query>
-              
-              <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
-              
+
+
               <semantic-query
                 id="grid-result"
                 prefetch-labels="false"
