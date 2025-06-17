@@ -184,8 +184,8 @@
               }
 --]]
             }'
-                                 
-          
+
+
           >
           </semantic-search-facet>
         </div>
@@ -220,8 +220,8 @@
                  "name": "Repository",
                  "uri": "<https://artresearch.net/resource/custom/fc/repository>"
                }
-              ]'                               
-             
+              ]'
+
               evaluate-on-change='true'
               initial-domain="{{#if domain}}<https://artresearch.net/resource/custom/fc/{{domain}}>{{else}}<https://artresearch.net/resource/custom/fc/work>{{/if}}"
               debounce="600"
@@ -307,7 +307,7 @@
                     }
                   }
                   GROUP BY ?subject
-                }                       
+                }
               }
               '
 
@@ -383,7 +383,7 @@
       }
       {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
     }'
-                 
+
           default-query-1='
             SELECT ?subject WHERE {
               ?subject crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph>  .
@@ -456,7 +456,7 @@
             }
           }
           '
-                                             
+
           image-query-1='
        SELECT ?subject WHERE {
       {
@@ -533,7 +533,7 @@
       {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
     }
           '
-                                             
+
           default-query-2='
             SELECT ?subject WHERE {
               {
@@ -599,7 +599,7 @@
                 ?text ql:contains-entity ?subject .
                 ?text ql:contains-word ?__token__ .
               }
-          }'                                     
+          }'
           default-query-4='
             SELECT ?subject WHERE {
               {
@@ -660,7 +660,7 @@
               <mp-event-proxy id='search-results-refresh' on-event-source='main-search' on-event-type='Search.DomainSelected'
                     proxy-event-type='Component.TemplateUpdate' proxy-targets='["search-result-template"]'
               ></mp-event-proxy>
-              
+
                <mp-event-target-template-render id='search-result-template' template='{{> template}}'>
                   <template id='template'>
                     {{#if (eq domain "https://artresearch.net/resource/custom/fc/work")}}
@@ -676,14 +676,14 @@
                           <div class="scrolable-area">
                             <infinite-scroll item-height="250px" batch-size="10" values='{{stringify bindings}}'>
                               <template id='template'>
-                                <div class="result-item">
+                                <div class="result-item karla-regular">
                                   {{> Default:CardArtwork photo=maxPhoto.value}}
                                 </div>
                               </template>
                             </infinite-scroll>
                           </div>
                         </template>
-                      </semantic-query>  
+                      </semantic-query>
                      </semantic-search-result>
                     {{else if (eq domain "https://artresearch.net/resource/custom/fc/photograph")}}
                     <semantic-search-result>
@@ -698,14 +698,14 @@
                           <div class="scrolable-area">
                             <infinite-scroll item-height="250px" batch-size="10" values='{{stringify bindings}}'>
                               <template id='template'>
-                                <div class="result-item">
+                                <div class="result-item karla-regular">
                                   {{> Default:CardPhotograph }}
                                 </div>
                               </template>
                             </infinite-scroll>
                           </div>
                         </template>
-                      </semantic-query>     
+                      </semantic-query>
                     </semantic-search-result>
                     {{else if (eq domain "https://artresearch.net/resource/custom/fc/artist")}}
                     <semantic-search-result>
@@ -720,7 +720,7 @@
                           <div class="scrolable-area">
                             <infinite-scroll item-height="120px" batch-size="10" values='{{stringify bindings}}'>
                               <template id='template'>
-                                <div class="result-item">
+                                <div class="result-item  karla-regular">
                                   {{> Default:CardArtist}}
                                 </div>
                               </template>
@@ -742,7 +742,7 @@
                             <div class="scrolable-area">
                               <infinite-scroll item-height="120px" batch-size="10" values='{{stringify bindings}}'>
                                 <template id='template'>
-                                  <div class="result-item">
+                                  <div class="result-item karla-regular">
                                     {{> Default:CardRepository}}
                                   </div>
                                 </template>
@@ -764,7 +764,7 @@
                           <div class="scrolable-area">
                             <infinite-scroll item-height="120px" batch-size="10" values='{{stringify bindings}}'>
                               <template id='template'>
-                                <div class="result-item">
+                                <div class="result-item karla-regular">
                                   {{> Default:CardArtist}}
                                 </div>
                               </template>
