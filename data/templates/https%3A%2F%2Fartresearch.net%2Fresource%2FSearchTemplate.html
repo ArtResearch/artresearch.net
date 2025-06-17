@@ -225,7 +225,7 @@
               evaluate-on-change='true'
               initial-domain="{{#if domain}}<https://artresearch.net/resource/custom/fc/{{domain}}>{{else}}<https://artresearch.net/resource/custom/fc/work>{{/if}}"
               debounce="600"
-              tokenize-lucene-query="false"
+              tokenize-lucene-query="true"
               escape-lucene-syntax="false"
 
               min="0"
@@ -287,7 +287,6 @@
                       SELECT ?subject ((((100 - ?__aiAssist__) / 100) * (SUM(?ql_score_text_var_subject) / SAMPLE(?textMaxScore))) as ?maxScore) WHERE {
                         ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
                         {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
-                        ?subject custom:has_image true .
                         ?text ql:contains-entity ?subject .
                         ?text ql:contains-word ?__token__ .
 
@@ -295,7 +294,6 @@
                           SELECT (SUM(?ql_score_text_var_subject) AS ?textMaxScore) WHERE {
                               ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
                               {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
-                              ?subject custom:has_image true .
                               ?text ql:contains-entity ?subject .
                               ?text ql:contains-word ?__token__ .
                           }
@@ -435,7 +433,6 @@
                   SELECT ?subject ((((100 - ?__aiAssist__) / 100) * (SUM(?ql_score_text_var_subject) / SAMPLE(?textMaxScore))) as ?maxScore) WHERE {
                     ?subject crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph>  .
                     {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
-                    ?subject custom:has_image true .
                     ?text ql:contains-entity ?subject .
                     ?text ql:contains-word ?__token__ .
 
@@ -443,7 +440,6 @@
                       SELECT (SUM(?ql_score_text_var_subject) AS ?textMaxScore) WHERE {
                           ?subject crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph>  .
                           {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
-                          ?subject custom:has_image true .
                           ?text ql:contains-entity ?subject .
                           ?text ql:contains-word ?__token__ .
                       }
