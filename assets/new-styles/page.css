@@ -225,73 +225,62 @@ h1 span.thin-text {
   flex-direction: column;
   height: 100%;
 }
+
 .search-bar {
-  width: 100vw;
-  align-self: center;
-  margin-top: 8px;
-  margin-bottom: 8px;
-  margin-left: 40vw;
+  margin-right: 20px;
+  margin-bottom: 10px;
 }
 
-.search-with-image-page .search-bar {
-  margin-left: 10vw;
-}
-
-.ImageSearchWithSlider--imageSearchWithSlider
 .ImageSearchWithSlider--imageSearchContainer {
-  width: 50%;
-}
-
-.ImageSearchWithSlider--imageSearchWithSlider
-.ImageSearchWithSlider--inputDropzoneContainer {
-  width: 70%;
-}
-
-.search-with-image-page .ImageSearchWithSlider--sliderField {
-  width: 30%;
-}
-
-.search-bar>div {
-  display: -webkit-box;
-}
-
-.keyword-search-container {
-  width:40%;
-  background-color: #fff9e8 !important;
+  background-color: #fff9e8;
   border: none;
-  border-radius: 0px !important;
+  border-radius: 0px;
   margin-right: 20px;
 }
-.keyword-search-container i {
-  color: black;
-  background-color: #70E7C5;
-  border-radius: 50%;
-  width: 1.5em;
-  font-size: 25px;
-  padding: 5px;
-}
-.keyword-search-container input {
-  background-color: #fff9e8 !important;
-  border-bottom: solid 1.5px black !important;
-  border-radius: 0px !important;
+.ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--domainSelector .dropdown-toggle, .ImageSearchWithSlider--imageSearchContainer input {
+  background-color: #fff9e8;
+  border: none;
+  border-bottom: solid 1.5px black;
+  border-radius: 0px;
   transition: 0.2s;
   font-weight: bold;
 }
 
-.keyword-search-container input:focus {
-  border-bottom: solid 1.5px #70E7C5 !important;
+.ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--domainSelector .dropdown-toggle:focus, .ImageSearchWithSlider--imageSearchContainer input:focus {
+  background-color: #fff9e8;
+  border: none;
+  border-radius: 0px;
+  transition: 0.2s;
+  font-weight: bold;
+  border-bottom: solid 1.5px #70E7C5;
+}
+
+.ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--domainSelector .dropdown-menu {
+    background-color: #fff9e8;
+    border: none;
+    border-radius: 0px;
+    transition: 0.2s;
+    font-weight: bold;
+}
+
+.ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--domainSelector .dropdown-menu > .active > a {
+    background-color: #70E7C5;
+}
+
+.ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--domainSelector .dropdown-menu > li > a:hover {
+    background-color:  #23ce9d;
 }
 
 .slider-field {
   width: 30% !important;
 }
 
-.rc-slider-disabled .rc-slider-dot, .rc-slider-disabled .rc-slider-handle {
-  border-color: #70E7C5 !important;
+.rc-slider-dot, .rc-slider-handle {
+  border-color: #70E7C5;
 }
 
 .rc-slider-disabled {
-  background-color: #EFE9D8;
+  background-color: unset;
 }
 
 .content-area {
@@ -310,6 +299,12 @@ h1 span.thin-text {
 
 .show-facet-button {
   background-color: #70E7C5 !important;
+  width: 25px;
+}
+
+.show-facet-button__label {
+  transform-origin: 16px 15px;
+  -webkit-transform-origin: 16px 15px;
 }
 
 .facet-relations {
@@ -329,8 +324,13 @@ h1 span.thin-text {
 
 .results-column {
   flex: 1;
-  overflow-y: auto;
-  padding: 20px;
+  height: 100%
+  padding: 0 20px 20px 0px;
+}
+
+.results-column .scrolable-area {
+    overflow: auto;
+    height: 100%;
 }
 
 .FacetBreadcrumbs--conjunct,
@@ -342,8 +342,8 @@ h1 span.thin-text {
 
 /* SEARCH RESULTS */
 .result-item {
-  margin-bottom: 20px;
   font-family: "Calibre", "Arial", sans-serif;
+  cursor: pointer;
 }
 
 .thumbnail-container, .info-container {
@@ -359,19 +359,23 @@ h1 span.thin-text {
   min-height: 200px;
   overflow: hidden;
   font-family: "Calibre", "Arial", sans-serif;
+  padding-bottom: 20px;
 }
 
-.photographers-page .artwork-card,
-.artists-page .artwork-card,
-.repositories-page .artwork-card {
-  min-height: 100px;
+.actor-card {
+    display: flex;
+    height: 120px;
+    overflow: hidden;
+    font-family: "Calibre", "Arial", sans-serif;
+    padding-bottom: 10px;
 }
+
 
 .thumbnail-container {
   width: 200px;
   flex-shrink: 0;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
 }
 
@@ -388,8 +392,8 @@ h1 span.thin-text {
 
 .info-container {
   flex-grow: 1;
-  padding: 2em 20px;
   overflow-y: auto;
+  margin-left: 20px;
 }
 
 .cursor {

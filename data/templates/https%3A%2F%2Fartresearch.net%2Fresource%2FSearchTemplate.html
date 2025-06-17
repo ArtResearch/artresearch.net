@@ -1,111 +1,14 @@
 
+
+
     <semantic-search
+      id="main-search"
       save-state-in-browser-history="false"
       limit=10000
-      relations='[[> SearchSimpleRelationsMidas]]'
+      relations='[[> SearchSimpleRelations]]'
       search-profile='[[> SearchSimpleProfile]]'
       datasets-config='{"datasetPattern": "", "datasets": [{"label": "PHAROS", "isDefault": true, "alignments": [{"iri": "http://vocab.getty.edu/aat/", "label": "Getty", "isDefault": true}, {"iri": "https://artresearch.net/resource/midas/vocabulary", "label": "MIDAS"}, {"iri": "https://artresearch.net/resource/zeri/vocabulary", "label": "Zeri"}]}]}'
     >
-      <div class="search-bar">
-        <pharos-keyword-search-with-slider
-          initial-input='{{query}}'
-          evaluate-on-change='true'
-          domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
-          debounce="600"
-          tokenize-lucene-query="false"
-          escape-lucene-syntax="false"
-
-          min="0"
-          max="100"
-          step="1"
-          marks='{"0": "0%", "5": "5%", "50": "50%", "100": "100%"}'
-          default-slider-value="0"
-
-          default-query='
-            SELECT ?subject WHERE {
-              ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
-              {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
-              BIND(0 as ?score) .
-            }
-          '
-          query='
-          PREFIX ql: <http://qlever.cs.uni-freiburg.de/builtin-functions/>
-          SELECT DISTINCT ?subject WHERE {
-            {
-              SELECT DISTINCT ?subject (SUM(?maxScore) AS ?score) WHERE {
-                {
-                  SELECT ?subject ((?__aiAssist__ / 100) * ((MAX(?similarity) / SAMPLE(?similarityMaxScore))) AS ?maxScore) (SAMPLE(?photo) AS ?maxPhoto) {
-                    {
-                      SELECT ?subject ?photo ?similarity ?similarityMaxScore {
-                        #
-                        #SERVICE <http://localhost:4280/sparql> {
-                         SERVICE <http://idios-sparql.private/sparql> {
-                          ?photo <https://artresearch.net/vision/service> "idios" .
-                          ?photo <https://artresearch.net/vision/request_type> "text" .
-                          ?photo <https://artresearch.net/vision/data> ?__token__ .
-                          ?photo <https://artresearch.net/vision/limit> 5000 .
-                          ?photo <https://artresearch.net/vision/similarity> ?similarity .
-                          ?photo <https://artresearch.net/vision/similarity> ?work .
-                        }
-                        BIND(?work as ?subject) .
-
-                        {
-                          SELECT (?similarity AS ?similarityMaxScore) WHERE {
-                            # SERVICE <http://localhost:4280/sparql> {
-                            SERVICE <http://idios-sparql.private/sparql> {
-
-                              ?photo <https://artresearch.net/vision/service> "idios" .
-                              ?photo <https://artresearch.net/vision/request_type> "text" .
-                              ?photo <https://artresearch.net/vision/data> ?__token__ .
-                              ?photo <https://artresearch.net/vision/limit> 5000 .
-                              ?photo <https://artresearch.net/vision/similarity> ?similarity .
-                              ?photo <https://artresearch.net/vision/similarity> ?work .
-                            }
-                          } ORDER BY DESC(?similarity) LIMIT 1
-                        }
-                        {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
-                      }
-                      ORDER BY ?similarity
-                    }
-                  }
-                  GROUP BY ?subject
-                  HAVING (?maxScore > 0)
-                } UNION {
-                  SELECT ?subject ((((100 - ?__aiAssist__) / 100) * (SUM(?ql_score_text_var_subject) / SAMPLE(?textMaxScore))) as ?maxScore) WHERE {
-                    ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
-                    {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
-                    ?subject custom:has_image true .
-                    ?text ql:contains-entity ?subject .
-                    ?text ql:contains-word ?__token__ .
-
-                    {
-                      SELECT (SUM(?ql_score_text_var_subject) AS ?textMaxScore) WHERE {
-                          ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
-                          {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
-                          ?subject custom:has_image true .
-                          ?text ql:contains-entity ?subject .
-                          ?text ql:contains-word ?__token__ .
-                      }
-                      GROUP BY ?subject
-                      ORDER BY DESC (?textMaxScore)
-                      LIMIT 1
-                    }
-                  }
-                  GROUP BY ?subject
-                  HAVING (?maxScore > 0)
-                }
-              }
-              GROUP BY ?subject
-            }
-          }
-          '>
-        </pharos-keyword-search-with-slider>
-
-        [[!--
-        <semantic-search-configuration-editor></semantic-search-configuration-editor>
-        --]]
-      </div>
-
       <div class="content-area">
         <div class="facet-column">
           <semantic-search-facet open-by-default='true' sortby='count-desc' facet-values-threshold="5000"
@@ -191,7 +94,7 @@
                 }",
                 "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
   						},
-              "<https://artresearch.net/resource/fr/Work_created_from_Artist>": {
+              "<https://artresearch.net/resource/fr/Work_created_by_Artist>": {
                 "kind":"hierarchy",
                 "valuesQuery": "SELECT ?value WHERE {?subject crm:P50_has_current_keeper ?value .}",
                 "queryPattern": "{
@@ -213,7 +116,62 @@
                 "kind": "resource",
                 "valuesQuery": "SELECT ?value (COUNT(DISTINCT $subject) AS ?count) WHERE {
                 OPTIONAL { ?subject custom:has_image ?has } . BIND(IF(?has = true, <http://www.w3.org/2001/XMLSchema#yes>, <http://www.w3.org/2001/XMLSchema#no>) AS ?value) . } GROUP BY ?value ORDER BY DESC(?count)"
-              }
+              },
+              "<https://artresearch.net/resource/fr/Repository_from_Place>": {
+                "kind":"hierarchy",
+                "valuesQuery": "SELECT ?value WHERE {?subject crm:P55_has_current_location ?value .}",
+                "queryPattern": "{
+                  {
+                    ?subject custom:sameAs?/crm:P55_has_current_location ?place .
+                    ?place custom:sameAs/crm:P89_falls_within* ?__value__ .
+                  } UNION {
+                    ?subject custom:sameAs?/crm:P55_has_current_location ?place .
+                    ?place (custom:sameAs?/(crm:P89_falls_within*)) ?value.
+                    MINUS {
+                      ?value custom:sameAs ?reconciledPlace1 .
+                    }
+                  }
+                }",
+                "parentsPattern": "{
+                  {
+                    ?value crm:P89_falls_within ?parent .
+                    ?value crm:P71i_is_listed_in <https://artresearch.net/resource/pharos/authority> .
+                    ?parent crm:P71i_is_listed_in <https://artresearch.net/resource/pharos/authority> .
+                  }
+                  UNION
+                  {
+                    ?value crm:P89_falls_within ?place.
+                    ?place custom:sameAs ?parent.
+                    ?parent crm:P71i_is_listed_in <https://artresearch.net/resource/pharos/authority> .
+
+                    MINUS { ?value custom:sameAs ?reconciledPlace3. }
+                  }
+                  UNION {
+                    ?reconciledPlace5 custom:sameAs ?value .
+                    ?reconciledPlace5 crm:P89_falls_within ?parent .
+                  }
+                  UNION
+                  {
+                    ?value crm:P89_falls_within ?parent.
+                    MINUS { ?value custom:sameAs ?reconciledPlace4. }
+                  }
+                }",
+                "childrenPattern": "{
+                  {
+                    ?place custom:sameAs ?value .
+                    ?place crm:P89i_contains ?child .
+                    MINUS {
+                      ?child custom:sameAs ?reconciledPlace3
+                    }
+                  } UNION {
+                    ?value crm:P89i_contains ?child .
+                    MINUS {
+                      ?child custom:sameAs ?reconciledPlace4 .
+                    }
+                  }
+                }",
+                "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
+  						}
                              [[!--
               "<https://artresearch.net/custom/is_matched_artworks>": {
                 "kind": "resource",
@@ -226,11 +184,466 @@
               }
 --]]
             }'
+                                 
+          
           >
           </semantic-search-facet>
         </div>
 
         <div class="results-column">
+          <div class="search-bar">
+            <pharos-image-search-with-slider
+              initial-input='{{query}}'
+
+              domains='[
+               {
+                 "name": "Artwork",
+                 "uri": "<https://artresearch.net/resource/custom/fc/work>",
+                 "withAi": true,
+                 "withImages": true
+               },
+               {
+                 "name": "Photograph",
+                 "uri": "<https://artresearch.net/resource/custom/fc/photograph>",
+                 "withAi": true,
+                 "withImages": true
+               },
+               {
+                 "name": "Artist",
+                 "uri": "<https://artresearch.net/resource/custom/fc/artist>"
+               },
+               {
+                 "name": "Photographer",
+                 "uri": "<https://artresearch.net/resource/custom/fc/photographer>"
+               },
+               {
+                 "name": "Repository",
+                 "uri": "<https://artresearch.net/resource/custom/fc/repository>"
+               }
+              ]'                               
+             
+              evaluate-on-change='true'
+              initial-domain="{{#if domain}}<https://artresearch.net/resource/custom/fc/{{domain}}>{{else}}<https://artresearch.net/resource/custom/fc/work>{{/if}}"
+              debounce="600"
+              tokenize-lucene-query="false"
+              escape-lucene-syntax="false"
+
+              min="0"
+              max="100"
+              step="1"
+              marks='{"0": "0%", "5": "5%", "50": "50%", "100": "100%"}'
+              default-slider-value="0"
+
+              default-query-0='
+                SELECT ?subject WHERE {
+                  ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                  {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+                  BIND(0 as ?score) .
+                }
+              '
+              query-0='
+              PREFIX ql: <http://qlever.cs.uni-freiburg.de/builtin-functions/>
+              SELECT DISTINCT ?subject WHERE {
+                {
+                  SELECT DISTINCT ?subject (SUM(?maxScore) AS ?score) WHERE {
+                    {
+                      SELECT ?subject ((?__aiAssist__ / 100) * ((MAX(?similarity) / SAMPLE(?similarityMaxScore))) AS ?maxScore) (SAMPLE(?photo) AS ?maxPhoto) {
+                        {
+                          SELECT ?subject ?photo ?similarity ?similarityMaxScore {
+                            #
+                            #SERVICE <http://localhost:4280/sparql> {
+                             SERVICE <http://idios-sparql.private/sparql> {
+                              ?photo <https://artresearch.net/vision/service> "idios" .
+                              ?photo <https://artresearch.net/vision/request_type> "text" .
+                              ?photo <https://artresearch.net/vision/data> ?__token__ .
+                              ?photo <https://artresearch.net/vision/limit> 15000 .
+                              ?photo <https://artresearch.net/vision/similarity> ?similarity .
+                              ?photo <https://artresearch.net/vision/similarity> ?work .
+                            }
+                            BIND(?work as ?subject) .
+
+                            {
+                              SELECT (?similarity AS ?similarityMaxScore) WHERE {
+                                # SERVICE <http://localhost:4280/sparql> {
+                                SERVICE <http://idios-sparql.private/sparql> {
+
+                                  ?photo <https://artresearch.net/vision/service> "idios" .
+                                  ?photo <https://artresearch.net/vision/request_type> "text" .
+                                  ?photo <https://artresearch.net/vision/data> ?__token__ .
+                                  ?photo <https://artresearch.net/vision/limit> 15000 .
+                                  ?photo <https://artresearch.net/vision/similarity> ?similarity .
+                                  ?photo <https://artresearch.net/vision/similarity> ?work .
+                                }
+                              } ORDER BY DESC(?similarity) LIMIT 1
+                            }
+                            {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+                          }
+                          ORDER BY ?similarity
+                        }
+                      }
+                      GROUP BY ?subject
+                      HAVING (?maxScore > 0)
+                    } UNION {
+                      SELECT ?subject ((((100 - ?__aiAssist__) / 100) * (SUM(?ql_score_text_var_subject) / SAMPLE(?textMaxScore))) as ?maxScore) WHERE {
+                        ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                        {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+                        ?subject custom:has_image true .
+                        ?text ql:contains-entity ?subject .
+                        ?text ql:contains-word ?__token__ .
+
+                        {
+                          SELECT (SUM(?ql_score_text_var_subject) AS ?textMaxScore) WHERE {
+                              ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                              {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+                              ?subject custom:has_image true .
+                              ?text ql:contains-entity ?subject .
+                              ?text ql:contains-word ?__token__ .
+                          }
+                          GROUP BY ?subject
+                          ORDER BY DESC (?textMaxScore)
+                          LIMIT 1
+                        }
+                      }
+                      GROUP BY ?subject
+                      HAVING (?maxScore > 0)
+                    }
+                  }
+                  GROUP BY ?subject
+                }                       
+              }
+              '
+
+              image-query-0='
+    SELECT ?subject WHERE {
+      {
+        SELECT DISTINCT ?subject (SUM(?maxScore) AS ?score) (SAMPLE(?maxPhoto) AS ?photoToShow) WHERE {
+          {
+            SELECT ?subject (((?__aiAssist__ / 100) * (MAX(?similarity) / SAMPLE(?similarityMaxScore))) AS ?maxScore) (SAMPLE(?photo) AS ?maxPhoto) {
+              {
+                SELECT ?subject ?photo ?similarity ?similarityMaxScore {
+                  SERVICE <http://idios-sparql.private/sparql> {
+                    ?photo <https://artresearch.net/vision/service> "idios" .
+                    ?photo <https://artresearch.net/vision/request_type> ?__dataType__ .
+                    ?photo <https://artresearch.net/vision/data> ?__data__ .
+                    ?photo <https://artresearch.net/vision/limit> 15000 .
+                    ?photo <https://artresearch.net/vision/similarity> ?similarity .
+                    ?photo <https://artresearch.net/vision/work> ?work .
+                  }
+                  BIND(?work as ?subject) .
+
+                  {
+                    SELECT (?similarity AS ?similarityMaxScore) WHERE {
+                      SERVICE <http://idios-sparql.private/sparql> {
+                        ?photo <https://artresearch.net/vision/service> "idios" .
+                        ?photo <https://artresearch.net/vision/request_type> ?__dataType__ .
+                        ?photo <https://artresearch.net/vision/data> ?__data__ .
+                        ?photo <https://artresearch.net/vision/limit> 15000 .
+                        ?photo <https://artresearch.net/vision/similarity> ?similarity .
+                        ?photo <https://artresearch.net/vision/work> ?work .
+                      }
+                    }
+                    ORDER BY DESC(?similarity)
+                    LIMIT 1
+                  }
+                }
+                ORDER BY ?similarity
+              }
+            } GROUP BY ?subject
+            HAVING (?maxScore > 0)
+          } UNION {
+            SELECT ?subject ((((100 - ?__aiAssist__) / 100)  * (MAX(?score) / SAMPLE(?scoreMaxScore))) AS ?maxScore) (SAMPLE(?photo) AS ?maxPhoto) {
+              {
+                SELECT ?subject ?photo ?score ?scoreMaxScore {
+                  SERVICE <http://idios-sparql.private/sparql> {
+                    ?photo <https://artresearch.net/vision/service> "pastec" .
+                    ?photo <https://artresearch.net/vision/request_type> ?__dataType__ .
+                    ?photo <https://artresearch.net/vision/data> ?__data__ .
+                    ?photo <https://artresearch.net/pastec/score> ?score .
+                  }
+                  ?subject crm:P138i_has_representation/crm:P65i_is_shown_by ?photo .
+
+
+                  {
+                    SELECT (?score AS ?scoreMaxScore) WHERE {
+                      SERVICE <http://idios-sparql.private/sparql> {
+                        ?photo <https://artresearch.net/vision/service> "pastec" .
+                        ?photo <https://artresearch.net/vision/request_type> ?__dataType__ .
+                        ?photo <https://artresearch.net/vision/data> ?__data__ .
+                        ?photo <https://artresearch.net/pastec/score> ?score .
+                      }
+                    }
+                    ORDER BY DESC(?score)
+                    LIMIT 1
+                  }
+                }
+              }
+            } GROUP BY ?subject
+            HAVING (?maxScore > 0)
+          }
+        }
+        GROUP BY ?subject
+      }
+      {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+    }'
+                 
+          default-query-1='
+            SELECT ?subject WHERE {
+              ?subject crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph>  .
+              {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+              BIND(0 as ?score) .
+            }
+          '
+          query-1='
+          PREFIX ql: <http://qlever.cs.uni-freiburg.de/builtin-functions/>
+          SELECT DISTINCT ?subject WHERE {
+            {
+              SELECT DISTINCT ?subject (SUM(?maxScore) AS ?score) WHERE {
+                {
+                  SELECT ?subject ((?__aiAssist__ / 100) * ((MAX(?similarity) / SAMPLE(?similarityMaxScore))) AS ?maxScore) {
+                    {
+                      SELECT ?subject ?similarity ?similarityMaxScore {
+                        SERVICE <http://idios-sparql.private/sparql> {
+                          ?photo <https://artresearch.net/vision/service> "idios" .
+                          ?photo <https://artresearch.net/vision/request_type> "text" .
+                          ?photo <https://artresearch.net/vision/data> ?__token__ .
+                          ?photo <https://artresearch.net/vision/limit> 15000 .
+                          ?photo <https://artresearch.net/vision/similarity> ?similarity .
+                          ?photo <https://artresearch.net/vision/similarity> ?work .
+                        }
+                        BIND(?photo as ?subject) .
+
+                        {
+                          SELECT (?similarity AS ?similarityMaxScore) WHERE {
+                            SERVICE <http://idios-sparql.private/sparql> {
+                              ?photo <https://artresearch.net/vision/service> "idios" .
+                              ?photo <https://artresearch.net/vision/request_type> "text" .
+                              ?photo <https://artresearch.net/vision/data> ?__token__ .
+                              ?photo <https://artresearch.net/vision/limit> 15000 .
+                              ?photo <https://artresearch.net/vision/similarity> ?similarity .
+                              ?photo <https://artresearch.net/vision/similarity> ?work .
+                            }
+                          } ORDER BY DESC(?similarity) LIMIT 1
+                        }
+                        {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+                      }
+                      ORDER BY ?similarity
+                    }
+                  }
+                  GROUP BY ?subject
+                  HAVING (?maxScore > 0)
+                } UNION {
+                  SELECT ?subject ((((100 - ?__aiAssist__) / 100) * (SUM(?ql_score_text_var_subject) / SAMPLE(?textMaxScore))) as ?maxScore) WHERE {
+                    ?subject crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph>  .
+                    {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+                    ?subject custom:has_image true .
+                    ?text ql:contains-entity ?subject .
+                    ?text ql:contains-word ?__token__ .
+
+                    {
+                      SELECT (SUM(?ql_score_text_var_subject) AS ?textMaxScore) WHERE {
+                          ?subject crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph>  .
+                          {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+                          ?subject custom:has_image true .
+                          ?text ql:contains-entity ?subject .
+                          ?text ql:contains-word ?__token__ .
+                      }
+                      GROUP BY ?subject
+                      ORDER BY DESC (?textMaxScore)
+                      LIMIT 1
+                    }
+                  }
+                  GROUP BY ?subject
+                  HAVING (?maxScore > 0)
+                }
+              }
+              GROUP BY ?subject
+            }
+          }
+          '
+                                             
+          image-query-1='
+       SELECT ?subject WHERE {
+      {
+        SELECT DISTINCT ?subject (SUM(?maxScore) AS ?score) WHERE {
+          {
+            {
+              SELECT ?subject (((?__aiAssist__ / 100) * (?similarity / ?similarityMaxScore)) AS ?maxScore) {
+                {
+                  SELECT ?photo ?similarity  ?similarityMaxScore {
+                    SERVICE <http://idios-sparql.private/sparql> {
+                      ?photo <https://artresearch.net/vision/service> "idios" .
+                      ?photo <https://artresearch.net/vision/request_type> ?__dataType__ .
+                      ?photo <https://artresearch.net/vision/data> ?__data__ .
+                      ?photo <https://artresearch.net/vision/limit> 15000 .
+                      ?photo <https://artresearch.net/vision/similarity> ?similarity .
+                      ?photo <https://artresearch.net/vision/work> ?work .
+                    }
+
+                    {
+                      SELECT (?similarity AS ?similarityMaxScore) WHERE {
+                        SERVICE <http://idios-sparql.private/sparql> {
+                          ?photo <https://artresearch.net/vision/service> "idios" .
+                          ?photo <https://artresearch.net/vision/request_type> ?__dataType__ .
+                          ?photo <https://artresearch.net/vision/data> ?__data__ .
+                          ?photo <https://artresearch.net/vision/limit> 15000 .
+                          ?photo <https://artresearch.net/vision/similarity> ?similarity .
+                          ?photo <https://artresearch.net/vision/work> ?work .
+                        }
+                      }
+                      ORDER BY DESC(?similarity)
+                      LIMIT 1
+                    }
+                  }
+                  ORDER BY ?similarity
+                }
+                BIND(?photo as ?subject)
+              }
+            }
+            FILTER(?maxScore > 0) .
+          } UNION {
+            {
+              SELECT ?subject ((((100 - ?__aiAssist__) / 100)  * (?score / ?scoreMaxScore)) AS ?maxScore) {
+                {
+                  SELECT ?photo ?score ?scoreMaxScore {
+                    SERVICE <http://idios-sparql.private/sparql> {
+                      ?photo <https://artresearch.net/vision/service> "pastec" .
+                      ?photo <https://artresearch.net/vision/request_type> ?__dataType__ .
+                      ?photo <https://artresearch.net/vision/data> ?__data__ .
+                      ?photo <https://artresearch.net/pastec/score> ?score .
+                    }
+
+                    {
+                      SELECT (?score AS ?scoreMaxScore) WHERE {
+                        SERVICE <http://idios-sparql.private/sparql> {
+                          ?photo <https://artresearch.net/vision/service> "pastec" .
+                          ?photo <https://artresearch.net/vision/request_type> ?__dataType__ .
+                          ?photo <https://artresearch.net/vision/data> ?__data__ .
+                          ?photo <https://artresearch.net/pastec/score> ?score .
+                        }
+                      }
+                      ORDER BY DESC(?score)
+                      LIMIT 1
+                    }
+                  }
+                }
+                BIND(?photo as ?subject)
+              }
+            }
+            FILTER(?maxScore > 0) .
+          }
+        }
+        GROUP BY ?subject
+      }
+      {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+    }
+          '
+                                             
+          default-query-2='
+            SELECT ?subject WHERE {
+              {
+                ?work crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                ?work crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by/custom:sameAs ?subject .
+              } UNION {
+                ?work crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                ?work crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by ?subject .
+                FILTER NOT EXISTS {
+                  ?subject custom:sameAs ?reconciled .
+                }
+              }
+              {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+
+              BIND(0 as ?score) .
+            }
+          '
+          query-2='
+          PREFIX ql: <http://qlever.cs.uni-freiburg.de/builtin-functions/>
+          SELECT DISTINCT ?subject WHERE {
+              {
+                ?work crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by/custom:sameAs ?subject .
+              } UNION {
+                ?work crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by ?subject .
+                FILTER NOT EXISTS {
+                  ?subject custom:sameAs ?reconciled .
+                }
+              }
+              {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+              {
+                ?text ql:contains-entity ?subject .
+                ?text ql:contains-word ?__token__ .
+              }
+          }'
+          default-query-3='
+            SELECT ?subject WHERE {
+              {
+                ?work crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph> .
+                ?work crm:P108i_was_produced_by/crm:P14_carried_out_by/custom:sameAs/crm:P107i_is_current_or_former_member_of? ?subject .
+              } UNION {
+                ?work crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph> .               ?work crm:P108i_was_produced_by/crm:P14_carried_out_by/crm:P107i_is_current_or_former_member_of? ?subject .
+                FILTER NOT EXISTS {
+                  ?subject custom:sameAs ?reconciled .
+                }
+              }
+              BIND(0 as ?score) .
+            }
+          '
+          query-3='
+          PREFIX ql: <http://qlever.cs.uni-freiburg.de/builtin-functions/>
+          SELECT DISTINCT ?subject WHERE {
+              {
+                ?work crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph> .
+                ?work crm:P108i_was_produced_by/crm:P14_carried_out_by/custom:sameAs/crm:P107i_is_current_or_former_member_of? ?subject .
+              } UNION {
+                ?work crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph> .
+                ?work crm:P108i_was_produced_by/crm:P14_carried_out_by/crm:P107i_is_current_or_former_member_of? ?subject .
+                FILTER NOT EXISTS {
+                  ?subject custom:sameAs ?reconciled .
+                }
+              }
+              {
+                ?text ql:contains-entity ?subject .
+                ?text ql:contains-word ?__token__ .
+              }
+          }'                                     
+          default-query-4='
+            SELECT ?subject WHERE {
+              {
+                ?work crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                ?work crm:P50_has_current_keeper/custom:sameAs ?subject .
+              } UNION {
+                ?work crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                ?work crm:P50_has_current_keeper ?subject .
+                FILTER NOT EXISTS {
+                  ?subject custom:sameAs ?wikidata .
+                }
+              }
+              BIND(0 as ?score) .
+            }
+          '
+          query-4='
+          PREFIX ql: <http://qlever.cs.uni-freiburg.de/builtin-functions/>
+          SELECT DISTINCT ?subject WHERE {
+              {
+                ?work crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                ?work crm:P50_has_current_keeper/custom:sameAs ?subject .
+              } UNION {
+                ?work crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                ?work crm:P50_has_current_keeper ?subject .
+                FILTER NOT EXISTS {
+                  ?subject custom:sameAs ?wikidata .
+                }
+              }
+              {
+                ?text ql:contains-entity ?subject .
+                ?text ql:contains-word ?__token__ .
+              }
+          }            '
+            >
+            </pharos-image-search-with-slider>
+
+            [[!--
+            <semantic-search-configuration-editor></semantic-search-configuration-editor>
+            --]]
+          </div>
           <semantic-search-result-holder>
             <semantic-search-result>
               <!-- <p class="bold-text">filters</p> -->
@@ -248,24 +661,125 @@
                 </template>
               </semantic-query>
 
-
-              <semantic-query
-                id="grid-result"
-                prefetch-labels="false"
-                query='SELECT DISTINCT ?subject ?maxPhoto WHERE { } ORDER BY DESC(?score) DESC(?subject) LIMIT 2000'
-                template="{{> subjectCellTemplate}}"
-                no-result-template='[[> CardNoResult ]]'
-              >
-                <template id="subjectCellTemplate">
-                    <infinite-scroll item-height="250px" batch-size="10" values='{{stringify bindings}}'>
-                      <template id='template'>
-                        <div class="result-item">
-                          {{> Default:CardArtwork photo=maxPhoto.value}}
-                        </div>
-                      </template>
-                    </infinite-scroll>
-                </template>
-              </semantic-query>
+              <mp-event-proxy id='search-results-refresh' on-event-source='main-search' on-event-type='Search.DomainSelected'
+                    proxy-event-type='Component.TemplateUpdate' proxy-targets='["search-result-template"]'
+              ></mp-event-proxy>
+              
+               <mp-event-target-template-render id='search-result-template' template='{{> template}}'>
+                  <template id='template'>
+                    {{#if (eq domain "https://artresearch.net/resource/custom/fc/work")}}
+                    <semantic-search-result>
+                      <semantic-query
+                        id="grid-result"
+                        prefetch-labels="false"
+                        query='SELECT DISTINCT ?domain ?subject ?maxPhoto WHERE { } ORDER BY DESC(?score) DESC(?subject) LIMIT 10000'
+                        template="{{> subjectCellTemplate}}"
+                        no-result-template='[[> CardNoResult ]]'
+                      >
+                        <template id="subjectCellTemplate">
+                          <div class="scrolable-area">
+                            <infinite-scroll item-height="250px" batch-size="10" values='{{stringify bindings}}'>
+                              <template id='template'>
+                                <div class="result-item">
+                                  {{> Default:CardArtwork photo=maxPhoto.value}}
+                                </div>
+                              </template>
+                            </infinite-scroll>
+                          </div>
+                        </template>
+                      </semantic-query>  
+                     </semantic-search-result>
+                    {{else if (eq domain "https://artresearch.net/resource/custom/fc/photograph")}}
+                    <semantic-search-result>
+                      <semantic-query
+                        id="grid-result"
+                        prefetch-labels="false"
+                        query='SELECT DISTINCT ?subject WHERE { } ORDER BY DESC(?score) DESC(?subject) LIMIT 2000'
+                        template="{{> subjectCellTemplate}}"
+                        no-result-template='[[> CardNoResult ]]'
+                      >
+                        <template id="subjectCellTemplate">
+                          <div class="scrolable-area">
+                            <infinite-scroll item-height="250px" batch-size="10" values='{{stringify bindings}}'>
+                              <template id='template'>
+                                <div class="result-item">
+                                  {{> Default:CardPhotograph }}
+                                </div>
+                              </template>
+                            </infinite-scroll>
+                          </div>
+                        </template>
+                      </semantic-query>     
+                    </semantic-search-result>
+                    {{else if (eq domain "https://artresearch.net/resource/custom/fc/artist")}}
+                    <semantic-search-result>
+                      <semantic-query
+                        id="grid-result"
+                        prefetch-labels="false"
+                        query='SELECT DISTINCT ?subject (COUNT(DISTINCT ?work) AS ?worksCount) WHERE { } GROUP BY ?subject ORDER BY DESC(?score) DESC(?worksCount) LIMIT 2000'
+                        template="{{> subjectCellTemplate}}"
+                        no-result-template='[[> CardNoResult ]]'
+                      >
+                        <template id="subjectCellTemplate">
+                          <div class="scrolable-area">
+                            <infinite-scroll item-height="120px" batch-size="10" values='{{stringify bindings}}'>
+                              <template id='template'>
+                                <div class="result-item">
+                                  {{> Default:CardArtist}}
+                                </div>
+                              </template>
+                            </infinite-scroll>
+                          </div>
+                        </template>
+                      </semantic-query>
+                    </semantic-search-result>
+                    {{else if (eq domain "https://artresearch.net/resource/custom/fc/repository")}}
+                    <semantic-search-result>
+                        <semantic-query
+                          id="grid-result"
+                          prefetch-labels="false"
+                          query='SELECT DISTINCT ?subject (COUNT(DISTINCT ?work) AS ?worksCount) WHERE { } GROUP BY ?subject ORDER BY DESC(?score) DESC(?worksCount) LIMIT 2000'
+                          template="{{> subjectCellTemplate}}"
+                          no-result-template='[[> CardNoResult ]]'
+                        >
+                          <template id="subjectCellTemplate">
+                            <div class="scrolable-area">
+                              <infinite-scroll item-height="120px" batch-size="10" values='{{stringify bindings}}'>
+                                <template id='template'>
+                                  <div class="result-item">
+                                    {{> Default:CardRepository}}
+                                  </div>
+                                </template>
+                              </infinite-scroll>
+                           </div>
+                          </template>
+                        </semantic-query>
+                    </semantic-search-result>
+                    {{else if (eq domain "https://artresearch.net/resource/custom/fc/photographer")}}
+                    <semantic-search-result>
+                      <semantic-query
+                        id="grid-result"
+                        prefetch-labels="false"
+                        query='SELECT DISTINCT ?subject (COUNT(DISTINCT ?work) AS ?worksCount) WHERE { } GROUP BY ?subject ORDER BY DESC(?score) DESC(?worksCount) LIMIT 2000'
+                        template="{{> subjectCellTemplate}}"
+                        no-result-template='[[> CardNoResult ]]'
+                      >
+                        <template id="subjectCellTemplate">
+                          <div class="scrolable-area">
+                            <infinite-scroll item-height="120px" batch-size="10" values='{{stringify bindings}}'>
+                              <template id='template'>
+                                <div class="result-item">
+                                  {{> Default:CardArtist}}
+                                </div>
+                              </template>
+                            </infinite-scroll>
+                          </div>
+                        </template>
+                      </semantic-query>
+                    </semantic-search-result>
+                    {{/if}}
+                    </template>
+               </mp-event-target-template-render>
             </semantic-search-result>
           </semantic-search-result-holder>
         </div>
