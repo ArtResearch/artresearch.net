@@ -17,20 +17,6 @@
               "literal": "SELECT ?literal (COUNT(DISTINCT $subject) AS ?count) WHERE { FILTER(?__facetRelationPattern__) } GROUP BY ?literal ORDER BY DESC(?count)"
             }'
             value-relations='{
-              "<https://artresearch.net/resource/fr/Work_kept_by_Institution>": {
-                "kind":"hierarchy",
-                "valuesQuery": "SELECT ?value WHERE {?subject crm:P50_has_current_keeper ?value .}",
-                "queryPattern": "{
-                    ?subject crm:P50_has_current_keeper ?keeper .
-                  }",
-                "parentsPattern": "{
-                  ?value crm:PXX ?parent .
-                 }",
-                "childrenPattern": "{
-                  ?child crm:PXX ?value .
-                }",
-                "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
-              },
               "<https://artresearch.net/resource/fr/Work_from_Place>": {
                 "kind":"hierarchy",
                 "valuesQuery": "SELECT ?value WHERE {?subject crm:P55_has_current_location ?value .}",

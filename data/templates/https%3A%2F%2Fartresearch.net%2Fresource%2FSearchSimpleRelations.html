@@ -66,8 +66,16 @@
               "queryPattern": "?subject crm:P55_has_current_location/(crm:P89_falls_within*) ?__value__ ."
   }],      
   "<https://artresearch.net/resource/fr/Work_kept_by_Institution>":[{
-              "kind":"resource",
-              "queryPattern": "?subject crm:P50_has_current_keeper ?__value__ ."
+              "kind":"hierarchy",
+              "queryPattern": "?subject crm:P50_has_current_keeper ?__value__ .",
+              "parentsPattern": "{
+                  ?value crm:PXX ?parent .
+               }",
+               "childrenPattern": "{
+                  ?child crm:PXX ?value .
+               }",
+               "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
+
   }],          
   "<http://www.cidoc-crm.org/cidoc-crm/P2_has_type>":[{
               "kind":"hierarchy",

@@ -75,7 +75,7 @@
                                         "(not (isEmpty item.[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value]))")}}
                                 {{> mainImageView artwork=../data photo=this label=label imageUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value] imageManifestUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_iiif_manifest].values.0.[@value]}}
                               {{else}}
-                                <p>No images available</p>
+                                <p class='no-images-available'>No images available</p>
                               {{/with}}
                             {{/if}}
                           </template>
@@ -166,7 +166,7 @@
                                         "(not (isEmpty item.[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value]))")}}
                                 {{> mainImageView artwork=../data photo=this label=label imageUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value] imageManifestUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_iiif_manifest].values.0.[@value]}}
                               {{else}}
-                                <p>No images available</p>
+                                <p class='no-images-available'>No images available</p>
                               {{/with}}
                             {{/if}}
                           </template>
@@ -174,7 +174,7 @@
                       </div>
                     {{/ifCond}}
                   {{else}}
-                    <p>No images</p>
+                    <p class='no-images-available'>No images available</p>
                   {{/if}}
                 </div>
 
@@ -209,15 +209,17 @@
                               "mode": "new"
                             },
                             {
-                              "field": "https://artresearch.net/resource/field_definition/pharos_model/object_part_of_hierarchy",
-                              "mode": "part_hierarchy"
+                               "field": "https://artresearch.net/resource/field_definition/pharos_model/last_known_location",
+                               "mode": "new"
                             },
                             {
-                               "field": "https://artresearch.net/resource/field_definition/pharos_model/object_location_hierarchy",
-                               "mode": "part_hierarchy"
+                               "field": "https://artresearch.net/resource/field_definition/pharos_model/object_is_part_of",
+                               "mode": "new"
                             },
-                            "https://artresearch.net/resource/field_definition/pharos_model/object_is_part_of",
-                            "https://artresearch.net/resource/field_definition/pharos_model/object_has_part"
+                            {
+                               "field": "https://artresearch.net/resource/field_definition/pharos_model/object_has_part",
+                               "mode": "new"
+                            }
                         ]')
                     }}
 
@@ -255,7 +257,10 @@
                         data=data
                         title=""
                         fields=(parse '[
-                            "https://artresearch.net/resource/field_definition/pharos_model/subject"
+                            {
+                              "field": "https://artresearch.net/resource/field_definition/pharos_model/subject",
+                              "mode": "new"
+                            }
                         ]')
                     }}
 
