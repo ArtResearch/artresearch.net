@@ -4,21 +4,21 @@
     a <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
       <http://www.w3.org/ns/ldp#Resource>;
     <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
-    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-59a8db3ae58c49ce8448cfea1c413358-ywak07;
-    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-59a8db3ae58c49ce8448cfea1c413358-ogazo;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-54b1f35815934e8ea6f3f8ad585c05ba-g8b999;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-54b1f35815934e8ea6f3f8ad585c05ba-wzxagkp;
     <http://www.w3.org/2000/01/rdf-schema#label> "Original Value (Creator)";
     <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
-    <http://www.w3.org/ns/prov#generatedAtTime> "2024-12-15T23:30:35.124Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-06-19T11:50:53.212+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
   
-  _:genid-59a8db3ae58c49ce8448cfea1c413358-ogazo a <http://spinrdf.org/sp#Query>;
+  _:genid-54b1f35815934e8ea6f3f8ad585c05ba-wzxagkp a <http://spinrdf.org/sp#Query>;
     <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
   
-  _:genid-59a8db3ae58c49ce8448cfea1c413358-ywak07 a <http://spinrdf.org/sp#Query>;
+  _:genid-54b1f35815934e8ea6f3f8ad585c05ba-g8b999 a <http://spinrdf.org/sp#Query>;
     <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 
 SELECT DISTINCT ?value ?provUri WHERE {
   ?object crm:P108i_was_produced_by/crm:P9_consists_of* ?production .
-  BIND(IRI(CONCAT(\"http://artresearch.net/resource/e13/\", SHA256(CONCAT(STR(?production), STR(?property), STR(?subject))))) AS ?attribution)
+  BIND(IRI(CONCAT(\"https://artresearch.net/resource/e13/\", SHA256(CONCAT(STR(?production), STR(?property), STR(?subject))))) AS ?attribution)
   
   ?attribution crm:P134_continued* ?provUri .
   ?provUri crm:P9i_forms_part_of ?cataloging .

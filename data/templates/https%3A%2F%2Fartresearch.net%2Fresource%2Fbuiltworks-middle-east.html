@@ -3,9 +3,11 @@
 <inline-template template-iri="Default:SearchAllTemplate" 
                  options='{
                             "pageTitle":"Built Works from the Middle East", 
+                            "lock": "true",
+                            "domain": "work",
                             "searchRestrictions": "{
                               ?subject crm:P2_has_type <https://artresearch.net/resource/pharos/vocab/meta/built_work> . 
-                              ?subject crm:P55_has_current_location/custom:sameAs?/crm:P89_falls_within* ?place . 
+                              ?subject crm:P55_has_current_location/crm:P89_falls_within* ?place . 
                               FILTER(?place IN (
                                 <http://vocab.getty.edu/tgn/1000140>,
                                 <http://vocab.getty.edu/tgn/1000144>,

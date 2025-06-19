@@ -31,6 +31,9 @@
     "https://artresearch.net/resource/field_definition/pharos_model/object_is_part_of": {
       "subject": "work"
     },
+    "https://artresearch.net/resource/field_definition/pharos_model/object_location_hierarchy": {
+      "subject": "work"
+    },
     "https://artresearch.net/resource/field_definition/pharos_model/type": {
       "subject": "work",
       "returns": [
@@ -172,7 +175,29 @@
       }
     },
     "https://artresearch.net/resource/field_definition/pharos_model/current_keeper": {
-      "subject": "work"
+        "subject": "work",
+        "returns": [
+            {
+                "sparql_var": "value",
+                "local_var": "keeper"
+            }
+        ],
+        "fields": {
+            "https://artresearch.net/resource/field_definition/pharos_model/original_value": {
+                "subject": "keeper",
+                "params": [
+                    {
+                        "sparql_var": "object",
+                        "local_var": "work"
+                    },
+                    {
+                        "sparql_var": "attributedType",
+                        "constant": "http://www.cidoc-crm.org/cidoc-crm/P50_has_current_keeper"
+                    }
+                ]
+            }
+        }
+
     },
     "https://artresearch.net/resource/field_definition/pharos_model/production_date": {
       "subject": "work"

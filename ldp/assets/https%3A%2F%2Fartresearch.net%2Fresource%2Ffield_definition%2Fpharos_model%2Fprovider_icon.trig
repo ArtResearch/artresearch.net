@@ -1,32 +1,32 @@
 
 <https://artresearch.net/resource/field_definition/pharos_model/provider_icon/context> {
-  _:genid-c0321cb8f7954921acbe07d2ceaf4ac3-25yl2 a <http://spinrdf.org/sp#Query>;
+  <https://artresearch.net/resource/field_definition/pharos_model/provider_icon> a <http://www.researchspace.org/resource/system/fields/Field>,
+      <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-041e658c60e645daa10a042e8d6c7eb2-q4oww;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Provider Icon";
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#string>;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-041e658c60e645daa10a042e8d6c7eb2-5042fo;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-06-17T01:51:33.974+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-041e658c60e645daa10a042e8d6c7eb2-5042fo a <http://spinrdf.org/sp#Query>;
     <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 
 SELECT ?value WHERE {
   VALUES(?subject ?value) {
     (<https://artresearch.net/resource/provider/marburg> \"/assets/images/minilogo_marburg.png\")
     (<https://artresearch.net/resource/provider/khi> \"/assets/images/minilogo_khi.png\")
-    (<https://artresearch.net/resource/provider/hertziana> \"/assets/images/minilogo_Hertziana.png\")
+    (<https://artresearch.net/resource/provider/hertziana> \"/assets/images/minilogo_hertziana.png\")
     (<https://artresearch.net/resource/provider/zeri> \"/assets/images/minilogo_zeri.png\")
     (<https://artresearch.net/resource/provider/frick> \"/assets/images/minilogo_frick.png\")
     (<https://artresearch.net/resource/provider/itatti> \"/assets/images/minilogo_itatti.png\")
     (<https://artresearch.net/resource/provider/pmc> \"/assets/images/minilogo_pmc.png\")
   }
 }""" .
-
-  _:genid-c0321cb8f7954921acbe07d2ceaf4ac3-sbr7p a <http://spinrdf.org/sp#Query>;
+  
+  _:genid-041e658c60e645daa10a042e8d6c7eb2-q4oww a <http://spinrdf.org/sp#Query>;
     <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
-
-  <https://artresearch.net/resource/field_definition/pharos_model/provider_icon> a <http://www.researchspace.org/resource/system/fields/Field>,
-      <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
-    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-c0321cb8f7954921acbe07d2ceaf4ac3-25yl2;
-    <http://www.w3.org/2000/01/rdf-schema#label> "Provider Icon";
-    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#string>;
-    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-c0321cb8f7954921acbe07d2ceaf4ac3-sbr7p;
-    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
-    <http://www.w3.org/ns/prov#generatedAtTime> "2025-06-12T18:36:19.427+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
-
+  
   <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
       <https://artresearch.net/resource/field_definition/pharos_model/provider_icon> .
 }

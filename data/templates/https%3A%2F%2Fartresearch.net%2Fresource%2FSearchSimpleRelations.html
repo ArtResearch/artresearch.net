@@ -47,24 +47,15 @@
   "<https://artresearch.net/resource/fr/Work_created_by_Artist>":[{
               "kind":"resource",
               "queryPattern": "{
-                ?subject crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by/custom:sameAs? ?__value__ .
+                ?subject crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by ?__value__ .
               }"
   }],
   "<https://artresearch.net/resource/fr/Work_shows_Subject>":[{
               "kind":"hierarchy",
               "queryPattern": "{
-                {
-                  ?subject crm:P65_shows_visual_item/crm:P2_has_type ?s .
-                  ?s crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/subject>  .
-    							?s custom:sameAs/crm:P130_shows_features_of?/crm:P127_has_broader_term* ?__value__ .
-                } UNION {
-                  ?subject crm:P65_shows_visual_item/crm:P2_has_type ?s .
-                  ?s crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/subject>  .
-                  ?s crm:P130_shows_features_of?/crm:P127_has_broader_term* ?__value__
-                  MINUS {
-    							  ?__value__ custom:sameAs ?some .
-                  }
-                }
+                ?subject crm:P65_shows_visual_item/crm:P2_has_type ?s .
+                ?s crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/subject>  .
+                ?s crm:P130_shows_features_of?/crm:P127_has_broader_term* ?__value__ .                
               }",
               "parentsPattern": "{ ?value crm:P127_has_broader_term ?parent . }",
               "childrenPattern": "{ ?child crm:P127_has_broader_term ?value . }",
@@ -72,11 +63,11 @@
   }],
   "<https://artresearch.net/resource/fr/Work_from_Place>":[{
               "kind":"resource",
-              "queryPattern": "?subject crm:P55_has_current_location/(custom:sameAs?)/(crm:P89_falls_within*) ?__value__ ."
+              "queryPattern": "?subject crm:P55_has_current_location/(crm:P89_falls_within*) ?__value__ ."
   }],      
   "<https://artresearch.net/resource/fr/Work_kept_by_Institution>":[{
               "kind":"resource",
-              "queryPattern": "?subject crm:P50_has_current_keeper/(custom:sameAs?) ?__value__ ."
+              "queryPattern": "?subject crm:P50_has_current_keeper ?__value__ ."
   }],          
   "<http://www.cidoc-crm.org/cidoc-crm/P2_has_type>":[{
               "kind":"hierarchy",
@@ -102,13 +93,7 @@
   "<https://artresearch.net/resource/fr/Photograph_created_by_Photographer>": [{
               "kind":"hierarchy",
               "queryPattern": "{
-                  {
-                    ?subject crm:P108i_was_produced_by/crm:P14_carried_out_by/custom:sameAs/crm:P107i_is_current_or_former_member_of? ?__value__ .
-                  } UNION {
-                    ?subject crm:P108i_was_produced_by/crm:P14_carried_out_by/crm:P107i_is_current_or_former_member_of? ?__value__.
-                    FILTER NOT EXISTS { ?__value__ custom:sameAs ?wikidata. }
-                  }
-              }",
+                    ?subject crm:P108i_was_produced_by/crm:P14_carried_out_by/crm:P107i_is_current_or_former_member_of? ?__value__ .              }",
               "parentsPattern": "{ ?value crm:P107i_is_current_or_former_member_of ?parent . }",
               "childrenPattern": "{ ?child crm:P107i_is_current_or_former_member_of ?value . }",
               "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
@@ -160,7 +145,7 @@
               "kind":"resource",
               "queryPattern": "
                 { {
-                  ?work crm:P50_has_current_keeper/custom:sameAs? ?subject .
+                  ?work crm:P50_has_current_keeper ?subject .
                   ?work crm:P70i_is_documented_in/crm:P104_is_subject_to  ?ownership. 
                   ?__value__ crm:P75_possesses ?ownership .
                 } }
@@ -169,7 +154,7 @@
     }],
   "<https://artresearch.net/resource/fr/Repository_from_Place>":[{
               "kind":"resource",
-              "queryPattern": "{?subject crm:P55_has_current_location/(custom:sameAs?)/(crm:P89_falls_within*) ?__value__ .}"
+              "queryPattern": "{?subject crm:P55_has_current_location/(crm:P89_falls_within*) ?__value__ .}"
   }],
  
   [[!-- Photographer --]]
