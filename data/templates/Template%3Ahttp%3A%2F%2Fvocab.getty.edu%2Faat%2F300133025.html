@@ -182,7 +182,7 @@
                 <div class="column fields-column">
                   <div class="catalog-record-icons">
                     {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/catalog_record_url]}}
-                    <span><b>View original records: </b></span>
+                    <span class="providers-records">View sources: </span>
                       {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/catalog_record_url].values}}
                         <a href="{{{[label]}}}" target="_blank" rel="noopener noreferrer">
                           <img class="provider-icon" title="{{{[@id]}}}" src="{{provenance.0.[https://artresearch.net/resource/field_definition/pharos_model/provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
@@ -387,7 +387,8 @@
                                 <div class="field-value-group">
                                   <div class="field-value-item">
                                       <div class="field-value-main">
-                                        <span>
+                                        <div class="col-md-1"></div>
+                                        <span class="col-md-10">
                                           <semantic-link iri="{{[@id]}}">{{label}}</semantic-link>
                                         </span>
                                       </div>
@@ -443,7 +444,8 @@
                                 <div class="field-value-group">
                                   <div class="field-value-item">
                                       <div class="field-value-main">
-                                        <semantic-link iri="{{[@id]}}">{{label}}</semantic-link>
+                                        <div class="col-md-1"></div>
+                                        <span class="col-md-10"><semantic-link iri="{{[@id]}}">{{label}}</semantic-link></span>
                                       </div>
                                   </div>
                                   <div class="field-value-original-group">
