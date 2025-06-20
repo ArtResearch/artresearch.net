@@ -181,8 +181,9 @@
 
                 <div class="column fields-column">
                   <div class="catalog-record-icons">
+                    <span><a href="mailto:info@artresearch.net" title="Contact us">contact us</a> | <semantic-link iri="https://artresearch.net/resource/TermsAndConditions" target="_blank" title="Terms of Use">terms of use</semantic-link> | </span>
                     {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/catalog_record_url]}}
-                    <span class="providers-records">View sources: </span>
+                    <span class="providers-records">view sources: </span>
                       {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/catalog_record_url].values}}
                         <a href="{{{[label]}}}" target="_blank" rel="noopener noreferrer">
                           <img class="provider-icon" title="{{{[@id]}}}" src="{{provenance.0.[https://artresearch.net/resource/field_definition/pharos_model/provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
@@ -201,33 +202,6 @@
                               "mode": "text"
                             },
                             {
-                              "field": "https://artresearch.net/resource/field_definition/pharos_model/type",
-                              "mode": "new"
-                            },
-                            {
-                              "field": "https://artresearch.net/resource/field_definition/pharos_model/current_keeper",
-                              "mode": "new"
-                            },
-                            {
-                               "field": "https://artresearch.net/resource/field_definition/pharos_model/last_known_location",
-                               "mode": "new"
-                            },
-                            {
-                               "field": "https://artresearch.net/resource/field_definition/pharos_model/object_is_part_of",
-                               "mode": "new"
-                            },
-                            {
-                               "field": "https://artresearch.net/resource/field_definition/pharos_model/object_has_part",
-                               "mode": "new"
-                            }
-                        ]')
-                    }}
-
-                    {{> fieldGroup
-                        data=data
-                        title=""
-                        fields=(parse '[
-                            {
                               "field": "https://artresearch.net/resource/field_definition/pharos_model/creator",
                               "mode": "creator"
                             },
@@ -242,6 +216,46 @@
                         data=data
                         title=""
                         fields=(parse '[
+                            "https://artresearch.net/resource/field_definition/pharos_model/production_date"
+                        ]')
+                    }}
+
+                    {{> fieldGroup
+                        data=data
+                        title=""
+                        fields=(parse '[
+
+                        {
+                          "field": "https://artresearch.net/resource/field_definition/pharos_model/current_keeper",
+                          "mode": "new"
+                        },
+                        {
+                           "field": "https://artresearch.net/resource/field_definition/pharos_model/last_known_location",
+                           "mode": "new"
+                        },
+                        {
+                           "field": "https://artresearch.net/resource/field_definition/pharos_model/object_is_part_of",
+                           "mode": "new"
+                        },
+                        {
+                           "field": "https://artresearch.net/resource/field_definition/pharos_model/object_has_part",
+                           "mode": "new"
+                        }
+                        ]')
+                    }}
+
+                    {{> fieldGroup
+                        data=data
+                        title=""
+                        fields=(parse '[
+                            {
+                              "field": "https://artresearch.net/resource/field_definition/pharos_model/subject",
+                              "mode": "new"
+                            },
+                            {
+                              "field": "https://artresearch.net/resource/field_definition/pharos_model/type",
+                              "mode": "new"
+                            },
                             {
                               "field": "https://artresearch.net/resource/field_definition/pharos_model/material",
                               "mode": "new"
@@ -257,20 +271,11 @@
                         data=data
                         title=""
                         fields=(parse '[
-                            {
-                              "field": "https://artresearch.net/resource/field_definition/pharos_model/subject",
-                              "mode": "new"
-                            }
+
                         ]')
                     }}
 
-                    {{> fieldGroup
-                        data=data
-                        title=""
-                        fields=(parse '[
-                            "https://artresearch.net/resource/field_definition/pharos_model/production_date"
-                        ]')
-                    }}
+
 
                     {{> fieldGroup
                         data=data
@@ -319,7 +324,8 @@
                               }}
 
                               <div>
-                                <a href="mailto:info@artresearch.net" title="Contact us">
+                                <p class="contact-photo">Contact the institution</p>
+                                <!-- <a href="mailto:info@artresearch.net" title="Contact us">
                                   <i class="material-icons-round" aria-hidden="true">email</i>
                                 </a>
                                 <a href="mailto:info@artresearch.net" title="Comments" style="margin-left: 10px">
@@ -327,7 +333,7 @@
                                 </a>
                                 <semantic-link iri="https://artresearch.net/resource/TermsAndConditions" target="_blank" title="Terms of Use" style="margin-left: 10px">
                                   <i class="material-icons-round" aria-hidden="true">description</i>
-                                </semantic-link>
+                                </semantic-link> -->
                               </div>
                             </div>
                           </div>

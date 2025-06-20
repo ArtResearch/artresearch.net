@@ -144,7 +144,7 @@
 <template id="fieldTemplate">
     {{#if (lookup data field)}}
         <div class="field">
-            <div class="field-label">
+            <div class="field-label col-md-3">
                 {{#if label}}{{label}}{{else}}{{lookup (lookup data field) 'label'}}{{/if}}:
             </div>
             <div class="field-value">
@@ -152,12 +152,12 @@
                     {{#each (mergeUniqueValues (lookup (lookup data field) 'values'))}}
                         <div class="field-value-item">
                             <div class="field-value-main">
-                                <span>{{label}}</span>
-                                <div class="provider-icons">
+                                <div class="provider-icons col-md-1">
                                     {{#each (uniqProviders provenance)}}
                                         <img class="provider-icon" title="{{label}}" src="{{icon}}">
                                     {{/each}}
                                 </div>
+                                <span class="col-md-10">{{label}}</span>
                             </div>
                         </div>
                     {{/each}}
@@ -165,12 +165,13 @@
                     {{#each (mergeUniqueValues (lookup (lookup data field) 'values'))}}
                         <div class="field-value-item">
                             <div class="field-value-main">
-                                <semantic-link iri='{{[@id]}}'>{{label}}</semantic-link>
-                                <div class="provider-icons">
-                                    {{#each (uniqProviders provenance)}}
-                                        <img class="provider-icon" title="{{label}}" src="{{icon}}">
-                                    {{/each}}
-                                </div>
+                              <div class="provider-icons col-md-1">
+                                  {{#each (uniqProviders provenance)}}
+                                      <img class="provider-icon" title="{{label}}" src="{{icon}}">
+                                  {{/each}}
+                              </div>
+                                <span class="col-md-10"><semantic-link iri='{{[@id]}}'>{{label}}</semantic-link></span>
+
                             </div>
                         </div>
                     {{/each}}
@@ -183,7 +184,8 @@
                         <div class="field-value-group">
                           <div class="field-value-item">
                               <div class="field-value-main">
-                                <a href="javascript:void(0)" class="disabled">{{label}}</a>
+                                <div class="col-md-1"></div>
+                                <span class="col-md-10"><a href="javascript:void(0)" class="disabled">{{label}}</a></span>
                                 [[!-- <semantic-link iri="{{[@id]}}">{{label}}</semantic-link> --]]
                               </div>
                           </div>
@@ -191,22 +193,23 @@
                             {{#each [https://artresearch.net/resource/field_definition/pharos_model/original_value_creator].values}}
                               <div class="field-value-item">
                                 <div class="field-value-main">
-                                    <span>{{label}}</span>
-                                    <div class="provider-icons">
+
+                                    <div class="provider-icons col-md-1">
                                       {{#each (uniqProviders provenance)}}
                                           <img class="provider-icon" title="{{label}}" src="{{icon}}">
                                       {{/each}}
                                     </div>
+                                    <span class="col-md-10">{{label}}</span>
                                 </div>
                                 <div class="field-value-qualifiers">
                                   {{#each [https://artresearch.net/resource/field_definition/pharos_model/creator_role].values }}
                                     <span class="field-value-qualifier">
-                                      [{{label}}]
-                                      <div class="provider-icons">
+                                      <div class="provider-icons col-md-1">
                                         {{#each (uniqProviders provenance)}}
                                         <img class="provider-icon" title="{{label}}" src="{{icon}}">
                                         {{/each}}
                                       </div>
+                                      <span class="col-md-10">[{{label}}]</span>
                                     </span>
                                   {{/each}}
                                 </div>
@@ -217,12 +220,13 @@
                       {{else}}
                         <div class="field-value-item">
                             <div class="field-value-main">
-                                <span>{{label}}</span>
-                                <div class="provider-icons">
+
+                                <div class="provider-icons col-md-1">
                                     {{#each (uniqProviders provenance)}}
                                         <img class="provider-icon" title="{{label}}" src="{{icon}}">
                                     {{/each}}
                                 </div>
+                                <span class="col-md-10">{{label}}</span>
                             </div>
                         </div>
                       {{/if}}
@@ -233,7 +237,8 @@
                         <div class="field-value-group">
                           <div class="field-value-item">
                               <div class="field-value-main">
-                                <a href="javascript:void(0)" class="disabled">{{label}}</a>
+                                <div class="col-md-1"></div>
+                                <span class="col-md-10"><a href="javascript:void(0)" class="disabled">{{label}}</a></span>
                                 [[!-- <semantic-link iri="{{[@id]}}">{{label}}</semantic-link> --]]
                               </div>
                           </div>
@@ -241,12 +246,13 @@
                             {{#each [https://artresearch.net/resource/field_definition/pharos_model/original_value].values}}
                               <div class="field-value-item">
                                 <div class="field-value-main">
-                                    <span>{{label}}</span>
-                                    <div class="provider-icons">
+
+                                    <div class="provider-icons col-md-1">
                                       {{#each (uniqProviders provenance)}}
                                           <img class="provider-icon" title="{{label}}" src="{{icon}}">
                                       {{/each}}
                                     </div>
+                                    <span class="col-md-10">{{label}}</span>
                                 </div>
                               </div>
                             {{/each}}
@@ -255,12 +261,13 @@
                       {{else}}
                         <div class="field-value-item">
                             <div class="field-value-main">
-                                <span>{{label}}</span>
-                                <div class="provider-icons">
+
+                                <div class="provider-icons col-md-1">
                                     {{#each (uniqProviders provenance)}}
                                         <img class="provider-icon" title="{{label}}" src="{{icon}}">
                                     {{/each}}
                                 </div>
+                                <span class="col-md-10">{{label}}</span>
                             </div>
                         </div>
                       {{/if}}
@@ -269,29 +276,30 @@
                     {{#each (lookup (lookup data field) 'values')}}
                         <div class="field-value-item">
                             <div class="field-value-main">
-                                {{#if (lookup this '@id')}}
-                                  {{#if (eq ../mode "outside_link")}}
-                                    <a href="{{[@id]}}" target="_blank" rel="noopener noreferrer">{{label}}</a>
-                                  {{else}}
-                                    {{label}}
-                                  {{/if}}
-                                  [[!-- <semantic-link iri="{{[@id]}}">{{label}}</semantic-link> --]]
-                                {{else}}
-                                    {{#if (eq ../field "https://artresearch.net/resource/field_definition/pharos_model/production_date")}}
-                                      <span>{{dateRangeFormat [@value]}}</span>
-                                    {{else}}
-                                      <span>{{[@value]}}</span>
-                                    {{/if}}
-                                {{/if}}
-
                                 {{#if ../dontShowProvenance}}
                                 {{else}}
-                                <div class="provider-icons">
+                                <div class="provider-icons col-md-1">
                                     {{#each (uniqProviders provenance)}}
                                         <img class="provider-icon" title="{{label}}" src="{{icon}}">
                                     {{/each}}
                                 </div>
                                 {{/if}}
+                                {{#if (lookup this '@id')}}
+                                  {{#if (eq ../mode "outside_link")}}
+                                    <span class="col-md-10"><a href="{{[@id]}}" target="_blank" rel="noopener noreferrer">{{label}}</a></span>
+                                  {{else}}
+                                    <span class="col-md-10">{{label}}</span>
+                                  {{/if}}
+                                  [[!-- <semantic-link iri="{{[@id]}}">{{label}}</semantic-link> --]]
+                                {{else}}
+                                    {{#if (eq ../field "https://artresearch.net/resource/field_definition/pharos_model/production_date")}}
+                                      <span class="col-md-10">{{dateRangeFormat [@value]}}</span>
+                                    {{else}}
+                                      <span class="col-md-10">{{[@value]}}</span>
+                                    {{/if}}
+                                {{/if}}
+
+
                             </div>
                             {{#if ../qualifiers}}
                             <div class="field-value-qualifiers">
