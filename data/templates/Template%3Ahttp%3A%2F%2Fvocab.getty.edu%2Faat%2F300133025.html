@@ -75,7 +75,7 @@
                                         "(not (isEmpty item.[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value]))")}}
                                 {{> mainImageView artwork=../data photo=this label=label imageUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value] imageManifestUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_iiif_manifest].values.0.[@value]}}
                               {{else}}
-                                <p>No images available</p>
+                                <p class='no-images-available'>No images available</p>
                               {{/with}}
                             {{/if}}
                           </template>
@@ -166,7 +166,7 @@
                                         "(not (isEmpty item.[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value]))")}}
                                 {{> mainImageView artwork=../data photo=this label=label imageUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value] imageManifestUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_iiif_manifest].values.0.[@value]}}
                               {{else}}
-                                <p>No images available</p>
+                                <p class='no-images-available'>No images available</p>
                               {{/with}}
                             {{/if}}
                           </template>
@@ -174,7 +174,7 @@
                       </div>
                     {{/ifCond}}
                   {{else}}
-                    <p>No images</p>
+                    <p class='no-images-available'>No images available</p>
                   {{/if}}
                 </div>
 
@@ -184,7 +184,7 @@
                     {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/catalog_record_url]}}
                     <span><b>View original records: </b></span>
                       {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/catalog_record_url].values}}
-                        <a href="{{{[@id]}}}" target="_blank" rel="noopener noreferrer">
+                        <a href="{{{[label]}}}" target="_blank" rel="noopener noreferrer">
                           <img class="provider-icon" title="{{{[@id]}}}" src="{{provenance.0.[https://artresearch.net/resource/field_definition/pharos_model/provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
                         </a>
                       {{/each}}
@@ -204,13 +204,22 @@
                               "field": "https://artresearch.net/resource/field_definition/pharos_model/type",
                               "mode": "new"
                             },
-                            "https://artresearch.net/resource/field_definition/pharos_model/current_keeper",
                             {
-                              "field": "https://artresearch.net/resource/field_definition/pharos_model/object_part_of_hierarchy",
-                              "mode": "part_hierarchy"
+                              "field": "https://artresearch.net/resource/field_definition/pharos_model/current_keeper",
+                              "mode": "new"
                             },
-                            "https://artresearch.net/resource/field_definition/pharos_model/object_is_part_of",
-                            "https://artresearch.net/resource/field_definition/pharos_model/object_has_part"
+                            {
+                               "field": "https://artresearch.net/resource/field_definition/pharos_model/last_known_location",
+                               "mode": "new"
+                            },
+                            {
+                               "field": "https://artresearch.net/resource/field_definition/pharos_model/object_is_part_of",
+                               "mode": "new"
+                            },
+                            {
+                               "field": "https://artresearch.net/resource/field_definition/pharos_model/object_has_part",
+                               "mode": "new"
+                            }
                         ]')
                     }}
 
@@ -248,7 +257,10 @@
                         data=data
                         title=""
                         fields=(parse '[
-                            "https://artresearch.net/resource/field_definition/pharos_model/subject"
+                            {
+                              "field": "https://artresearch.net/resource/field_definition/pharos_model/subject",
+                              "mode": "new"
+                            }
                         ]')
                     }}
 
@@ -375,8 +387,9 @@
                                 <div class="field-value-group">
                                   <div class="field-value-item">
                                       <div class="field-value-main">
-                                        <span class="col-md-10"><a href="javascript:void(0)" class="disabled">{{label}}</a></span>
-                                        [[!-- <semantic-link iri="{{[@id]}}">{{label}}</semantic-link> --]]
+                                        <span>
+                                          <semantic-link iri="{{[@id]}}">{{label}}</semantic-link>
+                                        </span>
                                       </div>
                                   </div>
                                   <div class="field-value-original-group">
@@ -388,7 +401,9 @@
                                                   <img class="provider-icon" title="{{label}}" src="{{icon}}">
                                               {{/each}}
                                             </div>
-                                                <span class="col-md-10">{{label}}</span>
+                                            <span class="col-md-10">
+                                              {{label}}
+                                            </span>
                                         </div>
                                         <div class="field-value-qualifiers">
                                           {{#each [https://artresearch.net/resource/field_definition/pharos_model/creator_role].values }}
@@ -415,7 +430,9 @@
                                                 <img class="provider-icon" title="{{label}}" src="{{icon}}">
                                             {{/each}}
                                         </div>
-                                        <span class="col-md-10">{{label}}</span>
+                                        <span class="col-md-10">
+                                          <semantic-link iri="{{[@id]}}">{{label}}</semantic-link>
+                                        </span>
                                     </div>
                                 </div>
                               {{/if}}
@@ -426,8 +443,7 @@
                                 <div class="field-value-group">
                                   <div class="field-value-item">
                                       <div class="field-value-main">
-                                        <a href="javascript:void(0)" class="disabled">{{label}}</a>
-                                        [[!-- <semantic-link iri="{{[@id]}}">{{label}}</semantic-link> --]]
+                                        <semantic-link iri="{{[@id]}}">{{label}}</semantic-link>
                                       </div>
                                   </div>
                                   <div class="field-value-original-group">
@@ -454,7 +470,9 @@
                                                 <img class="provider-icon" title="{{label}}" src="{{icon}}">
                                             {{/each}}
                                         </div>
-                                        <span class="col-md-10">{{label}}</span>
+                                        <span class="col-md-10">
+                                          <semantic-link iri="{{[@id]}}">{{label}}</semantic-link>
+                                        </span>
                                     </div>
                                 </div>
                               {{/if}}

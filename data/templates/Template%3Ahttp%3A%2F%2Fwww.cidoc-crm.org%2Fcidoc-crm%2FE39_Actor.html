@@ -14,11 +14,11 @@
   <div class="main-container">
     <semantic-if query="ASK { { ?photographer custom:sameAs <[[this]]> . ?photographer crm:P2_has_type <https://artresearch.net/resource/pharos/vocab/meta/photographer> } UNION { <[[this]]> crm:P2_has_type <https://artresearch.net/resource/pharos/vocab/meta/photographer> }  }"  then='{{> then}}' else='{{> else}}'>
      <template id='then'>
-       <inline-template template-iri="Default:SearchTemplate" options='{"searchRestrictions":"?subject crm:P108i_was_produced_by/crm:P14_carried_out_by/custom:sameAs? <[[this]]> .", "domain": "photograph"}'></inline-template>
+       <inline-template template-iri="Default:SearchTemplate" options='{"searchRestrictions":"?subject crm:P108i_was_produced_by/crm:P14_carried_out_by/custom:sameAs? <[[this]]> .", "domain": "photograph", "lock": "true"}'></inline-template>
  
      </template>
      <template id='else'>
-       <inline-template template-iri="Default:SearchTemplate" options='{"searchRestrictions":"{ ?subject crm:P50_has_current_keeper/custom:sameAs? <[[this]]> . } UNION { ?subject crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by/custom:sameAs? <[[this]]> . }"}'></inline-template>
+       <inline-template template-iri="Default:SearchTemplate" options='{"searchRestrictions":"{ ?subject crm:P50_has_current_keeper <[[this]]> . } UNION { ?subject crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by <[[this]]> . }", "domain": "work", "lock": "true"}'></inline-template>
 
      </template>
 

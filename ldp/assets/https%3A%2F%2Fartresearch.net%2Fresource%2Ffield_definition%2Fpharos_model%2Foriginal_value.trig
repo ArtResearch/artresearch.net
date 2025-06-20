@@ -3,17 +3,17 @@
   <https://artresearch.net/resource/field_definition/pharos_model/original_value> a
       <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
       <http://www.w3.org/ns/ldp#Resource>;
-    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-8f85370ba40a45f3a553bc1d2c37ecf8-a5kxo;
-    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-8f85370ba40a45f3a553bc1d2c37ecf8-9vw0b;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-356ed9957fd44aeba9994d93524d3de2-dx25x8;
     <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-356ed9957fd44aeba9994d93524d3de2-h30it8;
     <http://www.w3.org/2000/01/rdf-schema#label> "Original Value";
     <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
-    <http://www.w3.org/ns/prov#generatedAtTime> "2024-12-11T21:05:25.036+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-06-19T11:50:44.661+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
   
-  _:genid-8f85370ba40a45f3a553bc1d2c37ecf8-9vw0b a <http://spinrdf.org/sp#Query>;
+  _:genid-356ed9957fd44aeba9994d93524d3de2-dx25x8 a <http://spinrdf.org/sp#Query>;
     <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
   
-  _:genid-8f85370ba40a45f3a553bc1d2c37ecf8-a5kxo a <http://spinrdf.org/sp#Query>;
+  _:genid-356ed9957fd44aeba9994d93524d3de2-h30it8 a <http://spinrdf.org/sp#Query>;
     <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 
 SELECT DISTINCT ?value ?provUri WHERE {
@@ -21,9 +21,9 @@ SELECT DISTINCT ?value ?provUri WHERE {
     ?object crm:P108i_was_produced_by/crm:P9i_forms_part_of* ?production .
   }
   
-  BIND(IF(?attributedType = crm:P2_has_type || ?attributedType = crm:P45_consists_of, ?object, ?production) as ?attributedEntity)
+  BIND(IF(?attributedType = crm:P2_has_type || ?attributedType = crm:P45_consists_of || ?attributedType = crm:P50_has_current_keeper, ?object, ?production) as ?attributedEntity)
   
-  BIND(IRI(CONCAT(\"http://artresearch.net/resource/e13/\", SHA256(CONCAT(STR(?attributedEntity), STR(?attributedType), STR(?subject))))) AS ?attribution)
+  BIND(IRI(CONCAT(\"https://artresearch.net/resource/e13/\", SHA256(CONCAT(STR(?attributedEntity), STR(?attributedType), STR(?subject))))) AS ?attribution)
 
   ?attribution crm:P134_continued* ?provUri .
   ?provUri crm:P9i_forms_part_of ?cataloging .

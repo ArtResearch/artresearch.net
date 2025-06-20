@@ -1,0 +1,24 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/object_location_hierarchy/context> {
+  _:genid-f95ed16b6216406b8872825c8739936e-u5375v a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+SELECT DISTINCT ?value WHERE {  
+  ?subject crm:P55_has_current_location+ ?value .
+}""" .
+  
+  <https://artresearch.net/resource/field_definition/pharos_model/object_location_hierarchy>
+    a <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
+      <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-f95ed16b6216406b8872825c8739936e-yecrrr;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Location";
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-f95ed16b6216406b8872825c8739936e-u5375v;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-06-19T12:06:35.280+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-f95ed16b6216406b8872825c8739936e-yecrrr a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/object_location_hierarchy> .
+}
