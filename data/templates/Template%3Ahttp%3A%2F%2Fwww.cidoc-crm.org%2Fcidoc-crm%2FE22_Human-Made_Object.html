@@ -9,7 +9,7 @@
                     <div class="main-image-container">
                       <mp-event-target-template-render id='work-full-image' template='{{> template data=data}}'>
                         <template id="mainImageView">
-                          <mp-overlay-dialog data-title="{{label}}" data-type="lightbox">
+                          <mp-overlay-dialog data-title="Photo {{label}}" data-type="lightbox">
                             <mp-overlay-dialog-trigger>
                               <div class="object-main-image-holder">
                                 <img alt='' class="object-image" src="https://staging.artresearch.net{{imageUrl}}" />
@@ -19,7 +19,7 @@
                               </div>
                             </mp-overlay-dialog-trigger>
                             <mp-overlay-dialog-content>
-                              <single-image-iiif-viewer iiif-manifest-url='{{imageManifestUrl}}'></single-image-iiif-viewer>
+                              <single-image-iiif-viewer show-navigation-control='true' iiif-manifest-url='{{imageManifestUrl}}'></single-image-iiif-viewer>
                             </mp-overlay-dialog-content>
                           </mp-overlay-dialog>
                         </template>
