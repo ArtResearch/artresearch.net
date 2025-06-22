@@ -17,10 +17,7 @@
   }],
   "<https://artresearch.net/resource/fr/Work_has_Provider>":[{
               "kind":"resource",
-              "queryPattern": "
-                ?__value__ crm:P75_possesses/^crm:P104_is_subject_to ?catalog .
-                ?subject crm:P70i_is_documented_in ?catalog .
-              "
+              "queryPattern": "?__value__ crm:P75_possesses/^crm:P104_is_subject_to/^crm:P70i_is_documented_in ?subject ."
 
     }],
   "<https://artresearch.net/resource/fr/Work_consists_of_Material>":[{
@@ -53,9 +50,13 @@
   "<https://artresearch.net/resource/fr/Work_shows_Subject>":[{
               "kind":"hierarchy",
               "queryPattern": "{
-                ?subject crm:P65_shows_visual_item/crm:P2_has_type ?s .
-                ?s crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/subject>  .
-                ?s crm:P130_shows_features_of?/crm:P127_has_broader_term* ?__value__ .                
+                {
+                  {
+                    ?subject crm:P65_shows_visual_item/crm:P2_has_type ?s .
+                    ?s crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/subject>  .
+                  }
+                  ?s crm:P130_shows_features_of?/crm:P127_has_broader_term* ?__value__ .
+                }
               }",
               "parentsPattern": "{ ?value crm:P127_has_broader_term ?parent . }",
               "childrenPattern": "{ ?child crm:P127_has_broader_term ?value . }",
@@ -121,7 +122,13 @@
               "
 
   }],
-  
+  "<https://artresearch.net/resource/fr/Photo_has_Image>":[{
+              "kind":"resource",
+              "queryPattern": "{
+                BIND(IF(?__value__ = <http://www.w3.org/2001/XMLSchema#yes>, true, false) AS ?has) .
+                ?subject custom:has_image ?has .
+              }"
+  }],  
   [[!-- Artist --]]
   "<https://artresearch.net/resource/fr/Artist_has_Gender>":[{
               "kind":"resource",
@@ -162,7 +169,7 @@
     }],
   "<https://artresearch.net/resource/fr/Repository_from_Place>":[{
               "kind":"resource",
-              "queryPattern": "{?subject crm:P55_has_current_location/(crm:P89_falls_within*) ?__value__ .}"
+              "queryPattern": "{?subject crm:P74_has_current_or_former_residence/(crm:P89_falls_within*) ?__value__ .}"
   }],
  
   [[!-- Photographer --]]
