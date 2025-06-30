@@ -1,17 +1,16 @@
 <div class="page">    
 
+  
   <resource-info subject="[[this]]" profile="repository-card" template="{{> template}}">      
     <template id="template">
       <mp-event-trigger id="breadcrumbs" 
                         type='Component.TemplateUpdate' on='["mounted"]' targets='["top-header-breadcrumbs"]'
-                        data='{"breadcrumb": "Subject: {{escapeForJson data.label}}"}'>
+                        data='{"breadcrumb": "Material: {{escapeForJson data.label}}"}'>
       </mp-event-trigger>
     </template>
   </resource-info>
-
   
-
   <div class="main-container">
-     <inline-template template-iri="Default:SearchTemplate" options='{"searchRestrictions":"?subject crm:P65_shows_visual_item/crm:P2_has_type/crm:P127_has_broader_term* <[[this]]> .", "domain": "work", "lock": "true"}'></inline-template> 
+       <inline-template template-iri="Default:SearchTemplate" options='{"searchRestrictions":"{ ?subject crm:P45_consists_of/crm:P127_has_broader_term*  <[[this]]> . }", "domain": "work", "lock": "true"}'></inline-template>
   </div>
 </div>
