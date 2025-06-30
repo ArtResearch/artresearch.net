@@ -179,7 +179,7 @@
                 </div>
 
 
-                <div class="column fields-column">
+                <div class="column fields-column container">
                   <div class="catalog-record-icons">
                     <span><a href="mailto:info@artresearch.net" title="Contact us">contact us</a> | <semantic-link iri="https://artresearch.net/resource/TermsAndConditions" target="_blank" title="Terms of Use">terms of use</semantic-link> | </span>
                     {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/catalog_record_url]}}
@@ -292,8 +292,9 @@
                     <div class="field-group photos-accordion">
                       <h3>Photographs</h3>
                       {{#each (orderBy data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values "[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]")}}
-                        <semantic-link-container uri="{{[@id]}}" target="_blank">
+
                           <div class="photo-card">
+                            <semantic-link-container uri="{{[@id]}}" target="_blank">
                             <div class="photo-thumbnail">
                               {{#if [https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail]}}
                                 <img alt='' src="https://staging.artresearch.net{{[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" />
@@ -301,6 +302,7 @@
                                 <p>No Image</p>
                               {{/if}}
                             </div>
+                            </semantic-link-container>
                             <div class="photo-details">
                               {{#with [https://artresearch.net/resource/field_definition/pharos_model/photo_archive].values.[0]}}
                                 {{#each (uniqProviders provenance)}}
@@ -337,7 +339,7 @@
                               </div>
                             </div>
                           </div>
-                        </semantic-link-container>
+
                       {{/each}}
                     </div>
                     {{/if}}
@@ -367,20 +369,20 @@
         <template id="fieldTemplate">
             {{#if (lookup data field)}}
                 <div class="field row">
-                    <div class="field-label col-md-3">
+                    <div class="field-label col-md-3 col-sm-12">
                         {{#if label}}{{label}}{{else}}{{lookup (lookup data field) 'label'}}{{/if}}:
                     </div>
-                    <div class="field-value col-md-8">
+                    <div class="field-value col-md-8 col-sm-12">
                         {{#if (eq mode "text")}}
                             {{#each (mergeUniqueValues (lookup (lookup data field) 'values'))}}
                                 <div class="field-value-item">
-                                    <div class="field-value-main">
-                                        <div class="provider-icons col-md-1">
+                                    <div class="field-value-main row">
+                                        <div class="provider-icons col-md-1 col-sm-1">
                                             {{#each (uniqProviders provenance)}}
                                                 <img class="provider-icon" title="{{label}}" src="{{icon}}">
                                             {{/each}}
                                         </div>
-                                        <span class="col-md-10">{{label}}</span>
+                                        <span class="col-md-10 col-sm-8">{{label}}</span>
                                     </div>
                                 </div>
                             {{/each}}
@@ -392,23 +394,23 @@
                             {{#if [https://artresearch.net/resource/field_definition/pharos_model/original_value_creator]}}
                                 <div class="field-value-group">
                                   <div class="field-value-item">
-                                      <div class="field-value-main">
+                                      <div class="field-value-main row">
                                         <div class="col-md-1"></div>
                                         <span class="col-md-10">
-                                          <semantic-link iri="{{[@id]}}">{{label}}</semantic-link>
+                                          <semantic-link iri="{{[@id]}}">{{label}} <img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt=""> </semantic-link>
                                         </span>
                                       </div>
                                   </div>
                                   <div class="field-value-original-group">
                                     {{#each (mergeUniqueValues [https://artresearch.net/resource/field_definition/pharos_model/original_value_creator].values)}}
                                       <div class="field-value-item">
-                                        <div class="field-value-main">
-                                            <div class="provider-icons col-md-1">
+                                        <div class="field-value-main row">
+                                            <div class="provider-icons col-md-1 col-sm-1">
                                               {{#each (uniqProviders provenance)}}
                                                   <img class="provider-icon" title="{{label}}" src="{{icon}}">
                                               {{/each}}
                                             </div>
-                                            <span class="col-md-10">
+                                            <span class="col-md-10 col-sm-8 grey">
                                               {{label}}
                                             </span>
                                         </div>
@@ -430,15 +432,15 @@
                                 </div>
                               {{else}}
                                 <div class="field-value-item">
-                                    <div class="field-value-main">
+                                    <div class="field-value-main row">
 
-                                        <div class="provider-icons col-md-1">
+                                        <div class="provider-icons col-md-1 col-sm-1">
                                             {{#each (uniqProviders provenance)}}
                                                 <img class="provider-icon" title="{{label}}" src="{{icon}}">
                                             {{/each}}
                                         </div>
-                                        <span class="col-md-10">
-                                          <semantic-link iri="{{[@id]}}">{{label}}</semantic-link>
+                                        <span class="col-md-10 col-sm-8">
+                                          <semantic-link iri="{{[@id]}}">{{label}} <img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt=""></semantic-link>
                                         </span>
                                     </div>
                                 </div>
@@ -449,22 +451,22 @@
                               {{#if [https://artresearch.net/resource/field_definition/pharos_model/original_value]}}
                                 <div class="field-value-group">
                                   <div class="field-value-item">
-                                      <div class="field-value-main">
+                                      <div class="field-value-main row">
                                         <div class="col-md-1"></div>
-                                        <span class="col-md-10"><semantic-link iri="{{[@id]}}">{{label}}</semantic-link></span>
+                                        <span class="col-md-10"><semantic-link iri="{{[@id]}}">{{label}} <img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt=""></semantic-link></span>
                                       </div>
                                   </div>
                                   <div class="field-value-original-group">
                                     {{#each (mergeUniqueValues [https://artresearch.net/resource/field_definition/pharos_model/original_value].values)}}
                                       <div class="field-value-item">
-                                        <div class="field-value-main">
+                                        <div class="field-value-main row">
 
-                                            <div class="provider-icons col-md-1">
+                                            <div class="provider-icons col-md-1 col-sm-1">
                                               {{#each (uniqProviders provenance)}}
                                                   <img class="provider-icon" title="{{label}}" src="{{icon}}">
                                               {{/each}}
                                             </div>
-                                            <span class="col-md-10">{{label}}</span>
+                                            <span class="col-md-10 col-sm-8 grey">{{label}}</span>
                                         </div>
                                       </div>
                                     {{/each}}
@@ -472,14 +474,14 @@
                                 </div>
                               {{else}}
                                 <div class="field-value-item">
-                                    <div class="field-value-main">
-                                        <div class="provider-icons col-md-1">
+                                    <div class="field-value-main row">
+                                        <div class="provider-icons col-md-1 col-sm-1">
                                             {{#each (uniqProviders provenance)}}
                                                 <img class="provider-icon" title="{{label}}" src="{{icon}}">
                                             {{/each}}
                                         </div>
-                                        <span class="col-md-10">
-                                          <semantic-link iri="{{[@id]}}">{{label}}</semantic-link>
+                                        <span class="col-md-10 col-sm-8">
+                                          <semantic-link iri="{{[@id]}}">{{label}} <img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt=""></semantic-link>
                                         </span>
                                     </div>
                                 </div>
@@ -488,10 +490,10 @@
                           {{else}}
                             {{#each (mergeUniqueValues (lookup (lookup data field) 'values'))}}
                                 <div class="field-value-item">
-                                    <div class="field-value-main">
+                                    <div class="field-value-main row">
                                         {{#if ../dontShowProvenance}}
                                         {{else}}
-                                        <div class="provider-icons col-md-1">
+                                        <div class="provider-icons col-md-1 col-sm-1">
                                             {{#each (uniqProviders provenance)}}
                                                 <img class="provider-icon" title="{{label}}" src="{{icon}}">
                                             {{/each}}
@@ -499,11 +501,11 @@
                                         {{/if}}
                                         {{#if (lookup this '@id')}}
                                           {{#if (eq ../mode "outside_link")}}
-                                            <span class="col-md-10"><a href="{{[@id]}}" target="_blank" rel="noopener noreferrer">{{label}}</a></span>
+                                            <span class="col-md-10 col-sm-8"><a href="{{[@id]}}" target="_blank" rel="noopener noreferrer">{{label}}</a></span>
                                           {{else}}
-                                            <span class="col-md-10">{{label}}</span>
+                                            <span class="col-md-10 col-sm-8">{{label}}</span>
                                           {{/if}}
-                                          [[!-- <semantic-link iri="{{[@id]}}">{{label}}</semantic-link> --]]
+                                          [[!-- <semantic-link iri="{{[@id]}}">{{label}} <img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt=""></semantic-link> --]]
                                         {{else}}
                                             {{#if (eq ../field "https://artresearch.net/resource/field_definition/pharos_model/production_date")}}
                                               <span>{{dateRangeFormat [@value]}}</span>
