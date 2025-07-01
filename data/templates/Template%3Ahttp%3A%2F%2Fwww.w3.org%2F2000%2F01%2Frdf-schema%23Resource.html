@@ -1,11 +1,11 @@
-<ol class="page-breadcrumb">
+<!-- <ol class="page-breadcrumb">
   <li style="padding-top:10px">
     <a title="Home" href="/resource/start">Home</a>
   </li>
   <li class="active">
     <mp-label iri='[[this]]'></mp-label>
   </li>
-</ol>
+</ol> -->
 
 <style>
   #tabs .tab-ontodia {
@@ -31,8 +31,8 @@
     </bs-tabs>
   [[else]]
     <div class='page__body'>
-      <semantic-query 
-          query="SELECT ?rand WHERE{ 
+      <semantic-query
+          query="SELECT ?rand WHERE{
               BIND(str(RAND()) AS ?rand)
             }LIMIT 1"
           template="{{> randomNotFoundPage}}"
@@ -41,8 +41,181 @@
         <template id="randomNotFoundPage">
           <div class="row row-center" id="not-found-container">
               <div class="col-md-10 col-xs-10">
-                      <a href="/resource/start"><i style="color:white !important; font-size: 16px;" class="fa fa-arrow-left">Go home</i></a>
-                    <h1>404 - The page you are looking for was not found..</h1>
+                      <!-- <a href="/resource/start"><i style="color:white !important; font-size: 16px;" class="fa fa-arrow-left">Go home</i></a> -->
+                    <h3>404 - The page you are looking for was not found..</h3>
+                    <p>in the meantime, discover our collections spotlight:</p>
+                    <div id="new-start-page">
+                      <section title="Collection Spotlights">
+
+                        <div class="section-body">
+                          <!-- <div class="grid-card-list">
+                            <div
+                              class="grid-card"
+                              style=" background: url(/assets/images/media/cooper.jpg) center no-repeat; "
+                            >
+                              <semantic-link iri="http://www.wikidata.org/entity/Q104845454">
+                                <div class="grid-card-body">
+                                    <div class="grid-card-title">A. C. Cooper</div>
+                                    <div class="grid-card-subtitle">Photographs</div>
+                                </div>
+                              </semantic-link>
+                            </div>
+                            <div
+                              style=" background: url(/assets/images/media/red-chalk.jpg) center no-repeat; "
+                              class="grid-card"
+                            >
+                              <semantic-link iri="https://artresearch.net/resource/DisplayCollectionRedChalkDrawings">
+                                <div class="grid-card-body">
+                                  <div class="grid-card-title">Red Chalk</div>
+                                  <div class="grid-card-subtitle">drawings</div>
+                                </div>
+                              </semantic-link>
+                            </div>
+                            <div
+                              style=" background: url(/assets/images/media/builtworks_middleast.jpg) center no-repeat; "
+                              class="grid-card"
+                            >
+                              <semantic-link iri="https://artresearch.net/resource/builtworks-middle-east">
+                                <div class="grid-card-body">
+                                  <div class="grid-card-title">Built Works</div>
+                                  <div class="grid-card-subtitle">in the Middle-East</div>
+                                </div>
+                              </semantic-link>
+                            </div>
+                            <div
+                              style=" background: url(/assets/images/media/kahlo.jpg) center no-repeat; "
+                              class="grid-card"
+                            >
+                              <semantic-link iri="https://artresearch.net/resource/women-artists">
+                                  <div class="grid-card-body">
+                                    <div class="grid-card-title">Women Artists</div>
+                                    <div class="grid-card-subtitle">across centuries</div>
+                                  </div>
+                              </semantic-link>
+                            </div>
+                            <div
+                              style=" background: url(/assets/images/media/sculpture.jpg) center no-repeat; "
+                              class="grid-card"
+                            >
+                              <a href="/resource/DisplayCollectionBronzeSculptures">
+                                <div class="grid-card-body">
+                                    <div class="grid-card-title"> Bronze Sculptures</div>
+                                    <div class="grid-card-subtitle">
+                                     Italian Renaissance
+                                    </div>
+                                </div>
+                              </a>
+                            </div>
+                            <div
+                              style=" background: url(/assets/images/media/portrait.jpg) center no-repeat; "
+                              class="grid-card"
+                            >
+                              <semantic-link iri="https://artresearch.net/resource/self-portraits">
+                                  <div class="grid-card-body">
+                                    <div class="grid-card-title">Self Portraits</div>
+                                    <div class="grid-card-subtitle">artists</div>
+                                  </div>
+                              </semantic-link>
+                            </div>
+                            <div
+                              style=" background: url(/assets/images/media/datedphotographs.jpg) center no-repeat;"
+                              class="grid-card"
+                            >
+                                <a href="/resource/DisplayCollectionPhotoDatedBetween">
+                                  <div class="grid-card-body">
+                                      <div class="grid-card-title">1839-1900 AD</div>
+                                      <div class="grid-card-subtitle">19th century photographs</div>
+                                  </div>
+                                </a>
+                            </div>
+                            <div
+                              style=" background: url(/assets/images/media/self-portraits.jpg) center no-repeat;"
+                              class="grid-card"
+                            >
+                                <a href="/resource/DisplayCollectionSelfPortraits">
+                                  <div class="grid-card-body">
+                                      <div class="grid-card-title">Self Portraits</div>
+                                      <div class="grid-card-subtitle"></div>
+                                  </div>
+                                </a>
+                            </div>
+                            <div
+                              style=" background: url(/assets/images/media/cooper.jpg) center no-repeat;"
+                              class="grid-card"
+                            >
+                                <a href="/resource/DisplayCollectionSelfPortraits">
+                                  <div class="grid-card-body">
+                                      <div class="grid-card-title">A. C. COOPER</div>
+                                      <div class="grid-card-subtitle"></div>
+                                  </div>
+                                </a>
+                            </div>
+
+                          </div> -->
+
+                          <section class="explore-cards row">
+                            <section class="col-md-1">
+
+                            </section>
+                              <section class="col-md-2 col-sm-10 explore-card">
+                                <semantic-link iri="http://www.wikidata.org/entity/Q104845454">
+                                  <img class="col-md-12 col-sm-12" src="/assets/images/explore_cooper.png" alt="">
+                                  <p class="col-md-12 col-sm-12">A. C. Cooper <img src="/assets/images/arrow.png" alt="arrow"></p>
+                                  <p class="col-md-12 col-sm-12">photographers</p>
+                                </semantic-link>
+                              </section>
+                    [[!--
+                              <section class="col-md-2 col-sm-10 explore-card">
+                                <semantic-link iri="http://www.wikidata.org/entity/Q104845454">
+                                  <img class="col-md-12 col-sm-12" src="/assets/images/media/datedphotographs.jpg" alt="">
+                                  <p class="col-md-12 col-sm-12">1839-1900 AD <img src="/assets/images/arrow.png" alt="arrow"></p>
+                                  <p class="col-md-12 col-sm-12">photographs</p>
+                                </semantic-link>
+                              </section>
+                    --]]
+                              <section class="col-md-2 col-sm-10 explore-card">
+                                <semantic-link iri="https://artresearch.net/resource/builtworks-middle-east">
+                                  <img class="col-md-12 col-sm-12" src="/assets/images/explore_builtworks_middleast.png" alt="">
+                                  <p class="col-md-12 col-sm-12">Built works <img src="/assets/images/arrow.png" alt="arrow"></p>
+                                  <p class="col-md-12 col-sm-12">in the Middle-East</p>
+                                </semantic-link>
+                              </section>
+                              <section class="col-md-2 col-sm-10 explore-card">
+                                <semantic-link iri="https://artresearch.net/resource/self-portraits">
+                                  <img class="col-md-12 col-sm-12" src="/assets/images/explore_portrait.png" alt="">
+                                  <p class="col-md-12 col-sm-12">Self portraits <img src="/assets/images/arrow.png" alt="arrow"></p>
+                                  <p class="col-md-12 col-sm-12">artists</p>
+                                </semantic-link>
+                              </section>
+                              <section class="col-md-2 col-sm-10 explore-card">
+                                <semantic-link iri="https://artresearch.net/resource/DisplayCollectionRedChalkDrawings">
+                                  <img class="col-md-12 col-sm-12" src="/assets/images/explore_red-chalk.png" alt="">
+                                  <p class="col-md-12 col-sm-12">Red chalk <img src="/assets/images/arrow.png" alt="arrow"></p>
+                                  <p class="col-md-12 col-sm-12">drawings</p>
+                                </semantic-link>
+                              </section>
+                            [[!--
+                              <section class="col-md-2 col-sm-10 explore-card disabled">
+                                <semantic-link iri="https://artresearch.net/resource/DisplayCollectionBronzeSculptures">
+                                  <img class="col-md-12 col-sm-10" src="/assets/images/explore_sculpture.png" alt="">
+                                  <p>Bronze sculpture <img src="/assets/images/arrow.png" alt="arrow"></p>
+                                  <p>from Antiquity to Modernity</p>
+                                </semantic-link>
+                              </section>
+                             --]]
+                              <section class="col-md-2 col-sm-10 explore-card">
+                                <semantic-link iri="https://artresearch.net/resource/women-artists">
+                                  <img class="col-md-12 col-sm-12" src="/assets/images/media/kahlo.jpg" alt="">
+                                  <p class="col-md-12 col-sm-12">Women Artists <img src="/assets/images/arrow.png" alt="arrow"></p>
+                                  <p class="col-md-12 col-sm-12">across centuries</p>
+                                </semantic-link>
+                              </section>
+                          </section>
+                        </div>
+                      </section>
+                    </div>
+
+              [[!--
                     {{#ifCond bindings.0.rand.value ">" "0.8" }}
                       <h2>but you can always search for something</h2>
                       <div id="new-start-page">
@@ -79,7 +252,7 @@
                       <h2>but here is a nice map with Museums, Collections etc.!</h2>
                       <div class="mapContainer">
                         <semantic-map
-                           
+
                           id="repository-map"
                           query="SELECT ?subject ?label ?lat ?lng WHERE {
                             ?subject fr:Institution_from_Place ?place.
@@ -93,7 +266,7 @@
                       </div>
                     {{else}}
                     {{#ifCond bindings.0.rand.value ">" "0.4" }}
-                      <h2>in the meantime, discover our collections spotlight:</h2>
+                      <h3>in the meantime, discover our collections spotlight:</h3>
                       <div id="new-start-page">
                         <section title="Collection Spotlights">
                           <div class="section-title">Collection Spotlights</div>
@@ -103,50 +276,51 @@
                                 class="grid-card"
                                 style=" background: url(/assets/images/media/cooper.jpg) center no-repeat; "
                               >
-                                <a href="/resource/DisplayCollectionCooper">  
+                                <semantic-link iri="http://www.wikidata.org/entity/Q104845454">
                                   <div class="grid-card-body">
                                       <div class="grid-card-title">A. C. Cooper</div>
                                       <div class="grid-card-subtitle">Photographs</div>
-                                    </div>
+                                  </div>
+                                </semantic-link>
                               </div>
                               <div
                                 style=" background: url(/assets/images/media/red-chalk.jpg) center no-repeat; "
                                 class="grid-card"
                               >
-                                <a href="/resource/DisplayCollectionRedChalkDrawings">  
+                                <semantic-link iri="https://artresearch.net/resource/DisplayCollectionRedChalkDrawings">
                                   <div class="grid-card-body">
                                     <div class="grid-card-title">Red Chalk</div>
-                                    <div class="grid-card-subtitle">Drawings</div>
+                                    <div class="grid-card-subtitle">drawings</div>
                                   </div>
-                                </a>
+                                </semantic-link>
                               </div>
                               <div
                                 style=" background: url(/assets/images/media/builtworks_middleast.jpg) center no-repeat; "
                                 class="grid-card"
                               >
-                                <a href="/resource/DisplayCollectionBuiltworksMiddleEast">  
+                                <semantic-link iri="https://artresearch.net/resource/builtworks-middle-east">
                                   <div class="grid-card-body">
                                     <div class="grid-card-title">Built Works</div>
-                                    <div class="grid-card-subtitle">In the Middle-East</div>
+                                    <div class="grid-card-subtitle">in the Middle-East</div>
                                   </div>
-                                </a>
+                                </semantic-link>
                               </div>
                               <div
                                 style=" background: url(/assets/images/media/kahlo.jpg) center no-repeat; "
                                 class="grid-card"
                               >
-                                  <a href="/resource/DisplayCollectionWomenArtists">  
+                                <semantic-link iri="https://artresearch.net/resource/women-artists">
                                     <div class="grid-card-body">
                                       <div class="grid-card-title">Women Artists</div>
-                                      <div class="grid-card-subtitle">Across centuries</div>
+                                      <div class="grid-card-subtitle">across centuries</div>
                                     </div>
-                                  </a>
+                                </semantic-link>
                               </div>
-                              <div
+                              <!-- <div
                                 style=" background: url(/assets/images/media/sculpture.jpg) center no-repeat; "
                                 class="grid-card"
                               >
-                                <a href="/resource/DisplayCollectionBronzeSculptures">  
+                                <a href="/resource/DisplayCollectionBronzeSculptures">
                                   <div class="grid-card-body">
                                       <div class="grid-card-title"> Bronze Sculptures</div>
                                       <div class="grid-card-subtitle">
@@ -154,34 +328,34 @@
                                       </div>
                                   </div>
                                 </a>
-                              </div>
+                              </div> -->
                               <div
                                 style=" background: url(/assets/images/media/portrait.jpg) center no-repeat; "
                                 class="grid-card"
                               >
-                                <a href="/resource/DisplayCollectionSelfPortraits">  
+                                <semantic-link iri="https://artresearch.net/resource/self-portraits">
                                     <div class="grid-card-body">
                                       <div class="grid-card-title">Self Portraits</div>
-                                      <div class="grid-card-subtitle">Drawings</div>
+                                      <div class="grid-card-subtitle">artists</div>
                                     </div>
-                                </a>
+                                </semantic-link>
                               </div>
-                              <div
+                              <!-- <div
                                 style=" background: url(/assets/images/media/datedphotographs.jpg) center no-repeat;"
                                 class="grid-card"
                               >
-                                  <a href="/resource/DisplayCollectionPhotoDatedBetween">  
+                                  <a href="/resource/DisplayCollectionPhotoDatedBetween">
                                     <div class="grid-card-body">
                                         <div class="grid-card-title">1839-1900 AD</div>
                                         <div class="grid-card-subtitle">19th century photographs</div>
                                     </div>
                                   </a>
-                              </div>
+                              </div> -->
                               <!-- <div
                                 style=" background: url(/assets/images/media/self-portraits.jpg) center no-repeat;"
                                 class="grid-card"
                               >
-                                  <a href="/resource/DisplayCollectionSelfPortraits">  
+                                  <a href="/resource/DisplayCollectionSelfPortraits">
                                     <div class="grid-card-body">
                                         <div class="grid-card-title">Self Portraits</div>
                                         <div class="grid-card-subtitle"></div>
@@ -192,14 +366,14 @@
                                 style=" background: url(/assets/images/media/cooper.jpg) center no-repeat;"
                                 class="grid-card"
                               >
-                                  <a href="/resource/DisplayCollectionSelfPortraits">  
+                                  <a href="/resource/DisplayCollectionSelfPortraits">
                                     <div class="grid-card-body">
                                         <div class="grid-card-title">A. C. COOPER</div>
                                         <div class="grid-card-subtitle"></div>
                                     </div>
                                   </a>
                               </div> -->
-                      
+
                             </div>
                           </div>
                         </section>
@@ -218,12 +392,13 @@
                     {{/ifCond}}
                     {{/ifCond}}
                     {{/ifCond}}
+                    --]]
               </div>
           </div>
         </template>
 
       </semantic-query>
-      <div class="animated-background"></div>
+      <!-- <div class="animated-background"></div> -->
     </div>
   [[/if]]
 </div>
