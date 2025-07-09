@@ -773,6 +773,22 @@ h1 span.thin-text {
 .contact-photo {
   font-size: 1.3rem;
 }
+
+
+
+/* we use lazy tree input for object hierarchy viz, but we don't want to show search input that it has enabled by default */
+.artwork-record .SemanticTreeInput--holder {
+    display: none;
+}
+
+.artwork-record .LazyTreeSelector--itemContent {
+    font-size: unset;
+}
+
+.artwork-record .LazyTreeSelector--virtualizedList {
+    margin-top: 0;
+}
+
 /* MEDIA QUERIES */
 
 /*Devices smaller than 767px*/
@@ -845,6 +861,7 @@ h1 span.thin-text {
 
   .photo-card {display: block;}
   .photo-details span {width: 100%;}
+
 }
 
 /*Devices between 768px and 1024px*/

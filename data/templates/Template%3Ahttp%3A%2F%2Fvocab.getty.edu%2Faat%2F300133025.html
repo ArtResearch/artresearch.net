@@ -240,6 +240,10 @@
                         {
                            "field": "https://artresearch.net/resource/field_definition/pharos_model/object_has_part",
                            "mode": "new"
+                        },
+                        {
+                           "field": "https://artresearch.net/resource/field_definition/pharos_model/object_part_of_hierarchy",
+                           "mode": "part_hierarchy"
                         }
                         ]')
                     }}
@@ -387,8 +391,16 @@
                                 </div>
                             {{/each}}
                         {{else if (eq mode "part_hierarchy")}}
-                                          <semantic-tree data='[{{#each (lookup (lookup data field) "values")}}{ "node": { "type": "uri", "value": "{{[@id]}}" } {{#if [https://artresearch.net/resource/field_definition/pharos_model/part_hierarchy_parent]}} , "parent": { "type": "uri", "value": "{{[https://artresearch.net/resource/field_definition/pharos_model/part_hierarchy_parent].values.0.[@id]}}" } {{/if}}  }   {{#if @last}}{{else}},{{/if}}{{/each}}]'></semantic-tree>
-
+                      <div style="height: 200px">
+                        
+                        <semantic-lazy-tree id='scheme-tree' input-placeholder='Select' use-label-service='true' type='simple' info-template='{{> template}}' focused='{{data.[@id]}}' config='{"relationPattern": "?item crm:P46i_forms_part_of ?parent", "schemePattern": "{<{{data.[@id]}}> crm:P46i_forms_part_of*/crm:P46_is_composed_of* ?item} UNION {<{{data.[@id]}}> crm:P46_is_composed_of* ?item}"}'>
+                          <template id='template'>
+                            <semantic-link iri='{{iri}}'>
+                              <img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt="alt">
+                            </semantic-link>
+                          </template>
+                        </semantic-lazy-tree>  
+                      </div>                      
                         {{else if (eq mode "creator")}}
                           {{#each (lookup (lookup data field) 'values')}}
                             {{#if [https://artresearch.net/resource/field_definition/pharos_model/original_value_creator]}}
