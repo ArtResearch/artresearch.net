@@ -1,0 +1,26 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/part_of_builtwork/context> {
+  _:genid-02d67518f0a346d681e8c41381526b4b-i2xyiq a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+
+SELECT ?value WHERE {
+  ?subject crm:P46i_forms_part_of+ ?value .
+  ?value crm:P2_has_type <https://artresearch.net/resource/pharos/vocab/meta/built_work> .
+}""" .
+  
+  <https://artresearch.net/resource/field_definition/pharos_model/part_of_builtwork>
+    a <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
+      <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-02d67518f0a346d681e8c41381526b4b-i2xyiq;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Part Of";
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-02d67518f0a346d681e8c41381526b4b-jlmuqh;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-07-09T23:46:42.106+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-02d67518f0a346d681e8c41381526b4b-jlmuqh a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/part_of_builtwork> .
+}
