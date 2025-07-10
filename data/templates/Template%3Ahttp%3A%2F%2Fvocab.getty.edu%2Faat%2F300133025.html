@@ -216,7 +216,7 @@
                         data=data
                         title=""
                         fields=(parse '[
-                            "https://artresearch.net/resource/field_definition/pharos_model/production_date"
+                            {"field": "https://artresearch.net/resource/field_definition/pharos_model/production_date", "mode": "text"}
                         ]')
                     }}
 
@@ -382,7 +382,17 @@
                                                 <img class="provider-icon" title="{{label}}" src="{{icon}}">
                                             {{/each}}
                                         </div>
-                                        <span class="col-md-10 col-sm-8">{{label}}</span>
+                                        <span>
+                                          {{label}}
+                                        </span>
+                                        {{#if [https://artresearch.net/resource/field_definition/pharos_model/production_date_qualifier]}}
+                                          <span class="field-value-qualifier">
+                                            [{{#each [https://artresearch.net/resource/field_definition/pharos_model/production_date_qualifier].values}}
+                                              {{label}}
+                                              {{#unless @last}}, {{/unless}}
+                                            {{/each}}]
+                                          </span>
+                                        {{/if}}
                                     </div>
                                 </div>
                             {{/each}}
@@ -461,7 +471,7 @@
                                   <div class="field-value-item">
                                       <div class="field-value-main row">
                                         <div class="col-md-1"></div>
-                                        <span class="col-md-10"><semantic-link iri="{{[@id]}}">{{label}} <img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt=""></semantic-link></span>
+                                        <span class=""><semantic-link iri="{{[@id]}}">{{label}} <img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt=""></semantic-link></span>
                                       </div>
                                   </div>
                                   <div class="field-value-original-group">
@@ -474,7 +484,7 @@
                                                   <img class="provider-icon" title="{{label}}" src="{{icon}}">
                                               {{/each}}
                                             </div>
-                                            <span class="col-md-10 col-sm-8 grey">{{label}}</span>
+                                            <span class="grey">{{label}}</span>
                                         </div>
                                       </div>
                                     {{/each}}
