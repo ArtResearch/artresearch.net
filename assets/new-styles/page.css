@@ -344,7 +344,7 @@ h1 span.thin-text {
 
 .results-column {
   flex: 1;
-  height: 100%
+  height: 100%;
   padding: 0 20px 20px 0px;
 }
 
@@ -551,23 +551,29 @@ h1 span.thin-text {
     margin: 0 20px 0 20px;
 }
 
-  .title-container {
+.title-container {
     font-size: 1.7rem;
     font-weight: bold;
     padding: 10px 10px 0 20px;
   }
+
 .main-image-container {
-    height: 80%;
+    flex: 1 1 auto;
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
+    min-height: 0;
 }
 
 .main-image-container img {
     width: auto;
-    height: 80%;
+    height: auto;
+    max-height: 100%;
     object-fit: contain;
     cursor: pointer;
+    flex: 1 1 auto;
+    min-height: 0;
 }
 
 .object-main-image-holder {
@@ -582,6 +588,7 @@ h1 span.thin-text {
   font-size: 0.9em;
   line-height: 1.2em;
   width: 90%;
+  flex: 0 0 auto;
 }
 
 .no-images-available {
@@ -591,7 +598,9 @@ h1 span.thin-text {
 }
 
 .thumbnails-container {
-    height: 40%;
+    flex: 0 0 auto;
+    min-height: 120px;
+    max-height: 310px;
     overflow-y: auto;
     padding: 20px;
 }
@@ -599,7 +608,7 @@ h1 span.thin-text {
 .thumbnail-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    gap: 15px;
+    gap: 10px;
     justify-content: center;
 }
 
@@ -664,9 +673,9 @@ h1 span.thin-text {
 }
 
 .field-value-main {
-  <!-- display: flex;
+  /* display: flex;
   justify-content: space-between;
-  align-items: flex-start; -->
+  align-items: flex-start; */
 }
 
 .field-value-group {
