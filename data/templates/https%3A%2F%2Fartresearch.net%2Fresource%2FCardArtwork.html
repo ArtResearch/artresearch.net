@@ -56,7 +56,7 @@
             <div class="field field-{{label}}">
               <div class="field-label">{{label}}</div>
               <div class="field-value">
-                {{#each (lookup (lookup data field) 'values')}}
+                {{#each (mergeUniqueValues (lookup (lookup data field) 'values'))}}
                   {{#if [@id]}}
                       [[!-- <semantic-link iri="{{[@id]}}">{{label}}</semantic-link> --]]
                     {{label}}
