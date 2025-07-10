@@ -23,7 +23,13 @@
           <div class="info-container cursor">
             <span class="author-name">{{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/creator" label="Creator"}}
             </span>
-            <span class="bold-text">{{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/title" label="Title"}}
+            <span class="bold-text">
+               <div class="field field-Title">
+                  <div class="field-label">Title</div>
+                  <div class="field-value">
+                    {{data.label}}
+                  </div>
+                </div>              
             </span>
             {{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/production_date" label="Date"}}
             {{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/current_keeper" label="Repository"}}
