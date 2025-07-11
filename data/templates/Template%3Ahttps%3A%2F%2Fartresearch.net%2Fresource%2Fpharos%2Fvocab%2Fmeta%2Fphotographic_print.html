@@ -2,7 +2,7 @@
         <template id="template">
           <mp-event-trigger id="breadcrumbs"
                             type='Component.TemplateUpdate' on='["mounted"]' targets='["top-header-breadcrumbs"]'
-                            data='{"breadcrumb": "Photo: {{escapeForJson data.label}}"}'>
+                            data='{"breadcrumb": "Photo: {{#if data.label}}{{escapeForJson data.label}}{{else}}{{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_artwork].values.[0].label}}{{/if}}"}'>
           </mp-event-trigger>
             <div class="content-wrapper artwork-record">
                 <div class="column image-grid-column">
@@ -33,17 +33,16 @@
 
                 <div class="column fields-column">
                   <div class="catalog-record-icons">
+                    <span><a href="mailto:info@artresearch.net" title="Contact us">contact the institution</a> | <semantic-link iri="https://artresearch.net/resource/TermsAndConditions" target="_blank" title="Terms of Use">terms of use</semantic-link> | </span>
                     {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/catalog_record_url]}}
-                    <span><b>View original records: </b></span>
+                    <span class="providers-records">view sources: </span>
                       {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/catalog_record_url].values}}
-                        <a href="{{{[@id]}}}" target="_blank" rel="noopener noreferrer">
+                        <a href="{{{[label]}}}" target="_blank" rel="noopener noreferrer">
                           <img class="provider-icon" title="{{{[@id]}}}" src="{{provenance.0.[https://artresearch.net/resource/field_definition/pharos_model/provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
                         </a>
                       {{/each}}
                     {{/if}}
                   </div>
-
-
                     {{> fieldGroup
                         data=data
                         title=""

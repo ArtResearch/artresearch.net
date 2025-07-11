@@ -140,6 +140,8 @@
               default-query-0='
                 SELECT ?subject WHERE {
                   ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                  ?subject custom:has_image ?hasImage .       
+                  BIND(IF(?hasImage, 2, 1) AS ?resultScore) .
                   {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
                 }
               '
@@ -342,6 +344,8 @@
           default-query-1='
             SELECT ?subject WHERE {
               ?subject crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph>  .
+              ?subject custom:has_image ?hasImage .       
+              BIND(IF(?hasImage, 2, 1) AS ?score) .
               {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
             }
           '
@@ -656,8 +660,6 @@
                         id="grid-result"
                         prefetch-labels="false"
                         query='SELECT DISTINCT ?domain ?subject ?maxPhoto WHERE { 
-
-                          BIND(COALESCE(?score, 2) AS ?resultScore)
                         } ORDER BY DESC(?resultScore) DESC(?subject) LIMIT 10000'
                         template="{{> subjectCellTemplate}}"
                         no-result-template='[[> CardNoResult ]]'
