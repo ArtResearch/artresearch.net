@@ -46,17 +46,33 @@ nav {
 }
 
 .rs-header .dropdown-menu {
-    /* max-height: initial; */
-    min-height: 55vh;
+    min-height: initial;
+    max-height: initial;
     overflow: initial;
     position: fixed;
-    top: 1rem;
+    top: 60px;
     left: 0px;
     background-color: #fff9e8;
     border: none;
     box-shadow: none;
-    padding: 5em 9rem 5em 9rem;
-    box-shadow: 0px 25em rgba(112, 231, 197, 0.7);
+    padding: 2rem 9rem 2rem 9rem;
+}
+
+.rs-header .dropdown-menu::after {
+  content: '';
+  position: absolute;
+  
+  /* Position the pseudo-element right below the parent */
+  top: 100%;
+  left: 0;
+  right: 0;
+  
+  /* Make the pseudo-element itself tiny */
+  height: 0px; 
+  
+  /* The magic: Apply a huge, blurred shadow to the tiny pseudo-element */
+  /* This creates a "glow" that expands downwards and outwards */
+  box-shadow: 0 30vh 30vh 30vh rgba(112, 231, 197, 0.7);
 }
 
 .user-dropdown #navbar-dropdown {

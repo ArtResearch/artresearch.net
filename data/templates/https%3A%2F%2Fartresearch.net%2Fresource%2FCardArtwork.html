@@ -14,6 +14,7 @@
             {{else}}
              {{log "partial block is not defined"}}
              {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/work_thumbnail]}}
+                {{log "thumbnail" this}}
                 <img class="thumbnail-image" src="https://staging.artresearch.net{{data.[https://artresearch.net/resource/field_definition/pharos_model/work_thumbnail].values.0.[@value]}}" alt="Artwork thumbnail" />
               {{else}}
                 <span class="no-image-text">No image</span>
