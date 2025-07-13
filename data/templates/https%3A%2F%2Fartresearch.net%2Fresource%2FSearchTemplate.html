@@ -669,7 +669,8 @@
                             <infinite-scroll item-height="250px" batch-size="10" values='{{stringify bindings}}'>
                               <template id='template'>
                                 <div class="result-item karla-regular">
-                                  {{> Default:CardArtwork photo=maxPhoto.value}}
+                                  {{log "before card" this}}
+                                  {{> Default:CardArtwork photo=maxPhoto.value provider=provider}}
                                 </div>
                               </template>
                             </infinite-scroll>

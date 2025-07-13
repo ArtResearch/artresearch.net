@@ -1,0 +1,27 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/photo_provider_contact/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/photo_provider_contact>
+    a <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
+      <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-694b1e9ee7a84cd3802c196c5a1b8dbc-m7fn4r;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Contact URL";
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#string>;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-694b1e9ee7a84cd3802c196c5a1b8dbc-e5tnzp;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-07-11T22:34:29.364+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-694b1e9ee7a84cd3802c196c5a1b8dbc-e5tnzp a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+
+SELECT ?value WHERE {
+  ?subject crm:P1_is_identified_by ?id .
+  ?id crm:P2_has_type <https://artresearch.net/resource/pharos/vocab/meta/contact-url> .
+  ?id crm:P190_has_symbolic_content ?value .  
+}""" .
+  
+  _:genid-694b1e9ee7a84cd3802c196c5a1b8dbc-m7fn4r a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/photo_provider_contact> .
+}

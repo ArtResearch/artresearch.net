@@ -83,11 +83,13 @@
                       </div>
                       <div class="thumbnails-container">
                         <div class="thumbnail-grid">
-                          {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values}}
+                          {{#each (orderBy data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values "[https://artresearch.net/resource/field_definition/pharos_model/photo_order].values.0.[@value]" "asc")}}
                             {{#if [https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values}}
                               <mp-event-trigger key="thumbnail-trigger-{{@index}}" id='thumnail-click-trigger-{{@index}}' type='Component.TemplateUpdate' targets='["work-full-image", "thumbnail"]'
                                                 data='{"photo": "{{[@id]}}"}'>
-                                <div>
+                                <div style='position: relative;'>
+                                  <img class="provider-icon thumbnail-provider-icon" title="{{label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
+
                                   <mp-event-target-template-render key="thumbnail-{{@index}}" id='thumbnail' template='{{> thumbnail data=data}}'>
                                     <template id="thumbnail">
                                       <div class="thumbnail {{#if (and (not photo) (eq @index 0))}}thumbnail-active{{/if}} {{#if (eq [@id] photo)}}thumbnail-active{{/if}}">
@@ -326,7 +328,7 @@
                               }}
 
                               <div>
-                                <a href="mailto:info@artresearch.net" title="Contact the institution">
+                                <a href="{{[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.[0].[https://artresearch.net/resource/field_definition/pharos_model/photo_provider_contact].values.[0].[@value]}}" title="Contact the institution">
                                   <p class="contact-photo">
                                     Contact the institution
                                   </p>

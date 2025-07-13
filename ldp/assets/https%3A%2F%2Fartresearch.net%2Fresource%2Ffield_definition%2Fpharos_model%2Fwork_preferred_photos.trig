@@ -1,0 +1,40 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos>
+    a <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
+      <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-dd630dfac8f74e01b6b94f84fcaeb4e8-xwv9s;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Work Preferred Photos";
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-dd630dfac8f74e01b6b94f84fcaeb4e8-93vht2;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-07-12T22:34:30.558+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-dd630dfac8f74e01b6b94f84fcaeb4e8-xwv9s a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX custom: <https://artresearch.net/custom/>
+
+SELECT ?value WHERE {
+  {
+    SELECT ?subject ?dataset (SAMPLE(?photo) as ?value) {
+      ?subject crm:P138i_has_representation/crm:P65i_is_shown_by ?photo .
+      ?photo crm:P138i_has_representation/crm:P165i_is_incorporated_in ?image .
+      ?photo crm:P70i_is_documented_in ?dataset .
+      ?photo custom:imageOrder ?order .
+      {
+        ?image crm:P1_is_identified_by ?imageIIIFUrl .
+        ?imageIIIFUrl crm:P2_has_type <https://artresearch.net/resource/pharos/vocab/meta/photo_file_url> .
+        ?imageIIIFUrl <https://artresearch.net/image-api/image-api/status-code> <http://www.w3.org/2011/http-statusCodes#200> .
+      }
+    } 
+    GROUP BY ?subject ?dataset
+    ORDER BY ASC(?order)
+  }
+}""" .
+  
+  _:genid-dd630dfac8f74e01b6b94f84fcaeb4e8-93vht2 a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos> .
+}

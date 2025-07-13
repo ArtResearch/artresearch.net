@@ -153,12 +153,12 @@
       "returns": [
         {
           "sparql_var": "value",
-          "local_var": "subject"
+          "local_var": "work_subject"
         }
       ],
       "fields": {
         "https://artresearch.net/resource/field_definition/pharos_model/original_value": {
-          "subject": "subject",
+          "subject": "work_subject",
           "params": [
             {
               "sparql_var": "object",
@@ -166,7 +166,7 @@
             },
             {
               "sparql_var": "attributedType",
-              "constant": "http://www.cidoc-crm.org/cidoc-crm/P2_has_type"
+                "constant": "http://www.cidoc-crm.org/cidoc-crm/P65_shows_visual_item"
             }
           ]
         }
@@ -293,6 +293,26 @@
               "local_var": "title"
             }
           ]
+        },
+        "https://artresearch.net/resource/field_definition/pharos_model/photo_order": {
+            "subject": "photo"
+        },
+        "https://artresearch.net/resource/field_definition/pharos_model/photo_provider": {
+              "subject": "photo",
+              "returns": [
+                  {
+                      "sparql_var": "value",
+                      "local_var": "provider"
+                  }
+              ],
+              "fields": {
+                  "https://artresearch.net/resource/field_definition/pharos_model/provider_icon": {
+                      "subject": "provider"
+                  },
+                  "https://artresearch.net/resource/field_definition/pharos_model/photo_provider_contact": {
+                      "subject": "provider"
+                  }
+              }
         },
         "https://artresearch.net/resource/field_definition/pharos_model/photographer": {
           "subject": "photo"
