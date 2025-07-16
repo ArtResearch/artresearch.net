@@ -37,32 +37,39 @@
                   <div class="field-value">
                     {{data.label}}
                   </div>
-               </div>
-              
-              {{#if provider}}
+               </div> 
+            </span>
+            [[!--
+             {{#if provider}}
+                            {{log "in if" this}}
+
                 {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos]}}
+                                          {{log "yes"}}
+
                   {{#with (getPreferredPhoto data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values provider)}}
+                                                        {{log "with" this}}
+
                   <div class="field">
                     <div class="field-label">Photo Title</div>
                     <div class="field-value">
-                      {{[https://artresearch.net/resource/field_definition/pharos_model/photo_title].values.0.[@value]}}
+                      {{[https://artresearch.net/resource/field_definition/pharos_model/photo_title].values.0.label}}
                     </div>
                   </div>
                   {{/with}}
                 {{/if}}
-                {{else if data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values.[0]}}
-                  {{#with data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values.[0]}}
+              
+              {{else}}
+              {{log "in else" this}}
+                  {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values.0.[https://artresearch.net/resource/field_definition/pharos_model/photo_title].values.0.[@value]}}
                     <div class="field">
                       <div class="field-label">Photo Title</div>
                       <div class="field-value">
-                        {{[https://artresearch.net/resource/field_definition/pharos_model/photo_title].values.0.[@value]}}
+                        {{data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values.0.[https://artresearch.net/resource/field_definition/pharos_model/photo_title].values.0.label}}
                       </div>
                     </div>
-                  {{/with}}
-                {{/if}}
-
-              
-            </span>
+                  {{/if}}
+              {{/if}}
+            --]]
             {{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/production_date" label="Date"}}
             {{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/current_keeper" label="Repository"}}
             {{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/part_of_builtwork" label="Is part of"}}
