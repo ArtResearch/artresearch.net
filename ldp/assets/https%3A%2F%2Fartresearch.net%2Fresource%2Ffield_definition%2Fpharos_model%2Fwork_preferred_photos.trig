@@ -5,51 +5,20 @@
       <http://www.w3.org/ns/ldp#Resource>;
     <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
     <http://www.w3.org/2000/01/rdf-schema#label> "Work Preferred Photos";
-    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-d643897e215e4798af98db6c1ff53496-ji75r;
-    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-d643897e215e4798af98db6c1ff53496-bh3ns;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-0ed803b0cf4e49e0a00cbffe203921ca-zhl85d;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-0ed803b0cf4e49e0a00cbffe203921ca-4zn0rg;
     <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
-    <http://www.w3.org/ns/prov#generatedAtTime> "2025-07-16T12:16:03.848+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-07-16T22:35:15.637+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
   
-  _:genid-d643897e215e4798af98db6c1ff53496-bh3ns a <http://spinrdf.org/sp#Query>;
+  _:genid-0ed803b0cf4e49e0a00cbffe203921ca-4zn0rg a <http://spinrdf.org/sp#Query>;
     <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 PREFIX custom: <https://artresearch.net/custom/>
 
 SELECT ?value WHERE {
-  {
-    SELECT ?subject (?photo AS ?value) {
-      {
-        SELECT ?subject ?dataset ?photo (?photoOrder as ?order) {
-          ?subject crm:P138i_has_representation/crm:P65i_is_shown_by ?photo .
-          ?photo crm:P138i_has_representation/crm:P165i_is_incorporated_in ?image .
-          ?photo crm:P70i_is_documented_in ?dataset .
-          ?photo custom:imageOrder ?photoOrder .
-          {
-            ?image crm:P1_is_identified_by ?imageIIIFUrl .
-            ?imageIIIFUrl crm:P2_has_type <https://artresearch.net/resource/pharos/vocab/meta/photo_file_url> .
-            ?imageIIIFUrl <https://artresearch.net/image-api/image-api/status-code> <http://www.w3.org/2011/http-statusCodes#200> .
-          }
-        } 
-        ORDER BY ASC(?order)
-      }
-      {
-        SELECT ?subject ?dataset (MIN(?photoOrder) AS ?order) {
-          ?subject crm:P138i_has_representation/crm:P65i_is_shown_by ?photo .
-          ?photo crm:P138i_has_representation/crm:P165i_is_incorporated_in ?image .
-          ?photo crm:P70i_is_documented_in ?dataset .
-          ?photo custom:imageOrder ?photoOrder .
-          {
-            ?image crm:P1_is_identified_by ?imageIIIFUrl .
-            ?imageIIIFUrl crm:P2_has_type <https://artresearch.net/resource/pharos/vocab/meta/photo_file_url> .
-            ?imageIIIFUrl <https://artresearch.net/image-api/image-api/status-code> <http://www.w3.org/2011/http-statusCodes#200> .
-          }
-        } 
-        GROUP BY ?subject ?dataset
-      }
-    }
-  }
+  ?subject custom:work_preferred_photo ?value .
 }""" .
   
-  _:genid-d643897e215e4798af98db6c1ff53496-ji75r a <http://spinrdf.org/sp#Query>;
+  _:genid-0ed803b0cf4e49e0a00cbffe203921ca-zhl85d a <http://spinrdf.org/sp#Query>;
     <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
   
   <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
