@@ -560,7 +560,6 @@ h1 span.thin-text {
     height: 100%;
     padding: 0;
     overflow: hidden;
-    margin: 0 20px 0 20px;
 }
 
 .title-container {
@@ -643,10 +642,6 @@ h1 span.thin-text {
     height: 100px;
     object-fit: contain;
     display: block;
-}
-
-.fields-column {
-    margin: 0px 9rem 0px 20px;
 }
 
 /* .field-group h2 {
@@ -767,7 +762,7 @@ h1 span.thin-text {
 
 .photo-details {
     flex: 1;
-    padding: 15px;
+    padding: 0px 15px 15px 15px;
     position: relative;
 }
 
@@ -812,22 +807,39 @@ h1 span.thin-text {
 }
 
 /* MEDIA QUERIES */
+.search-bar {
+  container-type: inline-size;
+}
+
+@container (width < 767px) {
+  /* SEARCH */
+  .ImageSearchWithSlider--imageSearchWithSlider {
+    flex-direction: column;
+  }
+
+  .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--domainSelector {
+    margin-right: 10px;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--sliderField {
+    margin-bottom: 10px;
+  }
+}
 
 /*Devices smaller than 767px*/
 @media (max-width: 767px) {
+
+  /* SEARCH */
+  .facet-relations {
+    width: 200px;
+  }
 
   /* STATIC PAGES */
   .page-section, .page-title-and-intro {
     padding-left: 9rem;
     padding-right: 9rem;
-  }
-
-  /* SEARCH */
-  .search-bar {
-    margin-left: 9rem;
-  }
-  .search-bar>div {
-    display: block !important;
   }
 
   /* PARTNERS */
