@@ -1,0 +1,27 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/location/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/location> a <http://www.researchspace.org/resource/system/fields/Field>,
+      <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-6203c4472f1240b8a6e468a11287fb5f-569ex;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Location";
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-6203c4472f1240b8a6e468a11287fb5f-p2bd48;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-07-16T12:16:24.193+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-6203c4472f1240b8a6e468a11287fb5f-569ex a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+
+SELECT ?value WHERE {
+  ?subject crm:P2_has_type <https://artresearch.net/resource/pharos/vocab/meta/built_work> .
+  ?subject crm:P46i_forms_part_of* ?parent .
+  ?parent crm:P55_has_current_location ?value. 
+  ?value crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/geographical_entity> .
+}""" .
+  
+  _:genid-6203c4472f1240b8a6e468a11287fb5f-p2bd48 a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/location> .
+}

@@ -1,30 +1,35 @@
 
 <https://artresearch.net/resource/field_definition/pharos_model/original_value_creator/context> {
+  _:genid-7d9f8332f0314bcfafac39c8aa42f66f-jxz73m a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
   <https://artresearch.net/resource/field_definition/pharos_model/original_value_creator>
     a <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
       <http://www.w3.org/ns/ldp#Resource>;
     <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
-    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-59a8db3ae58c49ce8448cfea1c413358-ywak07;
-    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-59a8db3ae58c49ce8448cfea1c413358-ogazo;
     <http://www.w3.org/2000/01/rdf-schema#label> "Original Value (Creator)";
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-7d9f8332f0314bcfafac39c8aa42f66f-jxz73m;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-7d9f8332f0314bcfafac39c8aa42f66f-evz2md;
     <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
-    <http://www.w3.org/ns/prov#generatedAtTime> "2024-12-15T23:30:35.124Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-06-21T23:33:26.923+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
   
-  _:genid-59a8db3ae58c49ce8448cfea1c413358-ogazo a <http://spinrdf.org/sp#Query>;
-    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
-  
-  _:genid-59a8db3ae58c49ce8448cfea1c413358-ywak07 a <http://spinrdf.org/sp#Query>;
+  _:genid-7d9f8332f0314bcfafac39c8aa42f66f-evz2md a <http://spinrdf.org/sp#Query>;
     <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 
 SELECT DISTINCT ?value ?provUri WHERE {
-  ?object crm:P108i_was_produced_by/crm:P9_consists_of* ?production .
-  BIND(IRI(CONCAT(\"http://artresearch.net/resource/e13/\", SHA256(CONCAT(STR(?production), STR(?property), STR(?subject))))) AS ?attribution)
-  
-  ?attribution crm:P134_continued* ?provUri .
-  ?provUri crm:P9i_forms_part_of ?cataloging .
-  ?cataloging crm:P2_has_type <http://vocab.getty.edu/aat/300054628> .
-  ?provUri crm:P141_assigned ?value .
-  FILTER(?subject != ?value)
+    {
+    ?object crm:P108i_was_produced_by/crm:P9_consists_of* ?production .
+    ?attribution crm:P140_assigned_attribute_to ?production .
+	?attribution crm:P141_assigned ?subject .
+    ?attribution crm:P177_assigned_property_of_type ?property .
+	}
+    {
+    ?attribution crm:P134_continued* ?provUri .
+    ?provUri crm:P9i_forms_part_of ?cataloging .
+    ?cataloging crm:P2_has_type <http://vocab.getty.edu/aat/300054628> .
+    ?provUri crm:P141_assigned ?value .
+	}
+	FILTER(?subject != ?value)
 }""" .
   
   <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>

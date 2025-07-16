@@ -1,30 +1,26 @@
 
 <https://artresearch.net/resource/field_definition/pharos_model/title/context> {
-  _:genid-6c874ceb1130443fa03c1da9cae5335f-em3ajn a <http://spinrdf.org/sp#Query>;
-    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
-  
-  _:genid-6c874ceb1130443fa03c1da9cae5335f-jdvnm a <http://spinrdf.org/sp#Query>;
-    <http://spinrdf.org/sp#text> """PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
-
-SELECT ?value WHERE {
-  {
-    ?subject crm:P1_is_identified_by ?value.
-    ?value crm:P2_has_type/crm:P127_has_broader_term+ <https://artresearch.net/resource/pharos/vocabulary/meta/preferred_name> .
-  } UNION {
-    ?subject crm:P1_is_identified_by ?value.
-    ?value crm:P2_has_type <http://vocab.getty.edu/aat/300417193> .
-  }
-}""" .
-  
   <https://artresearch.net/resource/field_definition/pharos_model/title> a <http://www.researchspace.org/resource/system/fields/Field>,
       <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
-    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-6c874ceb1130443fa03c1da9cae5335f-em3ajn;
     <http://www.w3.org/2000/01/rdf-schema#label> "Title"@en, "Titolo"@it, "Titel"@de;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-1049550450ee430d83b2b90f432d58ee-h4jf2a;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-1049550450ee430d83b2b90f432d58ee-1ke7v;
     <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
-    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-6c874ceb1130443fa03c1da9cae5335f-jdvnm;
     <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
-    <http://www.w3.org/ns/prov#generatedAtTime> "2024-12-11T11:53:59.960+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-06-18T22:00:19.649+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-1049550450ee430d83b2b90f432d58ee-h4jf2a a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  _:genid-1049550450ee430d83b2b90f432d58ee-1ke7v a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX custom: <https://artresearch.net/custom/>
+
+SELECT ?value WHERE {
+  ?subject crm:P1_is_identified_by ?value.
+  ?value crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/preferred_name> .
+}""" .
   
   <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
       <https://artresearch.net/resource/field_definition/pharos_model/title> .

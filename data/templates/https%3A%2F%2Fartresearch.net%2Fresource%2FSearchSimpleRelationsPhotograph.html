@@ -1,12 +1,18 @@
 {
-  "<http://www.cidoc-crm.org/cidoc-crm/P70i_is_documented_in>":[{
-              "kind":"resource",
-              "queryPattern": "
-                ?__value__ crm:P75_possesses/^crm:P104_is_subject_to ?catalog .
-                ?subject crm:P70i_is_documented_in ?catalog .
-              "
-
-    }],
+  "<https://artresearch.net/resource/fr/Work_created_from_Artist>": [{
+              "kind":"hierarchy",
+              "queryPattern": "{
+                  {
+                    ?subject crm:P108i_was_produced_by/crm:P14_carried_out_by/custom:sameAs/crm:P107i_is_current_or_former_member_of? ?__value__ .
+                  } UNION {
+                    ?subject crm:P108i_was_produced_by/crm:P14_carried_out_by/crm:P107i_is_current_or_former_member_of? ?__value__.
+                    FILTER NOT EXISTS { ?__value__ custom:sameAs ?wikidata. }
+                  }
+              }",
+              "parentsPattern": "{ ?value crm:P107i_is_current_or_former_member_of ?parent . }",
+              "childrenPattern": "{ ?child crm:P107i_is_current_or_former_member_of ?value . }",
+              "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
+  }],
   "<https://artresearch.net/resource/fr/Work_consists_of_Material>":[{
               "kind":"hierarchy",
               "queryPattern": "{
@@ -28,12 +34,6 @@
               "childrenPattern": "{ ?child crm:P127_has_broader_term ?value . ?child crm:P71i_is_listed_in <https://artresearch.net/resource/pharos/vocabulary/techniques> .}",
               "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
   }],
-  "<https://artresearch.net/resource/fr/Work_created_from_Artist>":[{
-              "kind":"resource",
-              "queryPattern": "{
-                ?subject crm:P108i_was_produced_by/crm:P9i_forms_part_of*/crm:P14_carried_out_by ?__value__ .
-              }"
-  }],
   "<https://artresearch.net/resource/fr/Work_shows_Subject>":[{
               "kind":"resource",
               "queryPattern": "
@@ -49,7 +49,7 @@
   "<https://artresearch.net/resource/fr/Work_kept_by_Institution>":[{
               "kind":"resource",
               "queryPattern": "
-                ?subject crm:P50_has_current_keeper ?__value__.
+                ?subject crm:P70i_is_documented_in ?__value__.
               "
   }],
   "<https://artresearch.net/resource/fr/Work_has_Image>":[{
@@ -57,6 +57,13 @@
               "queryPattern": "{
                 BIND(IF(?__value__ = <http://www.w3.org/2001/XMLSchema#yes>, true, false) AS ?has) .
                 ?subject custom:has_image ?has .
+              }"
+  }],
+  "<https://artresearch.net/resource/fr/Photo_has_License>": [{
+              "kind":"resource",
+              "queryPattern": "{
+                ?subject crm:P104_is_subject_to ?right .
+                ?right crm:P2_has_type ?__value__ .
               }"
   }]
 }

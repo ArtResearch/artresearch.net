@@ -1,32 +1,48 @@
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+
+
   <div class="rs-header">
     <!-- Logo and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-      
+
         <div class="navbar-toggle collapsed" data-toggle="collapse" data-target="#rs-navbar"
              aria-expanded="false" aria-controls="rs-navbar" aria-label="Toggle navigation">
 
-          <semantic-link iri="https://artresearch.net/resource/start" class="rs-header-logo">
-            <img src="/assets/images/logos/ar.png">
-          </semantic-link>
+          <semantic-link-container uri="https://artresearch.net/resource/start" class="rs-header-logo">
+            <div class="rs-header-logo">
+              <div class="logo-container">
+                <img src="/assets/images/logos/logo_ar_black.png">
+              </div>
+            </div>
+          </semantic-link-container>
+          <ul class="nav navbar-nav navbar-left"></ul>
+          <mp-event-target-template-render id='top-header-breadcrumbs' template='\{{> Default:headerBreadcrumb}}'>
+          </mp-event-target-template-render>
 
       {{> navbarRight }}
       </div>
 
-      <semantic-link iri="https://artresearch.net/resource/start" class="rs-header-logo">
-          <img src="/assets/images/logos/ar.png">
-      </semantic-link>
+      <semantic-link-container uri="https://artresearch.net/resource/start" class="rs-header-logo">
+        <div class="rs-header-logo">
+          <div class="logo-container">
+              <img src="/assets/images/logos/logo_ar_black.png" alt="Pharos Logo" class="logo">
+              <div class="logo-text karla-bold">
+              <span>art</span>
+              <span>research</span>
+              <span>.net</span>
+              </div>
+          </div>
+        </div>
+      </semantic-link-container>
 
 
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="rs-navbar">
-
-      <ul class="nav navbar-nav navbar-left">
-
-      </ul>
-
+        <ul class="nav navbar-nav navbar-left"></ul>
+        <mp-event-target-template-render id='top-header-breadcrumbs' template='\{{> Default:headerBreadcrumb}}'>
+        </mp-event-target-template-render>
       {{> navbarRight }}
     </div>
   </div>
@@ -43,10 +59,10 @@
           <div>
             <mp-event-proxy id='update-profile-dropdown-on-resourceForm-actions2'
                             on-event-source='\{{bindings.0.systemUser.value}}-resource-form'
-                            on-event-types='["Form.ResourceCreated", "Form.ResourceUpdated", "Form.ResourceRemoved"]'         
-                            proxy-event-type='Component.TemplateUpdate' 
+                            on-event-types='["Form.ResourceCreated", "Form.ResourceUpdated", "Form.ResourceRemoved"]'
+                            proxy-event-type='Component.TemplateUpdate'
                             proxy-targets='["header-profile-dropdown"]'
-            ></mp-event-proxy> 
+            ></mp-event-proxy>
           </div>
         </template>
     </semantic-query>
@@ -56,7 +72,7 @@
       <mp-anonymous-hidden alt='<li><a href="/login" title="login"></a></li>'>
         <mp-event-target-template-render id='header-profile-dropdown' template='\{{> template}}'>
           <template id='template'>
-            <semantic-query query='SELECT DISTINCT ?systemUser ?systemUserName ?actorFullName ?group ?groupFullName ?image ?imageType { 
+            <semantic-query query='SELECT DISTINCT ?systemUser ?systemUserName ?actorFullName ?group ?groupFullName ?image ?imageType {
                                     BIND(IRI(REPLACE(STR(?__useruri__), "%40", "_")) as ?systemUser)
                                     BIND(REPLACE(REPLACE(STR(?__useruri__), STR(User:), ""), "%40", "@") as ?systemUserName)
 
@@ -81,73 +97,73 @@
                                     }
 
                                     OPTIONAL {
-                                      ?systemUser rs:PX_has_main_representation ?image . 
+                                      ?systemUser rs:PX_has_main_representation ?image .
                                       ?image a ?imageType .
                                       FILTER(?imageType in (rs:EX_Digital_Image, rs:EX_Digital_Image_Region))
                                     }
                                   }'
                           template='\{{> template}}'>
 
-            <template id='template'>
+              <template id='template'>
 
-              <bs-dropdown id="navbar-dropdown" class="user-dropdown">
-                <bs-dropdown-toggle>
-                  <div class="navDropdown-iconAndLabel"> 
-                    <mp-resource-thumbnail iri='\{{bindings.0.systemUser.value}}' style="width: 25px; height:25px; border-radius:1.5px; object-fit: cover; object-position: top;">
-                      <mp-resource-thumbnail-fallback>
-                          <rs-icon icon-type="round" icon-name="account_box"></rs-icon>
-                      </mp-resource-thumbnail-fallback>
-                    </mp-resource-thumbnail>  
+                <bs-dropdown id="navbar-dropdown" role="menu" class="user-dropdown">
+                  <bs-dropdown-toggle>
+                    <div class="navDropdown-iconAndLabel">
+                      <mp-resource-thumbnail iri='\{{bindings.0.systemUser.value}}' style="width: 25px; height:25px; border-radius:1.5px; object-fit: cover; object-position: top;">
+                        <!-- <mp-resource-thumbnail-fallback>
+                            <rs-icon icon-type="round" icon-name="account_box"></rs-icon>
+                        </mp-resource-thumbnail-fallback> -->
+                      </mp-resource-thumbnail>
+                      \{{#if bindings.0.actorFullName.value}}
+                        <div>\{{bindings.0.actorFullName.value}}</div>
+                      \{{else}}
+                        <div>\{{bindings.0.systemUserName.value}}</div>
+                      \{{/if}}
+                    </div>
+                  </bs-dropdown-toggle>
+                  <bs-dropdown-menu>
                     \{{#if bindings.0.actorFullName.value}}
-                      <div>\{{bindings.0.actorFullName.value}}</div>
-                    \{{else}}
-                      <div>\{{bindings.0.systemUserName.value}}</div>
-                    \{{/if}}
-                  </div>
-                </bs-dropdown-toggle>
-                <bs-dropdown-menu>
-                  \{{#if bindings.0.actorFullName.value}}
-                    <semantic-link-container  uri="http://www.researchspace.org/resource/ThinkingFrames"
-                                              urlqueryparam-view='resource-editor' 
-                                              urlqueryparam-entity-type-config='http://www.researchspace.org/resource/system/resource_configurations_container/data/User'
-                                              urlqueryparam-resource-iri="\{{bindings.0.systemUser.value}}"
-                                              urlqueryparam-mode='edit'>
-                      <bs-menu-item>
-                        <rs-icon icon-type="rounded" icon-name="account_box" class="icon-left" symbol="true"></rs-icon>
-                        <span>My profile</span> 
-                      </bs-menu-item>
-                    </semantic-link-container>
-                  \{{else}}
-                      <bs-menu-item>
-                        <rs-icon icon-type="rounded" icon-name="account_box" class="icon-left" symbol="true"></rs-icon>
-                        <span>My profile (not registered user)</span>  
-                      </bs-menu-item>
-                  \{{/if}}
-                  
-                  \{{#if bindings.0.group.value}}
-                    \{{#each bindings}}
                       <semantic-link-container  uri="http://www.researchspace.org/resource/ThinkingFrames"
-                                                urlqueryparam-view='resource-editor' 
+                                                urlqueryparam-view='resource-editor'
                                                 urlqueryparam-entity-type-config='http://www.researchspace.org/resource/system/resource_configurations_container/data/User'
-                                                urlqueryparam-resource-iri="\{{group.value}}"
+                                                urlqueryparam-resource-iri="\{{bindings.0.systemUser.value}}"
                                                 urlqueryparam-mode='edit'>
                         <bs-menu-item>
-                          <rs-icon icon-type="rounded" icon-name="groups" class="icon-left" symbol="true"></rs-icon>
-                          <span>My team - \{{groupFullName.value}}</span>
+                          <rs-icon icon-type="rounded" icon-name="account_box" class="icon-left" symbol="true"></rs-icon>
+                          <span>My profile</span>
                         </bs-menu-item>
                       </semantic-link-container>
-                    \{{/each}}
-                  \{{/if}}
+                    \{{else}}
+                        <bs-menu-item>
+                          <rs-icon icon-type="rounded" icon-name="account_box" class="icon-left" symbol="true"></rs-icon>
+                          <span>My profile (not registered user)</span>
+                        </bs-menu-item>
+                    \{{/if}}
 
-                  <bs-menu-item divider="true"></bs-menu-item>
+                    \{{#if bindings.0.group.value}}
+                      \{{#each bindings}}
+                        <semantic-link-container  uri="http://www.researchspace.org/resource/ThinkingFrames"
+                                                  urlqueryparam-view='resource-editor'
+                                                  urlqueryparam-entity-type-config='http://www.researchspace.org/resource/system/resource_configurations_container/data/User'
+                                                  urlqueryparam-resource-iri="\{{group.value}}"
+                                                  urlqueryparam-mode='edit'>
+                          <bs-menu-item>
+                            <rs-icon icon-type="rounded" icon-name="groups" class="icon-left" symbol="true"></rs-icon>
+                            <span>My team - \{{groupFullName.value}}</span>
+                          </bs-menu-item>
+                        </semantic-link-container>
+                      \{{/each}}
+                    \{{/if}}
 
-                  <bs-menu-item href="/logout" title='logout'>
-                    <rs-icon icon-type="rounded" icon-name="logout" class="icon-left" symbol="true"></rs-icon>
-                    <span>Logout</span>
-                  </bs-menu-item>
-                </bs-dropdown-menu>
-              </bs-dropdown>
-            </template>
+                    <bs-menu-item divider="true"></bs-menu-item>
+
+                    <bs-menu-item href="/logout" title='logout'>
+                      <rs-icon icon-type="rounded" icon-name="logout" class="icon-left" symbol="true"></rs-icon>
+                      <span>Logout</span>
+                    </bs-menu-item>
+                  </bs-dropdown-menu>
+                </bs-dropdown>
+              </template>
             </semantic-query>
           </template>
         </mp-event-target-template-render>
@@ -155,7 +171,7 @@
     </li>
 
 
-    <mp-anonymous-hidden>
+    <!-- <mp-anonymous-hidden>
         <li>
             <button class="btn btn-icon">
                 <semantic-link iri="http://www.researchspace.org/resource/admin" title="System settings" target="_blank">
@@ -163,57 +179,158 @@
                 </semantic-link>
             </button>
         </li>
-    </mp-anonymous-hidden>
+    </mp-anonymous-hidden> -->
 
 
     <li>
-        <bs-dropdown id="about-dropdown" style="margin-left: 5px;">
+        <bs-dropdown class="rewrite-dropdown"  role="menu" id="about-dropdown" style="margin-left: 5px;">
                 <bs-dropdown-toggle>
                     <div class="navDropdown-iconAndLabel">
-                        About
+                        <img class="hamburger-icon" src="/assets/images/hamburger.png" alt="hamburger icon">
                     </div>
                 </bs-dropdown-toggle>
                 <bs-dropdown-menu>
-                    <semantic-link-container uri="https://artresearch.net/resource/About">
-                        <bs-menu-item>
-                            About
-                        </bs-menu-item>
-                    </semantic-link-container>
+                  <section class="row">
+                    <section class="col-md-3 col-sm-6">
+                      <a href="/"><img class="footer-logo" src="/assets/images/logo_artresearch.png" alt="logo artresearch">
+                      </a>
+                      <p clasS="none-small">is developed by</p>
+                      <img class="footer-logo none-small" src="/assets/images/pharos_logo.png" alt="">
+                      <p class="none-small">and supported by</p>
+                    </section>
+                    <section class="col-md-2 footer-list">
+                      <ul>
+                        <li><semantic-link iri="https://artresearch.net/resource/search">Artworks</semantic-link></li>
+                        <li><semantic-link iri="https://artresearch.net/resource/search" urlqueryparam-domain="artist">Artists</semantic-link></li>
+                        <li><semantic-link iri="https://artresearch.net/resource/search" urlqueryparam-domain="photograph">Photographs</semantic-link></li>
+                        <li><semantic-link iri="https://artresearch.net/resource/search" urlqueryparam-domain="photographer">Photographers</semantic-link></li>
+                        <li><semantic-link iri="https://artresearch.net/resource/search" urlqueryparam-domain="repository">Repositories</semantic-link></li>
+                      </ul>
+                      <!-- <semantic-link-container uri="https://artresearch.net/resource/search">
+                          <bs-menu-item>
+                              Artworks
+                          </bs-menu-item>
+                      </semantic-link-container>
 
-                    <semantic-link-container uri="https://artresearch.net/resource/Partners">
-                        <bs-menu-item>
-                            Partners
-                        </bs-menu-item>
-                    </semantic-link-container>
+                      <semantic-link-container uri="https://artresearch.net/resource/artists">
+                          <bs-menu-item>
+                              Artists
+                          </bs-menu-item>
+                      </semantic-link-container>
 
-                    <semantic-link-container uri="https://artresearch.net/resource/IntellectualProperty">
-                        <bs-menu-item>
-                            Intellectual Property
-                        </bs-menu-item>
-                    </semantic-link-container>
+                      <semantic-link-container uri="https://artresearch.net/resource/search-photos">
+                          <bs-menu-item>
+                              Photographs
+                          </bs-menu-item>
+                      </semantic-link-container>
 
-                    <semantic-link-container uri="https://artresearch.net/resource/PrivacyNotice">
-                        <bs-menu-item>
-                            Privacy Notice
-                        </bs-menu-item>
-                    </semantic-link-container>
+                      <semantic-link-container uri="https://artresearch.net/resource/photographers">
+                          <bs-menu-item>
+                              Photographers
+                          </bs-menu-item>
+                      </semantic-link-container>
 
-                    <semantic-link-container uri="https://artresearch.net/resource/AdvisoryBoard">
-                        <bs-menu-item>
-                            Advisory Board
-                        </bs-menu-item>
-                    </semantic-link-container>
-
-                    <semantic-link-container uri="https://artresearch.net/resource/TermsAndConditions">
-                        <bs-menu-item>
-                            Terms of Use
-                        </bs-menu-item>
-                    </semantic-link-container>
+                      <semantic-link-container uri="https://artresearch.net/resource/repositories">
+                          <bs-menu-item>
+                              Repositories
+                          </bs-menu-item>
+                      </semantic-link-container> -->
 
 
-                    <bs-menu-item  href="mailto:info@artresearch.net">
+                    </section>
+
+
+                    <section class="col-md-2 footer-list">
+                      <!-- <semantic-link-container uri="https://artresearch.net/resource/About">
+                          <bs-menu-item>
+                              About
+                          </bs-menu-item>
+                      </semantic-link-container>
+
+                      <semantic-link-container uri="https://artresearch.net/resource/Partners">
+                          <bs-menu-item>
+                              Partners
+                          </bs-menu-item>
+                      </semantic-link-container>
+
+                      <semantic-link-container uri="https://artresearch.net/resource/IntellectualProperty">
+                          <bs-menu-item>
+                              Intellectual Property
+                          </bs-menu-item>
+                      </semantic-link-container>
+
+                      <semantic-link-container uri="https://artresearch.net/resource/OpenAccessPolicy">
+                          <bs-menu-item>
+                              Open Access Policy
+                          </bs-menu-item>
+                      </semantic-link-container>
+
+                      <semantic-link-container uri="https://artresearch.net/resource/PrivacyNotice">
+                          <bs-menu-item>
+                              Privacy Notice
+                          </bs-menu-item>
+                      </semantic-link-container>
+
+                      <semantic-link-container uri="https://artresearch.net/resource/AdvisoryBoard">
+                          <bs-menu-item>
+                              Advisory Board
+                          </bs-menu-item>
+                      </semantic-link-container>
+
+                      <semantic-link-container uri="https://artresearch.net/resource/TermsAndConditions">
+                          <bs-menu-item>
+                              Terms of Use
+                          </bs-menu-item>
+                      </semantic-link-container> -->
+                      <ul>
+                        <li><semantic-link iri="https://artresearch.net/resource/About">About</semantic-link></li>
+                        <li><semantic-link iri="https://artresearch.net/resource/Partners">Partners</semantic-link></li>
+                        <li><semantic-link iri="https://artresearch.net/resource/AdvisoryBoard">Advisory board</semantic-link></li>
+                        <li><semantic-link iri="https://artresearch.net/resource/IntellectualProperty">Intellectual property</semantic-link></li>
+                        <li><semantic-link iri="https://artresearch.net/resource/OpenAccessPolicy">Open Access Policy</semantic-link></li>
+                        <li><semantic-link iri="https://artresearch.net/resource/TermsAndConditions">Terms of use</semantic-link></li>
+                        <li><semantic-link iri="https://artresearch.net/resource/PrivacyNotice">Privacy notice</semantic-link></li>
+
+                      <mp-anonymous-hidden>
+                          <li>
+                            <semantic-link iri="http://www.researchspace.org/resource/admin" title="System settings" target="_blank">
+                                <rs-icon icon-type="round" icon-name="settings"></rs-icon>
+                            </semantic-link>
+                          </li>
+                      </mp-anonymous-hidden>
+                      </ul>
+                    </section>
+                    <section class="col-md-2 footer-list">
+                      <ul>
+                        <li><a href="#">Technical documentation</a></li>
+                        <li><semantic-link iri="https://artresearch.net/resource/Statistics">Statistics</semantic-link></li>
+                      </ul>
+                      <!-- <semantic-link-container uri="https://artresearch.net/">
+                          <bs-menu-item>
+                              Technical documentation
+                          </bs-menu-item>
+                      </semantic-link-container>
+
+                      <semantic-link-container uri="https://artresearch.net/resource/Statistics">
+                          <bs-menu-item>
+                              Statistics
+                          </bs-menu-item>
+                      </semantic-link-container> -->
+
+
+                    </section>
+                    <section class="none-small logos_sponsors col-md-12 justify-content-md-center">
+                      <img class="footer-logo-small" src="/assets/images/logo_kress_2.png" alt="logo kress">
+                      <img class="footer-logo-small" src="/assets/images/logo_mellon.png" alt="logo mellon">
+                      <img class="footer-logo-small" src="/assets/images/logo_neh.png" alt="logo neh">
+                      <img class="footer-logo-small" src="/assets/images/logo_hertziana.png" alt="logo hertziana">
+                      <img class="footer-logo-small" src="/assets/images/logo_researchspace.png" alt="logo researchspace">
+                    </section>
+                  </section>
+
+                    <!-- <bs-menu-item  href="mailto:info@artresearch.net">
                         Contact us
-                    </bs-menu-item>
+                    </bs-menu-item> -->
             </bs-dropdown-menu>
         </bs-dropdown>
 

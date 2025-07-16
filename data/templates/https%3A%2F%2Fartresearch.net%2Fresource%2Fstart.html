@@ -1,579 +1,500 @@
-<div class="page-content scrollable-content">
-<div id="new-start-page">
-<div style="background: linear-gradient(25deg, #e3e3e3, white) !important;">
-  <section style="background-image:linear-gradient(rgb(28 28 28 / 36%), rgb(182 182 182 / 23%) 92.86%), url(/assets/images/home-hero-bg.jpg);
-    background-size: cover;
-    color: #fff;
-    margin-bottom: -5rem;
-    padding-bottom: 3rem;">
-    <mp-overlay-dialog id="info-beta-modal" title="‎‎" type="lightbox">
-      <mp-overlay-dialog-trigger>
-        <img style="height: 30vh; position: absolute; right: 0; padding-top: 15px; cursor: pointer;" src="/assets/images/logos/beta.svg"/>
-      </mp-overlay-dialog-trigger>
-      <mp-overlay-dialog-content>
-              <style>
-              .modal-dialog.overlay-lightbox__dialog.modal-dialog{
-                height: 50%;
-                width: 35%;
-                /* display: flex; */
-                left: auto;
-                right: auto;
-                margin: 0 auto;
-                padding: 10px;
-                position: relative;
-              }
-              .modal-content .modal-header, .modal-header{
-                padding: none;
-              }
-            </style>
-        <div>
-          <div class ="info-beta-container">
-            <h1 style="font-size: 24px !important;
-                       margin-top: 10px !important;
-                       margin-bottom: 10px !important;
-                       ">Please Note:</h1>
-                       <h2 style="font-weight:500">
-                 <p>ArtResearch.net provides access to images and data from multiple sources in different languages and formats.</p>
-                 <p>Curators of partner institutions are currently aligning artists, repositories, photographers, techniques and other data to improve search results.</p>
-                 <p>Search builder and facet functionalities are <span style="color: rgb(220, 54, 54) !important;">in progress</span></p></h2>
-         </div>
-        </div>
-      </mp-overlay-dialog-content>
-      </mp-overlay-dialog>
+[[!-- reset breadcrumbs --]]
+<mp-event-trigger id="breadcrumbs" type='Component.TemplateUpdate' on='["mounted"]' targets='["top-header-breadcrumbs"]'
+  data='{}'>
+</mp-event-trigger>
 
-        <div class="search-actions" >
-         <div class="text-with-image banner">
-        <div>
-         <div style="font-size: 26px;">Explore, connect and contextualize art histories</div>
-        </div>
-      </div>
-         <div
-        data-intro="This is the search-bar. Use this to make simple queries by keywords"
-        data-position="top"
-      >
-        <div class="searchbar-switch">
-          <div class="button-simple-search">
-                  [[> Searchbar selectedCategory="Artwork/Monument"]]
+<section class="container-fluid relative start-page">
+  <section class="home-section">
+    <section class="row" id="hero">
+      <section id="home-title" class="col-md-6 col-sm-6">
+        <h1 class="karla-bold">
+          <span class="wrap-line">art</span>
+          <span class="wrap-line">research</span>
+          <span class="wrap-line">.net</span>
+        </h1>
+        <section id="search-collections">
+          <section class="row" id="search-collections-launcher">
+              <!-- Main Search Button -->
+              <mp-overlay-dialog id="search-overlay" type="lightbox">
+                <mp-overlay-dialog-trigger>
+                  <button class="main-search-button">
+                    Search the collections
+                    <img src="/assets/images/search_arrow.svg" class="search-icon" alt="">
+                    <!-- <svg class="search-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="11" cy="11" r="8" stroke="#70E7C5" stroke-width="2"/>
+                      <path d="M21 21L16.65 16.65" stroke="#70E7C5" stroke-width="2" stroke-linecap="round"/>
+                    </svg> -->
+                  </button>
+                </mp-overlay-dialog-trigger>
+                <mp-overlay-dialog-content>
+                  <div id="search-overlay">
+                    <div class="search-overlay-header">
+                      <h2 class="search-overlay-title">
+                        Search our
+                        <span>collections</span>
+                      </h2>
+                      <mp-event-trigger id="close-search-overlay" type="OverlayDialog.Close" targets='["search-overlay"]'>
+                        <button class="search-overlay-close">&times;</button>
+                      </mp-event-trigger>
+                    </div>
+
+                    <div class="search-overlay-content">
+                      <div class="search-overlay-text">
+                        <p>You can search for artworks, photographs, people, repositories, iconographic themes, all in one place.</p>
+                        <p>You can also start from an image. Paste here the URL of an online image or drag and drop one from your computer (accepted formats include .jpg and .png).</p>
+                      </div>
+
+                      <div class="search-overlay-form">
+                        <div class="search-input-container">
+                          <form-with-event id="text-search-form">
+                            <input name="query" type="text" class="search-input" placeholder="enter a text or an image URL">
+                            <button class="search-button">
+                              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+                                <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                              </svg>
+                            </button>
+                          </form-with-event>
+
+                          <mp-event-proxy id='text-search-proxy' on-event-source='text-search-form'
+                                          on-event-data='{"inputType": "text"}'
+                                          proxy-event-type='RedirectAction.perform' proxy-targets='["redirect-to-text-search"]'
+                          ></mp-event-proxy>
+
+                          <mp-event-target-redirect
+                            id='redirect-to-text-search'
+                            action='https://artresearch.net/resource/search'
+                          ></mp-event-target-redirect>
+
+                          <mp-event-proxy id='image-url-search-proxy' on-event-source='text-search-form'
+                                          on-event-data='{"inputType": "imageUrl"}'
+                                          proxy-event-type='RedirectAction.perform' proxy-targets='["redirect-to-image-search"]'
+                          ></mp-event-proxy>
+
+                          <mp-event-target-redirect
+                            id='redirect-to-image-search'
+                            action='https://artresearch.net/resource/search'
+                            query-params='{"query": "dndFile"}'
+                          ></mp-event-target-redirect>
+
+                          <mp-event-target-redirect
+                            id='redirect-to-text-search'
+                            action='https://artresearch.net/resource/search'
+                          ></mp-event-target-redirect>
+                        </div>
+
+                        <pharos-drag-and-drop id="demo-search-dnd">
+                          <p>drag and drop</p>
+                        </pharos-drag-and-drop>
+
+                        <mp-event-proxy id='image-dnd-search-proxy' on-event-source='demo-search-dnd'
+                          proxy-event-type='RedirectAction.perform' proxy-targets='["redirect-to-image-search"]'
+                        ></mp-event-proxy>
+                      </div>
+                    </div>
+                  </div>
+                </mp-overlay-dialog-content>
+              </mp-overlay-dialog>
+              <p class="col-md-12" id="search-collections-payoff">
+                <span class="wrap-line">explore, connect and contextualize</span>
+                <span class="bold">art histories</span>
+              </p>
+          </section>
+        </section>
+      </section>
+      <section class="col-md-6 col-sm-6" id="home-images-carousel">
+        <div class="scroll-container">
+          <div class="column">
+            <div class="scroll-content">
+              <semantic-link-container uri="https://artresearch.net/resource/midas/work/08055638">
+                <img src="/assets/images/hero/RichMeier.jpg" alt="">
+              </semantic-link-container>
+
+              <img src="/assets/images/hero/32044156342453_1-removebg-preview.png" alt="">
+
+              <semantic-link-container uri="https://artresearch.net/resource/pharos/artwork/d5035be5a18e1266fa530f4a2e15b032845364a288130411c24d96fd833f3c7c">
+                <img src="/assets/images/hero/fle0618859a_p.png" alt="">
+              </semantic-link-container>
+              <semantic-link-container uri="https://artresearch.net/resource/pharos/artwork/475036cad7e3051808803966929d77b1240aef1e"></semantic-link>
+                <img src="/assets/images/hero/fld0009139x_p.png" alt="">
+              </semantic-link-container>
+              <semantic-link-container uri="https://artresearch.net/resource/midas/work/08197387">
+                <img src="/assets/images/hero/bhex-2023-34-024.jpg" alt="">
+              </semantic-link-container>
+
+              <img src="/assets/images/hero/32044157489154_2-removebg-preview.png" alt="">
+
+              <!-- Not correct photo, but the work seems to be correct -->
+              <semantic-link-container uri="https://artresearch.net/resource/pharos/artwork/1273c36f081ec0f54ed1cbfad56b26a5af5373b8"">
+                <img src="/assets/images/hero/123610_1-removebg-preview.png" alt="">
+              </semantic-link-container>
+              <semantic-link-container uri="https://artresearch.net/resource/frick/work/991011987199707141">
+                <img src="/assets/images/hero/Bril-removebg-preview.png" alt="">
+              </semantic-link-container>
+
+              <!-- Repeat for looping effect -->
+              <semantic-link-container uri="https://artresearch.net/resource/midas/work/08055638">
+                <img src="/assets/images/hero/RichMeier.jpg" alt="">
+              </semantic-link-container>
+              <img src="/assets/images/hero/32044156342453_1-removebg-preview.png" alt="">
+              <semantic-link-container uri="https://artresearch.net/resource/pharos/artwork/d5035be5a18e1266fa530f4a2e15b032845364a288130411c24d96fd833f3c7c">
+                <img src="/assets/images/hero/fle0618859a_p.png" alt="">
+              </semantic-link-container>
+              <semantic-link-container uri="https://artresearch.net/resource/pharos/artwork/475036cad7e3051808803966929d77b1240aef1e"></semantic-link>
+                <img src="/assets/images/hero/fld0009139x_p.png" alt="">
+              </semantic-link-container>
+              <semantic-link-container uri="https://artresearch.net/resource/midas/work/08197387">
+                <img src="/assets/images/hero/bhex-2023-34-024.jpg" alt="">
+              </semantic-link-container>
+              <img src="/assets/images/hero/32044157489154_2-removebg-preview.png" alt="">
+              <semantic-link-container uri="https://artresearch.net/resource/pharos/artwork/1273c36f081ec0f54ed1cbfad56b26a5af5373b8"">
+                <img src="/assets/images/hero/123610_1-removebg-preview.png" alt="">
+              </semantic-link-container>
+              <semantic-link-container uri="https://artresearch.net/resource/frick/work/991011987199707141">
+                <img src="/assets/images/hero/Bril-removebg-preview.png" alt="">
+              </semantic-link-container>
+            </div>
           </div>
-           <!-- <div style="display: none;" class="button-visual-search">
-                  [[> VisionSearchBar]]
-                </div>
-            <mp-event-trigger type="Component.TemplateUpdate"  targets='["my-render"]' data='{"iri": "{{iri}}"}' >
-              <button class="switch-visual-search">
-                <div style="color:white">Open Visual Searchbar</div>
-              </button>
-            </mp-event-trigger>
-            <mp-event-trigger type="Component.TemplateUpdate"  targets='["my-render2"]' data='{"iri": "{{iri}}"}' >
-              <button style="display:none;" class="switch-simple-search">
-                <div style=" color:white">Open Simple Searchbar</div>
-              </button>
-            </mp-event-trigger> -->
-        </div>
-            <!-- <mp-event-target-template-render id="my-render" template="{{> combined}}">
-              <template id="combined">
-                {{#if iri}}
-               <style>
-                 .button-simple-search{
-                   display: none !important;
-                 }
-                 .button-visual-search
-                 {
-                   display: block !important;
-                 }
-                 .switch-simple-search{
-                   display: block !important;
-                 }
-                 .switch-visual-search{
-                   display: none !important;
-                 }
-               </style>
-                {{/if}}
 
-              </template>
-            </mp-event-target-template-render>
-            <mp-event-target-template-render id="my-render2" template="{{> combined2}}">
-              <template id="combined2">
-                {{#if iri}}
-               <style>
-                 .button-simple-search{
-                   display: block !important;
-                 }
-                 .button-visual-search
-                 {
-                   display: none !important;
-                 }
-                 .switch-visual-search{
-                   display: block !important;
-                 }
-                 .switch-simple-search{
-                   display: none !important;
-                 }
-               </style>
-                {{/if}}
+          <div class="column none-small">
+            <div class="scroll-content">
+              <semantic-link-container uri="https://artresearch.net/resource/frick/work/991006980549707141">
+                <img src="/assets/images/hero/Banjo_03.jpg" alt="">
+              </semantic-link-container>
+              <semantic-link-container uri="https://artresearch.net/resource/pharos/artwork/3020f3c61b081136baab5d3a7f548b10263acb5d" >
+                <img src="/assets/images/hero/fld0020559x_p-removebg-preview.png" alt="">
+              </semantic-link-container>
 
-              </template>
-            </mp-event-target-template-render> -->
+              <img src="/assets/images/hero/FZ_02.png" alt="">
 
-        <div class="linksTo">
-          <div>
-            <semantic-link title="Browse All Artworks" iri="https://artresearch.net/resource/AllArtworks">Browse All Artworks</semantic-link>
+              <semantic-link-container uri="https://artresearch.net/resource/midas/work/70016322">
+                <img src="/assets/images/hero/fld0014630x_p.png" alt="">
+              </semantic-link-container>
+              <semantic-link-container uri="https://artresearch.net/resource/pharos/artwork/2cebfb005d5397bd8ede92911c2761941ea84951">
+                <img src="/assets/images/hero/fld0020528x_p.png" alt="">
+              </semantic-link-container>
+
+              <img src="/assets/images/hero/FZ_5.png" alt="">
+
+              <semantic-link-container uri="https://artresearch.net/resource/zeri/work/1264">
+                <img src="/assets/images/hero/FZ_1.png" alt="">
+              </semantic-link-container>              <!-- Repeat for looping effect -->
+              <semantic-link-container uri="https://artresearch.net/resource/frick/work/991006980549707141">
+                <img src="/assets/images/hero/Banjo_03.jpg" alt="">
+              </semantic-link-container>
+              <semantic-link-container uri="https://artresearch.net/resource/pharos/artwork/3020f3c61b081136baab5d3a7f548b10263acb5d" >
+                <img src="/assets/images/hero/fld0020559x_p-removebg-preview.png" alt="">
+              </semantic-link-container>
+              <img src="/assets/images/hero/FZ_02.png" alt="">
+              <semantic-link-container uri="https://artresearch.net/resource/midas/work/70016322">
+                <img src="/assets/images/hero/fld0014630x_p.png" alt="">
+              </semantic-link-container>
+              <semantic-link-container uri="https://artresearch.net/resource/pharos/artwork/2cebfb005d5397bd8ede92911c2761941ea84951">
+                <img src="/assets/images/hero/fld0020528x_p.png" alt="">
+              </semantic-link-container>
+              <img src="/assets/images/hero/FZ_5.png" alt="">
+              <semantic-link-container uri="https://artresearch.net/resource/zeri/work/1264">
+                <img src="/assets/images/hero/FZ_1.png" alt="">
+              </semantic-link-container>
+            </div>
           </div>
-          <!-- <div>
-           <a title="Advanced Search" href="/resource/SearchAdvanced">Advanced Search</a>
-          </div> -->
+
+          <div class="column none-small">
+            <div class="scroll-content">
+              <semantic-link-container uri="/assets/images/hero/4107100442618_0002.jpg">
+                <img src="/assets/images/hero/4107100442618_0002.jpg" alt="">
+              </semantic-link-container>
+              <img src="/assets/images/hero/32044156340879_1.png" alt="">
+              <semantic-link-container uri="https://artresearch.net/resource/zeri/work/54854">
+                <img src="/assets/images/hero/FZ_03.png" alt="">
+              </semantic-link-container>
+              <img src="/assets/images/hero/FZ_04-removebg-preview.png" alt="">
+              <semantic-link-container uri="https://artresearch.net/resource/midas/work/07653241">
+                <img src="/assets/images/hero/fle0004347x_p.png" alt="">
+              </semantic-link-container>
+              <!-- Repeat for looping effect -->
+              <semantic-link-container uri="/assets/images/hero/4107100442618_0002.jpg">
+                <img src="/assets/images/hero/4107100442618_0002.jpg" alt="">
+              </semantic-link-container>
+
+              <img src="/assets/images/hero/32044156340879_1.png" alt="">
+
+              <semantic-link-container uri="https://artresearch.net/resource/zeri/work/54854">
+                <img src="/assets/images/hero/FZ_03.png" alt="">
+              </semantic-link-container>
+
+              <img src="/assets/images/hero/FZ_04-removebg-preview.png" alt="">
+
+              <semantic-link-container uri="https://artresearch.net/resource/midas/work/07653241">
+                <img src="/assets/images/hero/fle0004347x_p.png" alt="">
+              </semantic-link-container>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      </section>
+
     </section>
-</div>
-   <div class="benner-text">
-     <!--
-			<div>
-      <img src="/assets/images/logos/logotransparent2.png" style="
-      margin-bottom: 15px;
-      max-width: 70vw;
-      object-fit: contain;
-      height: 150px;
-      padding: 10px;">
-
-     </div>
-			-->
-     <!--<div class="introText">
-    <p style="font-size:16px">Discover artworks through the lens of photo archives.</p>
-     <p style="font-size:12px">The collections of Pharos, the International Association of Photo Archives, document works of art and architecture and the history of photography itself. They contain more than of a century of scholarly documentation.  <span style="color: rgb(220, 54, 54);">art</span>research.net provides the tools to access, research, and contextualize these resources for the 21st century.</p>
-    </div>-->
-     <div class="introText">
-    <!--<p style="font-size:1.2em; font-weight:500">Discover artworks through the lens of photo archives</p>
-    --> <p style="font-size:20px"><span style="color: rgb(220, 54, 54);">art</span>research.net is the free, open access discovery platform for the combined collections of  <semantic-link iri="https://artresearch.net/resource/About" target="_blank"><b>PHAROS: The International Association of Photo Archives</b></semantic-link>. Using computer vision and linked open data, <span style="color: rgb(220, 54, 54);">art</span>research.net provides interoperable access to millions of photographs of works of art, and over a century of art historical documentation.
-</p>
-    </div>
-
-   </div>
-  <section title="Browse the collections">
-    <div class="section-title">Browse Across Collections</div>
-    <div class="section-body">
-      <div class="tall-card-list">
-        <div class="tall-card disabled">
-            <div class="tall-card-body">
-              <div class="tall-card-title">Artists</div>
-                <div class="tall-card-subtitle">Over 25,000 records</div>
-            </div>
-        </div>
-        <div class="tall-card disabled">
-            <div class="tall-card-body">
-              <div class="tall-card-title">Photographers</div>
-                       <div class="tall-card-subtitle">Over 7,000 records</div>
-            </div>
-        </div>
-        <div class="tall-card disabled">
-            <div class="tall-card-body">
-              <div class="tall-card-title">Repositories</div>
-              <div class="tall-card-subtitle">around the world</div>
-            </div>
-        </div>
-        <div class="tall-card">
-          <semantic-link-container uri="https://artresearch.net/resource/Partners">
-              <div class="tall-card-body">
-              <div class="tall-card-button">Discover</div>
-              <div class="tall-card-title">Partners</div>
-              <div class="tall-card-subtitle">14 photo archives</div>
-            </div>
-          </semantic-link-container>
-        </div>
-      </div>
-    </div>
   </section>
-    <section class="cool-background" title="Explore Possibilities">
-    <div class="section-title">Explore Possibilities</div>
-
-    <div class="section-body">
-      <div class="grid-card-list">
-        <div class="grid-card disabled" style="background: url(/assets/images/media/cooper.jpg) center no-repeat;">
-          [[!-- <semantic-link-container uri="https://artresearch.net/resource/DisplayCollectionCooper">  --]]
-            <div class="grid-card-body">
-              <div class="grid-card-title">A. C. Cooper</div>
-              <div class="grid-card-subtitle">Photographs</div>
-            </div>
-          [[!--</semantic-link-container>--]]
-        </div>
-        <div class="grid-card" style="background: url(/assets/images/media/red-chalk.jpg) center no-repeat;">
-          <semantic-link-container uri="https://artresearch.net/resource/DisplayCollectionRedChalkDrawings">
-            <div class="grid-card-body">
-              <div class="grid-card-title">Red Chalk</div>
-              <div class="grid-card-subtitle">Drawings</div>
-            </div>
-          </semantic-link-container>
-        </div>
-        <div class="grid-card disabled" style="background: url(/assets/images/media/builtworks_middleast.jpg) center no-repeat;">
-          [[!--<semantic-link-container uri="https://artresearch.net/resource/DisplayCollectionBuiltworksMiddleEast">  --]]
-            <div class="grid-card-body">
-              <div class="grid-card-title">Built Works</div>
-              <div class="grid-card-subtitle">In the Middle-East</div>
-            </div>
-          [[!--</semantic-link-container>--]]
-        </div>
-        <div class="grid-card disabled" style="background: url(/assets/images/media/kahlo.jpg) center no-repeat;">
-          [[!--<semantic-link-container uri="https://artresearch.net/resource/DisplayCollectionWomenArtists">--]]
-            <div class="grid-card-body">
-              <div class="grid-card-title">Women Artists</div>
-              <div class="grid-card-subtitle">Across centuries</div>
-            </div>
-          [[!--</semantic-link-container>--]]
-        </div>
-        <div class="grid-card" style="background: url(/assets/images/media/sculpture.jpg) center no-repeat;">
-          <semantic-link-container uri="https://artresearch.net/resource/DisplayCollectionBronzeSculptures">
-            <div class="grid-card-body">
-              <div class="grid-card-title">Bronze Sculptures</div>
-              <div class="grid-card-subtitle">from Antiquity to Modernity</div>
-            </div>
-          </semantic-link-container>
-        </div>
-        <div class="grid-card" style="background: url(/assets/images/media/portrait.jpg) center no-repeat;">
-          <semantic-link-container uri="https://artresearch.net/resource/DisplayCollectionSelfPortraits">
-            <div class="grid-card-body">
-              <div class="grid-card-title">Self Portraits</div>
-              <div class="grid-card-subtitle"></div>
-            </div>
-          </semantic-link-container>
-        </div>
-        <div class="grid-card disabled" style="background: url(/assets/images/media/datedphotographs.jpg) center no-repeat;">
-          [[!--<semantic-link-container uri="https://artresearch.net/resource/DisplayCollectionPhotoDatedBetween">--]]
-            <div class="grid-card-body">
-              <div class="grid-card-title">1839-1900 AD</div>
-              <div class="grid-card-subtitle">19th century photographs</div>
-            </div>
-          [[!--</semantic-link-container>--]]
-        </div>
-      </div>
-    </div>
+  <section class="home-section">
+    <section class="row" id="intro">
+      <h2>artresearch.net</h2>
+      <p class="extra-big">artresearch.net is the free, open access discovery platform for the
+        combined collections of 
+        <semantic-link iri="https://artresearch.net/resource/About">PHAROS: The International Association of Photo Archives</semantic-link>
+        which provides access to millions of photographs of works of art,
+        and over a century of art historical documentation.</p>
+      <section class="buttons-group">
+        <semantic-link iri="https://artresearch.net/resource/About" class="green-btn">About PHAROS <img src="/assets/images/arrow_black.png" alt="arrow"/></semantic-link>
+        <semantic-link iri="https://artresearch.net/resource/Partners" class="black-btn">Partners <img src="/assets/images/arrow_cream.png" alt="arrow"/></semantic-link>
+        <a href="https://pharosartresearch.org/" target="_blank" class="transparent-btn">visit PHAROS website <img src="/assets/images/arrow_green.png" alt="arrow"/></a>
+      </section>
+    </section>
   </section>
-    <!-- <section class="sectionDocumentation" title="How can I use Artresearch.net?">
-    <div class="section-title">How can I use <span style="color: rgb(220, 54, 54);">art</span>research.net ?</div>
-    <div class="section-body">
-      <div class="tall-card-list" style=" text-align: center;">
-        <div class="doc-tall-card">
-          <a href="/resource/Documentation">
-            <div class="doc-tall-card-body">
-              <img  class="imagesDoc" src="/assets/images/icons/search.svg"/>
-              <div class="doc-tall-card-title">Search in platform</div>
-              <div class="doc-tall-card-subtitle">There are many ways to search your favorite artwork through artresearch.</div>
-            </div>
-          </a>
-        </div>
-        <div class="doc-tall-card">
-          <a href="/resource/DocumentationCards">
-            <div class="doc-tall-card-body">
-              <img class="imagesDoc" src="/assets/images/icons/viewer.svg"/>
-              <div class="doc-tall-card-title">IIIF Viewer</div>
-              <div class="doc-tall-card-subtitle">Compare and View images with deep zoom</div>
-            </div>
-          </a>
-        </div>
-        <div class="doc-tall-card">
-          <a href="/resource/DocumentationCards">
-            <div class="doc-tall-card-body">
-              <img  class="imagesDoc"  src="/assets/images/icons/vision.svg"/>
-              <div class="doc-tall-card-title">Vision Instance</div>
-              <div class="doc-tall-card-subtitle">Find Similar Artworks</div>
-            </div>
-          </a>
-        </div>
-        <div class="doc-tall-card">
-          <a href="/resource/DocumentationCards">
-            <div class="doc-tall-card-body">
-              <img  class="imagesDoc" src="/assets/images/icons/history-book.svg"/>
-              <div class="doc-tall-card-title">Photo Archive Curator?</div>
-              <div class="doc-tall-card-subtitle">Get familiar with the platform's functionality for curators</div>
-            </div>
-          </a>
-        </div>
-      </div>
-    </div>
-    <div class="DocTextWrapper">
-      <a href="/resource/DocumentationCards">
-      <div class="view-guides">
-        <h2>View all guides</h2>
-      </div></a>
-    </div>
-  </section> -->
-    <section  title="Connect Visually Similar Images">
-    <div class="section-title">Connect Visually Similar Images</div>
-    <!--<div class="section-subtitle">Use machine learning and computer vision to explore similarities between artworks, images, and data</div> -->
-    <div class="section-body">
-      <semantic-context repository="qlever">
-        <div id="featured-selections">
-            <semantic-link-container uri="https://artresearch.net/resource/pharos/artwork/0c477197149519beb0072507b8ff277cb9cc10a8">
-              <div id="zeri-itatti" class="flip-card-feature">
-                <div class="content">
-                  <div class="front">
-                    <div class="front-back-img-holder"  >
-                      [[!-- https://iiif.artresearch.net/iiif/3/zeri/80000/71200/70925.jpg/full/!500,500/0/default.jpg --]]
-                      <img
-                        class="img-flip"
-                        alt="  "
-                        src="https://artresearch.net/cache/images/preview/zeri/aHR0cHM6Ly9paWlmLmFydHJlc2VhcmNoLm5ldC9paWlmLzMvemVyaS84MDAwMC83MTIwMC83MDkyNS5qcGcvZnVsbC9mdWxsLzAvZGVmYXVsdC5qcGc.jpg"
-                      />
-                      <div class="title">Nascita di Maria Vergine</div>
-                      <small>Zeri</small>
-                    </div>
-                  </div>
-                  <div class="back">
-                    <div class="front-back-img-holder" >
-                      [[!-- https://ids.lib.harvard.edu/ids/iiif/42662040/full/!500,500/0/native.jpg --]]
-                      <img
-                        class="img-flip"
-                        alt="  "
-                        src="https://artresearch.net/cache/images/preview/itatti/aHR0cHM6Ly9pZHMubGliLmhhcnZhcmQuZWR1L2lkcy9paWlmLzQyNjYyMDQwL2Z1bGwvZnVsbC8wL25hdGl2ZS5qcGc.jpg"
-                      />
-                      <div class="title">Birth of the Virgin</div>
-                      <small>I Tatti</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </semantic-link-container>
-            <semantic-link-container uri="https://artresearch.net/resource/pharos/artwork/298d5478cda58be94ca09410e93c00c1eb0123ed">
-              <div id="hertziana-itatti" class="flip-card-feature">
-                <div class="content">
-                  <div class="front">
-                    <div class="front-back-img-holder" >
-                      <img
-                        class="img-flip"
-                        alt="  "
-                        src="https://hertz-foto-os1.biblhertz.it/iiif/2/320px%2Fbh002968.jpg/full/full/0/default.jpg"
-                      />
-                      <div class="title">Profilbildnis einer jungen Frau</div>
-                      <small>Hertziana</small>
-                    </div>
-                  </div>
-                  <div class="back">
-                    <div class="front-back-img-holder" >
-                      <img
-                        class="img-flip"
-                        alt="  "
-                        src="https://iiif.itatti.harvard.edu/iiif/2/fotoindex!028_recto_d!028_recto_box01_d!028_recto_box01_d_00022.jpg/full/!500,500/0/default.jpg"
-                      />
-                      <div class="title">Profile portrait of a lady</div>
-                      <small>I Tatti</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </semantic-link-container>
-            <semantic-link-container uri="https://artresearch.net/resource/pharos/artwork/03a875cea5fe7ad54543b70523e81b63d8332c2b">
-              <div id="khi-hertziana" class="flip-card-feature">
-                <div class="content">
-                  <div class="front">
-                    <div class="front-back-img-holder" >
-                      <img
-                        class="img-flip"
-                        alt="  "
-                        src="https://iiif.khi.fi.it/iiif/2/thumbnails%2Ffld0006864x_p.jpg/full/!500,500/0/default.jpg"
-                      />
-                      <div class="title">	Maria mit dem Christuskind</div>
-                      <small>KHI</small>
-                    </div>
-                  </div>
-                  <div class="back">
-                    <div class="front-back-img-holder" >
-                      <img
-                        class="img-flip"
-                        alt="  "
-                        src="https://ids.lib.harvard.edu/ids/iiif/420715656/full/!500,500/0/native.jpg"
-                      />
-                      <div class="title">Madonna Colonna</div>
-                      <small>I Tatti</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </semantic-link-container>
-            <semantic-link-container uri="https://artresearch.net/resource/pharos/artwork/a9ecffbe012c680b16e72f570620f4b1a78fbff6">
-              <div id="itatti-zeri" class="flip-card-feature">
-                <div class="content">
-                  <div class="front">
-                    <div class="front-back-img-holder" >
-                      <img
-                        class="img-flip"
-                        alt="  "
-                        src="https://ids.lib.harvard.edu/ids/iiif/474707461/full/!500,500/0/native.jpg"
-                      />
-                      <div class="title">Portrait of a youth</div>
-                      <small>I Tatti</small>
-                    </div>
-                  </div>
-                  <div class="back">
-                    <div class="front-back-img-holder" >
-                      <img
-                        class="img-flip"
-                        alt="  "
-                        src="https://iiif.artresearch.net/iiif/3/zeri/80000/74000/73954.jpg/full/!500,500/0/default.jpg"
-                      />
-                      <div class="title">Ritratto maschile</div>
-                      <small>Zeri</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </semantic-link-container>
-            <semantic-link-container uri="https://artresearch.net/resource/pharos/artwork/047e1093c0c7b87613f915a7d8eb0d4999ced0eb">
-              <div id="khi-marburg" class="flip-card-feature">
-                <div class="content">
-                  <div class="front">
-                    <div class="front-back-img-holder" >
-                      <img
-                        class="img-flip"
-                        alt="  "
-                        src="https://iiif.khi.fi.it/iiif/2/thumbnails%2Fflc0584693z_p.jpg/full/!500,500/0/default.jpg"
-                      />
-                      <div class="title">Tod des heiligen Franziskus</div>
-                      <small>KHI</small>
-                    </div>
-                  </div>
-                  <div class="back">
-                    <div class="front-back-img-holder" >
-                      <img
-                        class="img-flip"
-                        alt="  "
-                        src="https://iiif.artresearch.net/iiif/3/zeri/40000/12400/12030.jpg/full/!500,500/0/default.jpg"
-                      />
-                      <div class="title">	Morte e verifica delle sti..</div>
-                      <small>Zeri</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </semantic-link-container>
-     <semantic-link-container uri="https://artresearch.net/resource/pharos/artwork/8872b1ae30eaf6d0257b325c2579d1188eeab2dc">
-              <div id="zeri-mar" class="flip-card-feature">
-                <div class="content">
-                  <div class="front">
-                    <div  class="front-back-img-holder" >
-                      <img
-                        class="img-flip"
-                        alt="  "
-                        src="https://iiif.artresearch.net/iiif/3/zeri/160000/127200/127189.jpg/full/!500,500/0/default.jpg"
-                      />
-                      <div class="title">Scena pastorale</div>
-                      <small>Zeri</small>
-                    </div>
-                  </div>
-                  <div class="back">
-                    <div class="front-back-img-holder" >
-                      <img
-                        class="img-flip"
-                        alt="  "
-                        src="https://iiif.artresearch.net/iiif/3/marburg/fmc660037.jpg/full/!400,400/0/default.jpg"
-                      />
-                      <div class="title">Ländlicher Spaziergang / Strandidylle</div>
-                      <small>Marburg</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </semantic-link-container>
-            <semantic-link-container uri="https://artresearch.net/resource/pharos/artwork/5f0b63f851773198521b240d201de73784ae5763">
-              <div id="itatti-zeri-2" class="flip-card-feature">
-                <div class="content">
-                  <div class="front">
-                    <div  class="front-back-img-holder" >
-                      <img
-                        class="img-flip"
-                        alt="  "
-                        src="https://ids.lib.harvard.edu/ids/iiif/25091201/full/!500,500/0/native.jpg"
-                      />
-                      <div class="title">Portrait of a gentleman</div>
-                      <small>I Tatti</small>
-                    </div>
-                  </div>
-                  <div class="back">
-                    <div  class="front-back-img-holder" >
-                      <img
-                        class="img-flip"
-                        alt="  "
-                        src="https://iiif.artresearch.net/iiif/3/zeri/120000/85200/84998.jpg/full/!500,500/0/default.jpg"
-                      />
-                      <div class="title">Ritratto di gentiluomo</div>
-                      <small>Zeri</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </semantic-link-container>
-           <semantic-link-container uri="https://artresearch.net/resource/pharos/artwork/0c27c192081ef96e9a67a8ddc4c610de13d0cef4">
-              <div id="marburg-zeri" class="flip-card-feature">
-                <div class="content">
-                  <div class="front">
-                    <div  class="front-back-img-holder" >
-                      <img
-                        class="img-flip"
-                        alt="  "
-                        src="https://iiif.artresearch.net/iiif/3/zeri/120000/86400/86254.jpg/full/!500,500/0/default.jpg"
-                      />
-                      <div class="title">Ritratto di Eleonora di Toledo</div>
-                      <small>Zeri</small>
-                    </div>
-                  </div>
-                  <div class="back">
-                    <div class="front-back-img-holder" >
-                      <img
-                        class="img-flip"
-                        alt="  "
-                        src="https://iiif.itatti.harvard.edu/iiif/2/fotoindex!064_recto_d!064-recto_box02_d!064-recto_box02_d_00121.jpg/full/!650,650/0/default.jpg"
-                      />
-                      <div class="title">Eleonora di Toledo</div>
-                      <small>I Tatti</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </semantic-link-container>
-            <semantic-link-container uri="https://artresearch.net/resource/pharos/artwork/07ce3e0d2bdabb4537f313c800cc69303aa11600">
-              <div id="hertziana-itatti-2" class="flip-card-feature">
-                <div class="content">
-                  <div class="front">
-                    <div class="front-back-img-holder" >
-                      <img
-                        class="img-flip"
-                        alt="  "
-                        src="https://ids.lib.harvard.edu/ids/iiif/406557781/full/!500,500/0/native.jpg"
-                      />
-                      <div class="title">The Virgin appearing to the patrician John and his wife</div>
-                      <small>I Tatti</small>
-                    </div>
-                  </div>
-                  <div class="back">
-                    <div class="front-back-img-holder" >
-                      <img
-                        class="img-flip"
-                        alt="  "
-                        src="https://iiif.artresearch.net/iiif/3/zeri/80000/45600/45340.jpg/full/!500,500/0/default.jpg"
-                      />
-                      <div class="title">Apparizione della Madonna in sogno al patrizio Giovanni </div>
-                      <small>Zeri</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </semantic-link-container>
-
-          	<!-- empty card -->
-          	<a target="vision_new_tab" href="#">
-
-            </a>
-        </div>
-      </semantic-context>
-    </div>
+  <section class="home-section">
+    <section class="row" id="browse-collections">
+      <h2 class="section-title col-md-6">
+        <span class="wrap-line black-text thin-text">Browse across</span>
+        <span class="white-text bold-text">collections</span>
+      </h2>
+      <p class="col-md-5">artresearch.net tools allow for research
+        across PHAROS partners' collections for artworks, artists,
+        photographs, photographers, studios, and repositories.</p>
+      <section class="collections-cards col-md-12">
+          <section class="collection-card col-md-2">
+            <semantic-link iri="https://artresearch.net/resource/search">
+              <h3>Artworks <img src="/assets/images/arrow_cream_black.svg" alt="arrow"></h3>
+              <p class="white-text">1.5 Million</p>
+              <img src="/assets/images/browse_artworks.png" alt="arnolfini">
+            </semantic-link>
+          </section>
+        <section class="collection-card col-md-2">
+          <semantic-link iri="https://artresearch.net/resource/search" urlqueryparam-domain="artist">
+            <h3>Artists <img src="/assets/images/arrow_cream_black.svg" alt="arrow"></h3>
+            <p class="white-text">25000</p>
+            <img src="/assets/images/browse_artists.png" alt="michelangelo">
+          </semantic-link>
+        </section>
+        <section class="collection-card col-md-2">
+          <semantic-link iri="https://artresearch.net/resource/search" urlqueryparam-domain="photographer">
+            <h3>Photographers <img src="/assets/images/arrow_cream_black.svg" alt="arrow"></h3>
+            <p class="white-text">7500</p>
+            <img src="/assets/images/browse_photographers.png" alt="sansoni">
+          </semantic-link>
+        </section>
+        <section class="collection-card col-md-2">
+          <semantic-link iri="https://artresearch.net/resource/search" urlqueryparam-domain="photograph">
+            <h3>Photographs <img src="/assets/images/arrow_cream_black.svg" alt="arrow"></h3>
+            <p class="white-text">2.8 Million</p>
+            <img src="/assets/images/browse_photographs.png" alt="photo mount">
+          </semantic-link>
+        </section>
+        <section class="collection-card col-md-2">
+          <semantic-link iri="https://artresearch.net/resource/search" urlqueryparam-domain="repository">
+            <h3>Repositories <img src="/assets/images/arrow_cream_black.svg" alt="arrow"></h3>
+            <p class="white-text">8000</p>
+            <img src="/assets/images/browse_repositories.png" alt="british museum">
+          </semantic-link>
+        </section>
+      </section>
+    </section>
   </section>
-    <section class="cool-background">
-    <div class="section-title">View, Analyze and Compare Images</div>
-    <!-- <div class="section-subtitle">Using a <img src="/assets/images/logos/iiif.png"> viewer you can view, analyze, compare & annotate images </div>-->
-    <div class="section-body">
+  <section class="home-section">
+    <section class="row justify-content-md-center" id="explore-possibilities">
+      <h2 class="section-title col-md-12">
+        <span class="wrap-line black-text thin-text">Start by exploring</span>
+        <span class="black-text bold-text">possibilities</span>
+      </h2>
+      <p class="col-md-12 underline">
+        <span class="wrap-line">See a few examples of the types of in-depth
+        searches</span>
+        <span>you can perform on artresearch.net</span>
+      </p>
+      <section class="explore-cards col-md-12">
+        <section class="col-md-1">
+
+        </section>
+          <section class="col-md-2 col-sm-10 explore-card">
+            <semantic-link iri="http://www.wikidata.org/entity/Q104845454">
+              <img class="col-md-12 col-sm-12" src="/assets/images/explore_cooper.png" alt="">
+              <p class="col-md-12 col-sm-12">A. C. Cooper <img src="/assets/images/arrow.png" alt="arrow"></p>
+              <p class="col-md-12 col-sm-12">photographers</p>
+            </semantic-link>
+          </section>
+[[!--
+          <section class="col-md-2 col-sm-10 explore-card">
+            <semantic-link iri="http://www.wikidata.org/entity/Q104845454">
+              <img class="col-md-12 col-sm-12" src="/assets/images/media/datedphotographs.jpg" alt="">
+              <p class="col-md-12 col-sm-12">1839-1900 AD <img src="/assets/images/arrow.png" alt="arrow"></p>
+              <p class="col-md-12 col-sm-12">photographs</p>
+            </semantic-link>
+          </section>
+--]]
+          <section class="col-md-2 col-sm-10 explore-card">
+            <semantic-link iri="https://artresearch.net/resource/builtworks-middle-east">
+              <img class="col-md-12 col-sm-12" src="/assets/images/explore_builtworks_middleast.png" alt="">
+              <p class="col-md-12 col-sm-12">Built works <img src="/assets/images/arrow.png" alt="arrow"></p>
+              <p class="col-md-12 col-sm-12">in the Middle-East</p>
+            </semantic-link>
+          </section>
+          <section class="col-md-2 col-sm-10 explore-card">
+            <semantic-link iri="https://artresearch.net/resource/self-portraits">
+              <img class="col-md-12 col-sm-12" src="/assets/images/explore_portrait.png" alt="">
+              <p class="col-md-12 col-sm-12">Self portraits <img src="/assets/images/arrow.png" alt="arrow"></p>
+              <p class="col-md-12 col-sm-12">artists</p>
+            </semantic-link>
+          </section>
+          <section class="col-md-2 col-sm-10 explore-card">
+            <semantic-link iri="https://artresearch.net/resource/red-chalk-drawings">
+              <img class="col-md-12 col-sm-12" src="/assets/images/explore_red-chalk.png" alt="">
+              <p class="col-md-12 col-sm-12">Red chalk <img src="/assets/images/arrow.png" alt="arrow"></p>
+              <p class="col-md-12 col-sm-12">drawings</p>
+            </semantic-link>
+          </section>
+        [[!--
+          <section class="col-md-2 col-sm-10 explore-card disabled">
+            <semantic-link iri="https://artresearch.net/resource/DisplayCollectionBronzeSculptures">
+              <img class="col-md-12 col-sm-10" src="/assets/images/explore_sculpture.png" alt="">
+              <p>Bronze sculpture <img src="/assets/images/arrow.png" alt="arrow"></p>
+              <p>from Antiquity to Modernity</p>
+            </semantic-link>
+          </section>
+         --]]
+          <section class="col-md-2 col-sm-10 explore-card">
+            <semantic-link iri="https://artresearch.net/resource/women-artists">
+              <img class="col-md-12 col-sm-12" src="/assets/images/media/kahlo.jpg" alt="">
+              <p class="col-md-12 col-sm-12">Women Artists <img src="/assets/images/arrow.png" alt="arrow"></p>
+              <p class="col-md-12 col-sm-12">across centuries</p>
+            </semantic-link>
+          </section>
+      </section>
+    </section>
+  </section>
+  <section class="home-section">
+    <section class="row" id="create-stories">
+      <section class="col-md-4">
+        <h2 class="section-title">
+          <span class="wrap-line black-text thin-text">Create</span>
+          <span class="black-text bold-text">stories</span>
+        </h2>
+        <p class="">Thanks to ongoing work on
+          record reconciliation across photo
+          archives, you can compare
+          images, bibliographic resources,
+          attributions, and reconstruct the
+          histories of artworks and
+          photographs in one place.</p>
+      </section>
+      <section class="col-md-8">
+        <section class="story col-md-12" id="story-1">
+          <section class="col-md-9 col-sm-12 story-images">
+            <img class="story-image" src="/assets/images/stories1_1.jpg" alt="">
+            <img class="story-image" src="/assets/images/stories1_2.jpg" alt="">
+            <img class="story-image" src="/assets/images/stories1_3.jpg" alt="">
+            <img class="story-image" src="/assets/images/stories1_4.jpg" alt="">
+          </section>
+          <section id="pollaiolo-info" class="col-md-3 story-text popover__wrapper">
+            <p class="bold-text">Compare scholarly images and data from different sources</p>
+            <section class="arrow-link">
+              <div class="search-collections-arrow">
+                <img src="/assets/images/icons/info_green.png" alt="info"/>
+              </div>
+              <div class="search-collections-arrow-hover">
+                <img src="/assets/images/icons/info_hover.png" alt="info"/>
+              </div>
+            </section>
+            <section id="pollaiolo-detail" class="story-detail col-md-12 popover__content">
+              <p>Portrait of a young lady, Pollaiolo (c. 1465)</p>
+              <p>Studying different reproductions of Pollaiolo’s Portrait
+                of a young lady from multiple photo archives allows
+                researchers to compare variations in inscriptions,
+                attributions, provenance, mounts, printing techniques
+                and framing, thus giving a more complete research history
+                of the painting.</p>
+            </section>
+          </section>
+        </section>
+        <section class="story col-md-12" id="story-2">
+          <section class="col-md-7 story-images">
+            <img class="story-image" src="/assets/images/stories2_1.jpg" alt="">
+            <img class="story-image" src="/assets/images/stories2_2.jpg" alt="">
+            <img class="story-image" src="/assets/images/stories2_3.jpeg" alt="">
+          </section>
+          <section id="gossaert-info" class="col-md-3 story-text popover__wrapper">
+            <p class="bold-text">See changes in artworks over time</p>
+            <section class="arrow-link">
+              <div class="search-collections-arrow">
+                <img src="/assets/images/icons/info_green.png" alt="info"/>
+              </div>
+              <div class="search-collections-arrow-hover">
+                <img src="/assets/images/icons/info_hover.png" alt="info"/>
+              </div>
+            </section>
+            <section id="gossaert-detail" class="story-detail col-md-12 popover__content">
+              <p>Holy Family, Jan Gossaert (1478-1532)</p>
+              <p>These photographs, from the 1920s, 30s, 60s,
+                illustrate how paintings physically change over time.
+                In the earliest photograph, a very old and decrepit St
+                Joseph appears in the upper right. The next photograph
+                shows St. Joseph painted out. The third photograph
+                shows St. Joseph restored, but with a more benign
+                appearance.</p>
+            </section>
+          </section>
+        </section>
+        <section class="story col-md-12" id="story-3">
+          <section class="col-md-10 story-images">
+            <img class="story-image" src="/assets/images/stories3_1.jpg" alt="">
+            <img class="story-image" src="/assets/images/stories3_2.jpg" alt="">
+            <img class="story-image" src="/assets/images/stories3_3.jpg" alt="">
+            <img class="story-image" src="/assets/images/stories3_4.jpg" alt="">
+
+          </section>
+
+          <section id="medici-info" class="col-md-2 story-text popover__wrapper">
+            <p class="bold-text">Connect artworks in their original context</p>
+            <section class="arrow-link">
+              <div class="search-collections-arrow">
+                <img src="/assets/images/icons/info_green.png" alt="info"/>
+              </div>
+              <div class="search-collections-arrow-hover">
+                <img src="/assets/images/icons/info_hover.png" alt="info"/>
+              </div>
+            </section>
+            <section id="medici-detail" class="story-detail col-md-12 popover__content">
+              <p>Palazzo Medici Riccardi (c. 1444)</p>
+              <p>Photo archives contain images of all different aspects
+                of large scale works of art, such as the Palazzo Medici
+                Riccardi, Florence (started 1444). Images can include
+                the exteriors and interiors of palaces and churches,
+                as well as entire fresco series and minute details,
+                thus providing  a complete view of the whole. </p>
+            </section>
+
+          </section>
+        </section>
+      </section>
+    </section>
+  </section>
+  <section class="home-section">
+    <section class="row" id="analyze-images">
+      <section class="col-md-12">
+        <h2 class="section-title col-md-5">
+          <span class="black-text thin-text">Analyze </span>
+          <span class="black-text bold-text">images</span>
+        </h2>
+        <p class="col-md-6">Use the IIIF viewer to examine
+          and compare images from multiple sources.</p>
+      </section>
+    </section>
+
+
+    <section class="row">
       <div class="mirador-container">
         <div class="mirador">
         <single-image-iiif-viewer
                         id="candidateAmirador"
                         iiif-manifest-url='https://iiif.artresearch.net/iiif/3/zeri/80000/72400/72337.jpg/info.json'
+                        show-navigation-control='true'
                         >
         </single-image-iiif-viewer>
         </div>
@@ -581,6 +502,7 @@
         <single-image-iiif-viewer
                         id="candidateBmirador"
                         iiif-manifest-url='https://iiif.artresearch.net/iiif/3/marburg/fmc661227.jpg/info.json'
+                        show-navigation-control='true'
         >
         </single-image-iiif-viewer>
         </div>
@@ -588,6 +510,7 @@
         <single-image-iiif-viewer
                         id="candidateCmirador"
                         iiif-manifest-url='https://ids.lib.harvard.edu/ids/iiif/420714604/info.json'
+                        show-navigation-control='true'
         >
         </single-image-iiif-viewer>
         </div>
@@ -595,103 +518,64 @@
         <single-image-iiif-viewer
                         id="candidateDmirador"
                         iiif-manifest-url='https://iiif.itatti.harvard.edu/iiif/2/fotoindex!159_recto_d!159_recto_box04_d!159_recto_box04_d_00113.jpg/info.json'
+                        show-navigation-control='true'
         >
         </single-image-iiif-viewer>
         </div>
       </div>
-    </div>
   </section>
-     <section   title="Contextualized & connected histories">
-    <!--<div class="section-title" id ="Contextualtitle" >Contextualized & connected histories</div>
-    --><div class="section-body">
-      <div class="text-with-image column">
-        <div class="info-circle-container">
-          <div class="info-circle">
-            <div class="info-circle-title">Digitize </div>
-            <div class="info-circle-subtitle"> Photograph Collections</div>
-          </div>
-          <div class="info-circle">
-            <div class="info-circle-title">Explore</div>
-            <div class="info-circle-subtitle">New technologies</div>
-          </div>
-          <div class="info-circle">
-            <div class="info-circle-title">Enrich</div>
-            <div class="info-circle-subtitle">Records with data from multiple sources</div>
-          </div>
-          <div class="info-circle">
-            <div class="info-circle-title">Convert</div>
-            <div class="info-circle-subtitle">Metadata to the CIDOC-CRM ontology</div>
-          </div>
-          <div class="info-circle">
-            <div class="info-circle-title">Connect</div>
-            <div class="info-circle-subtitle">Using linked open data</div>
-          </div>
-        </div>
-        <div class="text">
-          <!--<div>
-            We are committed to creating an open and freely accessible digital research platform allowing for comprehensive consolidated access to photo archive images and their associated scholarly documentation.
-          </div>
-          <div>
-            The PHAROS collections collectively contain an estimated 25 million images documenting works of art and architecture and the history of photography itself. Please visit our statistics page to view the number of records that are currently available online.
-          </div>-->
-        </div>
-      </div>
-    </div>
+  <section class="only-bg">
+
   </section>
-</div>
-</div>
 
-<style>
+  </section>
+  <section class="home-section">
+    <section class="row" id="how-technologies">
+      <section class="col-md-8">
+        <h2 class="section-title col-md-12">
+          <span class="wrap-line black-text thin-text">How we use </span>
+          <span class="wrap-line black-text thin-text">state-of-the-art </span>
+          <span class="black-text bold-text">technologies</span>
+        </h2>
+        <p class="col-md-10">Our digitized photographic collections go on a long
+        journey to reach artresearch.net. We explore state-ofthe-
+        art technologies, like computer vision and linked
+        open data, to enrich records with data from multiple
+        sources, reconcile artworks, people, and places, and
+        share data with the scholarly community in
+        interoperable formats according to the CIDOC-CRM
+        ontology.
+        </p>
+      </section>
+      <section class="col-md-3">
+        <img src="/assets/images/technologies.png" alt="technologies used in artresearch">
+      </section>
+    </section>
+  </section>
 
-.benner-text {
-      box-shadow: 1px 8px 10px #d4d4d4;
-    font-size: 1.5em;
-    width: 60%;
-    margin-top: 4vh;
-    text-align: center;
-    margin-bottom: 4vh;
-  	border-radius: 5px;
-}
-  .text-with-image.banner {
-    font-weight: 500;
-    margin-bottom: 4vh;
-    margin-top: 7vh;
-    font-size: 18px;
-    text-align: center;
-}
+  <section class="home-section">
+    <section class="row" id="contacts-more">
+      <section class="col-md-6">
+          <h2 class="section-title col-md-12">
+            <span class="black-text thin-text">Contact </span>
+            <span class="white-text bold-text">us</span>
+          </h2>
+          <p class="col-md-10">For more information about PHAROS, including
+            joining our consortium, please send an email to:
+            <a href="mailto:info@artresearch.net?subject=feedback">info@artresearch.net</a>.</p>
+      </section>
+      <section class="col-md-6">
+        <h2 class="section-title col-md-12">
+          <span class="black-text thin-text">Learn </span>
+          <span class="white-text bold-text">more</span>
+        </h2>
+        <p class="col-md-10">Read about the <semantic-link iri="https://artresearch.net/resource/About">PHAROS consortium</semantic-link>,
+          meet <semantic-link iri="https://artresearch.net/resource/Partners">partners</semantic-link> and the <semantic-link iri="https://artresearch.net/resource/AdvisoryBoard">advisory board</semantic-link> at artresearch.net.</p>
+      </section>
+    </section>
+  </section>
+  <section class="home-section only-bg">
 
-.benner-text{
-  margin: 0 auto;
-    background-color: #ffffff;
-    display: flex;
-    align-items: center;
-}
-#new-start-page{
-  top: -2vh;
-}
-  .page-holder {
-    overflow: hidden;
-  }
-  .unwanted-grid{
-    display: grid;
-    grid-gap: 40px;
-    grid-template-columns: repeat(2,1fr);
-  }
-
-  @media (max-width:800px) {
-    .benner-text ,
-  .text-with-image.banner {
-    width: 100%;
-    justify-content: center;
-  }
-  }
-  @media (max-width:720px) {
-    .unwanted-grid{
-    grid-template-columns: repeat(1,1fr);
-  }
-  }
-
-  ul {
-list-style: none;
-}
-</style>
+  </section>
+</section>
+[[> Default:footer]]

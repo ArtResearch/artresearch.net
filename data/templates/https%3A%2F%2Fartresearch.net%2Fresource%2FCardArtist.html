@@ -1,0 +1,67 @@
+
+
+<semantic-link-container uri="{{subject.value}}" target="_blank">
+  <div class="actor-card karla-regular">
+    {{log "in the card artist" this}}
+    <resource-info subject="{{subject.value}}" profile="artist-card" template="{{> template}}">
+      <template id="template">
+        {{log "in the artist resource info" this}}
+          <div class="info-container cursor">
+            <div class="field">
+              <div class="field-label">Name</div>
+              <span class="author-name">
+              <div class="field-value">
+                {{data.label}} ({{worksCount.value}})
+              </div>
+              </span>
+            </div>
+
+            {{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/person_life_dates" label="Life Dates"}}
+
+            <div class="field">
+              <div class="field-label">{{data.[https://artresearch.net/resource/field_definition/pharos_model/artist_original_record_catalog].label}}</div>
+              <div class="field-value">
+                <div class="provider-icons">
+                  <span class="provider-icons-text bold-text">PHOTO ARCHIVES</span>
+                  {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/artist_original_record_catalog].values}}
+                    <img class="provider-icon" title="{{label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
+                  {{/each}}
+                </div>
+              </div>
+            </div>
+
+            <!-- <div class="field">
+              <div class="field-label"># of Works</div>
+              <div class="field-value">
+                {{worksCount.value}}
+              </div>
+            </div> -->
+          </div>
+      </template>
+
+      <template id="fieldTemplate">
+        {{#if (lookup data field)}}
+            <div class="field">
+              <div class="field-label">{{label}}</div>
+              <div class="field-value">
+                {{#each (mergeUniqueValues (lookup (lookup data field) 'values'))}}
+                  {{#if [@id]}}
+                      [[!-- <semantic-link iri="{{[@id]}}">{{label}}</semantic-link> --]]
+                    {{label}}
+                    {{#unless @last}} · {{/unless}}
+                  {{else}}
+                    {{#if (eq ../field "https://artresearch.net/resource/field_definition/pharos_model/production_date")}}
+                      {{dateRangeFormat [@value]}}
+                    {{else}}
+                      {{[@value]}}
+                    {{/if}}
+                    {{#unless @last}} · {{/unless}}
+                  {{/if}}
+                {{/each}}
+              </div>
+            </div>
+        {{/if}}
+      </template>
+    </resource-info>
+  </div>
+</semantic-link-container>

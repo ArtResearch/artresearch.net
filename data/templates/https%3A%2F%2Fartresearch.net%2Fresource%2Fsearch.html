@@ -1,0 +1,10 @@
+<div class="page">
+  <mp-event-trigger id="breadcrumbs" type='Component.TemplateUpdate' on='["mounted"]' targets='["top-header-breadcrumbs"]'
+    data='{"breadcrumb": "Search"}'>
+  </mp-event-trigger>
+
+
+  <div class="main-container">
+	  <inline-template template-iri="Default:SearchTemplate" options='{"query":"[[urlParam "query"]]", "domain": "[[urlParam "domain"]]"}'></inline-template>
+  </div>
+</div>

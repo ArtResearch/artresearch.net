@@ -2,10 +2,6 @@
   "subject": "work",
 
   "fields": {
-    "https://artresearch.net/resource/field_definition/pharos_model/title": {
-      "subject": "work"
-    },
-
     "https://artresearch.net/resource/field_definition/pharos_model/type": {
       "subject": "work"
     },
@@ -20,9 +16,39 @@
     "https://artresearch.net/resource/field_definition/pharos_model/current_keeper": {
       "subject": "work"
     },
-
-    "https://artresearch.net/resource/field_definition/pharos_model/work_thumbnail": {
+    "https://artresearch.net/resource/field_definition/pharos_model/part_of_builtwork": {
       "subject": "work"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/location": {
+      "subject": "work"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos": {
+        "subject": "work",
+        "returns": [
+            {
+                "sparql_var": "value",
+                "local_var": "photo"
+            }
+        ],
+        "fields": {
+            "https://artresearch.net/resource/field_definition/pharos_model/photo_provider": {
+                "subject": "photo",
+                "returns": [
+                    {
+                        "sparql_var": "value",
+                        "local_var": "provider"
+                    }
+                ],
+                "fields": {
+                    "https://artresearch.net/resource/field_definition/pharos_model/provider_icon": {
+                        "subject": "provider"
+                    }
+                }
+            },
+            "https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail": {
+                "subject": "photo"
+            }
+        }
     },
     "https://artresearch.net/resource/field_definition/pharos_model/original_record_catalog": {
       "subject": "work",

@@ -1,0 +1,6 @@
+<resource-info subject="[[this]]" profile="deprecated-work" template="{{> template}}">
+  <template id='template'>
+    <mp-event-target-redirect id='redirect-to-resource' action='redirect'></mp-event-target-redirect> 
+    <mp-event-trigger id='dom-refresh' type='RedirectAction.perform' data='{"iri": "{{data.[https://artresearch.net/resource/field_definition/pharos_model/new_work_uri].values.0.[@id]}}"}' targets='["redirect-to-resource"]' on='["mounted"]'></mp-event-trigger>
+  </template>
+</resource-info>⏎

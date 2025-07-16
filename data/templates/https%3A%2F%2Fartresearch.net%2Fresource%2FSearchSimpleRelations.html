@@ -1,47 +1,214 @@
 {
-  "<https://artresearch.net/resource/fr/Work_consists_of_Material>":[{
+  "<https://artresearch.net/resource/fr/Work_has_production_Date>":[{
+    "kind": "date-range", 
+    "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+    "format": "YYYY-MM-DDTHH:mm:ss.SSS[Z]",
+    "queryPattern": "{
+        $subject crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P4_has_time-span ?timeSpan .
+        FILTER EXISTS {
+    		  ?timeSpan crm:P82a_begin_of_the_begin|crm:P82b_end_of_the_end ?date .
+        }
+    
+        OPTIONAL { ?timeSpan crm:P82a_begin_of_the_begin ?begin . }
+        OPTIONAL { ?timeSpan crm:P82b_end_of_the_end ?end . }
+
+        FILTER ((!BOUND(?begin) || ?begin <= ?__dateEndValue__) && (!BOUND(?end) || ?end >= ?__dateBeginValue__))    
+    }"
+  }],
+  "<https://artresearch.net/resource/fr/Work_has_Provider>":[{
               "kind":"resource",
-               "queryPattern": "
-                  ?subject crm:P45_consists_of  ?__value__ .
-               "
+              "queryPattern": "?__value__ crm:P75_possesses/^crm:P104_is_subject_to/^crm:P70i_is_documented_in ?subject ."
+
+    }],
+  "<https://artresearch.net/resource/fr/Work_consists_of_Material>":[{
+              "kind":"hierarchy",
+              "queryPattern": "{
+                ?subject crm:P45_consists_of/crm:P127_has_broader_term* ?__value__ .
+              }",
+              "parentsPattern": "{ ?value crm:P127_has_broader_term ?parent . }",
+              "childrenPattern": "{ ?child crm:P127_has_broader_term ?value . }",
+              "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
   }],
   "<https://artresearch.net/resource/fr/Work_produced_using_technique_Technique>":[{
-              "kind":"resource",
-              "queryPattern": "
-                ?subject crm:P108i_was_produced_by/crm:P33_used_specific_technique ?__value__ .
-              "
+              "kind":"hierarchy",
+              "queryPattern": "{
+                ?subject crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P32_used_general_technique ?techinque .
+                ?techinque crm:P127_has_broader_term* ?__value__ .   
+              }",
+              "parentsPattern": "{ ?value crm:P127_has_broader_term ?parent .}",
+              "childrenPattern": "{ ?child crm:P127_has_broader_term ?value .}",
+              "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
   }],
-  "<https://artresearch.net/resource/fr/Work_created_from_Artist>":[{
+  "<https://artresearch.net/resource/fr/Work_created_by_Artist>":[{
               "kind":"resource",
-              "queryPattern": "
-                ?subject crm:P108i_was_produced_by/crm:P01i_is_domain_of ?pc14 .
-                ?pc14 a crm:PC14_carried_out_by .
-                ?pc14 crm:P02_has_range ?__value__ .
-              "
+              "queryPattern": "{
+                ?subject crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by ?__value__ .
+              }"
   }],
   "<https://artresearch.net/resource/fr/Work_shows_Subject>":[{
-              "kind":"resource",
-              "queryPattern": "
-                ?subject crm:P65_shows_visual_item ?__value__ .
-              "
+              "kind":"hierarchy",
+              "queryPattern": "{
+                {
+                  {
+                    ?subject crm:P65_shows_visual_item/crm:P2_has_type ?s .
+                    ?s crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/subject>  .
+                  }
+                  ?s crm:P130_shows_features_of?/crm:P127_has_broader_term* ?__value__ .
+                }
+              }",
+              "parentsPattern": "{ ?value crm:P127_has_broader_term ?parent . }",
+              "childrenPattern": "{ ?child crm:P127_has_broader_term ?value . }",
+              "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
   }],
   "<https://artresearch.net/resource/fr/Work_from_Place>":[{
               "kind":"resource",
-              "queryPattern": "
-  						  ?subject crm:P55_has_current_location ?__value__ .
-              "
-  }],
+              "queryPattern": "?subject crm:P55_has_current_location/(crm:P89_falls_within*) ?__value__ ."
+  }],      
   "<https://artresearch.net/resource/fr/Work_kept_by_Institution>":[{
-              "kind":"resource",
-              "queryPattern": "
-                ?subject crm:P50_has_current_keeper ?__value__.
-              "
+              "kind":"hierarchy",
+              "queryPattern": "?subject crm:P50_has_current_keeper ?__value__ .",
+              "parentsPattern": "{
+                  ?value crm:PXX ?parent .
+               }",
+               "childrenPattern": "{
+                  ?child crm:PXX ?value .
+               }",
+               "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
+
+  }],          
+  "<https://artresearch.net/resource/fr/Work_has_Type>":[{
+              "kind":"hierarchy",
+              "queryPattern": "{
+                ?subject crm:P2_has_type ?type .
+                ?type crm:P127_has_broader_term* ?__value__ .
+              }",
+              "parentsPattern": "{ ?value crm:P127_has_broader_term ?parent . }",
+              "childrenPattern": "{ ?child crm:P127_has_broader_term ?value . }",
+              "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
   }],
-  "<http://www.cidoc-crm.org/cidoc-crm/P2_has_type>":[{
+  "<https://artresearch.net/resource/fr/Work_has_Image>":[{
+              "kind":"resource",
+              "queryPattern": "{
+                BIND(IF(?__value__ = <http://www.w3.org/2001/XMLSchema#yes>, true, false) AS ?has) .
+                ?subject custom:has_image ?has .
+              }"
+  }],
+    
+  
+  [[!-- Photographs --]]
+  "<https://artresearch.net/resource/fr/Photograph_created_by_Photographer>": [{
+              "kind":"hierarchy",
+              "queryPattern": "{
+                    ?subject crm:P108i_was_produced_by/crm:P14_carried_out_by/crm:P107i_is_current_or_former_member_of? ?__value__ .              }",
+              "parentsPattern": "{ ?value crm:P107i_is_current_or_former_member_of ?parent . }",
+              "childrenPattern": "{ ?child crm:P107i_is_current_or_former_member_of ?value . }",
+              "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
+  }], 
+  "<https://artresearch.net/resource/fr/Photograph_has_License>": [{
+              "kind":"resource",
+              "queryPattern": "{
+                ?subject crm:P104_is_subject_to ?right .
+                ?right crm:P2_has_type ?__value__ .
+              }"
+  }],
+  "<https://artresearch.net/resource/fr/Photograph_has_Provider>":[{
               "kind":"resource",
               "queryPattern": "
-                ?subject crm:P2_has_type ?__value__.
-                FILTER(?__value__ != <http://vocab.getty.edu/aat/300133025>)
+                ?__value__ crm:P75_possesses/^crm:P104_is_subject_to ?catalog .
+                ?subject crm:P70i_is_documented_in ?catalog .
               "
+
+  }],
+  "<https://artresearch.net/resource/fr/Photo_has_Image>":[{
+              "kind":"resource",
+              "queryPattern": "{
+                BIND(IF(?__value__ = <http://www.w3.org/2001/XMLSchema#yes>, true, false) AS ?has) .
+                ?subject custom:has_image ?has .
+              }"
+  }],  
+  [[!-- Artist --]]
+  "<https://artresearch.net/resource/fr/Artist_has_Gender>":[{
+              "kind":"resource",
+              "queryPattern": "
+                {
+                  ?subject crm:P2_has_type ?__value__ .
+                  FILTER(?__value__ in (<https://artresearch.net/resource/pharos/vocab/meta/male>, <https://artresearch.net/resource/pharos/vocab/meta/female>))
+                }
+              " 
+
+    }],
+  "<https://artresearch.net/resource/fr/Artist_has_Life_Dates>":[{
+    "kind": "date-range",
+    "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+    "format": "YYYY-MM-DDTHH:mm:ss.SSS[Z]",
+    "queryPattern": "{  
+        $subject crm:P100i_died_in/crm:P4_has_time-span ?deathTimeSpan .
+        ?deathTimeSpan crm:P82b_end_of_the_end ?end .
+    
+        $subject crm:P98i_was_born/crm:P4_has_time-span ?birthTimeSpan .
+        ?birthTimeSpan crm:P82a_begin_of_the_begin ?begin .
+    
+        FILTER ((?begin <= ?__dateEndValue__) && (?end >= ?__dateBeginValue__))    
+    }"
+  }],
+  
+  [[!-- Repository --]]
+  "<https://artresearch.net/resource/fr/Repository_documented_in_Institution>":[{
+              "kind":"resource",
+              "queryPattern": "
+                { {
+                  ?work crm:P50_has_current_keeper ?subject .
+                  ?work crm:P70i_is_documented_in/crm:P104_is_subject_to  ?ownership. 
+                  ?__value__ crm:P75_possesses ?ownership .
+                } }
+              " 
+
+    }],
+  "<https://artresearch.net/resource/fr/Repository_from_Place>":[{
+              "kind":"resource",
+              "queryPattern": "{?subject crm:P74_has_current_or_former_residence/(crm:P89_falls_within*) ?__value__ .}"
+  }],
+ 
+  [[!-- Photographer --]]
+  "<https://artresearch.net/resource/fr/Photographer_has_Gender>":[{
+              "kind":"resource",
+              "queryPattern": "
+                {
+                  ?subject crm:P2_has_type ?__value__ .
+                  FILTER(?__value__ in (<https://artresearch.net/resource/pharos/vocab/meta/male>, <https://artresearch.net/resource/pharos/vocab/meta/female>))
+                }
+              " 
+
+    }],
+  "<https://artresearch.net/resource/fr/Photographer_has_Life_Dates>":[{
+    "kind": "date-range",
+    "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+    "format": "YYYY-MM-DDTHH:mm:ss.SSS[Z]",
+    "queryPattern": "{  
+        $subject crm:P100i_died_in/crm:P4_has_time-span ?deathTimeSpan .
+        ?deathTimeSpan crm:P82b_end_of_the_end ?end .
+    
+        $subject crm:P98i_was_born/crm:P4_has_time-span ?birthTimeSpan .
+        ?birthTimeSpan crm:P82a_begin_of_the_begin ?begin .
+    
+        FILTER ((?begin <= ?__dateEndValue__) && (?end >= ?__dateBeginValue__))    
+    }"
   }]
+    [[!--
+  "<https://artresearch.net/custom/matched_in_collections>": [{
+    "kind": "literal",
+    "queryPattern": "?subject <https://artresearch.net/custom/matched_in_collections> ?__literal__ ."
+    }],
+  "<https://artresearch.net/custom/number_of_matched_artworks>": [{
+    "kind": "numeric-range",
+    "queryPattern": "{ ?subject <https://artresearch.net/custom/number_of_matched_artworks> ?number . FILTER(?number >= ?__numericRangeBeginValue__ && ?number <= ?__numericRangeEndValue__)}"
+  }],
+  "<https://artresearch.net/custom/is_matched_artworks>": [{
+                  "kind":"resource",
+              "queryPattern": "{
+                BIND(IF(?__value__ = <http://www.w3.org/2001/XMLSchema#yes>, true, false) AS ?has) .
+                ?subject custom:is_matched_artworks ?has .
+              }"
+  }]
+  --]]
 }

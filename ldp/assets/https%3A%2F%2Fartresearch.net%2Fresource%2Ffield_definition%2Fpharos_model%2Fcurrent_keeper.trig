@@ -3,22 +3,22 @@
   <https://artresearch.net/resource/field_definition/pharos_model/current_keeper> a
       <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
       <http://www.w3.org/ns/ldp#Resource>;
-    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-690c0ede6f8848ada0920bd7a9db96c8-wobqtd;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-89633641c64d4b7182f7ffef7aa36eb6-21vxnh;
     <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
-    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-690c0ede6f8848ada0920bd7a9db96c8-pv17tq;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-89633641c64d4b7182f7ffef7aa36eb6-ecld2k;
     <http://www.w3.org/2000/01/rdf-schema#label> "Repository";
     <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
-    <http://www.w3.org/ns/prov#generatedAtTime> "2024-12-16T00:01:23.133Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-07-09T23:42:03.834+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
   
-  _:genid-690c0ede6f8848ada0920bd7a9db96c8-wobqtd a <http://spinrdf.org/sp#Query>;
-    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
-  
-  _:genid-690c0ede6f8848ada0920bd7a9db96c8-pv17tq a <http://spinrdf.org/sp#Query>;
+  _:genid-89633641c64d4b7182f7ffef7aa36eb6-ecld2k a <http://spinrdf.org/sp#Query>;
     <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 
-SELECT ?value WHERE {
-  ?subject crm:P50_has_current_keeper  ?value. 
+SELECT ?value ?provUri WHERE {
+  ?subject crm:P50_has_current_keeper ?value.
 }""" .
+  
+  _:genid-89633641c64d4b7182f7ffef7aa36eb6-21vxnh a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
   
   <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
       <https://artresearch.net/resource/field_definition/pharos_model/current_keeper> .

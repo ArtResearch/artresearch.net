@@ -5,19 +5,25 @@
       <http://www.w3.org/ns/ldp#Resource>;
     <http://www.w3.org/2000/01/rdf-schema#label> "Last Known Location";
     <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
-    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-97909d452dd9414e9afd8a2fb88b4812-de2sg;
-    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-97909d452dd9414e9afd8a2fb88b4812-q7kwe;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-b478946cbccd47a28275e4def5b7077a-pfb6ak;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-b478946cbccd47a28275e4def5b7077a-sg0eqi;
     <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
-    <http://www.w3.org/ns/prov#generatedAtTime> "2024-12-11T21:41:44.615+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-07-16T12:16:40.847+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
   
-  _:genid-97909d452dd9414e9afd8a2fb88b4812-q7kwe a <http://spinrdf.org/sp#Query>;
+  _:genid-b478946cbccd47a28275e4def5b7077a-sg0eqi a <http://spinrdf.org/sp#Query>;
     <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 
 SELECT ?value WHERE {
-  ?subject crm:P55_has_current_location  ?value. 
+  ?subject crm:P46i_forms_part_of* ?parent .
+  ?parent crm:P55_has_current_location ?value. 
+  # architectural objects don't have \"Last Known Location\" they have \"Location\"
+  FILTER NOT EXISTS {
+    ?subject crm:P2_has_type <https://artresearch.net/resource/pharos/vocab/meta/built_work> .
+  }
+  ?value crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/geographical_entity> .
 }""" .
   
-  _:genid-97909d452dd9414e9afd8a2fb88b4812-de2sg a <http://spinrdf.org/sp#Query>;
+  _:genid-b478946cbccd47a28275e4def5b7077a-pfb6ak a <http://spinrdf.org/sp#Query>;
     <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
   
   <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>

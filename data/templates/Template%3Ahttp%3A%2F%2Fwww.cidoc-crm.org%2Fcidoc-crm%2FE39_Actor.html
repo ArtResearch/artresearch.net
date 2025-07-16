@@ -1,102 +1,27 @@
-[[#if (ask "ASK {?? <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> cfc:institution }") ]] 
-    [[> Templatecustomfc:institution]]
-[[else if  (ask "ASK {?? <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> fc:institution }")]]
-    [[> Templatefc:institution]]
-[[else if (ask "ASK {?? <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> cfc:photographer }")]]
-    [[> Templatecustomfc:photographer]]
-[[else if (ask "ASK {?? <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> fc:Photographer }")]]
-    [[> Templatefc:photographer]]
-[[else if (ask "ASK {?? <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> fc:photographer }")]]
-    [[> Templatefc:photographer]]
-[[else if (ask "ASK {?? <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> cfc:artist }")]]
-    [[> Templatecidoc:E21_Person]]
-[[else if (ask "ASK {?? <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> fc:artist }")]]
-    [[> Templatefc:artist ]]
-[[else if (ask "ASK {?? <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> crm:E21_Person }") ]]
-    [[> Templatecidoc:E21_Person]]
-[[else if (ask "ASK {?? <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> crm:E55_Type }") ]]
-    [[> Templatecidoc:E55_Type]]
-[[else if]]
+<div class="page">    
 
-  [[> Breadcrumb category="Actors"]]
-  <div class="page rs-page">
-    <!-- [[#> ClipboardSidebar]] -->
-      <div class="page__header-navtabs">
-        [[> Header ]]
-      </div>
-          [[#if (urlParam "tab")]]
-          <bs-tab-container id="tab-container" class="page__body-navtabs--borderless" default-active-key="[[urlParam 'tab']]">
-          [[else]]
-            <bs-tab-container id="tab-container" class="page__body-navtabs--borderless" default-active-key="summary">
-          [[/if]]
-          <div>
-            <bs-nav bs-style="tabs">
-              <bs-nav-item event-key="summary"><div style="font-size:16px;">Summary</div></bs-nav-item>
-              [[#if (ask "ASK {?work fr:Photo_created_by_Photographer ?? }") ]] 
-                <bs-nav-item event-key="photographs">
-                  <div style="  font-size:16px;display:flex;">Artworks
-                   <div style="font-weight: 700; display:flex; "> (
-                      <semantic-query 
-                        query='
-                        SELECT (COUNT(DISTINCT ?artwork) AS ?count) WHERE{
-                          ?artwork a cfc:photo.
-                          ?artwork  fr:Photo_created_by_Photographer  ?? .
-                        }'>
-                      </semantic-query>)</div>
-                  </div>
-                </bs-nav-item>
-              [[/if]]
-            </bs-nav>
-            <bs-tab-content unmount-on-exit=true>
-              <bs-tab-pane event-key="summary">
-                [[> InfoArtist]]
-              </bs-tab-pane>
-              <bs-tab-pane event-key="photographs">
-                [[> TabSearchPhotograph]]
-              </bs-tab-pane>
-            </bs-tab-content>
-          </div>
-        </bs-tab-container>
-  <!-- [[/:ClipboardSidebar]] -->
-  </div>
-[[/if]]
-<style>
+  <resource-info subject="[[this]]" profile="repository-card" template="{{> template}}">      
+    <template id="template">
+      <mp-event-trigger id="breadcrumbs" 
+                        type='Component.TemplateUpdate' on='["mounted"]' targets='["top-header-breadcrumbs"]'
+                        data='{"breadcrumb": "Actor: {{escapeForJson data.label}}"}'>
+      </mp-event-trigger>
+    </template>
+  </resource-info>
 
-button.close {
-  opacity: 1;
-  font-size: 55px !important;
-}
- .modal-content {
-  border: none !important;
-  box-shadow: none !important;
-}
-.modal-content {
-  background-color: #f5f5f5 !important;
-}
-
-.component-page-toolbar {
-    display: none !important;
-  }
   
-  .miradorViewerPopup .grid-demo{
-    height: 92vh;
-}
-  .miradorViewerPopup .modal-dialog{
-      width: 85%;
-  }
-  .miradorViewerPopup .modal-title{
-      text-align: center;
-  }
-  .mirador-main-menu-bar{
-    display: none !important;
-    }
 
-.navbar-default {
-    box-shadow: none !important
-}
+  <div class="main-container">
+    <semantic-if query="ASK { <[[this]]> ^custom:sameAs?/crm:P2_has_type <https://artresearch.net/resource/pharos/vocab/meta/photographer> }"  then='{{> then}}' else='{{> else}}'>
+     <template id='then'>
+       <inline-template template-iri="Default:SearchTemplate" options='{"searchRestrictions":"?subject crm:P108i_was_produced_by/crm:P14_carried_out_by <[[this]]> .", "domain": "photograph", "lock": "true"}'></inline-template>
+ 
+     </template>
+     <template id='else'>
+       <inline-template template-iri="Default:SearchTemplate" options='{"searchRestrictions":"{ ?subject crm:P50_has_current_keeper <[[this]]> . } UNION { ?subject crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by <[[this]]> . }", "domain": "work", "lock": "true"}'></inline-template>
 
-    .mirador-viewer{
-        top: 0px !important;
-    }
+     </template>
 
-</style>
+    </semantic-if>
+  </div>
+</div>

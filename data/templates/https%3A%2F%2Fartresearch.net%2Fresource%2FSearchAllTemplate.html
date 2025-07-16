@@ -1,12 +1,9 @@
-<ol class="page-breadcrumb">
-  <li>
-    <mp-link title="Home" url="/">Home</mp-link>
-  </li>
-  <li class="active">{{pageTitle}}</li>
-</ol>
+<mp-event-trigger id="breadcrumbs" type='Component.TemplateUpdate' on='["mounted"]' targets='["top-header-breadcrumbs"]'
+  data='{"breadcrumb": "{{pageTitle}}"}'>
+</mp-event-trigger>
 
 <div class="page">    
   <div class="main-container">
-    <inline-template template-iri="Default:SearchTemplate" options='{"pageTitle":"{{pageTitle}}", "searchRestrictions": "{{searchRestrictions}}", "keyword": "{{keyword}}"}'></inline-template>
+    <inline-template template-iri="Default:SearchTemplate" options='{"pageTitle":"{{pageTitle}}", "searchRestrictions": "{{searchRestrictions}}", "keyword": "{{keyword}}", "lock": "{{lock}}"}'></inline-template>
   </div>
 </div>

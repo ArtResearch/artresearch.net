@@ -1,109 +1,17 @@
-[[> Breadcrumb category="Places"]]
+<div class="page">    
 
-<div class="page rs-page">
-  <!-- [[#> ClipboardSidebar]] -->
-    <div class="page__header-navtabs">
-      [[> Header ]]
-    </div>
-      [[#if (urlParam "tab")]]
-        <bs-tab-container id="tab-container" class="page__body-navtabs--borderless" default-active-key="[[urlParam 'tab']]">
-      [[else]]
-        <bs-tab-container id="tab-container" class="page__body-navtabs--borderless" default-active-key="summary">
-      [[/if]]
-      <div>
-        <bs-nav bs-style="tabs">
-          <bs-nav-item event-key="summary">Summary</bs-nav-item>
-          <bs-nav-item event-key="artworks">
-            <div style="display:flex;">Artworks
-            (
-              <semantic-query 
-                  query='
-                  SELECT (COUNT(DISTINCT ?artwork) AS ?count) WHERE{
-                    {
-                    ?? fr:Place_of_Work ?artwork.
-                    ?artwork a fc:work
-                  }UNION{
-                    ?artwork a fc:work.
-                    ?work owl:sameAs ?artwork.
-                    ?work crm:P55_has_current_location ?? }}'>
-              </semantic-query>)
-            </div>
-          </bs-nav-item>
-        </bs-nav>
-        <bs-tab-content unmount-on-exit=true>
-          <bs-tab-pane event-key="summary">
-              <div class="row-center">
-                <h1>Number of artworks related to this place:</h1>
-                <h1 style="margin-left:10px">
-                    <semantic-query 
-                        query='
-                      SELECT (COUNT(DISTINCT ?artwork) AS ?count) WHERE{
-                        {
-                          ?? fr:Place_of_Work ?artwork.
-                          ?artwork a fc:work
-                        }UNION{
-                          ?artwork a fc:work.
-                          ?work owl:sameAs ?artwork.
-                          ?work crm:P55_has_current_location ??
-                        }
-                      }'>
-                  </semantic-query>
-                </h1>
-              </div>
-              <div class="row-center">
-                <small>
-                  Click on the "Artworks" tab to view all artworks
-                </small>
-              </div>
-              [[> PlaceMap]]
-          </bs-tab-pane>
-          <bs-tab-pane event-key="artworks">
-            [[> TabSearchArtworkPlace type="https://artresearch.net/resource/type/pharos"]]
-          </bs-tab-pane>
-        </bs-tab-content>
-      </div>
-      </bs-tab-container>
-  <!-- [[/:ClipboardSidebar]] -->
-</div>
+  <resource-info subject="[[this]]" profile="repository-card" template="{{> template}}">      
+    <template id="template">
+      <mp-event-trigger id="breadcrumbs" 
+                        type='Component.TemplateUpdate' on='["mounted"]' targets='["top-header-breadcrumbs"]'
+                        data='{"breadcrumb": "Place: {{escapeForJson data.label}}"}'>
+      </mp-event-trigger>
+    </template>
+  </resource-info>
 
-<style>
-
-button.close {
-  opacity: 1;
-  font-size: 55px !important;
-}
- .modal-content {
-  border: none !important;
-  box-shadow: none !important;
-}
-.modal-content {
-  background-color: #f5f5f5 !important;
-}
-
-
-.component-page-toolbar {
-    display: none !important;
-  }
   
-  .miradorViewerPopup .grid-demo{
-    height: 92vh;
-}
-  .miradorViewerPopup .modal-dialog{
-      width: 85%;
-  }
-  .miradorViewerPopup .modal-title{
-      text-align: center;
-  }
-  .mirador-main-menu-bar{
-    display: none !important;
-    }
 
-.navbar-default {
-    box-shadow: none !important
-}
-
-    .mirador-viewer{
-        top: 0px !important;
-    }
-
-</style>
+  <div class="main-container">
+    <inline-template template-iri="Default:SearchTemplate" options='{"searchRestrictions":"?subject crm:P55_has_current_location <[[this]]> .", "domain": "work", "lock": "true"}'></inline-template>
+  </div>
+</div>
