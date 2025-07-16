@@ -8,23 +8,32 @@
         <div class="navbar-toggle collapsed" data-toggle="collapse" data-target="#rs-navbar"
              aria-expanded="false" aria-controls="rs-navbar" aria-label="Toggle navigation">
 
-          <semantic-link iri="https://artresearch.net/resource/start" class="rs-header-logo">
-            <img src="/assets/images/logos/logo_ar_black.png">
-          </semantic-link>
+          <semantic-link-container uri="https://artresearch.net/resource/start" class="rs-header-logo">
+            <div class="rs-header-logo">
+              <div class="logo-container">
+                <img src="/assets/images/logos/logo_ar_black.png">
+              </div>
+            </div>
+          </semantic-link-container>
+          <ul class="nav navbar-nav navbar-left"></ul>
+          <mp-event-target-template-render id='top-header-breadcrumbs' template='\{{> Default:headerBreadcrumb}}'>
+          </mp-event-target-template-render>
 
       {{> navbarRight }}
       </div>
 
-      <semantic-link iri="https://artresearch.net/resource/start" class="rs-header-logo">
-        <div class="logo-container">
-            <img src="/assets/images/logos/logo_ar_black.png" alt="Pharos Logo" class="logo">
-            <div class="logo-text karla-bold">
-            <span>art</span>
-            <span>research</span>
-            <span>.net</span>
-            </div>
+      <semantic-link-container uri="https://artresearch.net/resource/start" class="rs-header-logo">
+        <div class="rs-header-logo">
+          <div class="logo-container">
+              <img src="/assets/images/logos/logo_ar_black.png" alt="Pharos Logo" class="logo">
+              <div class="logo-text karla-bold">
+              <span>art</span>
+              <span>research</span>
+              <span>.net</span>
+              </div>
+          </div>
         </div>
-      </semantic-link>
+      </semantic-link-container>
 
 
     </div>
@@ -174,7 +183,7 @@
 
 
     <li>
-        <bs-dropdown class="rewrite-dropdown" id="about-dropdown" style="margin-left: 5px;">
+        <bs-dropdown class="rewrite-dropdown"  role="menu" id="about-dropdown" style="margin-left: 5px;">
                 <bs-dropdown-toggle>
                     <div class="navDropdown-iconAndLabel">
                         <img class="hamburger-icon" src="/assets/images/hamburger.png" alt="hamburger icon">
