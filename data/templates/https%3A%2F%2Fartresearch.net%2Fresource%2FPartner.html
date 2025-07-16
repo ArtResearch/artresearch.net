@@ -13,18 +13,18 @@
             <bs-nav-item event-key="summary">Summary</bs-nav-item>
             {{#if dataAvailable}}
               <bs-nav-item event-key="artworks">
-                  <div style="display:flex;">Artworks (
+                  <div style="display:flex;">Artworks<span class="work-count"> (
                     <semantic-query
                       query='SELECT (COUNT(DISTINCT ?work) AS ?count) WHERE {
                         ?work crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
                         ?work crm:P70i_is_documented_in <{{providerIri}}> .
                       }'>
                     </semantic-query>
-                    )
+                    )</span>
                   </div>
               </bs-nav-item>
               <bs-nav-item event-key="photographs">
-                <div style="display:flex;">Photographs (
+                <div style="display:flex;">Photographs<span class="work-count"> (
                       <semantic-query
                         query='
                           SELECT (COUNT(DISTINCT ?photo) AS ?count) WHERE {
@@ -33,7 +33,7 @@
                           }
                         '>
                       </semantic-query>
-                    )
+                  )</span>
                 </div>
               </bs-nav-item>
             {{/if}}
