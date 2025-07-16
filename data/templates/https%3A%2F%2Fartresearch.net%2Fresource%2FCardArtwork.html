@@ -37,7 +37,31 @@
                   <div class="field-value">
                     {{data.label}}
                   </div>
-                </div>              
+               </div>
+              
+              {{#if provider}}
+                {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos]}}
+                  {{#with (getPreferredPhoto data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values provider)}}
+                  <div class="field">
+                    <div class="field-label">Photo Title</div>
+                    <div class="field-value">
+                      {{[https://artresearch.net/resource/field_definition/pharos_model/photo_title].values.0.[@value]}}
+                    </div>
+                  </div>
+                  {{/with}}
+                {{/if}}
+                {{else if data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values.[0]}}
+                  {{#with data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values.[0]}}
+                    <div class="field">
+                      <div class="field-label">Photo Title</div>
+                      <div class="field-value">
+                        {{[https://artresearch.net/resource/field_definition/pharos_model/photo_title].values.0.[@value]}}
+                      </div>
+                    </div>
+                  {{/with}}
+                {{/if}}
+
+              
             </span>
             {{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/production_date" label="Date"}}
             {{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/current_keeper" label="Repository"}}
