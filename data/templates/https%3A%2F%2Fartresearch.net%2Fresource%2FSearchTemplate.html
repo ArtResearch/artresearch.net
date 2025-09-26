@@ -170,27 +170,31 @@
                 }
               '
               text-with-ai-query-0='
+                PREFIX emb: <https://artresearch.net/embeddings/>
                 SELECT DISTINCT ?subject WHERE {
                   {
-                    SELECT DISTINCT ?subject (SUM(?maxScore) AS ?score) WHERE {
+                    SELECT DISTINCT ?subject (SUM(?maxScore) AS ?score) (SAMPLE(?photo) AS ?maxPhoto) (GROUP_CONCAT(?matchedModel ; separator=",") AS ?matchType) WHERE {
                       {
-                        SELECT ?subject ((?__aiAssist__ / 100) * ((MAX(?similarity) / SAMPLE(?aiSimilarityMaxScore))) AS ?maxScore) (SAMPLE(?photo) AS ?maxPhoto) {
-                          SERVICE <http://idios-sparql.private/sparql> {
-                            ?photo <https://artresearch.net/vision/service> "idios" .
-                            ?photo <https://artresearch.net/vision/request_type> "text" .
-                            ?photo <https://artresearch.net/vision/data> ?__token__ .
-                            ?photo <https://artresearch.net/vision/limit> 15000 .
-                            ?photo <https://artresearch.net/vision/similarity> ?similarity .
-                            ?photo <https://artresearch.net/vision/maxSimilarity> ?aiSimilarityMaxScore .
-                            ?photo <https://artresearch.net/vision/work> ?work .
+                        SELECT ?subject ((0.5 * ?similarity) as ?maxScore) ?matchedModel ?photo {
+                          SERVICE <http://usearch-search.private:8545/sparql> {
+                            SELECT * {
+                              SERVICE emb:search {
+                                ?uri emb:data ?__token__ .
+                                ?uri emb:request_type "text" .
+                                FILTER(?__embeddingPattern__)
+                                ?uri emb:sensitivity ?__searchSensitivity__ .
+                                ?uri emb:score ?similarity .
+                                ?uri emb:matchedModel ?matchedModel . 
+                              }
+                            } LIMIT 1000
                           }
-                          BIND(?work as ?subject) .
+                          BIND(?uri as ?subject) .
+                          BIND(COALESCE(?clip_vit_large_patch14_336_maxScoreUri, ?siglip2_so400m_patch16_naflex_maxScoreUri) AS ?photo) .
                           {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
                         }
-                        GROUP BY ?subject
-                        HAVING (?maxScore > 0)
                       } UNION {
-                        SELECT ?subject ((((100 - ?__aiAssist__) / 100) * ((?__textScoreSumPattern__) / SAMPLE(?textMaxScore))) as ?maxScore) WHERE {
+                        {
+                        SELECT ?subject ((0.5 * ((?__textScoreSumPattern__) / SAMPLE(?textMaxScore))) as ?maxScore) WHERE {
                           ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
                           {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
                           FILTER(?__textPattern__) .
@@ -208,6 +212,8 @@
                         }
                         GROUP BY ?subject
                         HAVING (?maxScore > 0)
+                        }
+                        BIND("text_index" AS ?matchedModel) .
                       }
                     }
                     GROUP BY ?subject
@@ -216,28 +222,27 @@
               '
                                              
               text-ai-query-0='
-                # in this query for selecting maxPhoto we rely on the fact that when we order by score and do sample
-                # qlever selects as sample the first result which exactly what we need because it has max score
+                PREFIX emb: <https://artresearch.net/embeddings/>
                 SELECT DISTINCT ?subject WHERE {
                   {
-                    SELECT ?subject ((MAX(?similarity) / SAMPLE(?aiSimilarityMaxScore)) AS ?score) (SAMPLE(?photo) AS ?maxPhoto) {
-                      {
-                        SELECT ?subject ?similarity ?aiSimilarityMaxScore ?photo {
-                          SERVICE <http://idios-sparql.private/sparql> {
-                            ?photo <https://artresearch.net/vision/service> "idios" .
-                            ?photo <https://artresearch.net/vision/request_type> "text" .
-                            ?photo <https://artresearch.net/vision/data> ?__token__ .
-                            ?photo <https://artresearch.net/vision/limit> 15000 .
-                            ?photo <https://artresearch.net/vision/similarity> ?similarity .
-                            ?photo <https://artresearch.net/vision/maxSimilarity> ?aiSimilarityMaxScore .
-                            ?photo <https://artresearch.net/vision/work> ?work .
+                        SELECT ?subject (?similarity as ?score) ?photo ?matchedModel {
+                          SERVICE <http://usearch-search.private:8545/sparql> {
+                            SELECT * {
+                              SERVICE emb:search {
+                                ?uri emb:data ?__token__ .
+                                ?uri emb:request_type "text" .
+                                FILTER(?__embeddingPattern__)
+                                ?uri emb:score ?similarity .
+                                ?uri emb:sensitivity ?__searchSensitivity__ .
+                                ?uri emb:matchedModel ?matchedModel .  
+                              }
+                            } LIMIT 1000
                           }
-                          BIND(?work as ?subject) .
+                          BIND(?uri as ?subject)
+                          BIND(COALESCE(?clip_vit_large_patch14_336_maxScoreUri, ?siglip2_so400m_patch16_naflex_maxScoreUri) AS ?photo) .
+
                           {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
-                        } ORDER BY DESC(?similarity)
-                      }
-                    }
-                    GROUP BY ?subject
+                        }
                   }
                 }                               
               '
@@ -659,8 +664,8 @@
                       <semantic-query
                         id="grid-result"
                         prefetch-labels="false"
-                        query='SELECT DISTINCT ?domain ?subject ?maxPhoto WHERE { 
-                        } ORDER BY DESC(?resultScore) DESC(?subject) LIMIT 10000'
+                        query='SELECT DISTINCT ?domain ?subject ?maxPhoto ?matchType WHERE { 
+                        } ORDER BY DESC(?score) DESC(?subject) LIMIT 10000'
                         template="{{> subjectCellTemplate}}"
                         no-result-template='[[> CardNoResult ]]'
                       >
@@ -669,7 +674,7 @@
                             <infinite-scroll item-height="250px" batch-size="10" values='{{stringify bindings}}'>
                               <template id='template'>
                                 <div class="result-item karla-regular">
-                                  {{> Default:CardArtwork photo=maxPhoto.value provider=provider}}
+                                  {{> Default:CardArtwork photo=maxPhoto.value provider=provider matchType=matchType}}
                                 </div>
                               </template>
                             </infinite-scroll>

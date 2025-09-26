@@ -87,6 +87,34 @@
                 </div>
               </div>
             </div>
+            
+    
+    
+            <div class="field">
+              <div class="field-value">
+                  {{#each (split matchType.value ',')}}
+                    {{#ifCond this '===' 'text_index'}}
+                      <span class='label label-primary' style='margin-right: 5px'>Exact match (metadata)</span>
+                    {{/ifCond}}
+                    {{#ifCond this '===' 'qwen3_8b'}}
+                      <span class='label label-primary' style='margin-right: 5px'>AI match (metadata)</span>
+                    {{/ifCond}}
+                    {{#ifCond this '===' 'qwen3_0_6b'}}
+                      <span class='label label-primary' style='margin-right: 5px'>AI match (metadata)</span>
+                    {{/ifCond}}
+                    {{#ifCond this '===' 'clip_vit_large_patch14_336'}}
+                      <span class='label label-primary' style='margin-right: 5px'>AI match (visual similarity)</span>
+                    {{/ifCond}}
+                    {{#ifCond this '===' 'siglip2_so400m_patch16_naflex'}}
+                      <span class='label label-primary' style='margin-right: 5px'>AI match (visual similarity)</span>
+                    {{/ifCond}}
+                  {{/each}}
+              </div>
+            </div>
+
+  
+
+  
           </div>
       </template>
 
