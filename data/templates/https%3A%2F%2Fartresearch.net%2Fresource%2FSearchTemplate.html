@@ -93,6 +93,7 @@
           <div class="search-bar">
             <pharos-image-search-with-slider
               initial-input='{{query}}'
+              enable-model-selection='{{enableModelSelection}}'
 
               domains='[
                {
@@ -128,13 +129,6 @@
               tokenize-lucene-query="true"
               escape-lucene-syntax="false"
 
-              min="0"
-              max="100"
-              step=""
-              marks='{
-                        "text": {"0": "metadata only", "50": "mixed", "100": "visual similarity"},
-                        "image": {"0": "close match", "50": "mixed", "100": "distant match"}
-                     }'
               default-slider-value="0"
 
               default-query-0='
@@ -225,7 +219,7 @@
                 PREFIX emb: <https://artresearch.net/embeddings/>
                 SELECT DISTINCT ?subject WHERE {
                   {
-                        SELECT ?subject (?similarity as ?score) ?photo ?matchedModel {
+                        SELECT ?subject (?similarity as ?score) ?photo (?matchedModel AS ?matchType) {
                           SERVICE <http://usearch-search.private:8545/sparql> {
                             SELECT * {
                               SERVICE emb:search {
