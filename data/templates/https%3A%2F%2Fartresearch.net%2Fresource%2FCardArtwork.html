@@ -1,9 +1,8 @@
 
 <semantic-link-container uri="{{subject.value}}" target="_blank">
   <div class="artwork-card karla-regular">
-    <resource-info subject="{{subject.value}}" profile="artwork-card" template="{{> template}}">
+    <resource-info subject="{{subject.value}}" profile="artwork-card" template="{{> template photoUri=subject.value}}">
       <template id="template">
-
             <div class="thumbnail-container">
               {{#if photo}}
                 <resource-info subject="{{photo}}" profile="photograph-thumbnail" template="{{> template}}">

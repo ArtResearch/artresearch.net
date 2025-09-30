@@ -23,7 +23,7 @@
                 "queryPattern": "{
                     ?subject crm:P55_has_current_location ?place .
                     ?place crm:P89_falls_within* ?__value__ .
-                    ?place ^custom:sameAs?/crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/geographical_entity> . 
+                    ?place ^custom:sameAs?/crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/geographical_entity> .
                 }",
                 "parentsPattern": "{
                     ?value crm:P89_falls_within ?parent .
@@ -134,12 +134,12 @@
               default-query-0='
                 SELECT ?subject WHERE {
                   ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
-                  ?subject custom:has_image ?hasImage .       
+                  ?subject custom:has_image ?hasImage .
                   BIND(IF(?hasImage, 2, 1) AS ?resultScore) .
                   {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
                 }
               '
-                                             
+
               text-query-0='
                 SELECT DISTINCT ?subject WHERE {
                   {
@@ -178,7 +178,7 @@
                                 FILTER(?__embeddingPattern__)
                                 ?uri emb:sensitivity ?__searchSensitivity__ .
                                 ?uri emb:score ?similarity .
-                                ?uri emb:matchedModel ?matchedModel . 
+                                ?uri emb:matchedModel ?matchedModel .
                               }
                             } LIMIT 1000
                           }
@@ -212,9 +212,9 @@
                     }
                     GROUP BY ?subject
                   }
-                }                                    
+                }
               '
-                                             
+
               text-ai-query-0='
                 PREFIX emb: <https://artresearch.net/embeddings/>
                 SELECT DISTINCT ?subject WHERE {
@@ -228,7 +228,7 @@
                                 FILTER(?__embeddingPattern__)
                                 ?uri emb:score ?similarity .
                                 ?uri emb:sensitivity ?__searchSensitivity__ .
-                                ?uri emb:matchedModel ?matchedModel .  
+                                ?uri emb:matchedModel ?matchedModel .
                               }
                             } LIMIT 1000
                           }
@@ -238,9 +238,9 @@
                           {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
                         }
                   }
-                }                               
+                }
               '
-                                             
+
               image-query-0='
                 # in this query for selecting maxPhoto we rely on the fact that when we order by score and do sample
                 # qlever selects as sample the first result which exactly what we need because it has max score
@@ -257,16 +257,16 @@
                                   ?photo <https://artresearch.net/pastec/similarity> ?similarity .
                                 }
                                 ?subject crm:P138i_has_representation/crm:P65i_is_shown_by ?photo .
-                        } 
+                        }
                         ORDER BY DESC(?similarity)
                       }
-                    } 
-                    GROUP BY ?subject 
+                    }
+                    GROUP BY ?subject
                   }
                   {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
                 }'
 
-                                             
+
               image-ai-query-0='
                 # in this query for selecting maxPhoto we rely on the fact that when we order by score and do sample
                 # qlever selects as sample the first result which exactly what we need because it has max score
@@ -291,7 +291,7 @@
                     }
                     GROUP BY ?subject
                   }
-                }                                 
+                }
               '
               image-with-ai-query-0='
               SELECT ?subject WHERE {
@@ -315,7 +315,7 @@
                           } ORDER BY DESC(?similarity)
                         }
                       }
-                      GROUP BY ?subject                                     
+                      GROUP BY ?subject
                     } UNION {
                       SELECT DISTINCT ?subject (((((100 - ?__aiAssist__) / 100)  * MAX(?similarity) / SAMPLE(?aiSimilarityMaxScore))) AS ?maxScore) (SAMPLE(?photo) AS ?photoToShow) {
                         {
@@ -329,11 +329,11 @@
                                   }
                                   ?subject crm:P138i_has_representation/crm:P65i_is_shown_by ?photo .
                                   {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
-                          } 
+                          }
                           ORDER BY DESC(?similarity)
                         }
-                      } 
-                      GROUP BY ?subject                
+                      }
+                      GROUP BY ?subject
                     }
                   }
                   GROUP BY ?subject
@@ -343,12 +343,12 @@
           default-query-1='
             SELECT ?subject WHERE {
               ?subject crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph>  .
-              ?subject custom:has_image ?hasImage .       
+              ?subject custom:has_image ?hasImage .
               BIND(IF(?hasImage, 2, 1) AS ?score) .
               {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
             }
           '
-                                             
+
               text-query-1='
                 SELECT DISTINCT ?subject WHERE {
                   {
@@ -400,7 +400,7 @@
 
                           {
                             SELECT ((?__textScoreSumPattern__) AS ?textMaxScore) WHERE {
-                                ?subject crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph> .                                
+                                ?subject crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph> .
                                 {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
                                 FILTER(?__textPattern__) .
                             }
@@ -415,9 +415,9 @@
                     }
                     GROUP BY ?subject
                   }
-                }                                    
+                }
               '
-                                             
+
               text-ai-query-1='
                 # in this query for selecting maxPhoto we rely on the fact that when we order by score and do sample
                 # qlever selects as sample the first result which exactly what we need because it has max score
@@ -437,9 +437,9 @@
                           {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
                         }
                   }
-                }                               
+                }
               '
-                                             
+
               image-query-1='
                 # in this query for selecting maxPhoto we rely on the fact that when we order by score and do sample
                 # qlever selects as sample the first result which exactly what we need because it has max score
@@ -457,11 +457,11 @@
                                BIND(?photo as ?subject) .
                                {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
 
-                        } 
-                      }                  
+                        }
+                      }
                 }'
 
-                                             
+
               image-ai-query-1='
                 # in this query for selecting maxPhoto we rely on the fact that when we order by score and do sample
                 # qlever selects as sample the first result which exactly what we need because it has max score
@@ -481,7 +481,7 @@
                           {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
                         }
                       }
-                    }                                
+                    }
               '
               image-with-ai-query-1='
               SELECT ?subject WHERE {
@@ -515,11 +515,11 @@
                                   {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
                     }
                   }
-                  
+
                 } GROUP BY ?subject
-              }}'                                             
-                                             
-            
+              }}'
+
+
 
           default-query-2='
             SELECT ?subject WHERE {
@@ -528,7 +528,7 @@
               {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
             }
           '
-                                             
+
           text-query-2='
             SELECT DISTINCT ?subject WHERE {
               {
@@ -552,15 +552,15 @@
                   }
                   ?work crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by ?subject .
           }'
-                                             
-                                                                                        
+
+
           default-query-3='
             SELECT ?subject WHERE {
               ?work crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph> .
               ?work crm:P108i_was_produced_by/crm:P14_carried_out_by/crm:P107i_is_current_or_former_member_of? ?subject .
             }
           '
-                                             
+
           text-query-3='
             SELECT DISTINCT ?subject WHERE {
               {
@@ -587,15 +587,15 @@
                 ?work crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph> .
                 ?work crm:P108i_was_produced_by/crm:P14_carried_out_by/crm:P107i_is_current_or_former_member_of? ?subject .
 
-          }'                                             
-                                             
+          }'
+
           default-query-4='
             SELECT ?subject WHERE {
               ?work crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
               ?work crm:P50_has_current_keeper ?subject .
             }
           '
-                                             
+
           text-query-4='
             SELECT DISTINCT ?subject WHERE {
               {
@@ -622,7 +622,7 @@
                   ?work crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
                   ?work crm:P50_has_current_keeper ?subject .
 
-          }'    
+          }'
             >
             </pharos-image-search-with-slider>
 
@@ -658,7 +658,7 @@
                       <semantic-query
                         id="grid-result"
                         prefetch-labels="false"
-                        query='SELECT DISTINCT ?domain ?subject ?maxPhoto ?matchType WHERE { 
+                        query='SELECT DISTINCT ?domain ?subject ?maxPhoto ?matchType WHERE {
                         } ORDER BY DESC(?score) DESC(?subject) LIMIT 10000'
                         template="{{> subjectCellTemplate}}"
                         no-result-template='[[> CardNoResult ]]'
