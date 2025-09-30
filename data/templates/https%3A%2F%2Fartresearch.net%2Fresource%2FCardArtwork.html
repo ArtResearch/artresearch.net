@@ -3,31 +3,33 @@
   <div class="artwork-card karla-regular">
     <resource-info subject="{{subject.value}}" profile="artwork-card" template="{{> template}}">
       <template id="template">
-          <div class="thumbnail-container">
-            {{#if photo}}
-              <resource-info subject="{{photo}}" profile="photograph-thumbnail" template="{{> template}}">
-                <template id="template">
-                  <img class="thumbnail-image" src="https://staging.artresearch.net{{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" alt="Artwork thumbnail" />
-                </template>
-              </resource-info>
-            {{else if provider}}
-              {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos]}}
-                {{#with (getPreferredPhoto data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values provider)}}
-                    <img class="thumbnail-image" src="https://staging.artresearch.net{{[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" alt="Artwork thumbnail" />
-                    <img class="provider-icon thumbnail-provider-icon" title="{{label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
-                {{/with}}
+
+            <div class="thumbnail-container">
+              {{#if photo}}
+                <resource-info subject="{{photo}}" profile="photograph-thumbnail" template="{{> template}}">
+                  <template id="template">
+                    <img class="thumbnail-image" src="https://staging.artresearch.net{{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" alt="Artwork thumbnail" />
+                  </template>
+                </resource-info>
+              {{else if provider}}
+                {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos]}}
+                  {{#with (getPreferredPhoto data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values provider)}}
+                      <img class="thumbnail-image" src="https://staging.artresearch.net{{[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" alt="Artwork thumbnail" />
+                      <img class="provider-icon thumbnail-provider-icon" title="{{label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
+                  {{/with}}
+                {{else}}
+                  <span class="no-image-text">No image</span>
+                {{/if}}
               {{else}}
-                <span class="no-image-text">No image</span>
+                {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos]}}
+                  <img class="thumbnail-image" src="https://staging.artresearch.net{{data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values.0.[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" alt="Artwork thumbnail" />
+                  <img class="provider-icon thumbnail-provider-icon" title="{{label}}" src="{{data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values.0.[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
+                {{else}}
+                  <span class="no-image-text">No image</span>
+                {{/if}}
               {{/if}}
-            {{else}}
-              {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos]}}
-                <img class="thumbnail-image" src="https://staging.artresearch.net{{data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values.0.[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" alt="Artwork thumbnail" />
-                <img class="provider-icon thumbnail-provider-icon" title="{{label}}" src="{{data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values.0.[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
-              {{else}}
-                <span class="no-image-text">No image</span>
-              {{/if}}
-            {{/if}}
-          </div>
+            </div>
+
           <div class="info-container cursor">
             <span class="author-name">{{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/creator" label="Creator"}}
             </span>
@@ -37,7 +39,7 @@
                   <div class="field-value">
                     {{data.label}}
                   </div>
-               </div> 
+               </div>
             </span>
             [[!--
              {{#if provider}}
@@ -57,7 +59,7 @@
                   </div>
                   {{/with}}
                 {{/if}}
-              
+
               {{else}}
               {{log "in else" this}}
                   {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values.0.[https://artresearch.net/resource/field_definition/pharos_model/photo_title].values.0.[@value]}}
@@ -87,9 +89,9 @@
                 </div>
               </div>
             </div>
-            
-    
-    
+
+
+
             <div class="field">
               <div class="field-value">
                   {{#each (split matchType.value ',')}}
@@ -112,9 +114,9 @@
               </div>
             </div>
 
-  
 
-  
+
+
           </div>
       </template>
 
@@ -125,8 +127,8 @@
               <div class="field-value">
                 {{#each (mergeUniqueValues (lookup (lookup data field) 'values'))}}
                   {{#if [@id]}}
-                      [[!-- <semantic-link iri="{{[@id]}}">{{label}}</semantic-link> --]]
-                    {{label}}
+                      {{label}} [[!--<semantic-link iri="{{[@id]}}"><img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt="alt"></semantic-link>--]]
+
                     {{#unless @last}} · {{/unless}}
                   {{else}}
                     {{#if (eq ../field "https://artresearch.net/resource/field_definition/pharos_model/production_date")}}
@@ -137,6 +139,8 @@
                     {{#unless @last}} · {{/unless}}
                   {{/if}}
                 {{/each}}
+
+
               </div>
             </div>
         {{/if}}

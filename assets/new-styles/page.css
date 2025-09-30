@@ -328,6 +328,13 @@ h1 span.thin-text {
   overflow: hidden;
 }
 
+.search-container .field-value {
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+}
+
 /* SEARCH FACETS*/
 
 .facet-column {
@@ -364,7 +371,7 @@ h1 span.thin-text {
 .results-column {
   flex: 1;
   height: 100%;
-  padding: 0 20px 20px 0px;
+  padding: 0 20px 20px 20px;
 }
 
 .results-column .scrolable-area {
@@ -372,11 +379,26 @@ h1 span.thin-text {
     height: 100%;
 }
 
-.FacetBreadcrumbs--conjunct,
-.FacetBreadcrumbs--values,
-.FacetBreadcrumbs--cancelButton {
+
+.FacetBreadcrumbs--values, .FacetBreadcrumbs--values+.FacetBreadcrumbs--cancelButton
+ {
   background-color: #70E7C5;
   border: none !important;
+  flex-wrap: wrap;
+  justify-content: left !important;
+  height: -webkit-fit-content !important;
+  padding: 5px !important;
+}
+
+.FacetBreadcrumbs--cancelButton {
+  border: none !important;
+  flex-wrap: wrap;
+  justify-content: left !important;
+  height: -webkit-fit-content !important;
+  padding: 5px !important;
+}
+.FacetBreadcrumbs--cancelButton>i {
+  font-size: 16px !important;
 }
 
 .FacetBreadcrumbs--clearAllButton {
@@ -386,7 +408,7 @@ h1 span.thin-text {
 /* SEARCH RESULTS */
 .result-item {
   /* font-family: "Calibre", "Arial", sans-serif; */
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 
 .thumbnail-container, .info-container {
@@ -442,6 +464,15 @@ h1 span.thin-text {
  align-self: center;
 }
 
+/* .go-to-record {
+  position: absolute;
+  top: 10px;
+}
+.go-to-record a img {
+  width: 30px;
+  height: auto;
+} */
+
 .info-container {
   flex-grow: 1;
   overflow-y: auto;
@@ -487,6 +518,15 @@ h1 span.thin-text {
   font-size: 1em;
   font-weight: bold;
 }
+
+.field-Date .field-value a, .photo-title a {
+  display: none;
+}
+
+.part_hierarchy span {
+  color: black;
+}
+
 .provider-icons-text {
   font-size: 1.7rem;
 }
@@ -653,6 +693,22 @@ h1 span.thin-text {
     height: 100px;
     object-fit: contain;
     display: block;
+}
+
+.license-photo {
+  position: absolute;
+  top: 0;
+  font-size: 8px;
+}
+
+.license-photo>.field {
+  margin: 7px 30px !important;
+}
+
+.license-photo>.field>.field-value {
+  color: #ffffff;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 2px;
 }
 
 /* .field-group h2 {

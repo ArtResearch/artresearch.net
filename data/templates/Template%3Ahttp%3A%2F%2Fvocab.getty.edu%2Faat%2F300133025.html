@@ -44,7 +44,7 @@
                                       {{/each}}
                                       .
                                     {{/if}}
-                                    
+
                                     {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_identifier]}}
                                       {{#each photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_identifier].values}}
                                         {{label}}
@@ -52,7 +52,7 @@
                                       {{/each}}
                                       .
                                     {{/if}}
-                                    
+
                                     {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photographer]}}
                                       Photo:
                                       {{#each photo.[https://artresearch.net/resource/field_definition/pharos_model/photographer].values}}
@@ -145,7 +145,7 @@
                                       {{/each}}
                                       .
                                     {{/if}}
-                                    
+
                                     {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_identifier]}}
                                       {{#each photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_identifier].values}}
                                         {{label}}
@@ -153,7 +153,7 @@
                                       {{/each}}
                                       .
                                     {{/if}}
-                                    
+
                                     {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photographer]}}
                                       Photo:
                                       {{#each photo.[https://artresearch.net/resource/field_definition/pharos_model/photographer].values}}
@@ -254,7 +254,7 @@
                         {
                            "field": "https://artresearch.net/resource/field_definition/pharos_model/location",
                            "mode": "new"
-                        },                  
+                        },
                         {
                            "field": "https://artresearch.net/resource/field_definition/pharos_model/object_part_of_hierarchy",
                            "mode": "part_hierarchy"
@@ -429,16 +429,16 @@
                                 </div>
                             {{/each}}
                         {{else if (eq mode "part_hierarchy")}}
-                                <div style="height: 200px">
-                                    
+                                <div class="part_hierarchy" style="height: 200px">
+
                                     <semantic-lazy-tree id='scheme-tree' input-placeholder='Select'  type='simple' info-template='{{> template}}' focused='{{data.[@id]}}' config='{"useLabelService": true, "relationPattern": "?item crm:P46i_forms_part_of ?parent", "schemePattern": "{<{{data.[@id]}}> crm:P46i_forms_part_of* ?item} UNION {<{{data.[@id]}}> crm:P46_is_composed_of* ?item}"}'>
                           <template id='template'>
                             <semantic-link iri='{{iri}}'>
                               <img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt="alt">
                             </semantic-link>
                           </template>
-                        </semantic-lazy-tree>  
-                      </div>                      
+                        </semantic-lazy-tree>
+                      </div>
                         {{else if (eq mode "creator")}}
                           {{#each (lookup (lookup data field) 'values')}}
                             {{#if [https://artresearch.net/resource/field_definition/pharos_model/original_value_creator]}}
@@ -617,7 +617,7 @@
                         {{/if}}
                     </div>
                 </div>
-              {{/if}} 
+              {{/if}}
             {{/if}}
         </template>
 
