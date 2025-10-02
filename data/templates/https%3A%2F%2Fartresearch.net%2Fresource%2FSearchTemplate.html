@@ -247,103 +247,80 @@
               '
 
               image-query-0='
-                # in this query for selecting maxPhoto we rely on the fact that when we order by score and do sample
-                # qlever selects as sample the first result which exactly what we need because it has max score
-                SELECT ?subject WHERE {
+                PREFIX emb: <https://artresearch.net/embeddings/>
+                SELECT DISTINCT ?subject WHERE {
                   {
-                    SELECT DISTINCT ?subject (((MAX(?similarity) / SAMPLE(?aiSimilarityMaxScore))) AS ?score) (SAMPLE(?photo) AS ?maxPhoto) {
-                      {
-                        SELECT ?subject ?photo ?similarity ?aiSimilarityMaxScore {
-                                SERVICE <http://idios-sparql.private/sparql> {
-                                  ?photo <https://artresearch.net/vision/service> "pastec" .
-                                  ?photo <https://artresearch.net/vision/request_type> ?__dataType__ .
-                                  ?photo <https://artresearch.net/vision/data> ?__data__ .
-                                  ?photo <https://artresearch.net/vision/maxSimilarity> ?aiSimilarityMaxScore .
-                                  ?photo <https://artresearch.net/pastec/similarity> ?similarity .
-                                }
-                                ?subject crm:P138i_has_representation/crm:P65i_is_shown_by ?photo .
+                        SELECT ?subject (?similarity as ?score) ?photo (?matchedModel AS ?matchType) {
+                          SERVICE <http://usearch-search.private:8545/sparql> {
+                            SELECT * {
+                              SERVICE emb:search {
+                                ?uri emb:data ?__data__ .
+                                ?uri emb:request_type ?__dataType__ .
+                                FILTER(?__embeddingPattern__)
+                                ?uri emb:score ?similarity .
+                                ?uri emb:sensitivity "near-exact" .
+                                ?uri emb:matchedModel ?matchedModel .
+                              }
+                            } LIMIT 1000
+                          }
+                          BIND(?uri as ?subject)
+                          BIND(COALESCE(?clip_vit_large_patch14_336_sift_rerank_maxScoreUri, ?siglip2_so400m_patch16_naflex_sift_rerank_maxScoreUri, ?clip_vit_large_patch14_336_maxScoreUri, ?siglip2_so400m_patch16_naflex_maxScoreUri) AS ?photo) .
+
+                          {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
                         }
-                        ORDER BY DESC(?similarity)
-                      }
-                    }
-                    GROUP BY ?subject
                   }
-                  {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
                 }'
 
 
               image-ai-query-0='
-                # in this query for selecting maxPhoto we rely on the fact that when we order by score and do sample
-                # qlever selects as sample the first result which exactly what we need because it has max score
+                PREFIX emb: <https://artresearch.net/embeddings/>
                 SELECT DISTINCT ?subject WHERE {
                   {
-                    SELECT ?subject ((MAX(?similarity) / SAMPLE(?aiSimilarityMaxScore)) AS ?score) (SAMPLE(?photo) AS ?maxPhoto) {
-                      {
-                        SELECT ?subject ?similarity ?aiSimilarityMaxScore ?photo {
-                          SERVICE <http://idios-sparql.private/sparql> {
-                            ?photo <https://artresearch.net/vision/service> "idios" .
-                            ?photo <https://artresearch.net/vision/request_type> ?__dataType__ .
-                            ?photo <https://artresearch.net/vision/data> ?__data__ .
-                            ?photo <https://artresearch.net/vision/limit> 15000 .
-                            ?photo <https://artresearch.net/vision/similarity> ?similarity .
-                            ?photo <https://artresearch.net/vision/maxSimilarity> ?aiSimilarityMaxScore .
-                            ?photo <https://artresearch.net/vision/work> ?work .
+                        SELECT ?subject (?similarity as ?score) ?photo (?matchedModel AS ?matchType) {
+                          SERVICE <http://usearch-search.private:8545/sparql> {
+                            SELECT * {
+                              SERVICE emb:search {
+                                ?uri emb:data ?__data__ .
+                                ?uri emb:request_type ?__dataType__ .
+                                FILTER(?__embeddingPattern__)
+                                ?uri emb:score ?similarity .
+                                ?uri emb:sensitivity ?__searchSensitivity__ .
+                                ?uri emb:matchedModel ?matchedModel .
+                              }
+                            } LIMIT 1000
                           }
-                          BIND(?work as ?subject) .
+                          BIND(?uri as ?subject)
+                          BIND(COALESCE(?clip_vit_large_patch14_336_sift_rerank_maxScoreUri, ?siglip2_so400m_patch16_naflex_sift_rerank_maxScoreUri, ?clip_vit_large_patch14_336_maxScoreUri, ?siglip2_so400m_patch16_naflex_maxScoreUri) AS ?photo) .
+
                           {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
-                        } ORDER BY DESC(?similarity)
-                      }
-                    }
-                    GROUP BY ?subject
+                        }
                   }
                 }
               '
               image-with-ai-query-0='
-              SELECT ?subject WHERE {
-                {
-                  SELECT DISTINCT ?subject (SUM(?maxScore) AS ?score) (SAMPLE(?photoToShow) AS ?maxPhoto) WHERE {
-                    {
-                      SELECT ?subject (((?__aiAssist__ / 100) * MAX(?similarity) / SAMPLE(?aiSimilarityMaxScore)) AS ?maxScore) (SAMPLE(?photo) AS ?photoToShow) {
-                        {
-                          SELECT ?subject ?similarity ?aiSimilarityMaxScore ?photo {
-                            SERVICE <http://idios-sparql.private/sparql> {
-                              ?photo <https://artresearch.net/vision/service> "idios" .
-                              ?photo <https://artresearch.net/vision/request_type> ?__dataType__ .
-                              ?photo <https://artresearch.net/vision/data> ?__data__ .
-                              ?photo <https://artresearch.net/vision/limit> 15000 .
-                              ?photo <https://artresearch.net/vision/similarity> ?similarity .
-                              ?photo <https://artresearch.net/vision/maxSimilarity> ?aiSimilarityMaxScore .
-                              ?photo <https://artresearch.net/vision/work> ?work .
-                            }
-                            BIND(?work as ?subject) .
-                            {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
-                          } ORDER BY DESC(?similarity)
-                        }
-                      }
-                      GROUP BY ?subject
-                    } UNION {
-                      SELECT DISTINCT ?subject (((((100 - ?__aiAssist__) / 100)  * MAX(?similarity) / SAMPLE(?aiSimilarityMaxScore))) AS ?maxScore) (SAMPLE(?photo) AS ?photoToShow) {
-                        {
-                          SELECT ?subject ?photo ?similarity ?aiSimilarityMaxScore {
-                                  SERVICE <http://idios-sparql.private/sparql> {
-                                    ?photo <https://artresearch.net/vision/service> "pastec" .
-                                    ?photo <https://artresearch.net/vision/request_type> ?__dataType__ .
-                                    ?photo <https://artresearch.net/vision/data> ?__data__ .
-                                    ?photo <https://artresearch.net/vision/maxSimilarity> ?aiSimilarityMaxScore .
-                                    ?photo <https://artresearch.net/pastec/similarity> ?similarity .
-                                  }
-                                  ?subject crm:P138i_has_representation/crm:P65i_is_shown_by ?photo .
-                                  {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+              PREFIX emb: <https://artresearch.net/embeddings/>
+                SELECT DISTINCT ?subject WHERE {
+                  {
+                        SELECT ?subject (?similarity as ?score) ?photo (?matchedModel AS ?matchType) {
+                          SERVICE <http://usearch-search.private:8545/sparql> {
+                            SELECT * {
+                              SERVICE emb:search {
+                                ?uri emb:data ?__data__ .
+                                ?uri emb:request_type ?__dataType__ .
+                                FILTER(?__embeddingPattern__)
+                                ?uri emb:score ?similarity .
+                                ?uri emb:sensitivity ?__searchSensitivity__ .
+                                ?uri emb:matchedModel ?matchedModel .
+                              }
+                            } LIMIT 1000
                           }
-                          ORDER BY DESC(?similarity)
+                          BIND(?uri as ?subject)
+                          BIND(COALESCE(?clip_vit_large_patch14_336_sift_rerank_maxScoreUri, ?siglip2_so400m_patch16_naflex_sift_rerank_maxScoreUri, ?clip_vit_large_patch14_336_maxScoreUri, ?siglip2_so400m_patch16_naflex_maxScoreUri) AS ?photo) .
+
+                          {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
                         }
-                      }
-                      GROUP BY ?subject
-                    }
                   }
-                  GROUP BY ?subject
-                }
-              }'
+                }'
 
           default-query-1='
             SELECT ?subject WHERE {
