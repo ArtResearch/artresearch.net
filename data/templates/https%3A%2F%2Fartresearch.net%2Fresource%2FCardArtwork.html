@@ -1,8 +1,8 @@
 
-<semantic-link-container uri="{{subject.value}}" target="_blank">
   <div class="artwork-card karla-regular">
-    <resource-info subject="{{subject.value}}" profile="artwork-card" template="{{> template photoUri=subject.value}}">
+    <resource-info subject="{{subject.value}}" profile="artwork-card" template="{{> template}}">
       <template id="template">
+        <semantic-link-container uri="{{subject}}" target="_blank">
             <div class="thumbnail-container">
               {{#if photo}}
                 <resource-info subject="{{photo}}" profile="photograph-thumbnail" template="{{> template}}">
@@ -28,6 +28,7 @@
                 {{/if}}
               {{/if}}
             </div>
+      </semantic-link-container>
 
           <div class="info-container cursor">
             <span class="author-name">{{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/creator" label="Creator"}}
@@ -132,7 +133,7 @@
               <div class="field-value">
                 {{#each (mergeUniqueValues (lookup (lookup data field) 'values'))}}
                   {{#if [@id]}}
-                      {{label}} [[!--<semantic-link iri="{{[@id]}}"><img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt="alt"></semantic-link>--]]
+                      <semantic-link iri="{{[@id]}}"><img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt="alt">{{label}}</semantic-link>
 
                     {{#unless @last}} · {{/unless}}
                   {{else}}
@@ -152,4 +153,3 @@
       </template>
     </resource-info>
   </div>
-</semantic-link-container>
