@@ -1,4 +1,25 @@
 
+/* SEARCH MENU */
+.menu-search {
+  margin-bottom: 0px !important;
+  margin-right: 2em;
+}
+
+.menu-search .search-input {
+  padding: 5px !important;
+  border-bottom: solid 1.5px black;
+  color: grey !important;
+}
+
+.menu-search .search-button {
+  top: 30% !important;
+
+}
+
+.menu-search .search-button svg {
+  color: black;
+  height: 20px;
+}
 
 .grey {
   color: grey;
@@ -461,12 +482,17 @@ h1 span.thin-text {
   display: flex;
   align-items: flex-start;
   position: relative;
+  transition: opacity .2s, visibility .2s;
 }
 
 .thumbnail-image {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
+}
+
+.thumbnail-image:hover {
+  opacity: 0.3;
 }
 
 .no-image-text {
@@ -499,6 +525,24 @@ h1 span.thin-text {
   display: flex;
 }
 
+.field-Creator {
+  margin-bottom: 5px !important;
+}
+
+.domain-color {
+  color: var(--domain-color);
+}
+
+.domain-color-background {
+  background-color: var(--domain-color);
+
+}
+.view-record {
+  color: white;
+  border-radius: 3px;
+  padding: 0.2em 0.4em;
+}
+
 .field-label {
   /* width: 120px;
   color: #666;
@@ -508,10 +552,21 @@ h1 span.thin-text {
   display: none;
 }
 
+.field-name {
+  font-weight: bold;
+  font-size: 0.9em;
+  margin-bottom: 5px;
+}
+
 .field-value {
   flex: 1;
   color: black;
-  font-size: 1.3em;
+  font-size: 1.2em;
+}
+
+.field-Title {
+  margin-bottom: 20px !important;
+  font-size: 1.1em !important;
 }
 
 .field-value a {
@@ -706,6 +761,19 @@ h1 span.thin-text {
     display: block;
 }
 
+.in-thumbnail {
+  position: absolute;
+  top: 30;
+  left: 30;
+  visibility: hidden;
+  transition: opacity .2s, visibility .2s;
+}
+
+.thumbnail-container:hover .in-thumbnail {
+  visibility: visible;
+  opacity: 1;
+}
+
 .license-photo {
   position: absolute;
   top: 0;
@@ -772,12 +840,20 @@ h1 span.thin-text {
 .arrow-link-record-field {
   height: 0.8em;
   margin-left: 0.5em;
+  margin-bottom: 0.2em;
 }
 
 .field-value-original-group {}
 
 .field-value-qualifiers {
   color: #666;
+}
+
+.ai-result {
+  background-color: none !important;
+  color: var(--domain-color) !important;
+  border-left: solid;
+  font-style: italic;
 }
 
 .qualifier-group {

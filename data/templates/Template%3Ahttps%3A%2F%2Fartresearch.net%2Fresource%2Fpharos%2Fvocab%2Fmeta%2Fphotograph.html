@@ -14,7 +14,43 @@
                               <div class="object-main-image-holder">
                                 <img alt='' class="object-image" src="https://staging.artresearch.net{{imageUrl}}" />
                                 <p>
+                                  {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_archive]}}
+                                    {{photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_archive].values.[0].label}},
+                                  {{/if}}
 
+                                  {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_license]}}
+                                    [{{photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_license].values.[0].label}}],
+                                  {{/if}}
+
+                                  {{#if artwork.label}}
+                                    {{artwork.label}} -
+                                  {{/if}}
+
+                                  {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_title]}}
+                                    {{#each photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_title].values}}
+                                      {{label}}
+                                      {{#unless @last}}, {{/unless}}
+                                    {{/each}}
+                                    .
+                                  {{/if}}
+
+                                  {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_identifier]}}
+                                    {{#each photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_identifier].values}}
+                                      {{label}}
+                                      {{#unless @last}}, {{/unless}}
+                                    {{/each}}
+                                    .
+                                  {{/if}}
+
+                                  {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photographer]}}
+                                    Photo:
+                                    {{#each photo.[https://artresearch.net/resource/field_definition/pharos_model/photographer].values}}
+                                      {{label}}
+                                      {{#unless @last}}, {{/unless}}
+                                    {{/each}}
+
+                                    .
+                                  {{/if}}
                                 </p>
                               </div>
                             </mp-overlay-dialog-trigger>
@@ -57,7 +93,7 @@
                             },
                             {
                               "field": "https://artresearch.net/resource/field_definition/pharos_model/photographer",
-                              "mode": "new"
+                              "mode": "link"
                             },
                             {
                               "field": "https://artresearch.net/resource/field_definition/pharos_model/photo_identifier",
@@ -170,7 +206,7 @@
                                       <img class="provider-icon" title="{{label}}" src="{{icon}}">
                                   {{/each}}
                               </div>
-                                <span class="col-md-10"><semantic-link iri='{{[@id]}}'>{{label}}</semantic-link></span>
+                                <span class="col-md-10"><semantic-link target="_blank" iri='{{[@id]}}'>{{label}} <img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt=""> </semantic-link></span>
 
                             </div>
                         </div>
@@ -185,8 +221,10 @@
                           <div class="field-value-item">
                               <div class="field-value-main">
                                 <div class="col-md-1"></div>
-                                <span class="col-md-10"><a href="javascript:void(0)" class="disabled">{{label}}</a></span>
-                                [[!-- <semantic-link iri="{{[@id]}}">{{label}}</semantic-link> --]]
+                                <span class="col-md-10"><a href="javascript:void(0)" class="disabled">{{label}}</a>
+
+                                </span>
+                                [[!--<semantic-link iri="{{[@id]}}">{{label}} <img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt=""> </semantic-link>--]]
                               </div>
                           </div>
                           <div class="field-value-original-group">
