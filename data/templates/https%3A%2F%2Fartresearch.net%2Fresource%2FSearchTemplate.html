@@ -423,24 +423,27 @@
               '
 
               image-query-1='
-                # in this query for selecting maxPhoto we rely on the fact that when we order by score and do sample
-                # qlever selects as sample the first result which exactly what we need because it has max score
-                SELECT ?subject WHERE {
+                PREFIX emb: <https://artresearch.net/embeddings/>
+                SELECT DISTINCT ?subject WHERE {
                   {
-                    SELECT DISTINCT ?subject ((?similarity / ?aiSimilarityMaxScore) AS ?score) {
+                        SELECT ?subject (?similarity as ?score) (?matchedModel AS ?matchType) {
+                          SERVICE <http://usearch-search.private:8545/sparql> {
+                            SELECT * {
+                              SERVICE emb:search {
+                                ?uri emb:data ?__data__ .
+                                ?uri emb:request_type ?__dataType__ .
+                                FILTER(?__embeddingPattern__)
+                                ?uri emb:score ?similarity .
+                                ?uri emb:sensitivity "near-exact" .
+                                ?uri emb:matchedModel ?matchedModel .
+                              }
+                            } LIMIT 1000
+                          }
+                          BIND(?uri as ?subject)
 
-                                SERVICE <http://idios-sparql.private/sparql> {
-                                  ?photo <https://artresearch.net/vision/service> "pastec" .
-                                  ?photo <https://artresearch.net/vision/request_type> ?__dataType__ .
-                                  ?photo <https://artresearch.net/vision/data> ?__data__ .
-                                  ?photo <https://artresearch.net/vision/maxSimilarity> ?aiSimilarityMaxScore .
-                                  ?photo <https://artresearch.net/pastec/similarity> ?similarity .
-                                }
-                               BIND(?photo as ?subject) .
-                               {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
-
+                          {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
                         }
-                      }
+                  }
                 }'
 
 
