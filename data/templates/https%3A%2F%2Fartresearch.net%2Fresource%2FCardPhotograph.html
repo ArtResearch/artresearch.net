@@ -1,20 +1,25 @@
 
-<semantic-link-container uri="{{subject.value}}" target="_blank">
+
 <div class="artwork-card">
   <resource-info subject="{{subject.value}}" profile="photograph-card" template="{{> template}}">
     <template id="template">
-        <div class="thumbnail-container">
+      <semantic-link-container uri="{{subject}}" target="_blank">
+        <div class="thumbnail-container cursor">
           {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail]}}
             <img class="thumbnail-image" src="https://staging.artresearch.net{{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" alt="Artwork thumbnail" />
             {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values}}
               <img class="provider-icon thumbnail-provider-icon" title="{{label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
             {{/each}}
-            <div class="license-photo">{{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/photo_license" label="License"}}</div>
+            [[!-- <div class="license-photo">{{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/photo_license" label="License"}}</div>--]]
+            <semantic-link-container uri="{{subject}}" target="_blank">
+              <span class="domain-color-background view-record in-thumbnail cursor">view photo record</span>
+            </semantic-link-container>
           {{else}}
             <span class="no-image-text">No image</span>
           {{/if}}
         </div>
-        <div class="info-container cursor">
+      </semantic-link-container>
+        <div class="info-container">
           <!-- <div class="photo-provider-icons">
             {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values}}
             <img class="provider-icon" title="{{label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
@@ -22,13 +27,14 @@
           </div> -->
 
           <span class="author-name">{{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/photographer" label="Photographer"}}</span>
-
-          <span class="bold-text photo-title">{{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/photo_title" label="Title"}}</span>
+          <span class="domain-color field-name">ARTWORK(S)</span>
+          [[!--<span class="bold-text photo-title">{{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/photo_title" label="Title"}}</span>--]]
           <span class="bold-text">{{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/photo_artwork" label="Depicts work"}}</span>
           {{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/photo_archive" label="Credit"}}
-
-
           {{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/production_date" label="Date"}}
+          <semantic-link-container uri="{{subject}}" target="_blank">
+            <span class="domain-color-background view-record cursor">view photo record</span>
+          </semantic-link-container>
         </div>
     </template>
 
@@ -39,7 +45,7 @@
           <div class="field-value">
             {{#each (lookup (lookup data field) 'values')}}
               {{#if [@id]}}
-                {{label}} [[!--<semantic-link target="_blank" iri="{{[@id]}}"><img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt="alt"></semantic-link>--]]
+                {{label}} <semantic-link target="_blank" iri="{{[@id]}}"><img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt="alt"></semantic-link>
                 {{#unless @last}} · {{/unless}}
               {{else}}
                   {{#if (eq ../field "https://artresearch.net/resource/field_definition/pharos_model/production_date")}}
@@ -56,4 +62,3 @@
     </template>
   </resource-info>
 </div>
-</semantic-link-container>

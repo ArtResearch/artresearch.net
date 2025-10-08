@@ -3,7 +3,7 @@
     <resource-info subject="{{subject.value}}" profile="artwork-card" template="{{> template}}">
       <template id="template">
         <semantic-link-container uri="{{subject}}" target="_blank">
-            <div class="thumbnail-container">
+            <div class="thumbnail-container cursor">
               {{#if photo}}
                 <resource-info subject="{{photo}}" profile="photograph-thumbnail" template="{{> template}}">
                   <template id="template">
@@ -30,7 +30,7 @@
             </div>
       </semantic-link-container>
 
-          <div class="info-container cursor">
+          <div class="info-container">
             <span class="author-name">{{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/creator" label="Creator"}}
             </span>
             <span class="bold-text">
@@ -133,8 +133,7 @@
               <div class="field-value">
                 {{#each (mergeUniqueValues (lookup (lookup data field) 'values'))}}
                   {{#if [@id]}}
-                      <semantic-link iri="{{[@id]}}"><img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt="alt">{{label}}</semantic-link>
-
+                      {{label}} <semantic-link target="_blank" iri="{{[@id]}}"><img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt="alt"></semantic-link>
                     {{#unless @last}} · {{/unless}}
                   {{else}}
                     {{#if (eq ../field "https://artresearch.net/resource/field_definition/pharos_model/production_date")}}
