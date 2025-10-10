@@ -205,7 +205,7 @@
                           id="grid-result"
                           prefetch-labels="false"
                           query='
-                            SELECT DISTINCT (?uri AS ?subject) (?siglip2_so400m_patch16_naflex_maxScoreUri as ?maxPhoto) ?matchType {
+                            SELECT DISTINCT (?uri AS ?subject) (?siglip2_so400m_patch16_naflex_maxScoreUri as ?maxPhoto) (?matchedModel as ?matchType) {
                               SERVICE <http://usearch-search.private:8545/sparql> {
                                 SELECT * WHERE {
                                   SERVICE <https://artresearch.net/embeddings/search> {
