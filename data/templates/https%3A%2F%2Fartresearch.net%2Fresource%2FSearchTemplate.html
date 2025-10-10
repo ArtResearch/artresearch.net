@@ -224,7 +224,7 @@
                 PREFIX emb: <https://artresearch.net/embeddings/>
                 SELECT DISTINCT ?subject WHERE {
                   {
-                        SELECT ?subject (?similarity as ?score) ?photo (?matchedModel AS ?matchType) {
+                        SELECT ?subject (?similarity as ?score) (?photo AS ?maxPhoto) (?matchedModel AS ?matchType) {
                           SERVICE <http://usearch-search.private:8545/sparql> {
                             SELECT * {
                               SERVICE emb:search {
@@ -250,7 +250,7 @@
                 PREFIX emb: <https://artresearch.net/embeddings/>
                 SELECT DISTINCT ?subject WHERE {
                   {
-                        SELECT ?subject (?similarity as ?score) ?photo (?matchedModel AS ?matchType) {
+                        SELECT ?subject (?similarity as ?score) (?photo AS ?maxPhoto) (?matchedModel AS ?matchType) {
                           SERVICE <http://usearch-search.private:8545/sparql> {
                             SELECT * {
                               SERVICE emb:search {
@@ -276,7 +276,7 @@
                 PREFIX emb: <https://artresearch.net/embeddings/>
                 SELECT DISTINCT ?subject WHERE {
                   {
-                        SELECT ?subject (?similarity as ?score) ?photo (?matchedModel AS ?matchType) {
+                        SELECT ?subject (?similarity as ?score) (?photo AS ?maxPhoto) (?matchedModel AS ?matchType) {
                           SERVICE <http://usearch-search.private:8545/sparql> {
                             SELECT * {
                               SERVICE emb:search {
@@ -301,7 +301,7 @@
               PREFIX emb: <https://artresearch.net/embeddings/>
                 SELECT DISTINCT ?subject WHERE {
                   {
-                        SELECT ?subject (?similarity as ?score) ?photo (?matchedModel AS ?matchType) {
+                        SELECT ?subject (?similarity as ?score) (?photo AS ?maxPhoto) (?matchedModel AS ?matchType) {
                           SERVICE <http://usearch-search.private:8545/sparql> {
                             SELECT * {
                               SERVICE emb:search {
@@ -650,10 +650,12 @@
                       >
                         <template id="subjectCellTemplate">
                           <div class="scrolable-area">
-                            <infinite-scroll item-height="250px" batch-size="10" values='{{stringify bindings}}'>
+                            <infinite-scroll item-height="250px"  item-per-row="auto" item-width="550" batch-size="20" values='{{stringify bindings}}'>
                               <template id='template'>
                                 <div class="result-item karla-regular">
-                                  {{> Default:CardArtwork photo=maxPhoto.value provider=provider matchType=matchType}}
+                                  {{#each this}}
+                                    {{> Default:CardArtwork photo=maxPhoto.value provider=provider matchType=matchType}}
+                                  {{/each}}
                                 </div>
                               </template>
                             </infinite-scroll>
@@ -672,10 +674,12 @@
                       >
                         <template id="subjectCellTemplate">
                           <div class="scrolable-area">
-                            <infinite-scroll item-height="250px" batch-size="10" values='{{stringify bindings}}'>
+                            <infinite-scroll item-height="250px" item-per-row="auto" item-width="550" batch-size="20" values='{{stringify bindings}}'>
                               <template id='template'>
                                 <div class="result-item karla-regular">
-                                  {{> Default:CardPhotograph }}
+                                  {{#each this}}
+                                    {{> Default:CardPhotograph }}
+                                  {{/each}}
                                 </div>
                               </template>
                             </infinite-scroll>
@@ -694,10 +698,12 @@
                       >
                         <template id="subjectCellTemplate">
                           <div class="scrolable-area">
-                            <infinite-scroll item-height="120px" batch-size="10" values='{{stringify bindings}}'>
+                            <infinite-scroll item-height="200px" item-per-row="auto" item-width="500" batch-size="10" values='{{stringify bindings}}'>
                               <template id='template'>
                                 <div class="result-item  karla-regular">
-                                  {{> Default:CardArtist}}
+                                  {{#each this}}
+                                    {{> Default:CardArtist}}
+                                  {{/each}}
                                 </div>
                               </template>
                             </infinite-scroll>
@@ -719,7 +725,9 @@
                               <infinite-scroll item-height="120px" batch-size="10" values='{{stringify bindings}}'>
                                 <template id='template'>
                                   <div class="result-item karla-regular">
-                                    {{> Default:CardRepository}}
+                                    {{#each this}}
+                                      {{> Default:CardRepository}}
+                                    {{/each}}
                                   </div>
                                 </template>
                               </infinite-scroll>
@@ -741,7 +749,9 @@
                             <infinite-scroll item-height="120px" batch-size="10" values='{{stringify bindings}}'>
                               <template id='template'>
                                 <div class="result-item karla-regular">
-                                  {{> Default:CardArtist}}
+                                  {{#each this}}
+                                    {{> Default:CardArtist}}
+                                  {{/each}}
                                 </div>
                               </template>
                             </infinite-scroll>

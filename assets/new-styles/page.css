@@ -1,19 +1,17 @@
-
 /* SEARCH MENU */
 .menu-search {
   margin-bottom: 0px !important;
   margin-right: 2em;
 }
 
+.menu-search form {
+  margin: 0;
+}
+
 .menu-search .search-input {
   padding: 5px !important;
   border-bottom: solid 1.5px black;
   color: grey !important;
-}
-
-.menu-search .search-button {
-  top: 30% !important;
-
 }
 
 .menu-search .search-button svg {
@@ -168,6 +166,7 @@ h1 span.thin-text {
 .thumbnail-provider-icon {
   position: absolute;
   top: 4px;
+  left: 4px;
   opacity: 0.7;
   background-color: white;
   z-index: 1;;
@@ -266,6 +265,10 @@ h1 span.thin-text {
 }
 
 /* SEARCH */
+body:has(.search-container) {
+  overflow: hidden;
+}
+
 .search-container {
   display: flex;
   flex-direction: column;
@@ -274,7 +277,6 @@ h1 span.thin-text {
 
 .search-bar {
   margin-right: 20px;
-  margin-bottom: 10px;
 }
 
 #noResults {
@@ -404,6 +406,7 @@ h1 span.thin-text {
   flex: 1;
   height: 100%;
   padding: 0 20px 20px 20px;
+  overflow: hidden;
 }
 
 .results-column .scrolable-area {
@@ -441,6 +444,11 @@ h1 span.thin-text {
 .result-item {
   /* font-family: "Calibre", "Arial", sans-serif; */
   /* cursor: pointer; */
+  display: flex;
+  column-gap: 10px;
+  border-bottom: 1px solid #d3cec0;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
 }
 
 .thumbnail-container, .info-container {
@@ -453,12 +461,11 @@ h1 span.thin-text {
 
 .artwork-card {
   display: flex;
-  min-height: 200px;
+  max-height: 250px;
+  width: 550px;
   overflow: hidden;
   /* font-family: "Calibre", "Arial", sans-serif; */
-  margin-bottom: 20px;
   border-left: 1px solid transparent;
-  padding-left: 5px;
 }
 
 .actor-card {
@@ -471,16 +478,10 @@ h1 span.thin-text {
     padding-left: 5px;
 }
 
-.artwork-card:hover, actor-card:hover {
-    border-left: 1px solid var(--domain-color);
-}
-
-
 .thumbnail-container {
   width: 200px;
+  height: fit-content;
   flex-shrink: 0;
-  display: flex;
-  align-items: flex-start;
   position: relative;
   transition: opacity .2s, visibility .2s;
 }
@@ -491,8 +492,21 @@ h1 span.thin-text {
   object-fit: contain;
 }
 
-.thumbnail-image:hover {
-  opacity: 0.3;
+.image-work-link {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.thumbnail-container:hover {
+  .thumbnail-image {
+    opacity: 0.3;
+  }
+
+  .image-work-link {
+    display: block;
+  }
 }
 
 .no-image-text {
@@ -500,15 +514,6 @@ h1 span.thin-text {
   font-style: italic;
  align-self: center;
 }
-
-/* .go-to-record {
-  position: absolute;
-  top: 10px;
-}
-.go-to-record a img {
-  width: 30px;
-  height: auto;
-} */
 
 .info-container {
   flex-grow: 1;
@@ -544,11 +549,6 @@ h1 span.thin-text {
 }
 
 .field-label {
-  /* width: 120px;
-  color: #666;
-  font-size: 16px;
-  display: flex;
-  align-items: center; */
   display: none;
 }
 
@@ -578,7 +578,7 @@ h1 span.thin-text {
   text-decoration: underline;
 }
 
-.author-name .field-value {
+.author-name .field-value a {
   text-transform: uppercase;
   color: grey !important;
   font-size: 1em;
@@ -614,9 +614,16 @@ h1 span.thin-text {
 
 .artwork-record .field-label {
   display: block;
-  /* font-family: "CalibreMedium", "Arial", sans-serif; */
   font-size: 1.2em;
   font-weight: 600;
+}
+
+.artwork-record .search-container .field-label {
+  display: none;
+}
+
+.artwork-record ul.nav.nav-tabs{
+  margin-top: 0;
 }
 
 .artwork-record .field-value {
@@ -790,22 +797,6 @@ h1 span.thin-text {
   padding: 2px;
 }
 
-/* .field-group h2 {
-    font-size: 1.5rem;
-    margin-bottom: 15px;
-    padding-bottom: 5px;
-    color: #666;
-    font-weight: normal;
-    border-bottom: 1px solid #9b0400;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    position: sticky;
-    top: 0;
-    z-index: 1;
-    margin: 0;
-    padding: 10px 0 10px 0;
-} */
-
 .field-value a {
     color: black;
     text-decoration: underline;
@@ -826,9 +817,6 @@ h1 span.thin-text {
 }
 
 .field-value-main {
-  /* display: flex;
-  justify-content: space-between;
-  align-items: flex-start; */
 }
 
 .field-value-group {
@@ -872,13 +860,6 @@ h1 span.thin-text {
   font-weight: lighter;
 }
 
-/* .provider-icons {
-    display: inline-flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin-left: auto;
-} */
-
 .view-more {
     grid-column: 2 / 3;
     margin-top: 5px;
@@ -896,7 +877,6 @@ h1 span.thin-text {
     display: flex;
     border-radius: 8px;
     margin-bottom: 15px;
-    /* overflow: hidden; */
 
 }
 
@@ -945,6 +925,38 @@ h1 span.thin-text {
   color: grey;
 }
 
+/* Tab structure and scrolling rules */
+#work-photo-tabs {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+#work-photo-tabs .tab-content {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden; /* Hide overflow on the container */
+}
+
+#work-photo-tabs .tab-pane {
+    height: 100%;
+    width: 100%;
+    overflow: hidden; /* Hide overflow on the pane */
+}
+
+/* Specific styling for Photos tab pane */
+#work-photo-tabs-pane-1 > div {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* Specific styling for Similar Works tab pane */
+#work-photo-tabs-pane-2 .scrolable-area {
+    height: 100%;
+    overflow-y: auto;
+}
 
 
 /* we use lazy tree input for object hierarchy viz, but we don't want to show search input that it has enabled by default */
@@ -1077,11 +1089,6 @@ h1 span.thin-text {
 }
 
 @media (max-width: 600px) {
-    /* .field {
-        grid-template-columns: 1fr;
-        gap: 5px;
-    } */
-
     .field-label {
         text-align: left;
     }

@@ -27,6 +27,7 @@
                   <span class="no-image-text">No image</span>
                 {{/if}}
               {{/if}}
+              <img class="image-work-link" src="/assets/images/arrow_cream_black.svg" alt="arrow">
             </div>
       </semantic-link-container>
 
@@ -37,7 +38,7 @@
                <div class="field field-Title">
                   <div class="field-label">Title</div>
                   <div class="field-value">
-                    {{data.label}}
+                    <semantic-link iri='{{subject}}' target='_blank'>{{data.label}}</semantic-link>
                   </div>
                </div>
             </span>
@@ -84,7 +85,9 @@
                 <div class="provider-icons">
                   <span class="provider-icons-text bold-text">PHOTO ARCHIVES</span>
                   {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/original_record_catalog].values}}
-                    <img class="provider-icon" title="{{label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
+                    <semantic-link-container uri='{{[@id]}}' target='_blank'>
+                      <img class="provider-icon" title="{{label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
+                    </semantic-link-container>
                   {{/each}}
                 </div>
               </div>
@@ -96,28 +99,57 @@
               <div class="field-value">
                   {{#each (split matchType.value ',')}}
                     {{#ifCond this '===' 'text_index'}}
-                      <span class='label label-primary ai-result' style='margin-right: 5px'>Exact match (metadata)</span>
+                      <span class='label label-primary ai-result' style='margin-right: 5px'>Text Match</span>
                     {{/ifCond}}
                     {{#ifCond this '===' 'qwen3_8b'}}
-                      <span class='label label-primary ai-result' style='margin-right: 5px'>AI match (metadata)</span>
+                      <span class='label label-primary ai-result' style='margin-right: 5px'>Textual Similarity</span>
                     {{/ifCond}}
                     {{#ifCond this '===' 'qwen3_0_6b'}}
-                      <span class='label label-primary ai-result' style='margin-right: 5px'>AI match (metadata)</span>
+                      <span class='label label-primary ai-result' style='margin-right: 5px'>Textual Similarity</span>
                     {{/ifCond}}
                     {{#ifCond this '===' 'clip_vit_large_patch14_336'}}
-                      <span class='label label-primary ai-result' style='margin-right: 5px'>AI match (visual similarity)</span>
+                      <span class='label label-primary ai-result' style='margin-right: 5px'>Visual similarity</span>
                     {{/ifCond}}
                     {{#ifCond this '===' 'siglip2_so400m_patch16_naflex'}}
-                      <span class='label label-primary ai-result' style='margin-right: 5px'>AI match (visual similarity)</span>
+                      <span class='label label-primary ai-result' style='margin-right: 5px'>Visual Similarity</span>
                     {{/ifCond}}
                     {{#ifCond this '===' 'clip_vit_large_patch14_336_sift_rerank'}}
-                      <span class='label label-primary ai-result' style='margin-right: 5px'>Exact match (visual similarity)</span>
+                      <span class='label label-primary ai-result' style='margin-right: 5px'>Visual Match</span>
                     {{/ifCond}}
                     {{#ifCond this '===' 'siglip2_so400m_patch16_naflex_sift_rerank'}}
-                      <span class='label label-primary ai-result' style='margin-right: 5px'>Exact match (visual similarity)</span>
+                      <span class='label label-primary ai-result' style='margin-right: 5px'>Visual Match</span>
                     {{/ifCond}}
                   {{/each}}
               </div>
+              [[!--
+              <div class="field-value">
+                  {{#each (split matchType.value ',')}}
+                    {{#ifCond this '===' 'text_index'}}
+                      <img src="/assets/images/icons/text-match.svg" title="Text Match" alt="Text Match" />
+                    {{/ifCond}}
+                    {{#ifCond this '===' 'qwen3_8b'}}
+                      <span class='label label-primary ai-result' style='margin-right: 5px'>Textual Similarity</span>
+                    {{/ifCond}}
+                    {{#ifCond this '===' 'qwen3_0_6b'}}
+                      <span class='label label-primary ai-result' style='margin-right: 5px'>Textual Similarity</span>
+                    {{/ifCond}}
+                    {{#ifCond this '===' 'clip_vit_large_patch14_336_sift_rerank'}}
+                      <img src="/assets/images/icons/visual-match.svg" title="Visual Match" alt="Visual Match" />
+                    {{/ifCond}}
+                    {{#ifCond this '===' 'siglip2_so400m_patch16_naflex_sift_rerank'}}
+                      <img src="/assets/images/icons/visual-match.svg" title="Visual Match" alt="Visual Match" />
+                    {{/ifCond}}               
+                    {{#ifCond this '===' 'clip_vit_large_patch14_336'}}
+                      <img src="/assets/images/icons/visual-similarity.svg" title="Visual Similarity" alt="Visual Similarity" />
+                    {{/ifCond}}
+                    {{#ifCond this '===' 'siglip2_so400m_patch16_naflex'}}
+                      <img src="/assets/images/icons/visual-similarity.svg" title="Visual Similarity" alt="Visual Similarity" />
+                    {{/ifCond}}
+                  {{/each}}
+              </div>
+              --]]
+
+              
             </div>
 
 
@@ -133,7 +165,7 @@
               <div class="field-value">
                 {{#each (mergeUniqueValues (lookup (lookup data field) 'values'))}}
                   {{#if [@id]}}
-                      {{label}} <semantic-link target="_blank" iri="{{[@id]}}"><img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt="alt"></semantic-link>
+                      <semantic-link target="_blank" iri="{{[@id]}}">{{label}}</semantic-link>
                     {{#unless @last}} · {{/unless}}
                   {{else}}
                     {{#if (eq ../field "https://artresearch.net/resource/field_definition/pharos_model/production_date")}}
