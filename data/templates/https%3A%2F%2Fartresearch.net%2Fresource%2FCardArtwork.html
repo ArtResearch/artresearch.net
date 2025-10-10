@@ -8,6 +8,7 @@
                 <resource-info subject="{{photo}}" profile="photograph-thumbnail" template="{{> template}}">
                   <template id="template">
                     <img class="thumbnail-image" src="https://staging.artresearch.net{{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" alt="Artwork thumbnail" />
+                    <img class="provider-icon thumbnail-provider-icon" title="{{label}}" src="{{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
                   </template>
                 </resource-info>
               {{else if provider}}

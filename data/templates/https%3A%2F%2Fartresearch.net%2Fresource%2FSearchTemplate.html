@@ -172,7 +172,7 @@
                 PREFIX emb: <https://artresearch.net/embeddings/>
                 SELECT DISTINCT ?subject WHERE {
                   {
-                    SELECT DISTINCT ?subject (SUM(?maxScore) AS ?score) (SAMPLE(?photo) AS ?maxPhoto) (GROUP_CONCAT(?matchedModel ; separator=",") AS ?matchType) WHERE {
+                    SELECT DISTINCT ?subject (SUM(?maxScore) AS ?score) (MAX(?photo) AS ?maxPhoto) (GROUP_CONCAT(?matchedModel ; separator=",") AS ?matchType) WHERE {
                       {
                         SELECT ?subject ((0.5 * ?similarity) as ?maxScore) ?matchedModel ?photo {
                           SERVICE <http://usearch-search.private:8545/sparql> {

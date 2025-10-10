@@ -1,6 +1,18 @@
 
 <https://artresearch.net/resource/field_definition/pharos_model/provider_icon/context> {
-  _:genid-dde678f9accb44179526c1e792d0568f-4qzy8 a <http://spinrdf.org/sp#Query>;
+  <https://artresearch.net/resource/field_definition/pharos_model/provider_icon> a <http://www.researchspace.org/resource/system/fields/Field>,
+      <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Provider Icon";
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#string>;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-d25195c1ec4c4e978eeb6eaad43ec878-c3cqeh;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-d25195c1ec4c4e978eeb6eaad43ec878-rsjy5f;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-10-09T21:18:32.836+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-d25195c1ec4c4e978eeb6eaad43ec878-rsjy5f a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  _:genid-d25195c1ec4c4e978eeb6eaad43ec878-c3cqeh a <http://spinrdf.org/sp#Query>;
     <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 
 SELECT ?value WHERE {
@@ -14,21 +26,9 @@ SELECT ?value WHERE {
     (<https://artresearch.net/resource/provider/pmc> \"/assets/images/minilogo_pmc.png\")
     (<https://artresearch.net/resource/provider/rkd> \"/assets/images/minilogo_rkd.png\")
     (<https://artresearch.net/resource/provider/warburg> \"/assets/images/minilogo_warburg.png\")
-
+    (<https://artresearch.net/resource/provider/doaks> \"/assets/images/minilogo_doaks.png\")
   }
 }""" .
-  
-  <https://artresearch.net/resource/field_definition/pharos_model/provider_icon> a <http://www.researchspace.org/resource/system/fields/Field>,
-      <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
-    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-dde678f9accb44179526c1e792d0568f-4qzy8;
-    <http://www.w3.org/2000/01/rdf-schema#label> "Provider Icon";
-    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#string>;
-    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-dde678f9accb44179526c1e792d0568f-l4m4wg;
-    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
-    <http://www.w3.org/ns/prov#generatedAtTime> "2025-08-16T18:36:02.234+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
-  
-  _:genid-dde678f9accb44179526c1e792d0568f-l4m4wg a <http://spinrdf.org/sp#Query>;
-    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
   
   <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
       <https://artresearch.net/resource/field_definition/pharos_model/provider_icon> .
