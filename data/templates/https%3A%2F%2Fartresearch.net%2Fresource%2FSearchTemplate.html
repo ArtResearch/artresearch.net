@@ -11,7 +11,7 @@
     >
       <div class="content-area">
         <div class="facet-column">
-          <semantic-search-facet open-by-default='true' sortby='count-desc' facet-values-threshold="5000"
+          <semantic-search-facet open-by-default='false' sortby='count-desc' facet-values-threshold="5000"
             default-value-queries='{
               "resource": "SELECT ?value (COUNT(DISTINCT $subject) AS ?count) WHERE { FILTER(?__facetRelationPattern__) } GROUP BY ?value ORDER BY DESC(?count)",
               "literal": "SELECT ?literal (COUNT(DISTINCT $subject) AS ?count) WHERE { FILTER(?__facetRelationPattern__) } GROUP BY ?literal ORDER BY DESC(?count)"
@@ -656,7 +656,7 @@
                       >
                         <template id="subjectCellTemplate">
                           <div class="scrolable-area">
-                            <infinite-scroll item-height="250px"  item-per-row="auto" item-width="550" batch-size="20" values='{{stringify bindings}}'>
+                            <infinite-scroll item-height="250px"  item-per-row="auto" item-width="550" batch-size="20" values='{{stringify bindings}}' profile="artwork-card">
                               <template id='template'>
                                 <div class="result-item karla-regular">
                                   {{#each this}}

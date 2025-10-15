@@ -217,8 +217,9 @@ h1 span.thin-text {
   padding-top: 0px;
 }
 .partner-page div ul.nav {
-  padding: 1rem 21rem 0px 21rem;
+  padding: 0 21rem 0px 21rem;
   border-bottom: none !important;
+  margin-top: 0;
 }
 
 .partner-page div div #tab-container-pane-summary {
@@ -303,13 +304,19 @@ body:has(.search-container) {
   border-radius: 0px;
   margin-right: 20px;
 }
-.ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--domainSelector .dropdown-toggle, .ImageSearchWithSlider--imageSearchContainer input {
+.ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--domainSelector .dropdown-toggle, 
+.ImageSearchWithSlider--imageSearchContainer input {
+  height: 50px;
+  font-size: 18px;
   background-color: #fff9e8;
-  border: none;
-  border-bottom: solid 1.5px black;
-  border-radius: 0px;
+  border: solid 1.5px black;
+  border-radius: 26px;
   transition: 0.2s;
   font-weight: bold;
+}
+
+.ImageSearchWithSlider--imageSearchContainer input {
+  box-shadow: 0px 3px 10px 0px rgba(31, 31, 31, 0.08);
 }
 
 #domain-selector {
@@ -319,13 +326,17 @@ body:has(.search-container) {
   border-bottom: solid 1.5px black;
 }
 
-.ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--domainSelector .dropdown-toggle:focus, .ImageSearchWithSlider--imageSearchContainer input:focus {
+.ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--domainSelector .dropdown-toggle:focus {
   background-color: #fff9e8;
-  border: none;
-  border-radius: 0px;
+}
+
+.ImageSearchWithSlider--imageSearchContainer input:focus {
+  background-color: #fff9e8;
+  border: 1.5px solid var(--domain-color);
+  border-radius: 26px;
   transition: 0.2s;
   font-weight: bold;
-  border-bottom: solid 1.5px var(--domain-color);
+  box-shadow: 0 2px 8px 1px rgba(64,60,67,.24);
 }
 
 .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--domainSelector .dropdown-menu {
@@ -461,10 +472,10 @@ body:has(.search-container) {
 
 .artwork-card {
   display: flex;
+  position: relative;
   max-height: 250px;
   width: 550px;
   overflow: hidden;
-  /* font-family: "Calibre", "Arial", sans-serif; */
   border-left: 1px solid transparent;
 }
 
@@ -479,18 +490,29 @@ body:has(.search-container) {
 }
 
 .thumbnail-container {
-  width: fit-content;
-  height: fit-content;
-  flex-shrink: 0;
-  position: relative;
-  transition: opacity .2s, visibility .2s;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 200px;
+  
+  /* Use flexbox to perfectly center its child */
+  display: flex;
+  align-items: center;    /* Vertically centers the wrapper */
+  justify-content: center; /* Horizontally centers the wrapper */
+}
+
+.image-wrapper {
+  position: relative; /* This the positioning context for the provider icon */
+  height: 100%;
 }
 
 .thumbnail-image {
+  /* Ensures the image never gets bigger than the wrapper/container */
   max-width: 100%;
-  max-height: 250px;
-  max-width: 200px;
-  object-fit: contain;
+  max-height: 100%;
+  /* Fixes potential alignment issues */
+  display: block;
 }
 
 .image-work-link {
@@ -519,7 +541,8 @@ body:has(.search-container) {
 .info-container {
   flex-grow: 1;
   overflow-y: auto;
-  margin-left: 20px;
+  /* Create space for the 200px image area + 20px gap */
+  margin-left: 220px;
 }
 
 .cursor {
@@ -527,7 +550,7 @@ body:has(.search-container) {
 }
 
 .field {
-  margin-bottom: 12px;
+  margin-bottom: 5px;
   display: flex;
 }
 
@@ -566,7 +589,7 @@ body:has(.search-container) {
 }
 
 .field-Title {
-  margin-bottom: 20px !important;
+  margin-bottom: 10px;
   font-size: 1.1em !important;
 }
 
@@ -586,7 +609,7 @@ body:has(.search-container) {
   font-weight: bold;
 }
 
-.field-Date .field-value a, .photo-title a {
+.photo-title a {
   display: none;
 }
 
