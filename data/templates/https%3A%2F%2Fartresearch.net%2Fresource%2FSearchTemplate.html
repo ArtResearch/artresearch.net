@@ -190,6 +190,11 @@
                                 ?uri emb:sensitivity ?__searchSensitivity__ .
                                 ?uri emb:score ?similarity .
                                 ?uri emb:matchedModel ?matchedModel .
+                                    
+                                {{#if dataset}}
+                                ?uri emb:filterBy "dataset" ;
+                                     emb:filterValues "{{dataset}}" .
+                                {{/if}}
                               }
                             } LIMIT 1000
                           }
@@ -240,6 +245,11 @@
                                 ?uri emb:score ?similarity .
                                 ?uri emb:sensitivity ?__searchSensitivity__ .
                                 ?uri emb:matchedModel ?matchedModel .
+                               
+                                {{#if dataset}}
+                                ?uri emb:filterBy "dataset" ;
+                                     emb:filterValues "{{dataset}}" .
+                                {{/if}}
                               }
                             } LIMIT 1000
                           }
@@ -266,6 +276,11 @@
                                 ?uri emb:score ?similarity .
                                 ?uri emb:sensitivity "near-exact" .
                                 ?uri emb:matchedModel ?matchedModel .
+                             
+                                {{#if dataset}}
+                                ?uri emb:filterBy "dataset" ;
+                                     emb:filterValues "{{dataset}}" .
+                                {{/if}}
                               }
                             } LIMIT 1000
                           }
@@ -292,6 +307,11 @@
                                 ?uri emb:score ?similarity .
                                 ?uri emb:sensitivity ?__searchSensitivity__ .
                                 ?uri emb:matchedModel ?matchedModel .
+                                
+                                {{#if dataset}}
+                                ?uri emb:filterBy "dataset" ;
+                                     emb:filterValues "{{dataset}}" .
+                                {{/if}}
                               }
                             } LIMIT 1000
                           }
@@ -317,6 +337,11 @@
                                 ?uri emb:score ?similarity .
                                 ?uri emb:sensitivity ?__searchSensitivity__ .
                                 ?uri emb:matchedModel ?matchedModel .
+                                     
+                                {{#if dataset}}
+                                ?uri emb:filterBy "dataset" ;
+                                     emb:filterValues "{{dataset}}" .
+                                {{/if}}
                               }
                             } LIMIT 1000
                           }
