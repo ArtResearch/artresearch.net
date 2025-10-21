@@ -51,41 +51,9 @@
 {{#*inline "navbarRight"}}
   <ul class="nav navbar-nav navbar-right">
     <div class="menu-search search-input-container">
-      <form-with-event id="text-search-form">
-        <input name="query" type="text" class="search-input" placeholder="search">
-        <button class="search-button">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
-            <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </button>
-      </form-with-event>
-
-      <mp-event-proxy id='text-search-proxy' on-event-source='text-search-form'
-                      on-event-data='{"inputType": "text"}'
-                      proxy-event-type='RedirectAction.perform' proxy-targets='["redirect-to-text-search"]'
-      ></mp-event-proxy>
-
-      <mp-event-target-redirect
-        id='redirect-to-text-search'
-        action='https://artresearch.net/resource/search'
-      ></mp-event-target-redirect>
-
-      <mp-event-proxy id='image-url-search-proxy' on-event-source='text-search-form'
-                      on-event-data='{"inputType": "imageUrl"}'
-                      proxy-event-type='RedirectAction.perform' proxy-targets='["redirect-to-image-search"]'
-      ></mp-event-proxy>
-
-      <mp-event-target-redirect
-        id='redirect-to-image-search'
-        action='https://artresearch.net/resource/search'
-        query-params='{"query": "dndFile"}'
-      ></mp-event-target-redirect>
-
-      <mp-event-target-redirect
-        id='redirect-to-text-search'
-        action='https://artresearch.net/resource/search'
-      ></mp-event-target-redirect>
+      <semantic-link iri="https://artresearch.net/resource/search" title="search">
+        <i class="material-symbols-rounded">search</i>
+      </semantic-link>
     </div>
 
     {{!-- Update profile-dropdown on resourceForm actions --}}
