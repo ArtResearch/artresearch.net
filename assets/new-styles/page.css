@@ -570,6 +570,11 @@ body:has(.search-page-container) {
   border-left: 1px solid transparent;
 }
 
+.artwork-image-card {
+  height: 200px;
+  width: 200px;
+}
+
 .work-list-pane .artwork-card {
   width: 100%;
 }
@@ -610,20 +615,9 @@ body:has(.search-page-container) {
   display: block;
 }
 
-.image-work-link {
-  display: none;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
 .thumbnail-container:hover {
   .thumbnail-image {
     opacity: 0.3;
-  }
-
-  .image-work-link {
-    display: block;
   }
 }
 
@@ -1125,14 +1119,72 @@ body:has(.search-page-container) {
     flex-direction: column;
   }
 
+  .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--topRow {
+    flex-direction: column;
+    align-items: stretch; /* Make items take full width */
+  }
+
   .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--domainSelector {
-    margin-right: 10px;
+    margin-right: 0;
     width: 100%;
-    margin-bottom: 10px;
+  }
+
+  .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--inputDropzoneContainer {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--imageDropzone {
+    width: auto; /* Adjust width */
+  }
+
+  .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--searchControls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--modelSelection {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
   }
 
   .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--sliderField {
-    margin-bottom: 10px;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 0;
+  }
+
+  .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--sliderField .ImageSearchWithSlider--sliderLabel {
+    display: none;
+  }
+
+  .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--sliderField .ImageSearchWithSlider--sliderFieldSliderContainer {
+    width: 100%;
+    padding: 0 8px;
+    margin-bottom: 5px;
+  }
+
+  .ImageSearchWithSlider--modelSelection .checkbox label {
+    font-size: 0;
+  }
+  
+  .ImageSearchWithSlider--modelSelection .checkbox label::after {
+    font-size: 16px;
+  }
+  
+  .ImageSearchWithSlider--modelSelection .checkbox label[title="Text Match"]::after {
+    content: "Keyword";
+  }
+  
+  .ImageSearchWithSlider--modelSelection .checkbox label[title="Textual Similarity"]::after {
+    content: "Conceptual";
+  }
+  
+  .ImageSearchWithSlider--modelSelection .checkbox label[title="Visual Similarity"]::after {
+    content: "Visual";
   }
 }
 
@@ -1156,6 +1208,10 @@ body:has(.search-page-container) {
 
   .thumbnail-container {
     width: 150px;
+  }
+
+  .info-container {
+    margin-left: 170px;
   }
 
   /* STATIC PAGES */
@@ -1186,6 +1242,11 @@ body:has(.search-page-container) {
   .main-container.partner-page-title-and-intro footer {
     margin-left: 0px;
     margin-right: 0px;
+  }
+
+  .artwork-image-card {
+    height: 100px;
+    width: 100px;
   }
 
   /* SEARCH ARTISTS*/
@@ -1241,6 +1302,28 @@ body:has(.search-page-container) {
 }
 
 @media (max-width: 600px) {
+    .search-controls-area {
+      margin-left: 20px;
+    }
+
+    .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--domainSelector {
+      margin-bottom: 5px;
+    }
+
+    .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--modelRow { 
+      .checkbox { 
+        margin-bottom: 0;
+      }
+
+      .ImageSearchWithSlider--helpIcon  {
+        margin-top: 10px;
+      }
+    }
+
+    .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--domainSelector .dropdown-toggle {
+      height: 30px;
+    }
+
     .field-label {
         text-align: left;
     }
@@ -1251,17 +1334,32 @@ body:has(.search-page-container) {
 
     .facet {
       position: fixed;
-      height: 100vh;
-      z-index: 3;
-      width: 100vw;
+      top: 0;
+      left: 0;
+      height: 100%;
+      z-index: 1050;
+      width: 100%;
       background-color: #fff9e8;
+      overflow-y: auto;
+      padding-top: var(--nav-height);
     }
 
-    .show-facet-button__hide {
-      right: 0;
+    .show-facet-button {
       position: fixed;
-      margin-right: 0;
+      top: 90px;
+      height: 111px;
+      width: 30px;
+      z-index: 1000;
+    }
+
+    .show-facet-button.show-facet-button__show {
+        left: 0 !important;
+    }
+
+    .show-facet-button.show-facet-button__hide {
+      right: 0;
       left: initial;
+      z-index: 1051;
     }
 
     .facet-column {
@@ -1270,6 +1368,10 @@ body:has(.search-page-container) {
 
     .thumbnail-container {
       width: 100px;
+    }
+
+    .info-container {
+      margin-left: 120px;
     }
 
     .work-count {
