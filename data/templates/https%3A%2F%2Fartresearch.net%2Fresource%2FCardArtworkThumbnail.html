@@ -37,6 +37,18 @@
               {{/if}}
               </div>
             </div>
-      </semantic-link-container>    
+           <div class="field">
+              <div class="field-value">
+                <div class="provider-icons">
+                  {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/original_record_catalog].values}}
+                    <semantic-link-container uri='{{[@id]}}' target='_blank'>
+                      <img class="provider-icon" title="{{label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
+                    </semantic-link-container>
+                  {{/each}}
+                </div>
+              </div>
+            </div>
+      </semantic-link-container>
+
     {{/if}}
   </div>

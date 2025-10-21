@@ -265,17 +265,11 @@ h1 span.thin-text {
 }
 
 /* SEARCH */
-body:has(.search-page-container) {
+body:has(.search-container) {
   overflow: hidden;
 }
-.page-container:has(.search-page-container) { 
+.page-container:has(.search-container) { 
   overflow: hidden;
-}
-
-.search-page-container {
-  display: flex;
-  flex-direction: column;
-  height: calc(100vh - var(--nav-height)); /* Full viewport height minus navbar */
 }
 
 .search-tab-container--header-row {
@@ -573,6 +567,25 @@ body:has(.search-page-container) {
 .artwork-image-card {
   height: 200px;
   width: 200px;
+  flex-direction: column;
+}
+
+.artwork-card.artwork-image-card .thumbnail-container {
+  position: relative;
+  width: 100%;
+  height: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+.artwork-image-card .provider-icons {
+    justify-content: center;
+    width: 100%;
+}
+
+.artwork-image-card .field {
+  margin: 0;
+  padding: 0;
 }
 
 .work-list-pane .artwork-card {
@@ -589,8 +602,11 @@ body:has(.search-page-container) {
     padding-left: 5px;
 }
 
-.thumbnail-container {
+.artwork-card .thumbnail-container {
   position: absolute;
+}
+
+.thumbnail-container {
   top: 0;
   left: 0;
   height: 100%;
@@ -1185,6 +1201,10 @@ body:has(.search-page-container) {
   
   .ImageSearchWithSlider--modelSelection .checkbox label[title="Visual Similarity"]::after {
     content: "Visual";
+  }
+
+  .ImageSearchWithSlider--modelSelection .checkbox label[title="Visual Match"]::after {
+    content: "Exact";
   }
 }
 
