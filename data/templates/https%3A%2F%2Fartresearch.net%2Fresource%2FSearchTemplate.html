@@ -8,96 +8,18 @@
       relations='[[> SearchSimpleRelations]]'
       search-profile='[[> SearchSimpleProfile]]'
       datasets-config='{"datasetPattern": "", "datasets": [{"label": "PHAROS", "isDefault": true, "alignments": [{"iri": "http://vocab.getty.edu/aat/", "label": "Getty", "isDefault": true}, {"iri": "https://artresearch.net/resource/midas/vocabulary", "label": "MIDAS"}, {"iri": "https://artresearch.net/resource/zeri/vocabulary", "label": "Zeri"}]}]}'
+      class="search-page-container"
     >
-      <div class="content-area">
-        <div class="facet-column">
-          <semantic-search-facet open-by-default='false' sortby='count-desc' facet-values-threshold="5000"
-            default-value-queries='{
-              "resource": "SELECT ?value (COUNT(DISTINCT $subject) AS ?count) WHERE { FILTER(?__facetRelationPattern__) } GROUP BY ?value ORDER BY DESC(?count)",
-              "literal": "SELECT ?literal (COUNT(DISTINCT $subject) AS ?count) WHERE { FILTER(?__facetRelationPattern__) } GROUP BY ?literal ORDER BY DESC(?count)"
-            }'
-            value-relations='{
-              "<https://artresearch.net/resource/fr/Work_from_Place>": {
-                "kind":"hierarchy",
-                "valuesQuery": "SELECT ?value WHERE {?subject crm:P55_has_current_location ?value .}",
-                "queryPattern": "{
-                    ?subject crm:P55_has_current_location ?place .
-                    ?place crm:P89_falls_within* ?__value__ .
-                    ?place ^custom:sameAs?/crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/geographical_entity> .
-                }",
-                "parentsPattern": "{
-                    ?value crm:P89_falls_within ?parent .
-                }",
-                "childrenPattern": "{
-                    ?value crm:P89i_contains ?child .
-                }",
-                "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
-  						},
-              "<https://artresearch.net/resource/fr/Work_created_by_Artist>": {
-                "kind":"hierarchy",
-                "valuesQuery": "SELECT ?value WHERE {?subject crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by ?value .}",
-                "queryPattern": "{
-                    ?subject crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by ?__value__.
-                  }",
-                "parentsPattern": "{
-                  ?value crm:PXX ?parent .
-                 }",
-                "childrenPattern": "{
-                  ?child crm:PXX ?value .
-                }",
-                "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
-  						},
-              "<https://artresearch.net/resource/fr/Work_has_Image>": {
-                "kind": "resource",
-                "valuesQuery": "SELECT ?value (COUNT(DISTINCT $subject) AS ?count) WHERE {
-                OPTIONAL { ?subject custom:has_image ?has } . BIND(IF((BOUND(?has) && ?has = true), <http://www.w3.org/2001/XMLSchema#yes>, <http://www.w3.org/2001/XMLSchema#no>) AS ?value) . } GROUP BY ?value ORDER BY DESC(?count)"
-              },
-              "<https://artresearch.net/resource/fr/Photo_has_Image>": {
-                "kind": "resource",
-                "valuesQuery": "SELECT ?value (COUNT(DISTINCT $subject) AS ?count) WHERE {
-                OPTIONAL { ?subject custom:has_image ?has } . BIND(IF((BOUND(?has) && ?has = true), <http://www.w3.org/2001/XMLSchema#yes>, <http://www.w3.org/2001/XMLSchema#no>) AS ?value) . } GROUP BY ?value ORDER BY DESC(?count)"
-              },
-              "<https://artresearch.net/resource/fr/Repository_from_Place>": {
-                "kind":"hierarchy",
-                "valuesQuery": "SELECT ?value WHERE {?subject crm:P74_has_current_or_former_residence ?value .}",
-                "queryPattern": "{
-                    ?subject crm:P74_has_current_or_former_residence/crm:P89_falls_within* ?__value__ .
-                }",
-                "parentsPattern": "{
-                    ?value crm:P89_falls_within ?parent .
-                }",
-                "childrenPattern": "{
-                    ?value crm:P89i_contains ?child .
-                }",
-                "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
-  						}
-                             [[!--
-              "<https://artresearch.net/custom/is_matched_artworks>": {
-                "kind": "resource",
-                "valuesQuery": "SELECT ?value (COUNT(DISTINCT $subject) AS ?count) WHERE {
-                OPTIONAL { ?subject custom:is_matched_artworks ?has } . BIND(IF(?has = true, <http://www.w3.org/2001/XMLSchema#yes>, <http://www.w3.org/2001/XMLSchema#no>) AS ?value) . } GROUP BY ?value ORDER BY DESC(?count)"
-              },
-              "<https://artresearch.net/custom/number_of_matched_artworks>": {
-                "kind": "numeric-range",
-                "valuesQuery": "SELECT ?numericRangeBeginValue ?numericRangeEndValue WHERE { ?subject <https://artresearch.net/custom/number_of_matched_artworks> ?value . BIND(?value as ?numericRangeBeginValue). BIND(?value as ?numericRangeEndValue) . }"
-              }
---]]
-            }'
+      <div class="search-controls-area">
+        <div class="search-bar">
+          <pharos-image-search-with-slider
+              text-match-help='<b>Traditional Keyword Search.</b> Finds records containing your exact search terms. <semantic-link iri="https://artresearch.net/resource/search-help" fragment="text-match" target="_blank">See search documentation</semantic-link>'
+              text-similarity-help='<b>Conceptual Search.</b> Finds records that are thematically related to your search terms, searching across all information and languages. <semantic-link iri="https://artresearch.net/resource/search-help" target="_blank">See search documentation</semantic-link>'
+              text-visual-match-help='<b>Visual Concept Search.</b> Finds artworks that visually represent the concept of your search terms, even abstract terms or color in black-and-white photos. <semantic-link iri="https://artresearch.net/resource/search-help" target="_blank">See search documentation</semantic-link>'
+              visual-match-help='<b>Near-Exact Copies.</b> Finds duplicates, prints, or different versions of your uploaded image. <semantic-link iri="https://artresearch.net/resource/search-help" target="_blank">See search documentation</semantic-link>'
+              visual-similarity-help='<b>Aesthetic Search.</b> Finds artworks with a similar style, mood, or subject matter to your uploaded image. <semantic-link iri="https://artresearch.net/resource/search-help" target="_blank">See search documentation</semantic-link>'
 
-
-          >
-          </semantic-search-facet>
-        </div>
-
-        <div class="results-column">
-          <div class="search-bar">
-            <pharos-image-search-with-slider
-              text-match-help='Metadata Full Text Search. <a>See more</a>'
-              text-visual-match-help='Search in the image content. <a>See more</a>'
-              text-similarity-help='Search in the metadata. <a>See more</a>'
-              visual-match-help='Near exact image similarity. <a>See more</a>'
-              visual-similarity-help='Semantic image similarity. <a>See more</a>'
-
+              image-storage='runtime'
               initial-input='{{query}}'
               enable-model-selection='{{enableModelSelection}}'
 
@@ -645,23 +567,96 @@
             [[!--
             <semantic-search-configuration-editor></semantic-search-configuration-editor>
             --]]
+        </div>
+      </div>
+      <div class="search-content-area">
+        <div class="facets-area">
+          <div>
+            <semantic-search-facet open-by-default='true' sortby='count-desc' facet-values-threshold="5000"
+            default-value-queries='{
+              "resource": "SELECT ?value (COUNT(DISTINCT $subject) AS ?count) WHERE { FILTER(?__facetRelationPattern__) } GROUP BY ?value ORDER BY DESC(?count)",
+              "literal": "SELECT ?literal (COUNT(DISTINCT $subject) AS ?count) WHERE { FILTER(?__facetRelationPattern__) } GROUP BY ?literal ORDER BY DESC(?count)"
+            }'
+            value-relations='{
+              "<https://artresearch.net/resource/fr/Work_from_Place>": {
+                "kind":"hierarchy",
+                "valuesQuery": "SELECT ?value WHERE {?subject crm:P55_has_current_location ?value .}",
+                "queryPattern": "{
+                    ?subject crm:P55_has_current_location ?place .
+                    ?place crm:P89_falls_within* ?__value__ .
+                    ?place ^custom:sameAs?/crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/geographical_entity> .
+                }",
+                "parentsPattern": "{
+                    ?value crm:P89_falls_within ?parent .
+                }",
+                "childrenPattern": "{
+                    ?value crm:P89i_contains ?child .
+                }",
+                "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
+  						},
+              "<https://artresearch.net/resource/fr/Work_created_by_Artist>": {
+                "kind":"hierarchy",
+                "valuesQuery": "SELECT ?value WHERE {?subject crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by ?value .}",
+                "queryPattern": "{
+                    ?subject crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by ?__value__.
+                  }",
+                "parentsPattern": "{
+                  ?value crm:PXX ?parent .
+                 }",
+                "childrenPattern": "{
+                  ?child crm:PXX ?value .
+                }",
+                "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
+  						},
+              "<https://artresearch.net/resource/fr/Work_has_Image>": {
+                "kind": "resource",
+                "valuesQuery": "SELECT ?value (COUNT(DISTINCT $subject) AS ?count) WHERE {
+                OPTIONAL { ?subject custom:has_image ?has } . BIND(IF((BOUND(?has) && ?has = true), <http://www.w3.org/2001/XMLSchema#yes>, <http://www.w3.org/2001/XMLSchema#no>) AS ?value) . } GROUP BY ?value ORDER BY DESC(?count)"
+              },
+              "<https://artresearch.net/resource/fr/Photo_has_Image>": {
+                "kind": "resource",
+                "valuesQuery": "SELECT ?value (COUNT(DISTINCT $subject) AS ?count) WHERE {
+                OPTIONAL { ?subject custom:has_image ?has } . BIND(IF((BOUND(?has) && ?has = true), <http://www.w3.org/2001/XMLSchema#yes>, <http://www.w3.org/2001/XMLSchema#no>) AS ?value) . } GROUP BY ?value ORDER BY DESC(?count)"
+              },
+              "<https://artresearch.net/resource/fr/Repository_from_Place>": {
+                "kind":"hierarchy",
+                "valuesQuery": "SELECT ?value WHERE {?subject crm:P74_has_current_or_former_residence ?value .}",
+                "queryPattern": "{
+                    ?subject crm:P74_has_current_or_former_residence/crm:P89_falls_within* ?__value__ .
+                }",
+                "parentsPattern": "{
+                    ?value crm:P89_falls_within ?parent .
+                }",
+                "childrenPattern": "{
+                    ?value crm:P89i_contains ?child .
+                }",
+                "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
+  						}
+                             [[!--
+              "<https://artresearch.net/custom/is_matched_artworks>": {
+                "kind": "resource",
+                "valuesQuery": "SELECT ?value (COUNT(DISTINCT $subject) AS ?count) WHERE {
+                OPTIONAL { ?subject custom:is_matched_artworks ?has } . BIND(IF(?has = true, <http://www.w3.org/2001/XMLSchema#yes>, <http://www.w3.org/2001/XMLSchema#no>) AS ?value) . } GROUP BY ?value ORDER BY DESC(?count)"
+              },
+              "<https://artresearch.net/custom/number_of_matched_artworks>": {
+                "kind": "numeric-range",
+                "valuesQuery": "SELECT ?numericRangeBeginValue ?numericRangeEndValue WHERE { ?subject <https://artresearch.net/custom/number_of_matched_artworks> ?value . BIND(?value as ?numericRangeBeginValue). BIND(?value as ?numericRangeEndValue) . }"
+              }
+--]]
+            }'
+
+
+          >
+          </semantic-search-facet>
           </div>
+        </div>
+        <div class="results-area">
           <semantic-search-result-holder>
-            <semantic-search-result>
+            <div class='search-result-holder'>
               <!-- <p class="bold-text">filters</p> -->
               <semantic-search-facet-breadcrumbs>
 
               </semantic-search-facet-breadcrumbs>
-
-              <semantic-query
-                id="result-count"
-                query='SELECT (COUNT(DISTINCT ?subject) as ?count) WHERE {}'
-                template="{{>currentResultCount}}"
-              >
-                <template id="currentResultCount">
-                  <p><span class="bold-text">results</span> {{bindings.0.count.value}}</p>
-                </template>
-              </semantic-query>
 
               <mp-event-proxy id='search-results-refresh' on-event-source='main-search' on-event-type='Search.DomainSelected'
                     proxy-event-type='Component.TemplateUpdate' proxy-targets='["search-result-template"]'
@@ -670,30 +665,117 @@
                <mp-event-target-template-render id='search-result-template' template='{{> template}}'>
                   <template id='template'>
                     {{#if (eq domain "https://artresearch.net/resource/custom/fc/work")}}
-                    <semantic-search-result>
-                      <semantic-query
-                        id="grid-result"
-                        prefetch-labels="false"
-                        query='SELECT DISTINCT ?domain ?subject ?maxPhoto ?matchType WHERE {
-                        } ORDER BY DESC(?score) DESC(?subject) LIMIT 10000'
-                        template="{{> subjectCellTemplate}}"
-                        no-result-template='[[> CardNoResult ]]'
-                      >
-                        <template id="subjectCellTemplate">
-                          <div class="scrolable-area">
-                            <infinite-scroll item-height="250px"  item-per-row="auto" item-width="550" batch-size="20" values='{{stringify bindings}}' profile="artwork-card">
-                              <template id='template'>
-                                <div class="result-item karla-regular">
-                                  {{#each this}}
-                                    {{> Default:CardArtwork photo=maxPhoto.value provider=provider matchType=matchType}}
-                                  {{/each}}
+                    <bs-tab-container default-active-key="work-list">
+                      <div class='search-tab-container'>
+                        <div class='search-tab-container--header-row'>
+                          <semantic-search-result>
+                            <semantic-query
+                                            id="result-count"
+                                            query='SELECT (COUNT(DISTINCT ?subject) as ?count) WHERE {}'
+                                            template="{{>currentResultCount}}"
+                                            >
+                              <template id="currentResultCount">
+                                <p><span class="bold-text">results</span> {{bindings.0.count.value}}</p>
+                              </template>
+                            </semantic-query>
+                          </semantic-search-result>
+  
+                          <bs-nav class="icon-tabs">
+                            <bs-nav-item event-key="work-list" title="List View">
+                              <rs-icon icon-type="sharp" icon-name="view_list"></rs-icon>
+                            </bs-nav-item>
+                            <bs-nav-item event-key="work-grid" title="Grid View">
+                              <rs-icon icon-type="sharp" icon-name="view_module"></rs-icon>
+                            </bs-nav-item>
+                            <bs-nav-item event-key="work-image-grid" title="Image View">
+                              <rs-icon icon-type="sharp" icon-name="image"></rs-icon>
+                            </bs-nav-item>
+                          </bs-nav>
+                        </div>
+                       <bs-tab-content animation="true" mount-on-enter='true'>
+                         <bs-tab-pane event-key="work-list" class="work-list-pane">
+                          <semantic-search-result>
+                            <semantic-query
+                              id="grid-result"
+                              prefetch-labels="false"
+                              query='SELECT DISTINCT ?domain ?subject ?maxPhoto ?matchType WHERE {
+                              } ORDER BY DESC(?score) DESC(?subject) LIMIT 10000'
+                              template="{{> subjectCellTemplate}}"
+                              no-result-template='[[> CardNoResult ]]'
+                            >
+                              <template id="subjectCellTemplate">
+                                <div class="scrolable-area">
+                                  <infinite-scroll item-height="250px"  item-per-row="1" item-width="600" batch-size="20" values='{{stringify bindings}}' profile="artwork-card">
+                                    <template id='template'>
+                                      <div class="result-item karla-regular">
+                                        {{#each this}}
+                                          {{> Default:CardArtwork photo=maxPhoto.value provider=provider matchType=matchType}}
+                                        {{/each}}
+                                      </div>
+                                    </template>
+                                  </infinite-scroll>
                                 </div>
                               </template>
-                            </infinite-scroll>
-                          </div>
-                        </template>
-                      </semantic-query>
-                     </semantic-search-result>
+                            </semantic-query>
+                           </semantic-search-result>
+                         </bs-tab-pane>
+                         <bs-tab-pane event-key="work-grid" class="work-grid-pane">
+                           <semantic-search-result>
+                              <semantic-query
+                                id="grid-result"
+                                prefetch-labels="false"
+                                query='SELECT DISTINCT ?domain ?subject ?maxPhoto ?matchType WHERE {
+                                } ORDER BY DESC(?score) DESC(?subject) LIMIT 10000'
+                                template="{{> subjectCellTemplate}}"
+                                no-result-template='[[> CardNoResult ]]'
+                              >
+                                <template id="subjectCellTemplate">
+                                  <div class="scrolable-area">
+                                    <infinite-scroll item-height="250px"  item-per-row="auto" item-width="550" batch-size="20" values='{{stringify bindings}}' profile="artwork-card">
+                                      <template id='template'>
+                                        <div class="result-item karla-regular">
+                                          {{#each this}}
+                                            {{> Default:CardArtwork photo=maxPhoto.value provider=provider matchType=matchType}}
+                                          {{/each}}
+                                        </div>
+                                      </template>
+                                    </infinite-scroll>
+                                  </div>
+                                </template>
+                              </semantic-query>
+                            </semantic-search-result>
+                         </bs-tab-pane>
+												 <bs-tab-pane event-key="work-image-grid" class="work-image-grid-pane">
+                            <semantic-search-result>
+                              <semantic-query
+                                id="grid-result"
+                                prefetch-labels="false"
+                                query='SELECT DISTINCT ?domain ?subject ?maxPhoto ?matchType WHERE {
+                                } ORDER BY DESC(?score) DESC(?subject) LIMIT 10000'
+                                template="{{> subjectCellTemplate}}"
+                                no-result-template='[[> CardNoResult ]]'
+                              >
+                                <template id="subjectCellTemplate">
+                                  <div class="scrolable-area">
+                                    <infinite-scroll item-height="200" item-per-row="auto" item-width="200" batch-size="40" values='{{stringify bindings}}' profile="artwork-card">
+                                      <template id='template'>
+                                        <div class="result-item karla-regular">
+                                          {{#each this}}
+                                            {{> Default:CardArtworkThumbnail photo=maxPhoto.value provider=provider matchType=matchType}}
+                                          {{/each}}
+                                        </div>
+                                      </template>
+                                    </infinite-scroll>
+                                  </div>
+                                </template>
+                              </semantic-query>
+                            </semantic-search-result>
+                         </bs-tab-pane>
+                       </bs-tab-content>
+                      </div>
+                    </bs-tab-container>
+                    
+                   
                     {{else if (eq domain "https://artresearch.net/resource/custom/fc/photograph")}}
                     <semantic-search-result>
                       <semantic-query
@@ -793,7 +875,7 @@
                     {{/if}}
                     </template>
                </mp-event-target-template-render>
-            </semantic-search-result>
+            </div>
           </semantic-search-result-holder>
         </div>
       </div>

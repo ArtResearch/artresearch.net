@@ -1,36 +1,47 @@
   <div class="artwork-card karla-regular">
     {{#if data}}
-        <semantic-link-container uri="{{data.[@id]}}" target="_blank">
-            <div class="thumbnail-container cursor">
-              <div class="image-wrapper">
-              {{#if photo}}
-                <resource-info subject="{{photo}}" profile="photograph-thumbnail" template="{{> template}}">
-                  <template id="template">
-                    <img class="thumbnail-image" src="https://staging.artresearch.net{{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" alt="Artwork thumbnail" />
-                    <img class="provider-icon thumbnail-provider-icon" title="{{label}}" src="{{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
-                  </template>
-                </resource-info>
-              {{else if provider}}
-                {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos]}}
-                  {{#with (getPreferredPhoto data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values provider)}}
-                      <img class="thumbnail-image" src="https://staging.artresearch.net{{[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" alt="Artwork thumbnail" />
-                      <img class="provider-icon thumbnail-provider-icon" title="{{label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
-                  {{/with}}
-                {{else}}
-                  <span class="no-image-text">No image</span>
-                {{/if}}
-              {{else}}
-                {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos]}}
-                  <img class="thumbnail-image" src="https://staging.artresearch.net{{data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values.0.[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" alt="Artwork thumbnail" />
-                  <img class="provider-icon thumbnail-provider-icon" title="{{label}}" src="{{data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values.0.[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
-                {{else}}
-                  <span class="no-image-text">No image</span>
-                {{/if}}
-              {{/if}}
-              <img class="image-work-link" src="/assets/images/arrow_cream_black.svg" alt="arrow">
-              </div>
-            </div>
-      </semantic-link-container>
+      <semantic-link-container uri="{{data.[@id]}}" target="_blank">
+                  <div class="thumbnail-container cursor">
+                    <div class="image-wrapper">
+                    {{#if photo}}
+                      {{#bind work=this}}
+                      <resource-info subject="{{photo}}" profile="photograph-thumbnail" template="{{> template work=work}}">
+                        <template id="template">
+                          <img class="thumbnail-image" src="https://staging.artresearch.net{{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" alt="Artwork thumbnail" />
+                          [[!-- we show photoarchive icon over the thumbnail only if we have more than one photoarchive for this record --]]
+                          {{#if work.data.[https://artresearch.net/resource/field_definition/pharos_model/original_record_catalog].values.[1]}}
+                            <img class="provider-icon thumbnail-provider-icon" title="{{label}}" src="{{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
+                          {{/if}}
+                        </template>
+                      </resource-info>
+                      {{/bind}}
+                    {{else if provider}}
+                      {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos]}}
+                        {{#with (getPreferredPhoto data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values provider)}}
+                            <img class="thumbnail-image" src="https://staging.artresearch.net{{[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" alt="Artwork thumbnail" />
+                            {{!-- Use ../data to access the parent context outside of the #with block --}}
+                            {{#if ../data.[https://artresearch.net/resource/field_definition/pharos_model/original_record_catalog].values.[1]}}
+                              <img class="provider-icon thumbnail-provider-icon" title="{{label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
+                            {{/if}}
+                        {{/with}}
+                      {{else}}
+                        <span class="no-image-text">No image</span>
+                      {{/if}}
+                    {{else}}
+                      {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos]}}
+                        <img class="thumbnail-image" src="https://staging.artresearch.net{{data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values.0.[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" alt="Artwork thumbnail" />
+                        {{!-- No context change here, so direct access is correct --}}
+                        {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/original_record_catalog].values.[1]}}
+                          <img class="provider-icon thumbnail-provider-icon" title="{{label}}" src="{{data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values.0.[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
+                        {{/if}}
+                      {{else}}
+                        <span class="no-image-text">No image</span>
+                      {{/if}}
+                    {{/if}}
+                    <img class="image-work-link" src="/assets/images/arrow_cream_black.svg" alt="arrow">
+                    </div>
+                  </div>
+            </semantic-link-container>
 
           <div class="info-container">
             <span class="author-name">{{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/creator" label="Creator"}}
@@ -84,7 +95,7 @@
               <div class="field-label karla-bold">{{data.[https://artresearch.net/resource/field_definition/pharos_model/original_record_catalog].label}}</div>
               <div class="field-value">
                 <div class="provider-icons">
-                  <span class="provider-icons-text bold-text">PHOTO ARCHIVES</span>
+                  <span class="provider-icons-text bold-text">PHOTO ARCHIVES: </span>
                   {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/original_record_catalog].values}}
                     <semantic-link-container uri='{{[@id]}}' target='_blank'>
                       <img class="provider-icon" title="{{label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
@@ -101,58 +112,47 @@
               <div class="field-value">
                   {{#each (split matchType.value ',')}}
                     {{#ifCond this '===' 'text_index'}}
-                      <span class='label label-primary ai-result' style='margin-right: 5px'>Text Match</span>
+                      <mp-popover>
+                        <mp-popover-trigger placement="bottom" trigger='["hover"]'>
+                          <span class='ai-result' style='margin-right: 5px'>Text Match</span>
+                        </mp-popover-trigger>
+                        <mp-popover-content>
+                          This record is shown because its information contains your exact search terms.
+                        </mp-popover-content>
+                      </mp-popover>
                     {{/ifCond}}
                     {{#ifCond this '===' 'qwen3_8b'}}
-                      <span class='label label-primary ai-result' style='margin-right: 5px'>Textual Similarity</span>
-                    {{/ifCond}}
-                    {{#ifCond this '===' 'qwen3_0_6b'}}
-                      <span class='label label-primary ai-result' style='margin-right: 5px'>Textual Similarity</span>
-                    {{/ifCond}}
-                    {{#ifCond this '===' 'clip_vit_large_patch14_336'}}
-                      <span class='label label-primary ai-result' style='margin-right: 5px'>Visual similarity</span>
+                      <mp-popover>
+                        <mp-popover-trigger placement="bottom" trigger='["hover"]'>
+                          <span class='ai-result' style='margin-right: 5px'>Textual Similarity</span>
+                        </mp-popover-trigger>
+                        <mp-popover-content>
+                          This record is shown because its descriptive text is conceptually similar to your search terms.
+                        </mp-popover-content>
+                      </mp-popover>                
                     {{/ifCond}}
                     {{#ifCond this '===' 'siglip2_so400m_patch16_naflex'}}
-                      <span class='label label-primary ai-result' style='margin-right: 5px'>Visual Similarity</span>
-                    {{/ifCond}}
-                    {{#ifCond this '===' 'clip_vit_large_patch14_336_sift_rerank'}}
-                      <span class='label label-primary ai-result' style='margin-right: 5px'>Visual Match</span>
+                      <mp-popover>
+                        <mp-popover-trigger placement="bottom" trigger='["hover"]'>
+                          <span class='ai-result' style='margin-right: 5px'>Visual Similarity</span>
+                        </mp-popover-trigger>
+                        <mp-popover-content>
+                          This artwork is shown because it shares a similar aesthetic (style, mood, or composition) to your search terms.
+                        </mp-popover-content>
+                      </mp-popover>                  
                     {{/ifCond}}
                     {{#ifCond this '===' 'siglip2_so400m_patch16_naflex_sift_rerank'}}
-                      <span class='label label-primary ai-result' style='margin-right: 5px'>Visual Match</span>
+                      <mp-popover>
+                        <mp-popover-trigger placement="bottom" trigger='["hover"]'>
+                          <span class='ai-result' style='margin-right: 5px'>Visual Match</span>
+                        </mp-popover-trigger>
+                        <mp-popover-content>
+                          This image is a near-exact copy of the one you provided.
+                        </mp-popover-content>
+                      </mp-popover>  
                     {{/ifCond}}
                   {{/each}}
               </div>
-              
-              [[!--
-              <div class="field-value">
-                  {{#each (split matchType.value ',')}}
-                    {{#ifCond this '===' 'text_index'}}
-                      <img src="/assets/images/icons/text-match.svg" title="Text Match" alt="Text Match" />
-                    {{/ifCond}}
-                    {{#ifCond this '===' 'qwen3_8b'}}
-                      <span class='label label-primary ai-result' style='margin-right: 5px'>Textual Similarity</span>
-                    {{/ifCond}}
-                    {{#ifCond this '===' 'qwen3_0_6b'}}
-                      <span class='label label-primary ai-result' style='margin-right: 5px'>Textual Similarity</span>
-                    {{/ifCond}}
-                    {{#ifCond this '===' 'clip_vit_large_patch14_336_sift_rerank'}}
-                      <img src="/assets/images/icons/visual-match.svg" title="Visual Match" alt="Visual Match" />
-                    {{/ifCond}}
-                    {{#ifCond this '===' 'siglip2_so400m_patch16_naflex_sift_rerank'}}
-                      <img src="/assets/images/icons/visual-match.svg" title="Visual Match" alt="Visual Match" />
-                    {{/ifCond}}               
-                    {{#ifCond this '===' 'clip_vit_large_patch14_336'}}
-                      <img src="/assets/images/icons/visual-similarity.svg" title="Visual Similarity" alt="Visual Similarity" />
-                    {{/ifCond}}
-                    {{#ifCond this '===' 'siglip2_so400m_patch16_naflex'}}
-                      <img src="/assets/images/icons/visual-similarity.svg" title="Visual Similarity" alt="Visual Similarity" />
-                    {{/ifCond}}
-                  {{/each}}
-              </div>
-              --]]
-
-              
             </div>
             {{/if}}
 

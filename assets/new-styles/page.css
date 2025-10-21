@@ -49,7 +49,6 @@
 
 .page-container {
     height: calc(100vh - var(--nav-height));
-    overflow: auto;
     overflow-x: clip;
     display: block;
     margin-top: var(--nav-height);
@@ -266,20 +265,120 @@ h1 span.thin-text {
 }
 
 /* SEARCH */
-body:has(.search-container) {
+body:has(.search-page-container) {
   overflow: hidden;
 }
+.page-container:has(.search-page-container) { 
+  overflow: hidden;
+}
+
+.search-page-container {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - var(--nav-height)); /* Full viewport height minus navbar */
+}
+
+.search-tab-container--header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+
+.search-tab-container--header-row p {
+  margin: 0;
+}
+
+.search-controls-area {
+  /* This container will hold the search bar and will not scroll */
+  flex-shrink: 0; /* Prevents this area from shrinking */
+  padding: 0 20px 20px 20px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.search-content-area {
+  display: flex;
+  flex-grow: 1; /* Takes up the remaining vertical space */
+  overflow: hidden; /* Prevents this container from scrolling */
+}
+
+.facets-area {
+  min-width: 30px;
+  flex-shrink: 0;
+  overflow-y: auto; /* Allows vertical scrolling for facets */
+  padding: 0;
+  border-right: 1px solid #e0e0e0;
+}
+
+.results-area {
+  flex-grow: 1; /* Takes up the remaining horizontal space */
+  overflow-y: auto; /* Allows vertical scrolling for results */
+  padding: 0 20px;
+}
+
+/**
+ * Custom Override for Search Result Icon Tabs
+ */
+/* 1. Default / Inactive State Override */
+.nav.icon-tabs > li {
+  /* Override the default white background to be transparent */
+  background-color: transparent;
+  
+  /* Set a specific light grey border color */
+  border: 1px solid #d3cec0;
+
+  padding: 0;
+}
+
+.nav.icon-tabs > li > a {
+  text-decoration: none;
+}
+
+.nav.icon-tabs > li > a i {
+  /* Override the default icon color with a neutral grey */
+  color: grey;
+  font-size: 25px;
+}
+
+/* 2. Hover State Override */
+.nav.icon-tabs > li:hover,
+.nav.icon-tabs > li:focus-within {
+  /* On hover, use the off-white page background color */
+  background-color: #fff9e8;
+  
+  /* Change border to black for emphasis */
+  border-color: black;
+}
+
+.nav.icon-tabs > li:hover > a i,
+.nav.icon-tabs > li:focus-within > a i {
+  /* Make the icon black on hover for better contrast */
+  color: black;
+}
+
+/* 3. Active / Selected State Override */
+.nav.icon-tabs > li.active,
+.nav.icon-tabs > li.active:hover,
+.nav.icon-tabs > li.active:focus-within {
+  /* Use the primary site accent color for the background */
+  background-color: var(--domain-color);
+  
+  /* Match the border to the background for a solid look */
+  border-color: var(--domain-color);
+}
+
+.nav.icon-tabs > li.active > a i {
+  /* Ensure the icon is white for readability on the dark background */
+  color: #fff9e8;
+}
+/* -------------------------  */
 
 .search-container {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
-
-.search-bar {
-  margin-right: 20px;
-}
-
+ 
 #noResults {
   background-image: url('/assets/images/dot_full.png');
   background-repeat: no-repeat;
@@ -302,7 +401,6 @@ body:has(.search-container) {
   background-color: #fff9e8;
   border: none;
   border-radius: 0px;
-  margin-right: 20px;
 }
 .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--domainSelector .dropdown-toggle, 
 .ImageSearchWithSlider--imageSearchContainer input {
@@ -367,12 +465,6 @@ body:has(.search-container) {
   background-color: unset;
 }
 
-.content-area {
-  display: flex;
-  flex: 1;
-  overflow: hidden;
-}
-
 .search-container .field-value {
   -webkit-box-orient: vertical;
   display: -webkit-box;
@@ -391,6 +483,12 @@ body:has(.search-container) {
 .show-facet-button {
   background-color: var(--domain-color) !important;
   width: 30px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: initial;
+  margin: 0;
+  border-radius: 0;
 }
 
 .show-facet-button__label {
@@ -400,7 +498,7 @@ body:has(.search-container) {
 
 .facet-relations {
   width: 295px;
-  margin: 5px 10px !important;
+  margin: 5px 35px 5px 20px;
 }
 
 .facet-relation {
@@ -413,14 +511,7 @@ body:has(.search-container) {
   border-bottom: solid 1px black !important;
 }
 
-.results-column {
-  flex: 1;
-  height: 100%;
-  padding: 0 20px 20px 20px;
-  overflow: hidden;
-}
-
-.results-column .scrolable-area {
+.results-area .scrolable-area {
     overflow: auto;
     height: 100%;
 }
@@ -477,6 +568,10 @@ body:has(.search-container) {
   width: 550px;
   overflow: hidden;
   border-left: 1px solid transparent;
+}
+
+.work-list-pane .artwork-card {
+  width: 100%;
 }
 
 .actor-card {
@@ -861,11 +956,34 @@ body:has(.search-container) {
   color: #666;
 }
 
+    
+.field.ai-results .field-value {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5em; /* Controls the space between each marker unit */
+  margin-top: 10px;
+}
+
 .ai-result {
-  background-color: none !important;
-  color: var(--domain-color) !important;
-  border-left: solid;
-  font-style: italic;
+  background-color: transparent !important;
+  border: none;
+  padding: 0;
+
+  cursor: help;
+  /* Subtle typographic styling */
+  color: #888888 !important; /* Muted grey for both icon and text */
+  font-style: normal;
+  font-size: 1.1em;
+  font-weight: normal;
+  align-items: center;
+}
+
+/* Separator for multiple markers */
+.ai-result:not(:last-child)::after {
+  content: '·';
+  color: #b0b0b0; /* A slightly lighter grey for the separator */
+  margin-left: 0.5em; /* Space after the marker unit */
 }
 
 .qualifier-group {
@@ -1020,6 +1138,16 @@ body:has(.search-container) {
 
 /*Devices smaller than 767px*/
 @media (max-width: 767px) {
+  .search-content-area {
+    flex-direction: column;
+  }
+
+  .facets-area {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #e0e0e0;
+    max-height: 50vh; /* Limit height on mobile */
+  }
 
   /* SEARCH */
   .facet-relations {
