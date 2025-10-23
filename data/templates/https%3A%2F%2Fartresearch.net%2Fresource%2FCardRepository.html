@@ -1,14 +1,13 @@
 
-<semantic-link-container uri="{{subject.value}}" target="_blank">
   <div class="actor-card">
-    <resource-info subject="{{subject.value}}" profile="repository-card" template="{{> template}}">
-      <template id="template">
           <div class="info-container cursor">
             <div class="field">
               <div class="field-label">Name</div>
               <span class="author-name">
                 <div class="field-value">
+                  <semantic-link iri="{{subject.value}}" target="_blank">
                   {{data.label}} ({{worksCount.value}})
+                  </semantic-link>
                 </div>
               </span>
             </div>
@@ -32,31 +31,29 @@
               </div>
             </div> -->
           </div>
-      </template>
-
-      <template id="fieldTemplate">
-        {{#if (lookup data field)}}
-            <div class="field">
-              <div class="field-label">{{label}}</div>
-              <div class="field-value">
-                {{#each (mergeUniqueValues (lookup (lookup data field) 'values'))}}
-                  {{#if [@id]}}
-                      [[!-- <semantic-link iri="{{[@id]}}">{{label}}</semantic-link> --]]
-                    {{label}}
-                    {{#unless @last}}, {{/unless}}
-                  {{else}}
-                    {{#if (eq ../field "https://artresearch.net/resource/field_definition/pharos_model/production_date")}}
-                      {{dateRangeFormat [@value]}}
-                    {{else}}
-                      {{[@value]}}
-                    {{/if}}
-                    {{#unless @last}}, {{/unless}}
-                  {{/if}}
-                {{/each}}
-              </div>
-            </div>
-        {{/if}}
-      </template>
-    </resource-info>
   </div>
-</semantic-link-container>
+
+
+  {{#*inline "fieldTemplate"}}
+    {{#if (lookup data field)}}
+        <div class="field">
+          <div class="field-label">{{label}}</div>
+          <div class="field-value">
+            {{#each (mergeUniqueValues (lookup (lookup data field) 'values'))}}
+              {{#if [@id]}}
+                  [[!-- <semantic-link iri="{{[@id]}}">{{label}}</semantic-link> --]]
+                {{label}}
+                {{#unless @last}}, {{/unless}}
+              {{else}}
+                {{#if (eq ../field "https://artresearch.net/resource/field_definition/pharos_model/production_date")}}
+                  {{dateRangeFormat [@value]}}
+                {{else}}
+                  {{[@value]}}
+                {{/if}}
+                {{#unless @last}}, {{/unless}}
+              {{/if}}
+            {{/each}}
+          </div>
+        </div>
+    {{/if}}
+  {{/inline}}

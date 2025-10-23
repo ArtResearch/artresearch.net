@@ -306,7 +306,6 @@ body:has(.search-container) {
 
 .results-area {
   flex-grow: 1; /* Takes up the remaining horizontal space */
-  overflow-y: auto; /* Allows vertical scrolling for results */
   padding: 0 20px;
 }
 
@@ -559,6 +558,7 @@ body:has(.search-container) {
   display: flex;
   position: relative;
   max-height: 250px;
+  min-height: 100px;
   width: 550px;
   overflow: hidden;
   border-left: 1px solid transparent;
@@ -594,7 +594,7 @@ body:has(.search-container) {
 
 .actor-card {
     display: flex;
-    height: 120px;
+    height: 100px;
     overflow: hidden;
     /* font-family: "Calibre", "Arial", sans-serif; */
     padding-bottom: 10px;
@@ -646,8 +646,11 @@ body:has(.search-container) {
 .info-container {
   flex-grow: 1;
   overflow-y: auto;
-  /* Create space for the 200px image area + 20px gap */
-  margin-left: 220px;
+}
+
+.artwork-card .info-container {
+    /* Create space for the 200px image area + 20px gap */
+    margin-left: 220px;
 }
 
 .cursor {
