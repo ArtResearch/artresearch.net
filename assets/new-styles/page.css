@@ -1217,6 +1217,29 @@ body:has(.search-container) {
     flex-direction: column;
   }
 
+  .results-area {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .results-area .search-result-holder,
+  .results-area .search-result-holder > div,
+  .results-area .search-tab-container,
+  .results-area .tab-content,
+  .results-area .tab-pane.active {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .results-area .scrolable-area {
+    height: 100%;
+    overflow-y: auto;
+  }
+
   .facets-area {
     width: 100%;
     border-right: none;
