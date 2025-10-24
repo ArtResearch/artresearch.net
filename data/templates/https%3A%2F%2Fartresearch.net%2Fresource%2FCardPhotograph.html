@@ -99,7 +99,7 @@
           <div class="field-value">
             {{#each (lookup (lookup data field) 'values')}}
               {{#if [@id]}}
-                {{label}} <semantic-link target="_blank" iri="{{[@id]}}"><img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt="alt"></semantic-link>
+                <semantic-link target="_blank" iri="{{[@id]}}">{{label}}</semantic-link>
                 {{#unless @last}} · {{/unless}}
               {{else}}
                   {{#if (eq ../field "https://artresearch.net/resource/field_definition/pharos_model/production_date")}}

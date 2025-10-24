@@ -41,7 +41,7 @@
           <div class="field-value">
             {{#each (mergeUniqueValues (lookup (lookup data field) 'values'))}}
               {{#if [@id]}}
-                  [[!-- <semantic-link iri="{{[@id]}}">{{label}}</semantic-link> --]]
+                  <semantic-link iri="{{[@id]}}" target="_blank">{{label}}</semantic-link> 
                 {{label}}
                 {{#unless @last}}, {{/unless}}
               {{else}}
