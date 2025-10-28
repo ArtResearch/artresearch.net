@@ -1,13 +1,167 @@
 <div class="page">
+  <style>
+    /* Override the large padding from page.css to make the content wider */
+    .page-title-and-intro {
+      padding-left: 5rem;
+      padding-right: 5rem;
+    }
+    .page-section {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .page__body h1 {
+      font-size: 2.2em; /* Slightly smaller for better balance */
+    }
+
+    .page__body h2 {
+      font-size: 1.8em;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 0.5em;
+      margin-top: 2.5em;
+    }
+
+    .page__body h3 {
+      font-size: 1.4em;
+    }
+    
+    .page__body h4 {
+      font-size: 1.1em;
+      font-weight: bold;
+    }
+
+    /* Use a more standard font size for better readability */
+    .page__body p, .page__body li {
+      font-size: 1.2em;
+      line-height: 1.7;
+    }
+
+    .page__body ul {
+      padding-left: 1.5em;
+      list-style-type: disc;
+    }
+
+    .page__body .code-like {
+      background-color: #eee;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    }
+    #examples > div {
+        margin-bottom: 5em;
+        padding-bottom: 2em;
+        border-bottom: 1px solid #eee;
+    }
+    #examples > div:last-child {
+        border-bottom: none;
+    }
+
+    .page__body [id]::before {
+        content: '';
+        display: block;
+        height:      75px;
+        margin-top: -75px;
+        visibility: hidden;
+    }
+
+    .help-container {
+        display: flex;
+        flex-direction: row;
+        gap: 3rem;
+        padding-left: 5rem;
+        padding-right: 5rem;
+    }
+    .help-nav {
+        width: 250px;
+        flex-shrink: 0;
+        position: sticky;
+        top: 100px;
+        align-self: flex-start;
+        height: calc(100vh - 120px);
+        overflow-y: auto;
+        border-right: 1px solid #eee;
+        padding-right: 2rem;
+    }
+    .help-nav ul {
+        list-style-type: none;
+        padding-left: 0;
+    }
+    .help-nav ul a {
+        display: block;
+        padding: 0.4em 0;
+        text-decoration: none;
+        color: #333;
+        font-size: 0.8em;
+    }
+    .help-nav ul a:hover {
+        color: #000;
+    }
+    .help-nav > ul > li > a {
+        font-weight: bold;
+        font-size: 0.9em;
+    }
+    .help-nav ul ul {
+        padding-left: 1.5em;
+        border-left: 1px solid #eee;
+        margin-left: 5px;
+    }
+    .help-nav ul ul a {
+        font-size: 0.7em;
+    }
+    .help-content {
+        flex-grow: 1;
+        min-width: 0; /* prevent overflow */
+    }
+
+    @media (max-width: 767px) {
+        .help-nav {
+            display: none;
+        }
+        .help-container {
+            flex-direction: column;
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+    }
+  </style>
   <div class="page__body">
-            <div class="page__main-title-row">
-                <h1>A Guide to Searching Pharos</h1>
+            <div class="page-title-and-intro">
+                <div class="page__main-title-row">
+                    <h1>A Guide to Searching Artresearch</h1>
+                </div>
+
+            <p>Artresearch presents the combined collections of  PHAROS: The International Association of Photo Archives and provides access to millions of photographs of works of art. Our search tools are designed to support every kind of research, from finding a specific, known artwork to discovering new conceptual and visual connections across all the collections.</p>
+            <p>Understanding how to use the different search types—both combined and individually—will empower you to navigate the catalog with precision and also to make surprising discoveries.</p>
+            <p>The search system is divided into two main approaches: <strong>Searching with Text</strong> and <strong>Searching with an Image</strong>.</p>
             </div>
 
-            <p>Our search tools are designed to support every kind of research, from finding a specific, known artwork to discovering new conceptual and visual connections across the collection. Understanding how to use the different search types—both combined and individually—will empower you to navigate the catalog with precision and make surprising discoveries.</p>
-            <p>The search system is divided into two main approaches: <strong>Searching with Text</strong> and <strong>Searching with an Image</strong>.</p>
-
-            <section id="searching-with-text">
+            <div class="help-container">
+                <nav class="help-nav">
+                    <ul>
+                        <li><a href="#searching-with-text">Searching with Text</a>
+                            <ul>
+                                <li><a href="#text-match">Text Match</a></li>
+                                <li><a href="#textual-similarity">Textual Similarity</a></li>
+                                <li><a href="#visual-similarity-from-text">Visual Similarity (from text)</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#searching-with-image">Searching with an Image</a>
+                            <ul>
+                                <li><a href="#visual-match">Visual Match</a></li>
+                                <li><a href="#visual-similarity-from-image">Visual Similarity</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#examples">Examples</a>
+                            <ul>
+                                <li><a href="#example-mona-lisa">Mona Lisa</a></li>
+                                <li><a href="#example-red-flowers">"Red Flowers"</a></li>
+                                <li><a href="#example-woman-hands">"Study of Woman Hands"</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="help-content">
+                    <div class="page-section"><section id="searching-with-text">
                 <h2>Searching with Text</h2>
                 <p>When you type keywords into the search bar, our system is powerful and flexible. By default, all three text search types are active to provide you with the most comprehensive results. However, you have full control to select or deselect any combination of search types, allowing you to tailor your query for broad discovery or targeted precision.</p>
                 <p>To help you understand why an item appeared, every result is labeled with indicators for the search types it matched: <span class="code-like">Text Match</span>, <span class="code-like">Textual Similarity</span>, or <span class="code-like">Visual Similarity</span>. Artworks that match multiple active search types are often the most relevant and will typically appear at the top of your results.</p>
@@ -19,7 +173,7 @@
                     <p><strong>When to Use It:</strong></p>
                     <ul>
                         <li><strong>By default:</strong> It works alongside the other types to find exact matches.</li>
-                        <li>Select <strong>only this type</strong> when you need the most literal results and want to exclude any conceptual or visual suggestions. This is ideal for finding a specific artwork by its known title or inventory number.</li>
+                        <li>Select <strong>only this type</strong> when you need the most literal results and want to exclude any conceptual or visual suggestions. This is ideal for finding a specific artwork by its known title or inventory number. Example: search for: Pieta Rondanini. Results will only refer to this specific work.</li>
                     </ul>
                     <p><strong>Keep in Mind:</strong> This search is language-specific. For cross-lingual searches, <em>Textual Similarity</em> is the essential tool.</p>
                 </div>
@@ -30,7 +184,7 @@
                     <p><strong>When to Use It:</strong></p>
                     <ul>
                         <li><strong>By default:</strong> This is the core discovery engine, finding related works you might otherwise miss.</li>
-                        <li>Select this type when you want to explore a theme ("royal portraits"), research a broad topic, or when you are unsure of the exact terminology. Its ability to search across languages makes it invaluable for international collections. For example, a search for "water lilies" can find works titled "Les Nymphéas."</li>
+                        <li>Select this type when you want to explore a theme ("royal portraits"), research a broad topic, or when you are unsure of the exact terminology. Its ability to search across languages makes it invaluable for international collections. For example, a search for "water lilies" can find works titled "Les Nymphéas." Example: search for: Pieta Rondanini. Results will refer to this specific work, but also to other works of art with a “Pieta” or “Bewening van Christus” or “Mary mourning the dead Christ”..</li>
                     </ul>
                 </div>
 
@@ -40,12 +194,12 @@
                     <p><strong>When to Use It:</strong></p>
                     <ul>
                         <li><strong>By default:</strong> It adds a layer of visual discovery to your text search.</li>
-                        <li>Select this type when your query is primarily about a visual idea ("serene landscapes," "dramatic chiaroscuro"). It can even identify subjects in images without strong color cues, such as finding "red flowers" in a black-and-white photograph.</li>
+                        <li>Select this type when your query is primarily about a visual idea ("serene landscapes," "dramatic chiaroscuro"). It can even identify subjects in images without strong color cues, such as finding "red flowers" in a black-and-white photograph. Example: search for: Pieta Rondanini. Results will refer to the specific work, but also to other scenes of mourning a dead person or gestures associated with mourning.</li>
                     </ul>
                 </div>
-            </section>
+            </section></div>
 
-            <section id="searching-with-image">
+            <div class="page-section"><section id="searching-with-image">
                 <h2>Searching with an Image (and Finding Similar Works)</h2>
                 <p>These methods allow you to use an image as your search query. This can be done by uploading a file from your computer or by navigating to the "Similar Works" tab on an artwork's detail page. Unlike the text search, these modes are distinct and used one at a time.</p>
                 
@@ -54,7 +208,7 @@
                     <p><strong>What It Is:</strong> This tool analyzes the "digital fingerprint" of your image to find near-identical matches in the catalog. It is designed to locate duplicates, not to find stylistically similar works.</p>
                     <p><strong>When to Use It:</strong></p>
                     <ul>
-                        <li>To see if a specific artwork is in our collection.</li>
+                        <li>To see if a specific artwork is held in one of the collections .</li>
                         <li>To find all different records or photographs of the same artwork.</li>
                         <li>To identify an artwork from a cropped image or detail shot.</li>
                         <li>To locate a higher-quality version of an image you have.</li>
@@ -62,107 +216,140 @@
                 </div>
                 
                 <div>
-                    <h3 id="visual-similarity-from-image">2. Visual Similarity: Discovering Aesthetic Connections</h3>
-                    <p><strong>What It Is:</strong> This is a powerful discovery tool that finds artworks aesthetically related to your source image. It looks beyond a direct match to identify works sharing a similar style, mood, color palette, composition, or subject matter. It finds "artistic cousins" rather than "identical twins."</p>
+                    <h3 id="visual-similarity-from-image">2. Visual Similarity: Discovering Visual Connections</h3>
+                    <p><strong>What It Is:</strong> This is a powerful discovery tool that finds artworks visually related to your source image. It looks beyond a direct match to identify works sharing a similar style, mood, color palette, composition, or subject matter. It finds "artistic cousins" rather than "identical twins."</p>
                     <p><strong>When to Use It:</strong></p>
                     <ul>
                         <li><strong>To explore artistic influence:</strong> Upload a painting to find works by other artists who may have been inspired by it or worked in a similar style.</li>
-                        <li><strong>On the "Similar Works" tab:</strong> This feature is used automatically to reveal other works in the collection that share an aesthetic with the piece you are currently viewing.</li>
+                        <li><strong>On the "Similar Works" tab:</strong> This feature is used automatically to reveal other works in the collections that share aesthetic values with the image you are currently viewing.</li>
                         <li><strong>To build a visual argument:</strong> Gather a group of thematically or stylistically similar works that may not be linked by traditional catalog data.</li>
                     </ul>
                 </div>
-            </section>
+            </section></div>
 
-            <section id="examples">
+            <div class="page-section"><section id="examples">
                 <h2>Examples</h2>
                 
                 <div>
-                    <h3 id="example-mona-lisa">Searching with an Image of the Mona Lisa</h3>
-                    <p>Let's explore a practical example to see how our image search tools work. Imagine you have a link to a high-quality image of Leonardo da Vinci's Mona Lisa and you paste it to the search bar. You have both <em>Visual Match</em> and <em>Visual Similarity</em> search types selected.</p>
-                    <p>The system performs two distinct searches simultaneously, giving you a rich set of results that demonstrate the unique strengths of each tool.</p>
+                    <h3 id="example-mona-lisa">1. Searching with an Image of the Mona Lisa</h3>
+                    <p>Paste a a high-quality image of Leonardo da Vinci's Mona Lisa to the search bar (<a href="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Mona_Lisa.jpg/1354px-Mona_Lisa.jpg">https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Mona_Lisa.jpg/1354px-Mona_Lisa.jpg</a>). You have both Visual Match and Visual Similarity search types selected.</p>
+                    <p>The system performs two distinct searches simultaneously, giving you a rich set of results that demonstrate the unique strengths of each tool. <a href="/resource/search?query=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2F6%2F6a%2FMona_Lisa.jpg%2F1354px-Mona_Lisa.jpg" target="_blank">See Mona Lisa search.</a></p>
                     
+                    <img src="/assets/images/search-help/mona-lisa.png" alt="Search results for Mona Lisa image" style="max-width: 100%; height: auto; margin: 1em 0; border: 1px solid #ccc;">
+
                     <h4>The Power of Visual Match: Finding the Original and Its Duplicates</h4>
                     <p>Your top results will be labeled with the <span class="code-like">Visual Match</span> indicator. These will be images that are almost identical to the one you uploaded.</p>
                     <p><strong>What You'll See:</strong></p>
                     <ul>
                         <li>The primary record for Leonardo's Mona Lisa from the Louvre Museum.</li>
                         <li>Other high-quality photographs of the same painting from different sources or archives.</li>
-                        <li>This search is so precise it can even identify a manipulated version where the Mona Lisa is holding a guitar.</li>
+                        <li>As seen in the screenshots, this search is so precise it can even identify  manipulated versions, e.g. where the Mona Lisa is holding a guitar.</li>
                     </ul>
                     <p><strong>Why It Works This Way:</strong><br>
-                    Visual Match acts like a "digital fingerprint" scanner. It is designed to find exact or near-exact copies, which is why it correctly identifies the Photoshopped image—the underlying original is still a perfect match.</p>
+                    Visual Match acts like a "digital fingerprint" scanner. It analyzes the unique patterns, colors, and pixel-perfect composition of your Mona Lisa image and finds others with a matching fingerprint. It is designed to find exact or near-exact copies, which is why it correctly identifies the photoshopped image—the underlying original is still a perfect match.</p>
+                    <p>Use Visual Match when your goal is to identify an image, find its primary record, or locate exact duplicates and direct derivatives.</p>
 
                     <h4>The Power of Visual Similarity: Discovering Copies, Prints, and Influences</h4>
-                    <p>Further down in the results, you will find a broader range of artworks labeled with the <span class="code-like">Visual Similarity</span> indicator. These results are not exact copies but are conceptually and aesthetically related to the Mona Lisa.</p>
+                    <p>Further down in the results, you will find a broader range of artworks labeled with the <span class="code-like">Visual Similarity</span> indicator. These results are not exact copies, but are conceptually and visually related to the Mona Lisa.</p>
                     <p><strong>What You'll See:</strong></p>
                     <ul>
-                        <li>Copies of the Mona Lisa painted by other artists.</li>
-                        <li>Prints, etchings, and other reproductions of the painting.</li>
-                        <li>Other portraits from the same period or in a similar style that share compositional elements.</li>
+                        <li>Copies of the Mona Lisa painted by other artists, like the version from the Museo del Prado.</li>
+                        <li>Prints, etchings, and other reproductions of the painting made in later centuries.</li>
+                        <li>Other portraits from the same period or in a similar style that share compositional elements—such as a three-quarter pose, a soft atmospheric background, or a similar somber mood.</li>
+                        <li>As the screenshots show, you'll find numerous copies and versions by other artists (like a copy by E.C. Fechner in Düsseldorf), and prints (like the one by Luigi Calamatta).</li>
                     </ul>
                     <p><strong>Why It Works This Way:</strong><br>
-                    Instead of matching fingerprints, Visual Similarity analyzes the artwork's essence—the three-quarter pose, the soft lighting (sfumato), the composition. It then finds other works in the collection that share this artistic DNA.</p>
+                    Instead of matching fingerprints, Visual Similarity analyzes the artwork's essence—the three-quarter pose, the soft lighting (sfumato), the composition of a figure against a distant landscape. It then finds other works in the collection that share this artistic DNA, even if they were created by a different hand, in a different medium, or centuries later.</p>
+                    <p>Use Visual Similarity when your goal is to explore artistic connections, discover related works, study artistic influence, or find different interpretations of a subject.</p>
                     
                     <h4>In Summary</h4>
-                    <p>By using both search types on the Mona Lisa, you get a complete picture. Visual Match confirms the identity of the original painting, while Visual Similarity reveals its vast influence across art history.</p>
+                    <p>By using both search types on the Mona Lisa, you get a complete picture. Visual Match confirms the identity of the original painting and its direct copies, while Visual Similarity reveals its vast influence and legacy across art and also cultural history.</p>
                 </div>
 
                 <div>
-                    <h3 id="example-red-flowers">A Text Search for "Red Flowers"</h3>
-                    <p>Let's explore what happens when you perform a common text search, like "red flowers," with all three search types enabled. The results demonstrate how these tools work together to go beyond simple keyword matching.</p>
+                    <h3 id="example-red-flowers">2. A Text Search for "Red Flowers"</h3>
+                    <p>Example: perform a common text search– "red flowers" – with all three search types (Text Match, Textual Similarity, and Visual Similarity) enabled. The results you get demonstrate how these tools work together to go beyond simple keyword matching.</p>
+                    <p>The top results often have multiple match indicators, signaling that the system has found them to be relevant in several different ways. <a href="/resource/search?query=red+flowers" target="_blank">See "red flowers" search.</a></p>
 
+                    <img src="/assets/images/search-help/red-flowers-1.png" alt="Search results" style="max-width: 100%; height: auto; margin: 1em 0; border: 1px solid #ccc;">
+
+                    <img src="/assets/images/search-help/red-flowers-2.png" alt="Search results" style="max-width: 100%; height: auto; margin: 1em 0; border: 1px solid #ccc;">
                     <h4>1. The Role of Text Match: Finding the Exact Words</h4>
-                    <p>The system looks for the literal words "red" and "flowers" in the artwork's data.</p>
+                    <p>First, the system looks for the literal words "red" and "flowers" across all the text data associated with an artwork, including the title, artist, and descriptive notes.</p>
                     <p><strong>What You'll See:</strong></p>
                     <ul>
-                        <li>Direct title matches like "Still life with red and white flowers."</li>
-                        <li>Surprising artist matches, such as works by Odilon <strong>Red</strong>on with "Flowers" in the title.</li>
+                        <li>Direct Title Matches: You'll find works like Jan Sluijters' "Still life with red and white flowers," which is a perfect keyword match.</li>
+                        <li>Surprising Artist Matches: The top results are dominated by the artist Odilon Redon. This is because his last name contains "Red," and many of his work titles contain the word "Flowers." This is an example of a Text Match finding (mostly) relevant results you might not have expected.</li>
                     </ul>
 
                     <h4>2. The Role of Textual Similarity: Understanding Concepts and Languages</h4>
-                    <p>The system looks for works conceptually related to "red flowers."</p>
+                    <p>Next, the system looks for works that are conceptually related to "red flowers," even if they don't use those exact words. This is where the search becomes truly powerful for discovery.</p>
                     <p><strong>What You'll See:</strong></p>
                     <ul>
-                        <li>Cross-language matches like titles with "Rode bloemen" (Dutch for "red flowers").</li>
-                        <li>Thematic matches like "Geraniums," as the system knows a geranium is a type of flower.</li>
+                        <li>Cross-Language Matches: The screenshots show results from the Dutch artist Otto B. de Kat with titles like "Rode bloemen" and "Stilleven met rode bloemen." Textual Similarity understands that "rode bloemen" is the Dutch translation of "red flowers," so it includes these highly relevant works which a simple Text Match would have missed.</li>
+                        <li>Thematic Matches: You'll see Odilon Redon's "Geraniums." The system knows that a geranium is a type of flower, making it thematically relevant to your search, even though the word "flower" is not in the title.</li>
                     </ul>
 
                     <h4>3. The Role of Visual Similarity: Finding a "Look and Feel"</h4>
-                    <p>The system analyzes the images to find visual representations of "red flowers."</p>
+                    <p>Finally, the system analyzes the images themselves to find artworks that visually represent the concept of "red flowers."</p>
                     <p><strong>What You'll See:</strong></p>
                     <ul>
-                        <li>Obvious visual matches in colorful still life paintings.</li>
-                        <li>The "Aha!" moment: A black-and-white photo of "Geraniums" gets a match because the AI recognizes the shape and form of the flowers, regardless of color.</li>
+                        <li>Obvious Visual Matches: Many of the colorful still life paintings by artists like Otto B. de Kat and Jan Sluijters get a Visual Similarity tag because their images clearly depict bouquets containing red flowers.</li>
+                        <li>The "Aha!" Moment - Black-and-White Photos: One of the most insightful examples is the black-and-white photograph of Odilon Redon's "Geraniums." Despite having no color, it receives a Visual Similarity match. This is because the AI has been trained to recognize the shape and form of geraniums as being representative of the concept of "flowers," regardless of the photographic medium. It sees the subject, not just the colors.</li>
                     </ul>
 
                     <h4>Bringing It All Together: Why the Best Results Have Multiple Tags</h4>
-                    <p>The top results often have multiple indicators. For example, Odilon Redon's "Wild Flowers in a Tall Vase" gets all three tags, making it an exceptionally strong match and placing it at the top.</p>
+                    <p>Look at the top result in the screenshot: Odilon Redon's "Wild Flowers in a Tall Vase." It has all three indicators:</p>
+                    <ul>
+                        <li>Text Match: From the artist's name "Redon" and the title's "Flowers."</li>
+                        <li>Textual Similarity: The combination of a famous flower painter and the word "Flowers" makes it highly relevant.</li>
+                        <li>Visual Similarity: The image is a vibrant painting of a bouquet containing red flowers.</li>
+                    </ul>
+                    <p>Because this single result satisfies the query in three different ways, the system identifies it as an exceptionally strong match and places it at the top. This demonstrates how the combined search approach helps surface the most relevant artworks by combining literal, conceptual, and visual understanding.</p>
                 </div>
                 
                 <div>
-                    <h3 id="example-woman-hands">The Nuance of Searching for "Study of Woman Hands"</h3>
-                    <p>This example shows how a Text Match can be technically perfect but miss the user's goal, and how Textual and Visual Similarity are essential for delivering relevant results.</p>
+                    <h3 id="example-woman-hands">3. The Nuance of Searching for "Study of Woman Hands"</h3>
+                    <p>Art historical queries are often conceptual. You might be looking for a theme or a specific type of work, like an anatomical study. A search for "study of woman hands" provides a perfect case study for how our combined search engine understands your intent by going far beyond simple keyword matching.</p>
+                    <p>This example shows how a Text Match can be technically perfect but miss the user's goal, and how Textual Similarity and Visual Similarity are essential for delivering truly relevant results. <a href="/resource/search?query=red+flowers" target="_blank">See "study of woman hands" search.</a></p>
                     
-                    <h4>1. The Literal Power of Text Match: A Surprising Result</h4>
-                    <p>A search for "study of woman hands" returns Frank Duveneck's "Study of a Woman's Head" with a <span class="code-like">Text Match</span> indicator.</p>
-                    <p><strong>Why It's a "Perfect" Match:</strong> The artwork's metadata contains the keywords in the Subjects field: <em>Portraits: Women: <strong>Without hands</strong>: Head to right</em>. The tool found the words but missed the negative context.</p>
+                    <img src="/assets/images/search-help/woman-hands.png" alt="Search results" style="max-width: 100%; height: auto; margin: 1em 0; border: 1px solid #ccc;">
 
-                    <h4>2. Textual Similarity: Understanding Your True Intent</h4>
-                    <p>This is where the system's intelligence shines. Nearly all correct results are tagged with <span class="code-like">Textual Similarity</span>.</p>
-                    <p><strong>What You'll See:</strong> Works with German titles like "Zwei Studien für Frauenhände" (Two Studies for Woman's Hands) because it understands the concept and language.</p>
+                    <h4>1. The Literal Power of Text Match: A Surprising (and Insightful) Result</h4>
+                    <p>When you perform this search, you'll see Frank Duveneck's "Study of a Woman's Head" as a top result, marked with only the <span class="code-like">Text Match</span> indicator. At first glance, this seems like an error. Why would a search for "hands" return a picture of a "head"?</p>
+                    <p>The answer lies deep within the catalog data. [For this you need to open the original catalog entry by the Frick Collection by following the link on the top right “view sources” with the symbol of the Frick Collection] If we look at the full record for this artwork, we find the following in the Subjects field:</p>
+                    <p><em>Portraits: Women: Without hands: Head to right</em></p>
+                    <p><strong>Why It's a "Perfect" Match:</strong></p>
+                    <p>The Text Match tool did its job with absolute precision. It scanned all text associated with the record and found the keywords “study”, "womanwomen" and "hands" right in the subject description. From a purely literal standpoint, it is a 100% correct keyword match.</p>
+                    <p><strong>The Crucial Limitation:</strong></p>
+                    <p>This result is the single best example of a search being technically correct but contextually wrong. The system is designed to find keywords, but it does not have the human-like ability to understand the negative context of the word "Without." It saw "women" and "hands" and made the connection, missing the crucial nuance that the record is explicitly defining a portrait without hands.</p>
+
+                    <h4>2. Textual Similarity: Understanding Your True Intent Across Languages</h4>
+                    <p>This is where the system's intelligence redeems the search. While Text Match found a literal but incorrect result, Textual Similarity understood what you were actually looking for. Nearly all of the correct results are tagged with this indicator.</p>
+                    <p><strong>What You'll See:</strong></p>
+                    <ul>
+                        <li>Works with German titles like "Zwei Studien für Frauenhände" (Two Studies for Woman's Hands) and "Hände einer Frau" (Hands of a Woman).</li>
+                        <li>Works with Dutch titles like "Studie van de handen van een vrouw" (Study of the hands of a woman).</li>
+                    </ul>
+                    <p><strong>Why It Works:</strong></p>
+                    <p>Textual Similarity looks beyond the English words you typed. It grasps the concept of a "study of a woman's hands" and finds records that are thematically identical, even when they are in a different language. It correctly identified that "Frauenhände" means "woman's hands," something a simple Text Match could never do.</p>
 
                     <h4>3. Visual Similarity: Finding What You Want to See</h4>
-                    <p>All correct results also get the <span class="code-like">Visual Similarity</span> tag, confirming the system "sees" hands in the images. The "Study of a Woman's Head" does not receive this tag, signaling it's an outlier.</p>
+                    <p>Notice that all the correct results—the ones that actually depict hands—are also marked with the <span class="code-like">Visual Similarity</span> indicator. This is the final layer of confirmation.</p>
+                    <p><strong>What It Shows:</strong></p>
+                    <p>This tag proves that the system's AI has analyzed the images and recognized that they visually correspond to your query. It "sees" the hands in the drawings and paintings. Crucially, the "Study of a Woman's Head" does not receive this tag for this search, as its image does not visually match your query, providing a clear signal to you, the user, that it might be an outlier.</p>
 
-                    <h4>Bringing It All Together: Why a Blended Search Succeeds</h4>
-                    <p>This example perfectly illustrates the platform's philosophy:</p>
+                    <h4>Bringing It All Together: Why a Combined Search Succeeds</h4>
+                    <p>This "study of woman hands" example perfectly illustrates the search philosophy of our platform:</p>
                     <ul>
-                        <li><strong>Text Match</strong> is a literal tool that can lack contextual understanding.</li>
-                        <li><strong>Textual Similarity</strong> deciphers your true intent and breaks down language barriers.</li>
-                        <li><strong>Visual Similarity</strong> acts as essential confirmation, verifying that the artworks visually represent the subject.</li>
+                        <li><strong>Text Match</strong> is a powerful, literal tool that searches deep into the metadata for your search words, sometimes revealing fascinating cataloging details but lacking contextual understanding.</li>
+                        <li><strong>Textual Similarity</strong> is a more refined version of  this search. It not only understands the concept of your search, but is also able to  break down language barriers to help you get much better results </li>
+                        <li><strong>Visual Similarity</strong> acts as the essential confirmation, verifying that the artworks shown in your result list not only match in text but also visually represent the subject you're researching.</li>
                     </ul>
-                    <p>By combining these approaches, the system is designed to understand what you <em>mean</em>, not just what you <em>type</em>.</p>
+                    <p>By combining these approaches, the system is designed to understand and interpret what you mean, not just what you type, leading you to a far more accurate and insightful set of results.</p>
                 </div>
-            </section>
+            </section></div>
+                </div>
+            </div>
   </div>
 </div>
