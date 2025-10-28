@@ -1,0 +1,24 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/bibliography/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/bibliography> a <http://www.researchspace.org/resource/system/fields/Field>,
+      <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-1e175bee92594667b0a0143c371a730d-idlmxg;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Bibliography";
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-1e175bee92594667b0a0143c371a730d-cimvet;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-10-28T12:26:28.896+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-1e175bee92594667b0a0143c371a730d-cimvet a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+
+SELECT ?value ?provUri WHERE {
+  ?subject crm:P67i_is_referred_to_by ?bib.
+}""" .
+  
+  _:genid-1e175bee92594667b0a0143c371a730d-idlmxg a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/bibliography> .
+}

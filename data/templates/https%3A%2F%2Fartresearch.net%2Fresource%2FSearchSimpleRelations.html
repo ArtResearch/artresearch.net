@@ -81,6 +81,7 @@
               "queryPattern": "{
                 ?subject crm:P2_has_type ?type .
                 ?type crm:P127_has_broader_term* ?__value__ .
+                FILTER(?type NOT IN (<http://vocab.getty.edu/aat/300133025>, <https://artresearch.net/resource/pharos/vocab/meta/photographic_print>))
               }",
               "parentsPattern": "{ ?value crm:P127_has_broader_term ?parent . }",
               "childrenPattern": "{ ?child crm:P127_has_broader_term ?value . }",

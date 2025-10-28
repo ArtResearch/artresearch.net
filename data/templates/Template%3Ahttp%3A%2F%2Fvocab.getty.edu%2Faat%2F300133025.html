@@ -23,7 +23,43 @@
                           <div class="main-image-container">
                             <mp-event-target-template-render id='work-full-image' template='{{> template data=data}}'>
                               <template id="mainImageView">
-                                <mp-overlay-dialog data-title="{{label}}" data-type="lightbox">
+                                <mp-overlay-dialog data-title="{{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_archive]}}
+                                {{photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_archive].values.[0].label}},
+                              {{/if}}
+
+                              {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_license]}}
+                                [{{photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_license].values.[0].label}}],
+                              {{/if}}
+
+                              {{#if artwork.label}}
+                                {{artwork.label}} -
+                              {{/if}}
+
+                              {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/title]}}
+                                {{#each photo.[https://artresearch.net/resource/field_definition/pharos_model/title].values}}
+                                  {{label}}
+                                  {{#unless @last}}, {{/unless}}
+                                {{/each}}
+                                .
+                              {{/if}}
+
+                              {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_identifier]}}
+                                {{#each photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_identifier].values}}
+                                  {{label}}
+                                  {{#unless @last}}, {{/unless}}
+                                {{/each}}
+                                .
+                              {{/if}}
+
+                              {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photographer]}}
+                                Photo:
+                                {{#each photo.[https://artresearch.net/resource/field_definition/pharos_model/photographer].values}}
+                                  {{label}}
+                                  {{#unless @last}}, {{/unless}}
+                                {{/each}}
+
+                                .
+                              {{/if}}" data-type="lightbox">
                                   <mp-overlay-dialog-trigger>
                                     <div class="object-main-image-holder">
                                       <img alt='' class="object-image" src="https://staging.artresearch.net{{imageUrl}}" />
@@ -124,7 +160,43 @@
                           <div class="main-image-container" style="height: 100%;">
                             <mp-event-target-template-render id='work-full-image' template='{{> template data=data}}'>
                               <template id="mainImageView">
-                                <mp-overlay-dialog data-title="{{label}}" data-type="lightbox">
+                                <mp-overlay-dialog data-title="{{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_archive]}}
+                                {{photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_archive].values.[0].label}},
+                              {{/if}}
+
+                              {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_license]}}
+                                [{{photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_license].values.[0].label}}],
+                              {{/if}}
+
+                              {{#if artwork.label}}
+                                {{artwork.label}} -
+                              {{/if}}
+
+                              {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/title]}}
+                                {{#each photo.[https://artresearch.net/resource/field_definition/pharos_model/title].values}}
+                                  {{label}}
+                                  {{#unless @last}}, {{/unless}}
+                                {{/each}}
+                                .
+                              {{/if}}
+
+                              {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_identifier]}}
+                                {{#each photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_identifier].values}}
+                                  {{label}}
+                                  {{#unless @last}}, {{/unless}}
+                                {{/each}}
+                                .
+                              {{/if}}
+
+                              {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photographer]}}
+                                Photo:
+                                {{#each photo.[https://artresearch.net/resource/field_definition/pharos_model/photographer].values}}
+                                  {{label}}
+                                  {{#unless @last}}, {{/unless}}
+                                {{/each}}
+
+                                .
+                              {{/if}}" data-type="lightbox">
                                   <mp-overlay-dialog-trigger>
                                     <div class="object-main-image-holder">
                                       <img alt='' class="object-image" src="https://staging.artresearch.net{{imageUrl}}" />
@@ -357,6 +429,25 @@
                         ]')
                     }}
 
+
+                    {{> fieldGroup
+                      data=data
+                      title=""
+                      fields=(parse '[
+                          {
+                              "field": "https://artresearch.net/resource/field_definition/pharos_model/bibliography",
+                              "label": "Bibliography",
+                              "mode": "text"
+                          },
+                          {
+                              "field": "https://artresearch.net/resource/field_definition/pharos_model/work_provenance",
+                              "label": "Provenance",
+                              "mode": "text"
+                          }
+                      ]')
+                    }}
+
+
                     {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/photo]}}
                     <div class="field-group photos-accordion">
                       <h3>Photographs</h3>
@@ -466,7 +557,7 @@
                                             {{/each}}
                                         </div>
                                         <span class="col-md-10 col-sm-8">
-                                          {{label}}
+                                          {{#if label}}{{label}}{{else}}{{[@value]}}{{/if}}
                                           {{#if [https://artresearch.net/resource/field_definition/pharos_model/production_date_qualifier]}}
                                             <span class="field-value-qualifier">
                                               [{{#each [https://artresearch.net/resource/field_definition/pharos_model/production_date_qualifier].values}}

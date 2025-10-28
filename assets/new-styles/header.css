@@ -107,6 +107,10 @@ ol.page-breadcrumb {
     font-size: 1.8rem;
     line-height: 1.5;
     background-color: #fff9e8;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    overflow: hidden;
 }
 
 .base-breadcrumb,
@@ -120,12 +124,14 @@ ol.page-breadcrumb {
 }
 
 ol.page-breadcrumb > li {
-
+    white-space: nowrap;
 }
 ol.page-breadcrumb > .active {
     color: var(--domain-color);
     font-weight: 700;
+    overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 ol.page-breadcrumb>li+li::before {
