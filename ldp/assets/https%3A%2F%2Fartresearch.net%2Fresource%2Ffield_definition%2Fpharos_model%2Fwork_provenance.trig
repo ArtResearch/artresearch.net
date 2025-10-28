@@ -1,23 +1,23 @@
 
 <https://artresearch.net/resource/field_definition/pharos_model/work_provenance/context> {
-  _:genid-db829b28971343aeaefc3b0443818456-m6dvv a <http://spinrdf.org/sp#Query>;
-    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
-  
   <https://artresearch.net/resource/field_definition/pharos_model/work_provenance> a
       <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
       <http://www.w3.org/ns/ldp#Resource>;
-    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-db829b28971343aeaefc3b0443818456-0z0xef;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-8f24352dd09c4f6a84a8e0731df4d78c-6l7e1;
     <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
-    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-db829b28971343aeaefc3b0443818456-m6dvv;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-8f24352dd09c4f6a84a8e0731df4d78c-sqvbh;
     <http://www.w3.org/2000/01/rdf-schema#label> "Provenance";
     <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
-    <http://www.w3.org/ns/prov#generatedAtTime> "2025-10-28T12:26:17.475+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-10-28T20:14:26.139+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
   
-  _:genid-db829b28971343aeaefc3b0443818456-0z0xef a <http://spinrdf.org/sp#Query>;
+  _:genid-8f24352dd09c4f6a84a8e0731df4d78c-6l7e1 a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  _:genid-8f24352dd09c4f6a84a8e0731df4d78c-sqvbh a <http://spinrdf.org/sp#Query>;
     <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 
-SELECT ?value ?provUri WHERE {
-  ?subject crm:P24i_changed_ownership_through ?event.
+SELECT ?value WHERE {
+  ?subject crm:P24i_changed_ownership_through ?value.
 }""" .
   
   <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
