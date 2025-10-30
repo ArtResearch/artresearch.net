@@ -331,7 +331,12 @@ p.underline {
 
 .explore-cards {
   margin: 2rem auto;
-  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.explore-card {
+  flex: 1;
 }
 
 .explore-card img {
@@ -771,12 +776,6 @@ a.mirador-osd-toggle-bottom-panel.hud-control {
     display: inline;
   }
 
-  .explore-card img {
-    width: 100%;
-    height: auto;
-    padding: 2em 0px 1em 0px;
-  }
-
   .explore-card p img {
     height: 1.4em;
     padding: 0px;
@@ -797,6 +796,17 @@ a.mirador-osd-toggle-bottom-panel.hud-control {
   /* FOOTER */
   .footer-logo-small {
     margin-top: 2em;
+  }
+}
+
+@media (max-width: 600px) {
+  .explore-card img {
+    height: 10rem;
+  }
+
+  .home-section {
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
 }
 

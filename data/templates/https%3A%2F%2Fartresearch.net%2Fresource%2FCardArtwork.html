@@ -131,6 +131,7 @@
                       </mp-popover>                
                     {{/ifCond}}
                     {{#ifCond this '===' 'siglip2_so400m_patch16_naflex'}}
+                      {{#unless (contains ../matchType.value 'siglip2_so400m_patch16_naflex_sift_rerank')}}
                       <mp-popover>
                         <mp-popover-trigger placement="bottom" trigger='["hover"]'>
                           <span class='ai-result' style='margin-right: 5px'>Visual Similarity</span>
@@ -138,7 +139,8 @@
                         <mp-popover-content>
                           This artwork is shown because it shares a similar aesthetic (style, mood, or composition) to your search terms.
                         </mp-popover-content>
-                      </mp-popover>                  
+                      </mp-popover>                
+                      {{/unless}}  
                     {{/ifCond}}
                     {{#ifCond this '===' 'siglip2_so400m_patch16_naflex_sift_rerank'}}
                       <mp-popover>

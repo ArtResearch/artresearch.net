@@ -1,0 +1,14 @@
+<inline-template template-iri="Default:SearchAllTemplate" 
+                 options='{
+                            "pageTitle":"Photographs dated between 1839 and 1900", 
+                            "lock": "true",
+                            "domain": "photograph",
+                            "searchRestrictions": "
+                              ?subject (crm:P65_shows_visual_item/crm:P94i_was_created_by/crm:P4_has_time-span) ?timeSpan_f732a75a_323f_4a20_9e20_62bf5acf0a45.
+    FILTER(EXISTS { ?timeSpan_f732a75a_323f_4a20_9e20_62bf5acf0a45 (crm:P82a_begin_of_the_begin|crm:P82b_end_of_the_end) ?date_3286cd59_df4d_4f3c_86b3_803087dd79b3. })
+    OPTIONAL { ?timeSpan_f732a75a_323f_4a20_9e20_62bf5acf0a45 crm:P82a_begin_of_the_begin ?begin_c1f87cbd_5c6d_432c_8bed_ce25c4aecd70. }
+    OPTIONAL { ?timeSpan_f732a75a_323f_4a20_9e20_62bf5acf0a45 crm:P82b_end_of_the_end ?end_5019877d_f3ed_445d_b159_b196a25d13a0. }
+    FILTER(((!BOUND(?begin_c1f87cbd_5c6d_432c_8bed_ce25c4aecd70)) || (?begin_c1f87cbd_5c6d_432c_8bed_ce25c4aecd70 <= \\\"1900-01-01T00:00:00.000Z\\\"^^xsd:dateTime)) && ((!BOUND(?end_5019877d_f3ed_445d_b159_b196a25d13a0)) || (?end_5019877d_f3ed_445d_b159_b196a25d13a0 >= \\\"1839-01-01T00:00:00.000Z\\\"^^xsd:dateTime)))
+
+                            "
+                          }'></inline-template>

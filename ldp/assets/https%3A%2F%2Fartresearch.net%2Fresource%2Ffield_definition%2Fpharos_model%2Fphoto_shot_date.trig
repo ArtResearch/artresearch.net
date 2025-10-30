@@ -1,0 +1,26 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/photo_shot_date/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/photo_shot_date> a
+      <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
+      <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Shot date";
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-83433156dbfb4568b2a2e810bf5e983a-sernmo;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#string>;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-83433156dbfb4568b2a2e810bf5e983a-5znnul;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-10-30T13:00:04.425+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-83433156dbfb4568b2a2e810bf5e983a-5znnul a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+
+SELECT ?value WHERE {
+  $subject crm:P65_shows_visual_item/crm:P94i_was_created_by ?production .
+  ?production crm:P4_has_time-span ?value. 
+}""" .
+  
+  _:genid-83433156dbfb4568b2a2e810bf5e983a-sernmo a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/photo_shot_date> .
+}

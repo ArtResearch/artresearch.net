@@ -17,7 +17,7 @@
                                   <img alt='' class="object-image" src="https://staging.artresearch.net{{imageUrl}}" />
                                   <p>
                                     {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_archive]}}
-                                      {{photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_archive].values.[0].label}},
+                                      Provided by {{photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_archive].values.[0].label}},
                                     {{/if}}
 
                                     {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_license]}}
@@ -141,6 +141,10 @@
                             {
                               "field": "https://artresearch.net/resource/field_definition/pharos_model/photographer",
                               "mode": "link"
+                            },
+                            {
+                              "field": "https://artresearch.net/resource/field_definition/pharos_model/photo_shot_date",
+                              "mode": "text"
                             },
                             {
                               "field": "https://artresearch.net/resource/field_definition/pharos_model/photo_identifier",
@@ -377,7 +381,7 @@
                                   {{/if}}
                                   [[!-- <semantic-link iri="{{[@id]}}">{{label}}</semantic-link> --]]
                                 {{else}}
-                                    {{#if (eq ../field "https://artresearch.net/resource/field_definition/pharos_model/production_date")}}
+                                    {{#if (eq ../field "https://artresearch.net/resource/field_definition/pharos_model/photo_shot_date")}}
                                       <span class="col-md-10">{{dateRangeFormat [@value]}}</span>
                                     {{else}}
                                       <span class="col-md-10">{{[@value]}}</span>

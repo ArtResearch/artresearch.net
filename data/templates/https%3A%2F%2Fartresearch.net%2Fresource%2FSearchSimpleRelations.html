@@ -127,6 +127,22 @@
                 ?subject custom:has_image ?has .
               }"
   }],  
+  "<https://artresearch.net/resource/fr/Photograph_has_shot_Date>":[{
+    "kind": "date-range", 
+    "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+    "format": "YYYY-MM-DDTHH:mm:ss.SSS[Z]",
+    "queryPattern": "{
+        $subject crm:P65_shows_visual_item/crm:P94i_was_created_by/crm:P4_has_time-span ?timeSpan .
+        FILTER EXISTS {
+    		  ?timeSpan crm:P82a_begin_of_the_begin|crm:P82b_end_of_the_end ?date .
+        }
+    
+        OPTIONAL { ?timeSpan crm:P82a_begin_of_the_begin ?begin . }
+        OPTIONAL { ?timeSpan crm:P82b_end_of_the_end ?end . }
+
+        FILTER ((!BOUND(?begin) || ?begin <= ?__dateEndValue__) && (!BOUND(?end) || ?end >= ?__dateBeginValue__))    
+    }"
+  }],
   [[!-- Artist --]]
   "<https://artresearch.net/resource/fr/Artist_has_Gender>":[{
               "kind":"resource",

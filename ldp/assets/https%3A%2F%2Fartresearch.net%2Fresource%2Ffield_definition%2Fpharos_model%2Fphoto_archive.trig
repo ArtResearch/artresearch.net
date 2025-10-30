@@ -2,22 +2,22 @@
 <https://artresearch.net/resource/field_definition/pharos_model/photo_archive/context> {
   <https://artresearch.net/resource/field_definition/pharos_model/photo_archive> a <http://www.researchspace.org/resource/system/fields/Field>,
       <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
-    <http://www.w3.org/2000/01/rdf-schema#label> "Credit";
-    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-ceaa956512e04417be9493021545f7f1-qgah0j;
     <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
-    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-ceaa956512e04417be9493021545f7f1-2ikrb;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-92fc2a2be9b04bafac2359e30cf861a0-sgtskj;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Provided by";
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-92fc2a2be9b04bafac2359e30cf861a0-b912zn;
     <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
-    <http://www.w3.org/ns/prov#generatedAtTime> "2024-12-16T10:26:20.867+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-10-29T21:28:21.728+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
   
-  _:genid-ceaa956512e04417be9493021545f7f1-qgah0j a <http://spinrdf.org/sp#Query>;
-    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
-  
-  _:genid-ceaa956512e04417be9493021545f7f1-2ikrb a <http://spinrdf.org/sp#Query>;
+  _:genid-92fc2a2be9b04bafac2359e30cf861a0-sgtskj a <http://spinrdf.org/sp#Query>;
     <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 
 SELECT ?value WHERE {
   ?subject crm:P50_has_current_keeper  ?value. 
 }""" .
+  
+  _:genid-92fc2a2be9b04bafac2359e30cf861a0-b912zn a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
   
   <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
       <https://artresearch.net/resource/field_definition/pharos_model/photo_archive> .
