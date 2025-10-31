@@ -14,7 +14,7 @@
   <div class="main-container">
     <semantic-if query="ASK { <[[this]]> ^custom:sameAs?/crm:P2_has_type <https://artresearch.net/resource/pharos/vocab/meta/photographer> }"  then='{{> then}}' else='{{> else}}'>
      <template id='then'>
-       <inline-template template-iri="Default:SearchTemplate" options='{"searchRestrictions":"?subject crm:P108i_was_produced_by/crm:P14_carried_out_by <[[this]]> .", "domain": "photograph", "lock": "true"}'></inline-template>
+       <inline-template template-iri="Default:SearchTemplate" options='{"searchRestrictions":"?subject crm:P65_shows_visual_item/crm:P94i_was_created_by/crm:P14_carried_out_by <[[this]]> .", "domain": "photograph", "lock": "true"}'></inline-template>
  
      </template>
      <template id='else'>
