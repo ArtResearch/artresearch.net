@@ -31,7 +31,7 @@
             <div class="field-label karla-bold">{{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].label}}</div>
             <div class="field-value">
               <div class="provider-icons">
-                <span class="provider-icons-text bold-text">PHOTO ARCHIVE: </span>
+                <span class="provider-icons-text">Photo archive(s): </span>
                 {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values}}
                 <semantic-link-container uri='{{[@id]}}' target='_blank'>
                   <img class="provider-icon" title="{{label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
@@ -40,7 +40,7 @@
               </div>
             </div>
           </div>
-          
+
             {{#if matchType.value}}
             <div class="field ai-results">
               <div class="field-value">
@@ -63,7 +63,7 @@
                         <mp-popover-content>
                           This record is shown because its descriptive text is conceptually similar to your search terms.
                         </mp-popover-content>
-                      </mp-popover>                
+                      </mp-popover>
                     {{/ifCond}}
                     {{#ifCond this '===' 'siglip2_so400m_patch16_naflex'}}
                       <mp-popover>
@@ -73,7 +73,7 @@
                         <mp-popover-content>
                           This artwork is shown because it shares a similar aesthetic (style, mood, or composition) to your search terms.
                         </mp-popover-content>
-                      </mp-popover>                  
+                      </mp-popover>
                     {{/ifCond}}
                     {{#ifCond this '===' 'siglip2_so400m_patch16_naflex_sift_rerank'}}
                       <mp-popover>
@@ -83,12 +83,12 @@
                         <mp-popover-content>
                           This image is a near-exact copy of the one you provided.
                         </mp-popover-content>
-                      </mp-popover>  
+                      </mp-popover>
                     {{/ifCond}}
                   {{/each}}
               </div>
             </div>
-            {{/if}}          
+            {{/if}}
         </div>
     </template>
 
