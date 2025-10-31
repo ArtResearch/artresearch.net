@@ -536,7 +536,7 @@
           default-query-3='
             SELECT ?subject WHERE {
               ?work crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph> .
-              ?work crm:P108i_was_produced_by/crm:P14_carried_out_by/crm:P107i_is_current_or_former_member_of? ?subject .
+              ?work crm:P65_shows_visual_item/crm:P94i_was_created_by/crm:P14_carried_out_by/crm:P107i_is_current_or_former_member_of? ?subject .
             }
           '
 
@@ -545,14 +545,14 @@
               {
                       SELECT ?subject ((?__textScoreSumPattern__) / SAMPLE(?textMaxScore) as ?score) WHERE {
                         ?work crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph> .
-                        ?work crm:P108i_was_produced_by/crm:P14_carried_out_by/crm:P107i_is_current_or_former_member_of? ?subject .
+                        ?work crm:P65_shows_visual_item/crm:P94i_was_created_by/crm:P14_carried_out_by/crm:P107i_is_current_or_former_member_of? ?subject .
                         {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
                         FILTER(?__textPattern__) .
 
                         {
                           SELECT ((?__textScoreSumPattern__) AS ?textMaxScore) WHERE {
                               ?work crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph> .
-                              ?work crm:P108i_was_produced_by/crm:P14_carried_out_by/crm:P107i_is_current_or_former_member_of? ?subject .
+                              ?work crm:P65_shows_visual_item/crm:P94i_was_created_by/crm:P14_carried_out_by/crm:P107i_is_current_or_former_member_of? ?subject .
                               {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
                               FILTER(?__textPattern__) .
                           }
@@ -564,7 +564,7 @@
                       GROUP BY ?subject
                   }
                 ?work crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph> .
-                ?work crm:P108i_was_produced_by/crm:P14_carried_out_by/crm:P107i_is_current_or_former_member_of? ?subject .
+                ?work crm:P65_shows_visual_item/crm:P94i_was_created_by/crm:P14_carried_out_by/crm:P107i_is_current_or_former_member_of? ?subject .
 
           }'
 

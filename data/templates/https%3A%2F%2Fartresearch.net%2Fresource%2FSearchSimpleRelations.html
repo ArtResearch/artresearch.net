@@ -100,7 +100,7 @@
   "<https://artresearch.net/resource/fr/Photograph_created_by_Photographer>": [{
               "kind":"hierarchy",
               "queryPattern": "{
-                    ?subject crm:P108i_was_produced_by/crm:P14_carried_out_by/crm:P107i_is_current_or_former_member_of? ?__value__ .              }",
+                    ?subject crm:P65_shows_visual_item/crm:P94i_was_created_by/crm:P14_carried_out_by/crm:P107i_is_current_or_former_member_of? ?__value__ .              }",
               "parentsPattern": "{ ?value crm:P107i_is_current_or_former_member_of ?parent . }",
               "childrenPattern": "{ ?child crm:P107i_is_current_or_former_member_of ?value . }",
               "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
@@ -154,6 +154,17 @@
               " 
 
     }],
+  "<https://artresearch.net/resource/fr/Artist_documented_in_Institution>":[{
+              "kind":"resource",
+              "queryPattern": "
+                {
+                  ?work crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by/custom:sameAs? ?subject .
+                  ?work crm:P70i_is_documented_in/crm:P104_is_subject_to  ?ownership. 
+                  ?__value__ crm:P75_possesses ?ownership .
+                }
+              " 
+
+    }],    
   "<https://artresearch.net/resource/fr/Artist_has_Life_Dates>":[{
     "kind": "date-range",
     "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
@@ -197,6 +208,17 @@
               " 
 
     }],
+  "<https://artresearch.net/resource/fr/Photographer_documented_in_Institution>":[{
+              "kind":"resource",
+              "queryPattern": "
+                {
+                  ?work crm:P65_shows_visual_item/crm:P94i_was_created_by/crm:P14_carried_out_by/custom:sameAs? ?subject .
+                  ?work crm:P70i_is_documented_in/crm:P104_is_subject_to  ?ownership. 
+                  ?__value__ crm:P75_possesses ?ownership .
+                }
+              " 
+
+    }],    
   "<https://artresearch.net/resource/fr/Photographer_has_Life_Dates>":[{
     "kind": "date-range",
     "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",

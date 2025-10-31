@@ -1,24 +1,24 @@
 
 <https://artresearch.net/resource/field_definition/pharos_model/artist_original_record_catalog/context> {
-  _:genid-55c9ddff016f4149a5085e01a63c168e-vvovoa a <http://spinrdf.org/sp#Query>;
-    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
-  
   <https://artresearch.net/resource/field_definition/pharos_model/artist_original_record_catalog>
     a <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
       <http://www.w3.org/ns/ldp#Resource>;
-    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-55c9ddff016f4149a5085e01a63c168e-vvovoa;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-f0b85a6117ef4cf39a26ffc98cf0a7c6-ecmqwm;
     <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
     <http://www.w3.org/2000/01/rdf-schema#label> "Photo Archive";
-    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-55c9ddff016f4149a5085e01a63c168e-oh9xobh;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-f0b85a6117ef4cf39a26ffc98cf0a7c6-sjq5wy;
     <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
-    <http://www.w3.org/ns/prov#generatedAtTime> "2025-06-06T23:15:25.961+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-10-31T10:01:07.656+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
   
-  _:genid-55c9ddff016f4149a5085e01a63c168e-oh9xobh a <http://spinrdf.org/sp#Query>;
+  _:genid-f0b85a6117ef4cf39a26ffc98cf0a7c6-ecmqwm a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  _:genid-f0b85a6117ef4cf39a26ffc98cf0a7c6-sjq5wy a <http://spinrdf.org/sp#Query>;
     <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 PREFIX pharos: <https://artresearch.net/custom/>
 
 SELECT ?value WHERE {
-  ?work crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by/custom:sameAs? ?subject .
+  ?work ((crm:P108i_was_produced_by/crm:P9_consists_of*)|(crm:P65_shows_visual_item/crm:P94i_was_created_by))/crm:P14_carried_out_by/custom:sameAs? ?subject .
   ?work crm:P70i_is_documented_in/crm:P104_is_subject_to  ?ownership. 
   ?value crm:P75_possesses ?ownership .
 }""" .
