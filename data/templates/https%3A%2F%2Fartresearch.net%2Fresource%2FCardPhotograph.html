@@ -16,17 +16,19 @@
           <span class="author-name">{{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/photographer" label="Photographer"}}</span>
           <semantic-link iri='{{subject}}' target="_blank">
             <span class="bold-text photo-title">
-              {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/photo_title].values.[0]}}
-
-                {{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/photo_title" label="Title"}}
-              {{else}}
-                {{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/photo_artwork" label="Title"}}
-              {{/if}}
+              <div class="field">
+                <div class="field-label karla-bold">Title</div>
+                <div class="field-value">
+                {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/photo_title].values.[0]}}
+                  {{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_title].values.[0].[label]}}
+                {{else}}
+                  {{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_artwork].values.[0].[label]}}
+                {{/if}}
+                </div>
+              </div>
             </span>
           </semantic-link>
-          {{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/photo_archive" label="Credit"}}
           {{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/production_date" label="Date"}}
-
           <div class="field">
             <div class="field-label karla-bold">{{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].label}}</div>
             <div class="field-value">
