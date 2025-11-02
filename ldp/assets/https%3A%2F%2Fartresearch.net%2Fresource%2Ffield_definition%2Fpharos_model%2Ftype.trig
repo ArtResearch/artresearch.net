@@ -1,25 +1,25 @@
 
 <https://artresearch.net/resource/field_definition/pharos_model/type/context> {
-  <https://artresearch.net/resource/field_definition/pharos_model/type> a <http://www.researchspace.org/resource/system/fields/Field>,
-      <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
-    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-03997f622ea0433d9ae88823ca2a864e-tcnq9c;
-    <http://www.w3.org/2000/01/rdf-schema#label> "Types";
-    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-03997f622ea0433d9ae88823ca2a864e-ehnryb;
-    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#string>;
-    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
-    <http://www.w3.org/ns/prov#generatedAtTime> "2025-10-28T12:02:27.889+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
-  
-  _:genid-03997f622ea0433d9ae88823ca2a864e-tcnq9c a <http://spinrdf.org/sp#Query>;
-    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
-  
-  _:genid-03997f622ea0433d9ae88823ca2a864e-ehnryb a <http://spinrdf.org/sp#Query>;
+  _:genid-56a23fbc7023410485849cddedf349b6-tqhpkl a <http://spinrdf.org/sp#Query>;
     <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 
 SELECT DISTINCT ?value WHERE {
   ?subject crm:P2_has_type ?value. 
   # we want to filter artwork P2, because it doesn't make sense to show it to the user
-  FILTER(?value NOT IN (<http://vocab.getty.edu/aat/300133025>, <https://artresearch.net/resource/pharos/vocab/meta/photographic_print>))
+  FILTER(?value NOT IN (<http://vocab.getty.edu/aat/300133025>, <https://artresearch.net/resource/pharos/vocab/meta/photographic_print>, <https://artresearch.net/resource/pharos/vocab/meta/photograph>))
 }""" .
+  
+  _:genid-56a23fbc7023410485849cddedf349b6-fam7ui a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  <https://artresearch.net/resource/field_definition/pharos_model/type> a <http://www.researchspace.org/resource/system/fields/Field>,
+      <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-56a23fbc7023410485849cddedf349b6-fam7ui;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Types";
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-56a23fbc7023410485849cddedf349b6-tqhpkl;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#string>;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-11-03T00:16:20.554+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
   
   <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
       <https://artresearch.net/resource/field_definition/pharos_model/type> .
