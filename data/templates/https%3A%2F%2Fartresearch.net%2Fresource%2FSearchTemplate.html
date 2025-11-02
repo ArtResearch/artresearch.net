@@ -740,17 +740,18 @@
                               id="grid-result"
                               prefetch-labels="false"
                               query='SELECT DISTINCT ?domain ?subject ?maxPhoto ?matchType WHERE {
-                              } ORDER BY DESC(?score) DESC(?subject) LIMIT 10000'
-                              template="{{> subjectCellTemplate}}"
+                                OPTIONAL { ?subject custom:hasImage ?hasImage . }
+                              } ORDER BY DESC(?score) DESC(?hasImage) DESC(?subject) LIMIT 10000'
+                              template="{{#bind provider=provider}}{{> subjectCellTemplate}}{{/bind}}"
                               no-result-template='[[> CardNoResult ]]'
                             >
                               <template id="subjectCellTemplate">
                                 <div class="scrolable-area">
-                                  <infinite-scroll item-height="250"  item-per-row="1" item-width="600" batch-size="20" values='{{stringify bindings}}' profile="artwork-card">
+                                  <infinite-scroll template="{{> template }}" item-height="250"  item-per-row="1" item-width="600" batch-size="20" values='{{stringify bindings}}' profile="artwork-card">
                                     <template id='template'>
                                       <div class="result-item karla-regular">
-                                        {{#each this}}
-                                          {{> Default:CardArtwork photo=maxPhoto.value provider=provider matchType=matchType}}
+                                        {{#each rows}}
+                                          {{> Default:CardArtwork photo=maxPhoto.value provider=../provider matchType=matchType}}
                                         {{/each}}
                                       </div>
                                     </template>
@@ -766,17 +767,18 @@
                                 id="grid-result"
                                 prefetch-labels="false"
                                 query='SELECT DISTINCT ?domain ?subject ?maxPhoto ?matchType WHERE {
-                                } ORDER BY DESC(?score) DESC(?subject) LIMIT 10000'
+                                  OPTIONAL { ?subject custom:hasImage ?hasImage . }
+                                } ORDER BY DESC(?score) DESC(?hasImage) DESC(?subject) LIMIT 10000'
                                 template="{{> subjectCellTemplate}}"
                                 no-result-template='[[> CardNoResult ]]'
                               >
                                 <template id="subjectCellTemplate">
                                   <div class="scrolable-area">
-                                    <infinite-scroll item-height="250"  item-per-row="auto" item-width="550" batch-size="20" values='{{stringify bindings}}' profile="artwork-card">
+                                    <infinite-scroll template="{{> template }}" item-height="250"  item-per-row="auto" item-width="550" batch-size="20" values='{{stringify bindings}}' profile="artwork-card">
                                       <template id='template'>
                                         <div class="result-item karla-regular">
-                                          {{#each this}}
-                                            {{> Default:CardArtwork photo=maxPhoto.value provider=provider matchType=matchType}}
+                                          {{#each rows}}
+                                            {{> Default:CardArtwork photo=maxPhoto.value provider=../provider matchType=matchType}}
                                           {{/each}}
                                         </div>
                                       </template>
@@ -792,17 +794,18 @@
                                 id="grid-result"
                                 prefetch-labels="false"
                                 query='SELECT DISTINCT ?domain ?subject ?maxPhoto ?matchType WHERE {
-                                } ORDER BY DESC(?score) DESC(?subject) LIMIT 10000'
+                                  OPTIONAL { ?subject custom:hasImage ?hasImage . }
+                                } ORDER BY DESC(?score) DESC(?hasImage) DESC(?subject) LIMIT 10000'
                                 template="{{> subjectCellTemplate}}"
                                 no-result-template='[[> CardNoResult ]]'
                               >
                                 <template id="subjectCellTemplate">
                                   <div class="scrolable-area">
-                                    <infinite-scroll item-height="200" item-per-row="auto" item-width="200" batch-size="40" values='{{stringify bindings}}' profile="artwork-card">
+                                    <infinite-scroll template="{{> template }}" item-height="200" item-per-row="auto" item-width="200" batch-size="40" values='{{stringify bindings}}' profile="artwork-card">
                                       <template id='template'>
                                         <div class="result-item karla-regular">
-                                          {{#each this}}
-                                            {{> Default:CardArtworkThumbnail photo=maxPhoto.value provider=provider matchType=matchType}}
+                                          {{#each rows}}
+                                            {{> Default:CardArtworkThumbnail photo=maxPhoto.value provider=../provider matchType=matchType}}
                                           {{/each}}
                                         </div>
                                       </template>
@@ -851,7 +854,9 @@
                             <semantic-query
                               id="grid-result"
                               prefetch-labels="false"
-                              query='SELECT DISTINCT ?subject ?matchType WHERE { } ORDER BY DESC(?score) DESC(?subject) LIMIT 2000'
+                              query='SELECT DISTINCT ?subject ?matchType WHERE { 
+                                OPTIONAL { ?subject custom:hasImage ?hasImage . }
+                              } ORDER BY DESC(?score) DESC(?hasImage) DESC(?subject) LIMIT 2000'
                               template="{{> subjectCellTemplate}}"
                               no-result-template='[[> CardNoResult ]]'
                             >
@@ -860,7 +865,7 @@
                                   <infinite-scroll item-height="250" item-per-row="1" item-width="600" batch-size="20" values='{{stringify bindings}}' profile="photograph-card">
                                     <template id='template'>
                                       <div class="result-item karla-regular">
-                                        {{#each this}}
+                                        {{#each rows}}
                                           {{> Default:CardPhotograph matchType=matchType}}
                                         {{/each}}
                                       </div>
@@ -876,7 +881,9 @@
                               <semantic-query
                                 id="grid-result"
                                 prefetch-labels="false"
-                                query='SELECT DISTINCT ?subject ?matchType WHERE { } ORDER BY DESC(?score) DESC(?subject) LIMIT 2000'
+                                query='SELECT DISTINCT ?subject ?matchType WHERE { 
+                                  OPTIONAL { ?subject custom:hasImage ?hasImage . }
+                                } ORDER BY DESC(?score) DESC(?hasImage) DESC(?subject) LIMIT 2000'
                                 template="{{> subjectCellTemplate}}"
                                 no-result-template='[[> CardNoResult ]]'
                               >
@@ -885,7 +892,7 @@
                                     <infinite-scroll item-height="250"  item-per-row="auto" item-width="550" batch-size="20" values='{{stringify bindings}}' profile="photograph-card">
                                       <template id='template'>
                                         <div class="result-item karla-regular">
-                                          {{#each this}}
+                                          {{#each rows}}
                                             {{> Default:CardPhotograph matchType=matchType}}
                                           {{/each}}
                                         </div>
@@ -901,7 +908,9 @@
                               <semantic-query
                                 id="grid-result"
                                 prefetch-labels="false"
-                                query='SELECT DISTINCT ?subject ?matchType WHERE { } ORDER BY DESC(?score) DESC(?subject) LIMIT 2000'
+                                query='SELECT DISTINCT ?subject ?matchType WHERE { 
+                                  OPTIONAL { ?subject custom:hasImage ?hasImage . }
+                                } ORDER BY DESC(?score) DESC(?hasImage) DESC(?subject) LIMIT 2000'
                                 template="{{> subjectCellTemplate}}"
                                 no-result-template='[[> CardNoResult ]]'
                               >
@@ -910,7 +919,7 @@
                                     <infinite-scroll item-height="200" item-per-row="auto" item-width="200" batch-size="40" values='{{stringify bindings}}' profile="photograph-card">
                                       <template id='template'>
                                         <div class="result-item karla-regular">
-                                          {{#each this}}
+                                          {{#each rows}}
                                             {{> Default:CardPhotographThumbnail matchType=matchType}}
                                           {{/each}}
                                         </div>
@@ -952,7 +961,7 @@
                             <infinite-scroll item-height="100" item-per-row="1" item-width="500" batch-size="20" values='{{stringify bindings}}' profile="artist-card">
                               <template id='template'>
                                 <div class="result-item  karla-regular">
-                                  {{#each this}}
+                                  {{#each rows}}
                                     {{> Default:CardArtist}}
                                   {{/each}}
                                 </div>
@@ -991,7 +1000,7 @@
                               <infinite-scroll item-height="100" item-per-row="1" item-width="500" batch-size="20" values='{{stringify bindings}}' profile="repository-card">
                                 <template id='template'>
                                   <div class="result-item karla-regular">
-                                    {{#each this}}
+                                    {{#each rows}}
                                       {{> Default:CardRepository}}
                                     {{/each}}
                                   </div>
@@ -1030,7 +1039,7 @@
                             <infinite-scroll item-height="100" item-per-row="1" item-width="500" batch-size="20" values='{{stringify bindings}}' profile="artist-card">
                               <template id='template'>
                                 <div class="result-item karla-regular">
-                                  {{#each this}}
+                                  {{#each rows}}
                                     {{> Default:CardArtist}}
                                   {{/each}}
                                 </div>
