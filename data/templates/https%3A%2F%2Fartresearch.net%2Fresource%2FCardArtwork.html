@@ -9,7 +9,7 @@
                       {{#bind work=this}}
                       <resource-info subject="{{photo}}" profile="photograph-thumbnail" template="{{> template work=work}}">
                         <template id="template">
-                          <img class="thumbnail-image" src="https://staging.artresearch.net{{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" alt="Artwork thumbnail" />
+                          <img class="thumbnail-image" src="https://artresearch.net{{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" alt="Artwork thumbnail" />
                           [[!-- we show photoarchive icon over the thumbnail only if we have more than one photoarchive for this record --]]
                           {{#if work.data.[https://artresearch.net/resource/field_definition/pharos_model/original_record_catalog].values.[1]}}
                             <img class="provider-icon thumbnail-provider-icon" title="{{label}}" src="{{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
@@ -20,7 +20,7 @@
                     {{else if provider}}
                       {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos]}}
                         {{#with (getPreferredPhoto data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values provider)}}
-                            <img class="thumbnail-image" src="https://staging.artresearch.net{{[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" alt="Artwork thumbnail" />
+                            <img class="thumbnail-image" src="https://artresearch.net{{[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" alt="Artwork thumbnail" />
                             {{!-- Use ../data to access the parent context outside of the #with block --}}
                             {{#if ../data.[https://artresearch.net/resource/field_definition/pharos_model/original_record_catalog].values.[1]}}
                               <img class="provider-icon thumbnail-provider-icon" title="{{label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
@@ -31,7 +31,7 @@
                       {{/if}}
                     {{else}}
                       {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos]}}
-                        <img class="thumbnail-image" src="https://staging.artresearch.net{{data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values.0.[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" alt="Artwork thumbnail" />
+                        <img class="thumbnail-image" src="https://artresearch.net{{data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values.0.[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" alt="Artwork thumbnail" />
                         {{!-- No context change here, so direct access is correct --}}
                         {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/original_record_catalog].values.[1]}}
                           <img class="provider-icon thumbnail-provider-icon" title="{{label}}" src="{{data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values.0.[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
