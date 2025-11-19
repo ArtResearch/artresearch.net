@@ -627,7 +627,7 @@
                                       <div class="field-value-main row">
                                         <div class="col-md-1"></div>
                                         <span class="col-md-10">
-                                          <semantic-link iri="{{[@id]}}">{{label}} <img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt=""> </semantic-link>
+                                          <semantic-link iri="{{[@id]}}">{{label}}</semantic-link>
                                         </span>
                                       </div>
                                   </div>
@@ -681,7 +681,7 @@
                                             {{/each}}
                                         </div>
                                         <span class="col-md-10 col-sm-8">
-                                          <semantic-link iri="{{[@id]}}">{{label}} <img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt=""></semantic-link>
+                                          <semantic-link iri="{{[@id]}}">{{label}}</semantic-link>
                                         </span>
                                     </div>
                                     <div class="field-value-qualifiers">
@@ -717,7 +717,7 @@
                                   <div class="field-value-item">
                                       <div class="field-value-main row">
                                         <div class="col-md-1"></div>
-                                        <span class="col-md-10 col-sm-8"><semantic-link iri="{{[@id]}}">{{label}} <img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt=""></semantic-link></span>
+                                        <span class="col-md-10 col-sm-8"><semantic-link iri="{{[@id]}}">{{label}}</semantic-link></span>
                                       </div>
                                   </div>
                                   <div class="field-value-original-group">
@@ -745,7 +745,7 @@
                                             {{/each}}
                                         </div>
                                         <span class="col-md-10 col-sm-8">
-                                          <semantic-link iri="{{[@id]}}">{{label}} <img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt=""></semantic-link>
+                                          <semantic-link iri="{{[@id]}}">{{label}}</semantic-link>
                                         </span>
                                     </div>
                                 </div>
@@ -765,11 +765,11 @@
                                         {{/if}}
                                         {{#if (lookup this '@id')}}
                                           {{#if (eq ../mode "outside_link")}}
-                                            <span class="col-md-10 col-sm-8"><a href="{{[@id]}}" target="_blank" rel="noopener noreferrer">{{label}}</a></span>
+                                            <span class="col-md-10 col-sm-8"><a href="{{[@id]}}" target="_blank" rel="noopener noreferrer">{{label}}<img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt=""></a></span>
                                           {{else}}
                                             <span class="col-md-10 col-sm-8">{{label}}</span>
                                           {{/if}}
-                                          [[!-- <semantic-link iri="{{[@id]}}">{{label}} <img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt=""></semantic-link> --]]
+                                          [[!-- <semantic-link iri="{{[@id]}}">{{label}}</semantic-link> --]]
                                         {{else}}
                                             {{#if (eq ../field "https://artresearch.net/resource/field_definition/pharos_model/production_date")}}
                                               <span>{{dateRangeFormat [@value]}}</span>
