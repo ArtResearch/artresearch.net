@@ -448,6 +448,46 @@
                     }}
 
 
+                    <div class="field-group see-more-data">
+                        {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/catalog_record_url]}}
+                        <div class="field row">
+                            <div class="field-label col-md-3 col-sm-12">
+                                See more data at:
+                            </div>
+                            <div class="field-value col-md-8 col-sm-12">
+                                {{#each (groupBy data.[https://artresearch.net/resource/field_definition/pharos_model/catalog_record_url].values "provenance[0]['https://artresearch.net/resource/field_definition/pharos_model/provider'].values[0].label")}}
+                                    <div class="field-value-item">
+                                        <div class="field-value-main row">
+                                            <div class="provider-icons col-md-1 col-sm-1">
+                                                <img class="provider-icon" title="{{this.0.provenance.0.[https://artresearch.net/resource/field_definition/pharos_model/provider].values.0.label}}" src="{{this.0.provenance.0.[https://artresearch.net/resource/field_definition/pharos_model/provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
+                                            </div>
+                                            <span class="col-md-10 col-sm-8">
+                                                {{#ifCond this.length ">" 1}}
+                                                    <div>{{@key}}</div>
+                                                    <div>
+                                                    {{#each this}}
+                                                        <a href="{{{label}}}" target="_blank" rel="noopener noreferrer">
+                                                            {{add @index 1}}
+                                                            <img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt="">
+                                                        </a>{{#unless @last}}, {{/unless}}
+                                                    {{/each}}
+                                                    </div>
+                                                {{else}}
+                                                    <a href="{{{this.0.label}}}" target="_blank" rel="noopener noreferrer">
+                                                        {{@key}}
+                                                        <img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt="">
+                                                    </a>
+                                                {{/ifCond}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                {{/each}}
+                            </div>
+                        </div>
+                        {{/if}}
+                    </div>
+
+
                     {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/photo]}}
                     <div class="field-group photos-accordion">
                       <h3>Photographs</h3>
@@ -464,11 +504,7 @@
                             </div>
                             </semantic-link-container>
                             <div class="photo-details">
-                              {{#with [https://artresearch.net/resource/field_definition/pharos_model/photo_archive].values.[0]}}
-                                {{#each (uniqProviders provenance)}}
-                                  <img class="provider-icon" title="{{label}}" src="{{icon}}">
-                                {{/each}}
-                              {{/with}}
+                                  <img class="provider-icon" title="{{[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
                               {{> fieldGroup
                                   data=this
                                   dontShowProvenance=true
@@ -486,6 +522,7 @@
                                   ]')
                               }}
 
+                              {{#if [https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.[0].[https://artresearch.net/resource/field_definition/pharos_model/photo_provider_contact].values.[0].[@value]}}
                               <div>
                                 <a href="{{[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.[0].[https://artresearch.net/resource/field_definition/pharos_model/photo_provider_contact].values.[0].[@value]}}?subject=[artresearch.net]" title="Contact the institution">
                                   <p class="contact-photo">
@@ -500,6 +537,7 @@
                                   <i class="material-icons-round" aria-hidden="true">description</i>
                                 </semantic-link> -->
                               </div>
+                              {{/if}}
                             </div>
                           </div>
 
@@ -617,6 +655,17 @@
                                               </div>
                                             </span>
                                           {{/each}}
+                                          {{#each [https://artresearch.net/resource/field_definition/pharos_model/creator_attribution_types].values }}
+                                            <span class="field-value-qualifier">
+                                              [{{label}}]
+                                              <div class="provider-icons">
+                                                {{#each (uniqProviders provenance)}}
+                                                <img class="provider-icon" title="{{label}}" src="{{icon}}">
+                                                {{/each}}
+                                              </div>
+                                            </span>
+                                          {{/each}}
+                                          
                                         </div>
                                       </div>
                                     {{/each}}
@@ -635,6 +684,29 @@
                                           <semantic-link iri="{{[@id]}}">{{label}} <img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt=""></semantic-link>
                                         </span>
                                     </div>
+                                    <div class="field-value-qualifiers">
+                                      {{#each [https://artresearch.net/resource/field_definition/pharos_model/creator_role].values }}
+                                        <span class="field-value-qualifier">
+                                          [{{label}}]
+                                          <div class="provider-icons">
+                                            {{#each (uniqProviders provenance)}}
+                                            <img class="provider-icon" title="{{label}}" src="{{icon}}">
+                                            {{/each}}
+                                          </div>
+                                        </span>
+                                      {{/each}}
+                                      {{#each [https://artresearch.net/resource/field_definition/pharos_model/creator_attribution_types].values }}
+                                        <span class="field-value-qualifier">
+                                          [{{label}}]
+                                          <div class="provider-icons">
+                                            {{#each (uniqProviders provenance)}}
+                                            <img class="provider-icon" title="{{label}}" src="{{icon}}">
+                                            {{/each}}
+                                          </div>
+                                        </span>
+                                      {{/each}}
+                                      
+                                    </div>                                      
                                 </div>
                               {{/if}}
                             {{/each}}

@@ -1,0 +1,29 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/creator_attribution_types/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/creator_attribution_types>
+    a <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
+      <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-95d34ca885cc4ede8d7f7f79eb7adbc6-4jzb;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Attribution Type";
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-95d34ca885cc4ede8d7f7f79eb7adbc6-qlkbes;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-11-19T15:41:28.304+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-95d34ca885cc4ede8d7f7f79eb7adbc6-qlkbes a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+
+SELECT DISTINCT ?value ?subject ?provUri WHERE {
+  ?work crm:P108i_was_produced_by/crm:P9_consists_of ?production .
+  ?production crm:P14_carried_out_by ?subject .
+  ?provUri crm:P2_has_type ?value .
+  ?provUri crm:P140_assigned_attribute_to ?production .
+  ?provUri crm:P141_assigned ?subject .  
+}""" .
+  
+  _:genid-95d34ca885cc4ede8d7f7f79eb7adbc6-4jzb a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/creator_attribution_types> .
+}
