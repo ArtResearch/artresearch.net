@@ -20,7 +20,18 @@
   },
   "fields": {
     "https://artresearch.net/resource/field_definition/pharos_model/catalog_record_url": {
-      "subject": "work"
+      "subject": "work",
+      "returns": [
+        {
+          "sparql_var": "value",
+          "local_var": "catalog_record_url"
+        }
+      ],
+      "fields": {
+        "https://artresearch.net/resource/field_definition/pharos_model/original_record_title": {
+          "subject": "catalog_record_url"
+        }
+      }
     },
     "https://artresearch.net/resource/field_definition/pharos_model/title": {
       "subject": "work"

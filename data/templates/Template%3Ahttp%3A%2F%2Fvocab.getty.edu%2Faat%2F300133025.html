@@ -326,8 +326,8 @@
                     {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/catalog_record_url]}}
                     <span class="providers-records">view sources: </span>
                       {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/catalog_record_url].values}}
-                        <a href="{{{[label]}}}" title="{{{[@id]}}}" target="_blank" rel="noopener noreferrer">
-                          <img class="provider-icon" title="{{{[label]}}}" src="{{provenance.0.[https://artresearch.net/resource/field_definition/pharos_model/provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
+                        <a href="{{{[label]}}}" title="{{#if [https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{[https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{else}}{{{[@id]}}}{{/if}}" target="_blank" rel="noopener noreferrer">
+                          <img class="provider-icon" title="{{#if [https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{[https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{else}}{{{[label]}}}{{/if}}" src="{{provenance.0.[https://artresearch.net/resource/field_definition/pharos_model/provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
                         </a>
                       {{/each}}
                     {{/if}}
@@ -466,14 +466,14 @@
                                                     <div class="provider-name-multiple">{{@key}}</div>
                                                     <div>
                                                     {{#each this}}
-                                                        <a href="{{{label}}}" title="{{{label}}}" target="_blank" rel="noopener noreferrer">
+                                                        <a href="{{{label}}}" title="{{#if [https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{[https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{else}}{{{label}}}{{/if}}" target="_blank" rel="noopener noreferrer">
                                                             <i style="font-size: 25px;" class="material-symbols-rounded">inventory_2</i>
                                                             <img class="arrow-link-record-field" style="margin-bottom: 10px;" src="/assets/images/arrow_black.png" alt="">
                                                         </a>{{#unless @last}}  &nbsp;&nbsp;&nbsp; {{/unless}}
                                                     {{/each}}
                                                     </div>
                                                 {{else}}
-                                                    <a href="{{{this.0.label}}}" target="_blank" rel="noopener noreferrer">
+                                                    <a href="{{{this.0.label}}}" title="{{#if this.0.[https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{this.0.[https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{else}}{{{this.0.label}}}{{/if}}" target="_blank" rel="noopener noreferrer">
                                                         {{@key}}
                                                         <img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt="">
                                                     </a>
