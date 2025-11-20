@@ -1,3 +1,9 @@
+/* Hide header logo on start page - fancy :has() selector targeting nav when start-page exists */
+body:has(.start-page) nav .rs-header-logo,
+body:has(.start-page) .navbar-header .rs-header-logo {
+  display: none !important;
+}
+
 .container-fluid {
   margin-left: -15px !important;
   margin-right: -15px !important;
@@ -73,12 +79,31 @@ a {
   background-position-y: 45%;
   min-height: 100vh;
   background-attachment: fixed;
+  position: relative;
+  padding-top: 0;
+}
+
+#hero {
+  min-height: 100vh;
+  position: relative;
 }
 
 #home-title {
-  top:10vh;
-  padding-top: 15vh;
+  top:0;
+  padding-top: 3vh;
   line-height: 1.6em;
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#home-title h1 {
+  font-size: 3em;
+  margin-bottom: 0.5em;
+  white-space: nowrap;
 }
 
 .wrap-line {
@@ -86,7 +111,60 @@ a {
 }
 
 #search-collections {
-  margin-top: 10rem;
+  margin-top: 0;
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: calc(100vh - 3vh);
+}
+
+/* Match the input container's flex: 1 behavior - this makes it take the same space as the input container */
+#search-collections .search-help-link-wrapper a {
+  flex: 1;
+  display: block;
+  text-align: center; /* Center align the link text within the input container's width */
+  box-sizing: border-box;
+}
+
+/* Match the search button - need to measure actual rendered width, but approximate is ~100-110px */
+#search-collections .search-help-link-wrapper::after {
+  content: '';
+  width: 103px; /* Button width - may need adjustment based on actual rendered size */
+  flex-shrink: 0;
+}
+
+.hero-logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+  margin-top: 5vh;
+}
+
+.hero-logo-link {
+  text-decoration: none;
+}
+
+.hero-logo-container .logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-logo-container .logo {
+  height: 60px;
+}
+
+.hero-logo-container .logo-text {
+  display: flex;
+  flex-direction: column;
+  color: black;
+  font-size: 2rem;
+  line-height: 1.2;
+  margin-left: 15px;
 }
 
 .search-collections-launcher * {
@@ -117,6 +195,12 @@ a {
   font-size: 1.2em;
   line-height: 1.2em;
   padding-left: 6px;
+  text-align: left;
+  width: 100%;
+  position: absolute;
+  bottom: 15vh;
+  left: 0;
+  z-index: 1;
 }
 
 #search-collections-payoff .bold {
@@ -124,12 +208,57 @@ a {
   font-weight: 800;
 }
 
+/* Scroll indicator chevron */
+.scroll-indicator {
+  position: absolute;
+  bottom: 8rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  color: rgba(0, 0, 0, 0.6);
+  animation: bounceChevron 1.5s ease-in-out infinite, fadeOutChevron 10s ease-out forwards;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.scroll-indicator:hover {
+  color: rgba(0, 0, 0, 0.9);
+}
+
+.scroll-indicator svg {
+  width: 32px;
+  height: 32px;
+  display: block;
+}
+
+@keyframes bounceChevron {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-10px);
+  }
+}
+
+@keyframes fadeOutChevron {
+  0% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
 /* scrolling pictures in HERO*/
 .scroll-container {
       display: flex;
       gap: 10px;
       width: 100%;
-      height: 100vh;
+      height: calc(100vh - 90px);
       overflow: hidden;
     }
 
@@ -743,9 +872,32 @@ a.mirador-osd-toggle-bottom-panel.hud-control {
   .section-title {
     font-size: 4em;
   }
-  #search-collections {
-      margin-left: 15px;
-      margin-right: 15px;
+  #home-title {
+    padding-top: 5vh;
+    top: 0;
+  }
+  #home-title h1 {
+    font-size: 2.5em;
+  }
+  .hero-logo-container {
+    margin-bottom: 2rem;
+  }
+  .hero-logo-container .logo {
+    height: 40px;
+  }
+  .hero-logo-container .logo-text {
+    font-size: 1.4rem;
+    margin-left: 10px;
+  }
+  #search-collections-payoff {
+    margin-top: 1rem;
+  }
+  .scroll-indicator {
+    bottom: 5rem;
+  }
+  .scroll-indicator svg {
+    width: 24px;
+    height: 24px;
   }
   #intro, #browse-collections{
     margin-right: 15px;
@@ -888,6 +1040,18 @@ a.mirador-osd-toggle-bottom-panel.hud-control {
   }
 }
 
+@media (min-width: 601px) {
+  #search-collections .search-help-link-wrapper {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    margin-top: 0.5rem;
+    gap: 10px;
+    align-items: flex-start;
+    position: relative;
+  }
+}
+
 @media (max-width: 600px) {
   .explore-card img {
     height: 10rem;
@@ -896,6 +1060,10 @@ a.mirador-osd-toggle-bottom-panel.hud-control {
   .home-section {
     padding-left: 2rem;
     padding-right: 2rem;
+  }
+
+  .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--searchButton {
+    display: none;
   }
 }
 
@@ -918,6 +1086,11 @@ a.mirador-osd-toggle-bottom-panel.hud-control {
   /* SEARCH OVERLAY */
   .search-overlay-text p, .search-overlay-close {
     font-size: 2em;
+  }
+
+  .home-section {
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
 
   /* INTRO */
