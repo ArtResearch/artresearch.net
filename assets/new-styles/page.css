@@ -155,11 +155,15 @@ h1 span.thin-text {
 }
 
 .provider-icon {
-    object-fit: cover;
-    height: 21.6px;
+    object-fit: contain;
+    width: 25.6px;
+    height: 25.6px;
     padding: 2px;
     cursor: pointer;
     margin-left: 4px;
+    display: inline-block;
+    vertical-align: middle;
+    flex-shrink: 0;
 }
 
 .thumbnail-provider-icon {
@@ -168,7 +172,11 @@ h1 span.thin-text {
   left: 4px;
   opacity: 0.7;
   background-color: white;
-  z-index: 1;;
+  z-index: 1;
+  width: 25.6px;
+  height: 25.6px;
+  object-fit: contain;
+  padding: 2px;
 }
 
 .license-icon {
@@ -987,6 +995,10 @@ body:has(.search-container) {
   font-weight: bold;
   font-size: 1em;
   color: #555;
+}
+
+.see-more-data .provider-name-multiple {
+  font-weight: 600;
 }
 
 .arrow-link-record-field {
