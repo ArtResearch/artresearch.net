@@ -1,5 +1,4 @@
   <div class="artwork-card karla-regular">
-    {{log "card" this}}
 
     {{#if data}}
       <semantic-link-container uri="{{data.[@id]}}" target="_blank">
@@ -57,14 +56,8 @@
             </span>
             [[!--
              {{#if provider}}
-                            {{log "in if" this}}
-
                 {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos]}}
-                                          {{log "yes"}}
-
                   {{#with (getPreferredPhoto data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values provider)}}
-                                                        {{log "with" this}}
-
                   <div class="field">
                     <div class="field-label">Photo Title</div>
                     <div class="field-value">
@@ -75,7 +68,6 @@
                 {{/if}}
 
               {{else}}
-              {{log "in else" this}}
                   {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values.0.[https://artresearch.net/resource/field_definition/pharos_model/photo_title].values.0.[@value]}}
                     <div class="field">
                       <div class="field-label">Photo Title</div>
