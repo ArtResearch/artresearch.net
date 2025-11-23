@@ -3,23 +3,28 @@
   <https://artresearch.net/resource/field_definition/pharos_model/subject> a <http://www.researchspace.org/resource/system/fields/Field>,
       <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
     <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
-    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-23b097b154b84bcd815c57f17286920c-u1s6a;
-    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-23b097b154b84bcd815c57f17286920c-ihk1p8;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-781331e21d8e414c8870d9ce1a54d7c9-wlcdv;
     <http://www.w3.org/2000/01/rdf-schema#label> "Subjects";
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-781331e21d8e414c8870d9ce1a54d7c9-zhigb;
     <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
-    <http://www.w3.org/ns/prov#generatedAtTime> "2025-06-19T14:01:19.495+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-11-23T23:02:11.202+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
   
-  _:genid-23b097b154b84bcd815c57f17286920c-ihk1p8 a <http://spinrdf.org/sp#Query>;
-    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
-  
-  _:genid-23b097b154b84bcd815c57f17286920c-u1s6a a <http://spinrdf.org/sp#Query>;
+  _:genid-781331e21d8e414c8870d9ce1a54d7c9-zhigb a <http://spinrdf.org/sp#Query>;
     <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 
 SELECT ?value WHERE {
-  ?subject crm:P65_shows_visual_item ?visualItem .
-  ?visualItem crm:P2_has_type ?value .
-  ?value crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/subject>  .
+  {
+    ?subject crm:P65_shows_visual_item ?visualItem .
+    ?visualItem crm:P2_has_type ?value .
+    
+    # Matches the split structure in warmup
+    ?value crm:P2_has_type ?type .
+    ?type crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/subject> .
+  }
 }""" .
+  
+  _:genid-781331e21d8e414c8870d9ce1a54d7c9-wlcdv a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
   
   <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
       <https://artresearch.net/resource/field_definition/pharos_model/subject> .

@@ -3,26 +3,30 @@
   <https://artresearch.net/resource/field_definition/pharos_model/object_part_of_hierarchy>
     a <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
       <http://www.w3.org/ns/ldp#Resource>;
-    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-51a6e753dd7a44c9a66b374ddebe3b20-vsa36d;
     <http://www.w3.org/2000/01/rdf-schema#label> "Is Part Of/Has Part";
     <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#boolean>;
-    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-51a6e753dd7a44c9a66b374ddebe3b20-1a31un;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-03d4d5394f294c25bc615dce23fe153c-39c04d;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-03d4d5394f294c25bc615dce23fe153c-0hdtzq;
     <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
-    <http://www.w3.org/ns/prov#generatedAtTime> "2025-07-09T11:27:04.148+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-11-23T23:39:43.371+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
   
-  _:genid-51a6e753dd7a44c9a66b374ddebe3b20-1a31un a <http://spinrdf.org/sp#Query>;
+  _:genid-03d4d5394f294c25bc615dce23fe153c-39c04d a <http://spinrdf.org/sp#Query>;
     <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 SELECT DISTINCT ?value WHERE {
   {
-    ?subject crm:P46i_forms_part_of+ ?item .  
-  } UNION {
-    ?subject crm:P46_is_composed_of+ ?item .  
+    SELECT ?subject ?item {
+      {
+        ?subject crm:P46i_forms_part_of+ ?item .
+      } UNION {
+        ?subject crm:P46_is_composed_of+ ?item .
+      }
+    }
   }
   #BIND(?subject as ?value) .
   BIND(IF(BOUND(?item), true, false) AS ?value) .
 }""" .
   
-  _:genid-51a6e753dd7a44c9a66b374ddebe3b20-vsa36d a <http://spinrdf.org/sp#Query>;
+  _:genid-03d4d5394f294c25bc615dce23fe153c-0hdtzq a <http://spinrdf.org/sp#Query>;
     <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
   
   <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>

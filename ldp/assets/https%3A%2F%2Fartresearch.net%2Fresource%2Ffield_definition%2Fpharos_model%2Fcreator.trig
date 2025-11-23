@@ -2,23 +2,26 @@
 <https://artresearch.net/resource/field_definition/pharos_model/creator/context> {
   <https://artresearch.net/resource/field_definition/pharos_model/creator> a <http://www.researchspace.org/resource/system/fields/Field>,
       <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
-    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-92553e14068a439ab09977d8f03c10ba-ak686;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-bd3239bf3fc441f0b568063db65d2930-58n0nf;
     <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
     <http://www.w3.org/2000/01/rdf-schema#label> "Creator";
-    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-92553e14068a439ab09977d8f03c10ba-351fo;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-bd3239bf3fc441f0b568063db65d2930-test5d;
     <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
-    <http://www.w3.org/ns/prov#generatedAtTime> "2025-06-18T22:00:46.076+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-11-23T23:04:59.863+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
   
-  _:genid-92553e14068a439ab09977d8f03c10ba-351fo a <http://spinrdf.org/sp#Query>;
-    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
-  
-  _:genid-92553e14068a439ab09977d8f03c10ba-ak686 a <http://spinrdf.org/sp#Query>;
+  _:genid-bd3239bf3fc441f0b568063db65d2930-test5d a <http://spinrdf.org/sp#Query>;
     <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 
 SELECT ?value WHERE {
-  $subject crm:P108i_was_produced_by/crm:P9_consists_of* ?production .
-  ?production crm:P14_carried_out_by ?value.
+  {
+    ?subject crm:P108i_was_produced_by ?part .
+    ?part crm:P9_consists_of* ?production .
+    ?production crm:P14_carried_out_by ?value .
+  }
 }""" .
+  
+  _:genid-bd3239bf3fc441f0b568063db65d2930-58n0nf a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
   
   <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
       <https://artresearch.net/resource/field_definition/pharos_model/creator> .
