@@ -3,45 +3,60 @@
   data='{}'>
 </mp-event-trigger>
 
-
 <section class="container-fluid relative start-page">
   <section class="home-section">
     <section class="row" id="hero">
       <section id="home-title" class="col-md-6 col-sm-6">
+        <h1 class="karla-bold">
+          <span class="wrap-line">art</span>
+          <span class="wrap-line">research</span>
+          <span class="wrap-line">.net</span>
+        </h1>
         <section id="search-collections">
-          <div class="hero-logo-container">
-            <semantic-link-container uri="https://artresearch.net/resource/start" class="hero-logo-link">
-              <div class="logo-container">
-                <img src="/assets/images/logos/logo_ar_black.png" alt="Pharos Logo" class="logo">
-                <div class="logo-text karla-bold">
-                  <span>art</span>
-                  <span>research</span>
-                  <span>.net</span>
-                </div>
-              </div>
-            </semantic-link-container>
-          </div>
-          <pharos-search-input-with-redirect
-            redirect-to="https://artresearch.net/resource/search"
-            image-storage="image-search"
-            placeholder="Enter keyword or search by image"
-          ></pharos-search-input-with-redirect>
-          <div class="search-help-link-wrapper">
-            <semantic-link iri="https://artresearch.net/resource/search-help">How to use the search</semantic-link>
-          </div>
-          <p class="col-md-12" id="search-collections-payoff">
-            <span class="wrap-line">explore, connect and contextualize</span>
-            <span class="bold">art histories</span>
-          </p>
-          <section class="buttons-group hero-buttons">
-            <semantic-link iri="https://artresearch.net/resource/About" class="green-btn">About PHAROS <img src="/assets/images/arrow_black.png" alt="arrow"/></semantic-link>
-            <semantic-link iri="https://artresearch.net/resource/Partners" class="black-btn">Partners <img src="/assets/images/arrow_cream.png" alt="arrow"/></semantic-link>
+          <section class="row" id="search-collections-launcher">
+              <!-- Main Search Button -->
+              <mp-overlay-dialog id="search-overlay" type="lightbox">
+                <mp-overlay-dialog-trigger>
+                  <button class="main-search-button">
+                    Search the collections
+                    <img src="/assets/images/search_arrow.svg" class="search-icon" alt="">
+                  </button>
+                </mp-overlay-dialog-trigger>
+                <mp-overlay-dialog-content>
+                  <div id="search-overlay">
+                    <div class="search-overlay-header">
+                      <h2 class="search-overlay-title">
+                        Search our
+                        <span>collections</span>
+                      </h2>
+                      <mp-event-trigger id="close-search-overlay" type="OverlayDialog.Close" targets='["search-overlay"]'>
+                        <button class="search-overlay-close">&times;</button>
+                      </mp-event-trigger>
+                    </div>
+
+                    <div class="search-overlay-content">
+                      <div class="search-overlay-text">
+                        <p>You can search for artworks, photographs, people, repositories, iconographic themes, all in one place.</p>
+                        <p>You can also start from an image. Paste here the URL of an online image or drag and drop one from your computer (accepted formats include .jpg, .png, .tiff).</p>
+                        <p>See our <semantic-link iri="https://artresearch.net/resource/search-help">search guide</semantic-link> for examples and details.</p>
+                      </div>
+
+                      <div class="search-overlay-form">
+                        <pharos-search-input-with-redirect
+                          redirect-to="https://artresearch.net/resource/search"
+                          image-storage="image-search"
+                          placeholder="Enter keywords"
+                        ></pharos-search-input-with-redirect>
+                      </div>
+                    </div>
+                  </div>
+                </mp-overlay-dialog-content>
+              </mp-overlay-dialog>
+              <p class="col-md-12" id="search-collections-payoff">
+                <span class="wrap-line">explore, connect and contextualize</span>
+                <span class="bold">art histories</span>
+              </p>
           </section>
-          <div class="scroll-indicator">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
         </section>
       </section>
       <section class="col-md-6 col-sm-6" id="home-images-carousel">
@@ -174,16 +189,21 @@
           </div>
         </div>
       </section>
+
     </section>
   </section>
   <section class="home-section">
     <section class="row" id="intro">
       <h2>artresearch.net</h2>
       <p class="extra-big">artresearch.net is the free, open access discovery platform for the
-        combined collections of 
+        combined collections of 
         <semantic-link iri="https://artresearch.net/resource/About">PHAROS: The International Association of Photo Archives</semantic-link>
         which provides access to millions of photographs of works of art,
         and over a century of art historical documentation.</p>
+      <section class="buttons-group">
+        <semantic-link iri="https://artresearch.net/resource/About" class="green-btn">About PHAROS <img src="/assets/images/arrow_black.png" alt="arrow"/></semantic-link>
+        <semantic-link iri="https://artresearch.net/resource/Partners" class="black-btn">Partners <img src="/assets/images/arrow_cream.png" alt="arrow"/></semantic-link>
+      </section>
     </section>
   </section>
   <section class="home-section">
