@@ -463,13 +463,13 @@
                                             </div>
                                             <span class="col-md-10 col-sm-8">
                                                 {{#ifCond this.length ">" 1}}
-                                                    <div class="provider-name-multiple">{{@key}}</div>
-                                                    <div>
+                                                    <div class="provider-name-multiple">{{@key}}:</div>
+                                                    <div class="multiple-record-links">
                                                     {{#each this}}
-                                                        <a href="{{{label}}}" title="{{#if [https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{[https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{else}}{{{label}}}{{/if}}" target="_blank" rel="noopener noreferrer">
-                                                            <i style="font-size: 25px;" class="material-symbols-rounded">inventory_2</i>
-                                                            <img class="arrow-link-record-field" style="margin-bottom: 10px;" src="/assets/images/arrow_black.png" alt="">
-                                                        </a>{{#unless @last}}  &nbsp;&nbsp;&nbsp; {{/unless}}
+                                                        <a href="{{{label}}}" class="record-link" title="{{#if [https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{[https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{else}}{{{label}}}{{/if}}" target="_blank" rel="noopener noreferrer">
+                                                            <span class="record-link-text">{{#if [https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{[https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{else}}{{{label}}}{{/if}}</span>
+                                                            <img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt="">
+                                                        </a>
                                                     {{/each}}
                                                     </div>
                                                 {{else}}

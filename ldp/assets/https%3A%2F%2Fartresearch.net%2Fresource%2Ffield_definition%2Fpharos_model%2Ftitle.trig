@@ -2,24 +2,26 @@
 <https://artresearch.net/resource/field_definition/pharos_model/title/context> {
   <https://artresearch.net/resource/field_definition/pharos_model/title> a <http://www.researchspace.org/resource/system/fields/Field>,
       <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-40f80b5f45b242838e7c71b5a4b541ab-wfn1yd;
     <http://www.w3.org/2000/01/rdf-schema#label> "Title"@en, "Titolo"@it, "Titel"@de;
-    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-1049550450ee430d83b2b90f432d58ee-h4jf2a;
-    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-1049550450ee430d83b2b90f432d58ee-1ke7v;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-40f80b5f45b242838e7c71b5a4b541ab-q4qxdn;
     <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
     <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
-    <http://www.w3.org/ns/prov#generatedAtTime> "2025-06-18T22:00:19.649+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-11-23T21:29:49.869+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
   
-  _:genid-1049550450ee430d83b2b90f432d58ee-h4jf2a a <http://spinrdf.org/sp#Query>;
+  _:genid-40f80b5f45b242838e7c71b5a4b541ab-wfn1yd a <http://spinrdf.org/sp#Query>;
     <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
   
-  _:genid-1049550450ee430d83b2b90f432d58ee-1ke7v a <http://spinrdf.org/sp#Query>;
+  _:genid-40f80b5f45b242838e7c71b5a4b541ab-q4qxdn a <http://spinrdf.org/sp#Query>;
     <http://spinrdf.org/sp#text> """PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 PREFIX custom: <https://artresearch.net/custom/>
 
 SELECT ?value WHERE {
-  ?subject crm:P1_is_identified_by ?value.
-  ?value crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/preferred_name> .
+  {
+    ?subject crm:P1_is_identified_by ?value.
+    ?value crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/preferred_name> .
+  }
 }""" .
   
   <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>

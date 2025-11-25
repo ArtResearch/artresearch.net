@@ -1,19 +1,19 @@
 
 <https://artresearch.net/resource/field_definition/pharos_model/original_record_title/context> {
+  _:genid-61f4c7ec717b44d6a1b1a464e19e744f-cfar5z a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
   <https://artresearch.net/resource/field_definition/pharos_model/original_record_title>
     a <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
       <http://www.w3.org/ns/ldp#Resource>;
-    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-3c42090e873c46ee8cd6ce74ac7066d4-oo8ohl;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-61f4c7ec717b44d6a1b1a464e19e744f-cfar5z;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-61f4c7ec717b44d6a1b1a464e19e744f-i2ygnl;
     <http://www.w3.org/2000/01/rdf-schema#label> "Original record title";
     <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
-    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-3c42090e873c46ee8cd6ce74ac7066d4-9yrq5d;
     <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
-    <http://www.w3.org/ns/prov#generatedAtTime> "2025-11-20T14:32:57.793+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-11-20T23:24:51.315+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
   
-  _:genid-3c42090e873c46ee8cd6ce74ac7066d4-oo8ohl a <http://spinrdf.org/sp#Query>;
-    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
-  
-  _:genid-3c42090e873c46ee8cd6ce74ac7066d4-9yrq5d a <http://spinrdf.org/sp#Query>;
+  _:genid-61f4c7ec717b44d6a1b1a464e19e744f-i2ygnl a <http://spinrdf.org/sp#Query>;
     <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 SELECT DISTINCT ?value WHERE {
   ?attr crm:P141_assigned ?subject .
@@ -21,7 +21,7 @@ SELECT DISTINCT ?value WHERE {
   ?titleAttr crm:P177_assigned_property_of_type crm:P1_is_identified_by .
   ?titleAttr crm:P140_assigned_attribute_to ?work .
   ?titleAttr crm:P141_assigned ?appellation .
-  ?appellation crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/preferred_name> .
+  ?appellation crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/name> .
   ?appellation crm:P190_has_symbolic_content ?value .
 }""" .
   
