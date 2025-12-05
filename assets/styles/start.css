@@ -76,9 +76,100 @@ a {
 }
 
 #home-title {
-  top:10vh;
+  top: 10vh;
   padding-top: 15vh;
   line-height: 1.6em;
+}
+
+/* start-page-v1 specific styles (start.html) */
+.start-page-v1 #home-title {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 13vh);
+}
+
+.start-page-v1 #search-collections {
+  margin-top: 12rem;
+}
+
+.start-page-v1 .search-main-form {
+  max-width: 520px;
+}
+
+.start-page-v1 #search-collections-payoff {
+  margin-left: -15px;
+}
+
+/* start-page-v2 specific styles (start2.html) */
+.start-page-v2 #home-title {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 80px);
+  padding-top: 0;
+  position: relative;
+  z-index: 1;
+  top: 5vh;
+}
+
+.start-page-v2 #search-collections {
+  margin-top: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.start-page-v2 .search-main-page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.start-page-v2 .search-main-text {
+  margin-bottom: 0.5rem;
+}
+
+.start-page-v2 .search-main-text p {
+  font-size: 1.1rem;
+  line-height: 1.4;
+  margin-bottom: 0.3rem;
+}
+
+/* Large headline text for v2 */
+.start-page-v2 .search-main-text p.search-main-headline {
+  font-size: 2.4rem;
+  line-height: 1.15;
+  font-weight: 300;
+  margin-bottom: 0.75rem;
+  color: #000;
+}
+
+.start-page-v2 .search-main-form {
+  max-width: 650px;
+}
+
+/* Slightly smaller image search modal for v2 */
+.start-page-v2 .dropzone-area {
+  min-height: 100px !important;
+  max-height: 140px !important;
+  padding: 12px 20px !important;
+}
+
+.start-page-v2 [class*="imageSearchDropzone"] {
+  min-height: 100px !important;
+  max-height: 200px !important;
+  padding: 12px 20px !important;
+}
+
+/* Position payoff at bottom for v2 */
+.start-page-v2 #search-collections-payoff {
+  margin-top: auto;
+  padding-top: 0.75rem;
+  padding-bottom: 1rem;
+  margin-left: 0;
+}
+
+.start-page-v1 .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--inputWithClear .form-control {
+  padding-right: 0;
 }
 
 .wrap-line {
@@ -86,11 +177,48 @@ a {
 }
 
 #search-collections {
-  margin-top: 10rem;
+  margin-top: 4rem;
 }
 
-.search-collections-launcher * {
-  display: inline-flex;
+/* Removed - was interfering with block-level search form */
+
+/* Search form on main page (start2.html and start.html) */
+.search-main-page {
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.search-main-title {
+  font-size: 3.5rem;
+  font-weight: normal;
+  color: #000;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+}
+
+.search-main-title span {
+  display: block;
+  color: var(--domain-color);
+  font-weight: bold;
+}
+
+.home-section .search-main-title span {
+  color: #70E7C5;
+}
+
+.search-main-text {
+  margin-bottom: 1.5rem;
+}
+
+.search-main-text p {
+  font-size: 1.3rem;
+  line-height: 1.5;
+  margin-bottom: 0.8rem;
+  color: #333;
+}
+
+.search-main-form {
+  width: 100%;
 }
 
 .search-collections-arrow img, .search-collections-arrow-hover img {
@@ -743,6 +871,9 @@ a.mirador-osd-toggle-bottom-panel.hud-control {
 /*Devices smaller than 767px*/
 @media (max-width: 767px) {
   /* SEARCH OVERLAY */
+  .start-page-v1 #search-collections-payoff {
+    margin-left: 0;
+  }
   .search-overlay-header {
     margin-bottom: 0;
   }
@@ -778,6 +909,29 @@ a.mirador-osd-toggle-bottom-panel.hud-control {
 
   .main-search-button .search-icon {
     margin-left: 1em;
+  }
+
+  /* Search main page responsive */
+  #home-title {
+    padding-top: 5vh;
+  }
+
+  #search-collections {
+    margin-top: 2rem;
+  }
+
+  .search-main-title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .search-main-text {
+    margin-bottom: 1rem;
+  }
+
+  .search-main-text p {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
   }
 
   .none-small {
@@ -2163,4 +2317,4 @@ a.mirador-osd-toggle-bottom-panel.hud-control {
   100% {
     margin-left: 35px;
   }
-} */
+}
