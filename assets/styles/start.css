@@ -96,11 +96,11 @@ a {
 }
 
 .start-page-v1 #search-collections {
-  margin-top: 12rem;
+  margin-top: 6rem;
 }
 
 .start-page-v1 .search-main-form {
-  max-width: 520px;
+  max-width: 570px;
 }
 
 .start-page-v1 #search-collections-payoff {
@@ -175,6 +175,7 @@ a {
   margin-left: 0;
 }
 
+/* Input padding override for start page - font sizes now in component */
 .start-page-v1 .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--inputWithClear .form-control {
   padding-right: 0;
 }
@@ -248,10 +249,10 @@ a {
 }
 
 #search-collections-payoff {
-  color: grey;
-  font-size: 1.2em;
+  font-size: 2rem;
   line-height: 1.2em;
   padding-left: 6px;
+  margin-top: 15px;
 }
 
 #search-collections-payoff .bold {
@@ -875,12 +876,22 @@ a.mirador-osd-toggle-bottom-panel.hud-control {
 
 /* MEDIA QUERIES */
 
+@media (max-width: 1024px) {
+  .start-page-v1 .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--searchButton {
+    display: none;
+  }
+
 /*Devices smaller than 767px*/
 @media (max-width: 767px) {
   /* SEARCH OVERLAY */
   .start-page-v1 #search-collections-payoff {
     margin-left: 0;
   }
+
+  .start-page-v1 .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--searchButton {
+    display: none;
+  }
+
   .search-overlay-header {
     margin-bottom: 0;
   }
