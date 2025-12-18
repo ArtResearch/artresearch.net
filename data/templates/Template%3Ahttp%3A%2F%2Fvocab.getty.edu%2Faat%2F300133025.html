@@ -390,6 +390,10 @@
                         title=""
                         fields=(parse '[
                             {
+                              "field": "https://artresearch.net/resource/field_definition/pharos_model/inscription",
+                              "mode": "text"
+                            },
+                            {
                               "field": "https://artresearch.net/resource/field_definition/pharos_model/subject",
                               "mode": "new"
                             },
@@ -443,6 +447,11 @@
                               "field": "https://artresearch.net/resource/field_definition/pharos_model/work_provenance",
                               "label": "Provenance",
                               "mode": "text"
+                          },
+                          {
+                              "field": "https://artresearch.net/resource/field_definition/pharos_model/exhibitions",
+                              "label": "Exhibitions",
+                              "mode": "text"
                           }
                       ]')
                     }}
@@ -467,14 +476,14 @@
                                                     <div class="multiple-record-links">
                                                     {{#each this}}
                                                         <a href="{{{label}}}" class="record-link" title="{{#if [https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{[https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{else}}{{{label}}}{{/if}}" target="_blank" rel="noopener noreferrer">
-                                                            <span class="record-link-text">{{#if [https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{[https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{else}}{{{label}}}{{/if}}</span>
+                                                            <span class="record-link-text">{{#if [https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{[https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{else}}{{{label}}}{{/if}}{{#if [https://artresearch.net/resource/field_definition/pharos_model/original_record_identifier].values.0.[@value]}} ({{[https://artresearch.net/resource/field_definition/pharos_model/original_record_identifier].values.0.[@value]}}){{/if}}</span>
                                                             <img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt="">
                                                         </a>
                                                     {{/each}}
                                                     </div>
                                                 {{else}}
                                                     <a href="{{{this.0.label}}}" title="{{#if this.0.[https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{this.0.[https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{else}}{{{this.0.label}}}{{/if}}" target="_blank" rel="noopener noreferrer">
-                                                        {{@key}}
+                                                        {{@key}}{{#if this.0.[https://artresearch.net/resource/field_definition/pharos_model/original_record_identifier].values.0.[@value]}} ({{this.0.[https://artresearch.net/resource/field_definition/pharos_model/original_record_identifier].values.0.[@value]}}){{/if}}
                                                         <img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt="">
                                                     </a>
                                                 {{/ifCond}}
