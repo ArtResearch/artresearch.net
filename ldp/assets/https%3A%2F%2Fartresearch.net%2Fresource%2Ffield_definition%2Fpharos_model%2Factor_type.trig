@@ -1,0 +1,33 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/actor_type/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/actor_type> a <http://www.researchspace.org/resource/system/fields/Field>,
+      <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-f937dd6e7f234feba5ebdc60d63a89f9-0x1ctr;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-f937dd6e7f234feba5ebdc60d63a89f9-4q0hzt;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Actor Type";
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-12-20T22:12:22.500+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-f937dd6e7f234feba5ebdc60d63a89f9-0x1ctr a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX custom: <https://artresearch.net/custom/>
+PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+SELECT ?value WHERE {
+  {
+    ?subject ((^custom:sameAs?) | crm:P107_has_current_or_former_member)/crm:P2_has_type <https://artresearch.net/resource/pharos/vocab/meta/photographer> .
+    BIND(\"photographer\" AS ?value)
+  } UNION {
+    ?work crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by ?subject .
+    BIND(\"artist\" AS ?value) .
+  } UNION {
+    ?work crm:P50_has_current_keeper ?subject .
+    BIND(\"repository\" AS ?value) .
+  }
+}""" .
+  
+  _:genid-f937dd6e7f234feba5ebdc60d63a89f9-4q0hzt a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/actor_type> .
+}

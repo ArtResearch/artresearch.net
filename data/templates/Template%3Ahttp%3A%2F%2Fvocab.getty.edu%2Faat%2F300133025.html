@@ -273,6 +273,7 @@
                     </bs-tab>
                     <bs-tab event-key="2" title="Similar Works">
                       <div class='search-container'>
+                      {{#if (find data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values "(not (isEmpty item.[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value]))")}}
                        <semantic-query
                           id="grid-result"
                           prefetch-labels="false"
@@ -312,7 +313,45 @@
                               </infinite-scroll>
                             </div>
                           </template>
-                        </semantic-query>                                                
+                        </semantic-query>
+                      {{else}}
+                       <semantic-query
+                          id="grid-result"
+                          prefetch-labels="false"
+                          query='
+                            SELECT DISTINCT (?uri AS ?subject) (?matchedModel as ?matchType) {
+                              SERVICE <http://usearch-search.private:8545/sparql> {
+                                SELECT * WHERE {
+                                  SERVICE <https://artresearch.net/embeddings/search> {
+                                    ?uri <https://artresearch.net/embeddings/data> "{{subject}}";
+                                         <https://artresearch.net/embeddings/request_type> "uri";
+                                         <https://artresearch.net/embeddings/model> "qwen3_8b";
+                                         <https://artresearch.net/embeddings/score> ?similarity;
+                                         <https://artresearch.net/embeddings/matchedModel> ?matchedModel.
+                                  }
+                                }
+                              }
+                            } ORDER BY DESC(?similarity) DESC(?subject) LIMIT 100
+                          '                                       
+                          
+                          template="{{> subjectCellTemplate}}"
+                          no-result-template='[[> CardNoResult ]]'
+                        >
+                          <template id="subjectCellTemplate">
+                            <div class="scrolable-area">
+                              <infinite-scroll item-height="250px" profile="artwork-card"  item-per-row="1" item-width="550" batch-size="20" values='{{stringify bindings}}'>
+                                <template id='template'>
+                                  <div class="result-item karla-regular">
+                                    {{#each rows}}
+                                      {{> Default:CardArtwork photo=maxPhoto.value provider=provider matchType=matchType}}
+                                    {{/each}}
+                                  </div>
+                                </template>
+                              </infinite-scroll>
+                            </div>
+                          </template>
+                        </semantic-query>
+                      {{/if}}
                       </div>
                     </bs-tab>
                   </bs-tabs>

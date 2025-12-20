@@ -1,27 +1,66 @@
-<div class="page">    
-
-  <resource-info subject="[[this]]" profile="repository-card" template="{{> template}}">      
+<div class="page actor-page">    
+  <resource-info subject="[[this]]" profile="repository-card" template="{{> template}}">
     <template id="template">
-      <mp-event-trigger id="breadcrumbs" 
-                        type='Component.TemplateUpdate' on='["mounted"]' targets='["top-header-breadcrumbs"]'
-                        data='{"breadcrumb": "Actor: {{escapeForJson data.label}}"}'>
-      </mp-event-trigger>
+      
+      <div style="display: none;">
+        <mp-event-trigger id="breadcrumbs" 
+                          type='Component.TemplateUpdate' on='["mounted"]' targets='["top-header-breadcrumbs"]'
+                          data='{"breadcrumb": "{{#with data.[https://artresearch.net/resource/field_definition/pharos_model/actor_type]}}{{#if values}}{{#each values}}{{#if (eq this.[@value] "repository")}}Repository{{/if}}{{#if (eq this.[@value] "photographer")}}Photographer{{/if}}{{#if (eq this.[@value] "artist")}}Artist{{/if}}{{#unless @last}}, {{/unless}}{{/each}}{{else}}Actor{{/if}}{{/with}}: {{escapeForJson data.label}}"}'>
+        </mp-event-trigger>
+      </div>
+
+      {{#with data.[https://artresearch.net/resource/field_definition/pharos_model/actor_type]}}
+           
+              {{#if values.[1]}}
+                <!-- Multiple types: Show Tabs -->
+                <bs-tab-container id="tab-container" class="page__body-navtabs--borderless" 
+                    default-active-key="{{#if (find values '(or (eq item.[@value] \'repository\') (eq item.[@value] \'artist\'))')}}artworks{{else}}photographs{{/if}}">
+                    <div>
+                        <bs-nav bs-style="tabs">
+                            {{#if (find values "(or (eq item.[@value] 'repository') (eq item.[@value] 'artist'))")}}
+                                <bs-nav-item event-key="artworks">Artworks</bs-nav-item>
+                            {{/if}}
+                            {{#if (find values "(eq item.[@value] 'photographer')")}}
+                                <bs-nav-item event-key="photographs">Photographs</bs-nav-item>
+                            {{/if}}
+                        </bs-nav>
+                        <bs-tab-content unmount-on-exit=true>
+                            {{#if (find values "(or (eq item.[@value] 'repository') (eq item.[@value] 'artist'))")}}
+                                <bs-tab-pane event-key="artworks">
+                                  <div class="main-container">
+                                     <!-- Union query to cover both Repository and Artist roles -->
+                                     <inline-template template-iri="Default:SearchTemplate" options='{"searchRestrictions":"{ ?subject crm:P50_has_current_keeper <[[this]]> . } UNION { ?subject crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by <[[this]]> . }", "domain": "work", "lock": "true"}'></inline-template>
+                                  </div>
+                                </bs-tab-pane>
+                            {{/if}}
+                            {{#if (find values "(eq item.[@value] 'photographer')")}}
+                                <bs-tab-pane event-key="photographs">
+                                  <div class="main-container">
+                                     <inline-template template-iri="Default:SearchTemplate" options='{"searchRestrictions":"?subject crm:P65_shows_visual_item/crm:P94i_was_created_by/crm:P14_carried_out_by/crm:P107i_is_current_or_former_member_of? <[[this]]> .", "domain": "photograph", "lock": "true"}'></inline-template>
+                                  </div>
+                                </bs-tab-pane>
+                            {{/if}}
+                        </bs-tab-content>
+                    </div>
+                </bs-tab-container>
+              {{else}}
+                <div class="main-container">
+                <!-- Single Type: Show Content directly -->
+                {{#each values}}
+                    {{#if (eq this.[@value] "repository")}}
+                         <inline-template template-iri="Default:SearchTemplate" options='{"searchRestrictions":"?subject crm:P50_has_current_keeper <[[this]]> .", "domain": "work", "lock": "true"}'></inline-template>
+                    {{/if}}
+                    {{#if (eq this.[@value] "photographer")}}
+                         <inline-template template-iri="Default:SearchTemplate" options='{"searchRestrictions":"?subject crm:P65_shows_visual_item/crm:P94i_was_created_by/crm:P14_carried_out_by/crm:P107i_is_current_or_former_member_of? <[[this]]> .", "domain": "photograph", "lock": "true"}'></inline-template>
+                    {{/if}}
+                    {{#if (eq this.[@value] "artist")}}
+                         <inline-template template-iri="Default:SearchTemplate" options='{"searchRestrictions":"?subject crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by <[[this]]> .", "domain": "work", "lock": "true"}'></inline-template>
+                    {{/if}}
+                {{/each}}
+                </div>
+              {{/if}}
+        {{/with}}
+      
     </template>
   </resource-info>
-
-  
-
-  <div class="main-container">
-    <semantic-if query="ASK { <[[this]]> ((^custom:sameAs?) | crm:P107_has_current_or_former_member)/crm:P2_has_type <https://artresearch.net/resource/pharos/vocab/meta/photographer> }"  then='{{> then}}' else='{{> else}}'>
-     <template id='then'>
-       <inline-template template-iri="Default:SearchTemplate" options='{"searchRestrictions":"?subject crm:P65_shows_visual_item/crm:P94i_was_created_by/crm:P14_carried_out_by/crm:P107i_is_current_or_former_member_of? <[[this]]> .", "domain": "photograph", "lock": "true"}'></inline-template>
- 
-     </template>
-     <template id='else'>
-       <inline-template template-iri="Default:SearchTemplate" options='{"searchRestrictions":"{ ?subject crm:P50_has_current_keeper <[[this]]> . } UNION { ?subject crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by <[[this]]> . }", "domain": "work", "lock": "true"}'></inline-template>
-
-     </template>
-
-    </semantic-if>
-  </div>
 </div>
