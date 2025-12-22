@@ -5,20 +5,28 @@
                             "pageTitle":"Built Works from the Middle East", 
                             "lock": "true",
                             "domain": "work",
-                            "searchRestrictions": "{
-                              ?subject crm:P2_has_type <https://artresearch.net/resource/pharos/vocab/meta/built_work> . 
-                              ?subject crm:P55_has_current_location/crm:P89_falls_within* ?place . 
-                              FILTER(?place IN (
-                                <http://vocab.getty.edu/tgn/1000140>,
-                                <http://vocab.getty.edu/tgn/1000144>,
-                                <http://vocab.getty.edu/tgn/1000126>,
-                                <http://vocab.getty.edu/tgn/7016833>,
-                                <http://vocab.getty.edu/tgn/1000172>,
-                                <http://vocab.getty.edu/tgn/7000231>,
-                                <http://vocab.getty.edu/tgn/1000119>,
-                                <http://vocab.getty.edu/tgn/1000118>,
-                                <http://vocab.getty.edu/tgn/1000201>,
-                                <https://artresearch.net/resource/midas/place/20913828>
-                              )) .
-                             }"
+                            "presetFacets": [
+                              {
+                                "relation": "https://artresearch.net/resource/fr/Work_from_Place",
+                                "values": [
+                                  "http://vocab.getty.edu/tgn/1000140",
+                                  "http://vocab.getty.edu/tgn/1000144",
+                                  "http://vocab.getty.edu/tgn/1000126",
+                                  "http://vocab.getty.edu/tgn/7016833",
+                                  "http://vocab.getty.edu/tgn/1000172",
+                                  "http://vocab.getty.edu/tgn/7000231",
+                                  "http://vocab.getty.edu/tgn/1000119",
+                                  "http://vocab.getty.edu/tgn/1000118",
+                                  "http://vocab.getty.edu/tgn/1000201",
+                                  "https://artresearch.net/resource/midas/place/20913828"
+                                ]
+                              },
+                              {
+                                "relation": "https://artresearch.net/resource/fr/Work_has_Type",
+                                "values": [
+                                  "http://vocab.getty.edu/aat/300263552",
+                                  "https://artresearch.net/resource/pharos/vocab/meta/built_work"
+                                ]
+                              }
+                            ]
                           }'></inline-template>

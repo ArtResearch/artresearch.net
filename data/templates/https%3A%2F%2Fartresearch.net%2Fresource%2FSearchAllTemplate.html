@@ -2,8 +2,9 @@
   data='{"breadcrumb": "{{pageTitle}}"}'>
 </mp-event-trigger>
 
+
 <div class="page">    
   <div class="main-container">
-    <inline-template template-iri="Default:SearchTemplate" options='{"pageTitle":"{{pageTitle}}", "searchRestrictions": "{{searchRestrictions}}", "keyword": "{{keyword}}", "domain" : "{{domain}}", "lock": "{{lock}}"}'></inline-template>
+    <inline-template template-iri="Default:SearchTemplate" options='{"pageTitle":"{{pageTitle}}", "searchRestrictions": "{{searchRestrictions}}", "keyword": "{{keyword}}", "domain" : "{{domain}}", "lock": "{{lock}}" {{#if presetFacets}}, "presetFacets": {{stringify presetFacets}} {{/if}} }'></inline-template>
   </div>
 </div>

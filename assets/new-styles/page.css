@@ -236,6 +236,12 @@ h1 span.thin-text {
   margin-top: 0;
 }
 
+.actor-page #tab-container > ul.nav {
+  padding: 0 21rem 0px 21rem;
+  border-bottom: none !important;
+  margin-top: 0;
+}
+
 .partner-page div div #tab-container-pane-summary {
   padding-left: 0px;
   padding-top: 0px;
@@ -302,13 +308,16 @@ body:has(.search-container) {
   /* This container will hold the search bar and will not scroll */
   flex-shrink: 0; /* Prevents this area from shrinking */
   padding: 0 20px 20px 20px;
-  border-bottom: 1px solid #e0e0e0;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 .search-content-area {
   display: flex;
   flex-grow: 1; /* Takes up the remaining vertical space */
   overflow: hidden; /* Prevents this container from scrolling */
+  border-top: 1px solid #e0e0e0;
 }
 
 .facets-area {
@@ -404,82 +413,6 @@ body:has(.search-container) {
   min-height: 50vh;
 }
 
-.ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--searchButton,
-.searchButton, .imageDropzone {
-  background-color: var(--domain-color) !important;
-
-}
-.searchButton:hover, .imageDropzone:hover {
-  background-color: darken(var(--domain-color), 20%);
-}
-
-.ImageSearchWithSlider--imageSearchContainer {
-  background-color: #fff9e8;
-  border: none;
-  border-radius: 0px;
-}
-.ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--domainSelector .dropdown-toggle,
-.ImageSearchWithSlider--imageSearchContainer input {
-  height: 50px;
-  font-size: 18px;
-  background-color: #fff9e8;
-  border: solid 1.5px black;
-  border-radius: 26px;
-  transition: 0.2s;
-  font-weight: bold;
-}
-
-.ImageSearchWithSlider--imageSearchContainer input {
-  box-shadow: 0px 3px 10px 0px rgba(31, 31, 31, 0.08);
-}
-
-#domain-selector {
-  border: none;
-}
-.ImageSearchWithSlider--domainSelector {
-  border-bottom: solid 1.5px black;
-}
-
-.ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--domainSelector .dropdown-toggle:focus {
-  background-color: #fff9e8;
-}
-
-.ImageSearchWithSlider--imageSearchContainer input:focus {
-  background-color: #fff9e8;
-  border: 1.5px solid var(--domain-color);
-  border-radius: 26px;
-  transition: 0.2s;
-  font-weight: bold;
-  box-shadow: 0 2px 8px 1px rgba(64,60,67,.24);
-}
-
-.ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--domainSelector .dropdown-menu {
-    background-color: #fff9e8;
-    border: none;
-    border-radius: 0px;
-    transition: 0.2s;
-    font-weight: bold;
-}
-
-.ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--domainSelector .dropdown-menu > .active > a {
-    background-color: var(--domain-color);
-}
-
-.ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--domainSelector .dropdown-menu > li > a:hover {
-    background-color:  #23ce9d;
-}
-
-.slider-field {
-  width: 30% !important;
-}
-
-.rc-slider-dot, .rc-slider-handle {
-  border-color: var(--domain-color);
-}
-
-.rc-slider-disabled {
-  background-color: unset;
-}
 
 .search-container .field-value {
   -webkit-box-orient: vertical;
@@ -525,6 +458,24 @@ body:has(.search-container) {
 .facet__relation__header:hover {
   background-color: #fff9e8 !important ;
   border-bottom: solid 1px black !important;
+  font-size: 1.4rem;
+}
+
+/* Facet font-size harmonization */
+.show-facet-button {
+  font-size: 1.4rem;
+}
+
+.facet__relation__values__value {
+  font-size: 1.4rem;
+}
+
+.facet__relation__values em {
+  font-size: 1.4rem;
+}
+
+.facet__relation__warning {
+  font-size: 1.2rem;
 }
 
 .results-area .scrolable-area {
@@ -552,7 +503,11 @@ body:has(.search-container) {
   padding: 5px !important;
 }
 .FacetBreadcrumbs--cancelButton>i {
-  font-size: 16px !important;
+  font-size: 1.4rem !important;
+}
+
+.FacetBreadcrumbs--values {
+  font-size: 1.4rem;
 }
 
 .FacetBreadcrumbs--clearAllButton {
@@ -1087,6 +1042,8 @@ body:has(.search-container) {
   margin-left: 10px;
   color: grey;
   font-weight: lighter;
+  display: flex;
+  align-items: center;
 }
 
 .view-more {
@@ -1210,81 +1167,6 @@ body:has(.search-container) {
 
 @container (width < 767px) {
   /* SEARCH */
-  .ImageSearchWithSlider--imageSearchWithSlider {
-    flex-direction: column;
-  }
-
-  .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--topRow {
-    flex-direction: column;
-    align-items: stretch; /* Make items take full width */
-  }
-
-  .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--domainSelector {
-    margin-right: 0;
-    width: 100%;
-  }
-
-  .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--inputDropzoneContainer {
-    flex-direction: row;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--imageDropzone {
-    width: auto; /* Adjust width */
-  }
-
-  .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--searchControls {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--modelSelection {
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--sliderField {
-    flex-direction: row;
-    align-items: center;
-    margin-right: 0;
-  }
-
-  .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--sliderField .ImageSearchWithSlider--sliderLabel {
-    display: none;
-  }
-
-  .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--sliderField .ImageSearchWithSlider--sliderFieldSliderContainer {
-    width: 100%;
-    padding: 0 8px;
-    margin-bottom: 5px;
-  }
-
-  .ImageSearchWithSlider--modelSelection .checkbox label {
-    font-size: 0;
-  }
-
-  .ImageSearchWithSlider--modelSelection .checkbox label::after {
-    font-size: 16px;
-  }
-
-  .ImageSearchWithSlider--modelSelection .checkbox label[title="Text Match"]::after {
-    content: "Keyword";
-  }
-
-  .ImageSearchWithSlider--modelSelection .checkbox label[title="Textual Similarity"]::after {
-    content: "Conceptual";
-  }
-
-  .ImageSearchWithSlider--modelSelection .checkbox label[title="Visual Similarity"]::after {
-    content: "Visual";
-  }
-
-  .ImageSearchWithSlider--modelSelection .checkbox label[title="Visual Match"]::after {
-    content: "Exact";
-  }
 }
 
 /*Devices smaller than 767px*/
@@ -1406,33 +1288,29 @@ body:has(.search-container) {
     justify-content: center;
   }
 
+  .actor-page #tab-container > ul.nav {
+    padding: 0;
+    display: flex;
+    justify-content: center;
+  }
+
   .partner-page-title-and-intro {
     padding: 1rem 5rem;
   }
 }
 
+@media (max-width: 900px) {
+    .search-controls-area {
+      max-width: none;
+      width: 100%;
+    }
+}
+
 @media (max-width: 600px) {
     .search-controls-area {
-      margin-left: 20px;
+      padding-left: 40px;
     }
 
-    .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--domainSelector {
-      margin-bottom: 5px;
-    }
-
-    .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--modelRow {
-      .checkbox {
-        margin-bottom: 0;
-      }
-
-      .ImageSearchWithSlider--helpIcon  {
-        margin-top: 10px;
-      }
-    }
-
-    .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--domainSelector .dropdown-toggle {
-      height: 30px;
-    }
 
     .field-label {
         text-align: left;

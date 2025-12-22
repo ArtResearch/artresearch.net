@@ -1,0 +1,24 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/exhibitions/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/exhibitions> a <http://www.researchspace.org/resource/system/fields/Field>,
+      <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-a139d7d44ce94ea58a0e206ece81c4b0-mlb59r;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Exhibitions";
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-a139d7d44ce94ea58a0e206ece81c4b0-zevc8a;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-12-18T10:42:28.922Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-a139d7d44ce94ea58a0e206ece81c4b0-zevc8a a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  _:genid-a139d7d44ce94ea58a0e206ece81c4b0-mlb59r a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+
+SELECT ?value WHERE {
+  ?subject crm:P12i_was_present_at ?value.
+}""" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/exhibitions> .
+}

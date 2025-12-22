@@ -1,0 +1,31 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/original_record_identifier/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/original_record_identifier>
+    a <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
+      <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-23fac01e329541faae14b815a9aeff89-vb9ap9c;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-23fac01e329541faae14b815a9aeff89-04a2r;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Original record identifier";
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-12-19T21:48:03.800+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-23fac01e329541faae14b815a9aeff89-vb9ap9c a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  _:genid-23fac01e329541faae14b815a9aeff89-04a2r a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+SELECT DISTINCT ?value WHERE {
+  ?attr crm:P141_assigned ?subject .
+  ?attr crm:P134_continued*/crm:P140_assigned_attribute_to ?work .
+  FILTER NOT EXISTS { ?attr crm:P134_continued ?nextAttr }
+  ?titleAttr crm:P177_assigned_property_of_type crm:P1_is_identified_by .
+  ?titleAttr crm:P140_assigned_attribute_to ?work .
+  ?titleAttr crm:P141_assigned ?appellation .
+  ?appellation crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/preferred_identifier> .
+  ?appellation crm:P190_has_symbolic_content ?value .
+}""" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/original_record_identifier> .
+}

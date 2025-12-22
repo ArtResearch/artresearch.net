@@ -1,13 +1,15 @@
 <div class="page">    
 
-  <resource-info subject="[[this]]" profile="repository-card" template="{{> template}}">      
-    <template id="template">
-      <mp-event-trigger id="breadcrumbs" 
-                        type='Component.TemplateUpdate' on='["mounted"]' targets='["top-header-breadcrumbs"]'
-                        data='{"breadcrumb": "Subject: {{escapeForJson data.label}}"}'>
-      </mp-event-trigger>
-    </template>
-  </resource-info>
+  <div style="display: none;">
+    <resource-info subject="[[this]]" profile="repository-card" template="{{> template}}">      
+      <template id="template">
+        <mp-event-trigger id="breadcrumbs" 
+                          type='Component.TemplateUpdate' on='["mounted"]' targets='["top-header-breadcrumbs"]'
+                          data='{"breadcrumb": "Subject: {{escapeForJson data.label}}"}'>
+        </mp-event-trigger>
+      </template>
+    </resource-info>
+  </div>
 
   
 

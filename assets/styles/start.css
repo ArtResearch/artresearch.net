@@ -76,9 +76,108 @@ a {
 }
 
 #home-title {
-  top:10vh;
+  top: 10vh;
   padding-top: 15vh;
   line-height: 1.6em;
+}
+
+/* start-page-v1 specific styles (start.html) */
+.start-page-v1 #home-title {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 13vh);
+}
+
+.start-page-v1 .help-search-guide {
+  font-size: 1.1rem;
+  line-height: 1.4;
+  margin-top: 0.3rem;
+  margin-left: 5px;
+}
+
+.start-page-v1 #search-collections {
+  margin-top: 6rem;
+}
+
+.start-page-v1 .search-main-form {
+  max-width: 570px;
+}
+
+.start-page-v1 #search-collections-payoff {
+  margin-left: -15px;
+}
+
+/* start-page-v2 specific styles (start2.html) */
+.start-page-v2 #home-title {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 80px);
+  padding-top: 0;
+  position: relative;
+  z-index: 1;
+  top: 5vh;
+}
+
+.start-page-v2 #search-collections {
+  margin-top: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.start-page-v2 .search-main-page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.start-page-v2 .search-main-text {
+  margin-bottom: 0.5rem;
+}
+
+.start-page-v2 .search-main-text p {
+  font-size: 1.1rem;
+  line-height: 1.4;
+  margin-bottom: 0.3rem;
+}
+
+/* Large headline text for v2 */
+.start-page-v2 .search-main-text p.search-main-headline {
+  font-size: 2.4rem;
+  line-height: 1.15;
+  font-weight: 300;
+  margin-bottom: 0.75rem;
+  color: #000;
+}
+
+.start-page-v2 .search-main-form {
+  max-width: 650px;
+}
+
+/* Slightly smaller image search modal for v2 */
+.start-page-v2 .dropzone-area {
+  min-height: 100px !important;
+  max-height: 140px !important;
+  padding: 12px 20px !important;
+}
+
+.start-page-v2 [class*="imageSearchDropzone"] {
+  min-height: 100px !important;
+  max-height: 200px !important;
+  padding: 12px 20px !important;
+}
+
+/* Position payoff at bottom for v2 */
+.start-page-v2 #search-collections-payoff {
+  margin-top: auto;
+  padding-top: 0.75rem;
+  padding-bottom: 1rem;
+  margin-left: 0;
+}
+
+/* Input padding override for start page - font sizes now in component */
+.start-page-v1 .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--inputWithClear .form-control {
+  padding-right: 0;
 }
 
 .wrap-line {
@@ -86,11 +185,48 @@ a {
 }
 
 #search-collections {
-  margin-top: 10rem;
+  margin-top: 4rem;
 }
 
-.search-collections-launcher * {
-  display: inline-flex;
+/* Removed - was interfering with block-level search form */
+
+/* Search form on main page (start2.html and start.html) */
+.search-main-page {
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.search-main-title {
+  font-size: 3.5rem;
+  font-weight: normal;
+  color: #000;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+}
+
+.search-main-title span {
+  display: block;
+  color: var(--domain-color);
+  font-weight: bold;
+}
+
+.home-section .search-main-title span {
+  color: #70E7C5;
+}
+
+.search-main-text {
+  margin-bottom: 1.5rem;
+}
+
+.search-main-text p {
+  font-size: 1.3rem;
+  line-height: 1.5;
+  margin-bottom: 0.8rem;
+  color: #333;
+}
+
+.search-main-form {
+  width: 100%;
 }
 
 .search-collections-arrow img, .search-collections-arrow-hover img {
@@ -113,10 +249,10 @@ a {
 }
 
 #search-collections-payoff {
-  color: grey;
-  font-size: 1.2em;
+  font-size: 2rem;
   line-height: 1.2em;
   padding-left: 6px;
+  margin-top: 15px;
 }
 
 #search-collections-payoff .bold {
@@ -620,6 +756,26 @@ a.mirador-osd-toggle-bottom-panel.hud-control {
     font-size: 2rem;
   }
 
+  /* Style search button in overlay to contrast with green background */
+  #search-overlay .search-overlay-form .ImageSearchWithSlider--searchButton,
+  #search-overlay .search-overlay-form button.ImageSearchWithSlider--searchButton,
+  #search-overlay .search-overlay-form .searchButton,
+  #search-overlay .search-overlay-form button.searchButton,
+  #search-overlay .search-overlay-form .imageSearchContainer > button:not(.imageSearchModalSearchBtn) {
+    background-color: #000 !important;
+    color: #fff !important;
+    border: none !important;
+  }
+
+  #search-overlay .search-overlay-form .ImageSearchWithSlider--searchButton:hover,
+  #search-overlay .search-overlay-form button.ImageSearchWithSlider--searchButton:hover,
+  #search-overlay .search-overlay-form .searchButton:hover,
+  #search-overlay .search-overlay-form button.searchButton:hover,
+  #search-overlay .search-overlay-form .imageSearchContainer > button:not(.imageSearchModalSearchBtn):hover {
+    background-color: #333 !important;
+    filter: none !important;
+  }
+
   .search-input-container {
     position: relative;
     margin-bottom: 40px;
@@ -720,11 +876,24 @@ a.mirador-osd-toggle-bottom-panel.hud-control {
 
 /* MEDIA QUERIES */
 
+@media (max-width: 1024px) {
+  .start-page-v1 .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--searchButton {
+    display: none;
+  }
+
 /*Devices smaller than 767px*/
 @media (max-width: 767px) {
   /* SEARCH OVERLAY */
+  .start-page-v1 #search-collections-payoff {
+    margin-left: 0;
+  }
+
+  .start-page-v1 .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--searchButton {
+    display: none;
+  }
+
   .search-overlay-header {
-    margin-bottom: 10px;
+    margin-bottom: 0;
   }
   .search-overlay-title {
     font-size: 4rem;
@@ -734,7 +903,7 @@ a.mirador-osd-toggle-bottom-panel.hud-control {
   }
 
   .search-overlay-text {
-    margin-bottom: 10px;
+    margin-bottom: 0;
   }
   .search-overlay-form {
     font-size: 1.2rem;
@@ -758,6 +927,29 @@ a.mirador-osd-toggle-bottom-panel.hud-control {
 
   .main-search-button .search-icon {
     margin-left: 1em;
+  }
+
+  /* Search main page responsive */
+  #home-title {
+    padding-top: 5vh;
+  }
+
+  #search-collections {
+    margin-top: 2rem;
+  }
+
+  .search-main-title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .search-main-text {
+    margin-bottom: 1rem;
+  }
+
+  .search-main-text p {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
   }
 
   .none-small {
@@ -897,6 +1089,17 @@ a.mirador-osd-toggle-bottom-panel.hud-control {
     padding-left: 2rem;
     padding-right: 2rem;
   }
+
+  /* Remove padding from search overlay on small screens instead of hiding button */
+  #search-overlay {
+    padding: 0;
+  }
+
+  #search-overlay .dropzone-area.ImageSearchWithSlider--imageSearchDropzone {
+    padding: 10px 10px;
+    height: 150px;
+    min-height: 150px;
+  }
 }
 
 /*Devices between 768px and 1024px*/
@@ -918,6 +1121,11 @@ a.mirador-osd-toggle-bottom-panel.hud-control {
   /* SEARCH OVERLAY */
   .search-overlay-text p, .search-overlay-close {
     font-size: 2em;
+  }
+
+  .home-section {
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
 
   /* INTRO */
@@ -2127,4 +2335,4 @@ a.mirador-osd-toggle-bottom-panel.hud-control {
   100% {
     margin-left: 35px;
   }
-} */
+}

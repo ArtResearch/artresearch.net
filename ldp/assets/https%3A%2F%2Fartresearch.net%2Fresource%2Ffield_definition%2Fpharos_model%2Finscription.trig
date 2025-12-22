@@ -1,0 +1,25 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/inscription/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/inscription> a <http://www.researchspace.org/resource/system/fields/Field>,
+      <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Inscription";
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-f664ebb3738c49bc98c4f88fbd1b9c41-nqkhds;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-f664ebb3738c49bc98c4f88fbd1b9c41-idfh1;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2025-12-16T19:32:27.494Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-f664ebb3738c49bc98c4f88fbd1b9c41-idfh1 a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+
+SELECT ?value WHERE {
+  ?subject crm:P128_carries ?value .
+  ?value a crm:E34_Inscription .
+}""" .
+  
+  _:genid-f664ebb3738c49bc98c4f88fbd1b9c41-nqkhds a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/inscription> .
+}
