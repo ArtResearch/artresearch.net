@@ -4,20 +4,26 @@
     "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
     "format": "YYYY-MM-DDTHH:mm:ss.SSS[Z]",
     "queryPattern": "{
-        $subject crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P4_has_time-span ?timeSpan .
-        FILTER EXISTS {
-    		  ?timeSpan crm:P82a_begin_of_the_begin|crm:P82b_end_of_the_end ?date .
+        {
+          { $subject crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P4_has_time-span ?timeSpan . }
+          FILTER EXISTS {
+            ?timeSpan crm:P82a_begin_of_the_begin|crm:P82b_end_of_the_end ?date .
+          }
+
+          OPTIONAL { ?timeSpan crm:P82a_begin_of_the_begin ?begin . }
+          OPTIONAL { ?timeSpan crm:P82b_end_of_the_end ?end . }
         }
-    
-        OPTIONAL { ?timeSpan crm:P82a_begin_of_the_begin ?begin . }
-        OPTIONAL { ?timeSpan crm:P82b_end_of_the_end ?end . }
 
         FILTER ((!BOUND(?begin) || ?begin <= ?__dateEndValue__) && (!BOUND(?end) || ?end >= ?__dateBeginValue__))    
     }"
   }],
   "<https://artresearch.net/resource/fr/Work_has_Provider>":[{
               "kind":"resource",
-              "queryPattern": "?__value__ crm:P75_possesses/^crm:P104_is_subject_to/^crm:P70i_is_documented_in ?subject ."
+              "queryPattern": "{ 
+                ?__value__ crm:P75_possesses ?right .
+                ?document crm:P104_is_subject_to ?right .
+                ?document crm:P70_documents ?subject .
+              }"
 
     }],
   "<https://artresearch.net/resource/fr/Work_consists_of_Material>":[{
@@ -48,13 +54,9 @@
   "<https://artresearch.net/resource/fr/Work_shows_Subject>":[{
               "kind":"hierarchy",
               "queryPattern": "{
-                {
-                  {
-                    ?subject crm:P65_shows_visual_item/crm:P2_has_type ?s .
-                    ?s crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/subject>  .
-                  }
-                  ?s crm:P130_shows_features_of?/crm:P127_has_broader_term* ?__value__ .
-                }
+                ?subject crm:P65_shows_visual_item/crm:P2_has_type ?s .
+                ?s crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/subject>  .
+                ?s crm:P130_shows_features_of?/crm:P127_has_broader_term* ?__value__ .
               }",
               "parentsPattern": "{ ?value crm:P127_has_broader_term ?parent . }",
               "childrenPattern": "{ ?child crm:P127_has_broader_term ?value . }",
@@ -184,11 +186,11 @@
   "<https://artresearch.net/resource/fr/Repository_documented_in_Institution>":[{
               "kind":"resource",
               "queryPattern": "
-                { {
+                {
                   ?work crm:P50_has_current_keeper ?subject .
                   ?work crm:P70i_is_documented_in/crm:P104_is_subject_to  ?ownership. 
                   ?__value__ crm:P75_possesses ?ownership .
-                } }
+                }
               " 
 
     }],
