@@ -1,31 +1,17 @@
-
-
-
-    <semantic-search
-      id="main-search"
-      save-state-in-browser-history="false"
-      limit=10000
-      relations='[[> SearchSimpleRelations]]'
-      search-profile='[[> SearchSimpleProfile]]'
-      datasets-config='{"datasetPattern": "", "datasets": [{"label": "PHAROS", "isDefault": true, "alignments": [{"iri": "http://vocab.getty.edu/aat/", "label": "Getty", "isDefault": true}, {"iri": "https://artresearch.net/resource/midas/vocabulary", "label": "MIDAS"}, {"iri": "https://artresearch.net/resource/zeri/vocabulary", "label": "Zeri"}]}]}'
-      
-      preset-facets='{{stringify presetFacets}}'
-    >
-      <div class="search-controls-area">
-        <div class="search-bar">
-          <pharos-image-search-with-slider
-              placeholder="Keywords or image"
-              text-match-help='<b>Traditional Keyword Search.</b> Finds records containing your exact search terms. <semantic-link iri="https://artresearch.net/resource/search-help" fragment="text-match" target="_blank">See search documentation</semantic-link>'
-              text-similarity-help='<b>Conceptual Search.</b> Finds records that are thematically related to your search terms, searching across all information and languages. <semantic-link iri="https://artresearch.net/resource/search-help" fragment="textual-similarity" target="_blank">See search documentation</semantic-link>'
-              text-visual-match-help='<b>Visual Concept Search.</b> Finds artworks that visually represent the concept of your search terms, even abstract terms or color in black-and-white photos. <semantic-link iri="https://artresearch.net/resource/search-help" fragment="visual-similarity-from-text" target="_blank">See search documentation</semantic-link>'
-              visual-match-help='<b>Near-Exact Copies.</b> Near-Exact Copies. Finds duplicates, prints, copies or different versions of your uploaded image. <semantic-link iri="https://artresearch.net/resource/search-help" fragment="visual-match" target="_blank">See search documentation</semantic-link>'
-              visual-similarity-help='<b>Aesthetic Search.</b> Finds artworks with a similar style, mood, or subject matter to your uploaded image. <semantic-link iri="https://artresearch.net/resource/search-help" fragment="visual-similarity-from-image" target="_blank">See search documentation</semantic-link>'
-
-              image-storage='image-search'
-              initial-input='{{query}}'
-              enable-model-selection='{{enableModelSelection}}'
-
-              domains='[
+<semantic-search id="main-search" save-state-in-browser-history="false" limit=10000
+  relations='[[> SearchSimpleRelations]]' search-profile='[[> SearchSimpleProfile]]'
+  datasets-config='{"datasetPattern": "", "datasets": [{"label": "PHAROS", "isDefault": true, "alignments": [{"iri": "http://vocab.getty.edu/aat/", "label": "Getty", "isDefault": true}, {"iri": "https://artresearch.net/resource/midas/vocabulary", "label": "MIDAS"}, {"iri": "https://artresearch.net/resource/zeri/vocabulary", "label": "Zeri"}]}]}'
+  preset-facets='{{stringify presetFacets}}'>
+  <div class="search-controls-area">
+    <div class="search-bar">
+      <pharos-image-search-with-slider placeholder="Keywords or image"
+        text-match-help='<b>Traditional Keyword Search.</b> Finds records containing your exact search terms. <semantic-link iri="https://artresearch.net/resource/search-help" fragment="text-match" target="_blank">See search documentation</semantic-link>'
+        text-similarity-help='<b>Conceptual Search.</b> Finds records that are thematically related to your search terms, searching across all information and languages. <semantic-link iri="https://artresearch.net/resource/search-help" fragment="textual-similarity" target="_blank">See search documentation</semantic-link>'
+        text-visual-match-help='<b>Visual Concept Search.</b> Finds artworks that visually represent the concept of your search terms, even abstract terms or color in black-and-white photos. <semantic-link iri="https://artresearch.net/resource/search-help" fragment="visual-similarity-from-text" target="_blank">See search documentation</semantic-link>'
+        visual-match-help='<b>Near-Exact Copies.</b> Near-Exact Copies. Finds duplicates, prints, copies or different versions of your uploaded image. <semantic-link iri="https://artresearch.net/resource/search-help" fragment="visual-match" target="_blank">See search documentation</semantic-link>'
+        visual-similarity-help='<b>Aesthetic Search.</b> Finds artworks with a similar style, mood, or subject matter to your uploaded image. <semantic-link iri="https://artresearch.net/resource/search-help" fragment="visual-similarity-from-image" target="_blank">See search documentation</semantic-link>'
+        image-storage='image-search' initial-input='{{query}}' enable-model-selection='{{enableModelSelection}}'
+        domains='[
                 {
                   "name": "Artwork",
                   "domainColor": "#70E7C5",
@@ -76,27 +62,15 @@
                  "uri": "<https://artresearch.net/resource/custom/fc/repository>",
                  "domainColor": "#A09322"
                }
-              ]'
-
-              evaluate-on-change='true'
-              initial-domain="{{#if domain}}<https://artresearch.net/resource/custom/fc/{{domain}}>{{else}}<https://artresearch.net/resource/custom/fc/work>{{/if}}"
-              lock-domain="{{#if lock}}true{{else}}false{{/if}}"
-              debounce="600"
-              tokenize-lucene-query="true"
-              escape-lucene-syntax="false"
-
-              default-slider-value="0"
-
-              default-query-0='
+              ]' evaluate-on-change='true'
+        initial-domain="{{#if domain}}<https://artresearch.net/resource/custom/fc/{{domain}}>{{else}}<https://artresearch.net/resource/custom/fc/work>{{/if}}"
+        lock-domain="{{#if lock}}true{{else}}false{{/if}}" debounce="600" tokenize-lucene-query="true"
+        escape-lucene-syntax="false" default-slider-value="0" default-query-0='
                 SELECT ?subject WHERE {
                   ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
-                  ?subject custom:has_image ?hasImage .
-                  BIND(IF(?hasImage, 2, 1) AS ?resultScore) .
                   {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
                 }
-              '
-
-              text-query-0='
+              ' text-query-0='
                 SELECT DISTINCT ?subject WHERE {
                   {
                       SELECT ?subject ((?__textScoreSumPattern__) / SAMPLE(?textMaxScore) as ?score) WHERE {
@@ -118,8 +92,7 @@
                       GROUP BY ?subject
                   }
                 }
-              '
-              text-with-ai-query-0='
+              ' text-with-ai-query-0='
                 PREFIX emb: <https://artresearch.net/embeddings/>
                 SELECT DISTINCT ?subject WHERE {
                   {
@@ -174,9 +147,7 @@
                     GROUP BY ?subject
                   }
                 }
-              '
-
-              text-ai-query-0='
+              ' text-ai-query-0='
                 PREFIX emb: <https://artresearch.net/embeddings/>
                 SELECT DISTINCT ?subject WHERE {
                   {
@@ -205,9 +176,7 @@
                         }
                   }
                 }
-              '
-
-              image-query-0='
+              ' image-query-0='
                 PREFIX emb: <https://artresearch.net/embeddings/>
                 SELECT DISTINCT ?subject WHERE {
                   {
@@ -235,10 +204,7 @@
                           {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
                         }
                   }
-                }'
-
-
-              image-ai-query-0='
+                }' image-ai-query-0='
                 PREFIX emb: <https://artresearch.net/embeddings/>
                 SELECT DISTINCT ?subject WHERE {
                   {
@@ -267,8 +233,7 @@
                         }
                   }
                 }
-              '
-              image-with-ai-query-0='
+              ' image-with-ai-query-0='
               PREFIX emb: <https://artresearch.net/embeddings/>
                 SELECT DISTINCT ?subject WHERE {
                   {
@@ -296,18 +261,12 @@
                           {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
                         }
                   }
-                }'
-
-          default-query-1='
+                }' default-query-1='
             SELECT ?subject WHERE {
               ?subject crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph>  .
-              ?subject custom:has_image ?hasImage .
-              BIND(IF(?hasImage, 2, 1) AS ?score) .
               {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
             }
-          '
-
-              text-query-1='
+          ' text-query-1='
                 SELECT DISTINCT ?subject WHERE {
                   {
                       SELECT ?subject ((?__textScoreSumPattern__) / SAMPLE(?textMaxScore) as ?score) WHERE {
@@ -329,8 +288,7 @@
                       GROUP BY ?subject
                   }
                 }
-              '
-              text-with-ai-query-1='
+              ' text-with-ai-query-1='
                 PREFIX emb: <https://artresearch.net/embeddings/>
                 SELECT DISTINCT ?subject WHERE {
                   {
@@ -384,9 +342,7 @@
                     GROUP BY ?subject
                   }
                 }
-              '
-
-              text-ai-query-1='
+              ' text-ai-query-1='
                 PREFIX emb: <https://artresearch.net/embeddings/>
                 SELECT DISTINCT ?subject WHERE {
                   {
@@ -413,9 +369,7 @@
                         }
                   }
                 }
-              '
-
-              image-query-1='
+              ' image-query-1='
                 PREFIX emb: <https://artresearch.net/embeddings/>
                 SELECT DISTINCT ?subject WHERE {
                   {
@@ -441,10 +395,7 @@
                           {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
                         }
                   }
-                }'
-
-
-              image-ai-query-1='
+                }' image-ai-query-1='
                 PREFIX emb: <https://artresearch.net/embeddings/>
                 SELECT DISTINCT ?subject WHERE {
                   {
@@ -471,8 +422,7 @@
                         }
                   }
                 }
-              '
-              image-with-ai-query-1='
+              ' image-with-ai-query-1='
                 PREFIX emb: <https://artresearch.net/embeddings/>
                 SELECT DISTINCT ?subject WHERE {
                   {
@@ -499,19 +449,13 @@
                         }
                   }
                 }
-              '
-
-
-
-          default-query-2='
+              ' default-query-2='
             SELECT ?subject WHERE {
               ?work crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
               ?work crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by ?subject .
               {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
             }
-          '
-
-          text-query-2='
+          ' text-query-2='
             SELECT DISTINCT ?subject WHERE {
               {
                       SELECT ?subject ((?__textScoreSumPattern__) / SAMPLE(?textMaxScore) as ?score) WHERE {
@@ -533,17 +477,12 @@
                       GROUP BY ?subject
                   }
                   ?work crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by ?subject .
-          }'
-
-
-          default-query-3='
+          }' default-query-3='
             SELECT ?subject WHERE {
               ?work crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph> .
               ?work crm:P65_shows_visual_item/crm:P94i_was_created_by/crm:P14_carried_out_by/crm:P107i_is_current_or_former_member_of? ?subject .
             }
-          '
-
-          text-query-3='
+          ' text-query-3='
             SELECT DISTINCT ?subject WHERE {
               {
                       SELECT ?subject ((?__textScoreSumPattern__) / SAMPLE(?textMaxScore) as ?score) WHERE {
@@ -569,16 +508,12 @@
                 ?work crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph> .
                 ?work crm:P65_shows_visual_item/crm:P94i_was_created_by/crm:P14_carried_out_by/crm:P107i_is_current_or_former_member_of? ?subject .
 
-          }'
-
-          default-query-4='
+          }' default-query-4='
             SELECT ?subject WHERE {
               ?work crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
               ?work crm:P50_has_current_keeper ?subject .
             }
-          '
-
-          text-query-4='
+          ' text-query-4='
             SELECT DISTINCT ?subject WHERE {
               {
                       SELECT ?subject ((?__textScoreSumPattern__) / SAMPLE(?textMaxScore) as ?score) WHERE {
@@ -604,24 +539,22 @@
                   ?work crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
                   ?work crm:P50_has_current_keeper ?subject .
 
-          }'
-            >
-            </pharos-image-search-with-slider>
+          }'>
+      </pharos-image-search-with-slider>
 
-            [[!--
-            <semantic-search-configuration-editor></semantic-search-configuration-editor>
-            --]]
-        </div>
-      </div>
-      <div class="search-content-area">
-        <div class="facets-area">
-          <div>
-            <semantic-search-facet open-by-default='true' sortby='count-desc' facet-values-threshold="5000"
-            default-value-queries='{
+      [[!--
+      <semantic-search-configuration-editor></semantic-search-configuration-editor>
+      --]]
+    </div>
+  </div>
+  <div class="search-content-area">
+    <div class="facets-area">
+      <div>
+        <semantic-search-facet open-by-default='true' sortby='count-desc' facet-values-threshold="5000"
+          default-value-queries='{
               "resource": "SELECT ?value (COUNT(DISTINCT $subject) AS ?count) WHERE { FILTER(?__facetRelationPattern__) } GROUP BY ?value ORDER BY DESC(?count)",
               "literal": "SELECT ?literal (COUNT(DISTINCT $subject) AS ?count) WHERE { FILTER(?__facetRelationPattern__) } GROUP BY ?literal ORDER BY DESC(?count)"
-            }'
-            value-relations='{
+            }' value-relations='{
               "<https://artresearch.net/resource/fr/Work_from_Place>": {
                 "kind":"hierarchy",
                 "valuesQuery": "SELECT ?value WHERE {?subject crm:P55_has_current_location ?value .}",
@@ -640,7 +573,9 @@
   						},
               "<https://artresearch.net/resource/fr/Work_created_by_Artist>": {
                 "kind":"hierarchy",
-                "valuesQuery": "SELECT ?value WHERE {?subject crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by ?value .}",
+                "valuesQuery": "SELECT ?value WHERE {
+                                  { ?subject crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by ?value . }
+                                }",
                 "queryPattern": "{
                     ?subject crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by ?__value__.
                   }",
@@ -687,377 +622,330 @@
                 "valuesQuery": "SELECT ?numericRangeBeginValue ?numericRangeEndValue WHERE { ?subject <https://artresearch.net/custom/number_of_matched_artworks> ?value . BIND(?value as ?numericRangeBeginValue). BIND(?value as ?numericRangeEndValue) . }"
               }
 --]]
-            }'
+            }'>
+        </semantic-search-facet>
+      </div>
+    </div>
+    <div class="results-area">
+      <semantic-search-result-holder>
+        <div class='search-result-holder'>
+          <!-- <p class="bold-text">filters</p> -->
+          <semantic-search-facet-breadcrumbs>
 
+          </semantic-search-facet-breadcrumbs>
 
-          >
-          </semantic-search-facet>
-          </div>
-        </div>
-        <div class="results-area">
-          <semantic-search-result-holder>
-            <div class='search-result-holder'>
-              <!-- <p class="bold-text">filters</p> -->
-              <semantic-search-facet-breadcrumbs>
+          <mp-event-proxy id='search-results-refresh' on-event-source='main-search'
+            on-event-type='Search.DomainSelected' proxy-event-type='Component.TemplateUpdate'
+            proxy-targets='["search-result-template"]'></mp-event-proxy>
 
-              </semantic-search-facet-breadcrumbs>
-
-              <mp-event-proxy id='search-results-refresh' on-event-source='main-search' on-event-type='Search.DomainSelected'
-                    proxy-event-type='Component.TemplateUpdate' proxy-targets='["search-result-template"]'
-              ></mp-event-proxy>
-
-               <mp-event-target-template-render id='search-result-template' template='{{> template}}'>
-                  <template id='template'>
-                    {{#if (eq domain "https://artresearch.net/resource/custom/fc/work")}}
-                    <bs-tab-container default-active-key="work-list">
-                      <div class='search-tab-container'>
-                        <div class='search-tab-container--header-row'>
-                          <semantic-search-result>
-                            <semantic-query
-                                            id="result-count"
-                                            query='SELECT (COUNT(DISTINCT ?subject) as ?count) WHERE {}'
-                                            template="{{>currentResultCount}}"
-                                            >
-                              <template id="currentResultCount">
-                                <p><span class="bold-text">results</span> {{bindings.0.count.value}}</p>
-                              </template>
-                            </semantic-query>
-                          </semantic-search-result>
-  
-                          <bs-nav class="icon-tabs">
-                            <bs-nav-item event-key="work-list" title="List View">
-                              <rs-icon icon-type="sharp" icon-name="view_list"></rs-icon>
-                            </bs-nav-item>
-                            <bs-nav-item event-key="work-grid" title="Grid View">
-                              <rs-icon icon-type="sharp" icon-name="view_module"></rs-icon>
-                            </bs-nav-item>
-                            <bs-nav-item event-key="work-image-grid" title="Image View">
-                              <rs-icon icon-type="sharp" icon-name="image"></rs-icon>
-                            </bs-nav-item>
-                          </bs-nav>
-                        </div>
-                       <bs-tab-content animation="true" mount-on-enter='true'>
-                         <bs-tab-pane event-key="work-list" class="work-list-pane">
-                          <semantic-search-result>
-                            <semantic-query
-                              id="grid-result"
-                              prefetch-labels="false"
-                              query='SELECT DISTINCT ?domain ?subject ?maxPhoto ?matchType WHERE {
-                                OPTIONAL { ?subject custom:hasImage ?hasImage . }
-                              } ORDER BY DESC(?score) DESC(?hasImage) DESC(?subject) LIMIT 10000'
-                              template="{{#bind provider=provider}}{{> subjectCellTemplate}}{{/bind}}"
-                              no-result-template='[[> CardNoResult ]]'
-                            >
-                              <template id="subjectCellTemplate">
-                                <div class="scrolable-area">
-                                  <infinite-scroll template="{{> template }}" item-height="250"  item-per-row="1" item-width="600" batch-size="20" values='{{stringify bindings}}' profile="artwork-card">
-                                    <template id='template'>
-                                      <div class="result-item karla-regular">
-                                        {{#each rows}}
-                                          {{> Default:CardArtwork photo=maxPhoto.value provider=../provider matchType=matchType}}
-                                        {{/each}}
-                                      </div>
-                                    </template>
-                                  </infinite-scroll>
-                                </div>
-                              </template>
-                            </semantic-query>
-                           </semantic-search-result>
-                         </bs-tab-pane>
-                         <bs-tab-pane event-key="work-grid" class="work-grid-pane">
-                           <semantic-search-result>
-                              <semantic-query
-                                id="grid-result"
-                                prefetch-labels="false"
-                                query='SELECT DISTINCT ?domain ?subject ?maxPhoto ?matchType WHERE {
-                                  OPTIONAL { ?subject custom:hasImage ?hasImage . }
-                                } ORDER BY DESC(?score) DESC(?hasImage) DESC(?subject) LIMIT 10000'
-                                template="{{> subjectCellTemplate}}"
-                                no-result-template='[[> CardNoResult ]]'
-                              >
-                                <template id="subjectCellTemplate">
-                                  <div class="scrolable-area">
-                                    <infinite-scroll template="{{> template }}" item-height="250"  item-per-row="auto" item-width="550" batch-size="20" values='{{stringify bindings}}' profile="artwork-card">
-                                      <template id='template'>
-                                        <div class="result-item karla-regular">
-                                          {{#each rows}}
-                                            {{> Default:CardArtwork photo=maxPhoto.value provider=../provider matchType=matchType}}
-                                          {{/each}}
-                                        </div>
-                                      </template>
-                                    </infinite-scroll>
-                                  </div>
-                                </template>
-                              </semantic-query>
-                            </semantic-search-result>
-                         </bs-tab-pane>
-												 <bs-tab-pane event-key="work-image-grid" class="work-image-grid-pane">
-                            <semantic-search-result>
-                              <semantic-query
-                                id="grid-result"
-                                prefetch-labels="false"
-                                query='SELECT DISTINCT ?domain ?subject ?maxPhoto ?matchType WHERE {
-                                  OPTIONAL { ?subject custom:hasImage ?hasImage . }
-                                } ORDER BY DESC(?score) DESC(?hasImage) DESC(?subject) LIMIT 10000'
-                                template="{{> subjectCellTemplate}}"
-                                no-result-template='[[> CardNoResult ]]'
-                              >
-                                <template id="subjectCellTemplate">
-                                  <div class="scrolable-area">
-                                    <infinite-scroll template="{{> template }}" item-height="200" item-per-row="auto" item-width="200" batch-size="40" values='{{stringify bindings}}' profile="artwork-card">
-                                      <template id='template'>
-                                        <div class="result-item karla-regular">
-                                          {{#each rows}}
-                                            {{> Default:CardArtworkThumbnail photo=maxPhoto.value provider=../provider matchType=matchType}}
-                                          {{/each}}
-                                        </div>
-                                      </template>
-                                    </infinite-scroll>
-                                  </div>
-                                </template>
-                              </semantic-query>
-                            </semantic-search-result>
-                         </bs-tab-pane>
-                       </bs-tab-content>
-                      </div>
-                    </bs-tab-container>
-                    
-                   
-                    {{else if (eq domain "https://artresearch.net/resource/custom/fc/photograph")}}
-                    <bs-tab-container default-active-key="work-list">
-                      <div class='search-tab-container'>
-                        <div class='search-tab-container--header-row'>
-                          <semantic-search-result>
-                            <semantic-query
-                                            id="result-count"
-                                            query='SELECT (COUNT(DISTINCT ?subject) as ?count) WHERE {}'
-                                            template="{{>currentResultCount}}"
-                                            >
-                              <template id="currentResultCount">
-                                <p><span class="bold-text">results</span> {{bindings.0.count.value}}</p>
-                              </template>
-                            </semantic-query>
-                          </semantic-search-result>
-  
-                          <bs-nav class="icon-tabs">
-                            <bs-nav-item event-key="work-list" title="List View">
-                              <rs-icon icon-type="sharp" icon-name="view_list"></rs-icon>
-                            </bs-nav-item>
-                            <bs-nav-item event-key="work-grid" title="Grid View">
-                              <rs-icon icon-type="sharp" icon-name="view_module"></rs-icon>
-                            </bs-nav-item>
-                            <bs-nav-item event-key="work-image-grid" title="Image View">
-                              <rs-icon icon-type="sharp" icon-name="image"></rs-icon>
-                            </bs-nav-item>
-                          </bs-nav>
-                        </div>
-                       <bs-tab-content animation="true" mount-on-enter='true'>
-                         <bs-tab-pane event-key="work-list" class="work-list-pane">
-                          <semantic-search-result>
-                            <semantic-query
-                              id="grid-result"
-                              prefetch-labels="false"
-                              query='SELECT DISTINCT ?subject ?matchType WHERE { 
-                                OPTIONAL { ?subject custom:hasImage ?hasImage . }
-                              } ORDER BY DESC(?score) DESC(?hasImage) DESC(?subject) LIMIT 2000'
-                              template="{{> subjectCellTemplate}}"
-                              no-result-template='[[> CardNoResult ]]'
-                            >
-                              <template id="subjectCellTemplate">
-                                <div class="scrolable-area">
-                                  <infinite-scroll item-height="250" item-per-row="1" item-width="600" batch-size="20" values='{{stringify bindings}}' profile="photograph-card">
-                                    <template id='template'>
-                                      <div class="result-item karla-regular">
-                                        {{#each rows}}
-                                          {{> Default:CardPhotograph matchType=matchType}}
-                                        {{/each}}
-                                      </div>
-                                    </template>
-                                  </infinite-scroll>
-                                </div>
-                              </template>
-                            </semantic-query>
-                           </semantic-search-result>
-                         </bs-tab-pane>
-                         <bs-tab-pane event-key="work-grid" class="work-grid-pane">
-                           <semantic-search-result>
-                              <semantic-query
-                                id="grid-result"
-                                prefetch-labels="false"
-                                query='SELECT DISTINCT ?subject ?matchType WHERE { 
-                                  OPTIONAL { ?subject custom:hasImage ?hasImage . }
-                                } ORDER BY DESC(?score) DESC(?hasImage) DESC(?subject) LIMIT 2000'
-                                template="{{> subjectCellTemplate}}"
-                                no-result-template='[[> CardNoResult ]]'
-                              >
-                                <template id="subjectCellTemplate">
-                                  <div class="scrolable-area">
-                                    <infinite-scroll item-height="250"  item-per-row="auto" item-width="550" batch-size="20" values='{{stringify bindings}}' profile="photograph-card">
-                                      <template id='template'>
-                                        <div class="result-item karla-regular">
-                                          {{#each rows}}
-                                            {{> Default:CardPhotograph matchType=matchType}}
-                                          {{/each}}
-                                        </div>
-                                      </template>
-                                    </infinite-scroll>
-                                  </div>
-                                </template>
-                              </semantic-query>
-                            </semantic-search-result>
-                         </bs-tab-pane>
-												 <bs-tab-pane event-key="work-image-grid" class="work-image-grid-pane">
-                            <semantic-search-result>
-                              <semantic-query
-                                id="grid-result"
-                                prefetch-labels="false"
-                                query='SELECT DISTINCT ?subject ?matchType WHERE { 
-                                  OPTIONAL { ?subject custom:hasImage ?hasImage . }
-                                } ORDER BY DESC(?score) DESC(?hasImage) DESC(?subject) LIMIT 2000'
-                                template="{{> subjectCellTemplate}}"
-                                no-result-template='[[> CardNoResult ]]'
-                              >
-                                <template id="subjectCellTemplate">
-                                  <div class="scrolable-area">
-                                    <infinite-scroll item-height="200" item-per-row="auto" item-width="200" batch-size="40" values='{{stringify bindings}}' profile="photograph-card">
-                                      <template id='template'>
-                                        <div class="result-item karla-regular">
-                                          {{#each rows}}
-                                            {{> Default:CardPhotographThumbnail matchType=matchType}}
-                                          {{/each}}
-                                        </div>
-                                      </template>
-                                    </infinite-scroll>
-                                  </div>
-                                </template>
-                              </semantic-query>
-                            </semantic-search-result>
-                         </bs-tab-pane>
-                       </bs-tab-content>
-                      </div>
-                    </bs-tab-container>
-                    {{else if (eq domain "https://artresearch.net/resource/custom/fc/artist")}}
-                    <div class='search-tab-container'>
-                      <div class='search-tab-container--header-row'>
-                        <semantic-search-result>
-                          <semantic-query
-                                          id="result-count"
-                                          query='SELECT (COUNT(DISTINCT ?subject) as ?count) WHERE {}'
-                                          template="{{>currentResultCount}}"
-                                          >
-                            <template id="currentResultCount">
-                              <p><span class="bold-text">results</span> {{bindings.0.count.value}}</p>
-                            </template>
-                          </semantic-query>
-                        </semantic-search-result>
-                      </div>
-                      <semantic-search-result>
-                      <semantic-query
-                        id="grid-result"
-                        prefetch-labels="false"
-                        query='SELECT DISTINCT ?subject (COUNT(DISTINCT ?work) AS ?worksCount) WHERE { } GROUP BY ?subject ORDER BY DESC(?score) DESC(?worksCount) LIMIT 2000'
-                        template="{{> subjectCellTemplate}}"
-                        no-result-template='[[> CardNoResult ]]'
-                      >
-                        <template id="subjectCellTemplate">
-                          <div class="scrolable-area">
-                            <infinite-scroll item-height="100" item-per-row="1" item-width="500" batch-size="20" values='{{stringify bindings}}' profile="artist-card">
-                              <template id='template'>
-                                <div class="result-item  karla-regular">
-                                  {{#each rows}}
-                                    {{> Default:CardArtist}}
-                                  {{/each}}
-                                </div>
-                              </template>
-                            </infinite-scroll>
-                          </div>
+          <mp-event-target-template-render id='search-result-template' template='{{> template}}'>
+            <template id='template'>
+              {{#if (eq domain "https://artresearch.net/resource/custom/fc/work")}}
+              <bs-tab-container default-active-key="work-list">
+                <div class='search-tab-container'>
+                  <div class='search-tab-container--header-row'>
+                    <semantic-search-result>
+                      <semantic-query id="result-count" query='SELECT (COUNT(DISTINCT ?subject) as ?count) WHERE {}'
+                        template="{{>currentResultCount}}">
+                        <template id="currentResultCount">
+                          <p><span class="bold-text">results</span> {{bindings.0.count.value}}</p>
                         </template>
                       </semantic-query>
                     </semantic-search-result>
-                    </div>
-                    {{else if (eq domain "https://artresearch.net/resource/custom/fc/repository")}}
-                    <div class='search-tab-container'>
-                      <div class='search-tab-container--header-row'>
-                        <semantic-search-result>
-                          <semantic-query
-                                          id="result-count"
-                                          query='SELECT (COUNT(DISTINCT ?subject) as ?count) WHERE {}'
-                                          template="{{>currentResultCount}}"
-                                          >
-                            <template id="currentResultCount">
-                              <p><span class="bold-text">results</span> {{bindings.0.count.value}}</p>
-                            </template>
-                          </semantic-query>
-                        </semantic-search-result>
-                      </div>
-                    <semantic-search-result>
-                        <semantic-query
-                          id="grid-result"
-                          prefetch-labels="false"
-                          query='SELECT DISTINCT ?subject (COUNT(DISTINCT ?work) AS ?worksCount) WHERE { } GROUP BY ?subject ORDER BY DESC(?score) DESC(?worksCount) LIMIT 2000'
-                          template="{{> subjectCellTemplate}}"
-                          no-result-template='[[> CardNoResult ]]'
-                        >
+
+                    <bs-nav class="icon-tabs">
+                      <bs-nav-item event-key="work-list" title="List View">
+                        <rs-icon icon-type="sharp" icon-name="view_list"></rs-icon>
+                      </bs-nav-item>
+                      <bs-nav-item event-key="work-grid" title="Grid View">
+                        <rs-icon icon-type="sharp" icon-name="view_module"></rs-icon>
+                      </bs-nav-item>
+                      <bs-nav-item event-key="work-image-grid" title="Image View">
+                        <rs-icon icon-type="sharp" icon-name="image"></rs-icon>
+                      </bs-nav-item>
+                    </bs-nav>
+                  </div>
+                  <bs-tab-content animation="true" mount-on-enter='true'>
+                    <bs-tab-pane event-key="work-list" class="work-list-pane">
+                      <semantic-search-result>
+                        <semantic-query id="grid-result" prefetch-labels="false" query='SELECT DISTINCT ?domain ?subject ?maxPhoto ?matchType WHERE {
+                                ?subject custom:has_image ?hasImage .
+                              } ORDER BY DESC(?score) DESC(?hasImage) DESC(?subject) LIMIT 10000'
+                          template="{{#bind provider=provider}}{{> subjectCellTemplate}}{{/bind}}"
+                          no-result-template='[[> CardNoResult ]]'>
                           <template id="subjectCellTemplate">
                             <div class="scrolable-area">
-                              <infinite-scroll item-height="100" item-per-row="1" item-width="500" batch-size="20" values='{{stringify bindings}}' profile="repository-card">
+                              <infinite-scroll template="{{> template }}" item-height="250" item-per-row="1"
+                                item-width="600" batch-size="20" values='{{stringify bindings}}' profile="artwork-card">
                                 <template id='template'>
                                   <div class="result-item karla-regular">
                                     {{#each rows}}
-                                      {{> Default:CardRepository}}
+                                    {{> Default:CardArtwork photo=maxPhoto.value provider=../provider
+                                    matchType=matchType}}
                                     {{/each}}
                                   </div>
                                 </template>
                               </infinite-scroll>
-                           </div>
+                            </div>
                           </template>
                         </semantic-query>
-                    </semantic-search-result>
-                    </div>
-                    {{else if (eq domain "https://artresearch.net/resource/custom/fc/photographer")}}
-                    <div class='search-tab-container'>
-                      <div class='search-tab-container--header-row'>
-                        <semantic-search-result>
-                          <semantic-query
-                                          id="result-count"
-                                          query='SELECT (COUNT(DISTINCT ?subject) as ?count) WHERE {}'
-                                          template="{{>currentResultCount}}"
-                                          >
-                            <template id="currentResultCount">
-                              <p><span class="bold-text">results</span> {{bindings.0.count.value}}</p>
-                            </template>
-                          </semantic-query>
-                        </semantic-search-result>
-                      </div>
+                      </semantic-search-result>
+                    </bs-tab-pane>
+                    <bs-tab-pane event-key="work-grid" class="work-grid-pane">
+                      <semantic-search-result>
+                        <semantic-query id="grid-result" prefetch-labels="false" query='SELECT DISTINCT ?domain ?subject ?maxPhoto ?matchType WHERE {
+                                  OPTIONAL { ?subject custom:has_image ?hasImage . }
+                                } ORDER BY DESC(?score) DESC(?hasImage) DESC(?subject) LIMIT 10000'
+                          template="{{> subjectCellTemplate}}" no-result-template='[[> CardNoResult ]]'>
+                          <template id="subjectCellTemplate">
+                            <div class="scrolable-area">
+                              <infinite-scroll template="{{> template }}" item-height="250" item-per-row="auto"
+                                item-width="550" batch-size="20" values='{{stringify bindings}}' profile="artwork-card">
+                                <template id='template'>
+                                  <div class="result-item karla-regular">
+                                    {{#each rows}}
+                                    {{> Default:CardArtwork photo=maxPhoto.value provider=../provider
+                                    matchType=matchType}}
+                                    {{/each}}
+                                  </div>
+                                </template>
+                              </infinite-scroll>
+                            </div>
+                          </template>
+                        </semantic-query>
+                      </semantic-search-result>
+                    </bs-tab-pane>
+                    <bs-tab-pane event-key="work-image-grid" class="work-image-grid-pane">
+                      <semantic-search-result>
+                        <semantic-query id="grid-result" prefetch-labels="false" query='SELECT DISTINCT ?domain ?subject ?maxPhoto ?matchType WHERE {
+                                  ?subject custom:has_image ?hasImage .
+                                } ORDER BY DESC(?score) DESC(?hasImage) DESC(?subject) LIMIT 10000'
+                          template="{{> subjectCellTemplate}}" no-result-template='[[> CardNoResult ]]'>
+                          <template id="subjectCellTemplate">
+                            <div class="scrolable-area">
+                              <infinite-scroll template="{{> template }}" item-height="200" item-per-row="auto"
+                                item-width="200" batch-size="40" values='{{stringify bindings}}' profile="artwork-card">
+                                <template id='template'>
+                                  <div class="result-item karla-regular">
+                                    {{#each rows}}
+                                    {{> Default:CardArtworkThumbnail photo=maxPhoto.value provider=../provider
+                                    matchType=matchType}}
+                                    {{/each}}
+                                  </div>
+                                </template>
+                              </infinite-scroll>
+                            </div>
+                          </template>
+                        </semantic-query>
+                      </semantic-search-result>
+                    </bs-tab-pane>
+                  </bs-tab-content>
+                </div>
+              </bs-tab-container>
+
+
+              {{else if (eq domain "https://artresearch.net/resource/custom/fc/photograph")}}
+              <bs-tab-container default-active-key="work-list">
+                <div class='search-tab-container'>
+                  <div class='search-tab-container--header-row'>
                     <semantic-search-result>
-                      <semantic-query
-                        id="grid-result"
-                        prefetch-labels="false"
-                        query='SELECT DISTINCT ?subject (COUNT(DISTINCT ?work) AS ?worksCount) WHERE { } GROUP BY ?subject ORDER BY DESC(?score) DESC(?worksCount) LIMIT 2000'
-                        template="{{> subjectCellTemplate}}"
-                        no-result-template='[[> CardNoResult ]]'
-                      >
-                        <template id="subjectCellTemplate">
-                          <div class="scrolable-area">
-                            <infinite-scroll item-height="100" item-per-row="1" item-width="500" batch-size="20" values='{{stringify bindings}}' profile="artist-card">
-                              <template id='template'>
-                                <div class="result-item karla-regular">
-                                  {{#each rows}}
-                                    {{> Default:CardArtist}}
-                                  {{/each}}
-                                </div>
-                              </template>
-                            </infinite-scroll>
-                          </div>
+                      <semantic-query id="result-count" query='SELECT (COUNT(DISTINCT ?subject) as ?count) WHERE {}'
+                        template="{{>currentResultCount}}">
+                        <template id="currentResultCount">
+                          <p><span class="bold-text">results</span> {{bindings.0.count.value}}</p>
                         </template>
                       </semantic-query>
                     </semantic-search-result>
-                    </div>
-                    {{/if}}
+
+                    <bs-nav class="icon-tabs">
+                      <bs-nav-item event-key="work-list" title="List View">
+                        <rs-icon icon-type="sharp" icon-name="view_list"></rs-icon>
+                      </bs-nav-item>
+                      <bs-nav-item event-key="work-grid" title="Grid View">
+                        <rs-icon icon-type="sharp" icon-name="view_module"></rs-icon>
+                      </bs-nav-item>
+                      <bs-nav-item event-key="work-image-grid" title="Image View">
+                        <rs-icon icon-type="sharp" icon-name="image"></rs-icon>
+                      </bs-nav-item>
+                    </bs-nav>
+                  </div>
+                  <bs-tab-content animation="true" mount-on-enter='true'>
+                    <bs-tab-pane event-key="work-list" class="work-list-pane">
+                      <semantic-search-result>
+                        <semantic-query id="grid-result" prefetch-labels="false" query='SELECT DISTINCT ?subject ?matchType WHERE { 
+                                ?subject custom:has_image ?hasImage .
+                              } ORDER BY DESC(?score) DESC(?hasImage) DESC(?subject) LIMIT 2000'
+                          template="{{> subjectCellTemplate}}" no-result-template='[[> CardNoResult ]]'>
+                          <template id="subjectCellTemplate">
+                            <div class="scrolable-area">
+                              <infinite-scroll item-height="250" item-per-row="1" item-width="600" batch-size="20"
+                                values='{{stringify bindings}}' profile="photograph-card">
+                                <template id='template'>
+                                  <div class="result-item karla-regular">
+                                    {{#each rows}}
+                                    {{> Default:CardPhotograph matchType=matchType}}
+                                    {{/each}}
+                                  </div>
+                                </template>
+                              </infinite-scroll>
+                            </div>
+                          </template>
+                        </semantic-query>
+                      </semantic-search-result>
+                    </bs-tab-pane>
+                    <bs-tab-pane event-key="work-grid" class="work-grid-pane">
+                      <semantic-search-result>
+                        <semantic-query id="grid-result" prefetch-labels="false" query='SELECT DISTINCT ?subject ?matchType WHERE { 
+                                  ?subject custom:has_image ?hasImage .
+                                } ORDER BY DESC(?score) DESC(?hasImage) DESC(?subject) LIMIT 2000'
+                          template="{{> subjectCellTemplate}}" no-result-template='[[> CardNoResult ]]'>
+                          <template id="subjectCellTemplate">
+                            <div class="scrolable-area">
+                              <infinite-scroll item-height="250" item-per-row="auto" item-width="550" batch-size="20"
+                                values='{{stringify bindings}}' profile="photograph-card">
+                                <template id='template'>
+                                  <div class="result-item karla-regular">
+                                    {{#each rows}}
+                                    {{> Default:CardPhotograph matchType=matchType}}
+                                    {{/each}}
+                                  </div>
+                                </template>
+                              </infinite-scroll>
+                            </div>
+                          </template>
+                        </semantic-query>
+                      </semantic-search-result>
+                    </bs-tab-pane>
+                    <bs-tab-pane event-key="work-image-grid" class="work-image-grid-pane">
+                      <semantic-search-result>
+                        <semantic-query id="grid-result" prefetch-labels="false" query='SELECT DISTINCT ?subject ?matchType WHERE { 
+                                  ?subject custom:has_image ?hasImage .
+                                } ORDER BY DESC(?score) DESC(?hasImage) DESC(?subject) LIMIT 2000'
+                          template="{{> subjectCellTemplate}}" no-result-template='[[> CardNoResult ]]'>
+                          <template id="subjectCellTemplate">
+                            <div class="scrolable-area">
+                              <infinite-scroll item-height="200" item-per-row="auto" item-width="200" batch-size="40"
+                                values='{{stringify bindings}}' profile="photograph-card">
+                                <template id='template'>
+                                  <div class="result-item karla-regular">
+                                    {{#each rows}}
+                                    {{> Default:CardPhotographThumbnail matchType=matchType}}
+                                    {{/each}}
+                                  </div>
+                                </template>
+                              </infinite-scroll>
+                            </div>
+                          </template>
+                        </semantic-query>
+                      </semantic-search-result>
+                    </bs-tab-pane>
+                  </bs-tab-content>
+                </div>
+              </bs-tab-container>
+              {{else if (eq domain "https://artresearch.net/resource/custom/fc/artist")}}
+              <div class='search-tab-container'>
+                <div class='search-tab-container--header-row'>
+                  <semantic-search-result>
+                    <semantic-query id="result-count" query='SELECT (COUNT(DISTINCT ?subject) as ?count) WHERE {}'
+                      template="{{>currentResultCount}}">
+                      <template id="currentResultCount">
+                        <p><span class="bold-text">results</span> {{bindings.0.count.value}}</p>
+                      </template>
+                    </semantic-query>
+                  </semantic-search-result>
+                </div>
+                <semantic-search-result>
+                  <semantic-query id="grid-result" prefetch-labels="false"
+                    query='SELECT DISTINCT ?subject (COUNT(DISTINCT ?work) AS ?worksCount) WHERE { } GROUP BY ?subject ORDER BY DESC(?score) DESC(?worksCount) LIMIT 2000'
+                    template="{{> subjectCellTemplate}}" no-result-template='[[> CardNoResult ]]'>
+                    <template id="subjectCellTemplate">
+                      <div class="scrolable-area">
+                        <infinite-scroll item-height="100" item-per-row="1" item-width="500" batch-size="20"
+                          values='{{stringify bindings}}' profile="artist-card">
+                          <template id='template'>
+                            <div class="result-item  karla-regular">
+                              {{#each rows}}
+                              {{> Default:CardArtist}}
+                              {{/each}}
+                            </div>
+                          </template>
+                        </infinite-scroll>
+                      </div>
                     </template>
-               </mp-event-target-template-render>
-            </div>
-          </semantic-search-result-holder>
+                  </semantic-query>
+                </semantic-search-result>
+              </div>
+              {{else if (eq domain "https://artresearch.net/resource/custom/fc/repository")}}
+              <div class='search-tab-container'>
+                <div class='search-tab-container--header-row'>
+                  <semantic-search-result>
+                    <semantic-query id="result-count" query='SELECT (COUNT(DISTINCT ?subject) as ?count) WHERE {}'
+                      template="{{>currentResultCount}}">
+                      <template id="currentResultCount">
+                        <p><span class="bold-text">results</span> {{bindings.0.count.value}}</p>
+                      </template>
+                    </semantic-query>
+                  </semantic-search-result>
+                </div>
+                <semantic-search-result>
+                  <semantic-query id="grid-result" prefetch-labels="false"
+                    query='SELECT DISTINCT ?subject (COUNT(DISTINCT ?work) AS ?worksCount) WHERE { } GROUP BY ?subject ORDER BY DESC(?score) DESC(?worksCount) LIMIT 2000'
+                    template="{{> subjectCellTemplate}}" no-result-template='[[> CardNoResult ]]'>
+                    <template id="subjectCellTemplate">
+                      <div class="scrolable-area">
+                        <infinite-scroll item-height="100" item-per-row="1" item-width="500" batch-size="20"
+                          values='{{stringify bindings}}' profile="repository-card">
+                          <template id='template'>
+                            <div class="result-item karla-regular">
+                              {{#each rows}}
+                              {{> Default:CardRepository}}
+                              {{/each}}
+                            </div>
+                          </template>
+                        </infinite-scroll>
+                      </div>
+                    </template>
+                  </semantic-query>
+                </semantic-search-result>
+              </div>
+              {{else if (eq domain "https://artresearch.net/resource/custom/fc/photographer")}}
+              <div class='search-tab-container'>
+                <div class='search-tab-container--header-row'>
+                  <semantic-search-result>
+                    <semantic-query id="result-count" query='SELECT (COUNT(DISTINCT ?subject) as ?count) WHERE {}'
+                      template="{{>currentResultCount}}">
+                      <template id="currentResultCount">
+                        <p><span class="bold-text">results</span> {{bindings.0.count.value}}</p>
+                      </template>
+                    </semantic-query>
+                  </semantic-search-result>
+                </div>
+                <semantic-search-result>
+                  <semantic-query id="grid-result" prefetch-labels="false"
+                    query='SELECT DISTINCT ?subject (COUNT(DISTINCT ?work) AS ?worksCount) WHERE { } GROUP BY ?subject ORDER BY DESC(?score) DESC(?worksCount) LIMIT 2000'
+                    template="{{> subjectCellTemplate}}" no-result-template='[[> CardNoResult ]]'>
+                    <template id="subjectCellTemplate">
+                      <div class="scrolable-area">
+                        <infinite-scroll item-height="100" item-per-row="1" item-width="500" batch-size="20"
+                          values='{{stringify bindings}}' profile="artist-card">
+                          <template id='template'>
+                            <div class="result-item karla-regular">
+                              {{#each rows}}
+                              {{> Default:CardArtist}}
+                              {{/each}}
+                            </div>
+                          </template>
+                        </infinite-scroll>
+                      </div>
+                    </template>
+                  </semantic-query>
+                </semantic-search-result>
+              </div>
+              {{/if}}
+            </template>
+          </mp-event-target-template-render>
         </div>
-      </div>
-    </semantic-search>
+      </semantic-search-result-holder>
+    </div>
+  </div>
+</semantic-search>
