@@ -1,27 +1,28 @@
 
 <https://artresearch.net/resource/field_definition/pharos_model/creator/context> {
+  _:genid-30c7207948bd4e18b1dc7102061040f2-dbplu a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
   <https://artresearch.net/resource/field_definition/pharos_model/creator> a <http://www.researchspace.org/resource/system/fields/Field>,
       <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
-    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-bd3239bf3fc441f0b568063db65d2930-58n0nf;
     <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-30c7207948bd4e18b1dc7102061040f2-a12sba;
     <http://www.w3.org/2000/01/rdf-schema#label> "Creator";
-    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-bd3239bf3fc441f0b568063db65d2930-test5d;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-30c7207948bd4e18b1dc7102061040f2-dbplu;
     <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
-    <http://www.w3.org/ns/prov#generatedAtTime> "2025-11-23T23:04:59.863+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+    <http://www.w3.org/ns/prov#generatedAtTime> "2026-03-17T20:34:43.427+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
   
-  _:genid-bd3239bf3fc441f0b568063db65d2930-test5d a <http://spinrdf.org/sp#Query>;
+  _:genid-30c7207948bd4e18b1dc7102061040f2-a12sba a <http://spinrdf.org/sp#Query>;
     <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 
 SELECT ?value WHERE {
   {
     ?subject crm:P108i_was_produced_by ?part .
     ?part crm:P9_consists_of* ?production .
+    ?production a crm:E12_Production .
     ?production crm:P14_carried_out_by ?value .
   }
 }""" .
-  
-  _:genid-bd3239bf3fc441f0b568063db65d2930-58n0nf a <http://spinrdf.org/sp#Query>;
-    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
   
   <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
       <https://artresearch.net/resource/field_definition/pharos_model/creator> .

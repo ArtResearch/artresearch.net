@@ -1,0 +1,31 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/style_period/context> {
+  _:genid-f18d169d565945c19950bb9d600d2b10-370yi5 a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  <https://artresearch.net/resource/field_definition/pharos_model/style_period> a <http://www.researchspace.org/resource/system/fields/Field>,
+      <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-f18d169d565945c19950bb9d600d2b10-370yi5;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-f18d169d565945c19950bb9d600d2b10-9jvq1i;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Style/Period";
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2026-03-18T15:37:56.777+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-f18d169d565945c19950bb9d600d2b10-9jvq1i a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX pharos-meta: <https://artresearch.net/resource/pharos/vocab/meta/>
+
+SELECT ?value WHERE {
+  {
+    ?subject crm:P108i_was_produced_by ?part .
+    ?part crm:P9_consists_of* ?production .
+    ?production a crm:E7_Activity .
+    ?production crm:P9i_forms_part_of/(^custom:sameAs) ?value .
+    ?value crm:P2_has_type <https://artresearch.net/resource/pharos/vocab/meta/styles_and_periods> .
+  }
+}""" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/style_period> .
+}

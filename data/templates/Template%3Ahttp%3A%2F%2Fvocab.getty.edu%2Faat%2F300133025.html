@@ -1,29 +1,34 @@
+<resource-info subject="[[this]]" profile="artwork-full" template="{{> template}}">
+  <template id="template">
+    <mp-event-trigger id="breadcrumbs" type='Component.TemplateUpdate' on='["mounted"]'
+      targets='["top-header-breadcrumbs"]' data='{"breadcrumb": "Work: {{escapeForJson data.label}}"}'>
+    </mp-event-trigger>
 
-
-
-    <resource-info subject="[[this]]" profile="artwork-full" template="{{> template}}">
-        <template id="template">
-          <mp-event-trigger id="breadcrumbs"
-                            type='Component.TemplateUpdate' on='["mounted"]' targets='["top-header-breadcrumbs"]'
-                            data='{"breadcrumb": "Work: {{escapeForJson data.label}}"}'>
-          </mp-event-trigger>
-
-              <div class="content-wrapper artwork-record">
-                <div class="column image-grid-column">
-                  <bs-tabs default-active-key="1" id='work-photo-tabs' mount-on-enter='true'>
-                    <bs-tab event-key="1" title="Photos">
-                      <div>
-    									{{#if data.[https://artresearch.net/resource/field_definition/pharos_model/photo]}}
-                        {{#ifCond data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values.length ">" 1}}
-                          <!-- Multiple photos: Show main image and thumbnails -->
-                          [[!--<div class="title-container">
-                           {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/creator]}}{{data.[https://artresearch.net/resource/field_definition/pharos_model/creator].values.0.label}}, {{/if}}{{data.label}}{{#if data.[https://artresearch.net/resource/field_definition/pharos_model/current_keeper]}}, {{data.[https://artresearch.net/resource/field_definition/pharos_model/current_keeper].values.0.label}}
-                           {{/if}}
-                          </div>--]]
-                          <div class="main-image-container">
-                            <mp-event-target-template-render id='work-full-image' template='{{> template data=data}}'>
-                              <template id="mainImageView">
-                                <mp-overlay-dialog data-title="{{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_archive]}}
+    <div class="content-wrapper artwork-record">
+      <div class="column image-grid-column">
+        <bs-tabs
+          default-active-key="{{#if data.[https://artresearch.net/resource/field_definition/pharos_model/photo]}}1{{else if data.[https://artresearch.net/resource/field_definition/pharos_model/object_has_parts]}}parts{{else}}1{{/if}}"
+          id='work-photo-tabs' mount-on-enter='true'>
+          {{#if (or data.[https://artresearch.net/resource/field_definition/pharos_model/photo] (not
+          data.[https://artresearch.net/resource/field_definition/pharos_model/object_has_parts]))}}
+          <bs-tab event-key="1" title="Photos">
+            <div>
+              {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/photo]}}
+              {{#ifCond data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values.length ">"
+              1}}
+              <!-- Multiple photos: Show main image and thumbnails -->
+              [[!--<div class="title-container">
+                {{#if
+                data.[https://artresearch.net/resource/field_definition/pharos_model/creator]}}{{data.[https://artresearch.net/resource/field_definition/pharos_model/creator].values.0.label}},
+                {{/if}}{{data.label}}{{#if
+                data.[https://artresearch.net/resource/field_definition/pharos_model/current_keeper]}},
+                {{data.[https://artresearch.net/resource/field_definition/pharos_model/current_keeper].values.0.label}}
+                {{/if}}
+              </div>--]]
+              <div class="main-image-container">
+                <mp-event-target-template-render id='work-full-image' template='{{> template data=data}}'>
+                  <template id="mainImageView">
+                    <mp-overlay-dialog data-title="{{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_archive]}}
                                 Provided by {{photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_archive].values.[0].label}},
                               {{/if}}
 
@@ -60,107 +65,132 @@
 
                                 .
                               {{/if}}" data-type="lightbox">
-                                  <mp-overlay-dialog-trigger>
-                                    <div class="object-main-image-holder">
-                                      <img alt='' class="object-image" src="https://artresearch.net{{imageUrl}}" />
-                                      <p>
-                                        {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_archive]}}
-                                          Provided by {{photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_archive].values.[0].label}},
-                                        {{/if}}
+                      <mp-overlay-dialog-trigger>
+                        <div class="object-main-image-holder">
+                          <img alt='' class="object-image" src="https://artresearch.net{{imageUrl}}" />
+                          <p>
+                            {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_archive]}}
+                            Provided by
+                            {{photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_archive].values.[0].label}},
+                            {{/if}}
 
-                                        {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_license]}}
-                                          [{{photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_license].values.[0].label}}],
-                                        {{/if}}
+                            {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_license]}}
+                            [{{photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_license].values.[0].label}}],
+                            {{/if}}
 
-                                        {{#if artwork.label}}
-                                          {{artwork.label}} -
-                                        {{/if}}
+                            {{#if artwork.label}}
+                            {{artwork.label}} -
+                            {{/if}}
 
-                                        {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/title]}}
-                                          {{#each photo.[https://artresearch.net/resource/field_definition/pharos_model/title].values}}
-                                            {{label}}
-                                            {{#unless @last}}, {{/unless}}
-                                          {{/each}}
-                                          .
-                                        {{/if}}
+                            {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/title]}}
+                            {{#each
+                            photo.[https://artresearch.net/resource/field_definition/pharos_model/title].values}}
+                            {{label}}
+                            {{#unless @last}}, {{/unless}}
+                            {{/each}}
+                            .
+                            {{/if}}
 
-                                        {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_identifier]}}
-                                          {{#each photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_identifier].values}}
-                                            {{label}}
-                                            {{#unless @last}}, {{/unless}}
-                                          {{/each}}
-                                          .
-                                        {{/if}}
+                            {{#if
+                            photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_identifier]}}
+                            {{#each
+                            photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_identifier].values}}
+                            {{label}}
+                            {{#unless @last}}, {{/unless}}
+                            {{/each}}
+                            .
+                            {{/if}}
 
-                                        {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photographer]}}
-                                          Photo:
-                                          {{#each photo.[https://artresearch.net/resource/field_definition/pharos_model/photographer].values}}
-                                            {{label}}
-                                            {{#unless @last}}, {{/unless}}
-                                          {{/each}}
+                            {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photographer]}}
+                            Photo:
+                            {{#each
+                            photo.[https://artresearch.net/resource/field_definition/pharos_model/photographer].values}}
+                            {{label}}
+                            {{#unless @last}}, {{/unless}}
+                            {{/each}}
 
-                                          .
-                                        {{/if}}
-                                      </p>
-                                    </div>
-                                  </mp-overlay-dialog-trigger>
-                                  <mp-overlay-dialog-content>
-                                    <single-image-iiif-viewer show-navigation-control='true' iiif-manifest-url='{{imageManifestUrl}}'></single-image-iiif-viewer>
-                                  </mp-overlay-dialog-content>
-                                </mp-overlay-dialog>
-                              </template>
+                            .
+                            {{/if}}
+                          </p>
+                        </div>
+                      </mp-overlay-dialog-trigger>
+                      <mp-overlay-dialog-content>
+                        <single-image-iiif-viewer show-navigation-control='true'
+                          iiif-manifest-url='{{imageManifestUrl}}'></single-image-iiif-viewer>
+                      </mp-overlay-dialog-content>
+                    </mp-overlay-dialog>
+                  </template>
 
-                              <template id='template'>
-                                {{#if photo}}
-                                  {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values}}
-                                    {{#if (eq [@id] ../photo)}}
-                                      {{> mainImageView artwork=../data photo=this label=label imageUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value] imageManifestUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_iiif_manifest].values.0.[@value]}}
-                                    {{/if}}
-                                  {{/each}}
-                                {{else}}
-                                  {{#with (find (orderBy data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values "[https://artresearch.net/resource/field_definition/pharos_model/photo_order].values.0.[@value]" "asc")
-                                            "(not (isEmpty item.[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value]))")}}
-                                    {{> mainImageView artwork=../data photo=this label=label imageUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value] imageManifestUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_iiif_manifest].values.0.[@value]}}
-                                  {{else}}
-                                    <p class='no-images-available'>No images available</p>
-                                  {{/with}}
-                                {{/if}}
-                              </template>
-                            </mp-event-target-template-render>
+                  <template id='template'>
+                    {{#if photo}}
+                    {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values}}
+                    {{#if (eq [@id] ../photo)}}
+                    {{> mainImageView artwork=../data photo=this label=label
+                    imageUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value]
+                    imageManifestUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_iiif_manifest].values.0.[@value]}}
+                    {{/if}}
+                    {{/each}}
+                    {{else}}
+                    {{#with (find (orderBy
+                    data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values
+                    "[https://artresearch.net/resource/field_definition/pharos_model/photo_order].values.0.[@value]"
+                    "asc")
+                    "(not (isEmpty
+                    item.[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value]))")}}
+                    {{> mainImageView artwork=../data photo=this label=label
+                    imageUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value]
+                    imageManifestUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_iiif_manifest].values.0.[@value]}}
+                    {{else}}
+                    <p class='no-images-available'>No images available</p>
+                    {{/with}}
+                    {{/if}}
+                  </template>
+                </mp-event-target-template-render>
+              </div>
+              <div class="thumbnails-container">
+                <div class="thumbnail-grid">
+                  {{#each (orderBy data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values
+                  "[https://artresearch.net/resource/field_definition/pharos_model/photo_order].values.0.[@value]"
+                  "asc")}}
+                  {{#if [https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values}}
+                  <mp-event-trigger key="thumbnail-trigger-{{@index}}" id='thumnail-click-trigger-{{@index}}'
+                    type='Component.TemplateUpdate' targets='["work-full-image", "thumbnail"]'
+                    data='{"photo": "{{[@id]}}"}'>
+                    <div style='position: relative;'>
+                      <img class="provider-icon thumbnail-provider-icon" title="{{label}}"
+                        src="{{[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
+
+                      <mp-event-target-template-render key="thumbnail-{{@index}}" id='thumbnail'
+                        template='{{> thumbnail data=data}}'>
+                        <template id="thumbnail">
+                          <div
+                            class="thumbnail {{#if (and (not photo) (eq @index 0))}}thumbnail-active{{/if}} {{#if (eq [@id] photo)}}thumbnail-active{{/if}}">
+                            <img alt='' class="object-thumbnails" height="150"
+                              src="https://artresearch.net{{[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" />
                           </div>
-                          <div class="thumbnails-container">
-                            <div class="thumbnail-grid">
-                              {{#each (orderBy data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values "[https://artresearch.net/resource/field_definition/pharos_model/photo_order].values.0.[@value]" "asc")}}
-                                {{#if [https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values}}
-                                  <mp-event-trigger key="thumbnail-trigger-{{@index}}" id='thumnail-click-trigger-{{@index}}' type='Component.TemplateUpdate' targets='["work-full-image", "thumbnail"]'
-                                                    data='{"photo": "{{[@id]}}"}'>
-                                    <div style='position: relative;'>
-                                      <img class="provider-icon thumbnail-provider-icon" title="{{label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
+                        </template>
+                      </mp-event-target-template-render>
+                    </div>
+                  </mp-event-trigger>
+                  {{/if}}
+                  {{/each}}
+                </div>
+              </div>
+              {{else}}
+              [[!-- <div class="title-container">
+                {{#if
+                data.[https://artresearch.net/resource/field_definition/pharos_model/creator]}}{{data.[https://artresearch.net/resource/field_definition/pharos_model/creator].values.0.label}},
+                {{/if}}{{data.label}}{{#if
+                data.[https://artresearch.net/resource/field_definition/pharos_model/current_keeper]}},
+                {{data.[https://artresearch.net/resource/field_definition/pharos_model/current_keeper].values.0.label
+                }}{{/if}}
+              </div>--]]
 
-                                      <mp-event-target-template-render key="thumbnail-{{@index}}" id='thumbnail' template='{{> thumbnail data=data}}'>
-                                        <template id="thumbnail">
-                                          <div class="thumbnail {{#if (and (not photo) (eq @index 0))}}thumbnail-active{{/if}} {{#if (eq [@id] photo)}}thumbnail-active{{/if}}">
-                                            <img alt='' class="object-thumbnails" height="150" src="https://artresearch.net{{[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" />
-                                          </div>
-                                        </template>
-                                      </mp-event-target-template-render>
-                                    </div>
-                                  </mp-event-trigger>
-                                {{/if}}
-                              {{/each}}
-                            </div>
-                          </div>
-                        {{else}}
-                          [[!-- <div class="title-container">
-                           {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/creator]}}{{data.[https://artresearch.net/resource/field_definition/pharos_model/creator].values.0.label}}, {{/if}}{{data.label}}{{#if data.[https://artresearch.net/resource/field_definition/pharos_model/current_keeper]}}, {{data.[https://artresearch.net/resource/field_definition/pharos_model/current_keeper].values.0.label
-    }}{{/if}}
-                          </div>--]]
-
-                          <!-- Single photo: Show main image at full height -->
-                          <div class="main-image-container" style="height: 100%;">
-                            <mp-event-target-template-render id='work-full-image' template='{{> template data=data}}'>
-                              <template id="mainImageView">
-                                <mp-overlay-dialog data-title="{{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_archive]}}
+              <!-- Single photo: Show main image at full height -->
+              <div class="main-image-container" style="height: 100%;">
+                <mp-event-target-template-render id='work-full-image' template='{{> template data=data}}'>
+                  <template id="mainImageView">
+                    <mp-overlay-dialog data-title="{{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_archive]}}
                                 Provided by {{photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_archive].values.[0].label}},
                               {{/if}}
 
@@ -197,87 +227,117 @@
 
                                 .
                               {{/if}}" data-type="lightbox">
-                                  <mp-overlay-dialog-trigger>
-                                    <div class="object-main-image-holder">
-                                      <img alt='' class="object-image" src="https://artresearch.net{{imageUrl}}" />
-                                      <p>
-                                        {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_archive]}}
-                                          Provided by {{photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_archive].values.[0].label}},
-                                        {{/if}}
+                      <mp-overlay-dialog-trigger>
+                        <div class="object-main-image-holder">
+                          <img alt='' class="object-image" src="https://artresearch.net{{imageUrl}}" />
+                          <p>
+                            {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_archive]}}
+                            Provided by
+                            {{photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_archive].values.[0].label}},
+                            {{/if}}
 
-                                        {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_license]}}
-                                          [{{photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_license].values.[0].label}}],
-                                        {{/if}}
+                            {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_license]}}
+                            [{{photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_license].values.[0].label}}],
+                            {{/if}}
 
-                                        {{#if artwork.label}}
-                                          {{artwork.label}} -
-                                        {{/if}}
+                            {{#if artwork.label}}
+                            {{artwork.label}} -
+                            {{/if}}
 
-                                        {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/title]}}
-                                          {{#each photo.[https://artresearch.net/resource/field_definition/pharos_model/title].values}}
-                                            {{label}}
-                                            {{#unless @last}}, {{/unless}}
-                                          {{/each}}
-                                          .
-                                        {{/if}}
+                            {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/title]}}
+                            {{#each
+                            photo.[https://artresearch.net/resource/field_definition/pharos_model/title].values}}
+                            {{label}}
+                            {{#unless @last}}, {{/unless}}
+                            {{/each}}
+                            .
+                            {{/if}}
 
-                                        {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_identifier]}}
-                                          {{#each photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_identifier].values}}
-                                            {{label}}
-                                            {{#unless @last}}, {{/unless}}
-                                          {{/each}}
-                                          .
-                                        {{/if}}
+                            {{#if
+                            photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_identifier]}}
+                            {{#each
+                            photo.[https://artresearch.net/resource/field_definition/pharos_model/photo_identifier].values}}
+                            {{label}}
+                            {{#unless @last}}, {{/unless}}
+                            {{/each}}
+                            .
+                            {{/if}}
 
-                                        {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photographer]}}
-                                          Photo:
-                                          {{#each photo.[https://artresearch.net/resource/field_definition/pharos_model/photographer].values}}
-                                            {{label}}
-                                            {{#unless @last}}, {{/unless}}
-                                          {{/each}}
+                            {{#if photo.[https://artresearch.net/resource/field_definition/pharos_model/photographer]}}
+                            Photo:
+                            {{#each
+                            photo.[https://artresearch.net/resource/field_definition/pharos_model/photographer].values}}
+                            {{label}}
+                            {{#unless @last}}, {{/unless}}
+                            {{/each}}
 
-                                          .
-                                        {{/if}}
-                                      </p>
-                                    </div>
-                                  </mp-overlay-dialog-trigger>
-                                  <mp-overlay-dialog-content>
-                                    <single-image-iiif-viewer show-navigation-control='true' iiif-manifest-url='{{imageManifestUrl}}'></single-image-iiif-viewer>
-                                  </mp-overlay-dialog-content>
-                                </mp-overlay-dialog>
-                              </template>
+                            .
+                            {{/if}}
+                          </p>
+                        </div>
+                      </mp-overlay-dialog-trigger>
+                      <mp-overlay-dialog-content>
+                        <single-image-iiif-viewer show-navigation-control='true'
+                          iiif-manifest-url='{{imageManifestUrl}}'></single-image-iiif-viewer>
+                      </mp-overlay-dialog-content>
+                    </mp-overlay-dialog>
+                  </template>
 
-                              <template id='template'>
-                                {{#if photo}}
-                                  {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values}}
-                                    {{#if (eq [@id] ../photo)}}
-                                      {{> mainImageView artwork=../data photo=this label=label imageUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value] imageManifestUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_iiif_manifest].values.0.[@value]}}
-                                    {{/if}}
-                                  {{/each}}
-                                {{else}}
-                                  {{#with (find data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values
-                                            "(not (isEmpty item.[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value]))")}}
-                                    {{> mainImageView artwork=../data photo=this label=label imageUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value] imageManifestUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_iiif_manifest].values.0.[@value]}}
-                                  {{else}}
-                                    <p class='no-images-available'>No images available</p>
-                                  {{/with}}
-                                {{/if}}
-                              </template>
-                            </mp-event-target-template-render>
-                          </div>
-                        {{/ifCond}}
-                      {{else}}
-                        <p class='no-images-available'>No images available</p>
-                      {{/if}}
-                      </div>
-                    </bs-tab>
-                    <bs-tab event-key="2" title="Similar Works">
-                      <div class='search-container'>
-                      {{#if (find data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values "(not (isEmpty item.[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value]))")}}
-                       <semantic-query
-                          id="grid-result"
-                          prefetch-labels="false"
-                          query='
+                  <template id='template'>
+                    {{#if photo}}
+                    {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values}}
+                    {{#if (eq [@id] ../photo)}}
+                    {{> mainImageView artwork=../data photo=this label=label
+                    imageUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value]
+                    imageManifestUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_iiif_manifest].values.0.[@value]}}
+                    {{/if}}
+                    {{/each}}
+                    {{else}}
+                    {{#with (find data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values
+                    "(not (isEmpty
+                    item.[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value]))")}}
+                    {{> mainImageView artwork=../data photo=this label=label
+                    imageUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value]
+                    imageManifestUrl=[https://artresearch.net/resource/field_definition/pharos_model/photo_iiif_manifest].values.0.[@value]}}
+                    {{else}}
+                    <p class='no-images-available'>No images available</p>
+                    {{/with}}
+                    {{/if}}
+                  </template>
+                </mp-event-target-template-render>
+              </div>
+              {{/ifCond}}
+              {{else}}
+              <p class='no-images-available'>No images available</p>
+              {{/if}}
+            </div>
+          </bs-tab>
+          {{/if}}
+          {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/object_has_parts]}}
+          <bs-tab event-key="parts" title="Parts">
+            <div class='search-container'>
+              <div class="scrolable-area">
+                <infinite-scroll item-height="250px" profile="artwork-part-card" item-per-row="1" item-width="550"
+                  batch-size="20"
+                  values='{{stringify (toInfiniteScrollValues data.[https://artresearch.net/resource/field_definition/pharos_model/object_has_parts].values)}}'>
+                  <template id='template'>
+                    <div class="result-item karla-regular">
+                      {{#each rows}}
+                      {{> Default:CardArtworkPart}}
+                      {{/each}}
+                    </div>
+                  </template>
+                </infinite-scroll>
+              </div>
+            </div>
+          </bs-tab>
+          {{/if}}
+          <bs-tab event-key="2" title="Similar Works">
+            <div class='search-container'>
+              {{#if (find data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values "(not
+              (isEmpty
+              item.[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value]))")}}
+              <semantic-query id="grid-result" prefetch-labels="false" query='
                             SELECT DISTINCT (?uri AS ?subject) (?siglip2_so400m_patch16_naflex_maxScoreUri as ?maxPhoto) (?matchedModel as ?matchType) {
                               SERVICE <http://usearch-search.private:8545/sparql> {
                                 SELECT * WHERE {
@@ -295,30 +355,24 @@
                                 }
                               }
                             } ORDER BY DESC(?similarity) DESC(?subject) LIMIT 1000
-                          '                                       
-                          
-                          template="{{> subjectCellTemplate}}"
-                          no-result-template='[[> CardNoResult ]]'
-                        >
-                          <template id="subjectCellTemplate">
-                            <div class="scrolable-area">
-                              <infinite-scroll item-height="250px" profile="artwork-card"  item-per-row="1" item-width="550" batch-size="20" values='{{stringify bindings}}'>
-                                <template id='template'>
-                                  <div class="result-item karla-regular">
-                                    {{#each rows}}
-                                      {{> Default:CardArtwork photo=maxPhoto.value provider=provider matchType=matchType}}
-                                    {{/each}}
-                                  </div>
-                                </template>
-                              </infinite-scroll>
-                            </div>
-                          </template>
-                        </semantic-query>
-                      {{else}}
-                       <semantic-query
-                          id="grid-result"
-                          prefetch-labels="false"
-                          query='
+                          ' template="{{> subjectCellTemplate}}" no-result-template='[[> CardNoResult ]]'>
+                <template id="subjectCellTemplate">
+                  <div class="scrolable-area">
+                    <infinite-scroll item-height="250px" profile="artwork-card" item-per-row="1" item-width="550"
+                      batch-size="20" values='{{stringify bindings}}'>
+                      <template id='template'>
+                        <div class="result-item karla-regular">
+                          {{#each rows}}
+                          {{> Default:CardArtwork photo=maxPhoto.value provider=provider matchType=matchType}}
+                          {{/each}}
+                        </div>
+                      </template>
+                    </infinite-scroll>
+                  </div>
+                </template>
+              </semantic-query>
+              {{else}}
+              <semantic-query id="grid-result" prefetch-labels="false" query='
                             SELECT DISTINCT (?uri AS ?subject) (?matchedModel as ?matchType) {
                               SERVICE <http://usearch-search.private:8545/sparql> {
                                 SELECT * WHERE {
@@ -332,557 +386,595 @@
                                 }
                               }
                             } ORDER BY DESC(?similarity) DESC(?subject) LIMIT 1000
-                          '                                       
-                          
-                          template="{{> subjectCellTemplate}}"
-                          no-result-template='[[> CardNoResult ]]'
-                        >
-                          <template id="subjectCellTemplate">
-                            <div class="scrolable-area">
-                              <infinite-scroll item-height="250px" profile="artwork-card"  item-per-row="1" item-width="550" batch-size="20" values='{{stringify bindings}}'>
-                                <template id='template'>
-                                  <div class="result-item karla-regular">
-                                    {{#each rows}}
-                                      {{> Default:CardArtwork photo=maxPhoto.value provider=provider matchType=matchType}}
-                                    {{/each}}
-                                  </div>
-                                </template>
-                              </infinite-scroll>
-                            </div>
-                          </template>
-                        </semantic-query>
-                      {{/if}}
-                      </div>
-                    </bs-tab>
-                  </bs-tabs>
-                  
-                </div>
-
-
-                <div class="column fields-column container">
-                  <div class="catalog-record-icons">
-                    <span><a href="mailto:info@artresearch.net" title="Contact us">contact us</a> | <semantic-link iri="https://artresearch.net/resource/TermsAndConditions" target="_blank" title="Terms of Use">terms of use</semantic-link> | </span>
-                    {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/catalog_record_url]}}
-                    <span class="providers-records">view sources: </span>
-                      {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/catalog_record_url].values}}
-                        <a href="{{{[label]}}}" title="{{#if [https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{[https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{else}}{{{[@id]}}}{{/if}}" target="_blank" rel="noopener noreferrer">
-                          <img class="provider-icon" title="{{#if [https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{[https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{else}}{{{[label]}}}{{/if}}" src="{{provenance.0.[https://artresearch.net/resource/field_definition/pharos_model/provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
-                        </a>
-                      {{/each}}
-                    {{/if}}
-                  </div>
-
-
-                    {{> fieldGroup
-                        data=data
-                        title=""
-                        fields=(parse '[
-                            {
-                              "field": "https://artresearch.net/resource/field_definition/pharos_model/title",
-                              "mode": "text"
-                            },
-                            {
-                              "field": "https://artresearch.net/resource/field_definition/pharos_model/creator",
-                              "mode": "creator"
-                            },
-                            {
-                              "field": "https://artresearch.net/resource/field_definition/pharos_model/production_participant",
-                              "mode": "creator"
-                            }
-                        ]')
-                    }}
-
-                    {{> fieldGroup
-                        data=data
-                        title=""
-                        fields=(parse '[
-                            {"field": "https://artresearch.net/resource/field_definition/pharos_model/production_date", "mode": "text"}
-                        ]')
-                    }}
-
-                    {{> fieldGroup
-                        data=data
-                        title=""
-                        fields=(parse '[
-
-                        {
-                          "field": "https://artresearch.net/resource/field_definition/pharos_model/current_keeper",
-                          "mode": "new"
-                        },
-                        {
-                           "field": "https://artresearch.net/resource/field_definition/pharos_model/last_known_location",
-                           "mode": "new"
-                        },
-                        {
-                           "field": "https://artresearch.net/resource/field_definition/pharos_model/location",
-                           "mode": "new"
-                        },
-                        {
-                           "field": "https://artresearch.net/resource/field_definition/pharos_model/object_part_of_hierarchy",
-                           "mode": "part_hierarchy"
-                        }
-                        ]')
-                    }}
-
-                    {{> fieldGroup
-                        data=data
-                        title=""
-                        fields=(parse '[
-                            {
-                              "field": "https://artresearch.net/resource/field_definition/pharos_model/inscription",
-                              "mode": "text"
-                            },
-                            {
-                              "field": "https://artresearch.net/resource/field_definition/pharos_model/subject",
-                              "mode": "new"
-                            },
-                            {
-                              "field": "https://artresearch.net/resource/field_definition/pharos_model/type",
-                              "mode": "new"
-                            },
-                            {
-                              "field": "https://artresearch.net/resource/field_definition/pharos_model/material",
-                              "mode": "new"
-                            },
-                            {
-                              "field": "https://artresearch.net/resource/field_definition/pharos_model/technique",
-                              "mode": "new"
-                            }
-                        ]')
-                    }}
-
-                    {{> fieldGroup
-                        data=data
-                        title=""
-                        fields=(parse '[
-
-                        ]')
-                    }}
-
-
-
-                    {{> fieldGroup
-                        data=data
-                        title=""
-                        fields=(parse '[
-                            {
-                                "field": "https://artresearch.net/resource/fieldDefinition/provider",
-                                "label": "Photo Archive"
-                            }
-                        ]')
-                    }}
-
-
-                    {{> fieldGroup
-                      data=data
-                      title=""
-                      fields=(parse '[
-                          {
-                              "field": "https://artresearch.net/resource/field_definition/pharos_model/bibliography",
-                              "label": "Bibliography",
-                              "mode": "text"
-                          },
-                          {
-                              "field": "https://artresearch.net/resource/field_definition/pharos_model/work_provenance",
-                              "label": "Provenance",
-                              "mode": "text"
-                          },
-                          {
-                              "field": "https://artresearch.net/resource/field_definition/pharos_model/exhibitions",
-                              "label": "Exhibitions",
-                              "mode": "text"
-                          }
-                      ]')
-                    }}
-
-
-                    <div class="field-group see-more-data">
-                        {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/catalog_record_url]}}
-                        <div class="field row">
-                            <div class="field-label col-md-3 col-sm-12">
-                                View original records:
-                            </div>
-                            <div class="field-value col-md-8 col-sm-12">
-                                {{#each (groupBy data.[https://artresearch.net/resource/field_definition/pharos_model/catalog_record_url].values "provenance[0]['https://artresearch.net/resource/field_definition/pharos_model/provider'].values[0].label")}}
-                                    <div class="field-value-item">
-                                        <div class="field-value-main row">
-                                            <div class="provider-icons col-md-1 col-sm-1">
-                                                <img class="provider-icon" title="{{this.0.provenance.0.[https://artresearch.net/resource/field_definition/pharos_model/provider].values.0.label}}" src="{{this.0.provenance.0.[https://artresearch.net/resource/field_definition/pharos_model/provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
-                                            </div>
-                                            <span class="col-md-10 col-sm-8">
-                                                {{#ifCond this.length ">" 1}}
-                                                    <div class="provider-name-multiple">{{@key}}:</div>
-                                                    <div class="multiple-record-links">
-                                                    {{#each this}}
-                                                        <a href="{{{label}}}" class="record-link" title="{{#if [https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{[https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{else}}{{{label}}}{{/if}}" target="_blank" rel="noopener noreferrer">
-                                                            <span class="record-link-text">{{#if [https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{[https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{else}}{{{label}}}{{/if}}{{#if [https://artresearch.net/resource/field_definition/pharos_model/original_record_identifier].values.0.[@value]}} ({{[https://artresearch.net/resource/field_definition/pharos_model/original_record_identifier].values.0.[@value]}}){{/if}}</span>
-                                                            <img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt="">
-                                                        </a>
-                                                    {{/each}}
-                                                    </div>
-                                                {{else}}
-                                                    <a href="{{{this.0.label}}}" title="{{#if this.0.[https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{this.0.[https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{else}}{{{this.0.label}}}{{/if}}" target="_blank" rel="noopener noreferrer">
-                                                        {{@key}}{{#if this.0.[https://artresearch.net/resource/field_definition/pharos_model/original_record_identifier].values.0.[@value]}} ({{this.0.[https://artresearch.net/resource/field_definition/pharos_model/original_record_identifier].values.0.[@value]}}){{/if}}
-                                                        <img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt="">
-                                                    </a>
-                                                {{/ifCond}}
-                                            </span>
-                                        </div>
-                                    </div>
-                                {{/each}}
-                            </div>
+                          ' template="{{> subjectCellTemplate}}" no-result-template='[[> CardNoResult ]]'>
+                <template id="subjectCellTemplate">
+                  <div class="scrolable-area">
+                    <infinite-scroll item-height="250px" profile="artwork-card" item-per-row="1" item-width="550"
+                      batch-size="20" values='{{stringify bindings}}'>
+                      <template id='template'>
+                        <div class="result-item karla-regular">
+                          {{#each rows}}
+                          {{> Default:CardArtwork photo=maxPhoto.value provider=provider matchType=matchType}}
+                          {{/each}}
                         </div>
-                        {{/if}}
+                      </template>
+                    </infinite-scroll>
+                  </div>
+                </template>
+              </semantic-query>
+              {{/if}}
+            </div>
+          </bs-tab>
+        </bs-tabs>
+
+      </div>
+
+
+      <div class="column fields-column container">
+        <div class="catalog-record-icons">
+          <span><a href="mailto:info@artresearch.net" title="Contact us">contact us</a> | <semantic-link
+              iri="https://artresearch.net/resource/TermsAndConditions" target="_blank" title="Terms of Use">terms of
+              use</semantic-link> | </span>
+          {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/catalog_record_url]}}
+          <span class="providers-records">view sources: </span>
+          {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/catalog_record_url].values}}
+          <a href="{{{[label]}}}"
+            title="{{#if [https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{[https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{else}}{{{[@id]}}}{{/if}}"
+            target="_blank" rel="noopener noreferrer">
+            <img class="provider-icon"
+              title="{{#if [https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{[https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{else}}{{{[label]}}}{{/if}}"
+              src="{{provenance.0.[https://artresearch.net/resource/field_definition/pharos_model/provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
+          </a>
+          {{/each}}
+          {{/if}}
+        </div>
+
+
+        {{> fieldGroup
+        data=data
+        title=""
+        fields=(parse '[
+        {
+        "field": "https://artresearch.net/resource/field_definition/pharos_model/title",
+        "mode": "text"
+        },
+        {
+        "field": "https://artresearch.net/resource/field_definition/pharos_model/creator",
+        "mode": "creator"
+        },
+        {
+        "field": "https://artresearch.net/resource/field_definition/pharos_model/participant",
+        "mode": "creator"
+        },
+        {
+        "field": "https://artresearch.net/resource/field_definition/pharos_model/culture",
+        "mode": "creator"
+        },
+        {
+        "field": "https://artresearch.net/resource/field_definition/pharos_model/style_period",
+        "mode": "creator"
+        }
+        ]')
+        }}
+
+        {{> fieldGroup
+        data=data
+        title=""
+        fields=(parse '[
+        {"field": "https://artresearch.net/resource/field_definition/pharos_model/production_date", "mode": "text"}
+        ]')
+        }}
+
+        {{> fieldGroup
+        data=data
+        title=""
+        fields=(parse '[
+
+        {
+        "field": "https://artresearch.net/resource/field_definition/pharos_model/current_keeper",
+        "mode": "new"
+        },
+        {
+        "field": "https://artresearch.net/resource/field_definition/pharos_model/last_known_location",
+        "mode": "new"
+        },
+        {
+        "field": "https://artresearch.net/resource/field_definition/pharos_model/location",
+        "mode": "new"
+        },
+        {
+        "field": "https://artresearch.net/resource/field_definition/pharos_model/object_part_of_hierarchy",
+        "mode": "part_hierarchy"
+        }
+        ]')
+        }}
+
+        {{> fieldGroup
+        data=data
+        title=""
+        fields=(parse '[
+        {
+        "field": "https://artresearch.net/resource/field_definition/pharos_model/inscription",
+        "mode": "text"
+        },
+        {
+        "field": "https://artresearch.net/resource/field_definition/pharos_model/subject",
+        "mode": "new"
+        },
+        {
+        "field": "https://artresearch.net/resource/field_definition/pharos_model/type",
+        "mode": "new"
+        },
+        {
+        "field": "https://artresearch.net/resource/field_definition/pharos_model/material",
+        "mode": "new"
+        },
+        {
+        "field": "https://artresearch.net/resource/field_definition/pharos_model/technique",
+        "mode": "new"
+        }
+        ]')
+        }}
+
+        {{> fieldGroup
+        data=data
+        title=""
+        fields=(parse '[
+
+        ]')
+        }}
+
+
+
+        {{> fieldGroup
+        data=data
+        title=""
+        fields=(parse '[
+        {
+        "field": "https://artresearch.net/resource/fieldDefinition/provider",
+        "label": "Photo Archive"
+        }
+        ]')
+        }}
+
+
+        {{> fieldGroup
+        data=data
+        title=""
+        fields=(parse '[
+        {
+        "field": "https://artresearch.net/resource/field_definition/pharos_model/bibliography",
+        "label": "Bibliography",
+        "mode": "text"
+        },
+        {
+        "field": "https://artresearch.net/resource/field_definition/pharos_model/work_provenance",
+        "label": "Provenance",
+        "mode": "text"
+        },
+        {
+        "field": "https://artresearch.net/resource/field_definition/pharos_model/exhibitions",
+        "label": "Exhibitions",
+        "mode": "text"
+        }
+        ]')
+        }}
+
+
+        <div class="field-group see-more-data">
+          {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/catalog_record_url]}}
+          <div class="field row">
+            <div class="field-label col-md-3 col-sm-12">
+              View original records:
+            </div>
+            <div class="field-value col-md-8 col-sm-12">
+              {{#each (groupBy
+              data.[https://artresearch.net/resource/field_definition/pharos_model/catalog_record_url].values
+              "provenance[0]['https://artresearch.net/resource/field_definition/pharos_model/provider'].values[0].label")}}
+              <div class="field-value-item">
+                <div class="field-value-main row">
+                  <div class="provider-icons col-md-1 col-sm-1">
+                    <img class="provider-icon"
+                      title="{{this.0.provenance.0.[https://artresearch.net/resource/field_definition/pharos_model/provider].values.0.label}}"
+                      src="{{this.0.provenance.0.[https://artresearch.net/resource/field_definition/pharos_model/provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
+                  </div>
+                  <span class="col-md-10 col-sm-8">
+                    {{#ifCond this.length ">" 1}}
+                    <div class="provider-name-multiple">{{@key}}:</div>
+                    <div class="multiple-record-links">
+                      {{#each this}}
+                      <a href="{{{label}}}" class="record-link"
+                        title="{{#if [https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{[https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{else}}{{{label}}}{{/if}}"
+                        target="_blank" rel="noopener noreferrer">
+                        <span class="record-link-text">{{#if
+                          [https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{[https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{else}}{{{label}}}{{/if}}{{#if
+                          [https://artresearch.net/resource/field_definition/pharos_model/original_record_identifier].values.0.[@value]}}
+                          ({{[https://artresearch.net/resource/field_definition/pharos_model/original_record_identifier].values.0.[@value]}}){{/if}}</span>
+                        <img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt="">
+                      </a>
+                      {{/each}}
                     </div>
+                    {{else}}
+                    <a href="{{{this.0.label}}}"
+                      title="{{#if this.0.[https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{this.0.[https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{else}}{{{this.0.label}}}{{/if}}"
+                      target="_blank" rel="noopener noreferrer">
+                      {{@key}}{{#if
+                      this.0.[https://artresearch.net/resource/field_definition/pharos_model/original_record_identifier].values.0.[@value]}}
+                      ({{this.0.[https://artresearch.net/resource/field_definition/pharos_model/original_record_identifier].values.0.[@value]}}){{/if}}
+                      <img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt="">
+                    </a>
+                    {{/ifCond}}
+                  </span>
+                </div>
+              </div>
+              {{/each}}
+            </div>
+          </div>
+          {{/if}}
+        </div>
 
 
-                    {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/photo]}}
-                    <div class="field-group photos-accordion">
-                      <h3>Photographs</h3>
-                      {{#each (orderBy data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values "[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]")}}
+        {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/photo]}}
+        <div class="field-group photos-accordion">
+          <h3>Photographs</h3>
+          {{#each (orderBy data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values
+          "[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]")}}
 
-                          <div class="photo-card">
-                            <semantic-link-container uri="{{[@id]}}" target="_blank">
-                            <div class="photo-thumbnail">
-                              {{#if [https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail]}}
-                                <img alt='' src="https://artresearch.net{{[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" />
-                              {{else}}
-                                <p>No Image</p>
-                              {{/if}}
-                            </div>
-                            </semantic-link-container>
-                            <div class="photo-details">
-                                  <img class="provider-icon" title="{{[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
-                              {{> fieldGroup
-                                  data=this
-                                  dontShowProvenance=true
-                                  title=""
-                                  fields=(parse '[
-                                      {"field": "label", "mode": "label", "label": "Title"},
-                                      "https://artresearch.net/resource/field_definition/pharos_model/photo_title",
-                                      "https://artresearch.net/resource/field_definition/pharos_model/photographer",
-                                      "https://artresearch.net/resource/field_definition/pharos_model/date",
-                                      "https://artresearch.net/resource/field_definition/pharos_model/photo_archive",
-                                      {
-                                      "field": "https://artresearch.net/resource/field_definition/pharos_model/photo_license",
-                                      "mode": "outside_link"
-                                      }
-                                  ]')
-                              }}
+          <div class="photo-card">
+            <semantic-link-container uri="{{[@id]}}" target="_blank">
+              <div class="photo-thumbnail">
+                {{#if [https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail]}}
+                <img alt=''
+                  src="https://artresearch.net{{[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" />
+                {{else}}
+                <p>No Image</p>
+                {{/if}}
+              </div>
+            </semantic-link-container>
+            <div class="photo-details">
+              <img class="provider-icon"
+                title="{{[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.label}}"
+                src="{{[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
+              {{> fieldGroup
+              data=this
+              dontShowProvenance=true
+              title=""
+              fields=(parse '[
+              {"field": "label", "mode": "label", "label": "Title"},
+              "https://artresearch.net/resource/field_definition/pharos_model/photo_title",
+              "https://artresearch.net/resource/field_definition/pharos_model/photographer",
+              "https://artresearch.net/resource/field_definition/pharos_model/date",
+              "https://artresearch.net/resource/field_definition/pharos_model/photo_archive",
+              {
+              "field": "https://artresearch.net/resource/field_definition/pharos_model/photo_license",
+              "mode": "outside_link"
+              }
+              ]')
+              }}
 
-                              {{#if [https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.[0].[https://artresearch.net/resource/field_definition/pharos_model/photo_provider_contact].values.[0].[@value]}}
-                              <div>
-                                <a href="{{[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.[0].[https://artresearch.net/resource/field_definition/pharos_model/photo_provider_contact].values.[0].[@value]}}?subject=[artresearch.net]" title="Contact the institution">
-                                  <p class="contact-photo">
-                                    Contact the institution
-                                  </p>
-                                </a>
-                                <!--
+              {{#if
+              [https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.[0].[https://artresearch.net/resource/field_definition/pharos_model/photo_provider_contact].values.[0].[@value]}}
+              <div>
+                <a href="{{[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.[0].[https://artresearch.net/resource/field_definition/pharos_model/photo_provider_contact].values.[0].[@value]}}?subject=[artresearch.net]"
+                  title="Contact the institution">
+                  <p class="contact-photo">
+                    Contact the institution
+                  </p>
+                </a>
+                <!--
                                 <a href="mailto:info@artresearch.net" title="Comments" style="margin-left: 10px">
                                   <i class="material-icons-round" aria-hidden="true">comment</i>
                                 </a>
                                 <semantic-link iri="https://artresearch.net/resource/TermsAndConditions" target="_blank" title="Terms of Use" style="margin-left: 10px">
                                   <i class="material-icons-round" aria-hidden="true">description</i>
                                 </semantic-link> -->
-                              </div>
-                              {{/if}}
-                            </div>
-                          </div>
+              </div>
+              {{/if}}
+            </div>
+          </div>
 
+          {{/each}}
+        </div>
+        {{/if}}
+      </div>
+    </div>
+  </template>
+  <template id="fieldGroup">
+    {{#if (hasAnyValues data fields)}}
+    <div class="field-group">
+      {{#if title}}
+      <h2>{{title}}</h2>
+      {{/if}}
+      {{#each fields}}
+      {{> fieldTemplate
+      data=../data
+      dontShowProvenance=../dontShowProvenance
+      field=(getFieldName this)
+      label=(lookup this "label")
+      qualifiers=(lookup this "qualifiers")
+      mode=(lookup this "mode")
+      }}
+      {{/each}}
+    </div>
+    {{/if}}
+  </template>
+
+  <template id="fieldTemplate">
+    {{#if (lookup data field)}}
+    {{#if (eq mode "label")}}
+    <div class="field row">
+      <div class="field-value col-md-8 col-sm-12">
+        <div class="field-value-item">
+          <span>
+            {{data.label}}
+          </span>
+        </div>
+      </div>
+    </div>
+    {{else}}
+    <div class="field row">
+      <div class="field-label col-md-3 col-sm-12">
+        {{#if label}}{{label}}{{else}}{{lookup (lookup data field) 'label'}}{{/if}}:
+      </div>
+      <div class="field-value col-md-8 col-sm-12">
+        {{#if (eq mode "text")}}
+        {{#each (mergeUniqueValues (lookup (lookup data field) 'values'))}}
+        <div class="field-value-item">
+          <div class="field-value-main row">
+            <div class="provider-icons col-md-1 col-sm-1">
+              {{#each (uniqProviders provenance)}}
+              <img class="provider-icon" title="{{label}}" src="{{icon}}">
+              {{/each}}
+            </div>
+            <span class="col-md-10 col-sm-8">
+              {{#if label}}{{label}}{{else}}{{[@value]}}{{/if}}
+              {{#if [https://artresearch.net/resource/field_definition/pharos_model/production_date_qualifier]}}
+              <span class="field-value-qualifier">
+                [{{#each
+                [https://artresearch.net/resource/field_definition/pharos_model/production_date_qualifier].values}}
+                {{label}}
+                {{#unless @last}}, {{/unless}}
+                {{/each}}]
+              </span>
+              {{/if}}
+            </span>
+          </div>
+        </div>
+        {{/each}}
+        {{else if (eq mode "part_hierarchy")}}
+        <div class="part_hierarchy" style="height: 200px">
+
+          <semantic-lazy-tree id='scheme-tree' input-placeholder='Select' type='simple' info-template='{{> template}}'
+            focused='{{data.[@id]}}'
+            config='{"useLabelService": true, "relationPattern": "?item crm:P46i_forms_part_of ?parent", "schemePattern": "{<{{data.[@id]}}> crm:P46i_forms_part_of* ?item} UNION {<{{data.[@id]}}> crm:P46_is_composed_of* ?item}"}'>
+            <template id='template'>
+              <semantic-link iri='{{iri}}'>
+                <img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt="alt">
+              </semantic-link>
+            </template>
+          </semantic-lazy-tree>
+        </div>
+        {{else if (eq mode "creator")}}
+        {{#each (lookup (lookup data field) 'values')}}
+        {{#if [https://artresearch.net/resource/field_definition/pharos_model/original_value_creator]}}
+        <div class="field-value-group">
+          <div class="field-value-item">
+            <div class="field-value-main row">
+              <div class="col-md-1"></div>
+              <span class="col-md-10">
+                <semantic-link iri="{{[@id]}}">{{label}}</semantic-link>
+              </span>
+            </div>
+          </div>
+          <div class="field-value-original-group">
+            {{#each (mergeUniqueValues
+            [https://artresearch.net/resource/field_definition/pharos_model/original_value_creator].values)}}
+            <div class="field-value-item">
+              <div class="field-value-main row">
+                <div class="provider-icons col-md-1 col-sm-1">
+                  {{#each (uniqProviders provenance)}}
+                  <img class="provider-icon" title="{{label}}" src="{{icon}}">
+                  {{/each}}
+                </div>
+                <span class="col-md-10 col-sm-8 grey">
+                  {{label}}
+                </span>
+              </div>
+              <div class="field-value-qualifiers">
+                {{#each [https://artresearch.net/resource/field_definition/pharos_model/creator_role].values }}
+                <span class="field-value-qualifier">
+                  [{{label}}]
+                  <div class="provider-icons">
+                    {{#each (uniqProviders provenance)}}
+                    <img class="provider-icon" title="{{label}}" src="{{icon}}">
+                    {{/each}}
+                  </div>
+                </span>
+                {{/each}}
+                {{#each
+                [https://artresearch.net/resource/field_definition/pharos_model/creator_attribution_types].values }}
+                <span class="field-value-qualifier">
+                  [{{label}}]
+                  <div class="provider-icons">
+                    {{#each (uniqProviders provenance)}}
+                    <img class="provider-icon" title="{{label}}" src="{{icon}}">
+                    {{/each}}
+                  </div>
+                </span>
+                {{/each}}
+
+              </div>
+            </div>
+            {{/each}}
+          </div>
+        </div>
+        {{else}}
+        <div class="field-value-item">
+          <div class="field-value-main row">
+
+            <div class="provider-icons col-md-1 col-sm-1">
+              {{#each (uniqProviders provenance)}}
+              <img class="provider-icon" title="{{label}}" src="{{icon}}">
+              {{/each}}
+            </div>
+            <span class="col-md-10 col-sm-8">
+              <semantic-link iri="{{[@id]}}">{{label}}</semantic-link>
+            </span>
+          </div>
+          <div class="field-value-qualifiers">
+            {{#each [https://artresearch.net/resource/field_definition/pharos_model/creator_role].values }}
+            <span class="field-value-qualifier">
+              [{{label}}]
+              <div class="provider-icons">
+                {{#each (uniqProviders provenance)}}
+                <img class="provider-icon" title="{{label}}" src="{{icon}}">
+                {{/each}}
+              </div>
+            </span>
+            {{/each}}
+            {{#each [https://artresearch.net/resource/field_definition/pharos_model/creator_attribution_types].values }}
+            <span class="field-value-qualifier">
+              [{{label}}]
+              <div class="provider-icons">
+                {{#each (uniqProviders provenance)}}
+                <img class="provider-icon" title="{{label}}" src="{{icon}}">
+                {{/each}}
+              </div>
+            </span>
+            {{/each}}
+
+          </div>
+        </div>
+        {{/if}}
+        {{/each}}
+        {{else if (eq mode "new")}}
+        {{#each (lookup (lookup data field) 'values')}}
+        {{#if [https://artresearch.net/resource/field_definition/pharos_model/original_value]}}
+        <div class="field-value-group">
+          <div class="field-value-item">
+            <div class="field-value-main row">
+              <div class="col-md-1"></div>
+              <span class="col-md-10 col-sm-8"><semantic-link iri="{{[@id]}}">{{label}}</semantic-link></span>
+            </div>
+          </div>
+          <div class="field-value-original-group">
+            {{#each (mergeUniqueValues
+            [https://artresearch.net/resource/field_definition/pharos_model/original_value].values)}}
+            <div class="field-value-item">
+              <div class="field-value-main row">
+
+                <div class="provider-icons col-md-1 col-sm-1">
+                  {{#each (uniqProviders provenance)}}
+                  <img class="provider-icon" title="{{label}}" src="{{icon}}">
+                  {{/each}}
+                </div>
+                <span class="col-md-10 col-sm-8 grey">{{label}}</span>
+              </div>
+            </div>
+            {{/each}}
+          </div>
+        </div>
+        {{else}}
+        <div class="field-value-item">
+          <div class="field-value-main row">
+            <div class="provider-icons col-md-1 col-sm-1">
+              {{#each (uniqProviders provenance)}}
+              <img class="provider-icon" title="{{label}}" src="{{icon}}">
+              {{/each}}
+            </div>
+            <span class="col-md-10 col-sm-8">
+              <semantic-link iri="{{[@id]}}">{{label}}</semantic-link>
+            </span>
+          </div>
+        </div>
+        {{/if}}
+        {{/each}}
+        {{else}}
+        {{#each (mergeUniqueValues (lookup (lookup data field) 'values'))}}
+        <div class="field-value-item">
+          <div class="field-value-main row">
+            {{#if ../dontShowProvenance}}
+            {{else}}
+            <div class="provider-icons col-md-1 col-sm-1">
+              {{#each (uniqProviders provenance)}}
+              <img class="provider-icon" title="{{label}}" src="{{icon}}">
+              {{/each}}
+            </div>
+            {{/if}}
+            {{#if (lookup this '@id')}}
+            {{#if (eq ../mode "outside_link")}}
+            <span class="col-md-10 col-sm-8"><a href="{{[@id]}}" target="_blank" rel="noopener noreferrer">{{label}}<img
+                  class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt=""></a></span>
+            {{else}}
+            <span class="col-md-10 col-sm-8">{{label}}</span>
+            {{/if}}
+            [[!-- <semantic-link iri="{{[@id]}}">{{label}}</semantic-link> --]]
+            {{else}}
+            {{#if (eq ../field "https://artresearch.net/resource/field_definition/pharos_model/production_date")}}
+            <span>{{dateRangeFormat [@value]}}</span>
+            {{else}}
+            <span>{{[@value]}}</span>
+            {{/if}}
+            {{/if}}
+
+
+          </div>
+          {{#if ../qualifiers}}
+          <div class="field-value-qualifiers">
+            {{#each this}}
+            {{#if (and (and (not (eq @key "@id")) (not (eq @key "label"))) (not (eq @key "provenance"))) }}
+            <div class="qualifier-group">
+              <span class="qualifier-label">{{label}}:</span>
+              {{#each this.values}}
+              {{#if [https://artresearch.net/resource/field_definition/pharos_model/scope_note]}}
+              <mp-popover>
+                <mp-popover-trigger placement="right" trigger='["hover"]' root-close='true'>
+                  <span class="field-value-qualifier">{{label}}
+                    <div class="provider-icons">
+                      {{#each (uniqProviders provenance)}}
+                      <img class="provider-icon" title="{{label}}" src="{{icon}}">
                       {{/each}}
                     </div>
-                    {{/if}}
-                </div>
-            </div>
-        </template>
-        <template id="fieldGroup">
-            {{#if (hasAnyValues data fields)}}
-                <div class="field-group">
-                    {{#if title}}
-                      <h2>{{title}}</h2>
-                    {{/if}}
-                    {{#each fields}}
-                        {{> fieldTemplate
-                            data=../data
-                            dontShowProvenance=../dontShowProvenance
-                            field=(getFieldName this)
-                            label=(lookup this "label")
-                  					qualifiers=(lookup this "qualifiers")
-                            mode=(lookup this "mode")
-                        }}
-                    {{/each}}
-                </div>
-            {{/if}}
-        </template>
-
-        <template id="fieldTemplate">
-            {{#if (lookup data field)}}
-              {{#if (eq mode "label")}}
-                  <div class="field row">
-                    <div class="field-value col-md-8 col-sm-12">
-                      <div class="field-value-item">
-                          <span>
-                            {{data.label}}
-                          </span>
-                      </div>
+                  </span>
+                </mp-popover-trigger>
+                <mp-popover-content>
+                  <div>
+                    <b>{{label}}</b>
+                    <div class="provider-icons">
+                      {{#each (uniqProviders provenance)}}
+                      <img class="provider-icon" title="{{label}}" src="{{icon}}">
+                      {{/each}}
                     </div>
                   </div>
-                {{else}}
-                <div class="field row">
-                    <div class="field-label col-md-3 col-sm-12">
-                        {{#if label}}{{label}}{{else}}{{lookup (lookup data field) 'label'}}{{/if}}:
-                    </div>
-                    <div class="field-value col-md-8 col-sm-12">
-                        {{#if (eq mode "text")}}
-                            {{#each (mergeUniqueValues (lookup (lookup data field) 'values'))}}
-                                <div class="field-value-item">
-                                    <div class="field-value-main row">
-                                        <div class="provider-icons col-md-1 col-sm-1">
-                                            {{#each (uniqProviders provenance)}}
-                                                <img class="provider-icon" title="{{label}}" src="{{icon}}">
-                                            {{/each}}
-                                        </div>
-                                        <span class="col-md-10 col-sm-8">
-                                          {{#if label}}{{label}}{{else}}{{[@value]}}{{/if}}
-                                          {{#if [https://artresearch.net/resource/field_definition/pharos_model/production_date_qualifier]}}
-                                            <span class="field-value-qualifier">
-                                              [{{#each [https://artresearch.net/resource/field_definition/pharos_model/production_date_qualifier].values}}
-                                                {{label}}
-                                                {{#unless @last}}, {{/unless}}
-                                              {{/each}}]
-                                            </span>
-                                          {{/if}}
-                                        </span>
-                                    </div>
-                                </div>
-                            {{/each}}
-                        {{else if (eq mode "part_hierarchy")}}
-                                <div class="part_hierarchy" style="height: 200px">
-
-                                    <semantic-lazy-tree id='scheme-tree' input-placeholder='Select'  type='simple' info-template='{{> template}}' focused='{{data.[@id]}}' config='{"useLabelService": true, "relationPattern": "?item crm:P46i_forms_part_of ?parent", "schemePattern": "{<{{data.[@id]}}> crm:P46i_forms_part_of* ?item} UNION {<{{data.[@id]}}> crm:P46_is_composed_of* ?item}"}'>
-                          <template id='template'>
-                            <semantic-link iri='{{iri}}'>
-                              <img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt="alt">
-                            </semantic-link>
-                          </template>
-                        </semantic-lazy-tree>
-                      </div>
-                        {{else if (eq mode "creator")}}
-                          {{#each (lookup (lookup data field) 'values')}}
-                            {{#if [https://artresearch.net/resource/field_definition/pharos_model/original_value_creator]}}
-                                <div class="field-value-group">
-                                  <div class="field-value-item">
-                                      <div class="field-value-main row">
-                                        <div class="col-md-1"></div>
-                                        <span class="col-md-10">
-                                          <semantic-link iri="{{[@id]}}">{{label}}</semantic-link>
-                                        </span>
-                                      </div>
-                                  </div>
-                                  <div class="field-value-original-group">
-                                    {{#each (mergeUniqueValues [https://artresearch.net/resource/field_definition/pharos_model/original_value_creator].values)}}
-                                      <div class="field-value-item">
-                                        <div class="field-value-main row">
-                                            <div class="provider-icons col-md-1 col-sm-1">
-                                              {{#each (uniqProviders provenance)}}
-                                                  <img class="provider-icon" title="{{label}}" src="{{icon}}">
-                                              {{/each}}
-                                            </div>
-                                            <span class="col-md-10 col-sm-8 grey">
-                                              {{label}}
-                                            </span>
-                                        </div>
-                                        <div class="field-value-qualifiers">
-                                          {{#each [https://artresearch.net/resource/field_definition/pharos_model/creator_role].values }}
-                                            <span class="field-value-qualifier">
-                                              [{{label}}]
-                                              <div class="provider-icons">
-                                                {{#each (uniqProviders provenance)}}
-                                                <img class="provider-icon" title="{{label}}" src="{{icon}}">
-                                                {{/each}}
-                                              </div>
-                                            </span>
-                                          {{/each}}
-                                          {{#each [https://artresearch.net/resource/field_definition/pharos_model/creator_attribution_types].values }}
-                                            <span class="field-value-qualifier">
-                                              [{{label}}]
-                                              <div class="provider-icons">
-                                                {{#each (uniqProviders provenance)}}
-                                                <img class="provider-icon" title="{{label}}" src="{{icon}}">
-                                                {{/each}}
-                                              </div>
-                                            </span>
-                                          {{/each}}
-                                          
-                                        </div>
-                                      </div>
-                                    {{/each}}
-                                  </div>
-                                </div>
-                              {{else}}
-                                <div class="field-value-item">
-                                    <div class="field-value-main row">
-
-                                        <div class="provider-icons col-md-1 col-sm-1">
-                                            {{#each (uniqProviders provenance)}}
-                                                <img class="provider-icon" title="{{label}}" src="{{icon}}">
-                                            {{/each}}
-                                        </div>
-                                        <span class="col-md-10 col-sm-8">
-                                          <semantic-link iri="{{[@id]}}">{{label}}</semantic-link>
-                                        </span>
-                                    </div>
-                                    <div class="field-value-qualifiers">
-                                      {{#each [https://artresearch.net/resource/field_definition/pharos_model/creator_role].values }}
-                                        <span class="field-value-qualifier">
-                                          [{{label}}]
-                                          <div class="provider-icons">
-                                            {{#each (uniqProviders provenance)}}
-                                            <img class="provider-icon" title="{{label}}" src="{{icon}}">
-                                            {{/each}}
-                                          </div>
-                                        </span>
-                                      {{/each}}
-                                      {{#each [https://artresearch.net/resource/field_definition/pharos_model/creator_attribution_types].values }}
-                                        <span class="field-value-qualifier">
-                                          [{{label}}]
-                                          <div class="provider-icons">
-                                            {{#each (uniqProviders provenance)}}
-                                            <img class="provider-icon" title="{{label}}" src="{{icon}}">
-                                            {{/each}}
-                                          </div>
-                                        </span>
-                                      {{/each}}
-                                      
-                                    </div>                                      
-                                </div>
-                              {{/if}}
-                            {{/each}}
-                          {{else if (eq mode "new")}}
-                            {{#each (lookup (lookup data field) 'values')}}
-                              {{#if [https://artresearch.net/resource/field_definition/pharos_model/original_value]}}
-                                <div class="field-value-group">
-                                  <div class="field-value-item">
-                                      <div class="field-value-main row">
-                                        <div class="col-md-1"></div>
-                                        <span class="col-md-10 col-sm-8"><semantic-link iri="{{[@id]}}">{{label}}</semantic-link></span>
-                                      </div>
-                                  </div>
-                                  <div class="field-value-original-group">
-                                    {{#each (mergeUniqueValues [https://artresearch.net/resource/field_definition/pharos_model/original_value].values)}}
-                                      <div class="field-value-item">
-                                        <div class="field-value-main row">
-
-                                            <div class="provider-icons col-md-1 col-sm-1">
-                                              {{#each (uniqProviders provenance)}}
-                                                  <img class="provider-icon" title="{{label}}" src="{{icon}}">
-                                              {{/each}}
-                                            </div>
-                                            <span class="col-md-10 col-sm-8 grey">{{label}}</span>
-                                        </div>
-                                      </div>
-                                    {{/each}}
-                                  </div>
-                                </div>
-                              {{else}}
-                                <div class="field-value-item">
-                                    <div class="field-value-main row">
-                                        <div class="provider-icons col-md-1 col-sm-1">
-                                            {{#each (uniqProviders provenance)}}
-                                                <img class="provider-icon" title="{{label}}" src="{{icon}}">
-                                            {{/each}}
-                                        </div>
-                                        <span class="col-md-10 col-sm-8">
-                                          <semantic-link iri="{{[@id]}}">{{label}}</semantic-link>
-                                        </span>
-                                    </div>
-                                </div>
-                              {{/if}}
-                            {{/each}}
-                          {{else}}
-                            {{#each (mergeUniqueValues (lookup (lookup data field) 'values'))}}
-                                <div class="field-value-item">
-                                    <div class="field-value-main row">
-                                        {{#if ../dontShowProvenance}}
-                                        {{else}}
-                                        <div class="provider-icons col-md-1 col-sm-1">
-                                            {{#each (uniqProviders provenance)}}
-                                                <img class="provider-icon" title="{{label}}" src="{{icon}}">
-                                            {{/each}}
-                                        </div>
-                                        {{/if}}
-                                        {{#if (lookup this '@id')}}
-                                          {{#if (eq ../mode "outside_link")}}
-                                            <span class="col-md-10 col-sm-8"><a href="{{[@id]}}" target="_blank" rel="noopener noreferrer">{{label}}<img class="arrow-link-record-field" src="/assets/images/arrow_black.png" alt=""></a></span>
-                                          {{else}}
-                                            <span class="col-md-10 col-sm-8">{{label}}</span>
-                                          {{/if}}
-                                          [[!-- <semantic-link iri="{{[@id]}}">{{label}}</semantic-link> --]]
-                                        {{else}}
-                                            {{#if (eq ../field "https://artresearch.net/resource/field_definition/pharos_model/production_date")}}
-                                              <span>{{dateRangeFormat [@value]}}</span>
-                                            {{else}}
-                                              <span>{{[@value]}}</span>
-                                            {{/if}}
-                                        {{/if}}
-
-
-                                    </div>
-                                    {{#if ../qualifiers}}
-                                    <div class="field-value-qualifiers">
-                                        {{#each this}}
-                                            {{#if (and (and (not (eq @key "@id")) (not (eq @key "label"))) (not (eq @key "provenance"))) }}
-                                                <div class="qualifier-group">
-                                                    <span class="qualifier-label">{{label}}:</span>
-                                                    {{#each this.values}}
-                                                        {{#if [https://artresearch.net/resource/field_definition/pharos_model/scope_note]}}
-                                                        <mp-popover>
-                                                            <mp-popover-trigger placement="right" trigger='["hover"]' root-close='true'>
-                                                                <span class="field-value-qualifier">{{label}}
-                                                                    <div class="provider-icons">
-                                            {{#each (uniqProviders provenance)}}
-                                                <img class="provider-icon" title="{{label}}" src="{{icon}}">
-                                            {{/each}}
-                                                                    </div>
-                                                                </span>
-                                                            </mp-popover-trigger>
-                                                            <mp-popover-content>
-                                                                <div>
-                                                                    <b>{{label}}</b>
-                                                                    <div class="provider-icons">
-                                            {{#each (uniqProviders provenance)}}
-                                                <img class="provider-icon" title="{{label}}" src="{{icon}}">
-                                            {{/each}}
-                                                                    </div>
-                                                                </div>
-                                                                <div>{{[https://artresearch.net/resource/field_definition/pharos_model/scope_note].values.0.label}}</div>
-                                                            </mp-popover-content>
-                                                        </mp-popover>
-                                                        {{else}}
-                                                        <span class="field-value-qualifier">
-                                                            {{label}}
-                                                            <div class="provider-icons">
-                                            {{#each (uniqProviders provenance)}}
-                                                <img class="provider-icon" title="{{label}}" src="{{icon}}">
-                                            {{/each}}
-                                                            </div>
-                                                        </span>
-                                                        {{/if}}
-                                                    {{/each}}
-                                                </div>
-                                            {{/if}}
-                                        {{/each}}
-                                    </div>
-                                    {{/if}}
-                                </div>
-                            {{/each}}
-                        {{/if}}
-                    </div>
+                  <div>{{[https://artresearch.net/resource/field_definition/pharos_model/scope_note].values.0.label}}
+                  </div>
+                </mp-popover-content>
+              </mp-popover>
+              {{else}}
+              <span class="field-value-qualifier">
+                {{label}}
+                <div class="provider-icons">
+                  {{#each (uniqProviders provenance)}}
+                  <img class="provider-icon" title="{{label}}" src="{{icon}}">
+                  {{/each}}
                 </div>
+              </span>
               {{/if}}
+              {{/each}}
+            </div>
             {{/if}}
-        </template>
+            {{/each}}
+          </div>
+          {{/if}}
+        </div>
+        {{/each}}
+        {{/if}}
+      </div>
+    </div>
+    {{/if}}
+    {{/if}}
+  </template>
 
 
 
-    </resource-info>
+</resource-info>

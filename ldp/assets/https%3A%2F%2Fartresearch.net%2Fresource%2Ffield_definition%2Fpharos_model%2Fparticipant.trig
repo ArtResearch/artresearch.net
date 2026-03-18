@@ -1,0 +1,33 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/participant/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/participant> a <http://www.researchspace.org/resource/system/fields/Field>,
+      <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-041f922152ee48cd9a6196ab1cce6a59-rl7vno;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-041f922152ee48cd9a6196ab1cce6a59-rlxr7s;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Production Participant";
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2026-03-18T15:15:52.361+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-041f922152ee48cd9a6196ab1cce6a59-rlxr7s a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  _:genid-041f922152ee48cd9a6196ab1cce6a59-rl7vno a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX pharos-meta: <https://artresearch.net/resource/pharos/vocab/meta/>
+
+SELECT ?value WHERE {
+  {
+    ?subject crm:P108i_was_produced_by ?part .
+    ?part crm:P9_consists_of* ?production .
+    ?production a crm:E7_Activity .
+    ?production crm:P14_carried_out_by ?value .
+    MINUS {
+      ?value crm:P2_has_type <https://artresearch.net/resource/pharos/vocab/meta/culture> .
+    }
+  }
+}""" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/participant> .
+}

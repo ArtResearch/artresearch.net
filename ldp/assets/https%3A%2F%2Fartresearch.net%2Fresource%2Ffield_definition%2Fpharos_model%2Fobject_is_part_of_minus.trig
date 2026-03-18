@@ -1,0 +1,29 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/object_is_part_of_minus/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/object_is_part_of_minus>
+    a <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
+      <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Object Is Part Of (minus)";
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-e4796fe64e1b40bf8170f4e635ec7457-onbpj;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-e4796fe64e1b40bf8170f4e635ec7457-esfcvm;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2026-03-16T16:31:20.183+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-e4796fe64e1b40bf8170f4e635ec7457-esfcvm a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX vocab: <https://artresearch.net/resource/midas/vocabulary/>
+PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+
+SELECT DISTINCT ?value WHERE {
+  ?subject crm:P46i_forms_part_of ?value .
+  MINUS {
+    ?subject crm:P46i_forms_part_of ?work .
+  }
+}""" .
+  
+  _:genid-e4796fe64e1b40bf8170f4e635ec7457-onbpj a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/object_is_part_of_minus> .
+}
