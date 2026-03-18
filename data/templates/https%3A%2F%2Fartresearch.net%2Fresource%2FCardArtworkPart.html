@@ -1,0 +1,77 @@
+  <div class="artwork-card karla-regular">
+
+    {{#if data}}
+      <semantic-link-container uri="{{data.[@id]}}" target="_blank">
+                  <div class="thumbnail-container cursor">
+                    <div class="image-wrapper">
+                      {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos]}}
+                        <img class="thumbnail-image" src="https://artresearch.net{{data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values.0.[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" alt="Part thumbnail" />
+                        {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/original_record_catalog].values.[1]}}
+                          <img class="provider-icon thumbnail-provider-icon" title="{{label}}" src="{{data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values.0.[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
+                        {{/if}}
+                      {{else}}
+                        <span class="no-image-text">No image</span>
+                      {{/if}}
+                    </div>
+                  </div>
+            </semantic-link-container>
+
+          <div class="info-container">
+            <span class="author-name">{{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/creator" label="Creator"}}
+            </span>
+            <span class="bold-text">
+               <div class="field field-Title">
+                  <div class="field-label">Title</div>
+                  <div class="field-value">
+                    <semantic-link iri='{{data.[@id]}}' target='_blank'>{{data.label}}</semantic-link>
+                  </div>
+               </div>
+            </span>
+            {{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/production_date" label="Date"}}
+            {{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/subject" label="Subject"}}
+            {{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/object_is_part_of_minus" label="Is part of"}}
+
+
+            <div class="field">
+              <div class="field-label karla-bold">{{data.[https://artresearch.net/resource/field_definition/pharos_model/original_record_catalog].label}}</div>
+              <div class="field-value">
+                <div class="provider-icons">
+                  <span class="provider-icons-text">Photo archive(s): </span>
+                  {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/original_record_catalog].values}}
+                    <semantic-link-container uri='{{[@id]}}' target='_blank'>
+                      <img class="provider-icon" title="{{label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
+                    </semantic-link-container>
+                  {{/each}}
+                </div>
+              </div>
+            </div>
+
+
+
+          </div>
+
+    {{/if}}
+  </div>
+  {{#*inline "fieldTemplate"}}
+        {{#if (lookup data field)}}
+            <div class="field field-{{label}}">
+              <div class="field-label">{{label}}</div>
+              <div class="field-value">
+                {{#each (mergeUniqueValues (lookup (lookup data field) 'values'))}}
+                  {{#if (eq ../field "https://artresearch.net/resource/field_definition/pharos_model/production_date")}}
+                      {{dateRangeFormat label}}
+                      {{#unless @last}} · {{/unless}}
+                  {{else if [@id]}}
+                      <semantic-link target="_blank" iri="{{[@id]}}">{{label}}</semantic-link>
+                    {{#unless @last}} · {{/unless}}
+                  {{else}}
+                    {{[@value]}}
+                    {{#unless @last}} · {{/unless}}
+                  {{/if}}
+                {{/each}}
+
+
+              </div>
+            </div>
+        {{/if}}
+    {{/inline}}
