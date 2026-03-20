@@ -48,9 +48,21 @@
   "<https://artresearch.net/resource/fr/Work_created_by_Artist>":[{
               "kind":"resource",
               "queryPattern": "{
-                ?subject crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by ?__value__ .
+                ?subject crm:P108i_was_produced_by/crm:P9_consists_of* ?production .
+                ?production a crm:E12_Production .
+                ?production crm:P14_carried_out_by ?__value__ .
               }"
   }],
+  "<https://artresearch.net/resource/fr/Work_from_Culture>":[{
+              "kind":"resource",
+              "queryPattern": "{
+                ?subject crm:P108i_was_produced_by/crm:P9_consists_of* ?production .
+                ?production a crm:E7_Activity .
+                ?production crm:P14_carried_out_by ?__value__ .
+                ?__value__ crm:P2_has_type <https://artresearch.net/resource/pharos/vocab/meta/culture> .
+
+              }"
+  }],    
   "<https://artresearch.net/resource/fr/Work_shows_Subject>":[{
               "kind":"hierarchy",
               "queryPattern": "{
