@@ -37,7 +37,18 @@
       }
     },
     "https://artresearch.net/resource/field_definition/pharos_model/title": {
-      "subject": "work"
+      "subject": "work",
+      "returns": [
+        {
+          "sparql_var": "value",
+          "local_var": "title"
+        }
+      ],
+      "fields": {
+        "https://artresearch.net/resource/field_definition/pharos_model/p2": {
+          "subject": "title"
+        }
+      }
     },
     "https://artresearch.net/resource/field_definition/pharos_model/object_part_of_hierarchy": {
       "subject": "work"
@@ -131,6 +142,9 @@
               "constant": "http://www.cidoc-crm.org/cidoc-crm/P2_has_type"
             }
           ]
+        },
+        "https://artresearch.net/resource/field_definition/pharos_model/type_hierarchy_parent": {
+          "subject": "type"
         }
       }
     },
@@ -155,6 +169,9 @@
               "constant": "http://www.cidoc-crm.org/cidoc-crm/P45_consists_of"
             }
           ]
+        },
+        "https://artresearch.net/resource/field_definition/pharos_model/type_hierarchy_parent": {
+          "subject": "material"
         }
       }
     },
@@ -203,6 +220,12 @@
               "constant": "http://www.cidoc-crm.org/cidoc-crm/P65_shows_visual_item"
             }
           ]
+        },
+        "https://artresearch.net/resource/field_definition/pharos_model/type_hierarchy_parent": {
+          "subject": "work_subject"
+        },
+        "https://artresearch.net/resource/field_definition/pharos_model/subject_umbrella": {
+          "subject": "work_subject"
         }
       }
     },
@@ -382,6 +405,12 @@
       ],
       "fields": {
         "https://artresearch.net/resource/field_definition/pharos_model/production_date_qualifier": {
+          "subject": "date"
+        },
+        "https://artresearch.net/resource/field_definition/pharos_model/date_begin": {
+          "subject": "date"
+        },
+        "https://artresearch.net/resource/field_definition/pharos_model/date_end": {
           "subject": "date"
         }
       }

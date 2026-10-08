@@ -1,0 +1,25 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/date_end/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/date_end> a
+      <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
+      <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#dateTime>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Date end";
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-date-end-select;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-date-end-insert;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2026-10-08T00:00:00.000+00:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+
+  _:genid-date-end-select a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+
+SELECT ?value WHERE {
+  ?subject crm:P82b_end_of_the_end ?value .
+}""" .
+
+  _:genid-date-end-insert a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/date_end> .
+}

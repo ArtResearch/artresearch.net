@@ -1,0 +1,962 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   PHAROS record page — design system
+   Implements platform-design/pharos-record-design.md.
+   Scoped under .record-page so it never leaks into the rest of the app.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+.record-page {
+  /* Colors — 5-level hierarchy */
+  --bg-cream: #fff9e8;
+  --bg-card: #fffdf5;
+  --text-primary: #1a1612;
+  --text-secondary: #5c5347;
+  --text-muted: #8a8079;
+  --text-light: #b0a79e;
+  --accent-link: #1a1612;
+  --accent-teal: #4a7c7c;
+  --consensus-green: #5e9a5e;
+  --border-light: #e5ded4;
+  --border-section: #d4c9b8;
+  --chevron-color: #b0a79e;
+  --left-line: #ddd6cb;
+
+  --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 24px;
+  --space-2xl: 32px;
+  --space-3xl: 48px;
+
+  --photo-col-width: 50%;
+  --meta-col-width: 50%;
+  --logo-size: 18px;
+  --logo-size-sm: 16px;
+  --logo-size-lg: 20px;
+
+  font-family: var(--font);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-primary);
+  background: var(--bg-cream);
+  height: calc(100vh - var(--nav-height, 73px));
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.record-page *,
+.record-page *:before,
+.record-page *:after {
+  box-sizing: border-box;
+}
+
+.record-page h1,
+.record-page h2,
+.record-page h3,
+.record-page p,
+.record-page ul {
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Global link reset: no underlines, hover-only ── */
+.record-page a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.15s, text-decoration-color 0.15s;
+}
+
+.record-page a:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--text-light);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+/* ═══════════════════════════════════════════════════════
+   Top bar
+   ═══════════════════════════════════════════════════════ */
+.record-page .record-topbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-xl);
+  font-size: 11px;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.record-page .record-topbar a {
+  color: var(--accent-teal);
+}
+
+.record-page .record-topbar .source-logos {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+  margin-left: var(--space-xs);
+}
+
+.record-page .record-topbar .source-logos img {
+  width: var(--logo-size-sm);
+  height: var(--logo-size-sm);
+  opacity: 0.8;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.record-page .record-topbar .source-logos img:hover {
+  opacity: 1;
+}
+
+/* ═══════════════════════════════════════════════════════
+   Two-column layout
+   ═══════════════════════════════════════════════════════ */
+.record-page .record-layout {
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+  border-top: 1px solid var(--border-light);
+}
+
+.record-page .col-photos {
+  width: var(--photo-col-width);
+  overflow: hidden;
+  padding: 0 var(--space-sm) var(--space-sm) var(--space-sm);
+  border-right: 1px solid var(--border-light);
+}
+
+.record-page .col-metadata {
+  width: var(--meta-col-width);
+  overflow-y: auto;
+  padding: var(--space-sm) var(--space-2xl);
+}
+
+/* ═══════════════════════════════════════════════════════
+   Photo column
+   ═══════════════════════════════════════════════════════ */
+.record-page .photo-grid {
+  gap: var(--space-md);
+  height: 100%;
+}
+
+.record-page .no-photos {
+  padding: var(--space-xl);
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+/* ═══════════════════════════════════════════════════════
+   Section spacing
+   ═══════════════════════════════════════════════════════ */
+.record-page .meta-section {
+  margin-bottom: var(--space-lg);
+}
+
+.record-page .meta-section + .meta-section {
+  padding-top: var(--space-xl);
+  border-top: 1px solid var(--border-light);
+}
+
+.record-page #section-title {
+  margin-bottom: var(--space-sm);
+}
+
+/* ═══════════════════════════════════════════════════════
+   TITLE
+   ═══════════════════════════════════════════════════════ */
+.record-page .title-primary {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.3;
+  margin-bottom: var(--space-sm);
+  letter-spacing: -0.01em;
+}
+
+.record-page .title-primary .title-logos {
+  display: inline;
+  margin-left: var(--space-sm);
+  white-space: nowrap;
+}
+
+.record-page .title-primary .title-logos img {
+  width: var(--logo-size);
+  height: var(--logo-size);
+  vertical-align: middle;
+  margin-right: 2px;
+}
+
+/* Toggle: "3 more titles from 5 institutions …  ›" */
+.record-page .title-variant-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 13px;
+  color: var(--text-muted);
+  cursor: pointer;
+  user-select: none;
+  padding: var(--space-xs) 0;
+  transition: color 0.2s;
+}
+
+.record-page .title-variant-toggle:hover {
+  color: var(--text-secondary);
+}
+
+.record-page .title-variant-toggle .toggle-logos {
+  display: inline-flex;
+  gap: 3px;
+  align-items: center;
+}
+
+.record-page .title-variant-toggle .toggle-logos img {
+  width: var(--logo-size);
+  height: var(--logo-size);
+}
+
+.record-page .title-variant-toggle .chevron {
+  margin-left: auto;
+  font-size: 14px;
+  color: var(--chevron-color);
+  transition: transform 0.25s ease;
+}
+
+.record-page .title-variant-toggle.expanded .chevron {
+  transform: rotate(90deg);
+}
+
+/* mp-collapsible-div overrides for the title toggle */
+.record-page #section-title .collapsible-panel-trigger {
+  cursor: pointer;
+  gap: 0;
+}
+
+.record-page #section-title .collapsible-panel-trigger:before {
+  display: none !important;
+  content: none !important;
+}
+
+.record-page #section-title .collapsible-div-content {
+  padding: 0;
+}
+
+.record-page .title-variants {
+  margin-top: var(--space-sm);
+}
+
+.record-page .title-variant-item {
+  display: flex;
+  align-items: center;
+  padding: var(--space-xs) 0 var(--space-xs) var(--space-lg);
+  font-size: 15px;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.record-page .title-variant-item .variant-text {
+  flex: 1;
+}
+
+.record-page .title-variant-item .variant-type {
+  font-size: 10px;
+  color: var(--text-light);
+  vertical-align: super;
+  margin-left: 4px;
+  position: relative;
+  top: -6px;
+}
+
+.record-page .title-variant-item .variant-logos {
+  display: inline-flex;
+  gap: 3px;
+  margin-left: var(--space-sm);
+  flex-shrink: 0;
+}
+
+.record-page .title-variant-item .variant-logos img {
+  width: var(--logo-size);
+  height: var(--logo-size);
+}
+
+/* ═══════════════════════════════════════════════════════
+   ATTRIBUTION / CITATION — unified for all sections
+   ═══════════════════════════════════════════════════════ */
+.record-page .meta-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-lg);
+}
+
+.record-page .attribution-group {
+  margin-bottom: var(--space-lg);
+}
+
+/* Reconciled header: "GIROLAMO DA CARPI [ULAN]" */
+.record-page .attribution-reconciled {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  margin-bottom: var(--space-sm);
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.record-page .attribution-reconciled a {
+  color: var(--text-muted);
+}
+
+.record-page .attribution-reconciled a:hover {
+  color: var(--text-secondary);
+}
+
+/* Authority badges — ULAN, ICONCLASS, AAT, TGN */
+.record-page .ulan-badge,
+.record-page .tgn-badge {
+  font-size: 8px;
+  color: var(--text-light);
+  letter-spacing: 0.03em;
+  line-height: 1;
+  vertical-align: super;
+  position: relative;
+  top: -5px;
+  margin-left: 1px;
+  white-space: nowrap;
+}
+
+/* Citation list with left border */
+.record-page .citation-list {
+  border-left: 1px solid var(--left-line);
+  margin-left: 10px;
+}
+
+.record-page .citation-entry {
+  position: relative;
+  padding: 6px 0 6px var(--space-xl);
+}
+
+/* Green dot — consensus line */
+.record-page .citation-entry .dot {
+  position: absolute;
+  left: -11px;
+  top: 16px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--consensus-green);
+}
+
+.record-page .citation-main {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 0;
+}
+
+/* Inline-compact variant — for single-value entries */
+.record-page .inline-compact {
+  padding: 6px 0;
+  flex-wrap: wrap;
+}
+
+.record-page .inline-compact mp-collapsible-div {
+  margin-left: auto;
+  flex-basis: 100%;
+}
+
+.record-page .inline-compact .collapsible-panel-trigger {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  padding: 0;
+  margin-left: auto;
+}
+
+.record-page .inline-compact .collapsible-panel-trigger:before {
+  display: none !important;
+  content: none !important;
+}
+
+.record-page .inline-compact .collapsible-div-content {
+  padding: 0;
+  flex-basis: 100%;
+  width: 100%;
+}
+
+.record-page .citation-name {
+  font-size: 14px;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+.record-page .citation-name a {
+  color: var(--text-primary);
+}
+
+.record-page .citation-name a:hover {
+  text-decoration-color: var(--text-muted);
+}
+
+.record-page .qualifier-tag {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.record-page .citation-logos {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+  margin-left: var(--space-sm);
+}
+
+.record-page .citation-logos img {
+  width: var(--logo-size);
+  height: var(--logo-size);
+}
+
+.record-page .citation-chevron {
+  font-size: 14px;
+  color: var(--chevron-color);
+  transition: transform 0.25s ease;
+  flex-shrink: 0;
+  padding-left: var(--space-sm);
+  margin-left: auto;
+}
+
+.record-page .collapsible-panel-trigger__expanded .citation-chevron {
+  transform: rotate(90deg);
+}
+
+/* Superscript type badge — "back inscription", "primäre Ikonogr." */
+.record-page .citation-type {
+  font-size: 10px;
+  color: var(--text-light);
+  vertical-align: super;
+  margin-left: 4px;
+  position: relative;
+  top: -6px;
+}
+
+/* ═══════════════════════════════════════════════════════
+   Whisper (expanded view) — catalog-specific text
+   ═══════════════════════════════════════════════════════ */
+.record-page .citation-collapse {
+  display: contents;
+}
+
+.record-page .citation-entry .collapsible-panel-trigger {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  padding: 0;
+  margin-left: auto;
+}
+
+.record-page .citation-entry .collapsible-panel-trigger:before {
+  display: none !important;
+  content: none !important;
+}
+
+.record-page .citation-entry .collapsible-div-content {
+  padding: 0;
+  flex-basis: 100%;
+  width: 100%;
+}
+
+.record-page .citation-whisper {
+  padding-left: var(--space-lg);
+}
+
+.record-page .whisper-line {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 3px 0;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.record-page .whisper-logos {
+  display: inline-flex;
+  gap: 3px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.record-page .whisper-logos img {
+  width: var(--logo-size-sm);
+  height: var(--logo-size-sm);
+}
+
+/* ═══════════════════════════════════════════════════════
+   SUBJECTS — tighter spacing
+   ═══════════════════════════════════════════════════════ */
+.record-page #section-subjects .attribution-group {
+  margin-bottom: var(--space-md);
+}
+
+.record-page #section-subjects .attribution-reconciled {
+  margin-bottom: 2px;
+}
+
+.record-page #section-subjects .citation-entry {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+.record-page #section-subjects .citation-name {
+  line-height: 1.7;
+}
+
+/* ═══════════════════════════════════════════════════════
+   Plain metadata fields — dimensions, culture, bibliography
+   ═══════════════════════════════════════════════════════ */
+.record-page .field-value-line {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 3px 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.record-page .field-value-line .field-logos {
+  display: inline-flex;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.record-page .field-value-line .field-logos img {
+  width: var(--logo-size-sm);
+  height: var(--logo-size-sm);
+}
+
+.record-page .field-value-line a {
+  color: var(--accent-teal);
+}
+
+.record-page .field-value-line .qualifier-tag {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-left: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════
+   LAST KNOWN LOCATION
+   ═══════════════════════════════════════════════════════ */
+.record-page .location-detail {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 3px 0 3px var(--space-xl);
+  font-size: 14px;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+.record-page .location-detail .detail-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-style: italic;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.record-page .location-detail .geo-chain a {
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.record-page .location-detail .geo-separator {
+  color: var(--text-light);
+  margin: 0 2px;
+}
+
+.record-page .location-detail .detail-value,
+.record-page .location-detail .detail-value a {
+  font-size: 13px;
+  color: var(--text-primary);
+}
+
+.record-page .location-detail .detail-logos {
+  display: inline-flex;
+  gap: 3px;
+  align-items: center;
+  margin-left: 4px;
+  flex-shrink: 0;
+}
+
+.record-page .location-detail .detail-logos img {
+  width: var(--logo-size-sm);
+  height: var(--logo-size-sm);
+}
+
+/* ═══════════════════════════════════════════════════════
+   Tree children — narrower terms in Types / Material
+   ═══════════════════════════════════════════════════════ */
+.record-page .tree-child {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: var(--space-xs) 0 var(--space-xs) calc(var(--space-xl) + var(--space-lg));
+  gap: var(--space-sm);
+}
+
+.record-page .tree-child::before {
+  content: "";
+  position: absolute;
+  left: var(--space-xl);
+  top: 0;
+  width: var(--space-md);
+  height: 50%;
+  border-left: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.record-page .tree-child:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: var(--space-xl);
+  top: 50%;
+  bottom: 0;
+  border-left: 1px solid var(--border-light);
+}
+
+.record-page .tree-child .tree-name {
+  font-size: 14px;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.record-page .tree-child .tree-name a {
+  color: var(--text-primary);
+}
+
+.record-page .tree-child .tree-logos {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+  margin-left: var(--space-sm);
+}
+
+.record-page .tree-child .tree-logos img {
+  width: var(--logo-size);
+  height: var(--logo-size);
+}
+
+/* ═══════════════════════════════════════════════════════
+   Production date — legend + range chart
+   ═══════════════════════════════════════════════════════ */
+.record-page .date-consensus {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-lg);
+  margin-top: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.record-page .dc-legend {
+  flex: 1 1 240px;
+  min-width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.record-page .dc-legend-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  line-height: 1.5;
+}
+
+.record-page .dc-legend-row img {
+  width: var(--logo-size-sm);
+  height: var(--logo-size-sm);
+  flex-shrink: 0;
+  order: 1;
+}
+
+.record-page .dc-legend-row .dc-qualifier {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.record-page .dc-chart {
+  flex: 1 1 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+}
+
+/* ═══════════════════════════════════════════════════════
+   View original records
+   ═══════════════════════════════════════════════════════ */
+.record-page .original-records {
+  margin-top: var(--space-xl);
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--border-light);
+}
+
+.record-page .original-records .or-title {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-bottom: var(--space-md);
+}
+
+.record-page .or-line {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 4px 0;
+  font-size: 13px;
+}
+
+.record-page .or-line img {
+  width: var(--logo-size-lg);
+  height: var(--logo-size-lg);
+}
+
+.record-page .or-line a {
+  color: var(--accent-teal);
+}
+
+/* ═══════════════════════════════════════════════════════
+   Scrollbars
+   ═══════════════════════════════════════════════════════ */
+.record-page .col-photos::-webkit-scrollbar,
+.record-page .col-metadata::-webkit-scrollbar {
+  width: 6px;
+}
+
+.record-page .col-photos::-webkit-scrollbar-thumb,
+.record-page .col-metadata::-webkit-scrollbar-thumb {
+  background: var(--border-light);
+  border-radius: 3px;
+}
+
+.record-page .col-photos::-webkit-scrollbar-track,
+.record-page .col-metadata::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ═══════════════════════════════════════════════════════
+   AutoFitGrid toolbar — uniform spacing
+   ═══════════════════════════════════════════════════════ */
+.record-page .AutoFitGrid--autoFitToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-lg) var(--space-md);
+  background: transparent;
+  border: none;
+}
+
+.record-page .AutoFitGrid--autoFitToolbar > div,
+.record-page [class*="autoFitToolbarLeft"] {
+  display: flex;
+  align-items: center;
+  gap: 32px !important;
+  flex: 0 0 auto !important;
+}
+
+.record-page .AutoFitGrid--autoFitToolbar .btn-group,
+.record-page .AutoFitGrid--autoFitToolbar > div:last-child {
+  gap: 0 !important;
+}
+
+.record-page .AutoFitGrid--autoFitToolbar label,
+.record-page .AutoFitGrid--autoFitToolbar span,
+.record-page .AutoFitGrid--autoFitToolbar button,
+.record-page .AutoFitGrid--autoFitToolbar select,
+.record-page .AutoFitGrid--autoFitToolbar input {
+  font-family: var(--font) !important;
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.record-page .AutoFitGrid--autoFitToolbar input[type="range"] {
+  width: 140px;
+  margin: 0;
+  vertical-align: middle;
+  height: 4px;
+  appearance: auto;
+}
+
+.record-page .AutoFitGrid--autoFitToolbar i.fa {
+  font-size: 14px;
+  color: var(--text-muted);
+  vertical-align: middle;
+  padding: 0 4px;
+}
+
+.record-page .AutoFitGrid--autoFitToolbar button {
+  color: var(--text-secondary);
+  transition: color 0.2s ease;
+}
+
+.record-page .AutoFitGrid--autoFitToolbar button:hover {
+  color: var(--text-primary);
+}
+
+.record-page .AutoFitGrid--autoFitToolbar button.active,
+.record-page .AutoFitGrid--autoFitToolbar button[class*="active"] {
+  color: var(--text-primary);
+  background-color: #eeeadd;
+}
+
+/* ═══════════════════════════════════════════════════════
+   Narrow screens — stack the columns
+   ═══════════════════════════════════════════════════════ */
+@media (max-width: 1100px) {
+  .record-page {
+    height: auto;
+    overflow: visible;
+  }
+
+  .record-page .record-layout {
+    flex-direction: column;
+    height: auto;
+    overflow: visible;
+  }
+
+  .record-page .col-photos,
+  .record-page .col-metadata {
+    width: 100%;
+    border-right: none;
+  }
+
+  .record-page .col-photos {
+    height: 60vh;
+  }
+}
+
+/* Subject terms sit inline, each keeping its own logos next to it */
+.record-page .subject-term {
+  white-space: nowrap;
+}
+
+.record-page .subject-term .citation-logos {
+  margin-left: 4px;
+}
+
+/* Parts / Similar Works panels inside the photo column */
+.record-page .record-tab-panel {
+  height: 100%;
+  overflow-y: auto;
+  padding: 0 var(--space-sm);
+}
+
+/* ═══════════════════════════════════════════════════════
+   Production date — forest plot of competing claims
+   ═══════════════════════════════════════════════════════ */
+.record-page .forest-plot {
+  --fp-row-height: 30px;
+  --fp-label-width: 200px;
+  --fp-color: #5c5347;
+  position: relative;
+  margin-top: var(--space-sm);
+}
+
+.record-page .fp-row {
+  display: flex;
+  align-items: center;
+  height: var(--fp-row-height);
+  gap: var(--space-sm);
+}
+
+.record-page .fp-label {
+  width: var(--fp-label-width);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text-primary);
+}
+
+.record-page .fp-label .whisper-logos {
+  order: 1;
+}
+
+.record-page .fp-label .fp-date-text {
+  white-space: nowrap;
+}
+
+.record-page .fp-label .fp-qualifier {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.record-page .fp-track {
+  flex: 1;
+  position: relative;
+  height: 100%;
+}
+
+.record-page .fp-line {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 1px;
+  background: var(--fp-color);
+}
+
+.record-page .fp-square {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 7px;
+  height: 7px;
+  background: var(--fp-color);
+}
+
+.record-page .fp-square.sm {
+  width: 5px;
+  height: 5px;
+}
+
+.record-page .fp-axis {
+  position: relative;
+  margin-left: calc(var(--fp-label-width) + var(--space-sm));
+  height: 18px;
+  border-top: 1px solid #ccc5b8;
+}
+
+.record-page .fp-tick {
+  position: absolute;
+  font-size: 9px;
+  color: var(--text-muted);
+  transform: translateX(-50%);
+  top: 3px;
+}
+
+.record-page .no-metadata {
+  color: var(--text-muted);
+  font-size: 13px;
+  padding-top: var(--space-sm);
+}
