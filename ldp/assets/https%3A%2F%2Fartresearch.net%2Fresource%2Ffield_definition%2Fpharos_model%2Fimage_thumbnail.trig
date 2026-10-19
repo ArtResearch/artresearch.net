@@ -1,0 +1,25 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/image_thumbnail/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/image_thumbnail> a <http://www.researchspace.org/resource/system/fields/Field>,
+      <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Image Thumbnail";
+    <http://www.w3.org/2000/01/rdf-schema#comment> "The cached thumbnail of the image.";
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-image_thumbnail-select-7C2CD633E1BE1321ECDE6201A4386C75;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#string>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-image_thumbnail-insert-EB42975C115AB06C0957D2C7CCC64FDB;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2026-10-19T12:00:00.000+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-image_thumbnail-insert-EB42975C115AB06C0957D2C7CCC64FDB a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  _:genid-image_thumbnail-select-7C2CD633E1BE1321ECDE6201A4386C75 a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX custom: <https://artresearch.net/custom/>
+
+SELECT ?value WHERE {
+    ?subject custom:thumbnail_url ?value .
+}""" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/image_thumbnail> .
+}

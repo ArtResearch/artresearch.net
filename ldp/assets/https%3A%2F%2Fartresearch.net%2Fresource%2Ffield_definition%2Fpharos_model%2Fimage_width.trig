@@ -1,0 +1,25 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/image_width/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/image_width> a <http://www.researchspace.org/resource/system/fields/Field>,
+      <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Image Width";
+    <http://www.w3.org/2000/01/rdf-schema#comment> "Width of the image in pixels; with its height it gives the proportions the image is laid out in.";
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-image_width-select-746D52F12C8DC67482C8E7EFB4559C13;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#integer>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-image_width-insert-949163C4D82237723F1872CBAAE37C82;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2026-10-19T12:00:00.000+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-image_width-insert-949163C4D82237723F1872CBAAE37C82 a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  _:genid-image_width-select-746D52F12C8DC67482C8E7EFB4559C13 a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX custom: <https://artresearch.net/custom/>
+
+SELECT ?value WHERE {
+    ?subject custom:image_width ?value .
+}""" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/image_width> .
+}

@@ -1,0 +1,1086 @@
+/* ═══════════════════════════════════════════════════════════════════
+   The PHAROS record page as a reading room.
+   platform-design/pharos-record-design-alive.md; the rendered page is
+   data/templates/Template:http://vocab.getty.edu/aat/300133025.html.
+
+   Three kinds of thing, each treated one way everywhere: surfaces and
+   content lie flat; marks are the institutions' own glyphs in their own
+   ink and are never controls; instruments have a body and show their
+   state by elevation. One light, from the top-left. One accent, --pull,
+   for "the record is being read through this". Red means consensus.
+
+   The per-archive rules — which glyph a mark wears, and the read-through
+   filter driven by the grid's own data-archive state through :has() —
+   depend on the archives behind the record, so the template writes them
+   into a <style> of its own. Everything static is here.
+   ═══════════════════════════════════════════════════════════════════ */
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..600&family=Inter:wght@400;500;600&display=swap');
+
+/* The tokens are shared with the search page (search-room.css) and the
+   result cards, which speak the same language wherever they are shown. */
+:is(.rr, .sr, article.slip, .print-mount) {
+  /* ── Surfaces: all of them drawn from the site's own cream (#fff9e8),
+        so the page sits in the platform without a palette of its own ── */
+  --room: #fff9e8;                /* the room: the site's ground, under the header too */
+  --bench: hsl(44 62% 92%);       /* the bench the rail is cut into */
+  --table: hsl(43 26% 85%);       /* the table: recessed, cooler, where prints lie */
+  --table-lift: hsl(44 34% 89%);  /* where the one light falls on the table */
+  --paper: hsl(45 100% 98.6%);    /* the record sheet */
+  --card: hsl(45 85% 96.5%);      /* a print's mount */
+  --blank: hsl(44 32% 90%);       /* a mount with no picture on it */
+  --well: hsl(44 38% 87.5%);      /* the recess an instrument sits in */
+  --groove: hsl(43 22% 78%);      /* the zoom's groove */
+  --pressed: hsl(43 28% 81%);     /* an instrument pushed into its well */
+  --face: linear-gradient(180deg, hsl(45 100% 99%), hsl(44 58% 93.5%));
+  --under-light: hsl(43 16% 77%); /* the viewer's ground, and its lift at the centre */
+  --under-light-lift: hsl(44 24% 86%);
+
+  /* ── Inks ── */
+  --ink: hsl(40 18% 10%);
+  --ink-2: hsl(40 10% 30%);
+  --ink-3: hsl(40 7% 47%);
+  --ink-4: hsl(40 8% 64%);
+  --rule: hsl(44 16% 80%);        /* the site's rule colour, #d3cec0, a step lighter */
+  --pull-hsl: 202 44% 40%;        /* the site's blue */
+  --pull: hsl(var(--pull-hsl));   /* the one accent: "read through this" */
+  --pull-soft: hsl(var(--pull-hsl) / 0.12);
+  --rubric: hsl(8 55% 42%);       /* consensus lozenge, nothing else */
+  --faded: 0.26;                  /* what the chosen archives do not attest */
+
+  /* ── One light ── */
+  --lit-hsl: 45 100% 99%;
+  --lit: hsl(var(--lit-hsl) / 0.85);
+  --cast: 38 30% 15%;
+
+  /* ── Three elevations ── */
+  --d-well: inset 0 1px 2px hsl(var(--cast) / 0.16), inset 0 -1px 0 hsl(var(--lit-hsl) / 0.5);
+  --d-stand:
+    0 0 0 1px hsl(var(--cast) / 0.14),
+    inset 0 1px 0 var(--lit),
+    0 1px 1px hsl(var(--cast) / 0.10),
+    0 2px 4px -1px hsl(var(--cast) / 0.14);
+  --d-stand-hover:
+    0 0 0 1px hsl(var(--cast) / 0.20),
+    inset 0 1px 0 var(--lit),
+    0 2px 2px hsl(var(--cast) / 0.12),
+    0 4px 8px -2px hsl(var(--cast) / 0.20);
+  --d-pressed: inset 0 1px 2px hsl(var(--cast) / 0.22), 0 0 0 1px hsl(var(--cast) / 0.14);
+  --d-rest:
+    0 0 0 1px hsl(var(--cast) / 0.12),
+    inset 0 1px 0 var(--lit),
+    0 1px 1px hsl(var(--cast) / 0.08);
+  --d-sheet:
+    0 0 0 1px hsl(var(--cast) / 0.10),
+    inset 0 1px 0 var(--lit),
+    0 2px 3px hsl(var(--cast) / 0.08),
+    0 12px 28px -14px hsl(var(--cast) / 0.28);
+
+  --serif: 'Source Serif 4', Georgia, serif;
+  --sans: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+}
+
+.rr {
+  position: relative;
+  height: calc(100vh - var(--nav-height, 73px));
+  overflow: hidden;
+  background: var(--room);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+.rr *, .rr *::before, .rr *::after { box-sizing: border-box; }
+
+/* The page itself holds still: the table and the sheet scroll, each on its
+   own. The site pushes its page below the fixed header with a margin, which
+   collapses through the application's full-height wrapper and leaves the
+   document one header taller than the window; a wrapper that keeps the
+   margin inside stays exactly the window's height. */
+@media (min-width: 1101px) {
+  .rs-application > div:has(.rr) { display: flow-root; }
+  html:has(.rr) { overflow: hidden; }
+}
+.rr .record,
+.rr .table .AutoFitGrid--autoFitScrollArea { overscroll-behavior: contain; }
+.rr h1, .rr h2, .rr h3, .rr p, .rr dl, .rr dd, .rr dt { margin: 0; padding: 0; }
+.rr a { color: inherit; text-decoration: none; }
+
+/* ── The institutions' marks: their own glyph, as the archive drew it.
+      The template sets --mark per record from the provider's icon. The
+      glyph is shown as it is, never re-inked: some archives draw on a
+      transparent ground (Frick, KHI, Marburg), others on a tile of their
+      own colour (Zeri, RKD, PMC, Dumbarton Oaks), and a tile pushed
+      through a mask would come out a solid block. Nor is it filtered or
+      faded on its own: its colours are the archive's. --ink-a only colours
+      the letter of an archive that has no glyph yet. ── */
+.rr { --ink-a: var(--ink-2); }
+.rr [data-archive="frick"]     { --ink-a: hsl(30 8% 14%); }
+.rr [data-archive="hertziana"] { --ink-a: hsl(0 0% 22%); }
+.rr [data-archive="khi"]       { --ink-a: hsl(0 0% 9%); }
+.rr [data-archive="marburg"]   { --ink-a: hsl(28 82% 46%); }
+.rr [data-archive="zeri"]      { --ink-a: hsl(208 52% 46%); }
+.rr [data-archive="itatti"]    { --ink-a: hsl(352 62% 38%); }
+.rr [data-archive="pmc"]       { --ink-a: hsl(0 0% 10%); }
+.rr [data-archive="rkd"]       { --ink-a: hsl(46 100% 42%); }
+.rr [data-archive="warburg"]   { --ink-a: hsl(180 45% 32%); }
+.rr :is([data-archive="doaks"], [data-archive="dumbarton_oaks"]) { --ink-a: hsl(160 40% 24%); }
+
+.rr .mark {
+  display: inline-block;
+  flex: none;
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+  background: var(--mark) center / contain no-repeat;
+  border-radius: 1px;
+}
+.rr .mark--sm { width: 13px; height: 13px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   The desk: bench with the table on the left, the record on the right
+   ═══════════════════════════════════════════════════════════════ */
+.desk {
+  display: grid;
+  grid-template-columns: 55fr 45fr;
+  gap: 18px;
+  height: 100%;
+  padding: 14px 22px 16px 16px;
+}
+.bench, .record { min-width: 0; min-height: 0; }
+
+.bench {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  container-type: inline-size;
+  border-radius: 6px;
+  background: var(--bench);
+  box-shadow: var(--d-sheet);
+  overflow: hidden;
+}
+.table { flex: 1 1 auto; min-height: 0; margin: 0; --autofit-mount: var(--card); }
+/* the rail sits flush on the table: the grid root carries no gap of its own here */
+.rr .table.AutoFitGrid--autoFitGrid { gap: 0 !important; }
+
+.bench-note {
+  flex: 0 0 auto;
+  padding: 7px 14px 8px;
+  font: 400 11px/1.4 var(--sans);
+  color: var(--ink-3);
+  border-top: 1px solid hsl(var(--cast) / 0.08);
+  display: flex;
+  gap: 18px;
+}
+.bench-note b { font-weight: 500; color: var(--ink-2); }
+/* the note names what the hand can do on the table that is open */
+.bench-note .for-works,
+.bench:has(.AutoFitGrid--autoFitGrid[data-records]) .bench-note .for-photos { display: none; }
+.bench:has(.AutoFitGrid--autoFitGrid[data-records]) .bench-note .for-works { display: inline; }
+
+/* ── The rail: the bench's edge, where every instrument lives. Two lines:
+      what is on the table and how it is laid out above, and the archive
+      keys, which choose among the photographs, on a line of their own.
+      A record with no photographs has no keys and keeps one line.
+      One rhythm runs down it: 9 px of air above each group's name, the
+      name, 4 px, the 28 px well; 10 px below the last well; 14 px at the
+      sides, as on the note beneath the table. ── */
+.rr .bench { --rail: 110px; }
+.rr .bench:not(:has(.AutoFitGrid--autoFitArchives)) { --rail: 60px; }
+.rr .table .AutoFitGrid--autoFitToolbar {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas: "tabs zoom layout" "keys keys keys";
+  align-items: center;
+  gap: 22px 18px;
+  height: var(--rail);
+  padding: 22px 14px 10px;
+  border-bottom: 0;
+  background: var(--bench);
+  box-shadow: inset 0 -1px 0 hsl(var(--cast) / 0.14), inset 0 1px 0 var(--lit);
+  font-family: var(--sans);
+  position: relative;
+  z-index: 2;
+}
+.rr .table .AutoFitGrid--autoFitToolbar:not(:has(.AutoFitGrid--autoFitArchives)) { grid-template-areas: "tabs zoom layout"; }
+.rr .table .AutoFitGrid--autoFitToolbarLeft { display: contents; }
+.rr .table .AutoFitGrid--autoFitToolbarTabs { grid-area: tabs; justify-self: start; }
+.rr .table .AutoFitGrid--autoFitToolbarGroup:has(.AutoFitGrid--autoFitToolbarSlider) { grid-area: zoom; justify-self: end; width: 100%; }
+.rr .table .AutoFitGrid--autoFitViewToggle { grid-area: layout; }
+.rr .table .AutoFitGrid--autoFitArchives { grid-area: keys; justify-self: start; }
+
+/* a narrow bench: the tabs take the first line, zoom and lay out the second,
+   and the viewer covers the rail */
+@container (max-width: 640px) {
+  .rr .bench .table { --rail: auto; }
+  .rr .bench .table .AutoFitGrid--autoFitToolbar { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "tabs tabs" "zoom layout" "keys keys"; }
+  .rr .bench .table .AutoFitGrid--autoFitToolbar:not(:has(.AutoFitGrid--autoFitArchives)) { grid-template-areas: "tabs tabs" "zoom layout"; }
+  .rr .bench .table .AutoFitGrid--autoFitToolbarTab { padding: 0 8px; }
+  .rr .bench .table .AutoFitGrid--autoFitLightbox { top: 0; }
+  .rr .bench .table-empty { top: 0; }
+}
+
+/* every group on the rail says what it does, in the same voice, over the
+   left edge of its first instrument */
+.rr .table .AutoFitGrid--autoFitToolbarTabs,
+.rr .table .AutoFitGrid--autoFitArchives,
+.rr .table .AutoFitGrid--autoFitToolbarGroup,
+.rr .table .AutoFitGrid--autoFitViewToggle { position: relative; }
+.rr .table .AutoFitGrid--autoFitToolbarTabs::before,
+.rr .table .AutoFitGrid--autoFitArchives::before,
+.rr .table .AutoFitGrid--autoFitToolbarGroup:has(.AutoFitGrid--autoFitToolbarSlider)::before,
+.rr .table .AutoFitGrid--autoFitViewToggle::before {
+  position: absolute;
+  top: -13px;
+  left: 3px;
+  font: 500 8.5px/1 var(--sans);
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+  white-space: nowrap;
+  pointer-events: none;
+}
+.rr .table .AutoFitGrid--autoFitToolbarTabs::before { content: 'On the table'; }
+.rr .table .AutoFitGrid--autoFitArchives::before { content: 'Archives'; }
+.rr .table .AutoFitGrid--autoFitToolbarGroup:has(.AutoFitGrid--autoFitToolbarSlider)::before { content: 'Zoom'; }
+.rr .table .AutoFitGrid--autoFitViewToggle::before { content: 'Lay out'; }
+
+/* The wells: every group is one recess of one height, 28 px, holding
+   instruments of one height, 22 px, 3 px in from its edge and 4 px apart. */
+.rr .table .AutoFitGrid--autoFitToolbarTabs,
+.rr .table .AutoFitGrid--autoFitArchives,
+.rr .table .AutoFitGrid--autoFitToolbarGroup,
+.rr .table .AutoFitGrid--autoFitViewToggle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 28px;
+  padding: 3px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--well);
+  box-shadow: var(--d-well);
+  overflow: visible;
+}
+
+/* One instrument body. Whatever the hand can work stands on the rail, and
+   each kind shows its state one way:
+   - a selector (tabs, lay out): every choice stands, and the chosen one is
+     in, as on a bank of radio keys — pressing another lets it out;
+   - a latching key (archives): it stands, and is in while latched;
+   - a momentary button (−, +, fit, clear): it stands, and goes in only
+     while pressed.
+   What cannot act now loses its body and dims; a chosen or latched one
+   stays in, so it still shows its state. */
+.rr .table :is(.AutoFitGrid--autoFitToolbarTab, .AutoFitGrid--autoFitArchive, .AutoFitGrid--autoFitArchiveClear, .AutoFitGrid--zoomStep, .AutoFitGrid--fit, .AutoFitGrid--autoFitViewBtn) {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  height: 22px;
+  margin: 0;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 4px;
+  background: var(--face);
+  box-shadow: var(--d-stand);
+  opacity: 1;
+  font: 500 12px/22px var(--sans);
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: color 0.12s ease, box-shadow 0.12s ease, transform 0.08s ease, opacity 0.12s ease, background 0.12s ease;
+}
+/* under the hand: the cast deepens, the type darkens */
+.rr .table :is(.AutoFitGrid--autoFitToolbarTab, .AutoFitGrid--autoFitArchive, .AutoFitGrid--autoFitArchiveClear, .AutoFitGrid--zoomStep, .AutoFitGrid--fit, .AutoFitGrid--autoFitViewBtn):hover:not(:disabled) {
+  background: var(--face);
+  box-shadow: var(--d-stand-hover);
+  color: var(--ink);
+}
+/* in: the chosen selector, a latched key, anything while it is pressed */
+.rr .table :is(.AutoFitGrid--autoFitToolbarTabActive, .AutoFitGrid--autoFitViewBtnActive, .AutoFitGrid--autoFitArchiveActive),
+.rr .table :is(.AutoFitGrid--autoFitToolbarTabActive, .AutoFitGrid--autoFitViewBtnActive, .AutoFitGrid--autoFitArchiveActive):hover:not(:disabled),
+.rr .table :is(.AutoFitGrid--autoFitToolbarTab, .AutoFitGrid--autoFitArchive, .AutoFitGrid--autoFitArchiveClear, .AutoFitGrid--zoomStep, .AutoFitGrid--fit, .AutoFitGrid--autoFitViewBtn):active:not(:disabled) {
+  transform: translateY(1px);
+  background: var(--pressed);
+  box-shadow: var(--d-pressed);
+  color: var(--ink);
+}
+/* the chosen selector has nothing left to do */
+.rr .table :is(.AutoFitGrid--autoFitToolbarTabActive, .AutoFitGrid--autoFitViewBtnActive) { cursor: default; }
+/* cannot act now: no body, dimmed; what is in stays in */
+.rr .table :is(.AutoFitGrid--autoFitToolbarTab, .AutoFitGrid--autoFitArchive, .AutoFitGrid--autoFitArchiveClear, .AutoFitGrid--zoomStep, .AutoFitGrid--fit, .AutoFitGrid--autoFitViewBtn):disabled {
+  background: transparent;
+  box-shadow: none;
+  opacity: 0.4;
+  cursor: default;
+}
+.rr .table :is(.AutoFitGrid--autoFitViewBtnActive, .AutoFitGrid--autoFitArchiveActive):disabled {
+  background: var(--pressed);
+  box-shadow: var(--d-pressed);
+}
+/* an archive key that cannot act loses its body, but its mark keeps the
+   archive's own colours: only the count on its face dims */
+.rr .table .AutoFitGrid--autoFitArchive:disabled { opacity: 1; }
+.rr .table .AutoFitGrid--autoFitArchive:disabled::after { color: var(--ink-4); }
+
+/* archives: a bank of latching keys, any number in at once. Each key
+   carries its archive's mark and, printed on the face, the number of
+   prints that archive has on the table; the key grows with the number. */
+.rr .table .AutoFitGrid--autoFitArchive { gap: 4px; min-width: 34px; padding: 0 6px 0 5px; }
+.rr .table .AutoFitGrid--autoFitArchive img {
+  display: block;
+  width: 14px;
+  height: 14px;
+  padding: 0;
+  object-fit: contain;
+}
+.rr .table .AutoFitGrid--autoFitArchive::after {
+  content: attr(data-count);
+  font: 500 10px/1 var(--sans);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-3);
+}
+.rr .table .AutoFitGrid--autoFitArchiveActive::after { color: var(--pull); }
+
+/* clear: the bank's own momentary key, at the well's right end */
+.rr .table .AutoFitGrid--autoFitArchiveClear { width: 22px; padding: 0; margin-left: 2px; font-size: 0; }
+.rr .table .AutoFitGrid--autoFitArchiveClear::before { content: '×'; font: 400 15px/22px var(--sans); }
+
+/* zoom: − and + either side of a groove with a knob, and fit at the well's right end */
+.rr .table .AutoFitGrid--zoomStep { width: 22px; padding: 0; }
+.rr .table .AutoFitGrid--zoomStep i { display: none; }
+.rr .table .AutoFitGrid--zoomStep::before { content: '−'; font: 400 14px/22px var(--sans); }
+.rr .table .AutoFitGrid--autoFitToolbarSlider + .AutoFitGrid--zoomStep::before { content: '+'; }
+/* the groove is what gives way when the rail is short of room, so no instrument is ever covered */
+/* the groove runs the length of the room the rail gives it: fine steps over a scale that can span hundreds of times */
+.rr .table .AutoFitGrid--autoFitToolbarGroup:has(.AutoFitGrid--autoFitToolbarSlider) { min-width: 0; max-width: 420px; }
+.rr .table .AutoFitGrid--autoFitToolbarSlider { flex: 1 1 auto; width: auto; min-width: 96px; margin: 0 8px; }
+.rr .table .AutoFitGrid--autoFitToolbarSlider .rc-slider-rail {
+  height: 5px;
+  border-radius: 3px;
+  background: var(--groove);
+  box-shadow: inset 0 1px 1px hsl(var(--cast) / 0.2), 0 1px 0 hsl(var(--lit-hsl) / 0.5);
+}
+.rr .table .AutoFitGrid--autoFitToolbarSlider .rc-slider-track {
+  height: 5px;
+  border-radius: 3px;
+  background: var(--ink-4);
+}
+.rr .table .AutoFitGrid--autoFitToolbarSlider .rc-slider-handle {
+  width: 15px;
+  height: 15px;
+  margin-top: -5px;
+  border: 0;
+  background: var(--face);
+  box-shadow: var(--d-stand);
+  opacity: 1;
+  cursor: grab;
+}
+.rr .table .AutoFitGrid--autoFitToolbarSlider .rc-slider-handle:hover,
+.rr .table .AutoFitGrid--autoFitToolbarSlider .rc-slider-handle:active,
+.rr .table .AutoFitGrid--autoFitToolbarSlider .rc-slider-handle:focus {
+  border: 0;
+  box-shadow: var(--d-stand-hover);
+}
+.rr .table .AutoFitGrid--autoFitToolbarSlider .rc-slider-disabled { background: transparent; opacity: 0.4; }
+.rr .table .AutoFitGrid--autoFitToolbarSlider .rc-slider-disabled .rc-slider-handle { box-shadow: 0 0 0 1px hsl(var(--cast) / 0.2); cursor: default; }
+.rr .table .AutoFitGrid--fit { margin-left: 2px; text-transform: capitalize; }
+
+/* lay out: spread on the table, or one mount at a time */
+.rr .table .AutoFitGrid--autoFitViewBtn { width: 30px; padding: 0; }
+.rr .table .AutoFitGrid--autoFitViewBtn i { font-size: 17px !important; }
+
+/* the letter of an archive that has no glyph yet, on a key or a mount */
+.rr .AutoFitGrid--letter {
+  display: block;
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 1px currentColor;
+  font: 600 9px/14px var(--sans);
+  text-align: center;
+  color: var(--ink-a);
+}
+
+/* ── The table: recessed into the bench; prints rest on it ── */
+/* the grid measures this box's clientHeight, so it must carry no padding of its own */
+.rr .table .AutoFitGrid--autoFitScrollArea {
+  padding: 0;
+  background: var(--table);
+  background-image: radial-gradient(120% 90% at 18% 0%, var(--table-lift), transparent 60%);
+  box-shadow: inset 0 2px 4px hsl(var(--cast) / 0.12), inset 0 0 0 1px hsl(var(--cast) / 0.05);
+}
+
+/* a print on its mount: the archive's mark at the mount's upper right,
+   the number at its lower left when handled. Both scale down with the
+   print, so on a crowded table they never take over the mount. */
+.rr .table .AutoFitGrid--autoFitCell { container: print / inline-size; }
+.rr .table .AutoFitGrid--autoFitMark { padding: 2px 2px 3px 3px; line-height: 0; }
+.rr .table .AutoFitGrid--autoFitMark :is(img, .AutoFitGrid--letter) { display: block; width: 13px; height: 13px; object-fit: contain; }
+.rr .table .AutoFitGrid--autoFitMark .AutoFitGrid--letter { font-size: 8.5px; line-height: 13px; }
+.rr .table .AutoFitGrid--autoFitNumber { font-family: var(--sans); color: var(--ink-2); }
+/* A print too small for its strip of leaves shows its own picture; the strip folds into a
+   turned corner at the mount's lower right, which says the print has more leaves. */
+.rr .table .AutoFitGrid--leafFold {
+  display: none;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  width: 12px;
+  height: 12px;
+  pointer-events: none;
+  background: linear-gradient(315deg, var(--table) 0 50%, hsl(44 34% 88%) 50% 100%);
+  box-shadow: -1px -1px 1px hsl(var(--cast) / 0.16);
+}
+@container print (max-width: 119px) {
+  .rr .table .AutoFitGrid--autoFitVariants { display: none; }
+  .rr .table .AutoFitGrid--leafFold { display: block; }
+}
+@container print (max-width: 88px) {
+  .rr .table .AutoFitGrid--autoFitMark { padding: 1px 1px 2px 2px; }
+  .rr .table .AutoFitGrid--autoFitMark :is(img, .AutoFitGrid--letter) { width: 10px; height: 10px; }
+  .rr .table .AutoFitGrid--autoFitMark .AutoFitGrid--letter { font-size: 7px; line-height: 10px; }
+  .rr .table .AutoFitGrid--autoFitNumber { padding: 0 4px 0 2px; font-size: 8px; line-height: 12px; letter-spacing: 0; }
+  .rr .table .AutoFitGrid--autoFitVariant { width: 14px; height: 14px; }
+}
+@container print (max-width: 56px) {
+  .rr .table .AutoFitGrid--autoFitMark :is(img, .AutoFitGrid--letter) { width: 8px; height: 8px; }
+  .rr .table .AutoFitGrid--autoFitNumber { display: none; }
+}
+
+/* picked up: the one the record is read through */
+.rr .table .AutoFitGrid--autoFitCellPinned,
+.rr .table .AutoFitGrid--autoFitCellPinned:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    inset 1px 1px 0 hsl(var(--lit-hsl) / 0.95),
+    0 0 0 2px var(--pull),
+    0 2px 3px hsl(var(--cast) / 0.16),
+    0 10px 20px -6px hsl(var(--cast) / 0.32);
+}
+
+/* ── The table goes on: more prints than the table shows at a size that can be read, or the
+      prints zoomed in. Three things say so, in the room's own terms.
+      - The light falls off towards the edge the prints go on past, so the row cut by the
+        edge reads as running on under it, not as the end of the table.
+      - At that edge, how many prints lie beyond it, on a key that moves the table on.
+      - Beside the table, its plan: every print a tile in its own row, in its archive's ink,
+        the part in view framed by a lit window. It shows how much there is and where the view
+        is, and pressed or dragged it moves the view; it stands in for the scroll bar. ── */
+.rr .table .AutoFitGrid--autoFitScrollArea[data-planned] { scrollbar-width: none; }
+.rr .table .AutoFitGrid--autoFitScrollArea[data-planned]::-webkit-scrollbar { display: none; }
+.rr .table .AutoFitGrid--beyond {
+  position: absolute;
+  left: 0;
+  right: 46px;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  height: 64px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.rr .table .AutoFitGrid--beyond[data-shown] { opacity: 1; }
+.rr .table .AutoFitGrid--beyondAbove { align-items: flex-start; padding-top: 10px; background: linear-gradient(to bottom, hsl(var(--cast) / 0.2), hsl(var(--cast) / 0.07) 45%, transparent); }
+.rr .table .AutoFitGrid--beyondBelow { align-items: flex-end; padding-bottom: 10px; transform: translateY(-100%); background: linear-gradient(to top, hsl(var(--cast) / 0.2), hsl(var(--cast) / 0.07) 45%, transparent); }
+.rr .table .AutoFitGrid--beyondCount {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 22px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 4px;
+  background: var(--face);
+  box-shadow: var(--d-stand);
+  font: 500 11.5px/22px var(--sans);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-2);
+  cursor: pointer;
+  pointer-events: auto;
+}
+.rr .table .AutoFitGrid--beyondCount:hover { box-shadow: var(--d-stand-hover); color: var(--ink); }
+.rr .table .AutoFitGrid--beyondCount:active { transform: translateY(1px); background: var(--pressed); box-shadow: var(--d-pressed); }
+.rr .table .AutoFitGrid--beyondBelow .AutoFitGrid--beyondCount::after { content: '↓'; color: var(--ink-3); }
+.rr .table .AutoFitGrid--beyondAbove .AutoFitGrid--beyondCount::after { content: '↑'; color: var(--ink-3); }
+
+.rr .table .AutoFitGrid--plan {
+  position: absolute;
+  right: 0;
+  z-index: 3;
+  box-sizing: border-box;
+  background: var(--bench);
+  box-shadow: inset 1px 0 0 hsl(var(--cast) / 0.10), inset 2px 0 0 var(--lit);
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+}
+.rr .table .AutoFitGrid--planRow {
+  position: absolute;
+  left: 9px;
+  right: 9px;
+  display: flex;
+  gap: 1px;
+}
+.rr .table .AutoFitGrid--planPrint {
+  flex-basis: 0;
+  min-width: 1px;
+  border-radius: 0.5px;
+  background: var(--ink-a, var(--ink-4));
+  opacity: 0.5;
+}
+.rr .table .AutoFitGrid--planView {
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  border-radius: 3px;
+  background: hsl(var(--lit-hsl) / 0.28);
+  box-shadow: 0 0 0 1.5px var(--pull), 0 1px 3px hsl(var(--cast) / 0.25);
+  cursor: grab;
+  pointer-events: none;
+}
+.rr .table .AutoFitGrid--plan:active .AutoFitGrid--planView { cursor: grabbing; }
+
+/* the leaves of a print (recto, detail, verso) sit on the card at the mount's lower right, always visible */
+.rr .table .AutoFitGrid--autoFitVariants {
+  left: auto;
+  right: var(--mount, 4px);
+  bottom: var(--mount, 4px);
+  transform: none;
+  gap: 3px;
+  padding: 3px 3px 2px 3px;
+  border-radius: 3px 0 0 0;
+  background: var(--autofit-mount);
+  backdrop-filter: none;
+  box-shadow: none;
+  opacity: 1;
+}
+.rr .table .AutoFitGrid--autoFitVariant {
+  width: 20px;
+  height: 20px;
+  border-radius: 1px;
+  opacity: 0.85;
+  box-shadow: 0 0 0 1px hsl(var(--cast) / 0.28);
+}
+.rr .table .AutoFitGrid--autoFitVariant:hover { opacity: 1; box-shadow: 0 0 0 1px hsl(var(--cast) / 0.5); }
+.rr .table .AutoFitGrid--autoFitVariantActive,
+.rr .table .AutoFitGrid--autoFitVariantActive:hover { opacity: 1; box-shadow: 0 0 0 2px var(--pull); }
+
+/* ── Under the light: the picked-up print, its leaves, its mount ── */
+.rr .table .AutoFitGrid--autoFitLightbox {
+  top: var(--rail);
+  background: var(--under-light);
+  background-image: radial-gradient(85% 70% at 50% 42%, var(--under-light-lift), transparent 72%);
+}
+.rr .table .AutoFitGrid--autoFitLightboxViewer { padding: 48px 32px 18px; }
+/* the deep-zoom viewer's own button strip is hidden: wheel, drag and double-click do the work,
+   and a bodied closer/farther pair belongs on the rail (see the proposal's open questions) */
+.rr .table .AutoFitGrid--autoFitLightboxViewer .openseadragon-container > div:not(:first-child) { display: none; }
+.rr .table .AutoFitGrid--autoFitLightboxViewer > img {
+  filter: drop-shadow(0 1px 1px hsl(var(--cast) / 0.2)) drop-shadow(0 12px 22px hsl(var(--cast) / 0.3));
+}
+.rr .table .AutoFitGrid--autoFitLightboxClose {
+  background: var(--face);
+  box-shadow: var(--d-stand);
+  top: 12px;
+  right: 14px;
+  width: auto;
+  height: 22px;
+  padding: 0 10px 0 6px;
+  gap: 4px;
+  border-radius: 4px;
+  color: var(--ink-2);
+  font: 500 12px/22px var(--sans);
+  transition: box-shadow 0.15s ease;
+}
+.rr .table .AutoFitGrid--autoFitLightboxClose:hover { background: var(--face); box-shadow: var(--d-stand-hover); color: var(--ink); }
+.rr .table .AutoFitGrid--autoFitLightboxClose:active { box-shadow: var(--d-pressed); transform: translateY(1px); }
+.rr .table .AutoFitGrid--autoFitLightboxClose i { font-size: 15px; }
+.rr .table .AutoFitGrid--autoFitLightboxClose::after { content: 'Put back'; }
+
+/* turn it over */
+.rr .table .AutoFitGrid--autoFitLightboxLeaves {
+  left: 14px;
+  top: 12px;
+  bottom: auto;
+  transform: none;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 4px 3px 3px;
+  border-radius: 4px;
+  background: var(--face);
+  box-shadow: var(--d-stand);
+}
+.rr .table .AutoFitGrid--autoFitLightboxLeaves::before {
+  content: 'Turn';
+  order: 10;
+  margin: 0 4px 0 5px;
+  font: 500 8.5px/1 var(--sans);
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.rr .table .AutoFitGrid--autoFitLightboxLeaves img { width: 30px; height: 30px; }
+
+/* the mount: what the archive wrote under and behind the print */
+.rr .table .AutoFitGrid--autoFitLightboxCaption {
+  padding: 10px 16px 11px;
+  background: var(--paper);
+  box-shadow: inset 0 1px 0 var(--lit), 0 -1px 0 hsl(var(--cast) / 0.14);
+  color: var(--ink);
+  font-family: var(--sans);
+}
+.rr .table .AutoFitGrid--mount { gap: 2px 24px; margin-bottom: 3px; }
+.rr .table .AutoFitGrid--mountRow { gap: 7px; align-items: baseline; }
+.rr .table .AutoFitGrid--mountRow dt {
+  font: 500 9.5px/18px var(--sans);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  opacity: 1;
+}
+.rr .table .AutoFitGrid--mountRow dd { font: 400 12.5px/18px var(--sans); color: var(--ink); }
+.rr .table .AutoFitGrid--mountRow dd a { color: var(--pull); text-decoration: underline; text-decoration-color: hsl(var(--pull-hsl) / 0.4); text-underline-offset: 2px; }
+.rr .table .AutoFitGrid--mountNote { font: 400 11px/1.5 var(--sans); color: var(--ink-3); opacity: 1; }
+.rr .table .AutoFitGrid--mountNote a { color: var(--ink-3); text-decoration: underline; text-decoration-color: hsl(var(--cast) / 0.25); text-underline-offset: 2px; }
+
+/* ── Other works on the table: Related and Similar works are laid out
+      like the photographs, each work as one print, and read the same way.
+      Picking one up opens it under the light with its own mount: the
+      title, linked to its record, then what its card says. ── */
+
+/* a work handled on the table carries its title on the mount, in the reading voice */
+.rr .table [data-record] .AutoFitGrid--autoFitNumber { font: 400 11px/15px var(--serif); letter-spacing: 0; color: var(--ink); }
+
+/* a work with no picture to show lies there as a blank card bearing its title */
+.rr .table .AutoFitGrid--blank {
+  background: var(--blank);
+  box-shadow: inset 0 0 0 1px hsl(var(--cast) / 0.06);
+  font: italic 400 11.5px/1.35 var(--serif);
+  color: var(--ink-3);
+}
+@container print (max-width: 88px) { .rr .table .AutoFitGrid--blank { padding: 3px; font-size: 9px; } }
+.rr .table .AutoFitGrid--autoFitLightboxViewer > .AutoFitGrid--blank {
+  width: min(320px, 60%);
+  height: auto;
+  aspect-ratio: 3 / 4;
+  margin: auto;
+  padding: 24px;
+  background: var(--autofit-mount);
+  box-shadow: var(--d-sheet);
+  font-size: 15px;
+}
+
+/* the record's title heads its mount, linked as every link on the page is */
+.rr .table .AutoFitGrid--mountHead { margin-bottom: 6px; }
+.rr .table :is(.AutoFitGrid--mountHead > a, a.AutoFitGrid--autoFitListTitle) {
+  font: 400 15px/1.35 var(--serif);
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: hsl(var(--cast) / 0.2);
+  text-underline-offset: 4px;
+  transition: text-decoration-color 0.15s;
+}
+.rr .table :is(.AutoFitGrid--mountHead > a, a.AutoFitGrid--autoFitListTitle):hover { text-decoration-color: hsl(var(--cast) / 0.55); }
+
+/* the archives holding a record: their marks, as in the sheet's register */
+.rr .table .AutoFitGrid--register { gap: 5px; }
+.rr .table .AutoFitGrid--registerMark :is(img, .AutoFitGrid--letter) {
+  width: 13px;
+  height: 13px;
+}
+.rr .table .AutoFitGrid--registerMark .AutoFitGrid--letter { font-size: 8.5px; line-height: 13px; }
+
+/* Lay out › list: the mounts, one slip per print on the table. The print
+   stands on the slip at the left, the slip carries what the mount says, and
+   the register of marks closes the row on the right. */
+.rr .table .AutoFitGrid--autoFitListView { gap: 8px; padding: 14px; }
+.rr .table .AutoFitGrid--autoFitListCard {
+  gap: 18px;
+  padding: 12px 14px 12px 12px;
+  border-radius: 3px;
+  background: var(--paper);
+  box-shadow: var(--d-rest);
+}
+.rr .table .AutoFitGrid--autoFitListMeta { gap: 5px; padding-top: 1px; }
+.rr .table .AutoFitGrid--autoFitListTitle { font: 400 15px/1.35 var(--serif); color: var(--ink); }
+/* one label column for every slip, wide enough for "Production Date", so values start on one line */
+.rr .table .AutoFitGrid--autoFitListCard .AutoFitGrid--mount { display: grid; grid-template-columns: minmax(106px, max-content) 1fr; gap: 1px 12px; margin: 2px 0 0; }
+.rr .table .AutoFitGrid--autoFitListCard .AutoFitGrid--mountRow { display: contents; }
+.rr .table .AutoFitGrid--autoFitListCard .AutoFitGrid--mountRow dd { min-width: 0; }
+.rr .table .AutoFitGrid--autoFitListCard .AutoFitGrid--register { align-self: flex-start; margin-top: 4px; }
+
+/* the table's own word when it holds no prints, where the prints would lie */
+.rr .table .AutoFitGrid--tableNote { font: 400 12px/1.5 var(--sans); color: var(--ink-3); }
+
+/* below the last print: how many of the works are on the table, in the
+   caption voice, and a momentary button that lays out the next batch */
+.rr .table .AutoFitGrid--more {
+  gap: 10px;
+  padding: 2px 0 12px;
+  font: 500 8.5px/22px var(--sans);
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.rr .table .AutoFitGrid--moreButton {
+  height: 22px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 4px;
+  background: var(--face);
+  box-shadow: var(--d-stand);
+  font: 500 12px/22px var(--sans);
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: color 0.12s ease, box-shadow 0.12s ease, transform 0.08s ease, opacity 0.12s ease;
+}
+.rr .table .AutoFitGrid--moreButton:hover:not(:disabled) { box-shadow: var(--d-stand-hover); color: var(--ink); }
+.rr .table .AutoFitGrid--moreButton:active:not(:disabled) { transform: translateY(1px); background: var(--pressed); box-shadow: var(--d-pressed); }
+.rr .table .AutoFitGrid--moreButton:disabled { background: transparent; box-shadow: none; opacity: 0.4; cursor: default; }
+
+/* the note about this work's photographs belongs to the photographs only */
+.rr .bench:has(.AutoFitGrid--autoFitGrid:not([data-tab="photos"])) .table-empty { display: none; }
+
+/* similar-works drawer */
+.shelf { padding: 28px 24px; font: 400 13px/1.6 var(--sans); color: var(--ink-3); max-width: 46ch; }
+
+/* ═══════════════════════════════════════════════════════════════
+   The record: a sheet standing on the desk
+   ═══════════════════════════════════════════════════════════════ */
+.record { overflow: auto; border-radius: 4px; }
+.sheet {
+  min-height: 100%;
+  padding-bottom: 22px;
+  border-radius: 4px;
+  background: var(--paper);
+  box-shadow: var(--d-sheet);
+}
+
+/* which archive the record is being read through, when it is */
+/* The band always holds its slot, so selecting archives never moves the
+   sheet; at rest it says, quietly, that the record is read through all. */
+.through {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 30px;
+  padding: 0 22px;
+  border-radius: 4px 4px 0 0;
+  font: 500 11.5px/1 var(--sans);
+  color: var(--ink-4);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.through .who.who--all { display: inline-flex; }
+.rr:has(.AutoFitGrid--autoFitGrid[data-archive]) .through {
+  background: var(--pull-soft);
+  box-shadow: inset 0 -1px 0 hsl(var(--pull-hsl) / 0.2);
+  color: var(--pull);
+}
+.rr:has(.AutoFitGrid--autoFitGrid[data-archive]) .through .who--all { display: none; }
+.through .through-lead { margin-right: 2px; }
+.through .who { display: none; align-items: center; gap: 6px; }
+.through .who + .who::before { content: '·'; margin-right: 6px; color: hsl(var(--pull-hsl) / 0.5); }
+.through .who .mark { width: 14px; height: 14px; }
+
+.head { padding: 10px 22px 18px; }
+.head h1 { font: 500 27px/1.15 var(--serif); letter-spacing: -0.01em; color: var(--ink); }
+.head .gloss { margin-top: 7px; font: 400 14px/1.5 var(--serif); color: var(--ink-2); }
+.head .gloss em { font-style: italic; color: var(--ink-3); }
+.head .imprint {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  font: 400 11.5px/1 var(--sans);
+  color: var(--ink-3);
+}
+.head .imprint .marks { display: inline-flex; gap: 5px; }
+
+/* ── The sheet's columns. Every row on the sheet is laid on one set of
+      columns, so its edges line up from Title to the sources:
+        lead (14) · text · kind · register (≥ 96, right-aligned) · edge (22)
+      The lead holds the consensus lozenge, the text column starts every
+      value (22 px in), the register holds the marks, and the edge column
+      holds the handle. Field names (level 0) start at the part's edge;
+      everything that is a value starts at the text column. ── */
+.sheet {
+  --lead: 14px;
+  --col-gap: 8px;
+  --indent: calc(var(--lead) + var(--col-gap));
+  --reg: 96px;
+  --edge: 22px;
+  --cols: var(--lead) minmax(0, 1fr) auto minmax(var(--reg), max-content) var(--edge);
+}
+
+.part { padding: 15px 22px 17px; border-top: 1px solid var(--rule); }
+/* Level 0: the field's name. Tracked caps, muted, with its rule. */
+.part h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  font: 600 10.5px/1 var(--sans);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.part h2::after { content: ''; flex: 1 1 auto; height: 1px; background: var(--rule); }
+.group + .group { margin-top: 12px; }
+
+/* Level 0, continued: a field's sub-label (Physical Properties › Types).
+   Same family as the running head, a step smaller and lighter. */
+.group > h3.field {
+  margin: 6px 0 4px;
+  font: 600 9.5px/1 var(--sans);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+}
+.group:first-of-type > h3.field { margin-top: 0; }
+
+/* Level 1: the reconciled umbrella — the authority entity that gathers
+   several statements (an Iconclass division). A quiet sans line in
+   sentence case at the text column: it steps down from the tracked caps
+   of level 0 and up from the serif of level 2, and keeps to one line
+   however long the division's name (the whole name is its title). */
+.group > h3.umbrella {
+  display: flex;
+  align-items: baseline;
+  margin: 0 0 2px;
+  padding-left: var(--indent);
+  font: 500 11px/1.6 var(--sans);
+  color: var(--ink-3);
+}
+.group > h3.umbrella > a:first-child {
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: inherit;
+}
+.group > h3.umbrella > a:first-child::first-letter { text-transform: uppercase; }
+.group > h3.umbrella a:hover { color: var(--ink-2); }
+
+/* The authority behind a term, right after its name, wherever it is. */
+.auth {
+  display: inline-block;
+  flex: none;
+  margin-left: 6px;
+  padding: 0 4px;
+  border-radius: 2px;
+  font: 500 8px/13px var(--sans);
+  font-style: normal;
+  letter-spacing: 0.08em;
+  color: var(--ink-3);
+  background: hsl(var(--cast) / 0.06);
+  vertical-align: 2px;
+  text-underline-offset: 1px;
+}
+.sheet a.auth:hover { color: var(--ink-2); background: hsl(var(--cast) / 0.1); }
+
+/* Links stay type, and say so at rest: a thin underline in a lighter ink
+   than the text, offset below the baseline; darker under the hand. */
+.sheet a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: hsl(var(--cast) / 0.2);
+  text-underline-offset: 4px;
+  transition: text-decoration-color 0.15s;
+}
+.sheet a:hover { text-decoration-color: hsl(var(--cast) / 0.55); }
+/* the small sans lines carry an even fainter one */
+.sheet .group > h3.umbrella a { text-decoration-color: hsl(var(--cast) / 0.14); text-underline-offset: 3px; }
+
+/* Read through some archives, the sheet keeps its shape: what none of them
+   attests fades back (the per-archive rules are written by the template), so
+   nothing on the sheet moves when a key is latched or a print picked up. */
+.rr .sheet :is([data-arch]:not(.scale-row), .scale-row > *, .part > h2, .group > h3) { transition: opacity 0.2s ease; }
+
+/* ── Rows: claims, branches, plain lines, sources, all on --cols ── */
+.claim, .branch, .line, .sources > a {
+  display: grid;
+  grid-template-columns: var(--cols);
+  align-items: center;
+  column-gap: var(--col-gap);
+}
+:is(.claim, .branch, .line, .sources > a) > .text { grid-column: 2; }
+:is(.claim, .branch, .line, .sources > a) > .kind { grid-column: 3; }
+:is(.claim, .branch, .line, .sources > a) > .marks { grid-column: 4; }
+.claim { min-height: 30px; padding: 2px 0; }
+.claim .text { font-size: 14.5px; line-height: 1.35; }
+.sheet .kind { font: 400 11px/1.2 var(--sans); color: var(--ink-3); white-space: nowrap; }
+.sheet .marks { display: flex; justify-content: flex-end; align-items: center; gap: 4px; }
+.claim--held::before {
+  content: '';
+  grid-column: 1;
+  grid-row: 1;
+  justify-self: center;
+  width: 7px;
+  height: 7px;
+  background: var(--rubric);
+  transform: rotate(45deg);
+}
+.claim--shared .text, .claim--single .text { color: var(--ink); }
+
+/* the handle: a body at the edge, not a glyph in the text */
+details { margin: 0; }
+summary { list-style: none; cursor: pointer; outline: none; }
+summary::-webkit-details-marker { display: none; }
+summary .claim::after {
+  content: '';
+  grid-column: 5;
+  grid-row: 1;
+  justify-self: end;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  background: var(--face);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5' viewBox='0 0 8 5'%3E%3Cpath d='M1 1l3 3 3-3' fill='none' stroke='%23574b3e' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center 7px;
+  box-shadow: var(--d-stand);
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+summary:hover .claim::after { box-shadow: var(--d-stand-hover); }
+summary:active .claim::after { box-shadow: var(--d-pressed); transform: translateY(1px); }
+details[open] summary .claim::after { background-position: center 6px; transform: rotate(180deg); }
+details[open] summary:active .claim::after { transform: rotate(180deg) translateY(-1px); }
+
+/* more of the same field folded away beneath the first few: the handle's row
+   says how many, in the kind's voice, and carries their marks */
+.claim--more .text { font: 400 12px/1.2 var(--sans); color: var(--ink-3); }
+summary:hover .claim--more .text { color: var(--ink-2); }
+.more:not([open]) .opened,
+.more[open] .closed { display: none; }
+/* opened, the titles carry their own marks */
+.more[open] > summary .marks { visibility: hidden; }
+
+/* the slip: the evidence, pulled out beneath the claim; its rule stands at
+   the text column, its marks in the same register */
+div.slip { margin: 1px 0 8px var(--indent); padding: 3px 0 3px 12px; border-left: 2px solid var(--rule); }
+.evidence {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(var(--reg), max-content) var(--edge);
+  align-items: center;
+  column-gap: var(--col-gap);
+  min-height: 24px;
+  padding: 1px 0;
+  color: var(--ink-2);
+}
+/* Level 3: evidence — what the archive wrote, in its own words */
+.evidence .text { font: italic 400 12.5px/1.4 var(--serif); color: var(--ink-2); }
+.evidence .text q { quotes: '“' '”'; }
+.evidence .text small { font: 400 11.5px/1 var(--sans); font-style: normal; color: var(--ink-3); }
+.evidence .kind { font-size: 10.5px; }
+
+/* Narrower terms hang beneath their claim as branches of a tree, one step
+   in from the text column behind an L-shaped connector */
+.branch { min-height: 24px; color: var(--ink-2); }
+.branch > .text { position: relative; padding-left: 16px; font-size: 13px; }
+.branch > .text::before {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 0;
+  width: 8px;
+  height: 0.8em;
+  border-left: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+.branch .text .sep { color: var(--ink-4); margin: 0 6px; }
+
+/* ── Date: the readings on one scale. The part is one grid, so the label
+      column is as wide as the longest reading and never wraps it; the
+      qualifier sits in the kind column and the marks in the register, as
+      on every claim. ── */
+.scale {
+  display: grid;
+  grid-template-columns: var(--lead) fit-content(40%) minmax(80px, 1fr) auto minmax(var(--reg), max-content) var(--edge);
+  grid-auto-rows: minmax(28px, auto);
+  align-items: center;
+  column-gap: var(--col-gap);
+}
+.scale-row { display: contents; }
+.scale-row .read { grid-column: 2; padding-right: 8px; font-size: 13.5px; white-space: nowrap; }
+.scale-row .groove { grid-column: 3; }
+.scale-row .kind { grid-column: 4; }
+.scale-row .marks { grid-column: 5; }
+.groove { position: relative; height: 6px; border-radius: 3px; background: var(--well); box-shadow: var(--d-well); }
+.groove .ink { position: absolute; top: 1px; bottom: 1px; border-radius: 2px; background: var(--ink-3); opacity: 0.8; }
+.groove .pt { position: absolute; top: -2px; width: 10px; height: 10px; border-radius: 50%; background: var(--paper); box-shadow: 0 0 0 1.5px var(--ink-2), 0 1px 2px hsl(var(--cast) / 0.2); transform: translateX(-50%); }
+/* the axis: a quiet grid of ticks, and the two bounds — the earliest and
+   latest dates any archive claims — a step heavier, with a longer tick */
+.scale-foot { grid-column: 3; align-self: start; position: relative; height: 18px; margin-top: 7px; font: 400 10px/18px var(--sans); color: var(--ink-4); }
+.scale-foot span { position: absolute; transform: translateX(-50%); font-variant-numeric: tabular-nums; }
+.scale-foot span::before { content: ''; position: absolute; left: 50%; top: -6px; width: 1px; height: 4px; background: var(--rule); }
+.scale-foot .bound { font-weight: 600; font-size: 10.5px; color: var(--ink-2); }
+.scale-foot .bound::before { top: -9px; height: 7px; background: var(--ink-3); }
+
+/* ── Subject: terms laid in a row at the text column; the space between
+      them is the separator, each term followed by its marks ── */
+.run { display: flex; flex-wrap: wrap; gap: 3px 16px; margin-top: 3px; padding-left: var(--indent); font-size: 13.5px; line-height: 1.5; }
+.run > span { display: inline-flex; align-items: center; gap: 5px; }
+.run .marks { display: inline-flex; gap: 3px; }
+
+/* ── Literature, sources ── */
+.line { padding: 4px 0; font-size: 13.5px; }
+.sources > a { padding: 4px 0; font: 400 13px/1.3 var(--sans); color: var(--ink-2); text-decoration: none; }
+.sources > a .text { text-decoration: underline; text-decoration-thickness: 1px; text-decoration-color: hsl(var(--cast) / 0.2); text-underline-offset: 4px; }
+.sources > a:hover { color: var(--ink); }
+.sources > a:hover .text { text-decoration-color: hsl(var(--cast) / 0.55); }
+.sources > a .id { font-variant-numeric: tabular-nums; }
+.sources > a .id::after { content: ' ↗'; color: var(--ink-4); }
+.colophon { margin-top: 10px; padding-left: var(--indent); font: 400 10.5px/1.4 var(--sans); color: var(--ink-4); }
+
+/* an archive that has no glyph yet: its initial, in its ink, on the same footprint */
+.rr .mark--letter {
+  -webkit-mask: none;
+  mask: none;
+  background: none;
+  color: var(--ink-a);
+  font: 600 10px/16px var(--sans);
+  text-align: center;
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 1px currentColor;
+}
+.rr .mark--sm.mark--letter { font-size: 8.5px; line-height: 13px; }
+
+/* an empty table says so, in the caption voice, where the prints would lie */
+.rr .table-empty {
+  position: absolute;
+  inset: var(--rail) 0 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 400 12px/1.5 var(--sans);
+  color: var(--ink-3);
+  pointer-events: none;
+}
+
+/* the other drawers on the table: parts of the work, similar works */
+.rr .drawer { height: 100%; overflow-y: auto; padding: 0 8px; background: var(--table); }
+
+/* a value in running text (bibliography, provenance, inscription) */
+.rr .line .text { line-height: 1.45; }
+.rr .line .text em { font-style: italic; }
+
+/* a record with nothing reconciled yet */
+.rr .head .empty { margin-top: 10px; font: 400 13px/1.5 var(--sans); color: var(--ink-3); }
+
+.rr .colophon a { color: inherit; }
+
+@media (max-width: 1100px) {
+  .rr { height: auto; overflow: visible; }
+  .desk { grid-template-columns: 1fr; height: auto; }
+  .bench { height: 64vh; }
+}

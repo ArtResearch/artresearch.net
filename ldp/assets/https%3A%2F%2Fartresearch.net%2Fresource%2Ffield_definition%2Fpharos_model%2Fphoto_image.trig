@@ -1,0 +1,24 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/photo_image/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/photo_image> a <http://www.researchspace.org/resource/system/fields/Field>,
+      <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Photo Image";
+    <http://www.w3.org/2000/01/rdf-schema#comment> "A digital image of the photograph that can be shown: of its recto, its verso or a detail of it.";
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-photo_image-select-FC27A2B8B5A557042AD02B10B76234E1;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-photo_image-insert-80EEBFE67C411BB0A8209E6F270C7DDA;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2026-10-14T12:00:00.000+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-photo_image-insert-80EEBFE67C411BB0A8209E6F270C7DDA a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  _:genid-photo_image-select-FC27A2B8B5A557042AD02B10B76234E1 a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX custom: <https://artresearch.net/custom/>
+
+SELECT ?value WHERE {
+    ?subject custom:image ?value .
+}""" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/photo_image> .
+}

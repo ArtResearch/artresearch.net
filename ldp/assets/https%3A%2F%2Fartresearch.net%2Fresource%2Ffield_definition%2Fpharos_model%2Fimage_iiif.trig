@@ -1,0 +1,25 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/image_iiif/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/image_iiif> a <http://www.researchspace.org/resource/system/fields/Field>,
+      <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Image IIIF Service";
+    <http://www.w3.org/2000/01/rdf-schema#comment> "The IIIF image service (info.json) that serves the image for deep zoom.";
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-image_iiif-select-BB4EE0DEA3359A426132D4B7C56D1DDB;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-image_iiif-insert-1153E4FAB5AD3A9EEC9E139A17DBA004;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2026-10-19T12:00:00.000+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-image_iiif-insert-1153E4FAB5AD3A9EEC9E139A17DBA004 a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  _:genid-image_iiif-select-BB4EE0DEA3359A426132D4B7C56D1DDB a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX custom: <https://artresearch.net/custom/>
+
+SELECT ?value WHERE {
+    ?subject custom:iiif_url ?value .
+}""" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/image_iiif> .
+}

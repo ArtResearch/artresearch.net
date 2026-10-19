@@ -1,0 +1,25 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/primary_image/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/primary_image> a <http://www.researchspace.org/resource/system/fields/Field>,
+      <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Primary Image";
+    <http://www.w3.org/2000/01/rdf-schema#comment> "The image that shows a photograph (its first front) or a work (the one chosen among its photographs).";
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-primary_image-select-FCE4F4A4C014D442C14634DD119E25C7;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-primary_image-insert-5A20ED6ED59504D3D1F5A08001563E80;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2026-10-19T12:00:00.000+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-primary_image-insert-5A20ED6ED59504D3D1F5A08001563E80 a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  _:genid-primary_image-select-FCE4F4A4C014D442C14634DD119E25C7 a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX custom: <https://artresearch.net/custom/>
+
+SELECT ?value WHERE {
+    ?subject custom:primary_image ?value .
+}""" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/primary_image> .
+}

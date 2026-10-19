@@ -1,29 +1,52 @@
 <resource-info subject="[[this]]" profile="artwork-full" template="{{> template}}">
 
   <!-- ═══════════════════════════════════════════════════════════════
-       PHAROS record page.
-       Implements platform-design/pharos-record-design.md: photographs on
-       the left, reconciled metadata on the right. Every section follows
-       one pattern — reconciled value first, institutional evidence one
-       chevron away. Styles live in assets/new-styles/record.css.
+       PHAROS record page: the reading room.
+       Implements platform-design/pharos-record-design-alive.md. The
+       bench on the left is the real pharos-auto-fit-grid; the record
+       sheet on the right reads every field through one pattern — the
+       reconciled claim, the archives' marks, and what each archive
+       wrote in a slip beneath. Styles: assets/new-styles/reading-room.css.
+       The sheet reads itself through :has() from the grid's own
+       data-archive state: what none of the chosen archives attests fades
+       back and nothing moves. The per-archive rules are written below,
+       because they depend on which archives stand behind this record.
        ═══════════════════════════════════════════════════════════════ -->
   <template id="template">
     <mp-event-trigger id="breadcrumbs" type='Component.TemplateUpdate' on='["mounted"]'
       targets='["top-header-breadcrumbs"]' data='{"breadcrumb": "Work: {{escapeForJson data.label}}"}'>
     </mp-event-trigger>
 
-    <div class="record-page">
-      <div class="record-layout">
+    <div class="rr">
+      <style>
+        {{#each (recordArchives data)}}
+        {{#if icon}}.rr [data-archive="{{{key}}}"] { --mark: url("{{{icon}}}"); }{{/if}}
+        {{/each}}
+        .rr .sheet :is([data-arch], .part, .group) { {{#each (recordArchives data)}}--on-{{{key}}}: initial; {{/each}} }
+        .rr:has(.AutoFitGrid--autoFitGrid[data-archive]) .sheet :is([data-arch]:not(.scale-row), .scale-row > *, .part > h2, .group > h3) { opacity: {{{onChain (recordArchives data) "var(--faded)"}}}; }
+        .rr:has(.AutoFitGrid--autoFitGrid[data-archive]) .sheet .mark { opacity: 0.16; }
+        {{#each (recordArchives data)}}
+        .rr:has(.AutoFitGrid--autoFitGrid[data-archive~="{{{key}}}"]) .sheet :is([data-arch~="{{{key}}}"], .part:has([data-arch~="{{{key}}}"]), .group:has([data-arch~="{{{key}}}"])) { --on-{{{key}}}: 1; }
+        .rr:has(.AutoFitGrid--autoFitGrid[data-archive~="{{{key}}}"]) .sheet .mark[data-archive="{{{key}}}"] { opacity: 0.82; }
+        .rr:has(.AutoFitGrid--autoFitGrid[data-archive~="{{{key}}}"]) .through .who[data-archive="{{{key}}}"] { display: inline-flex; }
+        {{/each}}
+      </style>
 
-        <!-- ═══ LEFT COLUMN — Photographs ═══ -->
-        <div class="col-photos">
-          <pharos-auto-fit-grid class="photo-grid" gap="6" layout-algo="justified"
-            tabs='[{"key":"photos","label":"Photos"}{{#if data.[https://artresearch.net/resource/field_definition/pharos_model/object_has_parts]}},{"key":"parts","label":"Parts"}{{/if}},{"key":"similar","label":"Similar Works"}]'
+      <div class="desk">
+
+        <!-- ═════════ the bench: rail above, table below ═════════ -->
+        <section class="bench">
+          <pharos-auto-fit-grid class="table" layout-algo="justified"
+            tabs='[{"key":"photos","label":"Photographs"}{{#if data.[https://artresearch.net/resource/field_definition/pharos_model/object_has_parts]}},{"key":"parts","label":"Parts"}{{/if}}[[#if (ask "ASK { { ?? custom:relatedArtwork ?relatedRecord . } UNION { ?ownRecord custom:objectSameAs ?? . ?ownRecord custom:relatedArtwork ?relatedRecord . } OPTIONAL { ?relatedRecord custom:objectSameAs ?relatedCluster . ?relatedCluster crm:P2_has_type <http://vocab.getty.edu/aat/300133025> . } BIND(COALESCE(?relatedCluster, ?relatedRecord) AS ?related) FILTER(?related != ??) ?related crm:P2_has_type <http://vocab.getty.edu/aat/300133025> . }")]],{"key":"related","label":"Related works"}[[/if]],{"key":"similar","label":"Similar works"}]'
             images='{{photoImages data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values
-                      base="https://artresearch.net" workLabel=data.label}}'>
+                      base="https://artresearch.net" workLabel=data.label}}'
+            record-card='{"profile": "artwork-card",
+              "fields": ["https://artresearch.net/resource/field_definition/pharos_model/creator", "https://artresearch.net/resource/field_definition/pharos_model/production_date", "https://artresearch.net/resource/field_definition/pharos_model/current_keeper",
+                         "https://artresearch.net/resource/field_definition/pharos_model/part_of_builtwork", "https://artresearch.net/resource/field_definition/pharos_model/location"],
+              "archives": "https://artresearch.net/resource/field_definition/pharos_model/original_record_catalog", "archiveIcon": "https://artresearch.net/resource/field_definition/pharos_model/provider_icon"}'>
 
             {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/object_has_parts]}}
-            <div data-tab="parts" class="record-tab-panel">
+            <div data-tab="parts" class="drawer">
               <infinite-scroll item-height="250px" profile="artwork-part-card" item-per-row="1" item-width="550"
                 batch-size="20"
                 values='{{stringify (toInfiniteScrollValues data.[https://artresearch.net/resource/field_definition/pharos_model/object_has_parts].values)}}'>
@@ -38,288 +61,351 @@
             </div>
             {{/if}}
 
-            <div data-tab="similar" class="record-tab-panel">
-              {{> similarWorks subject=subject data=data}}
-            </div>
+            <!--
+              Works the archives relate to this one (custom:relatedArtwork), laid on the table
+              like the photographs. Records merged into this work hold most of the links, and a
+              link may point to a record that was itself merged into another work, so both ends
+              are resolved through custom:objectSameAs. Works linked from more of this work's
+              records come first; each lies on the table as its preferred photograph.
+            -->
+            <div data-tab="related" data-empty="No related works." data-query='
+              PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+              SELECT ?subject ?image ?iiif ?width ?height ?archive ?provider ?logo ?note WHERE {
+                {
+                  SELECT ?subject ?links ?photo
+                         (SAMPLE(?previewUrl) AS ?preview) (SAMPLE(?manifest) AS ?iiif)
+                         (SAMPLE(?imageWidth) AS ?width) (SAMPLE(?imageHeight) AS ?height)
+                         (MAX(?key) AS ?archive) WHERE {
+                    {
+                      SELECT ?subject ?links (COALESCE(MIN(?preferred), ?subject) AS ?photo) WHERE {
+                        {
+                          SELECT ?subject (COUNT(DISTINCT ?source) AS ?links) WHERE {
+                            { <{{subject}}> custom:relatedArtwork ?relatedRecord . BIND(<{{subject}}> AS ?source) }
+                            UNION
+                            { ?source custom:objectSameAs <{{subject}}> . ?source custom:relatedArtwork ?relatedRecord . }
+                            OPTIONAL {
+                              ?relatedRecord custom:objectSameAs ?relatedCluster .
+                              ?relatedCluster crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                            }
+                            BIND(COALESCE(?relatedCluster, ?relatedRecord) AS ?subject)
+                            FILTER(?subject != <{{subject}}>)
+                            ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                          }
+                          GROUP BY ?subject
+                        }
+                        OPTIONAL { ?subject custom:preferred_photo ?preferred }
+                      }
+                      GROUP BY ?subject ?links
+                    }
+                    # the photograph shows its primary image: its picture, size and deep zoom, and the archive.
+                    # A work with no photograph stands for itself: an unbound ?photo would join every image
+                    OPTIONAL {
+                      ?photo custom:primary_image ?shown .
+                      ?shown custom:preview_url ?previewUrl .
+                      OPTIONAL { ?shown custom:iiif_url ?manifest }
+                      OPTIONAL { ?shown custom:image_width ?imageWidth }
+                      OPTIONAL { ?shown custom:image_height ?imageHeight }
+                    }
+                    OPTIONAL { ?photo crm:P70i_is_documented_in ?catalogue }
+                    BIND(IF(STRSTARTS(STR(?catalogue), "https://artresearch.net/resource/e31/"), STRAFTER(STR(?catalogue), "/e31/"), ?none) AS ?key)
+                  }
+                  GROUP BY ?subject ?links ?photo
+                }
+                # as the photographs tab shows it: the cached picture, the provider and its mark
+                BIND(IF(STRSTARTS(?preview, "http"), ?preview, CONCAT("https://artresearch.net", ?preview)) AS ?image)
+                BIND(IRI(CONCAT("https://artresearch.net/resource/provider/", ?archive)) AS ?provider)
+                BIND(CONCAT("/assets/images/minilogo_", ?archive, ".png") AS ?logo)
+                BIND(CONCAT("linked from ", STR(?links), IF(?links = 1, " record", " records")) AS ?note)
+              }
+              ORDER BY DESC(?links) ?subject
+            '></div>
+
+            <!--
+              Works similar to this one, from the QLever vector indices: each of its photographs
+              against the images index (visual-conceptual, SigLIP 2), each of its catalogue records
+              against the narratives index (conceptual text). Each index ranks the works it finds
+              and a work scores the sum of 1 / (60 + rank). A work found through several of its
+              photographs lies on the table as the closest one; one found only through its text,
+              as its preferred photograph. Related works are left to their own tab.
+            -->
+            <div data-tab="similar" data-empty="No similar works were found." data-query='
+              PREFIX vec: <https://qlever.cs.uni-freiburg.de/vectorSearch/>
+              PREFIX rank: <https://qlever.cs.uni-freiburg.de/rank/>
+              PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+              SELECT ?subject ?image ?iiif ?width ?height ?archive ?provider ?logo ?note WHERE {
+                {
+                  SELECT ?subject ?score ?note ?photo
+                         (SAMPLE(?previewUrl) AS ?preview) (SAMPLE(?manifest) AS ?iiif)
+                         (SAMPLE(?imageWidth) AS ?width) (SAMPLE(?imageHeight) AS ?height)
+                         (MAX(?key) AS ?archive) WHERE {
+                    {
+                      SELECT ?subject ?score ?note (COALESCE(SAMPLE(?closest), MIN(?preferred), ?subject) AS ?photo) WHERE {
+                        {
+                          SELECT ?subject (SUM(1.0 / (60 + ?rank)) AS ?score) (MAX(?closestPhoto) AS ?closest)
+                                 (GROUP_CONCAT(?matchedModel ; separator=" · ") AS ?note) WHERE {
+                            {
+                              SERVICE rank: {
+                                _:images rank:score ?similarity ; rank:descending true ; rank:limit 1000 ; rank:bindRank ?rank .
+                                {
+                                  SELECT ?subject (MAX(1 - ?distance) AS ?similarity)
+                                         (IRI(STRAFTER(MIN(CONCAT(STR(xsd:integer(?distance * 1000000) + 10000000), " ", STR(?hitPhoto))), " ")) AS ?closestPhoto) WHERE {
+                                    <{{subject}}> custom:photo ?own .
+                                    SERVICE vec: {
+                                      [] vec:index "images" ; vec:candidates ?own ;
+                                         vec:result ?hitPhoto ; vec:bindScore ?distance ; vec:k 30 .
+                                    }
+                                    ?subject custom:photo ?hitPhoto .
+                                    FILTER(?subject != <{{subject}}>)
+                                    ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                                  }
+                                  GROUP BY ?subject
+                                }
+                              }
+                              BIND("visual similarity" AS ?matchedModel)
+                            } UNION {
+                              SERVICE rank: {
+                                _:narratives rank:score ?similarity ; rank:descending true ; rank:limit 1000 ; rank:bindRank ?rank .
+                                {
+                                  SELECT ?subject (MAX(1 - ?distance) AS ?similarity) WHERE {
+                                    { ?own custom:objectSameAs <{{subject}}> } UNION { BIND(<{{subject}}> AS ?own) }
+                                    SERVICE vec: {
+                                      [] vec:index "narratives" ; vec:candidates ?own ;
+                                         vec:result ?hit ; vec:bindScore ?distance ; vec:k 30 .
+                                    }
+                                    OPTIONAL {
+                                      ?hit custom:objectSameAs ?reconciled .
+                                      ?reconciled crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                                    }
+                                    BIND(COALESCE(?reconciled, ?hit) AS ?subject)
+                                    FILTER(?subject != <{{subject}}>)
+                                    ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                                  }
+                                  GROUP BY ?subject
+                                }
+                              }
+                              BIND("textual similarity" AS ?matchedModel)
+                            }
+                            # related works have their own tab, resolved as there
+                            MINUS {
+                              { <{{subject}}> custom:relatedArtwork ?relatedRecord . }
+                              UNION
+                              { ?ownRecord custom:objectSameAs <{{subject}}> . ?ownRecord custom:relatedArtwork ?relatedRecord . }
+                              OPTIONAL {
+                                ?relatedRecord custom:objectSameAs ?relatedCluster .
+                                ?relatedCluster crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                              }
+                              BIND(COALESCE(?relatedCluster, ?relatedRecord) AS ?subject)
+                            }
+                          }
+                          GROUP BY ?subject
+                          ORDER BY DESC(?score) DESC(?subject)
+                          LIMIT 1000
+                        }
+                        OPTIONAL { ?subject custom:preferred_photo ?preferred }
+                      }
+                      GROUP BY ?subject ?score ?note
+                    }
+                    # the photograph shows its primary image: its picture, size and deep zoom, and the archive.
+                    # A work with no photograph stands for itself: an unbound ?photo would join every image
+                    OPTIONAL {
+                      ?photo custom:primary_image ?shown .
+                      ?shown custom:preview_url ?previewUrl .
+                      OPTIONAL { ?shown custom:iiif_url ?manifest }
+                      OPTIONAL { ?shown custom:image_width ?imageWidth }
+                      OPTIONAL { ?shown custom:image_height ?imageHeight }
+                    }
+                    OPTIONAL { ?photo crm:P70i_is_documented_in ?catalogue }
+                    BIND(IF(STRSTARTS(STR(?catalogue), "https://artresearch.net/resource/e31/"), STRAFTER(STR(?catalogue), "/e31/"), ?none) AS ?key)
+                  }
+                  GROUP BY ?subject ?score ?note ?photo
+                }
+                # as the photographs tab shows it: the cached picture, the provider and its mark
+                BIND(IF(STRSTARTS(?preview, "http"), ?preview, CONCAT("https://artresearch.net", ?preview)) AS ?image)
+                BIND(IRI(CONCAT("https://artresearch.net/resource/provider/", ?archive)) AS ?provider)
+                BIND(CONCAT("/assets/images/minilogo_", ?archive, ".png") AS ?logo)
+              }
+              ORDER BY DESC(?score) DESC(?subject)
+            '></div>
           </pharos-auto-fit-grid>
-        </div>
-
-        <!-- ═══ RIGHT COLUMN — Metadata ═══ -->
-        <div class="col-metadata">
-          {{> topBar data=data}}
-
-          {{#if (hasNoFields data)}}
-          <div class="meta-section">
-            <div class="title-primary">{{data.label}}</div>
-            <div class="no-metadata">No catalogue metadata has been reconciled for this record yet.</div>
+          {{#ifCond (photoImages data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values) "==" "[]"}}
+          <div class="table-empty">No photographs of this work have been shared yet.</div>
+          {{/ifCond}}
+          <div class="bench-note">
+            <span class="for-photos"><b>Pick up</b> a print to read the record through its archive.</span>
+            <span class="for-photos"><b>Select archives</b> to keep only their prints on the table.</span>
+            <span class="for-works"><b>Pick up</b> a work to see it under the light.</span>
+            <span class="for-works"><b>Lay out</b> the mounts to read what each record says.</span>
           </div>
-          {{/if}}
+        </section>
 
-          {{> titleSection data=data}}
+        <!-- ═════════ the record sheet ═════════ -->
+        <section class="record">
+          <div class="sheet">
+            <div class="through"><span class="through-lead">Read through</span><span class="who who--all">every archive</span>
+              {{#each (recordArchives data)}}
+              <span class="who" data-archive="{{key}}">{{> mark archive=this}}{{label}}</span>
+              {{/each}}
+            </div>
 
-          {{> attributionSection data=data}}
+            <header class="head">
+              <h1>{{data.label}}</h1>
+              {{#if (hasNoFields data)}}
+              <p class="empty">No catalogue metadata has been reconciled for this record yet.</p>
+              {{else}}
+              {{#with (gloss data)}}<p class="gloss">{{> gloss data=../data}}</p>{{/with}}
+              <div class="imprint">
+                {{#with (recordArchives data)}}
+                {{countWord this}} catalogue record{{#ifCond this.length ">" 1}}s{{/ifCond}}
+                <span class="marks">{{> marks providers=this}}</span>
+                {{/with}}
+              </div>
+              {{/if}}
+            </header>
 
-          {{> dateSection data=data}}
+            {{> titlePart data=data}}
+            {{> attributionPart data=data}}
+            {{> datePart data=data}}
+            {{> locationPart data=data}}
+            {{> subjectPart data=data}}
+            {{> physicalPart data=data}}
 
-          {{> locationSection data=data}}
+            {{> plainPart data=data label="Culture"
+                field="https://artresearch.net/resource/field_definition/pharos_model/culture"}}
+            {{> plainPart data=data label="Style/Period"
+                field="https://artresearch.net/resource/field_definition/pharos_model/style_period"}}
+            {{> plainPart data=data label="Inscription"
+                field="https://artresearch.net/resource/field_definition/pharos_model/inscription"}}
+            {{> plainPart data=data label="Provenance"
+                field="https://artresearch.net/resource/field_definition/pharos_model/work_provenance"}}
+            {{> plainPart data=data label="Exhibitions"
+                field="https://artresearch.net/resource/field_definition/pharos_model/exhibitions"}}
+            {{> plainPart data=data label="Bibliography"
+                field="https://artresearch.net/resource/field_definition/pharos_model/bibliography"}}
 
-          {{> subjectSection data=data}}
-
-          {{> treeSection data=data label="Types" id="section-types"
-              field="https://artresearch.net/resource/field_definition/pharos_model/type"
-              originals="https://artresearch.net/resource/field_definition/pharos_model/original_value"}}
-
-          {{> treeSection data=data label="Material" id="section-material"
-              field="https://artresearch.net/resource/field_definition/pharos_model/material"
-              originals="https://artresearch.net/resource/field_definition/pharos_model/original_value"}}
-
-          {{> citationSection data=data label="Technique" id="section-technique"
-              field="https://artresearch.net/resource/field_definition/pharos_model/technique"
-              originals="https://artresearch.net/resource/field_definition/pharos_model/original_value"}}
-
-          {{> plainSection data=data label="Culture" id="section-culture"
-              field="https://artresearch.net/resource/field_definition/pharos_model/culture"}}
-
-          {{> plainSection data=data label="Style / Period" id="section-style"
-              field="https://artresearch.net/resource/field_definition/pharos_model/style_period"}}
-
-          {{> plainSection data=data label="Inscription" id="section-inscription"
-              field="https://artresearch.net/resource/field_definition/pharos_model/inscription"}}
-
-          {{> plainSection data=data label="Provenance" id="section-work-provenance"
-              field="https://artresearch.net/resource/field_definition/pharos_model/work_provenance"}}
-
-          {{> plainSection data=data label="Exhibitions" id="section-exhibitions"
-              field="https://artresearch.net/resource/field_definition/pharos_model/exhibitions"}}
-
-          {{> plainSection data=data label="Bibliography" id="section-bibliography"
-              field="https://artresearch.net/resource/field_definition/pharos_model/bibliography"}}
-
-          {{> originalRecords data=data}}
-        </div>
+            {{> sourcesPart data=data subject=subject}}
+          </div>
+        </section>
 
       </div>
     </div>
   </template>
 
   <!-- ───────────────────────────────────────────────────────────────
-       Shared building blocks
+       The marks: who said this. Never a control.
        ─────────────────────────────────────────────────────────────── -->
 
-  <!-- Institution logos. `providers` comes from the `providers` helper. -->
-  <template id="logos">
-    {{#if providers}}
-    <span class="{{#if cls}}{{cls}}{{else}}citation-logos{{/if}}">
-      {{#each providers}}
-      <img src="{{icon}}" title="{{label}}" alt="">
-      {{/each}}
-    </span>
-    {{/if}}
+  <template id="mark">
+    <i class="mark{{#if sm}} mark--sm{{/if}}{{#unless archive.icon}} mark--letter{{/unless}}" data-archive="{{archive.key}}" title="{{archive.label}}">{{#unless archive.icon}}{{initial archive.label}}{{/unless}}</i>
   </template>
 
-  <!-- Authority badge — ULAN / AAT / TGN / ICONCLASS -->
+  <template id="marks">
+    {{#each providers}}{{> mark archive=this sm=../sm}}{{/each}}
+  </template>
+
+  <!-- The authority behind a term: the name to the record, the badge to the authority -->
   <template id="badge">
-    {{#with (authorityBadge iri)}}
-    <span class="ulan-badge">{{this}}</span>
-    {{/with}}
+    {{#if (authorityCode iri)}}<a href="/resource/?uri={{encodeUriComponent iri}}" class="auth" title="{{authorityName iri}}">{{authorityCode iri}}</a>{{/if}}
   </template>
 
-  <!-- "As recorded" lines: the institutional strings behind a reconciled value -->
-  <template id="whisper">
-    <div class="citation-whisper">
-      {{#each (mergeByLabel values)}}
-      <div class="whisper-line">
-        <span class="whisper-text">{{#if label}}{{label}}{{else}}{{[@value]}}{{/if}}</span>
-        {{> logos providers=providers cls="whisper-logos"}}
-      </div>
-      {{/each}}
+  <!-- ───────────────────────────────────────────────────────────────
+       A claim: lozenge · text · kind · marks register · edge column
+       ─────────────────────────────────────────────────────────────── -->
+
+  <template id="claim">
+    <div class="claim claim--{{claimKind value}}" data-arch="{{archKeys value}}">
+      <span class="text">{{#if link}}<a href="/resource/?uri={{encodeUriComponent link}}">{{text}}</a>{{> badge iri=link}}{{else}}{{text}}{{/if}}</span>
+      <span class="kind">{{kind}}</span>
+      <span class="marks">{{> marks providers=(providers value deep=true)}}</span>
     </div>
   </template>
 
-  <!--
-    One reconciled value rendered as a citation line: name, authority badge,
-    the logos of every institution that contributed it, and — only when the
-    institutions actually wrote something different — a chevron revealing
-    what each of them recorded.
-  -->
-  <template id="citationEntry">
-    <div class="citation-entry">
-      {{#if value.consensus}}<span class="dot"></span>{{/if}}
-      <div class="citation-main">
-        <span class="citation-name">
-          {{#if value.[@id]}}
-          <a href="/resource/?uri={{encodeUriComponent value.[@id]}}">{{value.label}}</a>
-          {{else}}
-          {{value.[@value]}}
-          {{/if}}
-          {{> badge iri=value.[@id]}}
-        </span>
-        {{> logos providers=(providers value deep=true)}}
+  <!-- A claim with the slip of what the archives wrote beneath it; the
+       handle appears only when there is evidence to pull out. -->
+  <template id="claimWithSlip">
+    {{#with (evidence value originals)}}
+    <details>
+      <summary>{{> claim value=../value text=(claimLabel ../value ../originals) link=../value.[@id]}}</summary>
+      <div class="slip">
+        {{#each this}}
+        <div class="evidence" data-arch="{{archKeys this}}">
+          <span class="text"><q>{{label}}</q></span>
+          <span class="kind">as recorded</span>
+          <span class="marks">{{> marks providers=providers sm=true}}</span>
+        </div>
+        {{/each}}
+      </div>
+    </details>
+    {{else}}
+    {{> claim value=value text=(claimLabel value originals) link=value.[@id]}}
+    {{/with}}
+  </template>
 
-        {{#if (hasDistinctOriginals value.label (fieldValues value originals))}}
-        <mp-collapsible-div expanded="false" class-name="citation-collapse">
-          <mp-collapsible-div-trigger>
-            <span class="citation-chevron">&#x203A;</span>
-          </mp-collapsible-div-trigger>
-          <mp-collapsible-div-content>
-            {{> whisper values=(fieldValues value originals)}}
-          </mp-collapsible-div-content>
-        </mp-collapsible-div>
+  <!-- A narrower term hanging beneath its claim -->
+  <template id="branch">
+    <div class="branch" data-arch="{{archKeys value}}">
+      <span class="text">{{#if value.[@id]}}<a href="/resource/?uri={{encodeUriComponent value.[@id]}}">{{claimLabel value originals}}</a>{{> badge iri=value.[@id]}}{{else}}{{claimLabel value originals}}{{/if}}</span>
+      <span class="marks">{{> marks providers=(providers value deep=true) sm=true}}</span>
+    </div>
+  </template>
+
+  <!-- ───────────────────────────────────────────────────────────────
+       The head
+       ─────────────────────────────────────────────────────────────── -->
+
+  <template id="gloss">
+    {{#each (gloss data)}}{{#unless @first}} · {{/unless}}{{#if href}}<a href="{{href}}">{{text}}</a>{{else}}{{text}}{{/if}}{{#if note}}, <em>{{note}}</em>{{/if}}{{/each}}
+  </template>
+
+  <!-- ───────────────────────────────────────────────────────────────
+       The parts, in the curators' order and under their names
+       ─────────────────────────────────────────────────────────────── -->
+
+  <!-- Title: the three titles the archives agree on most, the others folded
+       away beneath them under a handle like a claim's slip -->
+  <template id="titlePart">
+    {{#with (rankByAgreement data.[https://artresearch.net/resource/field_definition/pharos_model/title].values keep=3)}}
+    {{#if shown}}
+    <div class="part">
+      <h2>Title</h2>
+      <div class="group">
+        {{#each shown}}{{> titleClaim value=this}}{{/each}}
+        {{#if rest}}
+        <details class="more">
+          <summary>
+            <div class="claim claim--more" data-arch="{{archKeys rest}}">
+              <span class="text"><span class="closed">Show {{rest.length}} more titles</span><span class="opened">Show fewer titles</span></span>
+              <span class="marks">{{> marks providers=(providers rest) sm=true}}</span>
+            </div>
+          </summary>
+          {{#each rest}}{{> titleClaim value=this}}{{/each}}
+        </details>
         {{/if}}
       </div>
     </div>
-  </template>
-
-  <!-- A whole field rendered as a citation list -->
-  <template id="citationSection">
-    {{#with (lookup data field)}}
-    <div class="meta-section" id="{{../id}}">
-      <div class="meta-label">{{#if ../label}}{{../label}}{{else}}{{label}}{{/if}}</div>
-      <div class="attribution-group">
-        <div class="citation-list">
-          {{#each (mergeByLabel values)}}
-          {{> citationEntry value=this originals=../../originals}}
-          {{/each}}
-        </div>
-      </div>
-    </div>
+    {{/if}}
     {{/with}}
   </template>
 
-  <!--
-    Like citationSection, but values that are narrower terms of another value
-    in the same field hang off it as tree children (AAT / vocabulary alignment).
-  -->
-  <template id="treeSection">
-    {{#with (lookup data field)}}
-    <div class="meta-section" id="{{../id}}">
-      <div class="meta-label">{{#if ../label}}{{../label}}{{else}}{{label}}{{/if}}</div>
-      {{#each (treeGroups values "https://artresearch.net/resource/field_definition/pharos_model/type_hierarchy_parent")}}
-      <div class="attribution-group">
-        <div class="citation-list">
-          {{> citationEntry value=root originals=../../originals}}
-        </div>
-        {{#each children}}
-        <div class="tree-child">
-          <span class="tree-name">
-            {{#if [@id]}}
-            <a href="/resource/?uri={{encodeUriComponent [@id]}}">{{label}}</a>
-            {{else}}{{label}}{{/if}}
-          </span>
-          {{> badge iri=[@id]}}
-          {{> logos providers=(providers this deep=true) cls="tree-logos"}}
-        </div>
-        {{/each}}
-      </div>
-      {{/each}}
-    </div>
-    {{/with}}
-  </template>
-
-  <!-- A field with no reconciliation layer: one line per value plus its logos -->
-  <template id="plainSection">
-    {{#with (lookup data field)}}
-    <div class="meta-section" id="{{../id}}">
-      <div class="meta-label">{{#if ../label}}{{../label}}{{else}}{{label}}{{/if}}</div>
-      <div class="attribution-group">
-        {{#each (mergeByLabel values)}}
-        <div class="field-value-line">
-          <span>{{#if label}}{{label}}{{else}}{{[@value]}}{{/if}}</span>
-          {{> logos providers=providers cls="field-logos"}}
-        </div>
-        {{/each}}
-      </div>
-    </div>
-    {{/with}}
-  </template>
-
-  <!-- ───────────────────────────────────────────────────────────────
-       Sections with their own shape
-       ─────────────────────────────────────────────────────────────── -->
-
-  <template id="topBar">
-    <div class="record-topbar">
-      <a href="mailto:info@artresearch.net" title="Contact us">contact us</a>
-      <span>|</span>
-      <semantic-link iri="https://artresearch.net/resource/TermsAndConditions" target="_blank">terms of use</semantic-link>
-      {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/catalog_record_url]}}
-      <span>|</span>
-      <span>view sources:</span>
-      <span class="source-logos">
-        {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/catalog_record_url].values}}
-        {{#with (providers this)}}
-        <a href="{{../label}}" target="_blank" rel="noopener noreferrer"
-          title="{{#if ../[https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{../[https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.0.[@value]}}{{else}}{{../label}}{{/if}}">
-          <img src="{{this.0.icon}}" title="{{this.0.label}}" alt="">
-        </a>
-        {{/with}}
-        {{/each}}
-      </span>
-      {{/if}}
+  <template id="titleClaim">
+    <div class="claim claim--{{claimKind value}}" data-arch="{{archKeys value}}">
+      <span class="text">{{#if value.label}}{{value.label}}{{else}}{{value.[@value]}}{{/if}}</span>
+      <span class="kind">{{#with (fieldLabel value "https://artresearch.net/resource/field_definition/pharos_model/p2")}}{{humanize this}}{{/with}}</span>
+      <span class="marks">{{> marks providers=value.providers}}</span>
     </div>
   </template>
 
-  <!--
-    Title — consensus headline, then "N more titles from M institutions"
-    which expands into the variants each institution recorded (§5).
-  -->
-  <template id="titleSection">
-    {{#with (mergeByLabel data.[https://artresearch.net/resource/field_definition/pharos_model/title].values)}}
-    <div class="meta-section" id="section-title">
-      {{#each this}}
-      {{#if @first}}
-      <div class="title-primary">
-        {{#if label}}{{label}}{{else}}{{[@value]}}{{/if}}
-        {{> logos providers=providers cls="title-logos"}}
-      </div>
-      {{/if}}
-      {{/each}}
-
-      {{#ifCond this.length ">" 1}}
-      <mp-collapsible-div expanded="false">
-        <mp-collapsible-div-trigger expanded-class="title-variant-toggle expanded"
-          collapsed-class="title-variant-toggle">
-          <div>
-            <span class="toggle-text">{{minus this.length 1}} more
-              {{#ifCond this.length ">" 2}}titles{{else}}title{{/ifCond}}
-              from {{providerCount this}} institutions</span>
-            {{> logos providers=(providers this) cls="toggle-logos"}}
-            <span class="chevron">&#x203A;</span>
-          </div>
-        </mp-collapsible-div-trigger>
-        <mp-collapsible-div-content>
-          <div class="title-variants">
-            {{#each this}}
-            {{#unless @first}}
-            <div class="title-variant-item">
-              <span class="variant-text">{{#if label}}{{label}}{{else}}{{[@value]}}{{/if}}{{#with (fieldLabel this "https://artresearch.net/resource/field_definition/pharos_model/p2")}}<span
-                  class="variant-type">{{humanize this}}</span>{{/with}}</span>
-              {{> logos providers=providers cls="variant-logos"}}
-            </div>
-            {{/unless}}
-            {{/each}}
-          </div>
-        </mp-collapsible-div-content>
-      </mp-collapsible-div>
-      {{/ifCond}}
-    </div>
-    {{/with}}
-  </template>
-
-  <!--
-    Creator / attribution (§6). Creators and other production participants
-    are one list of reconciled artists; under each, the names as recorded.
-  -->
-  <template id="attributionSection">
+  <!-- Creator/Attribution: creators and other production participants are one
+       list of reconciled artists. Each is one claim (the name linked, its
+       authority badge, the attribution type only when an archive recorded one),
+       with the names as the archives wrote them in the slip beneath. -->
+  <template id="attributionPart">
     {{#if (or data.[https://artresearch.net/resource/field_definition/pharos_model/creator]
               data.[https://artresearch.net/resource/field_definition/pharos_model/participant])}}
-    <div class="meta-section" id="section-attribution">
-      <div class="meta-label">Creator / Attribution</div>
-
+    <div class="part">
+      <h2>Creator/Attribution</h2>
       {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/creator].values}}
-      {{> attributionGroup value=this}}
+      {{> attributionGroup value=this open=@first}}
       {{/each}}
-
       {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/participant].values}}
       {{#unless (find ../data.[https://artresearch.net/resource/field_definition/pharos_model/creator].values (concat "(eq item.[@id] '" [@id] "')"))}}
       {{> attributionGroup value=this}}
@@ -330,249 +416,154 @@
   </template>
 
   <template id="attributionGroup">
-    <div class="attribution-group">
-      <div class="attribution-reconciled">
-        {{#if value.[@id]}}
-        <a href="/resource/?uri={{encodeUriComponent value.[@id]}}">{{value.label}}</a>
-        {{else}}{{value.label}}{{/if}}
-        {{> badge iri=value.[@id]}}
-      </div>
-      <div class="citation-list">
-        {{#with (mergeByLabel value.[https://artresearch.net/resource/field_definition/pharos_model/original_value_creator].values)}}
-        {{#each this}}
-        <div class="citation-entry">
-          {{#if consensus}}<span class="dot"></span>{{/if}}
-          <div class="citation-main">
-            <span class="citation-name">{{label}}</span>
-            {{#each [https://artresearch.net/resource/field_definition/pharos_model/creator_attribution_types].values}}
-            <span class="citation-qualifier">, {{label}}</span>
-            {{/each}}
-            {{#each [https://artresearch.net/resource/field_definition/pharos_model/creator_role].values}}
-            <span class="citation-type">{{label}}</span>
-            {{/each}}
-            {{> logos providers=providers}}
+    <div class="group">
+      {{#with (evidence value "https://artresearch.net/resource/field_definition/pharos_model/original_value_creator")}}
+      <details open="{{#if ../open}}open{{/if}}">
+        <summary>{{> claim value=../value text=../value.label link=../value.[@id] kind=(fieldLabel ../value "https://artresearch.net/resource/field_definition/pharos_model/creator_attribution_types")}}</summary>
+        <div class="slip">
+          {{#each this}}
+          <div class="evidence" data-arch="{{archKeys this}}">
+            <span class="text"><q>{{label}}</q>{{#with (fieldLabel this "https://artresearch.net/resource/field_definition/pharos_model/creator_attribution_types")}} <small>— {{this}}</small>{{/with}}{{#with (fieldLabel this "https://artresearch.net/resource/field_definition/pharos_model/creator_role")}} <small>— {{this}}</small>{{/with}}</span>
+            <span class="kind">as recorded</span>
+            <span class="marks">{{> marks providers=providers sm=true}}</span>
           </div>
+          {{/each}}
+        </div>
+      </details>
+      {{else}}
+      {{> claim value=value text=value.label link=value.[@id] kind=(fieldLabel value "https://artresearch.net/resource/field_definition/pharos_model/creator_attribution_types")}}
+      {{/with}}
+    </div>
+  </template>
+
+  <!-- Production Date: every archive's reading on one scale -->
+  <template id="datePart">
+    {{#with data.[https://artresearch.net/resource/field_definition/pharos_model/production_date]}}
+    <div class="part">
+      <h2>Production Date</h2>
+      {{#with (dateChart (mergeByLabel values))}}
+      <div class="scale">
+        {{#each rows}}
+        <div class="scale-row" data-arch="{{#each providers}}{{#unless @first}} {{/unless}}{{key}}{{/each}}">
+          <span class="read">{{label}}</span>
+          <span class="groove">{{#if dated}}<span class="ink" style="left:{{left}}%;width:{{width}}%"></span><span class="pt" style="left:{{center}}%"></span>{{/if}}</span>
+          <span class="kind">{{qualifier}}</span>
+          <span class="marks">{{> marks providers=providers sm=true}}</span>
         </div>
         {{/each}}
-        {{else}}
-        <div class="citation-entry">
-          <div class="citation-main">
-            <span class="citation-name">{{value.label}}</span>
-            {{> logos providers=(providers value deep=true)}}
-          </div>
+        <div class="scale-foot">{{#each ticks}}<span class="{{#if bound}}bound{{/if}}" style="left:{{left}}%">{{year}}</span>{{/each}}</div>
+      </div>
+      {{else}}
+      {{#each (mergeByLabel values)}}
+      <div class="line" data-arch="{{archKeys this}}">
+        <span class="text">{{#if label}}{{label}}{{else}}{{[@value]}}{{/if}}</span>
+        <span class="kind">{{fieldLabel this "https://artresearch.net/resource/field_definition/pharos_model/production_date_qualifier"}}</span>
+        <span class="marks">{{> marks providers=providers sm=true}}</span>
+      </div>
+      {{/each}}
+      {{/with}}
+    </div>
+    {{/with}}
+  </template>
+
+  <!-- Repository/Last Known Location: the keeper, as each archive names it,
+       and the place beneath it -->
+  <template id="locationPart">
+    {{#if (or data.[https://artresearch.net/resource/field_definition/pharos_model/current_keeper]
+              data.[https://artresearch.net/resource/field_definition/pharos_model/last_known_location])}}
+    <div class="part">
+      <h2>Repository/Last Known Location</h2>
+      <div class="group">
+        {{#each (mergeByLabel data.[https://artresearch.net/resource/field_definition/pharos_model/current_keeper].values)}}
+        {{> claimWithSlip value=this originals="https://artresearch.net/resource/field_definition/pharos_model/original_value"}}
+        {{/each}}
+        {{#with data.[https://artresearch.net/resource/field_definition/pharos_model/last_known_location].values}}
+        <div class="branch" data-arch="{{archKeys this}}">
+          <span class="text">{{#each this}}{{#unless @first}}<span class="sep">·</span>{{/unless}}{{#if [@id]}}<a href="/resource/?uri={{encodeUriComponent [@id]}}">{{label}}</a>{{else}}{{label}}{{/if}}{{/each}}{{> badge iri=this.[0].[@id]}}</span>
+          <span class="marks">{{> marks providers=(providers this deep=true) sm=true}}</span>
         </div>
         {{/with}}
       </div>
     </div>
-  </template>
-
-  <!-- Production date — every institution's claim, side by side -->
-  <template id="dateSection">
-    {{#with data.[https://artresearch.net/resource/field_definition/pharos_model/production_date]}}
-    <div class="meta-section" id="section-dates">
-      <div class="meta-label">Production Date</div>
-      {{#with (dateChart (mergeByLabel values))}}
-      <div class="forest-plot">
-        {{#each rows}}
-        <div class="fp-row">
-          <div class="fp-label">
-            <span class="fp-date-text">{{label}}</span>
-            {{#if qualifier}}<span class="fp-qualifier">[{{qualifier}}]</span>{{/if}}
-            {{> logos providers=providers cls="whisper-logos"}}
-          </div>
-          <div class="fp-track">
-            {{#if dated}}
-            <div class="fp-line" style="left: {{left}}%; width: {{width}}%;"></div>
-            <div class="fp-square{{#unless width}} sm{{/unless}}" style="left: {{center}}%;"></div>
-            {{/if}}
-          </div>
-        </div>
-        {{/each}}
-        <div class="fp-axis">
-          {{#each ticks}}
-          <span class="fp-tick" style="left: {{left}}%;">{{year}}</span>
-          {{/each}}
-        </div>
-      </div>
-      {{else}}
-      <div class="attribution-group">
-        {{#each (mergeByLabel values)}}
-        <div class="field-value-line">
-          <span>{{#if label}}{{label}}{{else}}{{[@value]}}{{/if}}</span>
-          {{#each [https://artresearch.net/resource/field_definition/pharos_model/production_date_qualifier].values}}
-          <span class="qualifier-tag">[{{label}}]</span>
-          {{/each}}
-          {{> logos providers=providers cls="field-logos"}}
-        </div>
-        {{/each}}
-      </div>
-      {{/with}}
-    </div>
-    {{/with}}
-  </template>
-
-  <!--
-    Last known location — the repository that holds the work, with the
-    names each institution uses for it, then the geography below.
-  -->
-  <template id="locationSection">
-    {{#if (or data.[https://artresearch.net/resource/field_definition/pharos_model/current_keeper]
-              data.[https://artresearch.net/resource/field_definition/pharos_model/last_known_location])}}
-    <div class="meta-section" id="section-location">
-      <div class="meta-label">Last Known Location</div>
-      <div class="attribution-group">
-        <div class="citation-list">
-          {{#each (mergeByLabel data.[https://artresearch.net/resource/field_definition/pharos_model/current_keeper].values)}}
-          {{> citationEntry value=this originals="https://artresearch.net/resource/field_definition/pharos_model/original_value"}}
-          {{/each}}
-
-          {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/last_known_location]}}
-          <div class="location-detail">
-            <span class="detail-label">Geographical location:</span>
-            <span class="geo-chain">
-              {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/last_known_location].values}}
-              {{#unless @first}}<span class="geo-separator">·</span>{{/unless}}
-              <a href="/resource/?uri={{encodeUriComponent [@id]}}">{{label}}</a>
-              {{/each}}
-            </span>
-            {{> badge iri=data.[https://artresearch.net/resource/field_definition/pharos_model/last_known_location].values.0.[@id]}}
-          </div>
-          {{/if}}
-        </div>
-      </div>
-    </div>
     {{/if}}
   </template>
 
-
-  <!--
-    Subjects. Iconclass terms are gathered under the division they belong to,
-    listed inline so a long iconography reads as a sentence rather than a table.
-  -->
-  <template id="subjectSection">
+  <!-- Subjects: terms gathered under the Iconclass division they belong to,
+       laid in a row; the space between them is the separator -->
+  <template id="subjectPart">
     {{#with data.[https://artresearch.net/resource/field_definition/pharos_model/subject]}}
-    <div class="meta-section" id="section-subjects">
-      <div class="meta-label">Subjects</div>
+    <div class="part">
+      <h2>Subjects</h2>
       {{#each (umbrellaGroups values "https://artresearch.net/resource/field_definition/pharos_model/subject_umbrella")}}
-      <div class="attribution-group">
+      <div class="group">
         {{#if umbrella}}
-        <div class="attribution-reconciled">
-          <a href="/resource/?uri={{encodeUriComponent umbrella.[@id]}}">{{umbrella.label}}</a>
-          {{> badge iri=umbrella.[@id]}}
-        </div>
+        <h3 class="umbrella" title="{{umbrella.label}}"><a href="/resource/?uri={{encodeUriComponent umbrella.[@id]}}">{{umbrella.label}}</a>{{> badge iri=umbrella.[@id]}}</h3>
         {{/if}}
-        <div class="citation-list">
-          <div class="citation-entry">
-            <div class="citation-main">
-              <span class="citation-name">
-                {{#each items}}{{#unless @first}} · {{/unless}}<span class="subject-term"><a
-                    href="/resource/?uri={{encodeUriComponent [@id]}}">{{label}}</a>{{> logos
-                  providers=providers}}</span>{{/each}}
-              </span>
-              {{#with (collectValues items "https://artresearch.net/resource/field_definition/pharos_model/original_value")}}
-              <mp-collapsible-div expanded="false" class-name="citation-collapse">
-                <mp-collapsible-div-trigger>
-                  <span class="citation-chevron">&#x203A;</span>
-                </mp-collapsible-div-trigger>
-                <mp-collapsible-div-content>
-                  {{> whisper values=this}}
-                </mp-collapsible-div-content>
-              </mp-collapsible-div>
-              {{/with}}
-            </div>
-          </div>
-        </div>
+        <div class="run">{{#each items}}<span data-arch="{{archKeys this}}">{{#if [@id]}}<a href="/resource/?uri={{encodeUriComponent [@id]}}">{{label}}</a>{{else}}{{label}}{{/if}}<span class="marks">{{> marks providers=providers sm=true}}</span></span>{{/each}}</div>
       </div>
       {{/each}}
     </div>
     {{/with}}
   </template>
 
-
-  <!-- Visually and textually similar works, from the embedding index -->
-  <template id="similarWorks">
-    {{#if (find data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values "(not (isEmpty item.[https://artresearch.net/resource/field_definition/pharos_model/photo_preview].values.0.[@value]))")}}
-    <semantic-query id="grid-result" prefetch-labels="false" query='
-      SELECT DISTINCT (?uri AS ?subject) (?siglip2_so400m_patch16_naflex_maxScoreUri as ?maxPhoto) (?matchedModel as ?matchType) {
-        SERVICE <http://usearch-search.private:8545/sparql> {
-          SELECT * WHERE {
-            SERVICE <https://artresearch.net/embeddings/search> {
-              ?uri <https://artresearch.net/embeddings/data> "{{subject}}";
-                   <https://artresearch.net/embeddings/request_type> "uri";
-                   <https://artresearch.net/embeddings/model> "qwen3_8b,siglip2_so400m_patch16_naflex";
-                   <https://artresearch.net/embeddings/joinOn> "uri,work";
-                   <https://artresearch.net/embeddings/returnValues> "uri,work";
-                   <https://artresearch.net/embeddings/maxWork> ?siglip2_so400m_patch16_naflex_maxScoreUri;
-                   <https://artresearch.net/embeddings/sensitivity> "precise";
-                   <https://artresearch.net/embeddings/score> ?similarity;
-                   <https://artresearch.net/embeddings/matchedModel> ?matchedModel.
-            }
-          }
-        }
-      } ORDER BY DESC(?similarity) DESC(?subject) LIMIT 1000
-    ' template="{{> similarResults}}" no-result-template='[[> CardNoResult ]]'>
-      <template id="similarResults">
-        <infinite-scroll item-height="250px" profile="artwork-card" item-per-row="1" item-width="550" batch-size="20"
-          values='{{stringify bindings}}'>
-          <template id='template'>
-            <div class="result-item karla-regular">
-              {{#each rows}}
-              {{> Default:CardArtwork photo=maxPhoto.value provider=provider matchType=matchType}}
-              {{/each}}
-            </div>
-          </template>
-        </infinite-scroll>
-      </template>
-    </semantic-query>
-    {{else}}
-    <semantic-query id="grid-result" prefetch-labels="false" query='
-      SELECT DISTINCT (?uri AS ?subject) (?matchedModel as ?matchType) {
-        SERVICE <http://usearch-search.private:8545/sparql> {
-          SELECT * WHERE {
-            SERVICE <https://artresearch.net/embeddings/search> {
-              ?uri <https://artresearch.net/embeddings/data> "{{subject}}";
-                   <https://artresearch.net/embeddings/request_type> "uri";
-                   <https://artresearch.net/embeddings/model> "qwen3_8b";
-                   <https://artresearch.net/embeddings/score> ?similarity;
-                   <https://artresearch.net/embeddings/matchedModel> ?matchedModel.
-            }
-          }
-        }
-      } ORDER BY DESC(?similarity) DESC(?subject) LIMIT 1000
-    ' template="{{> similarResults}}" no-result-template='[[> CardNoResult ]]'>
-      <template id="similarResults">
-        <infinite-scroll item-height="250px" profile="artwork-card" item-per-row="1" item-width="550" batch-size="20"
-          values='{{stringify bindings}}'>
-          <template id='template'>
-            <div class="result-item karla-regular">
-              {{#each rows}}
-              {{> Default:CardArtwork photo=maxPhoto.value provider=provider matchType=matchType}}
-              {{/each}}
-            </div>
-          </template>
-        </infinite-scroll>
-      </template>
-    </semantic-query>
+  <!-- Physical Properties: types, material, technique; narrower terms hang
+       beneath the term they belong to -->
+  <template id="physicalPart">
+    {{#if (or data.[https://artresearch.net/resource/field_definition/pharos_model/type]
+              data.[https://artresearch.net/resource/field_definition/pharos_model/material]
+              data.[https://artresearch.net/resource/field_definition/pharos_model/technique])}}
+    <div class="part">
+      <h2>Physical Properties</h2>
+      {{> treeGroup data=data label="Types" field="https://artresearch.net/resource/field_definition/pharos_model/type"}}
+      {{> treeGroup data=data label="Material" field="https://artresearch.net/resource/field_definition/pharos_model/material"}}
+      {{> treeGroup data=data label="Technique" field="https://artresearch.net/resource/field_definition/pharos_model/technique"}}
+    </div>
     {{/if}}
+  </template>
+
+  <template id="treeGroup">
+    {{#with (lookup data field)}}
+    <div class="group">
+      <h3 class="field">{{../label}}</h3>
+      {{#each (treeGroups values "https://artresearch.net/resource/field_definition/pharos_model/type_hierarchy_parent")}}
+      {{> claimWithSlip value=root originals="https://artresearch.net/resource/field_definition/pharos_model/original_value"}}
+      {{#each children}}
+      {{> branch value=this originals="https://artresearch.net/resource/field_definition/pharos_model/original_value"}}
+      {{/each}}
+      {{/each}}
+    </div>
+    {{/with}}
+  </template>
+
+  <!-- A field with no reconciliation layer: one line per value, with its marks -->
+  <template id="plainPart">
+    {{#with (lookup data field)}}
+    <div class="part">
+      <h2>{{../label}}</h2>
+      {{#each (mergeByLabel values)}}
+      <div class="line" data-arch="{{archKeys this}}">
+        <span class="text">{{#if label}}{{label}}{{else}}{{[@value]}}{{/if}}</span>
+        <span class="marks">{{> marks providers=providers sm=true}}</span>
+      </div>
+      {{/each}}
+    </div>
+    {{/with}}
   </template>
 
   <!-- Every contributing catalogue, linked to its own record -->
-  <template id="originalRecords">
-    {{#with data.[https://artresearch.net/resource/field_definition/pharos_model/catalog_record_url]}}
-    <div class="original-records">
-      <div class="or-title">View original records:</div>
-      {{#each values}}
-      {{#with (providers this)}}
-      <div class="or-line">
-        <img src="{{this.0.icon}}" title="{{this.0.label}}" alt="">
-        <a href="{{../label}}" target="_blank" rel="noopener noreferrer">{{this.0.label}}{{#if
-          ../[https://artresearch.net/resource/field_definition/pharos_model/original_record_identifier].values.0.[@value]}}
-          ({{../[https://artresearch.net/resource/field_definition/pharos_model/original_record_identifier].values.0.[@value]}}){{/if}}</a>
-      </div>
+  <template id="sourcesPart">
+    {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/catalog_record_url]}}
+    <div class="part sources">
+      <h2>View original records</h2>
+      {{#each (sortByArchive data.[https://artresearch.net/resource/field_definition/pharos_model/catalog_record_url].values)}}
+      {{#with (lookup (providers this) 0)}}
+      <a href="{{../label}}" target="_blank" rel="noopener noreferrer" data-arch="{{key}}"
+        title="{{#if ../[https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.[0].[@value]}}{{../[https://artresearch.net/resource/field_definition/pharos_model/original_record_title].values.[0].[@value]}}{{else}}{{label}}{{/if}}"><span class="text">{{label}}</span><span class="kind id">{{../[https://artresearch.net/resource/field_definition/pharos_model/original_record_identifier].values.[0].[@value]}}</span><span class="marks">{{> mark archive=this sm=true}}</span></a>
       {{/with}}
       {{/each}}
+      <div class="colophon">PHAROS record {{shortId subject}} · artresearch.net · <a href="mailto:info@artresearch.net" title="Contact us">contact us</a> · <semantic-link iri="https://artresearch.net/resource/TermsAndConditions" target="_blank">terms of use</semantic-link></div>
     </div>
-    {{/with}}
+    {{/if}}
   </template>
 
 </resource-info>

@@ -13,13 +13,10 @@
     <http://www.w3.org/ns/prov#generatedAtTime> "2025-11-23T21:33:08.509+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
   
   _:genid-0c7d2b3430e74e60b43577b284b2edc5-4j5yp a <http://spinrdf.org/sp#Query>;
-    <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+    <http://spinrdf.org/sp#text> """PREFIX custom: <https://artresearch.net/custom/>
 
 SELECT ?value WHERE {
-  {
-    ?value crm:P65_shows_visual_item/crm:P138_represents ?subject .
-    ?value crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph> .
-  }
+  ?subject custom:photo ?value .
 }""" .
   
   <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>

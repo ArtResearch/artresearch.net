@@ -1,0 +1,25 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/image_position/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/image_position> a <http://www.researchspace.org/resource/system/fields/Field>,
+      <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Image Position";
+    <http://www.w3.org/2000/01/rdf-schema#comment> "Where the image comes among its photograph's images, from 1.";
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-image_position-select-92318DAD5975CB602E548B3B291C6176;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#integer>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-image_position-insert-2948F0FAB9117B993E47570FD9D3B5A7;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2026-10-19T12:00:00.000+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-image_position-insert-2948F0FAB9117B993E47570FD9D3B5A7 a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  _:genid-image_position-select-92318DAD5975CB602E548B3B291C6176 a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX custom: <https://artresearch.net/custom/>
+
+SELECT ?value WHERE {
+    ?subject custom:image_position ?value .
+}""" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/image_position> .
+}

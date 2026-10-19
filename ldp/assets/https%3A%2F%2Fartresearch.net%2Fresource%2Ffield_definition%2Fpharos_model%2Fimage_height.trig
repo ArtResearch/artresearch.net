@@ -1,0 +1,25 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/image_height/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/image_height> a <http://www.researchspace.org/resource/system/fields/Field>,
+      <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Image Height";
+    <http://www.w3.org/2000/01/rdf-schema#comment> "Height of the image in pixels; with its width it gives the proportions the image is laid out in.";
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-image_height-select-05A3406B04C4ECD2F0B71F50FF7F499D;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#integer>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-image_height-insert-7676DB70F1B20A8D82F3B74466AE65A2;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2026-10-19T12:00:00.000+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-image_height-insert-7676DB70F1B20A8D82F3B74466AE65A2 a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  _:genid-image_height-select-05A3406B04C4ECD2F0B71F50FF7F499D a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX custom: <https://artresearch.net/custom/>
+
+SELECT ?value WHERE {
+    ?subject custom:image_height ?value .
+}""" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/image_height> .
+}

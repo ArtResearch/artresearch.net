@@ -477,14 +477,40 @@
         "https://artresearch.net/resource/field_definition/pharos_model/photo_license": {
           "subject": "photo"
         },
-        "https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail": {
+        "https://artresearch.net/resource/field_definition/pharos_model/primary_image": {
           "subject": "photo"
         },
-        "https://artresearch.net/resource/field_definition/pharos_model/photo_preview": {
-          "subject": "photo"
-        },
-        "https://artresearch.net/resource/field_definition/pharos_model/photo_iiif_manifest": {
-          "subject": "photo"
+        "https://artresearch.net/resource/field_definition/pharos_model/photo_image": {
+          "subject": "photo",
+          "returns": [
+            {
+              "sparql_var": "value",
+              "local_var": "image"
+            }
+          ],
+          "fields": {
+            "https://artresearch.net/resource/field_definition/pharos_model/image_position": {
+              "subject": "image"
+            },
+            "https://artresearch.net/resource/field_definition/pharos_model/image_side": {
+              "subject": "image"
+            },
+            "https://artresearch.net/resource/field_definition/pharos_model/image_thumbnail": {
+              "subject": "image"
+            },
+            "https://artresearch.net/resource/field_definition/pharos_model/image_preview": {
+              "subject": "image"
+            },
+            "https://artresearch.net/resource/field_definition/pharos_model/image_iiif": {
+              "subject": "image"
+            },
+            "https://artresearch.net/resource/field_definition/pharos_model/image_width": {
+              "subject": "image"
+            },
+            "https://artresearch.net/resource/field_definition/pharos_model/image_height": {
+              "subject": "image"
+            }
+          }
         }
       }
     }

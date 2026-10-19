@@ -1,0 +1,26 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/image_side/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/image_side> a <http://www.researchspace.org/resource/system/fields/Field>,
+      <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Image Side";
+    <http://www.w3.org/2000/01/rdf-schema#comment> "What a digital image of a photograph shows of it: the recto, the verso or a detail.";
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-image_side-select-264FD80C6907885FCAFE2F4963FF24AC;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-image_side-insert-CBA75C3195E29E66A6089059E690181A;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2026-10-14T12:00:00.000+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-image_side-insert-CBA75C3195E29E66A6089059E690181A a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  _:genid-image_side-select-264FD80C6907885FCAFE2F4963FF24AC a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX meta: <https://artresearch.net/resource/pharos/vocab/meta/>
+
+SELECT ?value WHERE {
+    ?subject crm:P2_has_type ?value .
+    FILTER(?value IN (meta:photograph_recto, meta:photograph_verso, meta:photograph_detail))
+}""" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/image_side> .
+}

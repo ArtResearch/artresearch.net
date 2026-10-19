@@ -1,0 +1,25 @@
+
+<https://artresearch.net/resource/field_definition/pharos_model/image_preview/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/image_preview> a <http://www.researchspace.org/resource/system/fields/Field>,
+      <http://www.w3.org/ns/prov#Entity>, <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Image Preview";
+    <http://www.w3.org/2000/01/rdf-schema#comment> "The cached preview of the image.";
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-image_preview-select-13FD708479AF4D00F597533BB133A445;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#string>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-image_preview-insert-87280D4E36877AEBE03146FC1FEBA209;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2026-10-19T12:00:00.000+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-image_preview-insert-87280D4E36877AEBE03146FC1FEBA209 a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  _:genid-image_preview-select-13FD708479AF4D00F597533BB133A445 a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX custom: <https://artresearch.net/custom/>
+
+SELECT ?value WHERE {
+    ?subject custom:preview_url ?value .
+}""" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/image_preview> .
+}
