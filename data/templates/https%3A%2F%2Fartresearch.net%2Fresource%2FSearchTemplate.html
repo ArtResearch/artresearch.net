@@ -57,8 +57,11 @@
         lock-domain="{{#if lock}}true{{else}}false{{/if}}" debounce="600" tokenize-lucene-query="false"
         escape-lucene-syntax="false" default-slider-value="0" default-query-0='
                 SELECT ?subject WHERE {
+                  # a page that embeds the search restricts it (the works of an artist, of a place) with a
+                  # pattern of its own; as a subquery QLever plans it alone, from what the page fixes, instead
+                  # of following the restriction from every work towards it
                   ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
-                  {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+                  {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
                 }
               ' text-query-0='
                 SELECT DISTINCT ?subject WHERE {
@@ -66,7 +69,7 @@
                       SELECT ?subject (?__textScorePattern__ AS ?score) WHERE {
                         FILTER(?__textPattern__)
                         ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
-                        {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+                        {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
                       }
                       GROUP BY ?subject
                   }
@@ -104,7 +107,7 @@
                       {
                         SELECT DISTINCT ?subject WHERE {
                           ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
-                          {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+                          {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
                           FILTER(?__facetFilter__)
                         }
                       }
@@ -157,7 +160,7 @@
                       {
                         SELECT DISTINCT ?subject WHERE {
                           ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
-                          {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+                          {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
                           FILTER(?__facetFilter__)
                         }
                       }
@@ -178,7 +181,7 @@
                       {
                         SELECT DISTINCT ?subject WHERE {
                           ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
-                          {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+                          {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
                           FILTER(?__facetFilter__)
                         }
                       }
@@ -201,7 +204,7 @@
                       {
                         SELECT DISTINCT ?subject WHERE {
                           ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
-                          {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+                          {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
                           FILTER(?__facetFilter__)
                         }
                       }
@@ -224,7 +227,7 @@
                       {
                         SELECT DISTINCT ?subject WHERE {
                           ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
-                          {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+                          {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
                           FILTER(?__facetFilter__)
                         }
                       }
@@ -242,7 +245,7 @@
               ' default-query-1='
             SELECT ?subject WHERE {
               ?subject crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph>  .
-              {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+              {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
             }
           ' text-query-1='
                 SELECT DISTINCT ?subject WHERE {
@@ -250,7 +253,7 @@
                       SELECT ?subject (?__textScorePattern__ AS ?score) WHERE {
                         FILTER(?__textPattern__)
                         ?searchWork custom:photo ?subject .
-                        {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+                        {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
                       }
                       GROUP BY ?subject
                   }
@@ -289,7 +292,7 @@
                       {
                         SELECT DISTINCT ?subject WHERE {
                           ?vecWork custom:photo ?subject .
-                          {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+                          {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
                           FILTER(?__facetFilter__)
                         }
                       }
@@ -342,7 +345,7 @@
                       {
                         SELECT DISTINCT ?subject WHERE {
                           ?vecWork custom:photo ?subject .
-                          {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+                          {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
                           FILTER(?__facetFilter__)
                         }
                       }
@@ -363,7 +366,7 @@
                       {
                         SELECT DISTINCT ?subject WHERE {
                           ?vecWork custom:photo ?subject .
-                          {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+                          {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
                           FILTER(?__facetFilter__)
                         }
                       }
@@ -384,7 +387,7 @@
                       {
                         SELECT DISTINCT ?subject WHERE {
                           ?vecWork custom:photo ?subject .
-                          {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+                          {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
                           FILTER(?__facetFilter__)
                         }
                       }
@@ -405,7 +408,7 @@
                 SELECT ?subject (COUNT(DISTINCT ?work) AS ?worksCount) WHERE {
                   ?work crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
                   ?work crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by ?subject .
-                  {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+                  {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
                 }
                 GROUP BY ?subject
               }
@@ -416,7 +419,7 @@
                       SELECT ?subject (COUNT(DISTINCT ?work) AS ?score) (COUNT(DISTINCT ?work) AS ?worksCount) WHERE {
                         FILTER(?__textPattern__)
                         ?work crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by ?subject .
-                        {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+                        {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
                       }
                       GROUP BY ?subject
                   }
@@ -446,7 +449,7 @@
                         }
                         ?work crm:P2_has_type ?workType .
                         ?workType crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph> .
-                        {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+                        {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
                       }
                       GROUP BY ?subject
                   }
@@ -470,7 +473,7 @@
                         FILTER(?__textPattern__)
                         ?work crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
                         ?work crm:P50_has_current_keeper ?subject .
-                        {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+                        {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
                       }
                       GROUP BY ?subject
                   }

@@ -149,7 +149,15 @@
                                 {
                                   SELECT ?subject (MAX(1 - ?distance) AS ?similarity)
                                          (IRI(STRAFTER(MIN(CONCAT(STR(xsd:integer(?distance * 1000000) + 10000000), " ", STR(?hitPhoto))), " ")) AS ?closestPhoto) WHERE {
-                                    <{{subject}}> custom:photo ?own .
+                                    # at most 40 photographs of the work look for neighbours, its preferred ones first and
+                                    # then a spread of the rest: each is a vector search of its own, and a work known by 731
+                                    # photographs (A27113) took 16 s for much the same works as these find in 1 s
+                                    {
+                                      SELECT ?own WHERE {
+                                        <{{subject}}> custom:photo ?own .
+                                        OPTIONAL { <{{subject}}> custom:preferred_photo ?own . BIND(true AS ?ownPreferred) }
+                                      } ORDER BY DESC(BOUND(?ownPreferred)) MD5(STR(?own)) LIMIT 40
+                                    }
                                     SERVICE vec: {
                                       [] vec:index "images" ; vec:candidates ?own ;
                                          vec:result ?hitPhoto ; vec:bindScore ?distance ; vec:k 30 .
