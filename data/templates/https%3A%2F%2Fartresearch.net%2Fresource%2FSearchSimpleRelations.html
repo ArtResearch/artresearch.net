@@ -33,7 +33,7 @@
               }",
               "parentsPattern": "{ ?value crm:P127_has_broader_term ?parent . }",
               "childrenPattern": "{ ?child crm:P127_has_broader_term ?value . }",
-              "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
+              "searchPattern": "{ SERVICE view:names { ?searchView view:column-word ?searchWord ; view:column-entity ?value ; view:column-name ?searchName } FILTER(?searchWord >= ?__prefix_from__ && ?searchWord < ?__prefix_to__) FILTER(CONTAINS(LCASE(STR(?searchName)), ?__word_1__) && CONTAINS(LCASE(STR(?searchName)), ?__word_2__) && CONTAINS(LCASE(STR(?searchName)), ?__word_3__)) }"
   }],
   "<https://artresearch.net/resource/fr/Work_produced_using_technique_Technique>":[{
               "kind":"hierarchy",
@@ -43,7 +43,7 @@
               }",
               "parentsPattern": "{ ?value crm:P127_has_broader_term ?parent .}",
               "childrenPattern": "{ ?child crm:P127_has_broader_term ?value .}",
-              "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
+              "searchPattern": "{ SERVICE view:names { ?searchView view:column-word ?searchWord ; view:column-entity ?value ; view:column-name ?searchName } FILTER(?searchWord >= ?__prefix_from__ && ?searchWord < ?__prefix_to__) FILTER(CONTAINS(LCASE(STR(?searchName)), ?__word_1__) && CONTAINS(LCASE(STR(?searchName)), ?__word_2__) && CONTAINS(LCASE(STR(?searchName)), ?__word_3__)) }"
   }],
   "<https://artresearch.net/resource/fr/Work_created_by_Artist>":[{
               "kind":"resource",
@@ -72,7 +72,7 @@
               }",
               "parentsPattern": "{ ?value crm:P127_has_broader_term ?parent . }",
               "childrenPattern": "{ ?child crm:P127_has_broader_term ?value . }",
-              "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
+              "searchPattern": "{ SERVICE view:names { ?searchView view:column-word ?searchWord ; view:column-entity ?value ; view:column-name ?searchName } FILTER(?searchWord >= ?__prefix_from__ && ?searchWord < ?__prefix_to__) FILTER(CONTAINS(LCASE(STR(?searchName)), ?__word_1__) && CONTAINS(LCASE(STR(?searchName)), ?__word_2__) && CONTAINS(LCASE(STR(?searchName)), ?__word_3__)) }"
   }],
   "<https://artresearch.net/resource/fr/Work_from_Place>":[{
               "kind":"resource",
@@ -87,7 +87,7 @@
                "childrenPattern": "{
                   ?child crm:PXX ?value .
                }",
-               "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
+               "searchPattern": "{ SERVICE view:names { ?searchView view:column-word ?searchWord ; view:column-entity ?value ; view:column-name ?searchName } FILTER(?searchWord >= ?__prefix_from__ && ?searchWord < ?__prefix_to__) FILTER(CONTAINS(LCASE(STR(?searchName)), ?__word_1__) && CONTAINS(LCASE(STR(?searchName)), ?__word_2__) && CONTAINS(LCASE(STR(?searchName)), ?__word_3__)) }"
 
   }],          
   "<https://artresearch.net/resource/fr/Work_has_Type>":[{
@@ -99,7 +99,7 @@
               }",
               "parentsPattern": "{ ?value crm:P127_has_broader_term ?parent . }",
               "childrenPattern": "{ ?child crm:P127_has_broader_term ?value . }",
-              "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
+              "searchPattern": "{ SERVICE view:names { ?searchView view:column-word ?searchWord ; view:column-entity ?value ; view:column-name ?searchName } FILTER(?searchWord >= ?__prefix_from__ && ?searchWord < ?__prefix_to__) FILTER(CONTAINS(LCASE(STR(?searchName)), ?__word_1__) && CONTAINS(LCASE(STR(?searchName)), ?__word_2__) && CONTAINS(LCASE(STR(?searchName)), ?__word_3__)) }"
   }],
   "<https://artresearch.net/resource/fr/Work_has_Image>":[{
               "kind":"resource",
@@ -108,8 +108,31 @@
                 ?subject custom:has_image ?has .
               }"
   }],
-    
-  
+  [[!-- reconciled: other records were merged into this one (custom:objectSameAs); related: custom:relatedArtwork,
+        held mostly by the merged records, resolved to the work they were merged into (as the record page's Related tab).
+        Subqueries keep one row per work, the default result query is not DISTINCT --]]
+  "<https://artresearch.net/resource/fr/Work_has_Record_Link>":[{
+              "kind":"resource",
+              "queryPattern": "{
+                {
+                  { SELECT DISTINCT ?subject WHERE { ?reconciledRecord custom:objectSameAs ?subject . } }
+                  FILTER(?__value__ = <https://artresearch.net/resource/fr/Work_has_Record_Link/reconciled>)
+                } UNION {
+                  {
+                    SELECT DISTINCT ?subject WHERE {
+                      { ?subject custom:relatedArtwork ?relatedRecord . } UNION { ?ownRecord custom:objectSameAs ?subject . ?ownRecord custom:relatedArtwork ?relatedRecord . }
+                      OPTIONAL { ?relatedRecord custom:objectSameAs ?relatedCluster . ?relatedCluster crm:P2_has_type <http://vocab.getty.edu/aat/300133025> . }
+                      BIND(COALESCE(?relatedCluster, ?relatedRecord) AS ?relatedWork)
+                      FILTER(?relatedWork != ?subject)
+                      ?relatedWork crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                    }
+                  }
+                  FILTER(?__value__ = <https://artresearch.net/resource/fr/Work_has_Record_Link/related>)
+                }
+              }"
+  }],
+
+
   [[!-- Photographs --]]
   "<https://artresearch.net/resource/fr/Photograph_created_by_Photographer>": [{
               "kind":"hierarchy",
@@ -117,7 +140,7 @@
                     ?subject crm:P65_shows_visual_item/crm:P94i_was_created_by/crm:P14_carried_out_by/crm:P107i_is_current_or_former_member_of? ?__value__ .              }",
               "parentsPattern": "{ ?value crm:P107i_is_current_or_former_member_of ?parent . }",
               "childrenPattern": "{ ?child crm:P107i_is_current_or_former_member_of ?value . }",
-              "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
+              "searchPattern": "{ SERVICE view:names { ?searchView view:column-word ?searchWord ; view:column-entity ?value ; view:column-name ?searchName } FILTER(?searchWord >= ?__prefix_from__ && ?searchWord < ?__prefix_to__) FILTER(CONTAINS(LCASE(STR(?searchName)), ?__word_1__) && CONTAINS(LCASE(STR(?searchName)), ?__word_2__) && CONTAINS(LCASE(STR(?searchName)), ?__word_3__)) }"
   }], 
   "<https://artresearch.net/resource/fr/Photograph_has_License>": [{
               "kind":"resource",
@@ -168,12 +191,20 @@
               " 
 
     }],
+  [[!-- artist: the catalogues of the archives that hold a work of theirs, once per pair, before the join.
+        The pairs are the same in every query and pinned; grouped rather than DISTINCT, because QLever reuses a
+        pinned grouping inside a larger query but not a pinned DISTINCT. No # comments inside a queryPattern:
+        the relations are read as one line, so a comment would swallow the rest of the pattern --]]
   "<https://artresearch.net/resource/fr/Artist_documented_in_Institution>":[{
               "kind":"resource",
               "queryPattern": "
-                {
-                  ?work crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by/custom:sameAs? ?subject .
-                  ?work crm:P70i_is_documented_in/crm:P104_is_subject_to  ?ownership. 
+{
+                  {
+                    SELECT ?subject ?ownership WHERE {
+                      ?work crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by/custom:sameAs? ?subject .
+                      ?work crm:P70i_is_documented_in/crm:P104_is_subject_to ?ownership .
+                    } GROUP BY ?subject ?ownership
+                  }
                   ?__value__ crm:P75_possesses ?ownership .
                 }
               " 
@@ -195,12 +226,20 @@
   }],
   
   [[!-- Repository --]]
+  [[!-- repository: the catalogues of the archives that hold a work of theirs, once per pair, before the join.
+        The pairs are the same in every query and pinned; grouped rather than DISTINCT, because QLever reuses a
+        pinned grouping inside a larger query but not a pinned DISTINCT. No # comments inside a queryPattern:
+        the relations are read as one line, so a comment would swallow the rest of the pattern --]]
   "<https://artresearch.net/resource/fr/Repository_documented_in_Institution>":[{
               "kind":"resource",
               "queryPattern": "
-                {
-                  ?work crm:P50_has_current_keeper ?subject .
-                  ?work crm:P70i_is_documented_in/crm:P104_is_subject_to  ?ownership. 
+{
+                  {
+                    SELECT ?subject ?ownership WHERE {
+                      ?work crm:P50_has_current_keeper ?subject .
+                      ?work crm:P70i_is_documented_in/crm:P104_is_subject_to ?ownership .
+                    } GROUP BY ?subject ?ownership
+                  }
                   ?__value__ crm:P75_possesses ?ownership .
                 }
               " 
@@ -222,12 +261,20 @@
               " 
 
     }],
+  [[!-- photographer: the catalogues of the archives that hold a work of theirs, once per pair, before the join.
+        The pairs are the same in every query and pinned; grouped rather than DISTINCT, because QLever reuses a
+        pinned grouping inside a larger query but not a pinned DISTINCT. No # comments inside a queryPattern:
+        the relations are read as one line, so a comment would swallow the rest of the pattern --]]
   "<https://artresearch.net/resource/fr/Photographer_documented_in_Institution>":[{
               "kind":"resource",
               "queryPattern": "
-                {
-                  ?work crm:P65_shows_visual_item/crm:P94i_was_created_by/crm:P14_carried_out_by/custom:sameAs? ?subject .
-                  ?work crm:P70i_is_documented_in/crm:P104_is_subject_to  ?ownership. 
+{
+                  {
+                    SELECT ?subject ?ownership WHERE {
+                      ?work crm:P65_shows_visual_item/crm:P94i_was_created_by/crm:P14_carried_out_by/custom:sameAs? ?subject .
+                      ?work crm:P70i_is_documented_in/crm:P104_is_subject_to ?ownership .
+                    } GROUP BY ?subject ?ownership
+                  }
                   ?__value__ crm:P75_possesses ?ownership .
                 }
               " 

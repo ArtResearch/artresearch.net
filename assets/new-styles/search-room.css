@@ -1,0 +1,820 @@
+/* ═══════════════════════════════════════════════════════════════════
+   The PHAROS search page, in the reading room's language
+   (reading-room.css, whose tokens it shares; the page is
+   data/templates/…SearchTemplate.html, the results its Card* templates).
+
+   The same three kinds of thing, each treated one way:
+   - surfaces and content lie flat: the index of filters is a sheet, the
+     results lie on a table, a work is a slip or a print on its mount;
+   - marks are the archives' own glyphs, in their own colours, never controls;
+   - instruments have a body and show their state by elevation: what the
+     hand can work stands, a chosen or latched one is pressed in, what
+     cannot act now is flat and dim.
+   Links stay type, with the record page's thin underline. A work has one
+   explicit way in, its "Open record" key; its print and its title lead
+   there too, and its facts lead to their own pages.
+   ═══════════════════════════════════════════════════════════════════ */
+
+.sr {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+  background: var(--room);
+  color: var(--ink);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+.sr .search-container { flex: 1 1 auto; min-height: 0; height: 100%; }
+.sr *, .sr *::before, .sr *::after { box-sizing: border-box; }
+
+/* ── One instrument body, as on the record page's rail ── */
+.sr {
+  --key-h: 22px;
+  --well-h: 28px;
+}
+.sr :is(
+  .ImageSearchWithSlider--domainSelector .dropdown-toggle,
+  .ImageSearchWithSlider--searchButton,
+  .ImageSearchWithSlider--clearTextBtn,
+  .ImageSearchWithSlider--searchHelpIcon,
+  .ImageSearchWithSlider--cameraIcon,
+  .ImageSearchWithSlider--modelSelection .checkbox label,
+  .nav.icon-tabs > li > a,
+  .FacetBreadcrumbs--cancelButton,
+  .show-facet-button,
+  .open-key
+) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  height: var(--key-h);
+  margin: 0;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 4px;
+  background: var(--face);
+  box-shadow: var(--d-stand);
+  font: 500 12px/var(--key-h) var(--sans);
+  letter-spacing: 0;
+  text-transform: none;
+  text-decoration: none;
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: color 0.12s ease, box-shadow 0.12s ease, transform 0.08s ease, background 0.12s ease;
+}
+.sr :is(
+  .ImageSearchWithSlider--domainSelector .dropdown-toggle,
+  .ImageSearchWithSlider--searchButton,
+  .ImageSearchWithSlider--clearTextBtn,
+  .ImageSearchWithSlider--searchHelpIcon,
+  .ImageSearchWithSlider--cameraIcon,
+  .ImageSearchWithSlider--modelSelection .checkbox label,
+  .nav.icon-tabs > li > a,
+  .FacetBreadcrumbs--cancelButton,
+  .show-facet-button,
+  .open-key
+):hover {
+  background: var(--face);
+  box-shadow: var(--d-stand-hover);
+  color: var(--ink);
+  text-decoration: none;
+}
+/* in: the chosen one of a bank, a latched key, anything while it is pressed */
+.sr :is(
+  .ImageSearchWithSlider--domainSelector .dropdown-toggle,
+  .ImageSearchWithSlider--searchButton,
+  .ImageSearchWithSlider--clearTextBtn,
+  .ImageSearchWithSlider--searchHelpIcon,
+  .ImageSearchWithSlider--cameraIcon,
+  .FacetBreadcrumbs--cancelButton,
+  .show-facet-button,
+  .open-key
+):active,
+.sr .ImageSearchWithSlider--domainSelector .open > .dropdown-toggle,
+.sr .ImageSearchWithSlider--modelSelection .checkbox:has(input:checked) label,
+.sr .nav.icon-tabs > li.active > a {
+  transform: translateY(1px);
+  background: var(--pressed);
+  box-shadow: var(--d-pressed);
+  color: var(--ink);
+}
+.sr .nav.icon-tabs > li.active > a { cursor: default; }
+/* cannot act now (a page that fixes what is searched): no body, dimmed */
+.sr :is(.ImageSearchWithSlider--domainSelector .dropdown-toggle, .ImageSearchWithSlider--searchButton):is(:disabled, .disabled) {
+  background: transparent !important;
+  box-shadow: none;
+  opacity: 0.45;
+  cursor: default;
+}
+
+/* the wells instruments sit in: one recess, 3 px round them, 4 px between */
+.sr :is(.ImageSearchWithSlider--domainSelector, .ImageSearchWithSlider--modelSelection, .ImageSearchWithSlider--sliderFieldSliderContainer, .nav.icon-tabs) {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: var(--well-h);
+  padding: 3px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--well);
+  box-shadow: var(--d-well);
+}
+
+/* every group says what it does, in the same voice, over its first instrument */
+.sr .rail-group-name,
+.sr .ImageSearchWithSlider--sliderLabel::before,
+.sr .ImageSearchWithSlider--domainSelector::before,
+.sr .ImageSearchWithSlider--imageSearchContainer::before,
+.sr .search-tab-container--header-row .nav.icon-tabs::before {
+  position: absolute;
+  top: -13px;
+  left: 3px;
+  font: 500 8.5px/1 var(--sans);
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* ═════════ The rail: where the search is asked ═════════ */
+.sr .search-controls-area {
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 24px 24px 14px;
+  background: var(--bench);
+  box-shadow: inset 0 -1px 0 hsl(var(--cast) / 0.14), inset 0 1px 0 var(--lit);
+  position: relative;
+  z-index: 3;
+}
+.sr .search-bar { max-width: 1080px; margin: 0 auto; }
+.sr .ImageSearchWithSlider--imageSearchWithSlider { display: flex; flex-direction: column; gap: 24px; }
+.sr .ImageSearchWithSlider--topRow { display: flex; align-items: center; gap: 12px; margin: 0; }
+
+/* what is searched: one choice of five, the dropdown its key */
+.sr .ImageSearchWithSlider--domainSelector { position: relative; flex: none; width: auto; height: 36px; border-bottom: 0; }
+.sr .ImageSearchWithSlider--domainSelector::before { content: 'Search in'; }
+.sr .ImageSearchWithSlider--domainSelector .dropdown { width: auto; }
+.sr .ImageSearchWithSlider--domainSelector .dropdown-toggle {
+  --key-h: 30px;
+  width: auto;
+  min-width: 132px;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 0 10px 0 12px;
+  font-size: 13px;
+  font-weight: 500;
+}
+.sr .ImageSearchWithSlider--domainSelector .dropdown-toggle .caret {
+  width: 8px;
+  height: 5px;
+  border: 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5' viewBox='0 0 8 5'%3E%3Cpath d='M1 1l3 3 3-3' fill='none' stroke='%23574b3e' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center;
+}
+.sr .ImageSearchWithSlider--domainSelector .dropdown-menu {
+  min-width: 100%;
+  margin-top: 6px;
+  padding: 4px;
+  border: 0;
+  border-radius: 4px;
+  background: var(--paper);
+  box-shadow: var(--d-sheet);
+}
+.sr .ImageSearchWithSlider--domainSelector .dropdown-menu > li > a {
+  padding: 5px 10px;
+  border-radius: 3px;
+  background: none;
+  font: 500 13px/20px var(--sans);
+  color: var(--ink-2);
+}
+.sr .ImageSearchWithSlider--domainSelector .dropdown-menu > li > a:hover { background: hsl(var(--cast) / 0.06); color: var(--ink); }
+.sr .ImageSearchWithSlider--domainSelector .dropdown-menu > li.active > a,
+.sr .ImageSearchWithSlider--domainSelector .dropdown-menu > li.active > a:hover { background: var(--pull-soft); color: var(--pull); }
+
+/* the words: a field written into, recessed; the keys that work on it stand inside it */
+.sr .ImageSearchWithSlider--imageSearchContainer { position: relative; flex: 1 1 auto; min-height: 0; gap: 12px; }
+.sr .ImageSearchWithSlider--imageSearchContainer::before { content: 'Words or an image'; }
+.sr :is(.ImageSearchWithSlider--inputDropzoneContainer, .ImageSearchWithSlider--imagePreviewContainer) {
+  height: 36px;
+  min-height: 0;
+  padding: 0 4px 0 10px;
+  gap: 4px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--paper);
+  box-shadow: var(--d-well), 0 0 0 1px hsl(var(--cast) / 0.12);
+  transition: box-shadow 0.15s ease;
+}
+.sr .ImageSearchWithSlider--inputDropzoneContainer:focus-within { border: 0; box-shadow: var(--d-well), 0 0 0 2px var(--pull); }
+.sr .ImageSearchWithSlider--searchIconLeft { color: var(--ink-4); font-size: 18px; cursor: default; }
+.sr .ImageSearchWithSlider--inputWithClear input {
+  height: 34px;
+  padding: 0 4px;
+  font: 400 16px/34px var(--serif);
+  color: var(--ink);
+}
+.sr .ImageSearchWithSlider--inputWithClear input::placeholder { font-family: var(--sans); font-size: 14px; color: var(--ink-4); }
+/* clear, help and the image: small keys at the field's right end */
+.sr :is(.ImageSearchWithSlider--clearTextBtn, .ImageSearchWithSlider--searchHelpIcon, .ImageSearchWithSlider--cameraIcon) {
+  --key-h: 26px;
+  flex: none;
+  width: 26px;
+  padding: 0;
+  border-radius: 4px;
+  font-size: 17px;
+  color: var(--ink-2);
+}
+.sr .ImageSearchWithSlider--searchHelpIcon .material-symbols-rounded { font-size: 17px; }
+/* they are glyphs of the icon font, not words */
+.sr :is(.ImageSearchWithSlider--clearTextBtn, .ImageSearchWithSlider--cameraIcon, .ImageSearchWithSlider--searchHelpIcon .material-symbols-rounded, .ImageSearchWithSlider--helpIcon, .nav.icon-tabs > li > a i, .FacetBreadcrumbs--cancelButton > i) {
+  font-family: 'Material Symbols Rounded';
+  font-weight: normal;
+  letter-spacing: normal;
+}
+.sr .ImageSearchWithSlider--inputWithClear { position: relative; }
+/* ask: the rail's one wide key */
+.sr .ImageSearchWithSlider--searchButton {
+  --key-h: 36px;
+  flex: none;
+  padding: 0 20px;
+  border-radius: 6px;
+  font-size: 13px !important;
+  font-weight: 600;
+  color: var(--ink) !important;
+  background: var(--face) !important;
+}
+.sr .ImageSearchWithSlider--searchButton:active { background: var(--pressed) !important; }
+
+/* how it is searched: the kinds of match, latching keys, any number in;
+   how far the similar ones may reach, a groove with its knob */
+.sr .ImageSearchWithSlider--searchControls { display: flex; align-items: flex-start; gap: 22px; margin: 0; font-size: 12px; }
+.sr .ImageSearchWithSlider--sliderField { position: relative; display: block; flex: none; width: auto; margin: 0; padding: 0; }
+.sr .ImageSearchWithSlider--sliderLabel { position: static; margin: 0; font-size: 0 !important; line-height: 0 !important; }
+.sr .ImageSearchWithSlider--sliderField:first-child .ImageSearchWithSlider--sliderLabel::before { content: 'Search types'; }
+.sr .ImageSearchWithSlider--sliderField + .ImageSearchWithSlider--sliderField .ImageSearchWithSlider--sliderLabel::before { content: 'Search sensitivity'; }
+.sr .ImageSearchWithSlider--modelSelection { gap: 4px; }
+.sr .ImageSearchWithSlider--modelRow { display: inline-flex; align-items: center; gap: 2px; }
+.sr .ImageSearchWithSlider--modelSelection .checkbox { margin: 0; }
+.sr .ImageSearchWithSlider--modelSelection .checkbox label { padding: 0 10px !important; min-height: 0; font-size: 0 !important; }
+.sr .ImageSearchWithSlider--modelSelection .checkbox label::before { display: none; }
+.sr .ImageSearchWithSlider--modelSelection .checkbox label::after { position: static; font: 500 12px/var(--key-h) var(--sans); color: inherit; }
+.sr .ImageSearchWithSlider--modelSelection .checkbox input { position: absolute; opacity: 0; pointer-events: none; }
+/* what a kind of match finds: a quiet glyph that explains under the hand, not a key */
+.sr .ImageSearchWithSlider--helpIcon { margin: 0 4px 0 1px; font-size: 13px; color: var(--ink-4); cursor: help; }
+.sr .ImageSearchWithSlider--helpIcon:hover { color: var(--ink-2); }
+
+.sr .ImageSearchWithSlider--sliderFieldSliderContainer { width: 220px; padding: 3px 16px; }
+.sr .ImageSearchWithSlider--sliderFieldSliderContainer .rc-slider { padding: 0; height: 15px; margin-top: 0; }
+.sr .ImageSearchWithSlider--sliderFieldSliderContainer .rc-slider-rail {
+  top: 5px;
+  height: 5px;
+  border-radius: 3px;
+  background: var(--groove);
+  box-shadow: inset 0 1px 1px hsl(var(--cast) / 0.2), 0 1px 0 hsl(var(--lit-hsl) / 0.5);
+}
+.sr .ImageSearchWithSlider--sliderFieldSliderContainer .rc-slider-track { top: 5px; height: 5px; border-radius: 3px; background: var(--ink-4); }
+.sr .ImageSearchWithSlider--sliderFieldSliderContainer .rc-slider-step { top: 5px; height: 5px; }
+.sr .ImageSearchWithSlider--sliderFieldSliderContainer .rc-slider-dot { top: 0; width: 5px; height: 5px; margin-left: -2px; border: 0; background: hsl(var(--cast) / 0.25); }
+.sr .ImageSearchWithSlider--sliderFieldSliderContainer .rc-slider-handle {
+  top: 0;
+  width: 15px;
+  height: 15px;
+  margin-top: 0;
+  border: 0;
+  background: var(--face);
+  box-shadow: var(--d-stand);
+  opacity: 1;
+  cursor: grab;
+}
+.sr .ImageSearchWithSlider--sliderFieldSliderContainer .rc-slider-handle:is(:hover, :active, :focus) { border: 0; box-shadow: var(--d-stand-hover); }
+.sr .ImageSearchWithSlider--sliderFieldSliderContainer .rc-slider-mark { top: 27px; }
+.sr .ImageSearchWithSlider--sliderFieldSliderContainer .rc-slider-mark-text { font: 400 10px/1 var(--sans); color: var(--ink-3); }
+.sr .ImageSearchWithSlider--sliderFieldSliderContainer .rc-slider-mark-text-active { color: var(--ink); }
+/* keyword search alone has nothing to reach for: the groove is flat and dim */
+.sr .ImageSearchWithSlider--sliderField.disabled .ImageSearchWithSlider--sliderFieldSliderContainer { opacity: 0.45; }
+.sr .ImageSearchWithSlider--sliderField.disabled .rc-slider-disabled { background: transparent; }
+.sr .ImageSearchWithSlider--sliderField.disabled .rc-slider-handle { box-shadow: 0 0 0 1px hsl(var(--cast) / 0.2); cursor: default; }
+
+/* ═════════ Below the rail: the index of filters, and the table ═════════ */
+.sr .search-content-area {
+  gap: 14px;
+  padding: 14px;
+  border-top: 0;
+  background: var(--room);
+}
+
+/* the index: a sheet, as the record's is */
+.sr .facets-area {
+  position: relative;
+  flex: none;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: var(--paper);
+  box-shadow: var(--d-sheet);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.sr .facets-area:not(:has(.facet-relations)) { background: none; box-shadow: none; overflow: visible; }
+.sr .semantic-facet-holder { position: relative; }
+.sr .facet { border: 0; padding: 0; }
+.sr .facet-relations { width: 288px; margin: 0; padding: 30px 20px 18px; }
+.sr .facets-area:has(.facet-relations)::before {
+  content: 'Filters';
+  position: absolute;
+  top: 18px;
+  left: 20px;
+  font: 500 8.5px/1 var(--sans);
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+}
+.sr .facet__relation { margin: 0; border: 0; }
+
+/* each filter is named as the sheet names a field: tracked caps, its rule,
+   and at the edge the handle that opens it */
+.sr .facet__relation__header,
+.sr .facet__relation__header:hover,
+.sr .facet__relation__header:focus {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 0;
+  padding: 14px 0 8px;
+  border: 0 !important;
+  background: none !important;
+  font: 600 10.5px/1 var(--sans);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  cursor: pointer;
+}
+.sr .facet__relation__header:hover { color: var(--ink-2); }
+.sr .facet-relation__content { order: 1; flex: none; padding: 0; font: inherit; }
+.sr .facet__relation__header > span { order: 2; flex: 1 1 auto; height: 1px; background: var(--rule); }
+.sr .facet__relation__header :is(.facet__relation__header__icon, .facet__relation__header__icon--selected) {
+  order: 3;
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  border-radius: 4px;
+  /* the face is a gradient, so the chevron is a layer of its own above it */
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5' viewBox='0 0 8 5'%3E%3Cpath d='M1 1l3 3 3-3' fill='none' stroke='%23574b3e' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center 7px, var(--face) !important;
+  box-shadow: var(--d-stand);
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+.sr .facet__relation__header :is(.facet__relation__header__icon, .facet__relation__header__icon--selected)::before { content: none; display: none; }
+.sr .facet__relation__header:hover :is(.facet__relation__header__icon, .facet__relation__header__icon--selected) { box-shadow: var(--d-stand-hover); }
+.sr .facet__relation__header .facet__relation__header__icon--selected { transform: rotate(180deg); background-position: center 6px, 0 0 !important; }
+
+.sr .facet__relation__body { padding: 2px 0 6px; border: 0; }
+.sr .facet__relation__values { padding: 0; }
+
+/* a filter's own search: a small field, recessed */
+.sr .facet__relation__values :is(input.form-control, .clearable-input__input) {
+  height: 26px;
+  padding: 0 26px 0 8px;
+  border: 0;
+  border-radius: 4px;
+  background: var(--paper);
+  box-shadow: var(--d-well), 0 0 0 1px hsl(var(--cast) / 0.12);
+  font: 400 13px/26px var(--sans);
+  color: var(--ink);
+}
+.sr .facet__relation__values :is(input.form-control, .clearable-input__input):focus { box-shadow: var(--d-well), 0 0 0 2px var(--pull); }
+.sr .facet__relation__values :is(.clearable-input, .facet__relation__values__filter, .input-group, .LazyTreeWithSearch--textInput) { margin: 0 0 6px; padding: 0; border: 0; box-shadow: none; background: none; }
+.sr .facet__relation__values .clearable-input__clear { color: var(--ink-3); }
+
+/* the values: one line each, its check a small key that sinks and takes
+   the accent when latched, the name in the reading voice, the count at
+   the right in figures that line up */
+.sr :is(.facet__relation__values__value, .LazyTreeSelector--item) {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 26px;
+  margin: 0;
+  padding: 0;
+  font: 400 13.5px/1.3 var(--serif);
+  color: var(--ink);
+}
+.sr .facet__relation__values__value label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 26px;
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+}
+.sr .facet__relation__values__value label::before,
+.sr .facet__relation__values__value label::after { display: none; }
+.sr :is(.facet__relation__values__value, .LazyTreeSelector--item) input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  position: static;
+  flex: none;
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  border-radius: 3px;
+  background: var(--face);
+  box-shadow: var(--d-stand);
+  opacity: 1;
+  cursor: pointer;
+}
+.sr :is(.facet__relation__values__value, .LazyTreeSelector--item) input[type="checkbox"]:hover { box-shadow: var(--d-stand-hover); }
+.sr :is(.facet__relation__values__value, .LazyTreeSelector--item) input[type="checkbox"]:checked {
+  background: var(--pull) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='8' viewBox='0 0 10 8'%3E%3Cpath d='M1 4l3 3 5-6' fill='none' stroke='%23fffcf2' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center;
+  box-shadow: var(--d-pressed);
+}
+/* the name takes the line; the count, the text node after it, sits at the right */
+.sr .facet__relation__values__value label > span {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+}
+.sr .facet__relation__values__value label > span > span:first-child {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font: 400 13.5px/1.3 var(--serif);
+  color: var(--ink);
+}
+.sr .facet-count {
+  flex: none;
+  margin-left: auto;
+  font: 400 11px/1.3 var(--sans);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-3);
+}
+.sr .LazyTreeSelector--itemContent { flex: 1 1 auto; min-width: 0; padding: 0; background: none; }
+.sr .LazyTreeSelector--itemContent > span {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font: 400 13.5px/1.3 var(--serif);
+  color: var(--ink);
+}
+.sr .LazyTreeSelector--itemContent > span > span { flex: none; margin-left: auto; }
+/* a list with nothing to unfold keeps no room for the unfolding handle */
+.sr .LazyTreeSelector--component:not(:has(.LazyTreeSelector--expandToggle:not([style*="collapse"]))) .LazyTreeSelector--expandToggle { display: none; }
+.sr .LazyTreeSelector--item input[type="checkbox"]:checked ~ .LazyTreeSelector--itemContent > span,
+.sr .facet__relation__values__value input:checked + span > span:first-child { color: var(--pull); }
+.sr .LazyTreeSelector--expandToggle { flex: none; width: 12px; color: var(--ink-3); }
+.sr .facet__relation__values em,
+.sr .facet__relation__warning { font: italic 400 12px/1.4 var(--serif); color: var(--ink-3); }
+
+/* the date filter: its groove and knobs as the rail's, its years in small fields */
+.sr .FacetSlider--slider .rc-slider-rail { height: 5px; border-radius: 3px; background: var(--groove); box-shadow: inset 0 1px 1px hsl(var(--cast) / 0.2); }
+.sr .FacetSlider--slider .rc-slider-track { height: 5px; border-radius: 3px; background: var(--ink-4); }
+.sr .FacetSlider--slider .rc-slider-handle { width: 15px; height: 15px; margin-top: -5px; border: 0; background: var(--face); box-shadow: var(--d-stand); }
+.sr .FacetSlider--range { display: flex; align-items: center; gap: 6px; font: 400 12px/1 var(--sans); color: var(--ink-3); }
+.sr .YearInput--holder { display: flex; gap: 3px; }
+.sr .YearInput--holder .form-group { margin: 0; }
+.sr .YearInput--holder :is(input, select) {
+  height: 26px;
+  padding: 0 6px;
+  border: 0;
+  border-radius: 4px;
+  background: var(--paper);
+  box-shadow: var(--d-well), 0 0 0 1px hsl(var(--cast) / 0.12);
+  font: 400 12.5px/26px var(--sans);
+  color: var(--ink);
+}
+
+/* the index folds away to its edge; its key stays at the sheet's top right */
+.sr .facets-area .show-facet-button {
+  position: absolute;
+  top: 11px;
+  right: 20px;
+  left: auto;
+  z-index: 2;
+  width: auto !important;
+  height: var(--key-h) !important;
+  padding: 0 8px !important;
+  background: var(--face) !important;
+  font-size: 11px;
+}
+.sr .facets-area .show-facet-button__label { position: static !important; transform: none !important; font: inherit; white-space: nowrap; }
+
+/* folded away, the index is only its key, standing upright at the table's side */
+.sr .facets-area:not(:has(.facet-relations)) .show-facet-button {
+  position: static;
+  writing-mode: vertical-rl;
+  width: var(--key-h) !important;
+  height: auto !important;
+  padding: 10px 0 !important;
+}
+.sr .facets-area:not(:has(.facet-relations)) .show-facet-button__show { display: none; }
+.sr .facets-area:not(:has(.facet-relations)) { align-self: flex-start; }
+
+/* ═════════ The table: where the results lie ═════════ */
+.sr .results-area {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 0;
+  border-radius: 6px;
+  background: var(--bench);
+  box-shadow: var(--d-sheet);
+  overflow: hidden;
+}
+.sr .results-area > *,
+.sr .search-result-holder { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; height: auto; }
+.sr .search-result-holder > div:not(.FacetBreadcrumbs--breadcrumbs) { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; height: auto; }
+.sr .search-tab-container { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; }
+
+/* its edge: how many lie there, and how they are laid out */
+.sr .search-tab-container--header-row {
+  flex: none;
+  align-items: center;
+  gap: 18px;
+  padding: 20px 14px 10px;
+  background: var(--bench);
+  box-shadow: inset 0 -1px 0 hsl(var(--cast) / 0.14), inset 0 1px 0 var(--lit);
+}
+.sr .tally { margin: 0; font: 400 18px/1.2 var(--serif); color: var(--ink-2); }
+.sr .tally b { font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
+.sr .search-tab-container--header-row .nav.icon-tabs { position: relative; flex: none; margin: 0; }
+.sr .search-tab-container--header-row .nav.icon-tabs::before { content: 'Lay out'; }
+.sr .nav.icon-tabs > li { float: none; margin: 0; padding: 0; border: 0; background: none; }
+.sr .nav.icon-tabs > li:is(:hover, :focus-within, .active) { border: 0; background: none; }
+.sr .nav.icon-tabs > li > a { width: 30px; padding: 0; }
+.sr .nav.icon-tabs > li > a i { font-size: 17px; color: inherit !important; }
+
+/* the filters in force: each a latched key that lets go with its ×, and clear all beside them */
+.sr .FacetBreadcrumbs--breadcrumbs { flex: none; padding: 10px 14px 0; background: var(--bench); }
+.sr .FacetBreadcrumbs--container { display: flex; flex-wrap: wrap; gap: 6px; }
+.sr .FacetBreadcrumbs--conjunct { display: inline-flex; align-items: center; gap: 0; margin: 0; padding: 3px; border-radius: 6px; background: var(--well); box-shadow: var(--d-well); }
+.sr .FacetBreadcrumbs--values {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: var(--key-h);
+  padding: 0 8px !important;
+  border: 0 !important;
+  border-radius: 4px 0 0 4px;
+  background: var(--pressed) !important;
+  box-shadow: var(--d-pressed);
+  font: 500 12px/var(--key-h) var(--sans) !important;
+  color: var(--ink);
+  cursor: default;
+}
+.sr .FacetBreadcrumbs--relation { font: 500 9px/1 var(--sans); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); }
+.sr .FacetBreadcrumbs--disjunct { font: 400 13px/1 var(--serif); text-transform: none; letter-spacing: 0; color: var(--pull); }
+.sr .FacetBreadcrumbs--values + .FacetBreadcrumbs--cancelButton { width: var(--key-h); padding: 0 !important; margin-left: 3px; }
+.sr .FacetBreadcrumbs--cancelButton,
+.sr .FacetBreadcrumbs--clearAllButton {
+  height: var(--key-h) !important;
+  padding: 0 8px !important;
+  border: 0 !important;
+  background: var(--face) !important;
+}
+.sr .FacetBreadcrumbs--cancelButton > i { font-size: 14px !important; }
+
+/* the table itself: recessed into the bench, lit from the top-left */
+.sr .tab-content { flex: 1 1 auto; min-height: 0; }
+.sr .results-area .tab-pane.active { height: 100%; }
+.sr .results-area .scrolable-area {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  padding: 14px;
+  background: var(--table);
+  background-image: radial-gradient(120% 90% at 18% 0%, var(--table-lift), transparent 60%);
+  box-shadow: inset 0 2px 4px hsl(var(--cast) / 0.12), inset 0 0 0 1px hsl(var(--cast) / 0.05);
+}
+/* one row of the results: slips or prints side by side */
+.sr .result-item { display: flex; gap: 10px; margin: 0; padding: 0 0 10px; border: 0; }
+.sr .result-item > * { flex: 1 1 0; min-width: 0; }
+.sr .work-image-grid-pane .result-item { gap: 6px; padding-bottom: 4px; }
+
+/* nothing found: a note on the table, in the reading voice */
+.sr #noResults { min-height: 0; padding: 40px 24px; background: none; font: italic 400 15px/1.5 var(--serif); color: var(--ink-3); }
+
+/* ═════════ A result, wherever it is shown: the slip and the print ═════════ */
+
+/* a print on its mount, as on the record page's table: the picture with a
+   margin of card round it, the archive's mark in the mount's upper right */
+.print-on-mount {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  max-height: 100%;
+  line-height: 0;
+  padding: var(--mount, 5px);
+  border-radius: 1px;
+  background: var(--card);
+  box-shadow:
+    inset 1px 1px 0 hsl(45 60% 99% / 0.85),
+    inset -1px -1px 0 hsl(30 20% 40% / 0.1),
+    0 0 0 1px hsl(var(--cast) / 0.16),
+    0 1px 1px hsl(var(--cast) / 0.16),
+    0 3px 5px -1px hsl(var(--cast) / 0.18),
+    0 8px 14px -6px hsl(var(--cast) / 0.22);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.print-picture { display: block; max-width: var(--print-w, 100px); max-height: var(--print-h, 100px); width: auto; height: auto; }
+.print-mark {
+  position: absolute;
+  top: var(--mount, 5px);
+  right: var(--mount, 5px);
+  box-sizing: content-box;
+  width: 13px;
+  height: 13px;
+  padding: 2px 2px 3px 3px;
+  border-radius: 0 0 0 3px;
+  background: var(--card);
+  object-fit: contain;
+}
+.print-mark:not([src]), .print-mark[src=""] { display: none; }
+/* picked up under the hand: it lifts */
+:is(.slip-print, .print-place):hover .print-on-mount {
+  transform: translateY(-2px);
+  box-shadow:
+    inset 1px 1px 0 hsl(45 60% 99% / 0.95),
+    inset -1px -1px 0 hsl(30 20% 40% / 0.1),
+    0 0 0 1px hsl(var(--cast) / 0.14),
+    0 2px 2px hsl(var(--cast) / 0.1),
+    0 7px 12px -2px hsl(var(--cast) / 0.2),
+    0 18px 30px -10px hsl(var(--cast) / 0.28);
+}
+/* a work with no photograph: a blank card, in the same place */
+.print-blank {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(var(--print-w, 100px) * 0.75);
+  aspect-ratio: 3 / 4;
+  max-height: var(--print-h, 100px);
+  padding: 6px;
+  border-radius: 1px;
+  background: var(--blank);
+  box-shadow: inset 0 0 0 1px hsl(var(--cast) / 0.08);
+  font: italic 400 11.5px/1.3 var(--serif);
+  text-align: center;
+  color: var(--ink-3);
+}
+
+/* the slip: what the work's card says, on paper, as in the record page's
+   list — the print at the left, the title and the facts, the marks of the
+   archives at the right, and under them the key that opens the record */
+article.slip {
+  container: slip / inline-size;
+  --print-w: 104px;
+  --print-h: 116px;
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr) auto;
+  gap: 18px;
+  min-height: 140px;
+  padding: 12px 14px 12px 12px;
+  border-radius: 3px;
+  background: var(--paper);
+  box-shadow: var(--d-rest);
+  color: var(--ink);
+  font-family: var(--sans);
+}
+article.slip:not(:has(.slip-body)) { min-height: 140px; background: hsl(45 100% 98.6% / 0.55); box-shadow: none; }
+article.slip--name { grid-template-columns: minmax(0, 1fr) auto; min-height: 0; padding: 12px 14px; }
+.slip-print {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 116px;
+  cursor: pointer;
+}
+.slip-body { min-width: 0; }
+.slip-title { margin: 1px 0 8px; font: 400 16px/1.3 var(--serif); }
+.slip-title a,
+.print-caption a,
+.slip-row dd a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: hsl(var(--cast) / 0.2);
+  text-underline-offset: 4px;
+  transition: text-decoration-color 0.15s;
+}
+.slip-title a:hover, .print-caption a:hover, .slip-row dd a:hover { color: var(--ink); text-decoration-color: hsl(var(--cast) / 0.55); }
+.slip-count { margin-left: 8px; font: 400 11px/1 var(--sans); color: var(--ink-3); white-space: nowrap; }
+.slip-rows { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 3px 14px; margin: 0; }
+.slip-row { display: contents; }
+.slip-row dt {
+  margin: 0;
+  font: 500 9.5px/19px var(--sans);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.slip-row dd {
+  margin: 0;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  font: 400 13px/19px var(--sans);
+  color: var(--ink);
+}
+.slip-row dd a { text-underline-offset: 3px; text-decoration-color: hsl(var(--cast) / 0.18); }
+.slip-row .sep { margin: 0 5px; color: var(--ink-4); }
+/* a narrow slip names each fact above it */
+@container slip (max-width: 560px) {
+  .slip-rows { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .slip-row dt { line-height: 15px; }
+  .slip-row dd { margin-bottom: 4px; -webkit-line-clamp: 1; }
+}
+/* why it was found: a note, not a control; each term explains itself under the hand */
+.slip-why { margin: 8px 0 0; font: 400 11px/1.4 var(--sans); color: var(--ink-3); }
+.slip-why-lead { margin-right: 4px; }
+.slip-why mp-popover + mp-popover::before,
+.slip-why .slip-why-term { cursor: help; }
+.slip-why-term { position: relative; border-bottom: 1px dotted hsl(var(--cast) / 0.35); }
+.slip-why-term + .slip-why-term,
+mp-popover + mp-popover .slip-why-term,
+.slip-why > span + span .slip-why-term { margin-left: 14px; }
+:is(.slip-why-term + .slip-why-term, mp-popover + mp-popover .slip-why-term, .slip-why > span + span .slip-why-term)::before {
+  content: '·';
+  position: absolute;
+  left: -10px;
+  color: var(--ink-4);
+}
+.slip-why-term:hover { color: var(--ink-2); }
+.slip-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+}
+.slip-register { display: inline-flex; flex-wrap: wrap; justify-content: flex-end; gap: 5px; max-width: 132px; }
+.slip-register .mark { display: block; width: 13px; height: 13px; padding: 0; object-fit: contain; }
+/* the one way in */
+.open-key {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 22px;
+  padding: 0 10px;
+  border-radius: 4px;
+  background: var(--face);
+  box-shadow: var(--d-stand);
+  font: 500 12px/22px var(--sans);
+  color: var(--ink-2);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: box-shadow 0.12s ease, color 0.12s ease, transform 0.08s ease;
+}
+.open-key::after { content: '↗'; font-size: 11px; color: var(--ink-3); }
+.open-key:hover { box-shadow: var(--d-stand-hover); color: var(--ink); text-decoration: none; }
+.open-key:active { transform: translateY(1px); background: var(--pressed); box-shadow: var(--d-pressed); }
+
+/* a print loose on the table: the print centred in its place, its title beneath */
+.print-mount {
+  --print-w: 164px;
+  --print-h: 176px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 6px 4px 8px;
+  color: var(--ink);
+}
+.print-place {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: calc(var(--print-h) + 12px);
+  cursor: pointer;
+}
+.print-caption {
+  width: 100%;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  font: 400 12.5px/1.35 var(--serif);
+  text-align: center;
+}
+.print-caption a { text-underline-offset: 3px; text-decoration-color: hsl(var(--cast) / 0.16); }

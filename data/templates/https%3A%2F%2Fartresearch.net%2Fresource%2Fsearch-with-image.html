@@ -158,7 +158,7 @@ SELECT ?subject WHERE {
                 "childrenPattern": "{
                   ?child crm:PXX ?value .
                 }",
-                "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
+                "searchPattern": "{ SERVICE view:names { ?searchView view:column-word ?searchWord ; view:column-entity ?value ; view:column-name ?searchName } FILTER(?searchWord >= ?__prefix_from__ && ?searchWord < ?__prefix_to__) FILTER(CONTAINS(LCASE(STR(?searchName)), ?__word_1__) && CONTAINS(LCASE(STR(?searchName)), ?__word_2__) && CONTAINS(LCASE(STR(?searchName)), ?__word_3__)) }"
               },
               "<https://artresearch.net/resource/fr/Work_from_Place>": {
                 "kind":"hierarchy",
@@ -217,7 +217,7 @@ SELECT ?subject WHERE {
                     }
                   }
                 }",
-                "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
+                "searchPattern": "{ SERVICE view:names { ?searchView view:column-word ?searchWord ; view:column-entity ?value ; view:column-name ?searchName } FILTER(?searchWord >= ?__prefix_from__ && ?searchWord < ?__prefix_to__) FILTER(CONTAINS(LCASE(STR(?searchName)), ?__word_1__) && CONTAINS(LCASE(STR(?searchName)), ?__word_2__) && CONTAINS(LCASE(STR(?searchName)), ?__word_3__)) }"
   						},
               "<https://artresearch.net/resource/fr/Work_created_from_Artist>": {
                 "kind":"hierarchy",
@@ -235,7 +235,7 @@ SELECT ?subject WHERE {
                 "childrenPattern": "{
                   ?child crm:PXX ?value .
                 }",
-                "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
+                "searchPattern": "{ SERVICE view:names { ?searchView view:column-word ?searchWord ; view:column-entity ?value ; view:column-name ?searchName } FILTER(?searchWord >= ?__prefix_from__ && ?searchWord < ?__prefix_to__) FILTER(CONTAINS(LCASE(STR(?searchName)), ?__word_1__) && CONTAINS(LCASE(STR(?searchName)), ?__word_2__) && CONTAINS(LCASE(STR(?searchName)), ?__word_3__)) }"
   						}
                              [[!--
               "<https://artresearch.net/custom/is_matched_artworks>": {

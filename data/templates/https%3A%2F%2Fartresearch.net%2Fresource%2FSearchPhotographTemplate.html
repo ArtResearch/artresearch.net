@@ -82,20 +82,22 @@
                   GROUP BY ?subject
                   HAVING (?maxScore > 0)
                 } UNION {
-                  SELECT ?subject ((((100 - ?__aiAssist__) / 100) * (SUM(?ql_score_text_var_subject) / SAMPLE(?textMaxScore))) as ?maxScore) WHERE {
+                  SELECT ?subject ((((100 - ?__aiAssist__) / 100) * (SUM(?searchScore) / SAMPLE(?textMaxScore))) as ?maxScore) WHERE {
                     ?subject crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph>  .
                     {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
                     ?subject custom:has_image true .
-                    ?text ql:contains-entity ?subject .
-                    ?text ql:contains-word ?__token__ .
+                    SERVICE view:words { ?searchView view:column-word ?searchWord ; view:column-work ?searchWork ; view:column-score ?searchScore }
+                    FILTER(?searchWord >= ?__prefix_from__ && ?searchWord < ?__prefix_to__)
+                    ?subject crm:P65_shows_visual_item/crm:P138_represents ?searchWork .
 
                     {
-                      SELECT (SUM(?ql_score_text_var_subject) AS ?textMaxScore) WHERE {
+                      SELECT (SUM(?searchScore) AS ?textMaxScore) WHERE {
                           ?subject crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph>  .
                           {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
                           ?subject custom:has_image true .
-                          ?text ql:contains-entity ?subject .
-                          ?text ql:contains-word ?__token__ .
+                          SERVICE view:words { ?searchView view:column-word ?searchWord ; view:column-work ?searchWork ; view:column-score ?searchScore }
+                          FILTER(?searchWord >= ?__prefix_from__ && ?searchWord < ?__prefix_to__)
+                          ?subject crm:P65_shows_visual_item/crm:P138_represents ?searchWork .
                       }
                       GROUP BY ?subject
                       ORDER BY DESC (?textMaxScore)

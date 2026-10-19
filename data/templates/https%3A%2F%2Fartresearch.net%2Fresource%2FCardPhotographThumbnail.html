@@ -1,27 +1,21 @@
-  <div class="artwork-card artwork-image-card karla-regular">
+  [[!--
+    A photograph in the results as a print on the table, on its mount with its archive's mark, and
+    its title beneath. Picking it up opens the record. (search-room.css)
+  --]]
+  <figure class="print-mount">
     {{#if data}}
-        <semantic-link-container uri="{{data.[@id]}}" target="_blank">
-            <div class="thumbnail-container cursor">
-              <div class="image-wrapper">
-                {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail]}}
-                  <img class="thumbnail-image" src="https://artresearch.net{{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" alt="Artwork thumbnail" />
-                {{else}}
-                  <span class="no-image-text">No image</span>
-                {{/if}}
-              </div>
-            </div>
-           <div class="field">
-              <div class="field-value">
-                <div class="provider-icons">
-                  {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values}}
-                    <semantic-link-container uri='{{[@id]}}' target='_blank'>
-                      <img class="provider-icon" title="{{label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
-                    </semantic-link-container>
-                  {{/each}}
-                </div>
-              </div>
-            </div>
+      <semantic-link-container uri="{{data.[@id]}}" target="_blank">
+        <div class="print-place" title="Open record: {{data.label}}">
+          {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail]}}
+            <span class="print-on-mount">
+              <img class="print-picture" loading="lazy" alt="" src="https://artresearch.net{{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" />
+              <img class="print-mark" alt="" title="{{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.label}}" src="{{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}" />
+            </span>
+          {{else}}
+            <span class="print-blank">No image</span>
+          {{/if}}
+        </div>
       </semantic-link-container>
-
+      <figcaption class="print-caption"><semantic-link iri="{{data.[@id]}}" target="_blank">{{data.label}}</semantic-link></figcaption>
     {{/if}}
-  </div>
+  </figure>

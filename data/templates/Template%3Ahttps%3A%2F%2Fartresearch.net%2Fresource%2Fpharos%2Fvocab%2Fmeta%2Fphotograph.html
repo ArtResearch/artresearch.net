@@ -74,22 +74,45 @@
                           id="grid-result"
                           prefetch-labels="false"
                           query='
-                            SELECT DISTINCT (?uri AS ?subject) (?uri as ?maxPhoto) (?matchedModel as ?matchType) {
-                              SERVICE <http://usearch-search.private:8545/sparql> {
-                                SELECT * WHERE {
-                                  SERVICE <https://artresearch.net/embeddings/search> {
-                                    ?uri <https://artresearch.net/embeddings/data> "{{subject}}";
-                                         <https://artresearch.net/embeddings/request_type> "uri";
-                                         <https://artresearch.net/embeddings/model> "siglip2_so400m_patch16_naflex";
-                                         <https://artresearch.net/embeddings/joinOn> "uri";
-                                         <https://artresearch.net/embeddings/returnValues> "uri";
-                                         <https://artresearch.net/embeddings/sensitivity> "precise";
-                                         <https://artresearch.net/embeddings/score> ?similarity;
-                                         <https://artresearch.net/embeddings/matchedModel> ?matchedModel.
+                            PREFIX vec: <https://qlever.cs.uni-freiburg.de/vectorSearch/>
+                            PREFIX rank: <https://qlever.cs.uni-freiburg.de/rank/>
+                            # near-exact copies of this photograph (DINOv3, the copies that stand out from the
+                            # score distribution) and visually similar ones (SigLIP 2), fused by rank
+                            SELECT ?subject (?subject AS ?maxPhoto) (SUM(1.0 / (60 + ?rank)) AS ?score) (GROUP_CONCAT(?matchedModel ; separator=",") AS ?matchType) WHERE {
+                              {
+                                SERVICE rank: {
+                                  _:dinov3 rank:score ?distance ; rank:descending false ; rank:bindRank ?rank .
+                                  {
+                                    SELECT ?subject ?distance WHERE {
+                                      SERVICE vec: {
+                                        [] vec:index "dinov3" ; vec:query <{{subject}}> ;
+                                           vec:result ?subject ; vec:bindScore ?distance ;
+                                           vec:autoCut "precise" ; vec:k 100 .
+                                      }
+                                      FILTER(?subject != <{{subject}}>)
+                                    }
                                   }
                                 }
+                                BIND("dinov3" AS ?matchedModel)
+                              } UNION {
+                                SERVICE rank: {
+                                  _:images rank:score ?distance ; rank:descending false ; rank:bindRank ?rank .
+                                  {
+                                    SELECT ?subject ?distance WHERE {
+                                      SERVICE vec: {
+                                        [] vec:index "images" ; vec:query <{{subject}}> ;
+                                           vec:result ?subject ; vec:bindScore ?distance ; vec:k 50 .
+                                      }
+                                      FILTER(?subject != <{{subject}}>)
+                                    }
+                                  }
+                                }
+                                BIND("images" AS ?matchedModel)
                               }
-                            } ORDER BY DESC(?similarity) DESC(?subject) LIMIT 100
+                            }
+                            GROUP BY ?subject
+                            ORDER BY DESC(?score) DESC(?subject)
+                            LIMIT 100
                           '
 
                           template="{{> subjectCellTemplate}}"

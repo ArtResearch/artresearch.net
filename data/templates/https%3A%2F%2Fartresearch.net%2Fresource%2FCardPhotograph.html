@@ -1,120 +1,98 @@
-
-
-<div class="artwork-card">
+[[!--
+  A photograph in the results, as a slip: the print on its mount with its archive's mark, its title
+  and what its card says, its archive's mark, and one key that opens its record. (search-room.css)
+--]]
+<article class="slip">
   <resource-info subject="{{subject.value}}" profile="photograph-card" template="{{> template}}">
     <template id="template">
       <semantic-link-container uri="{{subject}}" target="_blank">
-        <div class="thumbnail-container cursor">
+        <div class="slip-print" title="Open record">
           {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail]}}
-            <img class="thumbnail-image" src="https://artresearch.net{{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" alt="Artwork thumbnail" />
+            <span class="print-on-mount">
+              <img class="print-picture" loading="lazy" alt="" src="https://artresearch.net{{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" />
+              <img class="print-mark" alt="" title="{{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.label}}" src="{{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}" />
+            </span>
           {{else}}
-            <span class="no-image-text">No image</span>
+            <span class="print-blank">No image</span>
           {{/if}}
         </div>
       </semantic-link-container>
-        <div class="info-container">
-          <span class="author-name">{{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/photographer" label="Photographer"}}</span>
-          <semantic-link iri='{{subject}}' target="_blank">
-            <span class="bold-text photo-title">
-              <div class="field">
-                <div class="field-label karla-bold">Title</div>
-                <div class="field-value">
-                {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/photo_title].values.[0]}}
-                  {{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_title].values.[0].[label]}}
-                {{else}}
-                  {{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_artwork].values.[0].[label]}}
-                {{/if}}
-                </div>
-              </div>
-            </span>
-          </semantic-link>
-          {{> fieldTemplate data=data field="https://artresearch.net/resource/field_definition/pharos_model/production_date" label="Date"}}
-          <div class="field">
-            <div class="field-label karla-bold">{{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].label}}</div>
-            <div class="field-value">
-              <div class="provider-icons">
-                <span class="provider-icons-text">Photo archive(s): </span>
-                {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values}}
-                <semantic-link-container uri='{{[@id]}}' target='_blank'>
-                  <img class="provider-icon" title="{{label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
-                </semantic-link-container>
-                {{/each}}
-              </div>
-            </div>
-          </div>
 
-            {{#if matchType.value}}
-            <div class="field ai-results">
-              <div class="field-value">
-                  {{#each (split matchType.value ',')}}
-                    {{#ifCond this '===' 'text_index'}}
-                      <mp-popover>
-                        <mp-popover-trigger placement="bottom" trigger='["hover"]'>
-                          <span class='ai-result' style='margin-right: 5px'>Text Match</span>
-                        </mp-popover-trigger>
-                        <mp-popover-content>
-                          This record is shown because its information contains your exact search terms.
-                        </mp-popover-content>
-                      </mp-popover>
-                    {{/ifCond}}
-                    {{#ifCond this '===' 'qwen3_8b'}}
-                      <mp-popover>
-                        <mp-popover-trigger placement="bottom" trigger='["hover"]'>
-                          <span class='ai-result' style='margin-right: 5px'>Textual Similarity</span>
-                        </mp-popover-trigger>
-                        <mp-popover-content>
-                          This record is shown because its descriptive text is conceptually similar to your search terms.
-                        </mp-popover-content>
-                      </mp-popover>
-                    {{/ifCond}}
-                    {{#ifCond this '===' 'siglip2_so400m_patch16_naflex'}}
-                      <mp-popover>
-                        <mp-popover-trigger placement="bottom" trigger='["hover"]'>
-                          <span class='ai-result' style='margin-right: 5px'>Visual Similarity</span>
-                        </mp-popover-trigger>
-                        <mp-popover-content>
-                          This artwork is shown because it shares a similar aesthetic (style, mood, or composition) to your search terms.
-                        </mp-popover-content>
-                      </mp-popover>
-                    {{/ifCond}}
-                    {{#ifCond this '===' 'siglip2_so400m_patch16_naflex_sift_rerank'}}
-                      <mp-popover>
-                        <mp-popover-trigger placement="bottom" trigger='["hover"]'>
-                          <span class='ai-result' style='margin-right: 5px'>Visual Match</span>
-                        </mp-popover-trigger>
-                        <mp-popover-content>
-                          This image is a near-exact copy of the one you provided.
-                        </mp-popover-content>
-                      </mp-popover>
-                    {{/ifCond}}
-                  {{/each}}
-              </div>
-            </div>
+      <div class="slip-body">
+        <h3 class="slip-title">
+          <semantic-link iri="{{subject}}" target="_blank">
+            {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/photo_title].values.[0]}}
+              {{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_title].values.[0].[label]}}
+            {{else}}
+              {{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_artwork].values.[0].[label]}}
             {{/if}}
-        </div>
-    </template>
+          </semantic-link>
+        </h3>
+        <dl class="slip-rows">
+          {{> row data=data field="https://artresearch.net/resource/field_definition/pharos_model/photographer"}}
+          {{> row data=data field="https://artresearch.net/resource/field_definition/pharos_model/production_date"}}
+          {{> row data=data field="https://artresearch.net/resource/field_definition/pharos_model/photo_artwork"}}
+        </dl>
+        {{#if matchType.value}}
+          <p class="slip-why">
+            <span class="slip-why-lead">Found by</span>
+            {{#each (split matchType.value ',')}}
+              {{#ifCond this '===' 'text_index'}}
+                <mp-popover>
+                  <mp-popover-trigger placement="bottom" trigger='["hover"]'><span class="slip-why-term">text match</span></mp-popover-trigger>
+                  <mp-popover-content>This record is shown because its information contains your exact search terms.</mp-popover-content>
+                </mp-popover>
+              {{/ifCond}}
+              {{#ifCond this '===' 'narratives'}}
+                <mp-popover>
+                  <mp-popover-trigger placement="bottom" trigger='["hover"]'><span class="slip-why-term">textual similarity</span></mp-popover-trigger>
+                  <mp-popover-content>This record is shown because its descriptive text is conceptually similar to your search terms.</mp-popover-content>
+                </mp-popover>
+              {{/ifCond}}
+              {{#ifCond this '===' 'images'}}
+                <mp-popover>
+                  <mp-popover-trigger placement="bottom" trigger='["hover"]'><span class="slip-why-term">visual similarity</span></mp-popover-trigger>
+                  <mp-popover-content>This artwork is shown because it shares a similar aesthetic (style, mood, or composition) to your search terms.</mp-popover-content>
+                </mp-popover>
+              {{/ifCond}}
+              {{#ifCond this '===' 'dinov3'}}
+                <mp-popover>
+                  <mp-popover-trigger placement="bottom" trigger='["hover"]'><span class="slip-why-term">visual match</span></mp-popover-trigger>
+                  <mp-popover-content>This image is a near-exact copy of the one you provided.</mp-popover-content>
+                </mp-popover>
+              {{/ifCond}}
+            {{/each}}
+          </p>
+        {{/if}}
+      </div>
 
-    <template id="fieldTemplate">
+      <div class="slip-side">
+        <span class="slip-register" title="{{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].label}}">
+          {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values}}
+            <img class="mark" alt="" title="{{label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
+          {{/each}}
+        </span>
+        <semantic-link class="open-key" iri="{{subject}}" target="_blank">Open record</semantic-link>
+      </div>
+    </template>
+    <template id="row">
       {{#if (lookup data field)}}
-        <div class="field">
-          <div class="field-label">{{label}}</div>
-          <div class="field-value">
+        <div class="slip-row">
+          <dt>{{lookup (lookup data field) 'label'}}</dt>
+          <dd>
             {{#each (lookup (lookup data field) 'values')}}
               {{#if [@id]}}
                 <semantic-link target="_blank" iri="{{[@id]}}">{{label}}</semantic-link>
-                {{#unless @last}} · {{/unless}}
+              {{else if (eq ../field "https://artresearch.net/resource/field_definition/pharos_model/production_date")}}
+                {{dateRangeFormat [@value]}}
               {{else}}
-                  {{#if (eq ../field "https://artresearch.net/resource/field_definition/pharos_model/production_date")}}
-                    {{dateRangeFormat [@value]}}
-                  {{else}}
-                    {{[@value]}}
-                  {{/if}}
-                {{#unless @last}} · {{/unless}}
+                {{[@value]}}
               {{/if}}
+              {{#unless @last}}<span class="sep">·</span>{{/unless}}
             {{/each}}
-          </div>
+          </dd>
         </div>
       {{/if}}
     </template>
   </resource-info>
-</div>
+</article>

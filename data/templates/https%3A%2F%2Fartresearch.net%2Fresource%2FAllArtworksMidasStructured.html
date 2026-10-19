@@ -171,7 +171,7 @@ ORDER BY DESC (?count)
 PREFIX ql: <http://qlever.cs.uni-freiburg.de/builtin-functions/>
 PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-SELECT DISTINCT (?value AS ?item) ?hasChildren ?count (?ql_score_text_var_value AS ?score) WHERE {
+SELECT DISTINCT (?value AS ?item) ?hasChildren ?count WHERE {
   {
     SELECT ?value (COUNT(DISTINCT ?subject) AS ?count) WHERE {
       ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025>.
@@ -194,8 +194,9 @@ SELECT DISTINCT (?value AS ?item) ?hasChildren ?count (?ql_score_text_var_value 
   }
   BIND(BOUND(?child) AS ?hasChildren)
   {
-    ?text ql:contains-entity ?value;
-      ql:contains-word ?__token__.
+    SERVICE view:names { ?searchView view:column-word ?searchWord ; view:column-entity ?value ; view:column-name ?searchName }
+    FILTER(?searchWord >= ?__prefix_from__ && ?searchWord < ?__prefix_to__)
+    FILTER(CONTAINS(LCASE(STR(?searchName)), ?__word_1__) && CONTAINS(LCASE(STR(?searchName)), ?__word_2__) && CONTAINS(LCASE(STR(?searchName)), ?__word_3__))
   }
 }
 ORDER BY DESC (?score) DESC (?count)

@@ -1,3 +1,5 @@
+[[!-- the search page, in the reading room's language (assets/new-styles/search-room.css) --]]
+<div class="sr">
 <semantic-search id="main-search" save-state-in-browser-history="false" limit=10000
   relations='[[> SearchSimpleRelations]]' search-profile='[[> SearchSimpleProfile]]'
   datasets-config='{"datasetPattern": "", "datasets": [{"label": "PHAROS", "isDefault": true, "alignments": [{"iri": "http://vocab.getty.edu/aat/", "label": "Getty", "isDefault": true}, {"iri": "https://artresearch.net/resource/midas/vocabulary", "label": "MIDAS"}, {"iri": "https://artresearch.net/resource/zeri/vocabulary", "label": "Zeri"}]}]}'
@@ -10,61 +12,49 @@
         text-visual-match-help='<b>Visual Concept Search.</b> Finds artworks that visually represent the concept of your search terms, even abstract terms or color in black-and-white photos. <semantic-link iri="https://artresearch.net/resource/search-help" fragment="visual-similarity-from-text" target="_blank">See search documentation</semantic-link>'
         visual-match-help='<b>Near-Exact Copies.</b> Near-Exact Copies. Finds duplicates, prints, copies or different versions of your uploaded image. <semantic-link iri="https://artresearch.net/resource/search-help" fragment="visual-match" target="_blank">See search documentation</semantic-link>'
         visual-similarity-help='<b>Aesthetic Search.</b> Finds artworks with a similar style, mood, or subject matter to your uploaded image. <semantic-link iri="https://artresearch.net/resource/search-help" fragment="visual-similarity-from-image" target="_blank">See search documentation</semantic-link>'
-        image-storage='image-search' initial-input='{{query}}' enable-model-selection='{{enableModelSelection}}'
+        image-storage='image-search' initial-input='{{query}}'
         domains='[
                 {
                   "name": "Artwork",
+                 "textView": { "view": "words", "entity": "work", "score": "score", "variable": "subject" },
                   "domainColor": "#70E7C5",
                   "uri": "<https://artresearch.net/resource/custom/fc/work>",
                   "withAi": true,
                   "withImages": true,
                   "withTextualSimilarity": true,
-                  "withVisualSimilarity": true,
-                  "embeddingParams": {
-                    "metadata": {},
-                    "visual": {
-                      "returnValues": "work",
-                      "addMaxWork": true
-                    },
-                    "metadata_visual": {
-                      "joinOn": "uri,work",
-                      "returnValues": "uri,work",
-                      "addMaxWork": true
-                    }
-                  }
+                  "withVisualSimilarity": true
                 },
                {
                  "name": "Photograph",
+                 "textView": { "view": "words", "entity": "work", "score": "score", "variable": "searchWork" },
                  "uri": "<https://artresearch.net/resource/custom/fc/photograph>",
                  "withAi": true,
                  "withImages": true,
                  "domainColor": "#E8756F",
                  "withTextualSimilarity": false,
-                 "withVisualSimilarity": true,
-                 "embeddingParams": {
-                   "metadata": {},
-                   "visual": {},
-                   "metadata_visual": {}
-                 }
+                 "withVisualSimilarity": true
                },
                {
                  "name": "Artist",
+                 "textView": { "view": "names", "entity": "entity", "variable": "subject" },
                  "uri": "<https://artresearch.net/resource/custom/fc/artist>",
                  "domainColor": "#72827E"
                },
                {
                  "name": "Photographer",
+                 "textView": { "view": "names", "entity": "entity", "variable": "subject" },
                  "uri": "<https://artresearch.net/resource/custom/fc/photographer>",
                  "domainColor": "#E89F6F"
                },
                {
                  "name": "Repository",
+                 "textView": { "view": "names", "entity": "entity", "variable": "subject" },
                  "uri": "<https://artresearch.net/resource/custom/fc/repository>",
                  "domainColor": "#A09322"
                }
               ]' evaluate-on-change='true'
         initial-domain="{{#if domain}}<https://artresearch.net/resource/custom/fc/{{domain}}>{{else}}<https://artresearch.net/resource/custom/fc/work>{{/if}}"
-        lock-domain="{{#if lock}}true{{else}}false{{/if}}" debounce="600" tokenize-lucene-query="true"
+        lock-domain="{{#if lock}}true{{else}}false{{/if}}" debounce="600" tokenize-lucene-query="false"
         escape-lucene-syntax="false" default-slider-value="0" default-query-0='
                 SELECT ?subject WHERE {
                   ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
@@ -73,195 +63,183 @@
               ' text-query-0='
                 SELECT DISTINCT ?subject WHERE {
                   {
-                      SELECT ?subject ((?__textScoreSumPattern__) / SAMPLE(?textMaxScore) as ?score) WHERE {
+                      SELECT ?subject (?__textScorePattern__ AS ?score) WHERE {
+                        FILTER(?__textPattern__)
                         ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
                         {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
-                        FILTER(?__textPattern__) .
-
-                        {
-                          SELECT ((?__textScoreSumPattern__) AS ?textMaxScore) WHERE {
-                              ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
-                              {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
-                              FILTER(?__textPattern__) .
-                          }
-                          GROUP BY ?subject
-                          ORDER BY DESC (?textMaxScore)
-                          LIMIT 1
-                        }
                       }
                       GROUP BY ?subject
                   }
                 }
               ' text-with-ai-query-0='
-                PREFIX emb: <https://artresearch.net/embeddings/>
+                PREFIX vec: <https://qlever.cs.uni-freiburg.de/vectorSearch/>
+                PREFIX rank: <https://qlever.cs.uni-freiburg.de/rank/>
+                PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
                 SELECT DISTINCT ?subject WHERE {
                   {
-                    SELECT DISTINCT ?subject (SUM(?maxScore) AS ?score) (MAX(?photo) AS ?maxPhoto) (GROUP_CONCAT(?matchedModel ; separator=",") AS ?matchType) WHERE {
-                      {
-                        SELECT ?subject ((0.5 * ?similarity) as ?maxScore) ?matchedModel ?photo {
-                          SERVICE <http://usearch-search.private:8545/sparql> {
-                            SELECT * {
-                              SERVICE emb:search {
-                                ?uri emb:data ?__token__ .
-                                ?uri emb:request_type "text" .
-                                FILTER(?__embeddingPattern__)
-                                ?uri emb:sensitivity ?__searchSensitivity__ .
-                                ?uri emb:score ?similarity .
-                                ?uri emb:matchedModel ?matchedModel .
-                                    
-                                {{#if dataset}}
-                                ?uri emb:filterBy "dataset" ;
-                                     emb:filterValues "{{dataset}}" .
-                                {{/if}}
-                              }
-                            } LIMIT 1000
-                          }
-                          BIND(?uri as ?subject) .
-                          BIND(COALESCE(?clip_vit_large_patch14_336_maxScoreUri, ?siglip2_so400m_patch16_naflex_maxScoreUri) AS ?photo) .
-                          {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
-                        }
-                      } UNION {
-                        {
-                        SELECT ?subject ((0.5 * ((?__textScoreSumPattern__) / SAMPLE(?textMaxScore))) as ?maxScore) WHERE {
-                          ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
-                          {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
-                          FILTER(?__textPattern__) .
-
-                          {
-                            SELECT ((?__textScoreSumPattern__) AS ?textMaxScore) WHERE {
-                                ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
-                                {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
-                                FILTER(?__textPattern__) .
-                            }
-                            GROUP BY ?subject
-                            ORDER BY DESC (?textMaxScore)
-                            LIMIT 1
-                          }
-                        }
-                        GROUP BY ?subject
-                        HAVING (?maxScore > 0)
-                        }
-                        BIND("text_index" AS ?matchedModel) .
-                      }
+                    SELECT ?subject (SUM(1.0 / (60 + ?rank)) AS ?score) (MAX(?photo) AS ?maxPhoto) (GROUP_CONCAT(?matchedModel ; separator=",") AS ?matchType) WHERE {
+                      FILTER(?__vectorPattern__)
                     }
                     GROUP BY ?subject
                   }
                 }
               ' text-ai-query-0='
-                PREFIX emb: <https://artresearch.net/embeddings/>
+                PREFIX vec: <https://qlever.cs.uni-freiburg.de/vectorSearch/>
+                PREFIX rank: <https://qlever.cs.uni-freiburg.de/rank/>
+                PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
                 SELECT DISTINCT ?subject WHERE {
                   {
-                        SELECT ?subject (?similarity as ?score) (?photo AS ?maxPhoto) (?matchedModel AS ?matchType) {
-                          SERVICE <http://usearch-search.private:8545/sparql> {
-                            SELECT * {
-                              SERVICE emb:search {
-                                ?uri emb:data ?__token__ .
-                                ?uri emb:request_type "text" .
-                                FILTER(?__embeddingPattern__)
-                                ?uri emb:score ?similarity .
-                                ?uri emb:sensitivity ?__searchSensitivity__ .
-                                ?uri emb:matchedModel ?matchedModel .
-                               
-                                {{#if dataset}}
-                                ?uri emb:filterBy "dataset" ;
-                                     emb:filterValues "{{dataset}}" .
-                                {{/if}}
-                              }
-                            } LIMIT 1000
-                          }
-                          BIND(?uri as ?subject)
-                          BIND(COALESCE(?clip_vit_large_patch14_336_maxScoreUri, ?siglip2_so400m_patch16_naflex_maxScoreUri) AS ?photo) .
-
-                          {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
-                        }
+                    SELECT ?subject (SUM(1.0 / (60 + ?rank)) AS ?score) (MAX(?photo) AS ?maxPhoto) (GROUP_CONCAT(?matchedModel ; separator=",") AS ?matchType) WHERE {
+                      FILTER(?__vectorPattern__)
+                    }
+                    GROUP BY ?subject
                   }
                 }
-              ' image-query-0='
-                PREFIX emb: <https://artresearch.net/embeddings/>
-                SELECT DISTINCT ?subject WHERE {
+              ' text-keyword-pattern-0='
+                SERVICE rank: {
+                  _:text_index rank:score ?textScore ; rank:descending true ; rank:limit 10000 ; rank:bindRank ?rank .
                   {
-                        SELECT ?subject (?similarity as ?score) (?photo AS ?maxPhoto) (?matchedModel AS ?matchType) {
-                          SERVICE <http://usearch-search.private:8545/sparql> {
-                            SELECT * {
-                              SERVICE emb:search {
-                                ?uri emb:data ?__data__ .
-                                ?uri emb:request_type ?__dataType__ .
-                                FILTER(?__embeddingPattern__)
-                                ?uri emb:score ?similarity .
-                                ?uri emb:sensitivity "near-exact" .
-                                ?uri emb:matchedModel ?matchedModel .
-                             
-                                {{#if dataset}}
-                                ?uri emb:filterBy "dataset" ;
-                                     emb:filterValues "{{dataset}}" .
-                                {{/if}}
-                              }
-                            } LIMIT 1000
-                          }
-                          BIND(?uri as ?subject)
-                          BIND(COALESCE(?clip_vit_large_patch14_336_sift_rerank_maxScoreUri, ?siglip2_so400m_patch16_naflex_sift_rerank_maxScoreUri, ?clip_vit_large_patch14_336_maxScoreUri, ?siglip2_so400m_patch16_naflex_maxScoreUri) AS ?photo) .
-
+                    SELECT ?subject (?__textScorePattern__ AS ?textScore) WHERE {
+                      FILTER(?__textPattern__)
+                      {
+                        SELECT DISTINCT ?subject WHERE {
+                          ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
                           {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+                          FILTER(?__facetFilter__)
                         }
+                      }
+                    }
+                    GROUP BY ?subject
                   }
-                }' image-ai-query-0='
-                PREFIX emb: <https://artresearch.net/embeddings/>
+                }
+                BIND("text_index" AS ?matchedModel)
+              ' image-query-0='
+                PREFIX vec: <https://qlever.cs.uni-freiburg.de/vectorSearch/>
+                PREFIX rank: <https://qlever.cs.uni-freiburg.de/rank/>
+                PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
                 SELECT DISTINCT ?subject WHERE {
                   {
-                        SELECT ?subject (?similarity as ?score) (?photo AS ?maxPhoto) (?matchedModel AS ?matchType) {
-                          SERVICE <http://usearch-search.private:8545/sparql> {
-                            SELECT * {
-                              SERVICE emb:search {
-                                ?uri emb:data ?__data__ .
-                                ?uri emb:request_type ?__dataType__ .
-                                FILTER(?__embeddingPattern__)
-                                ?uri emb:score ?similarity .
-                                ?uri emb:sensitivity ?__searchSensitivity__ .
-                                ?uri emb:matchedModel ?matchedModel .
-                                
-                                {{#if dataset}}
-                                ?uri emb:filterBy "dataset" ;
-                                     emb:filterValues "{{dataset}}" .
-                                {{/if}}
-                              }
-                            } LIMIT 1000
-                          }
-                          BIND(?uri as ?subject)
-                          BIND(COALESCE(?clip_vit_large_patch14_336_sift_rerank_maxScoreUri, ?siglip2_so400m_patch16_naflex_sift_rerank_maxScoreUri, ?clip_vit_large_patch14_336_maxScoreUri, ?siglip2_so400m_patch16_naflex_maxScoreUri) AS ?photo) .
-
-                          {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
-                        }
+                    SELECT ?subject (SUM(1.0 / (60 + ?rank)) AS ?score) (MAX(?photo) AS ?maxPhoto) (GROUP_CONCAT(?matchedModel ; separator=",") AS ?matchType) WHERE {
+                      FILTER(?__vectorPattern__)
+                    }
+                    GROUP BY ?subject
+                  }
+                }
+              ' image-ai-query-0='
+                PREFIX vec: <https://qlever.cs.uni-freiburg.de/vectorSearch/>
+                PREFIX rank: <https://qlever.cs.uni-freiburg.de/rank/>
+                PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+                SELECT DISTINCT ?subject WHERE {
+                  {
+                    SELECT ?subject (SUM(1.0 / (60 + ?rank)) AS ?score) (MAX(?photo) AS ?maxPhoto) (GROUP_CONCAT(?matchedModel ; separator=",") AS ?matchType) WHERE {
+                      FILTER(?__vectorPattern__)
+                    }
+                    GROUP BY ?subject
                   }
                 }
               ' image-with-ai-query-0='
-              PREFIX emb: <https://artresearch.net/embeddings/>
+                PREFIX vec: <https://qlever.cs.uni-freiburg.de/vectorSearch/>
+                PREFIX rank: <https://qlever.cs.uni-freiburg.de/rank/>
+                PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
                 SELECT DISTINCT ?subject WHERE {
                   {
-                        SELECT ?subject (?similarity as ?score) (?photo AS ?maxPhoto) (?matchedModel AS ?matchType) {
-                          SERVICE <http://usearch-search.private:8545/sparql> {
-                            SELECT * {
-                              SERVICE emb:search {
-                                ?uri emb:data ?__data__ .
-                                ?uri emb:request_type ?__dataType__ .
-                                FILTER(?__embeddingPattern__)
-                                ?uri emb:score ?similarity .
-                                ?uri emb:sensitivity ?__searchSensitivity__ .
-                                ?uri emb:matchedModel ?matchedModel .
-                                     
-                                {{#if dataset}}
-                                ?uri emb:filterBy "dataset" ;
-                                     emb:filterValues "{{dataset}}" .
-                                {{/if}}
-                              }
-                            } LIMIT 1000
-                          }
-                          BIND(?uri as ?subject)
-                          BIND(COALESCE(?clip_vit_large_patch14_336_sift_rerank_maxScoreUri, ?siglip2_so400m_patch16_naflex_sift_rerank_maxScoreUri, ?clip_vit_large_patch14_336_maxScoreUri, ?siglip2_so400m_patch16_naflex_maxScoreUri) AS ?photo) .
-
-                          {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
-                        }
+                    SELECT ?subject (SUM(1.0 / (60 + ?rank)) AS ?score) (MAX(?photo) AS ?maxPhoto) (GROUP_CONCAT(?matchedModel ; separator=",") AS ?matchType) WHERE {
+                      FILTER(?__vectorPattern__)
+                    }
+                    GROUP BY ?subject
                   }
-                }' default-query-1='
+                }
+              ' text-metadata-pattern-0='
+                SERVICE rank: {
+                  _:narratives rank:score ?similarity ; rank:descending true ; rank:limit 10000 ; rank:bindRank ?rank .
+                  {
+                    SELECT ?subject ((1 - ?distance) AS ?similarity) WHERE {
+                      {
+                        SELECT DISTINCT ?subject WHERE {
+                          ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                          {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+                          FILTER(?__facetFilter__)
+                        }
+                      }
+                      SERVICE vec: {
+                        [] vec:index "narratives" ; vec:queryText ?__token__ ;
+                           vec:candidates ?subject ; vec:result ?subject ; vec:bindScore ?distance ;
+                           vec:autoCut ?__searchSensitivity__ ; vec:k 10000 .
+                      }
+                    }
+                  }
+                }
+                BIND("narratives" AS ?matchedModel)
+              ' text-visual-pattern-0='
+                SERVICE rank: {
+                  _:images rank:score ?similarity ; rank:descending true ; rank:limit 10000 ; rank:bindRank ?rank .
+                  {
+                    SELECT ?subject (MAX(1 - ?distance) AS ?similarity) (IRI(STRAFTER(MIN(CONCAT(STR(xsd:integer(?distance * 1000000) + 10000000), " ", STR(?vecPhoto))), " ")) AS ?photo) WHERE {
+                      {
+                        SELECT DISTINCT ?subject WHERE {
+                          ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                          {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+                          FILTER(?__facetFilter__)
+                        }
+                      }
+                      ?subject custom:photo ?vecPhoto .
+                      SERVICE vec: {
+                        [] vec:index "images" ; vec:queryText ?__token__ ;
+                           vec:candidates ?vecPhoto ; vec:result ?vecPhoto ; vec:bindScore ?distance ;
+                           vec:autoCut ?__searchSensitivity__ ; vec:k 10000 .
+                      }
+                    }
+                    GROUP BY ?subject
+                  }
+                }
+                BIND("images" AS ?matchedModel)
+              ' image-exact-pattern-0='
+                SERVICE rank: {
+                  _:dinov3 rank:score ?similarity ; rank:descending true ; rank:limit 10000 ; rank:bindRank ?rank .
+                  {
+                    SELECT ?subject (MAX(1 - ?distance) AS ?similarity) (IRI(STRAFTER(MIN(CONCAT(STR(xsd:integer(?distance * 1000000) + 10000000), " ", STR(?vecPhoto))), " ")) AS ?photo) WHERE {
+                      {
+                        SELECT DISTINCT ?subject WHERE {
+                          ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                          {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+                          FILTER(?__facetFilter__)
+                        }
+                      }
+                      ?subject custom:photo ?vecPhoto .
+                      SERVICE vec: {
+                        [] vec:index "dinov3" ; ?__imagePredicate__ ?__data__ ;
+                           vec:candidates ?vecPhoto ; vec:result ?vecPhoto ; vec:bindScore ?distance ;
+                           vec:autoCut "precise" ; vec:k 10000 .
+                      }
+                    }
+                    GROUP BY ?subject
+                  }
+                }
+                BIND("dinov3" AS ?matchedModel)
+              ' image-visual-pattern-0='
+                SERVICE rank: {
+                  _:images rank:score ?similarity ; rank:descending true ; rank:limit 10000 ; rank:bindRank ?rank .
+                  {
+                    SELECT ?subject (MAX(1 - ?distance) AS ?similarity) (IRI(STRAFTER(MIN(CONCAT(STR(xsd:integer(?distance * 1000000) + 10000000), " ", STR(?vecPhoto))), " ")) AS ?photo) WHERE {
+                      {
+                        SELECT DISTINCT ?subject WHERE {
+                          ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                          {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+                          FILTER(?__facetFilter__)
+                        }
+                      }
+                      ?subject custom:photo ?vecPhoto .
+                      SERVICE vec: {
+                        [] vec:index "images" ; ?__imagePredicate__ ?__data__ ;
+                           vec:candidates ?vecPhoto ; vec:result ?vecPhoto ; vec:bindScore ?distance ;
+                           vec:autoCut ?__searchSensitivity__ ; vec:k 10000 .
+                      }
+                    }
+                    GROUP BY ?subject
+                  }
+                }
+                BIND("images" AS ?matchedModel)
+              ' default-query-1='
             SELECT ?subject WHERE {
               ?subject crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph>  .
               {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
@@ -269,277 +247,235 @@
           ' text-query-1='
                 SELECT DISTINCT ?subject WHERE {
                   {
-                      SELECT ?subject ((?__textScoreSumPattern__) / SAMPLE(?textMaxScore) as ?score) WHERE {
-                        ?subject crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph>  .
+                      SELECT ?subject (?__textScorePattern__ AS ?score) WHERE {
+                        FILTER(?__textPattern__)
+                        ?searchWork custom:photo ?subject .
                         {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
-                        FILTER(?__textPattern__) .
-
-                        {
-                          SELECT ((?__textScoreSumPattern__) AS ?textMaxScore) WHERE {
-                              ?subject crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph>  .
-                              {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
-                              FILTER(?__textPattern__) .
-                          }
-                          GROUP BY ?subject
-                          ORDER BY DESC (?textMaxScore)
-                          LIMIT 1
-                        }
                       }
                       GROUP BY ?subject
                   }
                 }
               ' text-with-ai-query-1='
-                PREFIX emb: <https://artresearch.net/embeddings/>
+                PREFIX vec: <https://qlever.cs.uni-freiburg.de/vectorSearch/>
+                PREFIX rank: <https://qlever.cs.uni-freiburg.de/rank/>
+                PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
                 SELECT DISTINCT ?subject WHERE {
                   {
-                    SELECT DISTINCT ?subject (SUM(?maxScore) AS ?score) (GROUP_CONCAT(?matchedModel ; separator=",") AS ?matchType) WHERE {
-                      {
-                        SELECT ?subject ((0.5 * ?similarity) as ?maxScore) ?matchedModel ?photo {
-                          SERVICE <http://usearch-search.private:8545/sparql> {
-                            SELECT * {
-                              SERVICE emb:search {
-                                ?uri emb:data ?__token__ .
-                                ?uri emb:request_type "text" .
-                                FILTER(?__embeddingPattern__)
-                                ?uri emb:sensitivity ?__searchSensitivity__ .
-                                ?uri emb:score ?similarity .
-                                ?uri emb:matchedModel ?matchedModel .
-                                    
-                                {{#if dataset}}
-                                ?uri emb:filterBy "dataset" ;
-                                    emb:filterValues "{{dataset}}" .
-                                {{/if}}
-                              }
-                            } LIMIT 1000
-                          }
-                          BIND(?uri as ?subject) .
-                          {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
-                        }
-                      } UNION {
-                        {
-                        SELECT ?subject ((0.5 * ((?__textScoreSumPattern__) / SAMPLE(?textMaxScore))) as ?maxScore) WHERE {
-                          ?subject crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph>  .
-                          {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
-                          FILTER(?__textPattern__) .
-
-                          {
-                            SELECT ((?__textScoreSumPattern__) AS ?textMaxScore) WHERE {
-                              ?subject crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph>  .
-                              {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
-                                FILTER(?__textPattern__) .
-                            }
-                            GROUP BY ?subject
-                            ORDER BY DESC (?textMaxScore)
-                            LIMIT 1
-                          }
-                        }
-                        GROUP BY ?subject
-                        HAVING (?maxScore > 0)
-                        }
-                        BIND("text_index" AS ?matchedModel) .
-                      }
+                    SELECT ?subject (SUM(1.0 / (60 + ?rank)) AS ?score) (GROUP_CONCAT(?matchedModel ; separator=",") AS ?matchType) WHERE {
+                      FILTER(?__vectorPattern__)
                     }
                     GROUP BY ?subject
                   }
                 }
               ' text-ai-query-1='
-                PREFIX emb: <https://artresearch.net/embeddings/>
+                PREFIX vec: <https://qlever.cs.uni-freiburg.de/vectorSearch/>
+                PREFIX rank: <https://qlever.cs.uni-freiburg.de/rank/>
+                PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
                 SELECT DISTINCT ?subject WHERE {
                   {
-                        SELECT ?subject (?similarity as ?score) (?matchedModel AS ?matchType) {
-                          SERVICE <http://usearch-search.private:8545/sparql> {
-                            SELECT * {
-                              SERVICE emb:search {
-                                ?uri emb:data ?__token__ .
-                                ?uri emb:request_type "text" .
-                                FILTER(?__embeddingPattern__)
-                                ?uri emb:score ?similarity .
-                                ?uri emb:sensitivity ?__searchSensitivity__ .
-                                ?uri emb:matchedModel ?matchedModel .
-                              
-                                {{#if dataset}}
-                                ?uri emb:filterBy "dataset" ;
-                                    emb:filterValues "{{dataset}}" .
-                                {{/if}}
-                              }
-                            } LIMIT 1000
-                          }
-                          BIND(?uri as ?subject)
-                          {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
-                        }
+                    SELECT ?subject (SUM(1.0 / (60 + ?rank)) AS ?score) (GROUP_CONCAT(?matchedModel ; separator=",") AS ?matchType) WHERE {
+                      FILTER(?__vectorPattern__)
+                    }
+                    GROUP BY ?subject
                   }
                 }
-              ' image-query-1='
-                PREFIX emb: <https://artresearch.net/embeddings/>
-                SELECT DISTINCT ?subject WHERE {
+              ' text-keyword-pattern-1='
+                SERVICE rank: {
+                  _:text_index rank:score ?textScore ; rank:descending true ; rank:limit 10000 ; rank:bindRank ?rank .
                   {
-                        SELECT ?subject (?similarity as ?score) (?matchedModel AS ?matchType) {
-                          SERVICE <http://usearch-search.private:8545/sparql> {
-                            SELECT * {
-                              SERVICE emb:search {
-                                ?uri emb:data ?__data__ .
-                                ?uri emb:request_type ?__dataType__ .
-                                FILTER(?__embeddingPattern__)
-                                ?uri emb:score ?similarity .
-                                ?uri emb:sensitivity "near-exact" .
-                                ?uri emb:matchedModel ?matchedModel .
-                            
-                                {{#if dataset}}
-                                ?uri emb:filterBy "dataset" ;
-                                    emb:filterValues "{{dataset}}" .
-                                {{/if}}
-                              }
-                            } LIMIT 1000
-                          }
-                          BIND(?uri as ?subject)
+                    SELECT ?subject (?__textScorePattern__ AS ?textScore) WHERE {
+                      FILTER(?__textPattern__)
+                      ?searchWork custom:photo ?subject .
+                      {
+                        SELECT DISTINCT ?subject WHERE {
+                          ?vecWork custom:photo ?subject .
                           {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+                          FILTER(?__facetFilter__)
                         }
+                      }
+                    }
+                    GROUP BY ?subject
                   }
-                }' image-ai-query-1='
-                PREFIX emb: <https://artresearch.net/embeddings/>
+                }
+                BIND("text_index" AS ?matchedModel)
+              ' image-query-1='
+                PREFIX vec: <https://qlever.cs.uni-freiburg.de/vectorSearch/>
+                PREFIX rank: <https://qlever.cs.uni-freiburg.de/rank/>
+                PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
                 SELECT DISTINCT ?subject WHERE {
                   {
-                        SELECT ?subject (?similarity as ?score) (?matchedModel AS ?matchType) {
-                          SERVICE <http://usearch-search.private:8545/sparql> {
-                            SELECT * {
-                              SERVICE emb:search {
-                                ?uri emb:data ?__data__ .
-                                ?uri emb:request_type ?__dataType__ .
-                                FILTER(?__embeddingPattern__)
-                                ?uri emb:score ?similarity .
-                                ?uri emb:sensitivity ?__searchSensitivity__ .
-                                ?uri emb:matchedModel ?matchedModel .
-                                
-                                {{#if dataset}}
-                                ?uri emb:filterBy "dataset" ;
-                                    emb:filterValues "{{dataset}}" .
-                                {{/if}}
-                              }
-                            } LIMIT 1000
-                          }
-                          BIND(?uri as ?subject)
-                          {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
-                        }
+                    SELECT ?subject (SUM(1.0 / (60 + ?rank)) AS ?score) (GROUP_CONCAT(?matchedModel ; separator=",") AS ?matchType) WHERE {
+                      FILTER(?__vectorPattern__)
+                    }
+                    GROUP BY ?subject
+                  }
+                }
+              ' image-ai-query-1='
+                PREFIX vec: <https://qlever.cs.uni-freiburg.de/vectorSearch/>
+                PREFIX rank: <https://qlever.cs.uni-freiburg.de/rank/>
+                PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+                SELECT DISTINCT ?subject WHERE {
+                  {
+                    SELECT ?subject (SUM(1.0 / (60 + ?rank)) AS ?score) (GROUP_CONCAT(?matchedModel ; separator=",") AS ?matchType) WHERE {
+                      FILTER(?__vectorPattern__)
+                    }
+                    GROUP BY ?subject
                   }
                 }
               ' image-with-ai-query-1='
-                PREFIX emb: <https://artresearch.net/embeddings/>
+                PREFIX vec: <https://qlever.cs.uni-freiburg.de/vectorSearch/>
+                PREFIX rank: <https://qlever.cs.uni-freiburg.de/rank/>
+                PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
                 SELECT DISTINCT ?subject WHERE {
                   {
-                        SELECT ?subject (?similarity as ?score) (?matchedModel AS ?matchType) {
-                          SERVICE <http://usearch-search.private:8545/sparql> {
-                            SELECT * {
-                              SERVICE emb:search {
-                                ?uri emb:data ?__data__ .
-                                ?uri emb:request_type ?__dataType__ .
-                                FILTER(?__embeddingPattern__)
-                                ?uri emb:score ?similarity .
-                                ?uri emb:sensitivity ?__searchSensitivity__ .
-                                ?uri emb:matchedModel ?matchedModel .
-                                     
-                                {{#if dataset}}
-                                ?uri emb:filterBy "dataset" ;
-                                     emb:filterValues "{{dataset}}" .
-                                {{/if}}
-                              }
-                            } LIMIT 1000
-                          }
-                          BIND(?uri as ?subject)
-                          {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
-                        }
+                    SELECT ?subject (SUM(1.0 / (60 + ?rank)) AS ?score) (GROUP_CONCAT(?matchedModel ; separator=",") AS ?matchType) WHERE {
+                      FILTER(?__vectorPattern__)
+                    }
+                    GROUP BY ?subject
                   }
                 }
+              ' text-visual-pattern-1='
+                SERVICE rank: {
+                  _:images rank:score ?similarity ; rank:descending true ; rank:limit 10000 ; rank:bindRank ?rank .
+                  {
+                    SELECT ?subject ((1 - ?distance) AS ?similarity) WHERE {
+                      {
+                        SELECT DISTINCT ?subject WHERE {
+                          ?vecWork custom:photo ?subject .
+                          {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+                          FILTER(?__facetFilter__)
+                        }
+                      }
+                      SERVICE vec: {
+                        [] vec:index "images" ; vec:queryText ?__token__ ;
+                           vec:candidates ?subject ; vec:result ?subject ; vec:bindScore ?distance ;
+                           vec:autoCut ?__searchSensitivity__ ; vec:k 10000 .
+                      }
+                    }
+                  }
+                }
+                BIND("images" AS ?matchedModel)
+              ' image-exact-pattern-1='
+                SERVICE rank: {
+                  _:dinov3 rank:score ?similarity ; rank:descending true ; rank:limit 10000 ; rank:bindRank ?rank .
+                  {
+                    SELECT ?subject ((1 - ?distance) AS ?similarity) WHERE {
+                      {
+                        SELECT DISTINCT ?subject WHERE {
+                          ?vecWork custom:photo ?subject .
+                          {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+                          FILTER(?__facetFilter__)
+                        }
+                      }
+                      SERVICE vec: {
+                        [] vec:index "dinov3" ; ?__imagePredicate__ ?__data__ ;
+                           vec:candidates ?subject ; vec:result ?subject ; vec:bindScore ?distance ;
+                           vec:autoCut "precise" ; vec:k 10000 .
+                      }
+                    }
+                  }
+                }
+                BIND("dinov3" AS ?matchedModel)
+              ' image-visual-pattern-1='
+                SERVICE rank: {
+                  _:images rank:score ?similarity ; rank:descending true ; rank:limit 10000 ; rank:bindRank ?rank .
+                  {
+                    SELECT ?subject ((1 - ?distance) AS ?similarity) WHERE {
+                      {
+                        SELECT DISTINCT ?subject WHERE {
+                          ?vecWork custom:photo ?subject .
+                          {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+                          FILTER(?__facetFilter__)
+                        }
+                      }
+                      SERVICE vec: {
+                        [] vec:index "images" ; ?__imagePredicate__ ?__data__ ;
+                           vec:candidates ?subject ; vec:result ?subject ; vec:bindScore ?distance ;
+                           vec:autoCut ?__searchSensitivity__ ; vec:k 10000 .
+                      }
+                    }
+                  }
+                }
+                BIND("images" AS ?matchedModel)
               ' default-query-2='
             SELECT ?subject WHERE {
-              ?work crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
-              ?work crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by ?subject .
-              {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+              # the artists of artworks, each with how many works: planned on its own, the same in every query of
+              # this domain (results, tally, every facet), so it is computed once and pinned
+              {
+                SELECT ?subject (COUNT(DISTINCT ?work) AS ?worksCount) WHERE {
+                  ?work crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                  ?work crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by ?subject .
+                  {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
+                }
+                GROUP BY ?subject
+              }
             }
           ' text-query-2='
-            SELECT DISTINCT ?subject WHERE {
-              {
-                      SELECT ?subject ((?__textScoreSumPattern__) / SAMPLE(?textMaxScore) as ?score) WHERE {
+                SELECT DISTINCT ?subject WHERE {
+                  {
+                      SELECT ?subject (COUNT(DISTINCT ?work) AS ?score) (COUNT(DISTINCT ?work) AS ?worksCount) WHERE {
+                        FILTER(?__textPattern__)
                         ?work crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by ?subject .
                         {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
-                        FILTER(?__textPattern__) .
-
-                        {
-                          SELECT ((?__textScoreSumPattern__) AS ?textMaxScore) WHERE {
-                              ?work crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by ?subject .
-                              {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
-                              FILTER(?__textPattern__) .
-                          }
-                          GROUP BY ?subject
-                          ORDER BY DESC (?textMaxScore)
-                          LIMIT 1
-                        }
                       }
                       GROUP BY ?subject
                   }
-                  ?work crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by ?subject .
-          }' default-query-3='
+                }
+              ' default-query-3='
             SELECT ?subject WHERE {
-              ?work crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph> .
-              ?work crm:P65_shows_visual_item/crm:P94i_was_created_by/crm:P14_carried_out_by/crm:P107i_is_current_or_former_member_of? ?subject .
+              # the photographers of photographs, each with how many works: planned on its own, the same in every query of
+              # this domain (results, tally, every facet), so it is computed once and pinned
+              {
+                SELECT ?subject (COUNT(DISTINCT ?work) AS ?worksCount) WHERE {
+                  ?work crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph> .
+                  ?work crm:P65_shows_visual_item/crm:P94i_was_created_by/crm:P14_carried_out_by/crm:P107i_is_current_or_former_member_of? ?subject .
+                }
+                GROUP BY ?subject
+              }
             }
           ' text-query-3='
-            SELECT DISTINCT ?subject WHERE {
-              {
-                      SELECT ?subject ((?__textScoreSumPattern__) / SAMPLE(?textMaxScore) as ?score) WHERE {
-                        ?work crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph> .
-                        ?work crm:P65_shows_visual_item/crm:P94i_was_created_by/crm:P14_carried_out_by/crm:P107i_is_current_or_former_member_of? ?subject .
-                        {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
-                        FILTER(?__textPattern__) .
-
+                SELECT DISTINCT ?subject WHERE {
+                  {
+                      SELECT ?subject (COUNT(DISTINCT ?work) AS ?score) (COUNT(DISTINCT ?work) AS ?worksCount) WHERE {
+                        # the names first: the photograph type is then checked on their photos only
                         {
-                          SELECT ((?__textScoreSumPattern__) AS ?textMaxScore) WHERE {
-                              ?work crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph> .
-                              ?work crm:P65_shows_visual_item/crm:P94i_was_created_by/crm:P14_carried_out_by/crm:P107i_is_current_or_former_member_of? ?subject .
-                              {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
-                              FILTER(?__textPattern__) .
+                          SELECT ?subject ?work WHERE {
+                            FILTER(?__textPattern__)
+                            ?work crm:P65_shows_visual_item/crm:P94i_was_created_by/crm:P14_carried_out_by/crm:P107i_is_current_or_former_member_of? ?subject .
                           }
-                          GROUP BY ?subject
-                          ORDER BY DESC (?textMaxScore)
-                          LIMIT 1
                         }
+                        ?work crm:P2_has_type ?workType .
+                        ?workType crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph> .
+                        {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
                       }
                       GROUP BY ?subject
                   }
-                ?work crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/photograph> .
-                ?work crm:P65_shows_visual_item/crm:P94i_was_created_by/crm:P14_carried_out_by/crm:P107i_is_current_or_former_member_of? ?subject .
-
-          }' default-query-4='
+                }
+              ' default-query-4='
             SELECT ?subject WHERE {
-              ?work crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
-              ?work crm:P50_has_current_keeper ?subject .
+              # the repositories of artworks, each with how many works: planned on its own, the same in every query of
+              # this domain (results, tally, every facet), so it is computed once and pinned
+              {
+                SELECT ?subject (COUNT(DISTINCT ?work) AS ?worksCount) WHERE {
+                  ?work crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                  ?work crm:P50_has_current_keeper ?subject .
+                }
+                GROUP BY ?subject
+              }
             }
           ' text-query-4='
-            SELECT DISTINCT ?subject WHERE {
-              {
-                      SELECT ?subject ((?__textScoreSumPattern__) / SAMPLE(?textMaxScore) as ?score) WHERE {
+                SELECT DISTINCT ?subject WHERE {
+                  {
+                      SELECT ?subject (COUNT(DISTINCT ?work) AS ?score) (COUNT(DISTINCT ?work) AS ?worksCount) WHERE {
+                        FILTER(?__textPattern__)
                         ?work crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
                         ?work crm:P50_has_current_keeper ?subject .
                         {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
-                        FILTER(?__textPattern__) .
-
-                        {
-                          SELECT ((?__textScoreSumPattern__) AS ?textMaxScore) WHERE {
-                              ?work crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
-                              ?work crm:P50_has_current_keeper ?subject .
-                              {{#if searchRestrictions}}{{searchRestrictions}}{{/if}}
-                              FILTER(?__textPattern__) .
-                          }
-                          GROUP BY ?subject
-                          ORDER BY DESC (?textMaxScore)
-                          LIMIT 1
-                        }
                       }
                       GROUP BY ?subject
                   }
-                  ?work crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
-                  ?work crm:P50_has_current_keeper ?subject .
-
-          }'>
+                }
+              '>
       </pharos-image-search-with-slider>
 
       [[!--
@@ -569,7 +505,7 @@
                 "childrenPattern": "{
                     ?value crm:P89i_contains ?child .
                 }",
-                "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
+                "searchPattern": "{ SERVICE view:names { ?searchView view:column-word ?searchWord ; view:column-entity ?value ; view:column-name ?searchName } FILTER(?searchWord >= ?__prefix_from__ && ?searchWord < ?__prefix_to__) FILTER(CONTAINS(LCASE(STR(?searchName)), ?__word_1__) && CONTAINS(LCASE(STR(?searchName)), ?__word_2__) && CONTAINS(LCASE(STR(?searchName)), ?__word_3__)) }"
   						},
               "<https://artresearch.net/resource/fr/Work_created_by_Artist>": {
                 "kind":"hierarchy",
@@ -591,12 +527,27 @@
                 "childrenPattern": "{
                   ?child crm:PXX ?value .
                 }",
-                "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
+                "searchPattern": "{ SERVICE view:names { ?searchView view:column-word ?searchWord ; view:column-entity ?value ; view:column-name ?searchName } FILTER(?searchWord >= ?__prefix_from__ && ?searchWord < ?__prefix_to__) FILTER(CONTAINS(LCASE(STR(?searchName)), ?__word_1__) && CONTAINS(LCASE(STR(?searchName)), ?__word_2__) && CONTAINS(LCASE(STR(?searchName)), ?__word_3__)) }"
   						},
               "<https://artresearch.net/resource/fr/Work_has_Image>": {
                 "kind": "resource",
                 "valuesQuery": "SELECT ?value (COUNT(DISTINCT $subject) AS ?count) WHERE {
                 OPTIONAL { ?subject custom:has_image ?has } . BIND(IF((BOUND(?has) && ?has = true), <http://www.w3.org/2001/XMLSchema#yes>, <http://www.w3.org/2001/XMLSchema#no>) AS ?value) . } GROUP BY ?value ORDER BY DESC(?count)"
+              },
+              "<https://artresearch.net/resource/fr/Work_has_Record_Link>": {
+                "kind": "resource",
+                "valuesQuery": "SELECT ?value ?label (COUNT(DISTINCT $subject) AS ?count) WHERE {
+                  { ?reconciledRecord custom:objectSameAs ?subject . BIND(<https://artresearch.net/resource/fr/Work_has_Record_Link/reconciled> AS ?value) BIND(\"Reconciled\" AS ?label) }
+                  UNION
+                  {
+                    { ?subject custom:relatedArtwork ?relatedRecord . } UNION { ?ownRecord custom:objectSameAs ?subject . ?ownRecord custom:relatedArtwork ?relatedRecord . }
+                    OPTIONAL { ?relatedRecord custom:objectSameAs ?relatedCluster . ?relatedCluster crm:P2_has_type <http://vocab.getty.edu/aat/300133025> . }
+                    BIND(COALESCE(?relatedCluster, ?relatedRecord) AS ?relatedWork)
+                    FILTER(?relatedWork != ?subject)
+                    ?relatedWork crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                    BIND(<https://artresearch.net/resource/fr/Work_has_Record_Link/related> AS ?value) BIND(\"Related\" AS ?label)
+                  }
+                } GROUP BY ?value ?label ORDER BY DESC(?count)"
               },
               "<https://artresearch.net/resource/fr/Photo_has_Image>": {
                 "kind": "resource",
@@ -615,7 +566,7 @@
                 "childrenPattern": "{
                     ?value crm:P89i_contains ?child .
                 }",
-                "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
+                "searchPattern": "{ SERVICE view:names { ?searchView view:column-word ?searchWord ; view:column-entity ?value ; view:column-name ?searchName } FILTER(?searchWord >= ?__prefix_from__ && ?searchWord < ?__prefix_to__) FILTER(CONTAINS(LCASE(STR(?searchName)), ?__word_1__) && CONTAINS(LCASE(STR(?searchName)), ?__word_2__) && CONTAINS(LCASE(STR(?searchName)), ?__word_3__)) }"
   						}
                              [[!--
               "<https://artresearch.net/custom/is_matched_artworks>": {
@@ -654,7 +605,7 @@
                       <semantic-query id="result-count" query='SELECT (COUNT(DISTINCT ?subject) as ?count) WHERE {}'
                         template="{{>currentResultCount}}">
                         <template id="currentResultCount">
-                          <p><span class="bold-text">results</span> {{bindings.0.count.value}}</p>
+                          <p class="tally"><b>{{thousands bindings.0.count.value}}</b> {{#ifCond bindings.0.count.value '===' '1'}}work{{else}}works{{/ifCond}}</p>
                         </template>
                       </semantic-query>
                     </semantic-search-result>
@@ -681,7 +632,7 @@
                           no-result-template='[[> CardNoResult ]]'>
                           <template id="subjectCellTemplate">
                             <div class="scrolable-area">
-                              <infinite-scroll template="{{> template }}" item-height="250" item-per-row="1"
+                              <infinite-scroll template="{{> template }}" item-height="160" item-per-row="1"
                                 item-width="600" batch-size="20" values='{{stringify bindings}}' profile="artwork-card">
                                 <template id='template'>
                                   <div class="result-item karla-regular">
@@ -705,8 +656,8 @@
                           template="{{> subjectCellTemplate}}" no-result-template='[[> CardNoResult ]]'>
                           <template id="subjectCellTemplate">
                             <div class="scrolable-area">
-                              <infinite-scroll template="{{> template }}" item-height="250" item-per-row="auto"
-                                item-width="550" batch-size="20" values='{{stringify bindings}}' profile="artwork-card">
+                              <infinite-scroll template="{{> template }}" item-height="160" item-per-row="auto"
+                                item-width="520" batch-size="20" values='{{stringify bindings}}' profile="artwork-card">
                                 <template id='template'>
                                   <div class="result-item karla-regular">
                                     {{#each rows}}
@@ -729,8 +680,8 @@
                           template="{{> subjectCellTemplate}}" no-result-template='[[> CardNoResult ]]'>
                           <template id="subjectCellTemplate">
                             <div class="scrolable-area">
-                              <infinite-scroll template="{{> template }}" item-height="200" item-per-row="auto"
-                                item-width="200" batch-size="40" values='{{stringify bindings}}' profile="artwork-card">
+                              <infinite-scroll template="{{> template }}" item-height="236" item-per-row="auto"
+                                item-width="184" batch-size="40" values='{{stringify bindings}}' profile="artwork-card">
                                 <template id='template'>
                                   <div class="result-item karla-regular">
                                     {{#each rows}}
@@ -758,7 +709,7 @@
                       <semantic-query id="result-count" query='SELECT (COUNT(DISTINCT ?subject) as ?count) WHERE {}'
                         template="{{>currentResultCount}}">
                         <template id="currentResultCount">
-                          <p><span class="bold-text">results</span> {{bindings.0.count.value}}</p>
+                          <p class="tally"><b>{{thousands bindings.0.count.value}}</b> {{#ifCond bindings.0.count.value '===' '1'}}photograph{{else}}photographs{{/ifCond}}</p>
                         </template>
                       </semantic-query>
                     </semantic-search-result>
@@ -784,7 +735,7 @@
                           template="{{> subjectCellTemplate}}" no-result-template='[[> CardNoResult ]]'>
                           <template id="subjectCellTemplate">
                             <div class="scrolable-area">
-                              <infinite-scroll item-height="250" item-per-row="1" item-width="600" batch-size="20"
+                              <infinite-scroll item-height="160" item-per-row="1" item-width="600" batch-size="20"
                                 values='{{stringify bindings}}' profile="photograph-card">
                                 <template id='template'>
                                   <div class="result-item karla-regular">
@@ -807,7 +758,7 @@
                           template="{{> subjectCellTemplate}}" no-result-template='[[> CardNoResult ]]'>
                           <template id="subjectCellTemplate">
                             <div class="scrolable-area">
-                              <infinite-scroll item-height="250" item-per-row="auto" item-width="550" batch-size="20"
+                              <infinite-scroll item-height="160" item-per-row="auto" item-width="520" batch-size="20"
                                 values='{{stringify bindings}}' profile="photograph-card">
                                 <template id='template'>
                                   <div class="result-item karla-regular">
@@ -830,7 +781,7 @@
                           template="{{> subjectCellTemplate}}" no-result-template='[[> CardNoResult ]]'>
                           <template id="subjectCellTemplate">
                             <div class="scrolable-area">
-                              <infinite-scroll item-height="200" item-per-row="auto" item-width="200" batch-size="40"
+                              <infinite-scroll item-height="236" item-per-row="auto" item-width="184" batch-size="40"
                                 values='{{stringify bindings}}' profile="photograph-card">
                                 <template id='template'>
                                   <div class="result-item karla-regular">
@@ -855,18 +806,18 @@
                     <semantic-query id="result-count" query='SELECT (COUNT(DISTINCT ?subject) as ?count) WHERE {}'
                       template="{{>currentResultCount}}">
                       <template id="currentResultCount">
-                        <p><span class="bold-text">results</span> {{bindings.0.count.value}}</p>
+                        <p class="tally"><b>{{thousands bindings.0.count.value}}</b> {{#ifCond bindings.0.count.value '===' '1'}}artist{{else}}artists{{/ifCond}}</p>
                       </template>
                     </semantic-query>
                   </semantic-search-result>
                 </div>
                 <semantic-search-result>
                   <semantic-query id="grid-result" prefetch-labels="false"
-                    query='SELECT DISTINCT ?subject (COUNT(DISTINCT ?work) AS ?worksCount) WHERE { } GROUP BY ?subject ORDER BY DESC(?score) DESC(?worksCount) LIMIT 2000'
+                    query='SELECT DISTINCT ?subject ?worksCount WHERE { } ORDER BY DESC(?score) DESC(?worksCount) LIMIT 2000'
                     template="{{> subjectCellTemplate}}" no-result-template='[[> CardNoResult ]]'>
                     <template id="subjectCellTemplate">
                       <div class="scrolable-area">
-                        <infinite-scroll item-height="100" item-per-row="1" item-width="500" batch-size="20"
+                        <infinite-scroll item-height="84" item-per-row="1" item-width="500" batch-size="20"
                           values='{{stringify bindings}}' profile="artist-card">
                           <template id='template'>
                             <div class="result-item  karla-regular">
@@ -888,18 +839,18 @@
                     <semantic-query id="result-count" query='SELECT (COUNT(DISTINCT ?subject) as ?count) WHERE {}'
                       template="{{>currentResultCount}}">
                       <template id="currentResultCount">
-                        <p><span class="bold-text">results</span> {{bindings.0.count.value}}</p>
+                        <p class="tally"><b>{{thousands bindings.0.count.value}}</b> {{#ifCond bindings.0.count.value '===' '1'}}repository{{else}}repositories{{/ifCond}}</p>
                       </template>
                     </semantic-query>
                   </semantic-search-result>
                 </div>
                 <semantic-search-result>
                   <semantic-query id="grid-result" prefetch-labels="false"
-                    query='SELECT DISTINCT ?subject (COUNT(DISTINCT ?work) AS ?worksCount) WHERE { } GROUP BY ?subject ORDER BY DESC(?score) DESC(?worksCount) LIMIT 2000'
+                    query='SELECT DISTINCT ?subject ?worksCount WHERE { } ORDER BY DESC(?score) DESC(?worksCount) LIMIT 2000'
                     template="{{> subjectCellTemplate}}" no-result-template='[[> CardNoResult ]]'>
                     <template id="subjectCellTemplate">
                       <div class="scrolable-area">
-                        <infinite-scroll item-height="100" item-per-row="1" item-width="500" batch-size="20"
+                        <infinite-scroll item-height="84" item-per-row="1" item-width="500" batch-size="20"
                           values='{{stringify bindings}}' profile="repository-card">
                           <template id='template'>
                             <div class="result-item karla-regular">
@@ -921,18 +872,18 @@
                     <semantic-query id="result-count" query='SELECT (COUNT(DISTINCT ?subject) as ?count) WHERE {}'
                       template="{{>currentResultCount}}">
                       <template id="currentResultCount">
-                        <p><span class="bold-text">results</span> {{bindings.0.count.value}}</p>
+                        <p class="tally"><b>{{thousands bindings.0.count.value}}</b> {{#ifCond bindings.0.count.value '===' '1'}}photographer{{else}}photographers{{/ifCond}}</p>
                       </template>
                     </semantic-query>
                   </semantic-search-result>
                 </div>
                 <semantic-search-result>
                   <semantic-query id="grid-result" prefetch-labels="false"
-                    query='SELECT DISTINCT ?subject (COUNT(DISTINCT ?work) AS ?worksCount) WHERE { } GROUP BY ?subject ORDER BY DESC(?score) DESC(?worksCount) LIMIT 2000'
+                    query='SELECT DISTINCT ?subject ?worksCount WHERE { } ORDER BY DESC(?score) DESC(?worksCount) LIMIT 2000'
                     template="{{> subjectCellTemplate}}" no-result-template='[[> CardNoResult ]]'>
                     <template id="subjectCellTemplate">
                       <div class="scrolable-area">
-                        <infinite-scroll item-height="100" item-per-row="1" item-width="500" batch-size="20"
+                        <infinite-scroll item-height="84" item-per-row="1" item-width="500" batch-size="20"
                           values='{{stringify bindings}}' profile="artist-card">
                           <template id='template'>
                             <div class="result-item karla-regular">
@@ -955,3 +906,4 @@
     </div>
   </div>
 </semantic-search>
+</div>

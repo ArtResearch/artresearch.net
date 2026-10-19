@@ -1,59 +1,21 @@
-
-  <div class="actor-card">
-          <div class="info-container cursor">
-            <div class="field">
-              <div class="field-label">Name</div>
-              <span class="author-name">
-                <div class="field-value">
-                  <semantic-link iri="{{subject.value}}" target="_blank">
-                  {{data.label}} ({{worksCount.value}})
-                  </semantic-link>
-                </div>
-              </span>
-            </div>
-
-            <div class="field">
-              <div class="field-label">{{data.[https://artresearch.net/resource/field_definition/pharos_model/repository_original_record_catalog].label}}</div>
-              <div class="field-value">
-                <div class="provider-icons">
-                  <span class="provider-icons-text">Photo archive(s): </span>
-                  {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/repository_original_record_catalog].values}}
-                    <img class="provider-icon" title="{{label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
-                  {{/each}}
-                </div>
-              </div>
-            </div>
-
-            <!-- <div class="field">
-              <div class="field-label"># of Works</div>
-              <div class="field-value">
-                {{worksCount.value}}
-              </div>
-            </div> -->
-          </div>
-  </div>
-
-
-  {{#*inline "fieldTemplate"}}
-    {{#if (lookup data field)}}
-        <div class="field">
-          <div class="field-label">{{label}}</div>
-          <div class="field-value">
-            {{#each (mergeUniqueValues (lookup (lookup data field) 'values'))}}
-              {{#if [@id]}}
-                  <semantic-link iri="{{[@id]}}" target="_blank">{{label}}</semantic-link>
-                {{label}}
-                {{#unless @last}}, {{/unless}}
-              {{else}}
-                {{#if (eq ../field "https://artresearch.net/resource/field_definition/pharos_model/production_date")}}
-                  {{dateRangeFormat [@value]}}
-                {{else}}
-                  {{[@value]}}
-                {{/if}}
-                {{#unless @last}}, {{/unless}}
-              {{/if}}
-            {{/each}}
-          </div>
-        </div>
-    {{/if}}
-  {{/inline}}
+  [[!--
+    A repository in the results, as a slip with no print: the name, how many works the search found
+    there, the marks of the archives that record it, and one key that opens the record.
+    (search-room.css)
+  --]]
+  <article class="slip slip--name">
+    <div class="slip-body">
+      <h3 class="slip-title">
+        <semantic-link iri="{{subject.value}}" target="_blank">{{data.label}}</semantic-link>
+        {{#ifCond worksCount.value '!==' '0'}}{{#if worksCount.value}}<span class="slip-count">{{thousands worksCount.value}} {{#ifCond worksCount.value '===' '1'}}work{{else}}works{{/ifCond}}</span>{{/if}}{{/ifCond}}
+      </h3>
+    </div>
+    <div class="slip-side">
+      <span class="slip-register" title="{{data.[https://artresearch.net/resource/field_definition/pharos_model/repository_original_record_catalog].label}}">
+        {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/repository_original_record_catalog].values}}
+          <img class="mark" alt="" title="{{label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
+        {{/each}}
+      </span>
+      <semantic-link class="open-key" iri="{{subject.value}}" target="_blank">Open record</semantic-link>
+    </div>
+  </article>

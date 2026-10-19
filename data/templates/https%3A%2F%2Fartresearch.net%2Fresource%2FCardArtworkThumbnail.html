@@ -1,54 +1,51 @@
-  <div class="artwork-card artwork-image-card karla-regular">
+  [[!--
+    A work in the results as a print on the table: the photograph that matched, the archive's own,
+    or the work's preferred one, on its mount with its archive's mark, and its title beneath.
+    Picking it up opens the record. A work with no photograph lies there as a blank card.
+    (search-room.css)
+  --]]
+  <figure class="print-mount">
     {{#if data}}
-        <semantic-link-container uri="{{data.[@id]}}" target="_blank">
-            <div class="thumbnail-container cursor">
-              <div class="image-wrapper">
-              {{#if photo}}
-                {{#bind work=this}}
-                  <resource-info subject="{{photo}}" profile="photograph-thumbnail" template="{{> template work=work}}">
-                    <template id="template">
-                      <img class="thumbnail-image" src="https://artresearch.net{{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" alt="Artwork thumbnail" />
-                      
-                      {{#if work.data.[https://artresearch.net/resource/field_definition/pharos_model/original_record_catalog].values.[1]}}
-                        <img class="provider-icon thumbnail-provider-icon" title="{{label}}" src="{{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
-                      {{/if}}
-                    </template>
-                  </resource-info>
-                {{/bind}}
-              {{else if provider}}
-                {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos]}}
-                  {{#with (getPreferredPhoto data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values provider)}}
-                      <img class="thumbnail-image" src="https://artresearch.net{{[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" alt="Artwork thumbnail" />
-                      <img class="provider-icon thumbnail-provider-icon" title="{{label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
-                  {{/with}}
+      <semantic-link-container uri="{{data.[@id]}}" target="_blank">
+        <div class="print-place" title="Open record: {{data.label}}">
+          {{#if photo}}
+            <resource-info subject="{{photo}}" profile="photograph-thumbnail" template="{{> mounted}}">
+              <template id="mounted">
+                {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail]}}
+                  <span class="print-on-mount">
+                    <img class="print-picture" loading="lazy" alt="" src="https://artresearch.net{{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" />
+                    <img class="print-mark" alt="" title="{{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.label}}" src="{{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}" />
+                  </span>
                 {{else}}
-                  <span class="no-image-text">No image</span>
+                  <span class="print-blank">No photograph</span>
                 {{/if}}
-              {{else}}
-                {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos]}}
-                  <img class="thumbnail-image" src="https://artresearch.net{{data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values.0.[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" alt="Artwork thumbnail" />
-                
-                  {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/original_record_catalog].values.[1]}}
-                    <img class="provider-icon thumbnail-provider-icon" title="{{label}}" src="{{data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values.0.[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
-                  {{/if}}
-                {{else}}
-                  <span class="no-image-text">No image</span>
-                {{/if}}
-              {{/if}}
-              </div>
-            </div>
-           <div class="field">
-              <div class="field-value">
-                <div class="provider-icons">
-                  {{#each data.[https://artresearch.net/resource/field_definition/pharos_model/original_record_catalog].values}}
-                    <semantic-link-container uri='{{[@id]}}' target='_blank'>
-                      <img class="provider-icon" title="{{label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}">
-                    </semantic-link-container>
-                  {{/each}}
-                </div>
-              </div>
-            </div>
+              </template>
+            </resource-info>
+          {{else if provider}}
+            {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos]}}
+              {{#with (getPreferredPhoto data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values provider)}}
+                <span class="print-on-mount">
+                  <img class="print-picture" loading="lazy" alt="" src="https://artresearch.net{{[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" />
+                  <img class="print-mark" alt="" title="{{[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}" />
+                </span>
+              {{/with}}
+            {{else}}
+              <span class="print-blank">No photograph</span>
+            {{/if}}
+          {{else}}
+            {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos]}}
+              {{#with data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values.[0]}}
+                <span class="print-on-mount">
+                  <img class="print-picture" loading="lazy" alt="" src="https://artresearch.net{{[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" />
+                  <img class="print-mark" alt="" title="{{[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}" />
+                </span>
+              {{/with}}
+            {{else}}
+              <span class="print-blank">No photograph</span>
+            {{/if}}
+          {{/if}}
+        </div>
       </semantic-link-container>
-
+      <figcaption class="print-caption"><semantic-link iri="{{data.[@id]}}" target="_blank">{{data.label}}</semantic-link></figcaption>
     {{/if}}
-  </div>
+  </figure>

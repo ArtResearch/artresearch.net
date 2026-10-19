@@ -11,7 +11,7 @@
               }",
               "parentsPattern": "{ ?value crm:P107i_is_current_or_former_member_of ?parent . }",
               "childrenPattern": "{ ?child crm:P107i_is_current_or_former_member_of ?value . }",
-              "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
+              "searchPattern": "{ SERVICE view:names { ?searchView view:column-word ?searchWord ; view:column-entity ?value ; view:column-name ?searchName } FILTER(?searchWord >= ?__prefix_from__ && ?searchWord < ?__prefix_to__) FILTER(CONTAINS(LCASE(STR(?searchName)), ?__word_1__) && CONTAINS(LCASE(STR(?searchName)), ?__word_2__) && CONTAINS(LCASE(STR(?searchName)), ?__word_3__)) }"
   }],
   "<https://artresearch.net/resource/fr/Work_consists_of_Material>":[{
               "kind":"hierarchy",
@@ -21,7 +21,7 @@
               }",
               "parentsPattern": "{ ?parent crm:P71i_is_listed_in <https://artresearch.net/resource/pharos/vocabulary/materials>. ?value crm:P127_has_broader_term ?parent . }",
               "childrenPattern": "{  ?child crm:P71i_is_listed_in <https://artresearch.net/resource/pharos/vocabulary/materials> . ?child crm:P127_has_broader_term ?value . }",
-              "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
+              "searchPattern": "{ SERVICE view:names { ?searchView view:column-word ?searchWord ; view:column-entity ?value ; view:column-name ?searchName } FILTER(?searchWord >= ?__prefix_from__ && ?searchWord < ?__prefix_to__) FILTER(CONTAINS(LCASE(STR(?searchName)), ?__word_1__) && CONTAINS(LCASE(STR(?searchName)), ?__word_2__) && CONTAINS(LCASE(STR(?searchName)), ?__word_3__)) }"
   }],
   "<https://artresearch.net/resource/fr/Work_produced_using_technique_Technique>":[{
               "kind":"hierarchy",
@@ -32,7 +32,7 @@
               }",
               "parentsPattern": "{ ?value crm:P127_has_broader_term ?parent . ?parent crm:P71i_is_listed_in <https://artresearch.net/resource/pharos/vocabulary/techniques> .}",
               "childrenPattern": "{ ?child crm:P127_has_broader_term ?value . ?child crm:P71i_is_listed_in <https://artresearch.net/resource/pharos/vocabulary/techniques> .}",
-              "searchPattern": "{ ?text ql:contains-entity ?value; ql:contains-word ?__token__. }"
+              "searchPattern": "{ SERVICE view:names { ?searchView view:column-word ?searchWord ; view:column-entity ?value ; view:column-name ?searchName } FILTER(?searchWord >= ?__prefix_from__ && ?searchWord < ?__prefix_to__) FILTER(CONTAINS(LCASE(STR(?searchName)), ?__word_1__) && CONTAINS(LCASE(STR(?searchName)), ?__word_2__) && CONTAINS(LCASE(STR(?searchName)), ?__word_3__)) }"
   }],
   "<https://artresearch.net/resource/fr/Work_shows_Subject>":[{
               "kind":"resource",
