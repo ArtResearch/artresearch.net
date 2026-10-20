@@ -838,11 +838,15 @@ Changes to the rules above, made while polishing the live page (review:
     tall as the table. The slider is a log scale over that range and takes the room
     the rail has between the tabs and the lay-out keys, so its steps stay fine
     over a range that can span hundreds of times. (Levels of scale: mark 13 px,
-    leaf 20 px, print ≥ 96 px; nothing on the table is smaller than the things it
+    leaf 12–20 px, print ≥ 96 px; nothing on the table is smaller than the things it
     carries.)
-  - *A print too small for its strip of leaves shows its own picture* (under 120 px
-    wide); the strip folds into a turned corner at the mount's lower right, which
-    still says the print has more leaves. Picking it up shows them.
+  - *The leaves are on every print that has them, at every size* (Oct 20). A leaf is a
+    fifth of its print's width, between 12 and 20 px, so the strip shrinks with the
+    print instead of giving way; on a print too narrow for its leaves side by side
+    (under 65 px) they stand one above the other along its right edge. (It used to
+    fold into a turned corner under 120 px: at the smallest size every upright print
+    lost its switch while the landscape ones beside it kept theirs, and the corner
+    was too faint to say anything.)
   - *The table says that it goes on, in the room's own terms* (gradients, the
     visible whole). Where prints lie beyond an edge the light falls off towards
     that edge, so the row the edge cuts reads as running on under it; at that edge

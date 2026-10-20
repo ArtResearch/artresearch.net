@@ -422,30 +422,11 @@
 .rr .table .AutoFitGrid--autoFitMark :is(img, .AutoFitGrid--letter) { display: block; width: 13px; height: 13px; object-fit: contain; }
 .rr .table .AutoFitGrid--autoFitMark .AutoFitGrid--letter { font-size: 8.5px; line-height: 13px; }
 .rr .table .AutoFitGrid--autoFitNumber { font-family: var(--sans); color: var(--ink-2); }
-/* A print too small for its strip of leaves shows its own picture; the strip folds into a
-   turned corner at the mount's lower right, which says the print has more leaves. */
-.rr .table .AutoFitGrid--leafFold {
-  display: none;
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  z-index: 2;
-  width: 12px;
-  height: 12px;
-  pointer-events: none;
-  background: linear-gradient(315deg, var(--table) 0 50%, hsl(44 34% 88%) 50% 100%);
-  box-shadow: -1px -1px 1px hsl(var(--cast) / 0.16);
-}
-@container print (max-width: 119px) {
-  .rr .table .AutoFitGrid--autoFitVariants { display: none; }
-  .rr .table .AutoFitGrid--leafFold { display: block; }
-}
 @container print (max-width: 88px) {
   .rr .table .AutoFitGrid--autoFitMark { padding: 1px 1px 2px 2px; }
   .rr .table .AutoFitGrid--autoFitMark :is(img, .AutoFitGrid--letter) { width: 10px; height: 10px; }
   .rr .table .AutoFitGrid--autoFitMark .AutoFitGrid--letter { font-size: 7px; line-height: 10px; }
   .rr .table .AutoFitGrid--autoFitNumber { padding: 0 4px 0 2px; font-size: 8px; line-height: 12px; letter-spacing: 0; }
-  .rr .table .AutoFitGrid--autoFitVariant { width: 14px; height: 14px; }
 }
 @container print (max-width: 56px) {
   .rr .table .AutoFitGrid--autoFitMark :is(img, .AutoFitGrid--letter) { width: 8px; height: 8px; }
@@ -546,14 +527,16 @@
 }
 .rr .table .AutoFitGrid--plan:active .AutoFitGrid--planView { cursor: grabbing; }
 
-/* the leaves of a print (recto, detail, verso) sit on the card at the mount's lower right, always visible */
+/* the leaves of a print (recto, detail, verso) sit on the card at the mount's lower right, always
+   visible, at every size of the table: a leaf is a fifth of the print's width, between 12 and 20px, and
+   on a print too narrow for them side by side they stand one above the other along its right edge */
 .rr .table .AutoFitGrid--autoFitVariants {
   left: auto;
   right: var(--mount, 4px);
   bottom: var(--mount, 4px);
   transform: none;
-  gap: 3px;
-  padding: 3px 3px 2px 3px;
+  gap: clamp(2px, 3cqi, 3px);
+  padding: clamp(2px, 3cqi, 3px);
   border-radius: 3px 0 0 0;
   background: var(--autofit-mount);
   backdrop-filter: none;
@@ -561,8 +544,8 @@
   opacity: 1;
 }
 .rr .table .AutoFitGrid--autoFitVariant {
-  width: 20px;
-  height: 20px;
+  width: clamp(12px, 21cqi, 20px);
+  height: clamp(12px, 21cqi, 20px);
   border-radius: 1px;
   opacity: 0.85;
   box-shadow: 0 0 0 1px hsl(var(--cast) / 0.28);
@@ -570,6 +553,9 @@
 .rr .table .AutoFitGrid--autoFitVariant:hover { opacity: 1; box-shadow: 0 0 0 1px hsl(var(--cast) / 0.5); }
 .rr .table .AutoFitGrid--autoFitVariantActive,
 .rr .table .AutoFitGrid--autoFitVariantActive:hover { opacity: 1; box-shadow: 0 0 0 2px var(--pull); }
+@container print (max-width: 64px) {
+  .rr .table .AutoFitGrid--autoFitVariants { flex-direction: column; border-radius: 3px 0 0 0; }
+}
 
 /* ── Under the light: the picked-up print, its leaves, its mount ── */
 .rr .table .AutoFitGrid--autoFitLightbox {
