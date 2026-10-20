@@ -18,8 +18,8 @@ they are not laid out alike, because people do different things in them:
   holds a value is sunk into the surface, what acts stands up from it; one light from the upper left.
 - **What is the search room's own**: the answers are the room's centre and get its space. The
   question is a sentence above them, the filters a narrow drawer beside them, the tally and the
-  layouts one slim line at their head. Each answer is as large as what it holds, and the three
-  layouts are three ways of looking, not three sizes of one card.
+  layouts one slim line at their head. The room is given to the answers by taking it from the
+  chrome around them, never by making the answers smaller.
 
 ## Every kind of choice has one form
 
@@ -64,7 +64,7 @@ The space between two things says how closely they belong together, and it grows
 | Space | Between |
 |---|---|
 | 4 px | a glyph and the field it works on |
-| 6 px | a check or a stop and its name; a field and the list it searches |
+| 6 px | a check or a stop and its name; a field and the list it searches; a value's triangle, check and name |
 | 8 px | the field and its Search; the question and its terms |
 | 10 px | a label and the control it names |
 | 16 px | one choice and the next in a group |
@@ -94,26 +94,46 @@ height, so the line reads as one sentence), the terms' line 22 px, a key 22 px, 
   slim line (36 px, with filters in force too): the tally in the reading voice ("10,042 works"), the
   filters in force as latched keys each with its ×, *Clear All* after them (a command on all of
   them, so it follows what it acts on), and the layouts' bank at the right.
-- **Three ways of looking**, each answer as large as that way needs (the `item-width` in the template
-  is an answer's least width; a row shares the table's width):
-  - *the catalogue* (list, 440 px least): to read what the archives say of each work. Two slips to a
-    row at 1280 and 1440, three at 1920; the print small at the left, the title, up to three facts
-    named as the field definitions name them, why it was found, the marks and *Open record*;
-  - *the cards* (grid, 212 px): to recognise works. The print on top, the title and the two facts
-    that place a work, the marks and the key on one line;
-  - *the prints* (150 px): to scan by eye. Pictures only, close together, the title under the hand.
+- **Three layouts**, as before the redesign, at the sizes they had (the template's `item-height`,
+  `item-per-row`, `item-width`): the *list* (default) is one slip to a row across the whole table
+  (160 px rows); the *grid* is the same slips side by side, as many 520 px slips as the table holds
+  (one at 1280, two at 1440, three at 1920); the *prints* are 184 px mounts with the title beneath,
+  at least two to a row (`min-items-per-row`, so a phone gets two). Names (artists, photographers,
+  repositories) are one to a row. On Oct 20 the redesign briefly made the list several to a row and
+  shrank every answer to show more of them; the user had asked for less chrome, not smaller
+  answers, and the list is one column by design, so both were undone.
 
-Answers wholly in view after a search for "madonna" (the list; the grid; the prints):
+Answers wholly in view after a search for "madonna", the first at 221 px:
 
-| Window | First answer at | List | Grid | Prints |
-|---|---|---|---|---|
-| 1280 × 800 | 221 px | 8 | 4 | 18 |
-| 1440 × 900 | 221 px | 10 | 10 | 28 |
-| 1920 × 1080 | 221 px | 18 | 14 | 50 |
+| Window | List | Grid | Prints |
+|---|---|---|---|
+| 1280 × 800 | 3 | 3 | 10 |
+| 1440 × 900 | 4 | 6 | 12 |
+| 1920 × 1080 | 5 | 12 | 24 |
 
-Before the redesign the first answer started at 205 px and the list showed 4 at 1280 (one slip to a
-row). The question's second line costs 24 px (58 → 82); the slimmer answers' head and table edge give
-back 8.
+The question's second line costs 24 px (58 → 82); the slimmer answers' head and table edge give back 8.
+
+## The narrow room: a tablet held upright, a phone
+
+The same sentence and the same answers, stacked where they no longer fit side by side. The question's
+breakpoints are measured on the search bar (a container), the room's on the window.
+
+- **Below 1000 px** (a tablet upright, 768): nothing moves; the question's terms wrap into two or
+  three lines under the field, the drawer stays beside the answers, a slip names each fact above it.
+- **Below 640 px of search bar** (a phone): the question's parts one under another in the order they
+  are said: *Search in* across the width, then the field with Search, then the terms from the left
+  edge. The Image key keeps only its glyph; its title still says what it does.
+- **Below 600 px of window**: the filters start folded (the component decides this). Their key,
+  *Show Filter*, stands on its own line above the answers; opened, the filters are a sheet over the
+  room under the site's header, with *Filters* and *Hide Filter* at its top. A slip puts its print
+  (80 px) at the left, the title and facts beside it, and the marks and *Open record* along its foot.
+  Prints are two to a row.
+
+The component's own narrow-screen rules (`ImageSearchWithSlider.scss`, `@container (width < 767px)`)
+turned the question's row into a column, which made *Search in* a 236 px square; inside the room the
+question keeps its own arrangement. A folded drawer's key was hidden by a rule meant for the loading
+moment, so a phone had no way to the filters, and a desktop no way back after *Hide Filter*: the facet
+component now marks the visitor's fold (`show-facet-button__folded`) apart from "not loaded yet".
 
 ## A result
 

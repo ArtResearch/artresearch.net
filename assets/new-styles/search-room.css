@@ -8,9 +8,8 @@
    opens it. So the answers have the room: the question is a sentence over
    them with its terms beneath, the filters a narrow drawer at their side,
    as long as its index, the tally and the layouts one slim line at their
-   head; each answer is as large as what it holds, and the three layouts
-   are three ways of looking (reading facts, recognising works, scanning
-   prints), not three sizes of one slip.
+   head. The room goes to the answers by taking it from the chrome around
+   them, never by making the answers smaller; the list is one slip to a row.
 
    What it shares with the reading room are its materials (reading-room.css
    tokens): surfaces and content lie flat; marks are the archives' own
@@ -154,7 +153,7 @@
 }
 .sr .search-bar { max-width: none; margin: 0; }
 .sr .ImageSearchWithSlider--imageSearchWithSlider { display: flex; flex-direction: column; align-items: stretch; gap: 8px; }
-.sr .ImageSearchWithSlider--topRow { display: flex; align-items: center; gap: var(--gutter); min-width: 0; margin: 0; }
+.sr .ImageSearchWithSlider--topRow { display: flex; flex-direction: row; align-items: center; gap: var(--gutter); min-width: 0; margin: 0; }
 
 /* a label: the control's name, lighter than its choices, just before it */
 .sr .ImageSearchWithSlider--imageSearchWithSlider :is(.ImageSearchWithSlider--controlLabel, .ImageSearchWithSlider--sliderLabel) {
@@ -230,7 +229,7 @@
 .sr .ImageSearchWithSlider--domainSelector .dropdown-menu > li.active > a:hover { background: var(--pull-soft); color: var(--pull); }
 
 /* the words: a field written into, sunk into the bench */
-.sr .ImageSearchWithSlider--imageSearchContainer { position: relative; flex: 1 1 auto; align-items: center; min-width: 0; min-height: 0; gap: 8px; }
+.sr .ImageSearchWithSlider--imageSearchContainer { position: relative; display: flex; flex: 1 1 auto; flex-wrap: nowrap; align-items: center; min-width: 0; min-height: 0; gap: 8px; }
 .sr :is(.ImageSearchWithSlider--inputDropzoneContainer, .ImageSearchWithSlider--imagePreviewContainer) {
   height: var(--ask-h);
   min-height: 0;
@@ -402,6 +401,7 @@
   align-items: center;
   gap: 4px 28px;
   min-height: var(--term-h);
+  flex-direction: row;
   margin: 0 0 0 calc(var(--drawer-w) + var(--gutter));
   padding: 0;
   font-size: 12.5px;
@@ -664,6 +664,15 @@
   background: var(--pull) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='8' viewBox='0 0 10 8'%3E%3Cpath d='M1 4l3 3 5-6' fill='none' stroke='%23fffcf2' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center;
   box-shadow: var(--d-pressed);
 }
+/* the platform's checkbox draws a tick of its own (::before) and a coloured edge when checked;
+   here a check is one key with one tick, and its focus is the room's ring */
+.sr :is(.facet__relation__values__value, .LazyTreeSelector--item) input[type="checkbox"],
+.sr :is(.facet__relation__values__value, .LazyTreeSelector--item) input[type="checkbox"]:is(:hover, :checked, :focus) { border: 0; outline: 0; }
+.sr :is(.facet__relation__values__value, .LazyTreeSelector--item) input[type="checkbox"]::before { content: none; display: none; }
+.sr :is(.facet__relation__values__value, .LazyTreeSelector--item) input[type="checkbox"]:focus-visible { outline: 2px solid var(--pull); outline-offset: 2px; }
+/* a value under the hand: the room's faint shade */
+.sr :is(.facet__relation__values__value, .LazyTreeSelector--item) { margin: 0 -4px; padding: 0 4px; border-radius: 4px; }
+.sr :is(.facet__relation__values__value, .LazyTreeSelector--item):hover { background: hsl(var(--cast) / 0.05); }
 /* the name takes the line; the count, the text node after it, sits at the right */
 .sr .facet__relation__values__value label > span {
   display: flex;
@@ -757,7 +766,8 @@
   height: auto !important;
   padding: 10px 0 !important;
 }
-.sr .facets-area:not(:has(.facet-relations)) .show-facet-button__show { display: none; }
+/* while the filters load there is nothing to fold or unfold yet; folded by the visitor, the key stays */
+.sr .facets-area:not(:has(.facet-relations)) .show-facet-button__show:not(.show-facet-button__folded) { display: none; }
 .sr .facets-area:not(:has(.facet-relations)) { align-self: flex-start; }
 
 /* ═════════ The table: where the results lie ═════════ */
@@ -846,6 +856,7 @@
 /* one row of the answers: as many side by side as the table holds at the layout's width */
 .sr .result-item { display: flex; gap: 10px; margin: 0; padding: 0 0 10px; border: 0; }
 .sr .result-item > * { flex: 1 1 0; min-width: 0; }
+.sr .work-image-grid-pane .result-item { gap: 6px; padding-bottom: 4px; }
 
 /* nothing found: a note on the table, in the reading voice */
 .sr #noResults { min-height: 0; padding: 40px 24px; background: none; font: italic 400 15px/1.5 var(--serif); color: var(--ink-3); }
@@ -977,7 +988,7 @@ article.slip--name { grid-template-columns: minmax(0, 1fr) auto; min-height: 0; 
 .slip-row dd a { text-underline-offset: 3px; text-decoration-color: hsl(var(--cast) / 0.18); }
 .slip-row .sep { margin: 0 5px; color: var(--ink-4); }
 /* a narrow slip names each fact above it */
-@container slip (max-width: 440px) {
+@container slip (max-width: 560px) {
   .slip-rows { grid-template-columns: minmax(0, 1fr); gap: 0; }
   .slip-row dt { line-height: 15px; }
   .slip-row dd { margin-bottom: 4px; -webkit-line-clamp: 1; }
@@ -1058,80 +1069,61 @@ mp-popover + mp-popover .slip-why-term,
 }
 .print-caption a { text-underline-offset: 3px; text-decoration-color: hsl(var(--cast) / 0.16); }
 
-/* ═════════ Three ways of looking at the answers ═════════
-   Not three sizes of one slip: each layout is a way of looking, and each answer in it is as
-   large as what that way needs. The width an answer is laid out at (item-width in the
-   template) is its least; a row shares the table's width, and the last, shorter row keeps
-   the others' width instead of stretching. */
+/* ═════════ The narrow room: a tablet held upright, a phone ═════════
+   The same sentence and the same answers, stacked where they no longer fit side by side.
+   The question's widths are measured on the search bar (a container), the room's on the window. */
 
-/* The catalogue: to read what the archives say of each work. Slips at a desk's width, two
-   or three to a row as the table allows; the print small at the left, the title (two lines at most), up to three
-   facts named as the field definitions name them, why it was found, the marks and the key. */
-.sr .work-list-pane .result-item > * { max-width: 780px; }
-.sr .work-list-pane article.slip {
-  --print-w: 76px;
-  --print-h: 90px;
-  grid-template-columns: 86px minmax(0, 1fr) auto;
-  gap: 12px;
-  min-height: 0;
-  padding: 9px 12px 9px 8px;
+/* a phone: the question's parts one under another, in the order they are said: what is
+   searched, then the words and Search, then the terms from the left edge; the Image key keeps
+   only its glyph (its title still says what it does) */
+@container (max-width: 639px) {
+  .sr .ImageSearchWithSlider--topRow { flex-wrap: wrap; row-gap: 8px; }
+  .sr .ImageSearchWithSlider--domainSelector { flex: 1 1 100%; width: 100%; }
+  .sr .ImageSearchWithSlider--imageSearchContainer { flex: 1 1 100%; }
+  .sr .ImageSearchWithSlider--inputDropzoneContainer .ImageSearchWithSlider--cameraIcon.ImageSearchWithSlider--cameraIcon { width: 26px; padding: 0; font-size: 0; }
+  .sr .ImageSearchWithSlider--inputDropzoneContainer .ImageSearchWithSlider--cameraIcon i { font-size: 16px; }
+  .sr .ImageSearchWithSlider--searchButton { padding: 0 16px; }
+  .sr .ImageSearchWithSlider--searchControls { gap: 6px 20px; margin-left: 0; }
+  .sr .ImageSearchWithSlider--modelSelection { gap: 14px; }
+  .sr .ImageSearchWithSlider--sensitivityStop { padding: 0 8px; }
 }
-.sr .work-list-pane .slip-print { min-height: 0; }
-.sr .work-list-pane .slip-title {
-  margin: 0 0 4px;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  font-size: 15px;
-  line-height: 1.25;
+
+/* a phone: the filters are a sheet of their own. Folded (as they start), their key stands on
+   its own line above the answers; opened, the sheet covers the room under the site's header
+   (which stays on top), and its key to fold it stays at the sheet's top right */
+@media (max-width: 600px) {
+  .sr .search-content-area { flex-direction: column; gap: 8px; padding-top: 8px; }
+  .sr .facets-area:not(:has(.facet-relations)) { align-self: flex-start; min-width: 0; }
+  .sr .facets-area:not(:has(.facet-relations)) .show-facet-button {
+    position: static;
+    writing-mode: horizontal-tb;
+    width: auto !important;
+    height: var(--key-h) !important;
+    padding: 0 10px !important;
+  }
+  .sr .semantic-facet-holder .facet {
+    position: fixed;
+    inset: var(--nav-height, 73px) 0 0 0;
+    z-index: 1050;
+    width: 100%;
+    height: auto;
+    padding: 0;
+    background: var(--room);
+    overflow-y: auto;
+  }
+  .sr .semantic-facet-holder .facet-relations { width: 100%; padding: 52px var(--gutter) 24px; }
+  .sr .facets-area:has(.facet-relations)::before { position: fixed; top: calc(var(--nav-height, 73px) + 20px); left: var(--gutter); z-index: 1051; }
+  .sr .facets-area:has(.facet-relations) .show-facet-button { position: fixed; top: calc(var(--nav-height, 73px) + 12px); right: var(--gutter); z-index: 1051; }
+  .sr .results-area { flex: 1 1 auto; min-height: 0; }
 }
-.sr .work-list-pane .slip-rows { gap: 0 10px; }
-.sr .work-list-pane .slip-row dt { font-size: 9px; line-height: 17px; }
-.sr .work-list-pane .slip-row dd { font-size: 12.5px; line-height: 17px; -webkit-line-clamp: 1; }
-.sr .work-list-pane .slip-row:nth-of-type(n+4) { display: none; }
-.sr .work-list-pane .slip-why { margin-top: 4px; }
 
-/* The cards: to recognise works. The print is the card's centre, on top; beneath it the
-   title and the two facts that place a work (who, when), then the marks and the key on
-   one line. Why each was found is the catalogue's business. */
-.sr .work-grid-pane .result-item > * { max-width: 268px; }
-.sr .work-grid-pane article.slip {
-  --print-w: 176px;
-  --print-h: 156px;
-  grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: 164px auto auto;
-  gap: 8px;
-  min-height: 0;
-  padding: 10px 12px;
+/* a slip on a phone: the print smaller at the left, the title and facts beside it, and the
+   marks and the key that opens the record on one line along the slip's foot (the slip is its
+   own container, so its grid follows the window, not a container query) */
+@media (max-width: 600px) {
+  .sr article.slip:not(.slip--name) { --print-w: 80px; --print-h: 92px; grid-template-columns: 84px minmax(0, 1fr); gap: 10px 12px; padding: 10px; min-height: 0; }
+  .sr .slip-print { min-height: 92px; }
+  .sr .slip-title { font-size: 15px; margin-bottom: 6px; }
+  .sr article.slip:not(.slip--name) .slip-side { grid-column: 1 / -1; flex-direction: row; align-items: center; justify-content: space-between; }
+  .sr article.slip:not(.slip--name) .slip-register { justify-content: flex-start; max-width: none; }
 }
-.sr .work-grid-pane article.slip:not(:has(.slip-body)) { min-height: 270px; }
-.sr .work-grid-pane .slip-print { height: 164px; min-height: 0; }
-.sr .work-grid-pane .slip-title {
-  margin: 0 0 3px;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  font-size: 14px;
-  line-height: 1.3;
-}
-.sr .work-grid-pane .slip-rows { grid-template-columns: minmax(0, 1fr); gap: 0; }
-.sr .work-grid-pane .slip-row dt { display: none; }
-.sr .work-grid-pane .slip-row dd { margin: 0; font-size: 12px; line-height: 16px; color: var(--ink-2); -webkit-line-clamp: 1; }
-.sr .work-grid-pane .slip-row:nth-of-type(n+3) { display: none; }
-.sr .work-grid-pane .slip-why { display: none; }
-.sr .work-grid-pane .slip-side { flex-direction: row; align-items: center; justify-content: space-between; gap: 8px; }
-.sr .work-grid-pane .slip-register { justify-content: flex-start; max-width: none; }
-
-/* The prints: to scan by eye. Pictures only, close together on the table, each on its
-   mount with its archive's mark; the title is said under the hand. */
-.sr .work-image-grid-pane .result-item { gap: 4px; padding-bottom: 4px; }
-.sr .work-image-grid-pane .result-item > * { max-width: 196px; }
-.sr .work-image-grid-pane .print-mount { --print-w: 138px; --print-h: 142px; gap: 0; padding: 4px 2px; }
-.sr .work-image-grid-pane .print-caption { display: none; }
-
-/* names (artists, photographers, repositories): short slips, three to a row */
-.sr .result-item:has(> article.slip--name) > * { max-width: 560px; }
-.sr article.slip--name { padding: 10px 12px; }
-
