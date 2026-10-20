@@ -10,7 +10,8 @@ const USER = process.env.APP_USER || 'admin';
 const PASSWORD = process.env.APP_PASSWORD || 'admin';
 const ONLY = process.env.ONLY;
 const INPUT = "input[placeholder='Keywords or image']";
-const TYPES = { keyword: 'Text Match', conceptual: 'Textual Similarity', visual: 'Visual Similarity' };
+// the search types are checks, found by their values
+const TYPES = { keyword: 'exact', conceptual: 'metadata', visual: 'visual' };
 const ALL_TYPES = Object.keys(TYPES);
 
 const queryOf = (request) => {
@@ -56,11 +57,13 @@ function followResults(page) {
 }
 
 async function setTypes(page, wanted) {
-  for (const [key, title] of Object.entries(TYPES)) {
-    const label = page.locator(`label[title='${title}']`);
-    if (!(await label.count())) continue;
-    if ((await label.locator('input').isChecked()) !== wanted.includes(key)) {
-      await label.click();
+  // switch on what is wanted first, so the search never has no type at all in between
+  const order = Object.keys(TYPES).sort((a, b) => wanted.includes(b) - wanted.includes(a));
+  for (const key of order) {
+    const input = page.locator(`input[name='searchTypes'][value='${TYPES[key]}']`);
+    if (!(await input.count())) continue;
+    if ((await input.isChecked()) !== wanted.includes(key)) {
+      await page.locator('label', { has: input }).click();
       await page.waitForTimeout(300);
     }
   }
@@ -74,7 +77,7 @@ async function openSearch(context, c) {
   await page.waitForTimeout(3000);
   await setTypes(page, c.types || ALL_TYPES);
   if (c.sensitivity && c.sensitivity !== 'Precise') {
-    await page.locator('.rc-slider-mark-text', { hasText: c.sensitivity }).first().click();
+    await page.locator('[role=radio]', { hasText: c.sensitivity }).first().click();
   }
   const t = Date.now();
   await page.fill(INPUT, c.query);

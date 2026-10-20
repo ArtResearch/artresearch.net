@@ -1,40 +1,119 @@
-# The search page, in the reading room's language
+# The search page: the catalogue hall
 
-Oct 19 2026. The search page (`Default:search` → `SearchTemplate`, also embedded in the
-actor, place, type, subject, material, partner, repositories and women-artists pages) and the
-result cards now follow the record page (`pharos-record-design-alive.md`). Styles:
-`assets/new-styles/search-room.css`, on the tokens `reading-room.css` shares with it.
+The search page (`Default:search` → `SearchTemplate`, also embedded in the actor, place, type,
+subject, material, partner, repositories and women-artists pages) and its result cards. Styles:
+`assets/new-styles/search-room.css`, on the tokens `reading-room.css` shares with it; the question is
+the `ImageSearchWithSlider` component (`researchspace-pharos`). First set in the reading room's
+language on Oct 19 2026, redesigned as a room of its own on Oct 20.
 
-## The rules it keeps
+## A room of its own, not the reading room again
 
-- **Three kinds of thing, one treatment each.** Surfaces and content lie flat. Marks are the
-  archives' own glyphs, in their own colours, and are never controls. Instruments have a body
-  and show state by elevation: what the hand can work stands, a chosen or latched one is
-  pressed in, what cannot act now is flat and dim.
-- **Links stay type**, with the record page's thin underline, darker under the hand.
-- **A result has one explicit way in**: its *Open record* key. Its print and its title lead to
-  the record too; its facts (creator, repository, place, the work a photograph depicts) lead
-  to their own pages, as on the record page. Marks no longer link anywhere.
+The record page is a desk for one work read closely. The search page is the catalogue hall where
+one question meets many works: the visitor asks, runs an eye over the answers, narrows them, glances
+at one, opens it. The two rooms are built of the same materials, as the rooms of one house are, but
+they are not laid out alike, because people do different things in them:
+
+- **What they share** (the materials, `reading-room.css` tokens): surfaces and content lie flat;
+  marks are the archives' own glyphs in their own colours and never controls; links are type; what
+  holds a value is sunk into the surface, what acts stands up from it; one light from the upper left.
+- **What is the search room's own**: the answers are the room's centre and get its space. The
+  question is a sentence above them, the filters a narrow drawer beside them, the tally and the
+  layouts one slim line at their head. Each answer is as large as what it holds, and the three
+  layouts are three ways of looking, not three sizes of one card.
+
+## Every kind of choice has one form
+
+A control's form says what kind of choice it is, so the hand knows what will happen before
+pressing. The same kind looks the same everywhere in the room; two different kinds never look alike.
+
+| Kind | What it does | Form | Where |
+|---|---|---|---|
+| command | acts once and springs back | a key standing up from the bench | *Search* (the one dark key, the strongest), *Image*, *Open record*, *Hide Filter*, × and *Clear All* on the filters in force |
+| check | in or out, any number of them | a small square key that sinks and takes the accent, with a tick, its name beside it | the search types; every filter value in the drawer |
+| scale | one position on an ordered range | a rounded groove with the positions named in it and a detent between each two; the chosen one carries the raised shuttle | search sensitivity (Precise, Balanced, Exploratory) |
+| bank | one of several equals | keys in a well; the chosen one is pressed in | the three layouts |
+| selector | one of a list, which changes what the page is about | a value sunk like a field, with the list's chevron | *Search in* |
+| field | written into | sunk, with a 1 px edge; the accent ring when written in | the words; a filter's own search |
+| field glyph | works on the field's own text | a flat glyph inside the field, no body | clear (×) |
+| link | goes to something to read | type in the accent, underlined | *How search works*, titles, facts |
+
+Why some of these are as they are:
+
+- **Search is the only dark key.** Every other key is the bench's face; Search is made of the page's
+  ink. It is what the whole question is for, so it is the strongest thing on the line, and nothing
+  else in the room is mistaken for it.
+- **The search types are checks, not keys.** They used to be keys in a well, which looked like the
+  sensitivity next to them and like Search; but they are independent (any number in, never none),
+  so each says whether it is in by its own check. A type left out keeps its name, greyed.
+- **Sensitivity is a scale, not a set of buttons.** Only one position, and the positions are ordered
+  (narrowest to widest), so it is round like the zoom's groove on the record page: what slides along
+  a range is round, what is pressed is square. When only keyword search is in, the scale stays where
+  it is, flat and grey, so where it stands is still read.
+- **What is searched is a value, not a command.** *Search in* shows what is chosen and opens a list;
+  it is sunk like the field next to it, and the two read together: "Search in Artworks: madonna".
+- **Help is a page, so it is a link**, *How search works*, at the end of the terms, not a "?" key
+  inside the field. What each type finds is said by its own title under the hand.
+- **Labels name controls only where the control does not say it itself**, in a lighter voice
+  (12 px, the third ink) than the names of the choices (12.5 px), just before what they name:
+  *Search in*, *Search types*, *Search sensitivity*. The layouts and the filters need none.
+
+## The spaces
+
+The space between two things says how closely they belong together, and it grows step by step:
+
+| Space | Between |
+|---|---|
+| 4 px | a glyph and the field it works on |
+| 6 px | a check or a stop and its name; a field and the list it searches |
+| 8 px | the field and its Search; the question and its terms |
+| 10 px | a label and the control it names |
+| 16 px | one choice and the next in a group |
+| 28 px | one group and the next |
+| 14 px | the gutter between the drawer's column and the answers' |
+
+Heights follow the same idea: the question's line is 36 px (selector, field and Search all one
+height, so the line reads as one sentence), the terms' line 22 px, a key 22 px, a check 14 px.
 
 ## The page
 
-- **The rail** (the bench under the header): *Search in* is a key that opens the five
-  domains; *Words or an image* is a field written into, recessed, with clear, help and image
-  as small keys inside it; *Search* is the rail's one wide key. Below, *Search types* is a
-  bank of latching keys (Keyword, Conceptual, Visual), each with a quiet help glyph that
-  explains under the hand; *Search sensitivity* is the zoom's groove and knob, flat and dim
-  while keyword search alone has nothing to reach for.
-- **The index of filters** is a sheet, like the record's. Each filter is named as the sheet
-  names a field (tracked caps and a rule) and opens with the sheet's chevron key. A value is
-  one line: its check is a small key that sinks and takes the accent when latched, its name
-  is in the reading voice, its count sits at the right in figures that line up, its
-  thousands grouped (helper `thousands`, also on the tally); a long name gives way to its
-  count, and a list is as tall as its values, up to a dozen rows. *Hide
-  Filter* is a key on the sheet's first line; folded away, the index is that key, upright.
-- **The table** is the bench with a recess, as on the record page. Its edge carries the
-  tally in the reading voice ("431 works") and *Lay out* (list, grid, prints), a bank of
-  radio keys. The filters in force sit above it as latched keys, each with its ×, and
-  *Clear All* beside them.
+- **The question** (the bench under the header) is two lines. The first is the question as it is
+  said: *Search in* [Artworks] [madonna × | Image] [Search]. What is searched stands over the drawer
+  of filters and is exactly as wide (236 px), because the kind of thing decides how it can be
+  narrowed; the words and Search stand over the answers. The second line, in a smaller voice, starts
+  where the field starts, because it is how the words are matched: *Search types* (checks), *Search
+  sensitivity* (scale), *How search works* (link). Where a domain has no kinds of search (artists,
+  photographers, repositories), the question is one line. 82 px for both lines, 52 px for one.
+- **The drawer of filters** is an index to run the eye down, not a sheet to read: 236 px wide, one
+  compact line per filter divided by hairlines, the filter's name in sentence case and the sheet's
+  chevron key at the line's end. The sheet is as long as the index, not as the room, and scrolls once
+  an opened filter makes it longer. A value is one line: its check, its name in the reading voice,
+  its count at the right in figures that line up; in a tree the triangle, check and name sit 6 px
+  apart and a long name ends in an ellipsis before its count. *Hide Filter* folds the drawer to an
+  upright key at the room's edge.
+- **The answers** lie on the table, recessed into the bench as on the record page. Their head is one
+  slim line (36 px, with filters in force too): the tally in the reading voice ("10,042 works"), the
+  filters in force as latched keys each with its ×, *Clear All* after them (a command on all of
+  them, so it follows what it acts on), and the layouts' bank at the right.
+- **Three ways of looking**, each answer as large as that way needs (the `item-width` in the template
+  is an answer's least width; a row shares the table's width):
+  - *the catalogue* (list, 440 px least): to read what the archives say of each work. Two slips to a
+    row at 1280 and 1440, three at 1920; the print small at the left, the title, up to three facts
+    named as the field definitions name them, why it was found, the marks and *Open record*;
+  - *the cards* (grid, 212 px): to recognise works. The print on top, the title and the two facts
+    that place a work, the marks and the key on one line;
+  - *the prints* (150 px): to scan by eye. Pictures only, close together, the title under the hand.
+
+Answers wholly in view after a search for "madonna" (the list; the grid; the prints):
+
+| Window | First answer at | List | Grid | Prints |
+|---|---|---|---|---|
+| 1280 × 800 | 221 px | 8 | 4 | 18 |
+| 1440 × 900 | 221 px | 10 | 10 | 28 |
+| 1920 × 1080 | 221 px | 18 | 14 | 50 |
+
+Before the redesign the first answer started at 205 px and the list showed 4 at 1280 (one slip to a
+row). The question's second line costs 24 px (58 → 82); the slimmer answers' head and table edge give
+back 8.
 
 ## A result
 

@@ -1,18 +1,23 @@
 /* ═══════════════════════════════════════════════════════════════════
-   The PHAROS search page, in the reading room's language
-   (reading-room.css, whose tokens it shares; the page is
-   data/templates/…SearchTemplate.html, the results its Card* templates).
+   The PHAROS search room (data/templates/…SearchTemplate.html, the
+   results its Card* templates; design: platform-design/pharos-search-design.md).
 
-   The same three kinds of thing, each treated one way:
-   - surfaces and content lie flat: the index of filters is a sheet, the
-     results lie on a table, a work is a slip or a print on its mount;
-   - marks are the archives' own glyphs, in their own colours, never controls;
-   - instruments have a body and show their state by elevation: what the
-     hand can work stands, a chosen or latched one is pressed in, what
-     cannot act now is flat and dim.
-   Links stay type, with the record page's thin underline. A work has one
-   explicit way in, its "Open record" key; its print and its title lead
-   there too, and its facts lead to their own pages.
+   Not the reading room again. The record page is a desk for one work read
+   closely; this is the catalogue hall where one question meets many works:
+   the visitor asks, scans the answers by eye, narrows, glances at one, and
+   opens it. So the answers have the room: the question is a sentence over
+   them with its terms beneath, the filters a narrow drawer at their side,
+   as long as its index, the tally and the layouts one slim line at their
+   head; each answer is as large as what it holds, and the three layouts
+   are three ways of looking (reading facts, recognising works, scanning
+   prints), not three sizes of one slip.
+
+   What it shares with the reading room are its materials (reading-room.css
+   tokens): surfaces and content lie flat; marks are the archives' own
+   glyphs, never controls; what holds a value is sunk, what acts stands.
+   Each kind of choice has one form, wherever it is in the room (see "The
+   instruments" below). Links stay type. A work has one explicit way in,
+   its "Open record" key; its print and title lead there too.
    ═══════════════════════════════════════════════════════════════════ */
 
 .sr {
@@ -29,18 +34,21 @@
 .sr .search-container { flex: 1 1 auto; min-height: 0; height: 100%; }
 .sr *, .sr *::before, .sr *::after { box-sizing: border-box; }
 
-/* ── One instrument body, as on the record page's rail ── */
+/* ── The instruments, each kind of choice in its own form ──
+   command      acts and springs back: a standing key (Search, Image, Open record, ×, Clear all)
+   switch       in or out, any number of them: a key that latches, with its own check (the kinds of search)
+   bank         one of several equals: keys in a well, the chosen one pressed in (the layouts)
+   scale        one position on an ordered range: a groove with stops, the knob at one (sensitivity)
+   selector     one of several that changes what the page is about: a labelled key that opens its list
+   link         goes to something to read: type, underlined (help, titles, facts)
+   field glyph  works on the field's own text: flat, inside it (clear)
+   A label names a control only where its parts do not say it themselves. */
 .sr {
   --key-h: 22px;
   --well-h: 28px;
 }
 .sr :is(
-  .ImageSearchWithSlider--domainSelector .dropdown-toggle,
-  .ImageSearchWithSlider--searchButton,
-  .ImageSearchWithSlider--clearTextBtn,
-  .ImageSearchWithSlider--searchHelpIcon,
   .ImageSearchWithSlider--cameraIcon,
-  .ImageSearchWithSlider--modelSelection .checkbox label,
   .nav.icon-tabs > li > a,
   .FacetBreadcrumbs--cancelButton,
   .show-facet-button,
@@ -66,12 +74,7 @@
   transition: color 0.12s ease, box-shadow 0.12s ease, transform 0.08s ease, background 0.12s ease;
 }
 .sr :is(
-  .ImageSearchWithSlider--domainSelector .dropdown-toggle,
-  .ImageSearchWithSlider--searchButton,
-  .ImageSearchWithSlider--clearTextBtn,
-  .ImageSearchWithSlider--searchHelpIcon,
   .ImageSearchWithSlider--cameraIcon,
-  .ImageSearchWithSlider--modelSelection .checkbox label,
   .nav.icon-tabs > li > a,
   .FacetBreadcrumbs--cancelButton,
   .show-facet-button,
@@ -82,19 +85,13 @@
   color: var(--ink);
   text-decoration: none;
 }
-/* in: the chosen one of a bank, a latched key, anything while it is pressed */
+/* in: the chosen one of a bank, anything while it is pressed */
 .sr :is(
-  .ImageSearchWithSlider--domainSelector .dropdown-toggle,
-  .ImageSearchWithSlider--searchButton,
-  .ImageSearchWithSlider--clearTextBtn,
-  .ImageSearchWithSlider--searchHelpIcon,
   .ImageSearchWithSlider--cameraIcon,
   .FacetBreadcrumbs--cancelButton,
   .show-facet-button,
   .open-key
 ):active,
-.sr .ImageSearchWithSlider--domainSelector .open > .dropdown-toggle,
-.sr .ImageSearchWithSlider--modelSelection .checkbox:has(input:checked) label,
 .sr .nav.icon-tabs > li.active > a {
   transform: translateY(1px);
   background: var(--pressed);
@@ -103,15 +100,9 @@
 }
 .sr .nav.icon-tabs > li.active > a { cursor: default; }
 /* cannot act now (a page that fixes what is searched): no body, dimmed */
-.sr :is(.ImageSearchWithSlider--domainSelector .dropdown-toggle, .ImageSearchWithSlider--searchButton):is(:disabled, .disabled) {
-  background: transparent !important;
-  box-shadow: none;
-  opacity: 0.45;
-  cursor: default;
-}
 
-/* the wells instruments sit in: one recess, 3 px round them, 4 px between */
-.sr :is(.ImageSearchWithSlider--domainSelector, .ImageSearchWithSlider--modelSelection, .ImageSearchWithSlider--sliderFieldSliderContainer, .nav.icon-tabs) {
+/* the well a bank of keys sits in: one recess, 3 px round them, 4 px between */
+.sr .nav.icon-tabs {
   display: inline-flex;
   align-items: center;
   gap: 4px;
@@ -123,71 +114,113 @@
   box-shadow: var(--d-well);
 }
 
-/* every group says what it does, in the same voice, over its first instrument */
-.sr .rail-group-name,
-.sr .ImageSearchWithSlider--sliderLabel::before,
-.sr .ImageSearchWithSlider--domainSelector::before,
-.sr .ImageSearchWithSlider--imageSearchContainer::before,
-.sr .search-tab-container--header-row .nav.icon-tabs::before {
-  position: absolute;
-  top: -13px;
-  left: 3px;
-  font: 500 8.5px/1 var(--sans);
-  letter-spacing: 0.11em;
-  text-transform: uppercase;
-  color: var(--ink-4);
-  white-space: nowrap;
-  pointer-events: none;
-}
+/* ═════════ The question, over the answers it asks for ═════════
+   A sentence and its terms. The first line is the question, read as it is
+   said: "Search in Artworks: madonna. Search." What is searched stands over
+   the drawer of filters (the kind of thing decides how it can be narrowed);
+   the words, and the key that asks, stand over the answers. The second line,
+   in a smaller voice and under the words because it is how the words are
+   matched, holds the terms: which kinds of search, how far the similar ones
+   may reach, and where to read how searching works.
 
-/* ═════════ The rail: where the search is asked ═════════ */
+   What holds a value is sunk into the bench (the words, what is searched,
+   the scale's groove); what acts stands up from it (Search, Image, the knob
+   that is moved). A label is lighter than the names of the choices it heads.
+
+   The spaces say what belongs together, closest first:
+    4 px  a glyph and the field it works on
+    6 px  a check or a stop and its name
+    8 px  the field and its Search; the question and its terms
+   10 px  a label and the control it names
+   16 px  one choice and the next in a group
+   28 px  one group and the next
+   14 px  the gutter, between the drawer's column and the answers' */
+.sr {
+  --drawer-w: 236px;
+  --gutter: 14px;
+  --ask-h: 36px;
+  --term-h: 22px;
+}
 .sr .search-controls-area {
   flex: 0 0 auto;
   width: 100%;
   max-width: none;
   margin: 0;
-  padding: 24px 24px 14px;
+  padding: 8px var(--gutter);
   background: var(--bench);
   box-shadow: inset 0 -1px 0 hsl(var(--cast) / 0.14), inset 0 1px 0 var(--lit);
   position: relative;
   z-index: 3;
 }
-.sr .search-bar { max-width: 1080px; margin: 0 auto; }
-.sr .ImageSearchWithSlider--imageSearchWithSlider { display: flex; flex-direction: column; gap: 24px; }
-.sr .ImageSearchWithSlider--topRow { display: flex; align-items: center; gap: 12px; margin: 0; }
+.sr .search-bar { max-width: none; margin: 0; }
+.sr .ImageSearchWithSlider--imageSearchWithSlider { display: flex; flex-direction: column; align-items: stretch; gap: 8px; }
+.sr .ImageSearchWithSlider--topRow { display: flex; align-items: center; gap: var(--gutter); min-width: 0; margin: 0; }
 
-/* what is searched: one choice of five, the dropdown its key */
-.sr .ImageSearchWithSlider--domainSelector { position: relative; flex: none; width: auto; height: 36px; border-bottom: 0; }
-.sr .ImageSearchWithSlider--domainSelector::before { content: 'Search in'; }
-.sr .ImageSearchWithSlider--domainSelector .dropdown { width: auto; }
-.sr .ImageSearchWithSlider--domainSelector .dropdown-toggle {
-  --key-h: 30px;
-  width: auto;
-  min-width: 132px;
+/* a label: the control's name, lighter than its choices, just before it */
+.sr .ImageSearchWithSlider--imageSearchWithSlider :is(.ImageSearchWithSlider--controlLabel, .ImageSearchWithSlider--sliderLabel) {
+  display: block;
+  flex: none;
+  margin: 0 10px 0 0;
+  padding: 0;
+  font: 400 12px/1 var(--sans);
+  letter-spacing: 0;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+
+/* what is searched: a value set from a list, so sunk like the field and marked by the list's
+   chevron; with its label, exactly as wide as the drawer below it */
+.sr .ImageSearchWithSlider--domainSelector { display: flex; align-items: center; flex: 0 0 var(--drawer-w); width: var(--drawer-w); height: var(--ask-h); margin: 0; border-bottom: 0; }
+.sr .ImageSearchWithSlider--domainSelector .dropdown { flex: 1 1 auto; width: auto; min-width: 0; }
+.sr .ImageSearchWithSlider--domainSelector .dropdown-toggle,
+.sr .ImageSearchWithSlider--domainSelector .dropdown-toggle:is(:hover, :focus, :active),
+.sr .ImageSearchWithSlider--domainSelector .open > .dropdown-toggle {
+  display: flex;
+  align-items: center;
   justify-content: space-between;
   gap: 10px;
-  padding: 0 10px 0 12px;
-  font-size: 13px;
-  font-weight: 500;
+  width: 100%;
+  height: var(--ask-h);
+  margin: 0;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--paper);
+  box-shadow: var(--d-well), 0 0 0 1px hsl(var(--cast) / 0.12);
+  font: 500 13px/var(--ask-h) var(--sans);
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink);
+  transform: none;
+  cursor: pointer;
+  transition: box-shadow 0.15s ease;
 }
+.sr .ImageSearchWithSlider--domainSelector .dropdown-toggle:hover { box-shadow: var(--d-well), 0 0 0 1px hsl(var(--cast) / 0.24); }
+.sr .ImageSearchWithSlider--domainSelector .open > .dropdown-toggle,
+.sr .ImageSearchWithSlider--domainSelector .dropdown-toggle:focus-visible { outline: 0; box-shadow: var(--d-well), 0 0 0 2px var(--pull) !important; }
 .sr .ImageSearchWithSlider--domainSelector .dropdown-toggle .caret {
+  flex: none;
   width: 8px;
   height: 5px;
+  margin: 0;
   border: 0;
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5' viewBox='0 0 8 5'%3E%3Cpath d='M1 1l3 3 3-3' fill='none' stroke='%23574b3e' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center;
 }
+/* fixed by the page that holds it: the value stays readable, the chevron goes */
+.sr .ImageSearchWithSlider--domainSelector .dropdown-toggle:is(:disabled, .disabled) { opacity: 1; background: transparent; box-shadow: 0 0 0 1px hsl(var(--cast) / 0.10); cursor: default; }
+.sr .ImageSearchWithSlider--domainSelector .dropdown-toggle:is(:disabled, .disabled) .caret { visibility: hidden; }
 .sr .ImageSearchWithSlider--domainSelector .dropdown-menu {
   min-width: 100%;
-  margin-top: 6px;
+  margin-top: 4px;
   padding: 4px;
   border: 0;
-  border-radius: 4px;
+  border-radius: 6px;
   background: var(--paper);
   box-shadow: var(--d-sheet);
 }
 .sr .ImageSearchWithSlider--domainSelector .dropdown-menu > li > a {
-  padding: 5px 10px;
-  border-radius: 3px;
+  padding: 6px 8px;
+  border-radius: 4px;
   background: none;
   font: 500 13px/20px var(--sans);
   color: var(--ink-2);
@@ -196,13 +229,12 @@
 .sr .ImageSearchWithSlider--domainSelector .dropdown-menu > li.active > a,
 .sr .ImageSearchWithSlider--domainSelector .dropdown-menu > li.active > a:hover { background: var(--pull-soft); color: var(--pull); }
 
-/* the words: a field written into, recessed; the keys that work on it stand inside it */
-.sr .ImageSearchWithSlider--imageSearchContainer { position: relative; flex: 1 1 auto; min-height: 0; gap: 12px; }
-.sr .ImageSearchWithSlider--imageSearchContainer::before { content: 'Words or an image'; }
+/* the words: a field written into, sunk into the bench */
+.sr .ImageSearchWithSlider--imageSearchContainer { position: relative; flex: 1 1 auto; align-items: center; min-width: 0; min-height: 0; gap: 8px; }
 .sr :is(.ImageSearchWithSlider--inputDropzoneContainer, .ImageSearchWithSlider--imagePreviewContainer) {
-  height: 36px;
+  height: var(--ask-h);
   min-height: 0;
-  padding: 0 4px 0 10px;
+  padding: 0 5px 0 10px;
   gap: 4px;
   border: 0;
   border-radius: 6px;
@@ -211,107 +243,296 @@
   transition: box-shadow 0.15s ease;
 }
 .sr .ImageSearchWithSlider--inputDropzoneContainer:focus-within { border: 0; box-shadow: var(--d-well), 0 0 0 2px var(--pull); }
-.sr .ImageSearchWithSlider--searchIconLeft { color: var(--ink-4); font-size: 18px; cursor: default; }
+/* covered by the image sheet, the field gives up its ring so no edge of it shows round the sheet */
+.sr .ImageSearchWithSlider--inputDropzoneContainer.ImageSearchWithSlider--inputDisabled { box-shadow: var(--d-well), 0 0 0 1px hsl(var(--cast) / 0.12); }
+.sr .ImageSearchWithSlider--searchIconLeft { flex: none; color: var(--ink-4); font-size: 18px; cursor: text; }
+.sr .ImageSearchWithSlider--inputWithClear { position: relative; flex: 1 1 auto; min-width: 0; }
 .sr .ImageSearchWithSlider--inputWithClear input {
   height: 34px;
-  padding: 0 4px;
+  padding: 0 30px 0 4px;
   font: 400 16px/34px var(--serif);
   color: var(--ink);
 }
 .sr .ImageSearchWithSlider--inputWithClear input::placeholder { font-family: var(--sans); font-size: 14px; color: var(--ink-4); }
-/* clear, help and the image: small keys at the field's right end */
-.sr :is(.ImageSearchWithSlider--clearTextBtn, .ImageSearchWithSlider--searchHelpIcon, .ImageSearchWithSlider--cameraIcon) {
+.sr .ImageSearchWithSlider--inputWithClear input::-webkit-search-cancel-button { display: none; }
+/* clear: works on the field's own text, so it is part of the field, a flat glyph at the text's end */
+.sr .ImageSearchWithSlider--clearTextBtn {
+  position: absolute;
+  top: 50%;
+  right: 4px;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  margin-top: -11px;
+  border-radius: 50%;
+  font-size: 16px;
+  color: var(--ink-4);
+  cursor: pointer;
+  transition: color 0.12s ease, background 0.12s ease;
+}
+.sr .ImageSearchWithSlider--clearTextBtn:hover { background: hsl(var(--cast) / 0.07); color: var(--ink-2); }
+/* Image: another way to ask, so a key; small, at the field's end, inset as far from the
+   field's edge on the right as from its top and bottom */
+.sr .ImageSearchWithSlider--cameraIcon {
   --key-h: 26px;
   flex: none;
-  width: 26px;
-  padding: 0;
-  border-radius: 4px;
-  font-size: 17px;
-  color: var(--ink-2);
+  gap: 4px;
+  padding: 0 8px 0 6px;
+  font-size: 12px;
 }
-.sr .ImageSearchWithSlider--searchHelpIcon .material-symbols-rounded { font-size: 17px; }
+.sr .ImageSearchWithSlider--cameraIcon .material-symbols-rounded,
+.sr .ImageSearchWithSlider--cameraIcon i { font-size: 16px; line-height: 1; color: var(--ink-3); }
 /* they are glyphs of the icon font, not words */
-.sr :is(.ImageSearchWithSlider--clearTextBtn, .ImageSearchWithSlider--cameraIcon, .ImageSearchWithSlider--searchHelpIcon .material-symbols-rounded, .ImageSearchWithSlider--helpIcon, .nav.icon-tabs > li > a i, .FacetBreadcrumbs--cancelButton > i) {
+.sr :is(.ImageSearchWithSlider--clearTextBtn, .ImageSearchWithSlider--cameraIcon i, .nav.icon-tabs > li > a i, .FacetBreadcrumbs--cancelButton > i) {
   font-family: 'Material Symbols Rounded';
   font-weight: normal;
   letter-spacing: normal;
 }
-.sr .ImageSearchWithSlider--inputWithClear { position: relative; }
-/* ask: the rail's one wide key */
-.sr .ImageSearchWithSlider--searchButton {
-  --key-h: 36px;
+/* Search: the act the whole question is for, so the strongest key in the room and the only
+   dark one, made of the page's ink; as tall as the field it asks with */
+.sr :is(.ImageSearchWithSlider--searchButton, .ImageSearchWithSlider--imageSearchModalSearchBtn),
+.sr :is(.ImageSearchWithSlider--searchButton, .ImageSearchWithSlider--imageSearchModalSearchBtn):is(:hover, :focus) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   flex: none;
-  padding: 0 20px;
-  border-radius: 6px;
-  font-size: 13px !important;
-  font-weight: 600;
-  color: var(--ink) !important;
-  background: var(--face) !important;
-}
-.sr .ImageSearchWithSlider--searchButton:active { background: var(--pressed) !important; }
-
-/* how it is searched: the kinds of match, latching keys, any number in;
-   how far the similar ones may reach, a groove with its knob */
-.sr .ImageSearchWithSlider--searchControls { display: flex; align-items: flex-start; gap: 22px; margin: 0; font-size: 12px; }
-.sr .ImageSearchWithSlider--sliderField { position: relative; display: block; flex: none; width: auto; margin: 0; padding: 0; }
-.sr .ImageSearchWithSlider--sliderLabel { position: static; margin: 0; font-size: 0 !important; line-height: 0 !important; }
-.sr .ImageSearchWithSlider--sliderField:first-child .ImageSearchWithSlider--sliderLabel::before { content: 'Search types'; }
-.sr .ImageSearchWithSlider--sliderField + .ImageSearchWithSlider--sliderField .ImageSearchWithSlider--sliderLabel::before { content: 'Search sensitivity'; }
-.sr .ImageSearchWithSlider--modelSelection { gap: 4px; }
-.sr .ImageSearchWithSlider--modelRow { display: inline-flex; align-items: center; gap: 2px; }
-.sr .ImageSearchWithSlider--modelSelection .checkbox { margin: 0; }
-.sr .ImageSearchWithSlider--modelSelection .checkbox label { padding: 0 10px !important; min-height: 0; font-size: 0 !important; }
-.sr .ImageSearchWithSlider--modelSelection .checkbox label::before { display: none; }
-.sr .ImageSearchWithSlider--modelSelection .checkbox label::after { position: static; font: 500 12px/var(--key-h) var(--sans); color: inherit; }
-.sr .ImageSearchWithSlider--modelSelection .checkbox input { position: absolute; opacity: 0; pointer-events: none; }
-/* what a kind of match finds: a quiet glyph that explains under the hand, not a key */
-.sr .ImageSearchWithSlider--helpIcon { margin: 0 4px 0 1px; font-size: 13px; color: var(--ink-4); cursor: help; }
-.sr .ImageSearchWithSlider--helpIcon:hover { color: var(--ink-2); }
-
-.sr .ImageSearchWithSlider--sliderFieldSliderContainer { width: 220px; padding: 3px 16px; }
-.sr .ImageSearchWithSlider--sliderFieldSliderContainer .rc-slider { padding: 0; height: 15px; margin-top: 0; }
-.sr .ImageSearchWithSlider--sliderFieldSliderContainer .rc-slider-rail {
-  top: 5px;
-  height: 5px;
-  border-radius: 3px;
-  background: var(--groove);
-  box-shadow: inset 0 1px 1px hsl(var(--cast) / 0.2), 0 1px 0 hsl(var(--lit-hsl) / 0.5);
-}
-.sr .ImageSearchWithSlider--sliderFieldSliderContainer .rc-slider-track { top: 5px; height: 5px; border-radius: 3px; background: var(--ink-4); }
-.sr .ImageSearchWithSlider--sliderFieldSliderContainer .rc-slider-step { top: 5px; height: 5px; }
-.sr .ImageSearchWithSlider--sliderFieldSliderContainer .rc-slider-dot { top: 0; width: 5px; height: 5px; margin-left: -2px; border: 0; background: hsl(var(--cast) / 0.25); }
-.sr .ImageSearchWithSlider--sliderFieldSliderContainer .rc-slider-handle {
-  top: 0;
-  width: 15px;
-  height: 15px;
-  margin-top: 0;
+  height: var(--ask-h);
+  margin: 0;
+  padding: 0 22px;
   border: 0;
+  border-radius: 6px;
+  background: linear-gradient(180deg, hsl(40 13% 28%), hsl(40 16% 17%)) !important;
+  box-shadow: 0 0 0 1px hsl(var(--cast) / 0.55), inset 0 1px 0 hsl(45 60% 92% / 0.16), 0 1px 1px hsl(var(--cast) / 0.12), 0 2px 4px -1px hsl(var(--cast) / 0.22);
+  font: 600 13px/var(--ask-h) var(--sans) !important;
+  letter-spacing: 0.01em;
+  color: var(--paper) !important;
+  text-shadow: 0 -1px 0 hsl(var(--cast) / 0.5);
+  cursor: pointer;
+  transition: box-shadow 0.12s ease, transform 0.08s ease;
+}
+.sr :is(.ImageSearchWithSlider--searchButton, .ImageSearchWithSlider--imageSearchModalSearchBtn):hover { background: linear-gradient(180deg, hsl(40 12% 32%), hsl(40 15% 20%)) !important; box-shadow: 0 0 0 1px hsl(var(--cast) / 0.6), inset 0 1px 0 hsl(45 60% 92% / 0.2), 0 2px 2px hsl(var(--cast) / 0.14), 0 4px 8px -2px hsl(var(--cast) / 0.26); }
+.sr :is(.ImageSearchWithSlider--searchButton, .ImageSearchWithSlider--imageSearchModalSearchBtn):active { transform: translateY(1px); background: hsl(40 16% 16%) !important; box-shadow: 0 0 0 1px hsl(var(--cast) / 0.6), inset 0 1px 3px hsl(0 0% 0% / 0.4); }
+.sr :is(.ImageSearchWithSlider--searchButton, .ImageSearchWithSlider--imageSearchModalSearchBtn):focus-visible { outline: 2px solid var(--pull); outline-offset: 2px; }
+.sr .ImageSearchWithSlider--searchButton:is(:disabled, .disabled) { opacity: 0.4; box-shadow: none; cursor: default; }
+
+/* ── Asking with an image: a sheet laid over the field it replaces ──
+   The same grammar as the question: the sheet lies flat over the bench, its close is a key,
+   the place an image is put is sunk into the sheet with a dashed edge, the link to choose a file
+   is a link, the image's address is a field like the words, and Search is the same dark key. */
+.sr .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--imageSearchOverlay {
+  overflow: hidden;
+  border-radius: 6px;
+  background: var(--paper);
+  box-shadow: var(--d-sheet), 0 18px 40px -18px hsl(var(--cast) / 0.35);
+}
+.sr .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--imageSearchOverlayHeader {
+  min-height: var(--ask-h);
+  padding: 0 5px 0 14px;
+  border: 0;
+  background: none;
+  box-shadow: inset 0 -1px 0 var(--rule);
+}
+.sr .ImageSearchWithSlider--imageSearchOverlayTitle { margin: 0; font: 600 13px/1 var(--sans); color: var(--ink); }
+.sr .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--imageSearchOverlayClose {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border-radius: 4px;
   background: var(--face);
   box-shadow: var(--d-stand);
-  opacity: 1;
-  cursor: grab;
+  font-family: 'Material Symbols Rounded';
+  font-size: 16px;
+  color: var(--ink-2);
+  cursor: pointer;
 }
-.sr .ImageSearchWithSlider--sliderFieldSliderContainer .rc-slider-handle:is(:hover, :active, :focus) { border: 0; box-shadow: var(--d-stand-hover); }
-.sr .ImageSearchWithSlider--sliderFieldSliderContainer .rc-slider-mark { top: 27px; }
-.sr .ImageSearchWithSlider--sliderFieldSliderContainer .rc-slider-mark-text { font: 400 10px/1 var(--sans); color: var(--ink-3); }
-.sr .ImageSearchWithSlider--sliderFieldSliderContainer .rc-slider-mark-text-active { color: var(--ink); }
-/* keyword search alone has nothing to reach for: the groove is flat and dim */
-.sr .ImageSearchWithSlider--sliderField.disabled .ImageSearchWithSlider--sliderFieldSliderContainer { opacity: 0.45; }
-.sr .ImageSearchWithSlider--sliderField.disabled .rc-slider-disabled { background: transparent; }
-.sr .ImageSearchWithSlider--sliderField.disabled .rc-slider-handle { box-shadow: 0 0 0 1px hsl(var(--cast) / 0.2); cursor: default; }
+.sr .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--imageSearchOverlayClose:hover { background: var(--face); box-shadow: var(--d-stand-hover); color: var(--ink); }
+.sr .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--imageSearchOverlayBody { gap: 10px; padding: 14px; background: none; }
+.sr .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--imageSearchDropzone,
+.sr .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--imageSearchDropzone:hover {
+  min-height: 150px;
+  padding: 20px;
+  border: 1px dashed hsl(var(--cast) / 0.28) !important;
+  border-radius: 6px;
+  background: var(--well) !important;
+  box-shadow: var(--d-well);
+  transform: none;
+}
+.sr .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--imageSearchDropzone:hover { border-color: hsl(var(--cast) / 0.45) !important; }
+.sr .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--imageSearchDropzone.drag-accept { border: 1px solid var(--pull) !important; box-shadow: var(--d-well), 0 0 0 2px var(--pull-soft); transform: none; }
+.sr .ImageSearchWithSlider--imageSearchDropzoneContent { gap: 8px; }
+.sr .ImageSearchWithSlider--imageSearchDropzoneIcon { font-size: 32px; color: var(--ink-4); }
+.sr .ImageSearchWithSlider--imageSearchDropzoneText { font: 400 14px/1.4 var(--sans); color: var(--ink-2); }
+.sr .ImageSearchWithSlider--imageSearchDropzoneText a {
+  font-weight: 400;
+  color: var(--pull);
+  text-decoration: underline;
+  text-decoration-color: hsl(var(--pull-hsl) / 0.35);
+  text-underline-offset: 3px;
+}
+.sr .ImageSearchWithSlider--imageSearchDropzoneText a:hover { text-decoration-color: currentColor; }
+.sr .ImageSearchWithSlider--imageSearchDropzoneFormats { margin-top: 2px; font: 400 12px/1.4 var(--sans); color: var(--ink-3); }
+/* "or" between the two ways: a word on a hairline, no louder than a label */
+.sr .ImageSearchWithSlider--imageSearchModalOr { font: 400 12px/1 var(--sans); text-transform: lowercase; color: var(--ink-3); }
+.sr .ImageSearchWithSlider--imageSearchModalOr::before,
+.sr .ImageSearchWithSlider--imageSearchModalOr::after { width: calc(50% - 20px); background: var(--rule); }
+.sr .ImageSearchWithSlider--imageSearchUrlContainer { gap: 8px; }
+.sr .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--imageSearchUrlContainer .form-control,
+.sr .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--imageSearchUrlContainer .form-control:focus {
+  height: var(--ask-h);
+  padding: 0 12px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--paper);
+  box-shadow: var(--d-well), 0 0 0 1px hsl(var(--cast) / 0.12);
+  font: 400 14px/var(--ask-h) var(--sans);
+  color: var(--ink);
+}
+.sr .ImageSearchWithSlider--imageSearchWithSlider .ImageSearchWithSlider--imageSearchUrlContainer .form-control:focus { box-shadow: var(--d-well), 0 0 0 2px var(--pull); }
+.sr .ImageSearchWithSlider--imageSearchUrlContainer .form-control::placeholder { font-weight: 400; color: var(--ink-4); }
+/* the rest of the room steps back while the sheet is open */
+.sr .ImageSearchWithSlider--imageSearchOverlayBackdrop { background: hsl(var(--cast) / 0.10); }
 
-/* ═════════ Below the rail: the index of filters, and the table ═════════ */
+/* ── The terms: under the words, starting where the field starts ── */
+.sr .ImageSearchWithSlider--searchControls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 28px;
+  min-height: var(--term-h);
+  margin: 0 0 0 calc(var(--drawer-w) + var(--gutter));
+  padding: 0;
+  font-size: 12.5px;
+}
+.sr .ImageSearchWithSlider--sliderField { display: flex; flex: none; align-items: center; width: auto; height: var(--term-h); margin: 0; padding: 0; }
+.sr .ImageSearchWithSlider--modelSelection { display: flex; align-items: center; gap: 16px; height: var(--term-h); margin: 0; padding: 0; background: none; box-shadow: none; }
+
+/* the kinds of search: any number in (never none), so each a check of its own, the same
+   check as a filter's values in the drawer; a kind left out keeps its name, greyed */
+.sr .ImageSearchWithSlider--kindSwitch {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: var(--term-h);
+  margin: 0;
+  padding: 0;
+  font: 400 12.5px/1 var(--sans);
+  color: var(--ink-3);
+  cursor: pointer;
+  user-select: none;
+}
+.sr .ImageSearchWithSlider--kindSwitch:hover { color: var(--ink-2); }
+.sr .ImageSearchWithSlider--kindSwitch.ImageSearchWithSlider--kindSwitchOn { font-weight: 400; color: var(--ink); }
+.sr .ImageSearchWithSlider--kindCheck {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  background: var(--face);
+  box-shadow: var(--d-stand);
+  transition: box-shadow 0.12s ease;
+}
+.sr .ImageSearchWithSlider--kindSwitch:hover .ImageSearchWithSlider--kindCheck { box-shadow: var(--d-stand-hover); }
+.sr .ImageSearchWithSlider--kindSwitchOn .ImageSearchWithSlider--kindCheck,
+.sr .ImageSearchWithSlider--kindSwitchOn:hover .ImageSearchWithSlider--kindCheck {
+  background: var(--pull) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='8' viewBox='0 0 10 8'%3E%3Cpath d='M1 4l3 3 5-6' fill='none' stroke='%23fffcf2' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center;
+  box-shadow: var(--d-pressed);
+}
+.sr .ImageSearchWithSlider--kindSwitch:has(input:focus-visible) .ImageSearchWithSlider--kindCheck { outline: 2px solid var(--pull); outline-offset: 2px; }
+
+/* how far conceptual and visual search reach: one position on an ordered range, from the
+   narrowest to the widest, so neither a check nor a key. A rounded groove with the three
+   positions named in it, a detent between each two; the chosen one carries the shuttle, the
+   one raised part, which is what makes it one of three. Round, as the zoom's knob and groove
+   on the record page: what slides along a range is round, what is pressed is square. */
+.sr .ImageSearchWithSlider--sensitivityScale {
+  display: inline-flex;
+  align-items: center;
+  height: var(--term-h);
+  padding: 2px;
+  border-radius: calc(var(--term-h) / 2);
+  background: var(--well);
+  box-shadow: var(--d-well);
+}
+.sr .ImageSearchWithSlider--sensitivityStop {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: calc(var(--term-h) - 4px);
+  margin: 0;
+  padding: 0 10px;
+  border: 0;
+  border-radius: calc(var(--term-h) / 2 - 2px);
+  background: none;
+  font: 400 12px/1 var(--sans);
+  color: var(--ink-3);
+  cursor: pointer;
+  transition: color 0.12s ease, box-shadow 0.12s ease;
+}
+.sr .ImageSearchWithSlider--sensitivityKnob { display: none; }
+/* a detent between two positions; it gives way beside the shuttle */
+.sr .ImageSearchWithSlider--sensitivityStop + .ImageSearchWithSlider--sensitivityStop::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -1.5px;
+  width: 3px;
+  height: 3px;
+  margin-top: -1.5px;
+  border-radius: 50%;
+  background: var(--ink-4);
+}
+.sr .ImageSearchWithSlider--sensitivityStopChosen::before,
+.sr .ImageSearchWithSlider--sensitivityStopChosen + .ImageSearchWithSlider--sensitivityStop::before { opacity: 0; }
+.sr .ImageSearchWithSlider--sensitivityStop:not(:disabled):hover { color: var(--ink); }
+/* the shuttle */
+.sr .ImageSearchWithSlider--sensitivityStopChosen,
+.sr .ImageSearchWithSlider--sensitivityStopChosen:not(:disabled):hover {
+  background: var(--face);
+  box-shadow: var(--d-stand);
+  color: var(--ink);
+  cursor: default;
+}
+.sr .ImageSearchWithSlider--sensitivityStop:focus-visible { outline: 2px solid var(--pull); outline-offset: 1px; }
+/* keyword search alone has nothing to reach for: the scale stays, so where it stands is still
+   read, but flat and grey, the shuttle laid down into the groove */
+.sr .ImageSearchWithSlider--sliderField.disabled .ImageSearchWithSlider--sliderLabel,
+.sr .ImageSearchWithSlider--sensitivityStop:disabled { color: var(--ink-4); cursor: default; }
+.sr .ImageSearchWithSlider--sliderField.disabled .ImageSearchWithSlider--sensitivityScale { background: transparent; box-shadow: 0 0 0 1px hsl(var(--cast) / 0.12); }
+.sr .ImageSearchWithSlider--sensitivityStopChosen:disabled { background: var(--well); box-shadow: none; color: var(--ink-3); }
+
+/* how searching works: a page to read, so a link, in the room's one accent, like every
+   other way through to something to read */
+.sr .ImageSearchWithSlider--helpLink {
+  font: 400 12.5px/var(--term-h) var(--sans);
+  color: var(--pull);
+  text-decoration: underline;
+  text-decoration-color: hsl(var(--pull-hsl) / 0.35);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  white-space: nowrap;
+}
+.sr .ImageSearchWithSlider--helpLink:hover { color: var(--pull); text-decoration-color: currentColor; }
+
+/* ═════════ Below the question: the drawer of filters, and the answers ═════════ */
 .sr .search-content-area {
-  gap: 14px;
-  padding: 14px;
+  gap: var(--gutter);
+  padding: 10px var(--gutter) var(--gutter);
   border-top: 0;
   background: var(--room);
 }
 
-/* the index: a sheet, as the record's is */
+/* The drawer: an index to run the eye down, not a sheet to read. Narrow, its filters
+   one compact line each, divided by a hairline; a filter opened lists its values under
+   its name. The sheet is as long as the index, not as the room, and scrolls once it is
+   longer; it folds to an edge when the answers want the room. */
 .sr .facets-area {
   position: relative;
   flex: none;
+  align-self: flex-start;
+  max-height: 100%;
   min-width: 0;
   padding: 0;
   border: 0;
@@ -323,58 +544,64 @@
 }
 .sr .facets-area:not(:has(.facet-relations)) { background: none; box-shadow: none; overflow: visible; }
 .sr .semantic-facet-holder { position: relative; }
+/* the facets' own styles pass the room's height down (height: inherit); here each part is as
+   tall as what it holds, and the sheet scrolls when that is more than the room */
+.sr .facets-area > div,
+.sr .semantic-facet-holder,
+.sr .semantic-facet-holder .facet,
+.sr .semantic-facet-holder .facet-relations { height: auto; }
 .sr .facet { border: 0; padding: 0; }
-.sr .facet-relations { width: 288px; margin: 0; padding: 30px 20px 18px; }
+.sr .facet-relations { width: var(--drawer-w); margin: 0; padding: 40px 14px 12px; }
 .sr .facets-area:has(.facet-relations)::before {
   content: 'Filters';
   position: absolute;
-  top: 18px;
-  left: 20px;
+  top: 16px;
+  left: 14px;
   font: 500 8.5px/1 var(--sans);
   letter-spacing: 0.11em;
   text-transform: uppercase;
   color: var(--ink-4);
 }
 .sr .facet__relation { margin: 0; border: 0; }
+.sr .facet__relation + .facet__relation { box-shadow: 0 -1px 0 var(--rule); }
 
-/* each filter is named as the sheet names a field: tracked caps, its rule,
-   and at the edge the handle that opens it */
+/* a filter: its name, and at the line's end the handle that opens it */
 .sr .facet__relation__header,
 .sr .facet__relation__header:hover,
 .sr .facet__relation__header:focus {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   min-height: 0;
-  padding: 14px 0 8px;
+  padding: 7px 0;
   border: 0 !important;
   background: none !important;
-  font: 600 10.5px/1 var(--sans);
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-  color: var(--ink-3);
+  font: 500 12.5px/1.3 var(--sans);
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink-2);
   cursor: pointer;
 }
-.sr .facet__relation__header:hover { color: var(--ink-2); }
-.sr .facet-relation__content { order: 1; flex: none; padding: 0; font: inherit; }
-.sr .facet__relation__header > span { order: 2; flex: 1 1 auto; height: 1px; background: var(--rule); }
+.sr .facet__relation__header:hover { color: var(--ink); }
+.sr .facet-relation__content { order: 1; flex: 1 1 auto; min-width: 0; padding: 0; font: inherit; }
+.sr .facet__relation__header > span { display: none; }
 .sr .facet__relation__header :is(.facet__relation__header__icon, .facet__relation__header__icon--selected) {
   order: 3;
   flex: none;
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   margin: 0;
   border-radius: 4px;
   /* the face is a gradient, so the chevron is a layer of its own above it */
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5' viewBox='0 0 8 5'%3E%3Cpath d='M1 1l3 3 3-3' fill='none' stroke='%23574b3e' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center 7px, var(--face) !important;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5' viewBox='0 0 8 5'%3E%3Cpath d='M1 1l3 3 3-3' fill='none' stroke='%23574b3e' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center 6px, var(--face) !important;
   box-shadow: var(--d-stand);
   transition: box-shadow 0.15s ease, transform 0.15s ease;
 }
 .sr .facet__relation__header :is(.facet__relation__header__icon, .facet__relation__header__icon--selected)::before { content: none; display: none; }
 .sr .facet__relation__header:hover :is(.facet__relation__header__icon, .facet__relation__header__icon--selected) { box-shadow: var(--d-stand-hover); }
-.sr .facet__relation__header .facet__relation__header__icon--selected { transform: rotate(180deg); background-position: center 6px, 0 0 !important; }
+.sr .facet__relation__header .facet__relation__header__icon--selected { transform: rotate(180deg); background-position: center 5px, 0 0 !important; }
 
-.sr .facet__relation__body { padding: 2px 0 6px; border: 0; }
+.sr .facet__relation__body { padding: 0 0 8px 2px; border: 0; }
 .sr .facet__relation__values { padding: 0; }
 
 /* a filter's own search: a small field, recessed */
@@ -389,7 +616,7 @@
   color: var(--ink);
 }
 .sr .facet__relation__values :is(input.form-control, .clearable-input__input):focus { box-shadow: var(--d-well), 0 0 0 2px var(--pull); }
-.sr .facet__relation__values :is(.clearable-input, .facet__relation__values__filter, .input-group, .LazyTreeWithSearch--textInput) { margin: 0 0 6px; padding: 0; border: 0; box-shadow: none; background: none; }
+.sr .facet__relation__values :is(.clearable-input, .facet__relation__values__filter, .input-group, .LazyTreeWithSearch--textInput) { min-height: 0; margin: 0 0 6px; padding: 0; border: 0; box-shadow: none; background: none; }
 .sr .facet__relation__values .clearable-input__clear { color: var(--ink-3); }
 
 /* the values: one line each, its check a small key that sinks and takes
@@ -398,7 +625,7 @@
 .sr :is(.facet__relation__values__value, .LazyTreeSelector--item) {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   min-height: 26px;
   margin: 0;
   padding: 0;
@@ -408,7 +635,7 @@
 .sr .facet__relation__values__value label {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   width: 100%;
   min-height: 26px;
   margin: 0;
@@ -461,24 +688,31 @@
   font-variant-numeric: tabular-nums;
   color: var(--ink-3);
 }
-.sr .LazyTreeSelector--itemContent { flex: 1 1 auto; min-width: 0; padding: 0; background: none; }
+.sr .LazyTreeSelector--itemContent { flex: 1 1 auto; min-width: 0; margin: 0; padding: 0; background: none; }
+/* in a tree the name is bare text before its count, so the count keeps a place of its own at
+   the line's end and a long name gives way to it, ending in an ellipsis */
 .sr .LazyTreeSelector--itemContent > span {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
+  position: relative;
+  display: block;
   min-width: 0;
+  padding-right: 46px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   font: 400 13.5px/1.3 var(--serif);
   color: var(--ink);
 }
-.sr .LazyTreeSelector--itemContent > span > span { flex: none; margin-left: auto; }
+.sr .LazyTreeSelector--itemContent > span > .facet-count { position: absolute; top: 50%; right: 0; transform: translateY(-50%); }
+/* a tree of values with its own search: the field on top, the tree in what is left of the
+   filter's height (the tree measures the room it is given, so it must be given less than the whole) */
+.sr .LazyTreeWithSearch--holder { display: flex; flex-direction: column; }
+.sr .LazyTreeWithSearch--holder > :not(.LazyTreeSelector--component) { flex: none; }
+.sr .LazyTreeWithSearch--holder > .LazyTreeSelector--component { flex: 1 1 0; min-height: 0; height: auto; }
 /* a list with nothing to unfold keeps no room for the unfolding handle */
 .sr .LazyTreeSelector--component:not(:has(.LazyTreeSelector--expandToggle:not([style*="collapse"]))) .LazyTreeSelector--expandToggle { display: none; }
 .sr .LazyTreeSelector--item input[type="checkbox"]:checked ~ .LazyTreeSelector--itemContent > span,
 .sr .facet__relation__values__value input:checked + span > span:first-child { color: var(--pull); }
-.sr .LazyTreeSelector--expandToggle { flex: none; width: 12px; color: var(--ink-3); }
+.sr .LazyTreeSelector--expandToggle { flex: none; width: 12px; margin: 0; color: var(--ink-3); }
 .sr .facet__relation__values em,
 .sr .facet__relation__warning { font: italic 400 12px/1.4 var(--serif); color: var(--ink-3); }
 
@@ -542,27 +776,33 @@
 .sr .search-result-holder > div:not(.FacetBreadcrumbs--breadcrumbs) { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; height: auto; }
 .sr .search-tab-container { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; }
 
-/* its edge: how many lie there, and how they are laid out */
+/* its head, one slim line: how many answers, the filters in force, and the three ways of
+   laying them out. A count is a label, not a centre, so it is set small; the filters in
+   force are what the visitor changed and stand out as latched keys. */
 .sr .search-tab-container--header-row {
   flex: none;
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 18px;
-  padding: 20px 14px 10px;
+  gap: 6px 12px;
+  min-height: 36px;
+  padding: 4px 4px 4px 12px;
   background: var(--bench);
   box-shadow: inset 0 -1px 0 hsl(var(--cast) / 0.14), inset 0 1px 0 var(--lit);
 }
-.sr .tally { margin: 0; font: 400 18px/1.2 var(--serif); color: var(--ink-2); }
+.sr .tally { flex: none; margin: 0; font: 400 14px/1.2 var(--serif); color: var(--ink-2); white-space: nowrap; }
 .sr .tally b { font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
-.sr .search-tab-container--header-row .nav.icon-tabs { position: relative; flex: none; margin: 0; }
-.sr .search-tab-container--header-row .nav.icon-tabs::before { content: 'Lay out'; }
+.sr .search-tab-container--header-row .nav.icon-tabs { position: relative; flex: none; margin: 0 0 0 auto; }
 .sr .nav.icon-tabs > li { float: none; margin: 0; padding: 0; border: 0; background: none; }
 .sr .nav.icon-tabs > li:is(:hover, :focus-within, .active) { border: 0; background: none; }
 .sr .nav.icon-tabs > li > a { width: 30px; padding: 0; }
 .sr .nav.icon-tabs > li > a i { font-size: 17px; color: inherit !important; }
 
-/* the filters in force: each a latched key that lets go with its ×, and clear all beside them */
-.sr .FacetBreadcrumbs--breadcrumbs { flex: none; padding: 10px 14px 0; background: var(--bench); }
-.sr .FacetBreadcrumbs--container { display: flex; flex-wrap: wrap; gap: 6px; }
+/* the filters in force, in the head's line: each a latched key that lets go with its ×, clear all beside them */
+.sr .search-tab-container--header-row .FacetBreadcrumbs--breadcrumbs { flex: 0 1 auto; min-width: 0; padding: 0; background: none; }
+.sr .FacetBreadcrumbs--container { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0; }
+/* clear all acts on every filter in force, so it follows them, and stands on its own: a command, not a filter in a well */
+.sr .FacetBreadcrumbs--conjunct:has(> .FacetBreadcrumbs--clearAllButton) { order: 1; margin-left: 6px; padding: 0; background: none; box-shadow: none; }
 .sr .FacetBreadcrumbs--conjunct { display: inline-flex; align-items: center; gap: 0; margin: 0; padding: 3px; border-radius: 6px; background: var(--well); box-shadow: var(--d-well); }
 .sr .FacetBreadcrumbs--values {
   display: inline-flex;
@@ -598,15 +838,14 @@
   overflow-y: auto;
   overflow-x: hidden;
   overscroll-behavior: contain;
-  padding: 14px;
+  padding: 10px;
   background: var(--table);
   background-image: radial-gradient(120% 90% at 18% 0%, var(--table-lift), transparent 60%);
   box-shadow: inset 0 2px 4px hsl(var(--cast) / 0.12), inset 0 0 0 1px hsl(var(--cast) / 0.05);
 }
-/* one row of the results: slips or prints side by side */
+/* one row of the answers: as many side by side as the table holds at the layout's width */
 .sr .result-item { display: flex; gap: 10px; margin: 0; padding: 0 0 10px; border: 0; }
 .sr .result-item > * { flex: 1 1 0; min-width: 0; }
-.sr .work-image-grid-pane .result-item { gap: 6px; padding-bottom: 4px; }
 
 /* nothing found: a note on the table, in the reading voice */
 .sr #noResults { min-height: 0; padding: 40px 24px; background: none; font: italic 400 15px/1.5 var(--serif); color: var(--ink-3); }
@@ -738,7 +977,7 @@ article.slip--name { grid-template-columns: minmax(0, 1fr) auto; min-height: 0; 
 .slip-row dd a { text-underline-offset: 3px; text-decoration-color: hsl(var(--cast) / 0.18); }
 .slip-row .sep { margin: 0 5px; color: var(--ink-4); }
 /* a narrow slip names each fact above it */
-@container slip (max-width: 560px) {
+@container slip (max-width: 440px) {
   .slip-rows { grid-template-columns: minmax(0, 1fr); gap: 0; }
   .slip-row dt { line-height: 15px; }
   .slip-row dd { margin-bottom: 4px; -webkit-line-clamp: 1; }
@@ -818,3 +1057,81 @@ mp-popover + mp-popover .slip-why-term,
   text-align: center;
 }
 .print-caption a { text-underline-offset: 3px; text-decoration-color: hsl(var(--cast) / 0.16); }
+
+/* ═════════ Three ways of looking at the answers ═════════
+   Not three sizes of one slip: each layout is a way of looking, and each answer in it is as
+   large as what that way needs. The width an answer is laid out at (item-width in the
+   template) is its least; a row shares the table's width, and the last, shorter row keeps
+   the others' width instead of stretching. */
+
+/* The catalogue: to read what the archives say of each work. Slips at a desk's width, two
+   or three to a row as the table allows; the print small at the left, the title (two lines at most), up to three
+   facts named as the field definitions name them, why it was found, the marks and the key. */
+.sr .work-list-pane .result-item > * { max-width: 780px; }
+.sr .work-list-pane article.slip {
+  --print-w: 76px;
+  --print-h: 90px;
+  grid-template-columns: 86px minmax(0, 1fr) auto;
+  gap: 12px;
+  min-height: 0;
+  padding: 9px 12px 9px 8px;
+}
+.sr .work-list-pane .slip-print { min-height: 0; }
+.sr .work-list-pane .slip-title {
+  margin: 0 0 4px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  font-size: 15px;
+  line-height: 1.25;
+}
+.sr .work-list-pane .slip-rows { gap: 0 10px; }
+.sr .work-list-pane .slip-row dt { font-size: 9px; line-height: 17px; }
+.sr .work-list-pane .slip-row dd { font-size: 12.5px; line-height: 17px; -webkit-line-clamp: 1; }
+.sr .work-list-pane .slip-row:nth-of-type(n+4) { display: none; }
+.sr .work-list-pane .slip-why { margin-top: 4px; }
+
+/* The cards: to recognise works. The print is the card's centre, on top; beneath it the
+   title and the two facts that place a work (who, when), then the marks and the key on
+   one line. Why each was found is the catalogue's business. */
+.sr .work-grid-pane .result-item > * { max-width: 268px; }
+.sr .work-grid-pane article.slip {
+  --print-w: 176px;
+  --print-h: 156px;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: 164px auto auto;
+  gap: 8px;
+  min-height: 0;
+  padding: 10px 12px;
+}
+.sr .work-grid-pane article.slip:not(:has(.slip-body)) { min-height: 270px; }
+.sr .work-grid-pane .slip-print { height: 164px; min-height: 0; }
+.sr .work-grid-pane .slip-title {
+  margin: 0 0 3px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  font-size: 14px;
+  line-height: 1.3;
+}
+.sr .work-grid-pane .slip-rows { grid-template-columns: minmax(0, 1fr); gap: 0; }
+.sr .work-grid-pane .slip-row dt { display: none; }
+.sr .work-grid-pane .slip-row dd { margin: 0; font-size: 12px; line-height: 16px; color: var(--ink-2); -webkit-line-clamp: 1; }
+.sr .work-grid-pane .slip-row:nth-of-type(n+3) { display: none; }
+.sr .work-grid-pane .slip-why { display: none; }
+.sr .work-grid-pane .slip-side { flex-direction: row; align-items: center; justify-content: space-between; gap: 8px; }
+.sr .work-grid-pane .slip-register { justify-content: flex-start; max-width: none; }
+
+/* The prints: to scan by eye. Pictures only, close together on the table, each on its
+   mount with its archive's mark; the title is said under the hand. */
+.sr .work-image-grid-pane .result-item { gap: 4px; padding-bottom: 4px; }
+.sr .work-image-grid-pane .result-item > * { max-width: 196px; }
+.sr .work-image-grid-pane .print-mount { --print-w: 138px; --print-h: 142px; gap: 0; padding: 4px 2px; }
+.sr .work-image-grid-pane .print-caption { display: none; }
+
+/* names (artists, photographers, repositories): short slips, three to a row */
+.sr .result-item:has(> article.slip--name) > * { max-width: 560px; }
+.sr article.slip--name { padding: 10px 12px; }
+
