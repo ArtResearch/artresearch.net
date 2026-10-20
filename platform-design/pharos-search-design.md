@@ -81,6 +81,17 @@ number of works. The Photo Archive facet of these domains likewise groups (actor
 pairs before it joins the archive. Its availability check took 27 s and, for artists, ran
 out of memory; it now answers in under half a second.
 
+## Vector search: exact scores, the sensitivity decides (Oct 20)
+
+The three vector indices (`narratives`, `images`, `dinov3`) have two layers, an `i8` coarse scan and a
+finer rerank layer, and no HNSW graph. Every vector search now asks for `vec:fullPrecision true`: an
+exact scan on the fine layer, as fast as the coarse scan plus rerank on this server (30–50 ms warm,
+whole index) and with the same top 10,000. Where the search sensitivity cuts the results
+(`vec:autoCut`), the fixed `vec:k 10000` and the rank service's `rank:limit 10000` are gone;
+a cap of 100,000 per branch remains (`vec:k 100000`), because on exact scores the cut lets far more
+through than it did on the two-layer scan: "rain" over all artworks, uncapped, gave 640,000 works
+at Exploratory. The levels are to be recalibrated for exact scores.
+
 ## Known gaps
 
 - Every card asks for its own `resource-info`; on a cold QLever cache a page of cards fills in

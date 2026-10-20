@@ -159,7 +159,7 @@
                                       } ORDER BY DESC(BOUND(?ownPreferred)) MD5(STR(?own)) LIMIT 40
                                     }
                                     SERVICE vec: {
-                                      [] vec:index "images" ; vec:candidates ?own ;
+                                      [] vec:index "images" ; vec:fullPrecision true ; vec:candidates ?own ;
                                          vec:result ?hitPhoto ; vec:bindScore ?distance ; vec:k 30 .
                                     }
                                     ?subject custom:photo ?hitPhoto .
@@ -177,7 +177,7 @@
                                   SELECT ?subject (MAX(1 - ?distance) AS ?similarity) WHERE {
                                     { ?own custom:objectSameAs <{{subject}}> } UNION { BIND(<{{subject}}> AS ?own) }
                                     SERVICE vec: {
-                                      [] vec:index "narratives" ; vec:candidates ?own ;
+                                      [] vec:index "narratives" ; vec:fullPrecision true ; vec:candidates ?own ;
                                          vec:result ?hit ; vec:bindScore ?distance ; vec:k 30 .
                                     }
                                     OPTIONAL {

@@ -154,7 +154,7 @@
                 }
               ' text-metadata-pattern-0='
                 SERVICE rank: {
-                  _:narratives rank:score ?similarity ; rank:descending true ; rank:limit 10000 ; rank:bindRank ?rank .
+                  _:narratives rank:score ?similarity ; rank:descending true ; rank:bindRank ?rank .
                   {
                     SELECT ?subject ((1 - ?distance) AS ?similarity) WHERE {
                       {
@@ -165,9 +165,9 @@
                         }
                       }
                       SERVICE vec: {
-                        [] vec:index "narratives" ; vec:queryText ?__token__ ;
+                        [] vec:index "narratives" ; vec:fullPrecision true ; vec:queryText ?__token__ ;
                            vec:candidates ?subject ; vec:result ?subject ; vec:bindScore ?distance ;
-                           vec:autoCut ?__searchSensitivity__ ; vec:k 10000 .
+                           vec:autoCut ?__searchSensitivity__ ; vec:k 100000 .
                       }
                     }
                   }
@@ -175,7 +175,7 @@
                 BIND("narratives" AS ?matchedModel)
               ' text-visual-pattern-0='
                 SERVICE rank: {
-                  _:images rank:score ?similarity ; rank:descending true ; rank:limit 10000 ; rank:bindRank ?rank .
+                  _:images rank:score ?similarity ; rank:descending true ; rank:bindRank ?rank .
                   {
                     SELECT ?subject (MAX(1 - ?distance) AS ?similarity) (IRI(STRAFTER(MIN(CONCAT(STR(xsd:integer(?distance * 1000000) + 10000000), " ", STR(?vecPhoto))), " ")) AS ?photo) WHERE {
                       {
@@ -187,9 +187,9 @@
                       }
                       ?subject custom:photo ?vecPhoto .
                       SERVICE vec: {
-                        [] vec:index "images" ; vec:queryText ?__token__ ;
+                        [] vec:index "images" ; vec:fullPrecision true ; vec:queryText ?__token__ ;
                            vec:candidates ?vecPhoto ; vec:result ?vecPhoto ; vec:bindScore ?distance ;
-                           vec:autoCut ?__searchSensitivity__ ; vec:k 10000 .
+                           vec:autoCut ?__searchSensitivity__ ; vec:k 100000 .
                       }
                     }
                     GROUP BY ?subject
@@ -198,7 +198,7 @@
                 BIND("images" AS ?matchedModel)
               ' image-exact-pattern-0='
                 SERVICE rank: {
-                  _:dinov3 rank:score ?similarity ; rank:descending true ; rank:limit 10000 ; rank:bindRank ?rank .
+                  _:dinov3 rank:score ?similarity ; rank:descending true ; rank:bindRank ?rank .
                   {
                     SELECT ?subject (MAX(1 - ?distance) AS ?similarity) (IRI(STRAFTER(MIN(CONCAT(STR(xsd:integer(?distance * 1000000) + 10000000), " ", STR(?vecPhoto))), " ")) AS ?photo) WHERE {
                       {
@@ -210,9 +210,9 @@
                       }
                       ?subject custom:photo ?vecPhoto .
                       SERVICE vec: {
-                        [] vec:index "dinov3" ; ?__imagePredicate__ ?__data__ ;
+                        [] vec:index "dinov3" ; vec:fullPrecision true ; ?__imagePredicate__ ?__data__ ;
                            vec:candidates ?vecPhoto ; vec:result ?vecPhoto ; vec:bindScore ?distance ;
-                           vec:autoCut "precise" ; vec:k 10000 .
+                           vec:autoCut "precise" ; vec:k 100000 .
                       }
                     }
                     GROUP BY ?subject
@@ -221,7 +221,7 @@
                 BIND("dinov3" AS ?matchedModel)
               ' image-visual-pattern-0='
                 SERVICE rank: {
-                  _:images rank:score ?similarity ; rank:descending true ; rank:limit 10000 ; rank:bindRank ?rank .
+                  _:images rank:score ?similarity ; rank:descending true ; rank:bindRank ?rank .
                   {
                     SELECT ?subject (MAX(1 - ?distance) AS ?similarity) (IRI(STRAFTER(MIN(CONCAT(STR(xsd:integer(?distance * 1000000) + 10000000), " ", STR(?vecPhoto))), " ")) AS ?photo) WHERE {
                       {
@@ -233,9 +233,9 @@
                       }
                       ?subject custom:photo ?vecPhoto .
                       SERVICE vec: {
-                        [] vec:index "images" ; ?__imagePredicate__ ?__data__ ;
+                        [] vec:index "images" ; vec:fullPrecision true ; ?__imagePredicate__ ?__data__ ;
                            vec:candidates ?vecPhoto ; vec:result ?vecPhoto ; vec:bindScore ?distance ;
-                           vec:autoCut ?__searchSensitivity__ ; vec:k 10000 .
+                           vec:autoCut ?__searchSensitivity__ ; vec:k 100000 .
                       }
                     }
                     GROUP BY ?subject
@@ -339,7 +339,7 @@
                 }
               ' text-visual-pattern-1='
                 SERVICE rank: {
-                  _:images rank:score ?similarity ; rank:descending true ; rank:limit 10000 ; rank:bindRank ?rank .
+                  _:images rank:score ?similarity ; rank:descending true ; rank:bindRank ?rank .
                   {
                     SELECT ?subject ((1 - ?distance) AS ?similarity) WHERE {
                       {
@@ -350,9 +350,9 @@
                         }
                       }
                       SERVICE vec: {
-                        [] vec:index "images" ; vec:queryText ?__token__ ;
+                        [] vec:index "images" ; vec:fullPrecision true ; vec:queryText ?__token__ ;
                            vec:candidates ?subject ; vec:result ?subject ; vec:bindScore ?distance ;
-                           vec:autoCut ?__searchSensitivity__ ; vec:k 10000 .
+                           vec:autoCut ?__searchSensitivity__ ; vec:k 100000 .
                       }
                     }
                   }
@@ -360,7 +360,7 @@
                 BIND("images" AS ?matchedModel)
               ' image-exact-pattern-1='
                 SERVICE rank: {
-                  _:dinov3 rank:score ?similarity ; rank:descending true ; rank:limit 10000 ; rank:bindRank ?rank .
+                  _:dinov3 rank:score ?similarity ; rank:descending true ; rank:bindRank ?rank .
                   {
                     SELECT ?subject ((1 - ?distance) AS ?similarity) WHERE {
                       {
@@ -371,9 +371,9 @@
                         }
                       }
                       SERVICE vec: {
-                        [] vec:index "dinov3" ; ?__imagePredicate__ ?__data__ ;
+                        [] vec:index "dinov3" ; vec:fullPrecision true ; ?__imagePredicate__ ?__data__ ;
                            vec:candidates ?subject ; vec:result ?subject ; vec:bindScore ?distance ;
-                           vec:autoCut "precise" ; vec:k 10000 .
+                           vec:autoCut "precise" ; vec:k 100000 .
                       }
                     }
                   }
@@ -381,7 +381,7 @@
                 BIND("dinov3" AS ?matchedModel)
               ' image-visual-pattern-1='
                 SERVICE rank: {
-                  _:images rank:score ?similarity ; rank:descending true ; rank:limit 10000 ; rank:bindRank ?rank .
+                  _:images rank:score ?similarity ; rank:descending true ; rank:bindRank ?rank .
                   {
                     SELECT ?subject ((1 - ?distance) AS ?similarity) WHERE {
                       {
@@ -392,9 +392,9 @@
                         }
                       }
                       SERVICE vec: {
-                        [] vec:index "images" ; ?__imagePredicate__ ?__data__ ;
+                        [] vec:index "images" ; vec:fullPrecision true ; ?__imagePredicate__ ?__data__ ;
                            vec:candidates ?subject ; vec:result ?subject ; vec:bindScore ?distance ;
-                           vec:autoCut ?__searchSensitivity__ ; vec:k 10000 .
+                           vec:autoCut ?__searchSensitivity__ ; vec:k 100000 .
                       }
                     }
                   }
