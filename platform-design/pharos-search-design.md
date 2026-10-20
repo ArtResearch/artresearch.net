@@ -103,20 +103,11 @@ fed it every photograph and applied the facets afterwards (Type sculpture, visua
 
 ## How the kinds of search are fused (Oct 20)
 
-Reciprocal rank fusion (each kind of search ranks, a work scores the sum of 1/(60 + its rank)) lost
-strong matches found by one kind only: a work found by keyword and conceptual search, both reading the
-same catalogue text, scored about twice what the best visual match could, and how strong a match was did
-not count at all ("death": the best visual matches came 16th or not at all). Now each kind scores its
-matches 0 to 1, from the weakest to the strongest of what it kept; keyword and conceptual count as one
-(the stronger plus half the other), so do the two visual kinds; text and look add up; and a work weighs up
-to half more the more often the archives photographed it (a prominence prior, ln(1 + photographs),
-pinned in the warmup). Evaluated against `tests/search` (well-known works by name, the best visual
-match, a facet inside a visual search): all pass, where rank fusion put Leonardo's Last Supper 119th
-and the best visual matches of "death" and "rain" 16th and 18th.
-
-Each kind of search is computed twice for its 0–1 scale (once for the rows, once for its highest and
-lowest score); a `rank:` service option in the QLever fork that binds the scaled score in the same pass
-would remove that.
+Each kind of search scores its matches 0 to 1 over what it kept; keyword and conceptual count as one
+text signal, the two visual kinds as one; text and look add up; and an artwork weighs up to half more
+the more often the archives photographed it. Why reciprocal rank fusion was replaced, the formulas, how
+prominence is computed and what it is biased towards, the evaluation (`tests/search`), how the weights
+could be overtuned and what would guard against it: `search-fusion.md`.
 
 ## Known gaps
 

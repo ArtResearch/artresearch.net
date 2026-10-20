@@ -45,3 +45,5 @@ SELECT ?w (SAMPLE(?t) AS ?title) (COUNT(DISTINCT ?p) AS ?photos) WHERE {
 ```
 
 and give `within` the position a visitor should find it at, not the position it happens to have today.
+
+Why the ranking is what it is, what these checks show and what they cannot: `../../platform-design/search-fusion.md`.
