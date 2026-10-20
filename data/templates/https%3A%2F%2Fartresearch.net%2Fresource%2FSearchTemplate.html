@@ -178,14 +178,20 @@
                   _:images rank:score ?similarity ; rank:descending true ; rank:bindRank ?rank .
                   {
                     SELECT ?subject (MAX(1 - ?distance) AS ?similarity) (IRI(STRAFTER(MIN(CONCAT(STR(xsd:integer(?distance * 1000000) + 10000000), " ", STR(?vecPhoto))), " ")) AS ?photo) WHERE {
+                      # the candidate photos as one subquery: with a cut or k the vector search is no join to reorder,
+                      # and with the photo link outside it QLever fed it every photo and applied the facets after
                       {
-                        SELECT DISTINCT ?subject WHERE {
-                          ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
-                          {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
-                          FILTER(?__facetFilter__)
+                        SELECT ?subject ?vecPhoto WHERE {
+                          {
+                            SELECT DISTINCT ?subject WHERE {
+                              ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                              {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
+                              FILTER(?__facetFilter__)
+                            }
+                          }
+                          ?subject custom:photo ?vecPhoto .
                         }
                       }
-                      ?subject custom:photo ?vecPhoto .
                       SERVICE vec: {
                         [] vec:index "images" ; vec:fullPrecision true ; vec:queryText ?__token__ ;
                            vec:candidates ?vecPhoto ; vec:result ?vecPhoto ; vec:bindScore ?distance ;
@@ -201,14 +207,20 @@
                   _:dinov3 rank:score ?similarity ; rank:descending true ; rank:bindRank ?rank .
                   {
                     SELECT ?subject (MAX(1 - ?distance) AS ?similarity) (IRI(STRAFTER(MIN(CONCAT(STR(xsd:integer(?distance * 1000000) + 10000000), " ", STR(?vecPhoto))), " ")) AS ?photo) WHERE {
+                      # the candidate photos as one subquery: with a cut or k the vector search is no join to reorder,
+                      # and with the photo link outside it QLever fed it every photo and applied the facets after
                       {
-                        SELECT DISTINCT ?subject WHERE {
-                          ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
-                          {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
-                          FILTER(?__facetFilter__)
+                        SELECT ?subject ?vecPhoto WHERE {
+                          {
+                            SELECT DISTINCT ?subject WHERE {
+                              ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                              {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
+                              FILTER(?__facetFilter__)
+                            }
+                          }
+                          ?subject custom:photo ?vecPhoto .
                         }
                       }
-                      ?subject custom:photo ?vecPhoto .
                       SERVICE vec: {
                         [] vec:index "dinov3" ; vec:fullPrecision true ; ?__imagePredicate__ ?__data__ ;
                            vec:candidates ?vecPhoto ; vec:result ?vecPhoto ; vec:bindScore ?distance ;
@@ -224,14 +236,20 @@
                   _:images rank:score ?similarity ; rank:descending true ; rank:bindRank ?rank .
                   {
                     SELECT ?subject (MAX(1 - ?distance) AS ?similarity) (IRI(STRAFTER(MIN(CONCAT(STR(xsd:integer(?distance * 1000000) + 10000000), " ", STR(?vecPhoto))), " ")) AS ?photo) WHERE {
+                      # the candidate photos as one subquery: with a cut or k the vector search is no join to reorder,
+                      # and with the photo link outside it QLever fed it every photo and applied the facets after
                       {
-                        SELECT DISTINCT ?subject WHERE {
-                          ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
-                          {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
-                          FILTER(?__facetFilter__)
+                        SELECT ?subject ?vecPhoto WHERE {
+                          {
+                            SELECT DISTINCT ?subject WHERE {
+                              ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                              {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
+                              FILTER(?__facetFilter__)
+                            }
+                          }
+                          ?subject custom:photo ?vecPhoto .
                         }
                       }
-                      ?subject custom:photo ?vecPhoto .
                       SERVICE vec: {
                         [] vec:index "images" ; vec:fullPrecision true ; ?__imagePredicate__ ?__data__ ;
                            vec:candidates ?vecPhoto ; vec:result ?vecPhoto ; vec:bindScore ?distance ;
