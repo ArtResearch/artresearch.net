@@ -81,16 +81,25 @@ number of works. The Photo Archive facet of these domains likewise groups (actor
 pairs before it joins the archive. Its availability check took 27 s and, for artists, ran
 out of memory; it now answers in under half a second.
 
-## Vector search: exact scores, the sensitivity decides (Oct 20)
+## Vector search: which cut, on which scan (Oct 20)
 
 The three vector indices (`narratives`, `images`, `dinov3`) have two layers, an `i8` coarse scan and a
-finer rerank layer, and no HNSW graph. Every vector search now asks for `vec:fullPrecision true`: an
-exact scan on the fine layer, as fast as the coarse scan plus rerank on this server (30–50 ms warm,
-whole index) and with the same top 10,000. Where the search sensitivity cuts the results
-(`vec:autoCut`), the fixed `vec:k 10000` and the rank service's `rank:limit 10000` are gone;
-a cap of 100,000 per branch remains (`vec:k 100000`), because on exact scores the cut lets far more
-through than it did on the two-layer scan: "rain" over all artworks, uncapped, gave 640,000 works
-at Exploratory. The levels are to be recalibrated for exact scores.
+finer rerank layer, and no HNSW graph. The search sensitivity is `vec:autoCut`, a cut that keeps what
+stands out from a noise floor estimated on the scored window. On the two-layer scan that window is
+the best ~10,000 candidates, reranked exactly; with `vec:fullPrecision` it is every candidate, the floor
+drops and every level lets far more through ("rain" over all artworks gave 640,000 works at
+Exploratory). So the searches with a cut use the two-layer scan, whose top results are the same as an
+exact scan's, and each index the signal suited to it: `narratives` the cosine (text to text), `images`
+CSLS (text to image and image to image, where some photographs are close to everything), and the
+near-copy search on `dinov3` the softmax cut at "balanced", which keeps the one or two copies that stand
+out (at distances under about 0.07) instead of the dozens the z-cut kept. Searches without a cut (the
+record page's Similar works, the photograph page's Similar Photos) use `vec:fullPrecision`. A cap of
+100,000 (`vec:k`) stays on every cut, and no `rank:limit` on the vector branches.
+
+The candidates reach the vector search as one subquery: QLever reorders the vector search like any
+join, and with the link from works to their photographs outside it, the grouped queries of the page
+fed it every photograph and applied the facets afterwards (Type sculpture, visual search "rainbow":
+0 works).
 
 ## Known gaps
 

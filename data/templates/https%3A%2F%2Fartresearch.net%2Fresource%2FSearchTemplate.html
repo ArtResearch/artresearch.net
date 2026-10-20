@@ -165,7 +165,7 @@
                         }
                       }
                       SERVICE vec: {
-                        [] vec:index "narratives" ; vec:fullPrecision true ; vec:queryText ?__token__ ;
+                        [] vec:index "narratives" ; vec:queryText ?__token__ ;
                            vec:candidates ?subject ; vec:result ?subject ; vec:bindScore ?distance ;
                            vec:autoCut ?__searchSensitivity__ ; vec:k 100000 .
                       }
@@ -193,7 +193,7 @@
                         }
                       }
                       SERVICE vec: {
-                        [] vec:index "images" ; vec:fullPrecision true ; vec:queryText ?__token__ ;
+                        [] vec:index "images" ; vec:cutSignal "csls" ; vec:queryText ?__token__ ;
                            vec:candidates ?vecPhoto ; vec:result ?vecPhoto ; vec:bindScore ?distance ;
                            vec:autoCut ?__searchSensitivity__ ; vec:k 100000 .
                       }
@@ -222,9 +222,9 @@
                         }
                       }
                       SERVICE vec: {
-                        [] vec:index "dinov3" ; vec:fullPrecision true ; ?__imagePredicate__ ?__data__ ;
+                        [] vec:index "dinov3" ; vec:cutSignal "softmax" ; ?__imagePredicate__ ?__data__ ;
                            vec:candidates ?vecPhoto ; vec:result ?vecPhoto ; vec:bindScore ?distance ;
-                           vec:autoCut "precise" ; vec:k 100000 .
+                           vec:autoCut "balanced" ; vec:k 100000 .
                       }
                     }
                     GROUP BY ?subject
@@ -251,7 +251,7 @@
                         }
                       }
                       SERVICE vec: {
-                        [] vec:index "images" ; vec:fullPrecision true ; ?__imagePredicate__ ?__data__ ;
+                        [] vec:index "images" ; vec:cutSignal "csls" ; ?__imagePredicate__ ?__data__ ;
                            vec:candidates ?vecPhoto ; vec:result ?vecPhoto ; vec:bindScore ?distance ;
                            vec:autoCut ?__searchSensitivity__ ; vec:k 100000 .
                       }
@@ -368,7 +368,7 @@
                         }
                       }
                       SERVICE vec: {
-                        [] vec:index "images" ; vec:fullPrecision true ; vec:queryText ?__token__ ;
+                        [] vec:index "images" ; vec:cutSignal "csls" ; vec:queryText ?__token__ ;
                            vec:candidates ?subject ; vec:result ?subject ; vec:bindScore ?distance ;
                            vec:autoCut ?__searchSensitivity__ ; vec:k 100000 .
                       }
@@ -389,9 +389,9 @@
                         }
                       }
                       SERVICE vec: {
-                        [] vec:index "dinov3" ; vec:fullPrecision true ; ?__imagePredicate__ ?__data__ ;
+                        [] vec:index "dinov3" ; vec:cutSignal "softmax" ; ?__imagePredicate__ ?__data__ ;
                            vec:candidates ?subject ; vec:result ?subject ; vec:bindScore ?distance ;
-                           vec:autoCut "precise" ; vec:k 100000 .
+                           vec:autoCut "balanced" ; vec:k 100000 .
                       }
                     }
                   }
@@ -410,7 +410,7 @@
                         }
                       }
                       SERVICE vec: {
-                        [] vec:index "images" ; vec:fullPrecision true ; ?__imagePredicate__ ?__data__ ;
+                        [] vec:index "images" ; vec:cutSignal "csls" ; ?__imagePredicate__ ?__data__ ;
                            vec:candidates ?subject ; vec:result ?subject ; vec:bindScore ?distance ;
                            vec:autoCut ?__searchSensitivity__ ; vec:k 100000 .
                       }

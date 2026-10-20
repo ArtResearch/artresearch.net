@@ -85,7 +85,7 @@
                                   {
                                     SELECT ?subject ?distance WHERE {
                                       SERVICE vec: {
-                                        [] vec:index "dinov3" ; vec:fullPrecision true ; vec:query <{{subject}}> ;
+                                        [] vec:index "dinov3" ; vec:query <{{subject}}> ;
                                            vec:result ?subject ; vec:bindScore ?distance ;
                                            vec:autoCut "precise" ; vec:k 100 .
                                       }
