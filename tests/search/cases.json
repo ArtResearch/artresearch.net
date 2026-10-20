@@ -1,0 +1,25 @@
+{
+  "comment": "Each case runs on the search page as a visitor would. known-item: the record must be among the first `within` results. best-visual: the work whose photograph is closest to the words (images index, no cut) must be among the first `within` results. facet: after these steps the search must not come back empty. Defaults: artworks, all search types, sensitivity Precise.",
+  "cases": [
+    { "kind": "known-item", "query": "mona lisa", "expect": ["https://artresearch.net/resource/pharos/artwork/A24973"], "within": 5, "note": "Monna Lisa, Louvre" },
+    { "kind": "known-item", "query": "birth of venus", "expect": ["https://artresearch.net/resource/pharos/artwork/A20169"], "within": 5, "note": "Botticelli, Uffizi" },
+    { "kind": "known-item", "query": "school of athens", "expect": ["https://artresearch.net/resource/pharos/artwork/A29310"], "within": 5, "note": "Raphael, Vatican" },
+    { "kind": "known-item", "query": "david", "expect": ["https://artresearch.net/resource/pharos/artwork/A42202"], "within": 10, "note": "Michelangelo, Accademia; the best visual match for the word" },
+    { "kind": "known-item", "query": "last supper", "expect": ["https://artresearch.net/resource/pharos/artwork/A11817"], "within": 10, "note": "Leonardo, Santa Maria delle Grazie" },
+    { "kind": "known-item", "query": "primavera", "expect": ["https://artresearch.net/resource/pharos/artwork/A20148"], "within": 10, "note": "Botticelli, Uffizi" },
+    { "kind": "known-item", "query": "last judgement", "expect": ["https://artresearch.net/resource/pharos/artwork/A27113"], "within": 10, "note": "Michelangelo, Sistine Chapel" },
+    { "kind": "known-item", "query": "pieta michelangelo", "expect": ["https://artresearch.net/resource/pharos/artwork/A46011", "https://artresearch.net/resource/pharos/artwork/A46012"], "within": 10, "note": "St Peter's; two records, one titled San Pietro" },
+    { "kind": "known-item", "query": "night watch", "expect": ["https://artresearch.net/resource/pharos/artwork/A92434"], "within": 20, "note": "Rembrandt, Rijksmuseum; catalogued under its German title" },
+    { "kind": "best-visual", "query": "death", "within": 20 },
+    { "kind": "best-visual", "query": "rain", "within": 20 },
+    { "kind": "best-visual", "query": "david", "within": 10 },
+    {
+      "kind": "facet", "query": "rainbow", "note": "visual search inside a facet: the facet must restrict what is ranked, not filter the ranked result",
+      "steps": [
+        { "facet": "Type", "value": "http://vocab.getty.edu/aat/300047090" },
+        { "types": ["visual"] }
+      ],
+      "expectAtLeast": 1
+    }
+  ]
+}

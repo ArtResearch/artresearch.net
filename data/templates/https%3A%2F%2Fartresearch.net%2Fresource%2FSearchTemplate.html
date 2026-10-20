@@ -77,186 +77,414 @@
               ' text-with-ai-query-0='
                 PREFIX vec: <https://qlever.cs.uni-freiburg.de/vectorSearch/>
                 PREFIX rank: <https://qlever.cs.uni-freiburg.de/rank/>
+                PREFIX math: <http://www.w3.org/2005/xpath-functions/math#>
                 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
                 SELECT DISTINCT ?subject WHERE {
                   {
-                    SELECT ?subject (SUM(1.0 / (60 + ?rank)) AS ?score) (MAX(?photo) AS ?maxPhoto) (GROUP_CONCAT(?matchedModel ; separator=",") AS ?matchType) WHERE {
-                      FILTER(?__vectorPattern__)
+                    SELECT ?subject ?score ?maxPhoto ?matchType WHERE {
+                      # each kind of search scores 0 to 1 (its weakest to its strongest match); keyword and conceptual
+                      # read the same catalogue text, so they count as one, the stronger plus half the other; so do the
+                      # two visual ones; text and look add up, and a work photographed often (prominent: the
+                      # archives photographed it again and again) weighs up to half more: 6.934 = ln(1 + 1026), the most
+                      # photographs a work has (2026-10-20)
+                      {
+                        SELECT ?subject
+                               (MAX(IF(?matchedModel = "text_index", ?norm, 0)) AS ?keyword)
+                               (MAX(IF(?matchedModel = "narratives", ?norm, 0)) AS ?conceptual)
+                               (MAX(IF(?matchedModel = "images", ?norm, 0)) AS ?visual)
+                               (MAX(IF(?matchedModel = "dinov3", ?norm, 0)) AS ?copies)
+                               (MAX(?photo) AS ?maxPhoto) (GROUP_CONCAT(?matchedModel ; separator=",") AS ?matchType) WHERE {
+                          FILTER(?__vectorPattern__)
+                        }
+                        GROUP BY ?subject
+                      }
+                      OPTIONAL { { SELECT ?subject (COUNT(?prominencePhoto) AS ?photographs) WHERE { ?subject custom:photo ?prominencePhoto . } GROUP BY ?subject } }
+                      BIND(IF(?keyword > ?conceptual, ?keyword + 0.5 * ?conceptual, ?conceptual + 0.5 * ?keyword) AS ?text)
+                      BIND(IF(?visual > ?copies, ?visual + 0.5 * ?copies, ?copies + 0.5 * ?visual) AS ?look)
+                      BIND((?text + ?look) * (1 + 0.5 * math:log(1 + COALESCE(?photographs, 0)) / 6.934) AS ?score)
                     }
-                    GROUP BY ?subject
                   }
                 }
               ' text-ai-query-0='
                 PREFIX vec: <https://qlever.cs.uni-freiburg.de/vectorSearch/>
                 PREFIX rank: <https://qlever.cs.uni-freiburg.de/rank/>
+                PREFIX math: <http://www.w3.org/2005/xpath-functions/math#>
                 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
                 SELECT DISTINCT ?subject WHERE {
                   {
-                    SELECT ?subject (SUM(1.0 / (60 + ?rank)) AS ?score) (MAX(?photo) AS ?maxPhoto) (GROUP_CONCAT(?matchedModel ; separator=",") AS ?matchType) WHERE {
-                      FILTER(?__vectorPattern__)
+                    SELECT ?subject ?score ?maxPhoto ?matchType WHERE {
+                      # each kind of search scores 0 to 1 (its weakest to its strongest match); keyword and conceptual
+                      # read the same catalogue text, so they count as one, the stronger plus half the other; so do the
+                      # two visual ones; text and look add up, and a work photographed often (prominent: the
+                      # archives photographed it again and again) weighs up to half more: 6.934 = ln(1 + 1026), the most
+                      # photographs a work has (2026-10-20)
+                      {
+                        SELECT ?subject
+                               (MAX(IF(?matchedModel = "text_index", ?norm, 0)) AS ?keyword)
+                               (MAX(IF(?matchedModel = "narratives", ?norm, 0)) AS ?conceptual)
+                               (MAX(IF(?matchedModel = "images", ?norm, 0)) AS ?visual)
+                               (MAX(IF(?matchedModel = "dinov3", ?norm, 0)) AS ?copies)
+                               (MAX(?photo) AS ?maxPhoto) (GROUP_CONCAT(?matchedModel ; separator=",") AS ?matchType) WHERE {
+                          FILTER(?__vectorPattern__)
+                        }
+                        GROUP BY ?subject
+                      }
+                      OPTIONAL { { SELECT ?subject (COUNT(?prominencePhoto) AS ?photographs) WHERE { ?subject custom:photo ?prominencePhoto . } GROUP BY ?subject } }
+                      BIND(IF(?keyword > ?conceptual, ?keyword + 0.5 * ?conceptual, ?conceptual + 0.5 * ?keyword) AS ?text)
+                      BIND(IF(?visual > ?copies, ?visual + 0.5 * ?copies, ?copies + 0.5 * ?visual) AS ?look)
+                      BIND((?text + ?look) * (1 + 0.5 * math:log(1 + COALESCE(?photographs, 0)) / 6.934) AS ?score)
                     }
-                    GROUP BY ?subject
                   }
                 }
               ' text-keyword-pattern-0='
-                SERVICE rank: {
-                  _:text_index rank:score ?textScore ; rank:descending true ; rank:limit 10000 ; rank:bindRank ?rank .
-                  {
-                    SELECT ?subject (?__textScorePattern__ AS ?textScore) WHERE {
-                      FILTER(?__textPattern__)
-                      {
-                        SELECT DISTINCT ?subject WHERE {
-                          ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
-                          {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
-                          FILTER(?__facetFilter__)
+                {
+                  # its score, 0 for the weakest and 1 for the strongest of what it kept (see the search query)
+                  SELECT ?subject ((?textScore - ?low) / IF(?high > ?low, ?high - ?low, 1) AS ?norm) WHERE {
+                    {
+                      SELECT ?subject (?__textScorePattern__ AS ?textScore) WHERE {
+                        FILTER(?__textPattern__)
+                        {
+                          SELECT DISTINCT ?subject WHERE {
+                            ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                            {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
+                            FILTER(?__facetFilter__)
+                          }
+                        }
+                      }
+                      GROUP BY ?subject
+                      ORDER BY DESC(?textScore) LIMIT 10000
+                    }
+                    {
+                      SELECT (MAX(?textScore) AS ?high) (MIN(?textScore) AS ?low) WHERE {
+                        {
+                          SELECT ?subject (?__textScorePattern__ AS ?textScore) WHERE {
+                            FILTER(?__textPattern__)
+                            {
+                              SELECT DISTINCT ?subject WHERE {
+                                ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                                {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
+                                FILTER(?__facetFilter__)
+                              }
+                            }
+                          }
+                          GROUP BY ?subject
+                          ORDER BY DESC(?textScore) LIMIT 10000
                         }
                       }
                     }
-                    GROUP BY ?subject
                   }
                 }
                 BIND("text_index" AS ?matchedModel)
               ' image-query-0='
                 PREFIX vec: <https://qlever.cs.uni-freiburg.de/vectorSearch/>
                 PREFIX rank: <https://qlever.cs.uni-freiburg.de/rank/>
+                PREFIX math: <http://www.w3.org/2005/xpath-functions/math#>
                 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
                 SELECT DISTINCT ?subject WHERE {
                   {
-                    SELECT ?subject (SUM(1.0 / (60 + ?rank)) AS ?score) (MAX(?photo) AS ?maxPhoto) (GROUP_CONCAT(?matchedModel ; separator=",") AS ?matchType) WHERE {
-                      FILTER(?__vectorPattern__)
+                    SELECT ?subject ?score ?maxPhoto ?matchType WHERE {
+                      # each kind of search scores 0 to 1 (its weakest to its strongest match); keyword and conceptual
+                      # read the same catalogue text, so they count as one, the stronger plus half the other; so do the
+                      # two visual ones; text and look add up, and a work photographed often (prominent: the
+                      # archives photographed it again and again) weighs up to half more: 6.934 = ln(1 + 1026), the most
+                      # photographs a work has (2026-10-20)
+                      {
+                        SELECT ?subject
+                               (MAX(IF(?matchedModel = "text_index", ?norm, 0)) AS ?keyword)
+                               (MAX(IF(?matchedModel = "narratives", ?norm, 0)) AS ?conceptual)
+                               (MAX(IF(?matchedModel = "images", ?norm, 0)) AS ?visual)
+                               (MAX(IF(?matchedModel = "dinov3", ?norm, 0)) AS ?copies)
+                               (MAX(?photo) AS ?maxPhoto) (GROUP_CONCAT(?matchedModel ; separator=",") AS ?matchType) WHERE {
+                          FILTER(?__vectorPattern__)
+                        }
+                        GROUP BY ?subject
+                      }
+                      OPTIONAL { { SELECT ?subject (COUNT(?prominencePhoto) AS ?photographs) WHERE { ?subject custom:photo ?prominencePhoto . } GROUP BY ?subject } }
+                      BIND(IF(?keyword > ?conceptual, ?keyword + 0.5 * ?conceptual, ?conceptual + 0.5 * ?keyword) AS ?text)
+                      BIND(IF(?visual > ?copies, ?visual + 0.5 * ?copies, ?copies + 0.5 * ?visual) AS ?look)
+                      BIND((?text + ?look) * (1 + 0.5 * math:log(1 + COALESCE(?photographs, 0)) / 6.934) AS ?score)
                     }
-                    GROUP BY ?subject
                   }
                 }
               ' image-ai-query-0='
                 PREFIX vec: <https://qlever.cs.uni-freiburg.de/vectorSearch/>
                 PREFIX rank: <https://qlever.cs.uni-freiburg.de/rank/>
+                PREFIX math: <http://www.w3.org/2005/xpath-functions/math#>
                 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
                 SELECT DISTINCT ?subject WHERE {
                   {
-                    SELECT ?subject (SUM(1.0 / (60 + ?rank)) AS ?score) (MAX(?photo) AS ?maxPhoto) (GROUP_CONCAT(?matchedModel ; separator=",") AS ?matchType) WHERE {
-                      FILTER(?__vectorPattern__)
+                    SELECT ?subject ?score ?maxPhoto ?matchType WHERE {
+                      # each kind of search scores 0 to 1 (its weakest to its strongest match); keyword and conceptual
+                      # read the same catalogue text, so they count as one, the stronger plus half the other; so do the
+                      # two visual ones; text and look add up, and a work photographed often (prominent: the
+                      # archives photographed it again and again) weighs up to half more: 6.934 = ln(1 + 1026), the most
+                      # photographs a work has (2026-10-20)
+                      {
+                        SELECT ?subject
+                               (MAX(IF(?matchedModel = "text_index", ?norm, 0)) AS ?keyword)
+                               (MAX(IF(?matchedModel = "narratives", ?norm, 0)) AS ?conceptual)
+                               (MAX(IF(?matchedModel = "images", ?norm, 0)) AS ?visual)
+                               (MAX(IF(?matchedModel = "dinov3", ?norm, 0)) AS ?copies)
+                               (MAX(?photo) AS ?maxPhoto) (GROUP_CONCAT(?matchedModel ; separator=",") AS ?matchType) WHERE {
+                          FILTER(?__vectorPattern__)
+                        }
+                        GROUP BY ?subject
+                      }
+                      OPTIONAL { { SELECT ?subject (COUNT(?prominencePhoto) AS ?photographs) WHERE { ?subject custom:photo ?prominencePhoto . } GROUP BY ?subject } }
+                      BIND(IF(?keyword > ?conceptual, ?keyword + 0.5 * ?conceptual, ?conceptual + 0.5 * ?keyword) AS ?text)
+                      BIND(IF(?visual > ?copies, ?visual + 0.5 * ?copies, ?copies + 0.5 * ?visual) AS ?look)
+                      BIND((?text + ?look) * (1 + 0.5 * math:log(1 + COALESCE(?photographs, 0)) / 6.934) AS ?score)
                     }
-                    GROUP BY ?subject
                   }
                 }
               ' image-with-ai-query-0='
                 PREFIX vec: <https://qlever.cs.uni-freiburg.de/vectorSearch/>
                 PREFIX rank: <https://qlever.cs.uni-freiburg.de/rank/>
+                PREFIX math: <http://www.w3.org/2005/xpath-functions/math#>
                 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
                 SELECT DISTINCT ?subject WHERE {
                   {
-                    SELECT ?subject (SUM(1.0 / (60 + ?rank)) AS ?score) (MAX(?photo) AS ?maxPhoto) (GROUP_CONCAT(?matchedModel ; separator=",") AS ?matchType) WHERE {
-                      FILTER(?__vectorPattern__)
+                    SELECT ?subject ?score ?maxPhoto ?matchType WHERE {
+                      # each kind of search scores 0 to 1 (its weakest to its strongest match); keyword and conceptual
+                      # read the same catalogue text, so they count as one, the stronger plus half the other; so do the
+                      # two visual ones; text and look add up, and a work photographed often (prominent: the
+                      # archives photographed it again and again) weighs up to half more: 6.934 = ln(1 + 1026), the most
+                      # photographs a work has (2026-10-20)
+                      {
+                        SELECT ?subject
+                               (MAX(IF(?matchedModel = "text_index", ?norm, 0)) AS ?keyword)
+                               (MAX(IF(?matchedModel = "narratives", ?norm, 0)) AS ?conceptual)
+                               (MAX(IF(?matchedModel = "images", ?norm, 0)) AS ?visual)
+                               (MAX(IF(?matchedModel = "dinov3", ?norm, 0)) AS ?copies)
+                               (MAX(?photo) AS ?maxPhoto) (GROUP_CONCAT(?matchedModel ; separator=",") AS ?matchType) WHERE {
+                          FILTER(?__vectorPattern__)
+                        }
+                        GROUP BY ?subject
+                      }
+                      OPTIONAL { { SELECT ?subject (COUNT(?prominencePhoto) AS ?photographs) WHERE { ?subject custom:photo ?prominencePhoto . } GROUP BY ?subject } }
+                      BIND(IF(?keyword > ?conceptual, ?keyword + 0.5 * ?conceptual, ?conceptual + 0.5 * ?keyword) AS ?text)
+                      BIND(IF(?visual > ?copies, ?visual + 0.5 * ?copies, ?copies + 0.5 * ?visual) AS ?look)
+                      BIND((?text + ?look) * (1 + 0.5 * math:log(1 + COALESCE(?photographs, 0)) / 6.934) AS ?score)
                     }
-                    GROUP BY ?subject
                   }
                 }
               ' text-metadata-pattern-0='
-                SERVICE rank: {
-                  _:narratives rank:score ?similarity ; rank:descending true ; rank:bindRank ?rank .
-                  {
-                    SELECT ?subject ((1 - ?distance) AS ?similarity) WHERE {
-                      {
-                        SELECT DISTINCT ?subject WHERE {
-                          ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
-                          {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
-                          FILTER(?__facetFilter__)
+                {
+                  # its score, 0 for the weakest and 1 for the strongest of what it kept (see the search query)
+                  SELECT ?subject ((?similarity - ?low) / IF(?high > ?low, ?high - ?low, 1) AS ?norm) WHERE {
+                    {
+                      SELECT ?subject ((1 - ?distance) AS ?similarity) WHERE {
+                        {
+                          SELECT DISTINCT ?subject WHERE {
+                            ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                            {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
+                            FILTER(?__facetFilter__)
+                          }
+                        }
+                        SERVICE vec: {
+                          [] vec:index "narratives" ; vec:queryText ?__token__ ;
+                             vec:candidates ?subject ; vec:result ?subject ; vec:bindScore ?distance ;
+                             vec:autoCut ?__searchSensitivity__ ; vec:k 100000 .
                         }
                       }
-                      SERVICE vec: {
-                        [] vec:index "narratives" ; vec:queryText ?__token__ ;
-                           vec:candidates ?subject ; vec:result ?subject ; vec:bindScore ?distance ;
-                           vec:autoCut ?__searchSensitivity__ ; vec:k 100000 .
+                    }
+                    {
+                      SELECT (MAX(?similarity) AS ?high) (MIN(?similarity) AS ?low) WHERE {
+                        {
+                          SELECT ?subject ((1 - ?distance) AS ?similarity) WHERE {
+                            {
+                              SELECT DISTINCT ?subject WHERE {
+                                ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                                {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
+                                FILTER(?__facetFilter__)
+                              }
+                            }
+                            SERVICE vec: {
+                              [] vec:index "narratives" ; vec:queryText ?__token__ ;
+                                 vec:candidates ?subject ; vec:result ?subject ; vec:bindScore ?distance ;
+                                 vec:autoCut ?__searchSensitivity__ ; vec:k 100000 .
+                            }
+                          }
+                        }
                       }
                     }
                   }
                 }
                 BIND("narratives" AS ?matchedModel)
               ' text-visual-pattern-0='
-                SERVICE rank: {
-                  _:images rank:score ?similarity ; rank:descending true ; rank:bindRank ?rank .
-                  {
-                    SELECT ?subject (MAX(1 - ?distance) AS ?similarity) (IRI(STRAFTER(MIN(CONCAT(STR(xsd:integer(?distance * 1000000) + 10000000), " ", STR(?vecPhoto))), " ")) AS ?photo) WHERE {
-                      # the candidate photos as one subquery: with a cut or k the vector search is no join to reorder,
-                      # and with the photo link outside it QLever fed it every photo and applied the facets after
-                      {
-                        SELECT ?subject ?vecPhoto WHERE {
-                          {
-                            SELECT DISTINCT ?subject WHERE {
-                              ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
-                              {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
-                              FILTER(?__facetFilter__)
+                {
+                  # its score, 0 for the weakest and 1 for the strongest of what it kept (see the search query)
+                  SELECT ?subject ?photo ((?similarity - ?low) / IF(?high > ?low, ?high - ?low, 1) AS ?norm) WHERE {
+                    {
+                      SELECT ?subject (MAX(1 - ?distance) AS ?similarity) (IRI(STRAFTER(MIN(CONCAT(STR(xsd:integer(?distance * 1000000) + 10000000), " ", STR(?vecPhoto))), " ")) AS ?photo) WHERE {
+                        # the candidate photos as one subquery: with a cut or k the vector search is no join to reorder,
+                        # and with the photo link outside it QLever fed it every photo and applied the facets after
+                        {
+                          SELECT ?subject ?vecPhoto WHERE {
+                            {
+                              SELECT DISTINCT ?subject WHERE {
+                                ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                                {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
+                                FILTER(?__facetFilter__)
+                              }
                             }
+                            ?subject custom:photo ?vecPhoto .
                           }
-                          ?subject custom:photo ?vecPhoto .
+                        }
+                        SERVICE vec: {
+                          [] vec:index "images" ; vec:queryText ?__token__ ;
+                             vec:candidates ?vecPhoto ; vec:result ?vecPhoto ; vec:bindScore ?distance ;
+                             vec:autoCut ?__searchSensitivity__ ; vec:k 100000 .
                         }
                       }
-                      SERVICE vec: {
-                        [] vec:index "images" ; vec:cutSignal "csls" ; vec:queryText ?__token__ ;
-                           vec:candidates ?vecPhoto ; vec:result ?vecPhoto ; vec:bindScore ?distance ;
-                           vec:autoCut ?__searchSensitivity__ ; vec:k 100000 .
+                      GROUP BY ?subject
+                    }
+                    {
+                      SELECT (MAX(?similarity) AS ?high) (MIN(?similarity) AS ?low) WHERE {
+                        {
+                          SELECT ?subject (MAX(1 - ?distance) AS ?similarity) (IRI(STRAFTER(MIN(CONCAT(STR(xsd:integer(?distance * 1000000) + 10000000), " ", STR(?vecPhoto))), " ")) AS ?photo) WHERE {
+                            # the candidate photos as one subquery: with a cut or k the vector search is no join to reorder,
+                            # and with the photo link outside it QLever fed it every photo and applied the facets after
+                            {
+                              SELECT ?subject ?vecPhoto WHERE {
+                                {
+                                  SELECT DISTINCT ?subject WHERE {
+                                    ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                                    {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
+                                    FILTER(?__facetFilter__)
+                                  }
+                                }
+                                ?subject custom:photo ?vecPhoto .
+                              }
+                            }
+                            SERVICE vec: {
+                              [] vec:index "images" ; vec:queryText ?__token__ ;
+                                 vec:candidates ?vecPhoto ; vec:result ?vecPhoto ; vec:bindScore ?distance ;
+                                 vec:autoCut ?__searchSensitivity__ ; vec:k 100000 .
+                            }
+                          }
+                          GROUP BY ?subject
+                        }
                       }
                     }
-                    GROUP BY ?subject
                   }
                 }
                 BIND("images" AS ?matchedModel)
               ' image-exact-pattern-0='
-                SERVICE rank: {
-                  _:dinov3 rank:score ?similarity ; rank:descending true ; rank:bindRank ?rank .
-                  {
-                    SELECT ?subject (MAX(1 - ?distance) AS ?similarity) (IRI(STRAFTER(MIN(CONCAT(STR(xsd:integer(?distance * 1000000) + 10000000), " ", STR(?vecPhoto))), " ")) AS ?photo) WHERE {
-                      # the candidate photos as one subquery: with a cut or k the vector search is no join to reorder,
-                      # and with the photo link outside it QLever fed it every photo and applied the facets after
-                      {
-                        SELECT ?subject ?vecPhoto WHERE {
-                          {
-                            SELECT DISTINCT ?subject WHERE {
-                              ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
-                              {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
-                              FILTER(?__facetFilter__)
+                {
+                  # its score, 0 for the weakest and 1 for the strongest of what it kept (see the search query)
+                  SELECT ?subject ?photo ((?similarity - ?low) / IF(?high > ?low, ?high - ?low, 1) AS ?norm) WHERE {
+                    {
+                      SELECT ?subject (MAX(1 - ?distance) AS ?similarity) (IRI(STRAFTER(MIN(CONCAT(STR(xsd:integer(?distance * 1000000) + 10000000), " ", STR(?vecPhoto))), " ")) AS ?photo) WHERE {
+                        # the candidate photos as one subquery: with a cut or k the vector search is no join to reorder,
+                        # and with the photo link outside it QLever fed it every photo and applied the facets after
+                        {
+                          SELECT ?subject ?vecPhoto WHERE {
+                            {
+                              SELECT DISTINCT ?subject WHERE {
+                                ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                                {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
+                                FILTER(?__facetFilter__)
+                              }
                             }
+                            ?subject custom:photo ?vecPhoto .
                           }
-                          ?subject custom:photo ?vecPhoto .
+                        }
+                        SERVICE vec: {
+                          [] vec:index "dinov3" ; vec:cutSignal "softmax" ; ?__imagePredicate__ ?__data__ ;
+                             vec:candidates ?vecPhoto ; vec:result ?vecPhoto ; vec:bindScore ?distance ;
+                             vec:autoCut "balanced" ; vec:k 100000 .
                         }
                       }
-                      SERVICE vec: {
-                        [] vec:index "dinov3" ; vec:cutSignal "softmax" ; ?__imagePredicate__ ?__data__ ;
-                           vec:candidates ?vecPhoto ; vec:result ?vecPhoto ; vec:bindScore ?distance ;
-                           vec:autoCut "balanced" ; vec:k 100000 .
+                      GROUP BY ?subject
+                    }
+                    {
+                      SELECT (MAX(?similarity) AS ?high) (MIN(?similarity) AS ?low) WHERE {
+                        {
+                          SELECT ?subject (MAX(1 - ?distance) AS ?similarity) (IRI(STRAFTER(MIN(CONCAT(STR(xsd:integer(?distance * 1000000) + 10000000), " ", STR(?vecPhoto))), " ")) AS ?photo) WHERE {
+                            # the candidate photos as one subquery: with a cut or k the vector search is no join to reorder,
+                            # and with the photo link outside it QLever fed it every photo and applied the facets after
+                            {
+                              SELECT ?subject ?vecPhoto WHERE {
+                                {
+                                  SELECT DISTINCT ?subject WHERE {
+                                    ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                                    {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
+                                    FILTER(?__facetFilter__)
+                                  }
+                                }
+                                ?subject custom:photo ?vecPhoto .
+                              }
+                            }
+                            SERVICE vec: {
+                              [] vec:index "dinov3" ; vec:cutSignal "softmax" ; ?__imagePredicate__ ?__data__ ;
+                                 vec:candidates ?vecPhoto ; vec:result ?vecPhoto ; vec:bindScore ?distance ;
+                                 vec:autoCut "balanced" ; vec:k 100000 .
+                            }
+                          }
+                          GROUP BY ?subject
+                        }
                       }
                     }
-                    GROUP BY ?subject
                   }
                 }
                 BIND("dinov3" AS ?matchedModel)
               ' image-visual-pattern-0='
-                SERVICE rank: {
-                  _:images rank:score ?similarity ; rank:descending true ; rank:bindRank ?rank .
-                  {
-                    SELECT ?subject (MAX(1 - ?distance) AS ?similarity) (IRI(STRAFTER(MIN(CONCAT(STR(xsd:integer(?distance * 1000000) + 10000000), " ", STR(?vecPhoto))), " ")) AS ?photo) WHERE {
-                      # the candidate photos as one subquery: with a cut or k the vector search is no join to reorder,
-                      # and with the photo link outside it QLever fed it every photo and applied the facets after
-                      {
-                        SELECT ?subject ?vecPhoto WHERE {
-                          {
-                            SELECT DISTINCT ?subject WHERE {
-                              ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
-                              {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
-                              FILTER(?__facetFilter__)
+                {
+                  # its score, 0 for the weakest and 1 for the strongest of what it kept (see the search query)
+                  SELECT ?subject ?photo ((?similarity - ?low) / IF(?high > ?low, ?high - ?low, 1) AS ?norm) WHERE {
+                    {
+                      SELECT ?subject (MAX(1 - ?distance) AS ?similarity) (IRI(STRAFTER(MIN(CONCAT(STR(xsd:integer(?distance * 1000000) + 10000000), " ", STR(?vecPhoto))), " ")) AS ?photo) WHERE {
+                        # the candidate photos as one subquery: with a cut or k the vector search is no join to reorder,
+                        # and with the photo link outside it QLever fed it every photo and applied the facets after
+                        {
+                          SELECT ?subject ?vecPhoto WHERE {
+                            {
+                              SELECT DISTINCT ?subject WHERE {
+                                ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                                {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
+                                FILTER(?__facetFilter__)
+                              }
                             }
+                            ?subject custom:photo ?vecPhoto .
                           }
-                          ?subject custom:photo ?vecPhoto .
+                        }
+                        SERVICE vec: {
+                          [] vec:index "images" ; ?__imagePredicate__ ?__data__ ;
+                             vec:candidates ?vecPhoto ; vec:result ?vecPhoto ; vec:bindScore ?distance ;
+                             vec:autoCut ?__searchSensitivity__ ; vec:k 100000 .
                         }
                       }
-                      SERVICE vec: {
-                        [] vec:index "images" ; vec:cutSignal "csls" ; ?__imagePredicate__ ?__data__ ;
-                           vec:candidates ?vecPhoto ; vec:result ?vecPhoto ; vec:bindScore ?distance ;
-                           vec:autoCut ?__searchSensitivity__ ; vec:k 100000 .
+                      GROUP BY ?subject
+                    }
+                    {
+                      SELECT (MAX(?similarity) AS ?high) (MIN(?similarity) AS ?low) WHERE {
+                        {
+                          SELECT ?subject (MAX(1 - ?distance) AS ?similarity) (IRI(STRAFTER(MIN(CONCAT(STR(xsd:integer(?distance * 1000000) + 10000000), " ", STR(?vecPhoto))), " ")) AS ?photo) WHERE {
+                            # the candidate photos as one subquery: with a cut or k the vector search is no join to reorder,
+                            # and with the photo link outside it QLever fed it every photo and applied the facets after
+                            {
+                              SELECT ?subject ?vecPhoto WHERE {
+                                {
+                                  SELECT DISTINCT ?subject WHERE {
+                                    ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                                    {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
+                                    FILTER(?__facetFilter__)
+                                  }
+                                }
+                                ?subject custom:photo ?vecPhoto .
+                              }
+                            }
+                            SERVICE vec: {
+                              [] vec:index "images" ; ?__imagePredicate__ ?__data__ ;
+                                 vec:candidates ?vecPhoto ; vec:result ?vecPhoto ; vec:bindScore ?distance ;
+                                 vec:autoCut ?__searchSensitivity__ ; vec:k 100000 .
+                            }
+                          }
+                          GROUP BY ?subject
+                        }
                       }
                     }
-                    GROUP BY ?subject
                   }
                 }
                 BIND("images" AS ?matchedModel)
@@ -279,140 +507,308 @@
               ' text-with-ai-query-1='
                 PREFIX vec: <https://qlever.cs.uni-freiburg.de/vectorSearch/>
                 PREFIX rank: <https://qlever.cs.uni-freiburg.de/rank/>
+                PREFIX math: <http://www.w3.org/2005/xpath-functions/math#>
                 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
                 SELECT DISTINCT ?subject WHERE {
                   {
-                    SELECT ?subject (SUM(1.0 / (60 + ?rank)) AS ?score) (GROUP_CONCAT(?matchedModel ; separator=",") AS ?matchType) WHERE {
-                      FILTER(?__vectorPattern__)
+                    SELECT ?subject ?score ?matchType WHERE {
+                      # each kind of search scores 0 to 1 (its weakest to its strongest match); keyword and conceptual
+                      # read the same catalogue text, so they count as one, the stronger plus half the other; so do the
+                      # two visual ones; text and look add up
+                      {
+                        SELECT ?subject
+                               (MAX(IF(?matchedModel = "text_index", ?norm, 0)) AS ?keyword)
+                               (MAX(IF(?matchedModel = "narratives", ?norm, 0)) AS ?conceptual)
+                               (MAX(IF(?matchedModel = "images", ?norm, 0)) AS ?visual)
+                               (MAX(IF(?matchedModel = "dinov3", ?norm, 0)) AS ?copies)
+                               (GROUP_CONCAT(?matchedModel ; separator=",") AS ?matchType) WHERE {
+                          FILTER(?__vectorPattern__)
+                        }
+                        GROUP BY ?subject
+                      }
+                      BIND(IF(?keyword > ?conceptual, ?keyword + 0.5 * ?conceptual, ?conceptual + 0.5 * ?keyword) AS ?text)
+                      BIND(IF(?visual > ?copies, ?visual + 0.5 * ?copies, ?copies + 0.5 * ?visual) AS ?look)
+                      BIND(?text + ?look AS ?score)
                     }
-                    GROUP BY ?subject
                   }
                 }
               ' text-ai-query-1='
                 PREFIX vec: <https://qlever.cs.uni-freiburg.de/vectorSearch/>
                 PREFIX rank: <https://qlever.cs.uni-freiburg.de/rank/>
+                PREFIX math: <http://www.w3.org/2005/xpath-functions/math#>
                 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
                 SELECT DISTINCT ?subject WHERE {
                   {
-                    SELECT ?subject (SUM(1.0 / (60 + ?rank)) AS ?score) (GROUP_CONCAT(?matchedModel ; separator=",") AS ?matchType) WHERE {
-                      FILTER(?__vectorPattern__)
+                    SELECT ?subject ?score ?matchType WHERE {
+                      # each kind of search scores 0 to 1 (its weakest to its strongest match); keyword and conceptual
+                      # read the same catalogue text, so they count as one, the stronger plus half the other; so do the
+                      # two visual ones; text and look add up
+                      {
+                        SELECT ?subject
+                               (MAX(IF(?matchedModel = "text_index", ?norm, 0)) AS ?keyword)
+                               (MAX(IF(?matchedModel = "narratives", ?norm, 0)) AS ?conceptual)
+                               (MAX(IF(?matchedModel = "images", ?norm, 0)) AS ?visual)
+                               (MAX(IF(?matchedModel = "dinov3", ?norm, 0)) AS ?copies)
+                               (GROUP_CONCAT(?matchedModel ; separator=",") AS ?matchType) WHERE {
+                          FILTER(?__vectorPattern__)
+                        }
+                        GROUP BY ?subject
+                      }
+                      BIND(IF(?keyword > ?conceptual, ?keyword + 0.5 * ?conceptual, ?conceptual + 0.5 * ?keyword) AS ?text)
+                      BIND(IF(?visual > ?copies, ?visual + 0.5 * ?copies, ?copies + 0.5 * ?visual) AS ?look)
+                      BIND(?text + ?look AS ?score)
                     }
-                    GROUP BY ?subject
                   }
                 }
               ' text-keyword-pattern-1='
-                SERVICE rank: {
-                  _:text_index rank:score ?textScore ; rank:descending true ; rank:limit 10000 ; rank:bindRank ?rank .
-                  {
-                    SELECT ?subject (?__textScorePattern__ AS ?textScore) WHERE {
-                      FILTER(?__textPattern__)
-                      ?searchWork custom:photo ?subject .
-                      {
-                        SELECT DISTINCT ?subject WHERE {
-                          ?vecWork custom:photo ?subject .
-                          {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
-                          FILTER(?__facetFilter__)
+                {
+                  # its score, 0 for the weakest and 1 for the strongest of what it kept (see the search query)
+                  SELECT ?subject ((?textScore - ?low) / IF(?high > ?low, ?high - ?low, 1) AS ?norm) WHERE {
+                    {
+                      SELECT ?subject (?__textScorePattern__ AS ?textScore) WHERE {
+                        FILTER(?__textPattern__)
+                        ?searchWork custom:photo ?subject .
+                        {
+                          SELECT DISTINCT ?subject WHERE {
+                            ?vecWork custom:photo ?subject .
+                            {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
+                            FILTER(?__facetFilter__)
+                          }
+                        }
+                      }
+                      GROUP BY ?subject
+                      ORDER BY DESC(?textScore) LIMIT 10000
+                    }
+                    {
+                      SELECT (MAX(?textScore) AS ?high) (MIN(?textScore) AS ?low) WHERE {
+                        {
+                          SELECT ?subject (?__textScorePattern__ AS ?textScore) WHERE {
+                            FILTER(?__textPattern__)
+                            ?searchWork custom:photo ?subject .
+                            {
+                              SELECT DISTINCT ?subject WHERE {
+                                ?vecWork custom:photo ?subject .
+                                {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
+                                FILTER(?__facetFilter__)
+                              }
+                            }
+                          }
+                          GROUP BY ?subject
+                          ORDER BY DESC(?textScore) LIMIT 10000
                         }
                       }
                     }
-                    GROUP BY ?subject
                   }
                 }
                 BIND("text_index" AS ?matchedModel)
               ' image-query-1='
                 PREFIX vec: <https://qlever.cs.uni-freiburg.de/vectorSearch/>
                 PREFIX rank: <https://qlever.cs.uni-freiburg.de/rank/>
+                PREFIX math: <http://www.w3.org/2005/xpath-functions/math#>
                 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
                 SELECT DISTINCT ?subject WHERE {
                   {
-                    SELECT ?subject (SUM(1.0 / (60 + ?rank)) AS ?score) (GROUP_CONCAT(?matchedModel ; separator=",") AS ?matchType) WHERE {
-                      FILTER(?__vectorPattern__)
+                    SELECT ?subject ?score ?matchType WHERE {
+                      # each kind of search scores 0 to 1 (its weakest to its strongest match); keyword and conceptual
+                      # read the same catalogue text, so they count as one, the stronger plus half the other; so do the
+                      # two visual ones; text and look add up
+                      {
+                        SELECT ?subject
+                               (MAX(IF(?matchedModel = "text_index", ?norm, 0)) AS ?keyword)
+                               (MAX(IF(?matchedModel = "narratives", ?norm, 0)) AS ?conceptual)
+                               (MAX(IF(?matchedModel = "images", ?norm, 0)) AS ?visual)
+                               (MAX(IF(?matchedModel = "dinov3", ?norm, 0)) AS ?copies)
+                               (GROUP_CONCAT(?matchedModel ; separator=",") AS ?matchType) WHERE {
+                          FILTER(?__vectorPattern__)
+                        }
+                        GROUP BY ?subject
+                      }
+                      BIND(IF(?keyword > ?conceptual, ?keyword + 0.5 * ?conceptual, ?conceptual + 0.5 * ?keyword) AS ?text)
+                      BIND(IF(?visual > ?copies, ?visual + 0.5 * ?copies, ?copies + 0.5 * ?visual) AS ?look)
+                      BIND(?text + ?look AS ?score)
                     }
-                    GROUP BY ?subject
                   }
                 }
               ' image-ai-query-1='
                 PREFIX vec: <https://qlever.cs.uni-freiburg.de/vectorSearch/>
                 PREFIX rank: <https://qlever.cs.uni-freiburg.de/rank/>
+                PREFIX math: <http://www.w3.org/2005/xpath-functions/math#>
                 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
                 SELECT DISTINCT ?subject WHERE {
                   {
-                    SELECT ?subject (SUM(1.0 / (60 + ?rank)) AS ?score) (GROUP_CONCAT(?matchedModel ; separator=",") AS ?matchType) WHERE {
-                      FILTER(?__vectorPattern__)
+                    SELECT ?subject ?score ?matchType WHERE {
+                      # each kind of search scores 0 to 1 (its weakest to its strongest match); keyword and conceptual
+                      # read the same catalogue text, so they count as one, the stronger plus half the other; so do the
+                      # two visual ones; text and look add up
+                      {
+                        SELECT ?subject
+                               (MAX(IF(?matchedModel = "text_index", ?norm, 0)) AS ?keyword)
+                               (MAX(IF(?matchedModel = "narratives", ?norm, 0)) AS ?conceptual)
+                               (MAX(IF(?matchedModel = "images", ?norm, 0)) AS ?visual)
+                               (MAX(IF(?matchedModel = "dinov3", ?norm, 0)) AS ?copies)
+                               (GROUP_CONCAT(?matchedModel ; separator=",") AS ?matchType) WHERE {
+                          FILTER(?__vectorPattern__)
+                        }
+                        GROUP BY ?subject
+                      }
+                      BIND(IF(?keyword > ?conceptual, ?keyword + 0.5 * ?conceptual, ?conceptual + 0.5 * ?keyword) AS ?text)
+                      BIND(IF(?visual > ?copies, ?visual + 0.5 * ?copies, ?copies + 0.5 * ?visual) AS ?look)
+                      BIND(?text + ?look AS ?score)
                     }
-                    GROUP BY ?subject
                   }
                 }
               ' image-with-ai-query-1='
                 PREFIX vec: <https://qlever.cs.uni-freiburg.de/vectorSearch/>
                 PREFIX rank: <https://qlever.cs.uni-freiburg.de/rank/>
+                PREFIX math: <http://www.w3.org/2005/xpath-functions/math#>
                 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
                 SELECT DISTINCT ?subject WHERE {
                   {
-                    SELECT ?subject (SUM(1.0 / (60 + ?rank)) AS ?score) (GROUP_CONCAT(?matchedModel ; separator=",") AS ?matchType) WHERE {
-                      FILTER(?__vectorPattern__)
+                    SELECT ?subject ?score ?matchType WHERE {
+                      # each kind of search scores 0 to 1 (its weakest to its strongest match); keyword and conceptual
+                      # read the same catalogue text, so they count as one, the stronger plus half the other; so do the
+                      # two visual ones; text and look add up
+                      {
+                        SELECT ?subject
+                               (MAX(IF(?matchedModel = "text_index", ?norm, 0)) AS ?keyword)
+                               (MAX(IF(?matchedModel = "narratives", ?norm, 0)) AS ?conceptual)
+                               (MAX(IF(?matchedModel = "images", ?norm, 0)) AS ?visual)
+                               (MAX(IF(?matchedModel = "dinov3", ?norm, 0)) AS ?copies)
+                               (GROUP_CONCAT(?matchedModel ; separator=",") AS ?matchType) WHERE {
+                          FILTER(?__vectorPattern__)
+                        }
+                        GROUP BY ?subject
+                      }
+                      BIND(IF(?keyword > ?conceptual, ?keyword + 0.5 * ?conceptual, ?conceptual + 0.5 * ?keyword) AS ?text)
+                      BIND(IF(?visual > ?copies, ?visual + 0.5 * ?copies, ?copies + 0.5 * ?visual) AS ?look)
+                      BIND(?text + ?look AS ?score)
                     }
-                    GROUP BY ?subject
                   }
                 }
               ' text-visual-pattern-1='
-                SERVICE rank: {
-                  _:images rank:score ?similarity ; rank:descending true ; rank:bindRank ?rank .
-                  {
-                    SELECT ?subject ((1 - ?distance) AS ?similarity) WHERE {
-                      {
-                        SELECT DISTINCT ?subject WHERE {
-                          ?vecWork custom:photo ?subject .
-                          {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
-                          FILTER(?__facetFilter__)
+                {
+                  # its score, 0 for the weakest and 1 for the strongest of what it kept (see the search query)
+                  SELECT ?subject ((?similarity - ?low) / IF(?high > ?low, ?high - ?low, 1) AS ?norm) WHERE {
+                    {
+                      SELECT ?subject ((1 - ?distance) AS ?similarity) WHERE {
+                        {
+                          SELECT DISTINCT ?subject WHERE {
+                            ?vecWork custom:photo ?subject .
+                            {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
+                            FILTER(?__facetFilter__)
+                          }
+                        }
+                        SERVICE vec: {
+                          [] vec:index "images" ; vec:queryText ?__token__ ;
+                             vec:candidates ?subject ; vec:result ?subject ; vec:bindScore ?distance ;
+                             vec:autoCut ?__searchSensitivity__ ; vec:k 100000 .
                         }
                       }
-                      SERVICE vec: {
-                        [] vec:index "images" ; vec:cutSignal "csls" ; vec:queryText ?__token__ ;
-                           vec:candidates ?subject ; vec:result ?subject ; vec:bindScore ?distance ;
-                           vec:autoCut ?__searchSensitivity__ ; vec:k 100000 .
+                    }
+                    {
+                      SELECT (MAX(?similarity) AS ?high) (MIN(?similarity) AS ?low) WHERE {
+                        {
+                          SELECT ?subject ((1 - ?distance) AS ?similarity) WHERE {
+                            {
+                              SELECT DISTINCT ?subject WHERE {
+                                ?vecWork custom:photo ?subject .
+                                {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
+                                FILTER(?__facetFilter__)
+                              }
+                            }
+                            SERVICE vec: {
+                              [] vec:index "images" ; vec:queryText ?__token__ ;
+                                 vec:candidates ?subject ; vec:result ?subject ; vec:bindScore ?distance ;
+                                 vec:autoCut ?__searchSensitivity__ ; vec:k 100000 .
+                            }
+                          }
+                        }
                       }
                     }
                   }
                 }
                 BIND("images" AS ?matchedModel)
               ' image-exact-pattern-1='
-                SERVICE rank: {
-                  _:dinov3 rank:score ?similarity ; rank:descending true ; rank:bindRank ?rank .
-                  {
-                    SELECT ?subject ((1 - ?distance) AS ?similarity) WHERE {
-                      {
-                        SELECT DISTINCT ?subject WHERE {
-                          ?vecWork custom:photo ?subject .
-                          {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
-                          FILTER(?__facetFilter__)
+                {
+                  # its score, 0 for the weakest and 1 for the strongest of what it kept (see the search query)
+                  SELECT ?subject ((?similarity - ?low) / IF(?high > ?low, ?high - ?low, 1) AS ?norm) WHERE {
+                    {
+                      SELECT ?subject ((1 - ?distance) AS ?similarity) WHERE {
+                        {
+                          SELECT DISTINCT ?subject WHERE {
+                            ?vecWork custom:photo ?subject .
+                            {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
+                            FILTER(?__facetFilter__)
+                          }
+                        }
+                        SERVICE vec: {
+                          [] vec:index "dinov3" ; vec:cutSignal "softmax" ; ?__imagePredicate__ ?__data__ ;
+                             vec:candidates ?subject ; vec:result ?subject ; vec:bindScore ?distance ;
+                             vec:autoCut "balanced" ; vec:k 100000 .
                         }
                       }
-                      SERVICE vec: {
-                        [] vec:index "dinov3" ; vec:cutSignal "softmax" ; ?__imagePredicate__ ?__data__ ;
-                           vec:candidates ?subject ; vec:result ?subject ; vec:bindScore ?distance ;
-                           vec:autoCut "balanced" ; vec:k 100000 .
+                    }
+                    {
+                      SELECT (MAX(?similarity) AS ?high) (MIN(?similarity) AS ?low) WHERE {
+                        {
+                          SELECT ?subject ((1 - ?distance) AS ?similarity) WHERE {
+                            {
+                              SELECT DISTINCT ?subject WHERE {
+                                ?vecWork custom:photo ?subject .
+                                {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
+                                FILTER(?__facetFilter__)
+                              }
+                            }
+                            SERVICE vec: {
+                              [] vec:index "dinov3" ; vec:cutSignal "softmax" ; ?__imagePredicate__ ?__data__ ;
+                                 vec:candidates ?subject ; vec:result ?subject ; vec:bindScore ?distance ;
+                                 vec:autoCut "balanced" ; vec:k 100000 .
+                            }
+                          }
+                        }
                       }
                     }
                   }
                 }
                 BIND("dinov3" AS ?matchedModel)
               ' image-visual-pattern-1='
-                SERVICE rank: {
-                  _:images rank:score ?similarity ; rank:descending true ; rank:bindRank ?rank .
-                  {
-                    SELECT ?subject ((1 - ?distance) AS ?similarity) WHERE {
-                      {
-                        SELECT DISTINCT ?subject WHERE {
-                          ?vecWork custom:photo ?subject .
-                          {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
-                          FILTER(?__facetFilter__)
+                {
+                  # its score, 0 for the weakest and 1 for the strongest of what it kept (see the search query)
+                  SELECT ?subject ((?similarity - ?low) / IF(?high > ?low, ?high - ?low, 1) AS ?norm) WHERE {
+                    {
+                      SELECT ?subject ((1 - ?distance) AS ?similarity) WHERE {
+                        {
+                          SELECT DISTINCT ?subject WHERE {
+                            ?vecWork custom:photo ?subject .
+                            {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
+                            FILTER(?__facetFilter__)
+                          }
+                        }
+                        SERVICE vec: {
+                          [] vec:index "images" ; ?__imagePredicate__ ?__data__ ;
+                             vec:candidates ?subject ; vec:result ?subject ; vec:bindScore ?distance ;
+                             vec:autoCut ?__searchSensitivity__ ; vec:k 100000 .
                         }
                       }
-                      SERVICE vec: {
-                        [] vec:index "images" ; vec:cutSignal "csls" ; ?__imagePredicate__ ?__data__ ;
-                           vec:candidates ?subject ; vec:result ?subject ; vec:bindScore ?distance ;
-                           vec:autoCut ?__searchSensitivity__ ; vec:k 100000 .
+                    }
+                    {
+                      SELECT (MAX(?similarity) AS ?high) (MIN(?similarity) AS ?low) WHERE {
+                        {
+                          SELECT ?subject ((1 - ?distance) AS ?similarity) WHERE {
+                            {
+                              SELECT DISTINCT ?subject WHERE {
+                                ?vecWork custom:photo ?subject .
+                                {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
+                                FILTER(?__facetFilter__)
+                              }
+                            }
+                            SERVICE vec: {
+                              [] vec:index "images" ; ?__imagePredicate__ ?__data__ ;
+                                 vec:candidates ?subject ; vec:result ?subject ; vec:bindScore ?distance ;
+                                 vec:autoCut ?__searchSensitivity__ ; vec:k 100000 .
+                            }
+                          }
+                        }
                       }
                     }
                   }
