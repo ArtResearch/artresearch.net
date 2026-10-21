@@ -683,6 +683,81 @@
 }
 .rr .table .AutoFitGrid--registerMark .AutoFitGrid--letter { font-size: 8.5px; line-height: 13px; }
 
+/* ── The work's parts on its table. Under the work's own prints, the sheet's own
+      field heading (Has Parts) is carried across the table with its rule, so the
+      line between the work and what is in it reads as it does on the sheet. Each
+      part follows under its name, a link to its record set in the reading voice
+      like every link on the page; its prints are one step smaller than the
+      work's. A part whose prints fit one row lies beside the next, as wide as its
+      prints; one with parts of its own takes the table's width and says how many
+      works lie under it, its own parts following as blocks of their own, named
+      a step smaller. Nothing here is a key: the hand opens a part by its name and
+      picks up a print as anywhere on the table. ── */
+.rr .table .AutoFitGrid--parts { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+.rr .table .AutoFitGrid--partsHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font: 600 10.5px/1 var(--sans);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.rr .table .AutoFitGrid--partsHead::after { content: ''; order: 1; flex: 1 1 auto; height: 1px; background: hsl(var(--cast) / 0.14); }
+.rr .table .AutoFitGrid--partsCount {
+  order: 2;
+  font: 400 11px/1 var(--sans);
+  letter-spacing: 0;
+  text-transform: none;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-3);
+}
+.rr .table .AutoFitGrid--partBlocks { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 16px 18px; }
+/* a part's own parts hang beneath it behind the rule the sheet's slips hang from */
+.rr .table .AutoFitGrid--partBlocks[data-level="2"] {
+  gap: 10px 14px;
+  margin-top: 2px;
+  padding: 2px 0 2px 12px;
+  border-left: 2px solid hsl(var(--cast) / 0.12);
+}
+.rr .table .AutoFitGrid--partBlock { flex: 1 1 100%; min-width: 0; display: flex; flex-direction: column; gap: var(--part-gap, 6px); }
+.rr .table .AutoFitGrid--partBlock[data-beside] { flex: 0 0 auto; }
+.rr .table .AutoFitGrid--partCaption {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  min-width: 0;
+  font: 400 13.5px/1.3 var(--serif);
+  color: var(--ink);
+}
+.rr .table .AutoFitGrid--partCaption[data-level="2"] { font-size: 12.5px; color: var(--ink-2); }
+.rr .table .AutoFitGrid--partName { min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+/* beside the next, a name may take two lines rather than be cut */
+.rr .table .AutoFitGrid--partBlock[data-beside] > .AutoFitGrid--partCaption .AutoFitGrid--partName {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  white-space: normal;
+}
+.rr .table a.AutoFitGrid--partName {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: hsl(var(--cast) / 0.22);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.15s;
+}
+.rr .table a.AutoFitGrid--partName:hover { text-decoration-color: hsl(var(--cast) / 0.6); }
+.rr .table .AutoFitGrid--partCount {
+  flex: none;
+  font: 400 11px/1 var(--sans);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-3);
+}
+/* in the list, the same headings stand between the slips */
+.rr .table .AutoFitGrid--autoFitListView > .AutoFitGrid--partsHead { margin: 14px 0 2px; }
+.rr .table .AutoFitGrid--autoFitListView > .AutoFitGrid--partCaption { margin: 10px 0 0; }
+.rr .table .AutoFitGrid--autoFitListView > .AutoFitGrid--partCaption[data-level="2"] { margin-top: 4px; padding-left: 14px; }
+
 /* Lay out › list: the mounts, one slip per print on the table. The print
    stands on the slip at the left, the slip carries what the mount says, and
    the register of marks closes the row on the right. */
@@ -985,6 +1060,48 @@ div.slip { margin: 1px 0 8px var(--indent); padding: 3px 0 3px 12px; border-left
 }
 .branch .text .sep { color: var(--ink-4); margin: 0 6px; }
 
+/* ── Is Part Of/Has Part: the record among its wholes and parts. The same
+      rows as the sheet's (text · kind · register), stepping in one branch per
+      level: the wholes from the outermost down, the record among the other
+      parts of its whole, and its own parts beneath it. Every name is a link
+      to its record, but the record's own, which is set heavier and darker:
+      the place the tree is read from. A room minted inside a record has no
+      page, so its name stays type. ── */
+.tree-row {
+  display: grid;
+  grid-template-columns: var(--cols);
+  align-items: center;
+  column-gap: var(--col-gap);
+  min-height: 26px;
+  padding: 1px 0;
+  color: var(--ink-2);
+}
+.tree-row > .text {
+  grid-column: 2;
+  position: relative;
+  min-width: 0;
+  padding-left: calc(var(--depth) * 16px);
+  font-size: 13px;
+  line-height: 1.35;
+}
+.tree-row > .kind { grid-column: 3; }
+.tree-row > .marks { grid-column: 4; }
+.tree-row .name { display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.tree-row:not([data-depth="0"]) > .text::before {
+  content: '';
+  position: absolute;
+  left: calc((var(--depth) - 1) * 16px + 3px);
+  top: 0;
+  width: 8px;
+  height: 0.8em;
+  border-left: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+.tree-row--self { min-height: 30px; }
+.tree-row--self > .text { font-size: 14.5px; font-weight: 500; color: var(--ink); }
+/* the rest of a long list folds away under the sheet's own handle, at its level */
+.tree-more .claim--more > .text { padding-left: calc(var(--depth) * 16px); }
+
 /* ── Date: the readings on one scale. The part is one grid, so the label
       column is as wide as the longest reading and never wraps it; the
       qualifier sits in the kind column and the marks in the register, as
@@ -1069,4 +1186,14 @@ div.slip { margin: 1px 0 8px var(--indent); padding: 3px 0 3px 12px; border-left
   .rr { height: auto; overflow: visible; }
   .desk { grid-template-columns: 1fr; height: auto; }
   .bench { height: 64vh; }
+}
+
+/* A phone's sheet is too narrow for text, kind and marks on one line: the kind steps
+   under the text it qualifies, so no name is cut or run into its kind; the register
+   keeps only the room its marks need. */
+@media (max-width: 600px) {
+  .sheet { --reg: 40px; }
+  :is(.claim, .branch, .tree-row, .sources > a) > .kind { grid-column: 2; grid-row: 2; white-space: normal; }
+  :is(.claim, .branch, .tree-row, .sources > a) > .marks { grid-row: 1; }
+  .tree-row > .kind { padding-left: calc(var(--depth) * 16px); }
 }

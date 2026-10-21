@@ -37,7 +37,7 @@
         <!-- ═════════ the bench: rail above, table below ═════════ -->
         <section class="bench">
           <pharos-auto-fit-grid class="table" layout-algo="justified"
-            tabs='[{"key":"photos","label":"Photographs"}{{#if data.[https://artresearch.net/resource/field_definition/pharos_model/object_has_parts]}},{"key":"parts","label":"Parts"}{{/if}}[[#if (ask "ASK { { ?? custom:relatedArtwork ?relatedRecord . } UNION { ?ownRecord custom:objectSameAs ?? . ?ownRecord custom:relatedArtwork ?relatedRecord . } OPTIONAL { ?relatedRecord custom:objectSameAs ?relatedCluster . ?relatedCluster crm:P2_has_type <http://vocab.getty.edu/aat/300133025> . } BIND(COALESCE(?relatedCluster, ?relatedRecord) AS ?related) FILTER(?related != ??) ?related crm:P2_has_type <http://vocab.getty.edu/aat/300133025> . }")]],{"key":"related","label":"Related works"}[[/if]],{"key":"similar","label":"Similar works"}]'
+            tabs='[{"key":"photos","label":"Photographs"}[[#if (ask "ASK { { ?? custom:relatedArtwork ?relatedRecord . } UNION { ?ownRecord custom:objectSameAs ?? . ?ownRecord custom:relatedArtwork ?relatedRecord . } OPTIONAL { ?relatedRecord custom:objectSameAs ?relatedCluster . ?relatedCluster crm:P2_has_type <http://vocab.getty.edu/aat/300133025> . } BIND(COALESCE(?relatedCluster, ?relatedRecord) AS ?related) FILTER(?related != ??) ?related crm:P2_has_type <http://vocab.getty.edu/aat/300133025> . }")]],{"key":"related","label":"Related works"}[[/if]],{"key":"similar","label":"Similar works"}]'
             images='{{photoImages data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values
                       base="https://artresearch.net" workLabel=data.label}}'
             record-card='{"profile": "artwork-card",
@@ -45,21 +45,52 @@
                          "https://artresearch.net/resource/field_definition/pharos_model/part_of_builtwork", "https://artresearch.net/resource/field_definition/pharos_model/location"],
               "archives": "https://artresearch.net/resource/field_definition/pharos_model/original_record_catalog", "archiveIcon": "https://artresearch.net/resource/field_definition/pharos_model/provider_icon"}'>
 
-            {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/object_has_parts]}}
-            <div data-tab="parts" class="drawer">
-              <infinite-scroll item-height="250px" profile="artwork-part-card" item-per-row="1" item-width="550"
-                batch-size="20"
-                values='{{stringify (toInfiniteScrollValues data.[https://artresearch.net/resource/field_definition/pharos_model/object_has_parts].values)}}'>
-                <template id='template'>
-                  <div class="result-item karla-regular">
-                    {{#each rows}}
-                    {{> Default:CardArtworkPart}}
-                    {{/each}}
-                  </div>
-                </template>
-              </infinite-scroll>
-            </div>
-            {{/if}}
+            <!--
+              The work's parts (crm:P46, at any depth) on the photographs' table, under the work's own
+              prints: each part with a photograph as its preferred one, under the part of the work it
+              belongs to (?part) and, further in, the part of that part (?within; the part itself when
+              there is none). A part reached two ways takes one of them whole. A part without a
+              photograph is left to the sheet's tree. Heading: the field label of object_has_parts.
+              Whether there are parts is asked on the server; a work may have thousands.
+            -->
+            [[#if (ask "ASK { ?? crm:P46_is_composed_of ?part }")]]
+            <div data-contents data-label="Has Parts" data-batch="120"
+              data-empty="No photographs of this work or its parts have been shared yet." data-query='
+              SELECT ?subject ?part ?partPage ?within ?withinPage ?image ?iiif ?width ?height ?archive ?provider ?logo WHERE {
+                {
+                  SELECT ?subject ?path (SAMPLE(?previewUrl) AS ?preview) (SAMPLE(?manifest) AS ?iiif)
+                         (SAMPLE(?imageWidth) AS ?width) (SAMPLE(?imageHeight) AS ?height) (MAX(?key) AS ?archive) WHERE {
+                    {
+                      SELECT ?subject (MIN(?way) AS ?path) (MIN(?preferred) AS ?photo) WHERE {
+                        { <{{subject}}> crm:P46_is_composed_of ?subject . BIND(?subject AS ?p1) }
+                        UNION { <{{subject}}> crm:P46_is_composed_of ?p1 . ?p1 crm:P46_is_composed_of ?subject . BIND(?subject AS ?p2) }
+                        UNION { <{{subject}}> crm:P46_is_composed_of ?p1 . ?p1 crm:P46_is_composed_of ?p2 . ?p2 crm:P46_is_composed_of+ ?subject . }
+                        FILTER(?subject != <{{subject}}>)
+                        ?subject custom:preferred_photo ?preferred .
+                        BIND(CONCAT(STR(?p1), " ", COALESCE(STR(?p2), "")) AS ?way)
+                      }
+                      GROUP BY ?subject
+                    }
+                    ?photo custom:primary_image ?shown .
+                    ?shown custom:preview_url ?previewUrl .
+                    OPTIONAL { ?shown custom:iiif_url ?manifest }
+                    OPTIONAL { ?shown custom:image_width ?imageWidth }
+                    OPTIONAL { ?shown custom:image_height ?imageHeight }
+                    OPTIONAL { ?photo crm:P70i_is_documented_in ?catalogue }
+                    BIND(IF(STRSTARTS(STR(?catalogue), "https://artresearch.net/resource/e31/"), STRAFTER(STR(?catalogue), "/e31/"), ?none) AS ?key)
+                  }
+                  GROUP BY ?subject ?path
+                }
+                # never leave ?within unbound: the OPTIONAL below would then join every work
+                BIND(IRI(STRBEFORE(?path, " ")) AS ?part)
+                BIND(IF(STRAFTER(?path, " ") = "", ?part, IRI(STRAFTER(?path, " "))) AS ?within)
+                OPTIONAL { ?part crm:P2_has_type <http://vocab.getty.edu/aat/300133025> . BIND(true AS ?partPage) }
+                OPTIONAL { ?within crm:P2_has_type <http://vocab.getty.edu/aat/300133025> . BIND(true AS ?withinPage) }
+                BIND(IF(STRSTARTS(?preview, "http"), ?preview, CONCAT("https://artresearch.net", ?preview)) AS ?image)
+                BIND(IRI(CONCAT("https://artresearch.net/resource/provider/", ?archive)) AS ?provider)
+                BIND(CONCAT("/assets/images/minilogo_", ?archive, ".png") AS ?logo)
+              }'></div>
+            [[/if]]
 
             <!--
               Works the archives relate to this one (custom:relatedArtwork), laid on the table
@@ -236,7 +267,9 @@
             '></div>
           </pharos-auto-fit-grid>
           {{#ifCond (photoImages data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values) "==" "[]"}}
+          [[#unless (ask "ASK { ?? crm:P46_is_composed_of ?part }")]]
           <div class="table-empty">No photographs of this work have been shared yet.</div>
+          [[/unless]]
           {{/ifCond}}
           <div class="bench-note">
             <span class="for-photos"><b>Pick up</b> a print to read the record through its archive.</span>
@@ -274,6 +307,9 @@
             {{> attributionPart data=data}}
             {{> datePart data=data}}
             {{> locationPart data=data}}
+            <!-- Is Part Of/Has Part: where the record stands among wholes and parts. The headings are the
+                 field labels of object_part_of_hierarchy, object_is_part_of and object_has_parts. -->
+            <pharos-part-tree iri="{{subject}}" label="Is Part Of/Has Part" part-of-label="Is Part Of" parts-label="Has Parts"></pharos-part-tree>
             {{> subjectPart data=data}}
             {{> physicalPart data=data}}
 
