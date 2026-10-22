@@ -451,15 +451,17 @@
       - The light falls off towards the edge the prints go on past, so the row cut by the
         edge reads as running on under it, not as the end of the table.
       - At that edge, how many prints lie beyond it, on a key that moves the table on.
-      - Beside the table, its plan: every print a tile in its own row, in its archive's ink,
-        the part in view framed by a lit window. It shows how much there is and where the view
-        is, and pressed or dragged it moves the view; it stands in for the scroll bar. ── */
+      - Beside the table, its plan: a narrow strip ruled like a fence, a short mark where each
+        row of prints begins and a rule across it where each band begins, the part in view framed.
+        No pictures and no archive colours: it says how much there is, where the view is and where
+        the bands lie, nothing the table itself says better. Pressed or dragged it moves the view;
+        it stands in for the scroll bar. ── */
 .rr .table .AutoFitGrid--autoFitScrollArea[data-planned] { scrollbar-width: none; }
 .rr .table .AutoFitGrid--autoFitScrollArea[data-planned]::-webkit-scrollbar { display: none; }
 .rr .table .AutoFitGrid--beyond {
   position: absolute;
   left: 0;
-  right: 46px;
+  right: 16px;
   z-index: 3;
   display: flex;
   justify-content: center;
@@ -469,11 +471,12 @@
   transition: opacity 0.25s ease;
 }
 .rr .table .AutoFitGrid--beyond[data-shown] { opacity: 1; }
-/* beside the count, a key for each band that lies beyond the edge: it brings the band's heading into view */
-.rr .table .AutoFitGrid--beyond { gap: 6px; }
+/* beside the count, a key for each band that lies beyond the edge: it brings the band's heading into view.
+   Each key keeps to one line; on a narrow table the band keys go to a second row, nearer the edge */
+.rr .table .AutoFitGrid--beyond { gap: 6px; flex-wrap: wrap; padding-left: 8px; padding-right: 8px; }
 .rr .table .AutoFitGrid--beyondBand { font-weight: 400; }
-.rr .table .AutoFitGrid--beyondAbove { align-items: flex-start; padding-top: 10px; background: linear-gradient(to bottom, hsl(var(--cast) / 0.2), hsl(var(--cast) / 0.07) 45%, transparent); }
-.rr .table .AutoFitGrid--beyondBelow { align-items: flex-end; padding-bottom: 10px; transform: translateY(-100%); background: linear-gradient(to top, hsl(var(--cast) / 0.2), hsl(var(--cast) / 0.07) 45%, transparent); }
+.rr .table .AutoFitGrid--beyondAbove { align-items: flex-start; align-content: flex-end; flex-wrap: wrap-reverse; padding-top: 10px; background: linear-gradient(to bottom, hsl(var(--cast) / 0.2), hsl(var(--cast) / 0.07) 45%, transparent); }
+.rr .table .AutoFitGrid--beyondBelow { align-items: flex-end; align-content: flex-end; padding-bottom: 10px; transform: translateY(-100%); background: linear-gradient(to top, hsl(var(--cast) / 0.2), hsl(var(--cast) / 0.07) 45%, transparent); }
 .rr .table .AutoFitGrid--beyondCount {
   display: inline-flex;
   align-items: center;
@@ -486,6 +489,7 @@
   box-shadow: var(--d-stand);
   font: 500 11.5px/22px var(--sans);
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
   color: var(--ink-2);
   cursor: pointer;
   pointer-events: auto;
@@ -506,39 +510,31 @@
   touch-action: none;
   user-select: none;
 }
-.rr .table .AutoFitGrid--planRow {
+/* where a row of prints begins on the table, a short mark in the middle of the strip */
+.rr .table .AutoFitGrid--planTick {
   position: absolute;
-  left: 9px;
-  right: 9px;
-  display: flex;
-  gap: 1px;
+  left: 5px;
+  right: 5px;
+  height: 0;
+  border-top: 1px solid var(--ink-4);
 }
-.rr .table .AutoFitGrid--planPrint {
-  flex-basis: 0;
-  min-width: 1px;
-  border-radius: 0.5px;
-  background: var(--ink-a, var(--ink-4));
-  opacity: 0.5;
-}
-.rr .table .AutoFitGrid--planView {
-  position: absolute;
-  left: 4px;
-  right: 4px;
-  border-radius: 3px;
-  background: hsl(var(--lit-hsl) / 0.28);
-  box-shadow: 0 0 0 1.5px var(--pull), 0 1px 3px hsl(var(--cast) / 0.25);
-  cursor: grab;
-  pointer-events: none;
-}
-.rr .table .AutoFitGrid--plan:active .AutoFitGrid--planView { cursor: grabbing; }
 /* where a band begins on the table, its heading's rule crosses the plan, edge to edge */
 .rr .table .AutoFitGrid--planRule {
   position: absolute;
-  left: 3px;
-  right: 3px;
+  left: 2px;
+  right: 2px;
   height: 0;
-  border-top: 1.5px solid var(--ink-3);
-  opacity: 0.7;
+  border-top: 1px solid var(--ink-2);
+}
+/* the part in view: a frame in ink, nothing filled */
+.rr .table .AutoFitGrid--planView {
+  position: absolute;
+  left: 1px;
+  right: 1px;
+  box-sizing: border-box;
+  border: 1px solid var(--ink-3);
+  border-radius: 2px;
+  pointer-events: none;
 }
 
 /* the leaves of a print (recto, detail, verso) sit on the card at the mount's lower right, always
