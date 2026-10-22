@@ -451,17 +451,16 @@
       - The light falls off towards the edge the prints go on past, so the row cut by the
         edge reads as running on under it, not as the end of the table.
       - At that edge, how many prints lie beyond it, on a key that moves the table on.
-      - Beside the table, its plan: a narrow strip ruled like a fence, a short mark where each
-        row of prints begins and a rule across it where each band begins, the part in view framed.
-        No pictures and no archive colours: it says how much there is, where the view is and where
-        the bands lie, nothing the table itself says better. Pressed or dragged it moves the view;
-        it stands in for the scroll bar. ── */
+      - Beside the table, its plan: a rail cut into the bench, the zoom's groove stood on end, and
+        over it a glass, wider than the rail, laid where the view is. Nothing else is drawn on it:
+        it says how much there is and where the view is. Pressed or dragged it moves the view; it
+        stands in for the scroll bar. ── */
 .rr .table .AutoFitGrid--autoFitScrollArea[data-planned] { scrollbar-width: none; }
 .rr .table .AutoFitGrid--autoFitScrollArea[data-planned]::-webkit-scrollbar { display: none; }
 .rr .table .AutoFitGrid--beyond {
   position: absolute;
   left: 0;
-  right: 16px;
+  right: 18px;
   z-index: 3;
   display: flex;
   justify-content: center;
@@ -510,32 +509,33 @@
   touch-action: none;
   user-select: none;
 }
-/* where a row of prints begins on the table, a short mark in the middle of the strip */
-.rr .table .AutoFitGrid--planTick {
+/* the rail: the zoom's groove, upright */
+.rr .table .AutoFitGrid--plan::before {
+  content: '';
   position: absolute;
-  left: 5px;
-  right: 5px;
-  height: 0;
-  border-top: 1px solid var(--ink-4);
+  top: 3px;
+  bottom: 3px;
+  left: calc(50% - 2.5px);
+  width: 5px;
+  border-radius: 3px;
+  background: var(--groove);
+  box-shadow: inset 1px 1px 1px hsl(var(--cast) / 0.2), 1px 0 0 hsl(var(--lit-hsl) / 0.5);
 }
-/* where a band begins on the table, its heading's rule crosses the plan, edge to edge */
-.rr .table .AutoFitGrid--planRule {
+/* the glass over the part in view: wider than the rail, lit from above, the rail seen through it */
+.rr .table .AutoFitGrid--planView {
   position: absolute;
   left: 2px;
   right: 2px;
-  height: 0;
-  border-top: 1px solid var(--ink-2);
-}
-/* the part in view: a frame in ink, nothing filled */
-.rr .table .AutoFitGrid--planView {
-  position: absolute;
-  left: 1px;
-  right: 1px;
-  box-sizing: border-box;
-  border: 1px solid var(--ink-3);
-  border-radius: 2px;
+  border-radius: 4px;
+  background: linear-gradient(180deg, hsl(var(--lit-hsl) / 0.55), hsl(var(--lit-hsl) / 0.12) 55%, hsl(var(--lit-hsl) / 0.24));
+  box-shadow:
+    inset 0 1px 0 hsl(var(--lit-hsl) / 0.9),
+    0 0 0 1.5px var(--pull),
+    0 1px 3px hsl(var(--cast) / 0.25);
+  cursor: grab;
   pointer-events: none;
 }
+.rr .table .AutoFitGrid--plan:active .AutoFitGrid--planView { cursor: grabbing; }
 
 /* the leaves of a print (recto, detail, verso) sit on the card at the mount's lower right, always
    visible, at every size of the table: a leaf is a fifth of the print's width, between 12 and 20px, and
