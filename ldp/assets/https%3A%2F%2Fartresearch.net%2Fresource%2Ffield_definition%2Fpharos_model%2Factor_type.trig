@@ -17,7 +17,7 @@ SELECT ?value WHERE {
     ?subject ((^custom:sameAs?) | crm:P107_has_current_or_former_member)/crm:P2_has_type <https://artresearch.net/resource/pharos/vocab/meta/photographer> .
     BIND(\"photographer\" AS ?value)
   } UNION {
-    ?work crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by ?subject .
+    ?work (crm:P108i_was_produced_by|crm:P108i_was_produced_by/crm:P9_consists_of)/crm:P14_carried_out_by ?subject .
     BIND(\"artist\" AS ?value) .
   } UNION {
     ?work crm:P50_has_current_keeper ?subject .

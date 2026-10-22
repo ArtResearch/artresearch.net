@@ -5,7 +5,7 @@
     "format": "YYYY-MM-DDTHH:mm:ss.SSS[Z]",
     "queryPattern": "{
         {
-          { $subject crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P4_has_time-span ?timeSpan . }
+          { $subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> . $subject (crm:P108i_was_produced_by|crm:P108i_was_produced_by/crm:P9_consists_of)/crm:P4_has_time-span ?timeSpan . }
           FILTER EXISTS {
             ?timeSpan crm:P82a_begin_of_the_begin|crm:P82b_end_of_the_end ?date .
           }
@@ -20,6 +20,7 @@
   "<https://artresearch.net/resource/fr/Work_has_Provider>":[{
               "kind":"resource",
               "queryPattern": "{ 
+                ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
                 ?__value__ crm:P75_possesses ?right .
                 ?document crm:P104_is_subject_to ?right .
                 ?document crm:P70_documents ?subject .
@@ -29,6 +30,7 @@
   "<https://artresearch.net/resource/fr/Work_consists_of_Material>":[{
               "kind":"hierarchy",
               "queryPattern": "{
+                ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
                 ?subject crm:P45_consists_of/crm:P127_has_broader_term* ?__value__ .
               }",
               "parentsPattern": "{ ?value crm:P127_has_broader_term ?parent . }",
@@ -38,7 +40,8 @@
   "<https://artresearch.net/resource/fr/Work_produced_using_technique_Technique>":[{
               "kind":"hierarchy",
               "queryPattern": "{
-                ?subject crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P32_used_general_technique ?techinque .
+                ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                ?subject (crm:P108i_was_produced_by|crm:P108i_was_produced_by/crm:P9_consists_of)/crm:P32_used_general_technique ?techinque .
                 ?techinque crm:P127_has_broader_term* ?__value__ .   
               }",
               "parentsPattern": "{ ?value crm:P127_has_broader_term ?parent .}",
@@ -48,7 +51,8 @@
   "<https://artresearch.net/resource/fr/Work_created_by_Artist>":[{
               "kind":"resource",
               "queryPattern": "{
-                ?subject crm:P108i_was_produced_by/crm:P9_consists_of* ?production .
+                ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                ?subject (crm:P108i_was_produced_by|crm:P108i_was_produced_by/crm:P9_consists_of) ?production .
                 ?production a crm:E12_Production .
                 ?production crm:P14_carried_out_by ?__value__ .
               }"
@@ -56,7 +60,8 @@
   "<https://artresearch.net/resource/fr/Work_from_Culture>":[{
               "kind":"resource",
               "queryPattern": "{
-                ?subject crm:P108i_was_produced_by/crm:P9_consists_of* ?production .
+                ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                ?subject (crm:P108i_was_produced_by|crm:P108i_was_produced_by/crm:P9_consists_of) ?production .
                 ?production a crm:E7_Activity .
                 ?production crm:P14_carried_out_by ?__value__ .
                 ?__value__ crm:P2_has_type <https://artresearch.net/resource/pharos/vocab/meta/culture> .
@@ -66,6 +71,7 @@
   "<https://artresearch.net/resource/fr/Work_shows_Subject>":[{
               "kind":"hierarchy",
               "queryPattern": "{
+                ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
                 ?subject crm:P65_shows_visual_item/crm:P2_has_type ?s .
                 ?s crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/subject>  .
                 ?s crm:P130_shows_features_of?/crm:P127_has_broader_term* ?__value__ .
@@ -76,11 +82,11 @@
   }],
   "<https://artresearch.net/resource/fr/Work_from_Place>":[{
               "kind":"resource",
-              "queryPattern": "?subject crm:P55_has_current_location/(crm:P89_falls_within*) ?__value__ ."
+              "queryPattern": "{ ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> . ?subject crm:P55_has_current_location/(crm:P89_falls_within*) ?__value__ . }"
   }],      
   "<https://artresearch.net/resource/fr/Work_kept_by_Institution>":[{
               "kind":"hierarchy",
-              "queryPattern": "?subject crm:P50_has_current_keeper ?__value__ .",
+              "queryPattern": "{ ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> . ?subject crm:P50_has_current_keeper ?__value__ . }",
               "parentsPattern": "{
                   ?value crm:PXX ?parent .
                }",
@@ -93,6 +99,7 @@
   "<https://artresearch.net/resource/fr/Work_has_Type>":[{
               "kind":"hierarchy",
               "queryPattern": "{
+                ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
                 ?subject crm:P2_has_type ?type .
                 ?type crm:P127_has_broader_term* ?__value__ .
                 FILTER(?type NOT IN (<http://vocab.getty.edu/aat/300133025>, <https://artresearch.net/resource/pharos/vocab/meta/photographic_print>))
@@ -105,6 +112,7 @@
               "kind":"resource",
               "queryPattern": "{
                 BIND(IF(?__value__ = <http://www.w3.org/2001/XMLSchema#yes>, true, false) AS ?has) .
+                ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
                 ?subject custom:has_image ?has .
               }"
   }],
@@ -201,7 +209,7 @@
 {
                   {
                     SELECT ?subject ?ownership WHERE {
-                      ?work crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by/custom:sameAs? ?subject .
+                      ?work crm:P2_has_type <http://vocab.getty.edu/aat/300133025> . ?work (crm:P108i_was_produced_by|crm:P108i_was_produced_by/crm:P9_consists_of)/crm:P14_carried_out_by/custom:sameAs? ?subject .
                       ?work crm:P70i_is_documented_in/crm:P104_is_subject_to ?ownership .
                     } GROUP BY ?subject ?ownership
                   }

@@ -1,0 +1,26 @@
+<https://artresearch.net/resource/field_definition/pharos_model/photo_view_description/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/photo_view_description> a
+      <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
+      <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-2db09586d1490aa427fa64941a7b1f4c-d9d2a;
+    <http://www.w3.org/2000/01/rdf-schema#label> "View As Written";
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#string>;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-d66c61c25d83329c050c8c3de3d2dfc0-18fd2;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2026-10-22T15:00:00.000+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-2db09586d1490aa427fa64941a7b1f4c-d9d2a a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  _:genid-d66c61c25d83329c050c8c3de3d2dfc0-18fd2 a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX meta: <https://artresearch.net/resource/pharos/vocab/meta/>
+
+SELECT ?value WHERE {
+  ?subject crm:P65_shows_visual_item/crm:P67i_is_referred_to_by ?text .
+  ?text crm:P190_has_symbolic_content ?value .
+}""" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/photo_view_description> .
+}

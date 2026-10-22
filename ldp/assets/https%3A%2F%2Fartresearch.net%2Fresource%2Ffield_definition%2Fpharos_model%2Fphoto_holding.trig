@@ -1,0 +1,27 @@
+<https://artresearch.net/resource/field_definition/pharos_model/photo_holding/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/photo_holding> a
+      <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
+      <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-e912da37a18558fc61b7350087fba6a1-e053e;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Collection";
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-57f96af97645abcf13efa090d1d66c6a-dcaa4;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2026-10-22T15:00:00.000+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-e912da37a18558fc61b7350087fba6a1-e053e a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  _:genid-57f96af97645abcf13efa090d1d66c6a-dcaa4 a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX meta: <https://artresearch.net/resource/pharos/vocab/meta/>
+
+SELECT ?value WHERE {
+  # the fonds, series or collection the print is kept in
+  ?subject crm:P46i_forms_part_of ?value .
+  ?value a crm:E78_Curated_Holding .
+}""" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/photo_holding> .
+}

@@ -1,0 +1,32 @@
+<https://artresearch.net/resource/field_definition/pharos_model/photo_numbers/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/photo_numbers> a
+      <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
+      <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-73bb2483318fcef56a3ddb159267ef4e-08bc1;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Numbers";
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#string>;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-1b3212caec0d8c67f73df2ad85eff88a-67237;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2026-10-22T15:00:00.000+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-73bb2483318fcef56a3ddb159267ef4e-08bc1 a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  _:genid-1b3212caec0d8c67f73df2ad85eff88a-67237 a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX meta: <https://artresearch.net/resource/pharos/vocab/meta/>
+
+SELECT ?value WHERE {
+  # the archive's numbers for the print, each with what it is
+  ?subject crm:P1_is_identified_by ?identifier .
+  ?identifier a crm:E42_Identifier ;
+    crm:P190_has_symbolic_content ?number ;
+    crm:P2_has_type ?kind .
+  FILTER(STRSTARTS(STR(?kind), \"https://artresearch.net/resource/\"))
+  BIND(REPLACE(REPLACE(STR(?kind), \"^.*/\", \"\"), \"_\", \" \") AS ?what)
+  BIND(CONCAT(?number, \" (\", ?what, \")\") AS ?value)
+}""" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/photo_numbers> .
+}

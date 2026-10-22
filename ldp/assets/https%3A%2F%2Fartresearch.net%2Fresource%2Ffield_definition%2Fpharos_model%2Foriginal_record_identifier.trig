@@ -13,16 +13,17 @@
   _:genid-cc9816fefcbf4f2ab8b07e3fdb480fdc-5paloe a <http://spinrdf.org/sp#Query>;
     <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 SELECT DISTINCT ?value WHERE {
-  {
+  
     ?attr crm:P141_assigned ?subject .
-    ?attr crm:P134_continued*/crm:P140_assigned_attribute_to ?work .
+    # the statement continues no other (the FILTER below), so its work is its own: no path to follow
+    ?attr crm:P140_assigned_attribute_to ?work .
     FILTER NOT EXISTS { ?attr crm:P134_continued ?nextAttr }
     ?titleAttr crm:P177_assigned_property_of_type crm:P1_is_identified_by .
     ?titleAttr crm:P140_assigned_attribute_to ?work .
     ?titleAttr crm:P141_assigned ?appellation .
     ?appellation crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/preferred_identifier> .
     ?appellation crm:P190_has_symbolic_content ?value .
-  }
+  
 }""" .
   
   _:genid-cc9816fefcbf4f2ab8b07e3fdb480fdc-0ild7 a <http://spinrdf.org/sp#Query>;

@@ -17,18 +17,17 @@
     <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 
 SELECT DISTINCT ?value ?provUri WHERE {
-    {
-    ?object crm:P108i_was_produced_by/crm:P9_consists_of* ?production .
+    # one group, so every step joins the page's own values (in two, the second was computed for the
+    # whole index); productions have parts one level deep, statements continue at most one other
+    ?object crm:P108i_was_produced_by|crm:P108i_was_produced_by/crm:P9_consists_of ?production .
     ?attribution crm:P140_assigned_attribute_to ?production .
 	?attribution crm:P141_assigned ?subject .
     ?attribution crm:P177_assigned_property_of_type ?property .
-	}
-    {
-    ?attribution crm:P134_continued* ?provUri .
+    OPTIONAL { ?attribution crm:P134_continued ?continued . }
+    BIND(COALESCE(?continued, ?attribution) AS ?provUri)
     ?provUri crm:P9i_forms_part_of ?cataloging .
     ?cataloging crm:P2_has_type <http://vocab.getty.edu/aat/300054628> .
     ?provUri crm:P141_assigned ?value .
-	}
 	FILTER(?subject != ?value)
 }""" .
   

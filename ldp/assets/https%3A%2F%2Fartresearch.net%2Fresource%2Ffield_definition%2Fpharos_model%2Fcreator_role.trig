@@ -16,19 +16,13 @@
     <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 
 SELECT DISTINCT ?value ?subject ?provUri WHERE {
-  {
-    ?work crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P01i_is_domain_of ?pc14 .
-    ?actorE13 crm:P140_assigned_attribute_to ?pc14 .
-  }
-  {
-    ?actorE13 crm:P177_assigned_property_of_type crm:P02_has_range .
-    ?actorE13 crm:P141_assigned ?subject .
-  }
- 
-  {
-    ?provUri crm:P177_assigned_property_of_type crm:P14.1_in_the_role_of .
-    ?provUri crm:P9i_forms_part_of/crm:P2_has_type <http://vocab.getty.edu/aat/300054628> .
-  }
+  # one group, so every step joins the page's own work (in three, each was computed for the whole index)
+  ?work (crm:P108i_was_produced_by|crm:P108i_was_produced_by/crm:P9_consists_of)/crm:P01i_is_domain_of ?pc14 .
+  ?actorE13 crm:P140_assigned_attribute_to ?pc14 .
+  ?actorE13 crm:P177_assigned_property_of_type crm:P02_has_range .
+  ?actorE13 crm:P141_assigned ?subject .
+  ?provUri crm:P177_assigned_property_of_type crm:P14.1_in_the_role_of .
+  ?provUri crm:P9i_forms_part_of/crm:P2_has_type <http://vocab.getty.edu/aat/300054628> .
   
   ?provUri crm:P140_assigned_attribute_to ?pc14 .
   ?provUri crm:P141_assigned ?value .  

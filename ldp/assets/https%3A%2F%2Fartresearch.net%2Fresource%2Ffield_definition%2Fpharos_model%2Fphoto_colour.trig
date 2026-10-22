@@ -1,0 +1,27 @@
+<https://artresearch.net/resource/field_definition/pharos_model/photo_colour/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/photo_colour> a
+      <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
+      <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-7d8b3deec7a4be48846faac1dc66149a-cf23d;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Colour";
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-066fa08d50da0291485062fc569485c5-f9624;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2026-10-22T15:00:00.000+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-7d8b3deec7a4be48846faac1dc66149a-cf23d a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  _:genid-066fa08d50da0291485062fc569485c5-f9624 a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX meta: <https://artresearch.net/resource/pharos/vocab/meta/>
+
+SELECT ?value WHERE {
+  # its colour: the archive's own term, under the PHAROS umbrella
+  ?subject crm:P2_has_type ?value .
+  ?value crm:P127_has_broader_term meta:photo_colour .
+}""" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/photo_colour> .
+}

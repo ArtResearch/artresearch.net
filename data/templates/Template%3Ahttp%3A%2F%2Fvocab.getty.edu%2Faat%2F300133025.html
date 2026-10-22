@@ -43,7 +43,13 @@
             record-card='{"profile": "artwork-card",
               "fields": ["https://artresearch.net/resource/field_definition/pharos_model/creator", "https://artresearch.net/resource/field_definition/pharos_model/production_date", "https://artresearch.net/resource/field_definition/pharos_model/current_keeper",
                          "https://artresearch.net/resource/field_definition/pharos_model/part_of_builtwork", "https://artresearch.net/resource/field_definition/pharos_model/location"],
-              "archives": "https://artresearch.net/resource/field_definition/pharos_model/original_record_catalog", "archiveIcon": "https://artresearch.net/resource/field_definition/pharos_model/provider_icon"}'>
+              "archives": "https://artresearch.net/resource/field_definition/pharos_model/original_record_catalog", "archiveIcon": "https://artresearch.net/resource/field_definition/pharos_model/provider_icon"}'
+            photo-card='{"profile": "photograph-mount", "groups": [
+              {"label": "Print", "fields": ["https://artresearch.net/resource/field_definition/pharos_model/photo_object_type", "https://artresearch.net/resource/field_definition/pharos_model/photo_format", "https://artresearch.net/resource/field_definition/pharos_model/photo_colour", "https://artresearch.net/resource/field_definition/pharos_model/photo_material", "https://artresearch.net/resource/field_definition/pharos_model/photo_size", "https://artresearch.net/resource/field_definition/pharos_model/photo_mount_size", "https://artresearch.net/resource/field_definition/pharos_model/photo_process", "https://artresearch.net/resource/field_definition/pharos_model/photo_made", "https://artresearch.net/resource/field_definition/pharos_model/photo_issuer", "https://artresearch.net/resource/field_definition/pharos_model/photo_negative", "https://artresearch.net/resource/field_definition/pharos_model/photo_numbers", "https://artresearch.net/resource/field_definition/pharos_model/photo_stamp", "https://artresearch.net/resource/field_definition/pharos_model/photo_holding", "https://artresearch.net/resource/field_definition/pharos_model/photo_owner", "https://artresearch.net/resource/field_definition/pharos_model/photo_condition", "https://artresearch.net/resource/field_definition/pharos_model/photo_feature", "https://artresearch.net/resource/field_definition/pharos_model/photo_credit_line", "https://artresearch.net/resource/field_definition/pharos_model/photo_note"]},
+              {"label": "Photograph", "fields": ["https://artresearch.net/resource/field_definition/pharos_model/photo_view", "https://artresearch.net/resource/field_definition/pharos_model/photo_view_description", "https://artresearch.net/resource/field_definition/pharos_model/photographer", "https://artresearch.net/resource/field_definition/pharos_model/photo_shot_date", "https://artresearch.net/resource/field_definition/pharos_model/photo_campaign", "https://artresearch.net/resource/field_definition/pharos_model/photo_commission"]},
+              {"label": "Acquisition", "fields": ["https://artresearch.net/resource/field_definition/pharos_model/photo_acquisition", "https://artresearch.net/resource/field_definition/pharos_model/photo_loan"]},
+              {"label": "Digital Image", "fields": ["https://artresearch.net/resource/field_definition/pharos_model/photo_digitiser", "https://artresearch.net/resource/field_definition/pharos_model/photo_digitised", "https://artresearch.net/resource/field_definition/pharos_model/photo_digitisation_project"]},
+              {"label": "Rights", "fields": ["https://artresearch.net/resource/field_definition/pharos_model/photo_license", "https://artresearch.net/resource/field_definition/pharos_model/photo_rights_holder"]}]}'>
 
             <!--
               The work's parts (crm:P46, at any depth) on the photographs' table, under the work's own
@@ -54,8 +60,8 @@
               Whether there are parts is asked on the server; a work may have thousands.
             -->
             [[#if (ask "ASK { ?? crm:P46_is_composed_of ?part }")]]
-            <div data-contents data-label="Has Parts" data-batch="120"
-              data-empty="No photographs of this work or its parts have been shared yet." data-query='
+            <div data-band="parts" data-place="below" data-arrange="parts" data-label="Has Parts" data-batch="120"
+              data-empty="No photographs of this work or of the works around it have been shared yet." data-query='
               SELECT ?subject ?part ?partPage ?within ?withinPage ?image ?iiif ?width ?height ?archive ?provider ?logo WHERE {
                 {
                   SELECT ?subject ?path (SAMPLE(?previewUrl) AS ?preview) (SAMPLE(?manifest) AS ?iiif)
@@ -86,6 +92,145 @@
                 BIND(IF(STRAFTER(?path, " ") = "", ?part, IRI(STRAFTER(?path, " "))) AS ?within)
                 OPTIONAL { ?part crm:P2_has_type <http://vocab.getty.edu/aat/300133025> . BIND(true AS ?partPage) }
                 OPTIONAL { ?within crm:P2_has_type <http://vocab.getty.edu/aat/300133025> . BIND(true AS ?withinPage) }
+                BIND(IF(STRSTARTS(?preview, "http"), ?preview, CONCAT("https://artresearch.net", ?preview)) AS ?image)
+                BIND(IRI(CONCAT("https://artresearch.net/resource/provider/", ?archive)) AS ?provider)
+                BIND(CONCAT("/assets/images/minilogo_", ?archive, ".png") AS ?logo)
+              }'></div>
+            [[/if]]
+
+            <!--
+              Location Of: the works located in this one, when it is a building (crm:P156 occupies the
+              place they are located at: P55, or P53), that are not its parts, each as its preferred
+              photograph; a record merged into a work stands for that work. Heading: proposed, the
+              inverse of the field label Location (curators to confirm).
+            -->
+            [[#if (ask "ASK { ?? crm:P156_occupies ?site . ?work crm:P55_has_current_location|crm:P53_has_former_or_current_location ?site . FILTER(?work != ??) }")]]
+            <div data-band="located" data-place="below" data-arrange="flow" data-label="Location Of" data-batch="120"
+              data-empty="No photographs of this work or of the works around it have been shared yet." data-query='
+              SELECT ?subject ?image ?iiif ?width ?height ?archive ?provider ?logo WHERE {
+                {
+                  SELECT ?subject (SAMPLE(?previewUrl) AS ?preview) (SAMPLE(?manifest) AS ?iiif)
+                         (SAMPLE(?imageWidth) AS ?width) (SAMPLE(?imageHeight) AS ?height) (MAX(?key) AS ?archive) WHERE {
+                    {
+                      SELECT ?subject (MIN(?preferred) AS ?photo) WHERE {
+                        <{{subject}}> crm:P156_occupies ?site .
+                        ?work crm:P55_has_current_location|crm:P53_has_former_or_current_location ?site .
+                        OPTIONAL { ?work custom:objectSameAs ?merged }
+                        BIND(COALESCE(?merged, ?work) AS ?subject)
+                        FILTER(?subject != <{{subject}}>)
+                        ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                        MINUS { <{{subject}}> crm:P46_is_composed_of+ ?subject }
+                        ?subject custom:preferred_photo ?preferred .
+                      }
+                      GROUP BY ?subject
+                    }
+                    ?photo custom:primary_image ?shown .
+                    ?shown custom:preview_url ?previewUrl .
+                    OPTIONAL { ?shown custom:iiif_url ?manifest }
+                    OPTIONAL { ?shown custom:image_width ?imageWidth }
+                    OPTIONAL { ?shown custom:image_height ?imageHeight }
+                    OPTIONAL { ?photo crm:P70i_is_documented_in ?catalogue }
+                    BIND(IF(STRSTARTS(STR(?catalogue), "https://artresearch.net/resource/e31/"), STRAFTER(STR(?catalogue), "/e31/"), ?none) AS ?key)
+                  }
+                  GROUP BY ?subject
+                }
+                BIND(IF(STRSTARTS(?preview, "http"), ?preview, CONCAT("https://artresearch.net", ?preview)) AS ?image)
+                BIND(IRI(CONCAT("https://artresearch.net/resource/provider/", ?archive)) AS ?provider)
+                BIND(CONCAT("/assets/images/minilogo_", ?archive, ".png") AS ?logo)
+              }
+              ORDER BY ?subject'></div>
+            [[/if]]
+
+            <!--
+              Beyond the table's edge, after what lies in the work: what it lies in. Is Part Of: the wholes
+              it forms part of (crm:P46i, at any depth), the nearest first, each named over its preferred
+              photograph with how many photographs it has; hanging from the nearest, its other parts
+              nearest the work, the work among them (role "here"). The sheet's tree has them all. Last
+              Known Location: the building it is located in (crm:P156 occupies the place the work, or a
+              whole of it, is located at: P55, or P53), unless that building is one of its wholes. Headings:
+              the field labels of object_is_part_of and last_known_location.
+            -->
+            [[#if (ask "ASK { ?? crm:P46i_forms_part_of ?whole }")]]
+            <div data-band="wholes" data-place="around" data-arrange="chain" data-label="Is Part Of" data-self="{{subject}}"
+              data-empty="No photographs of this work or of the works around it have been shared yet." data-query='
+              SELECT ?subject ?parent ?role ?page ?photos ?image ?iiif ?width ?height ?archive ?provider ?logo WHERE {
+                {
+                  SELECT ?subject ?parent ?role (MAX(?count) AS ?photos) (SAMPLE(?previewUrl) AS ?preview) (SAMPLE(?manifest) AS ?iiif)
+                         (SAMPLE(?imageWidth) AS ?width) (SAMPLE(?imageHeight) AS ?height) (MAX(?key) AS ?archive) WHERE {
+                    {
+                      SELECT ?subject ?parent ?role (COALESCE(MIN(?preferred), ?subject) AS ?photo) (COUNT(DISTINCT ?anyPhoto) AS ?count) WHERE {
+                        {
+                          <{{subject}}> crm:P46i_forms_part_of+ ?subject .
+                          OPTIONAL { ?subject crm:P46i_forms_part_of ?up }
+                          BIND(COALESCE(?up, ?subject) AS ?parent)
+                          BIND("whole" AS ?role)
+                          OPTIONAL { ?subject custom:photo ?anyPhoto }
+                        }
+                        UNION
+                        {
+                          <{{subject}}> crm:P46i_forms_part_of ?parent .
+                          ?parent crm:P46_is_composed_of ?subject .
+                          FILTER(?subject != <{{subject}}>)
+                          BIND("part" AS ?role)
+                        }
+                        UNION
+                        {
+                          <{{subject}}> crm:P46i_forms_part_of ?parent .
+                          BIND(<{{subject}}> AS ?subject)
+                          BIND("here" AS ?role)
+                        }
+                        OPTIONAL { ?subject custom:preferred_photo ?preferred }
+                      }
+                      GROUP BY ?subject ?parent ?role
+                    }
+                    # a whole or part with no photograph stands for itself: an unbound ?photo would join every image
+                    OPTIONAL {
+                      ?photo custom:primary_image ?shown .
+                      ?shown custom:preview_url ?previewUrl .
+                      OPTIONAL { ?shown custom:iiif_url ?manifest }
+                      OPTIONAL { ?shown custom:image_width ?imageWidth }
+                      OPTIONAL { ?shown custom:image_height ?imageHeight }
+                    }
+                    OPTIONAL { ?photo crm:P70i_is_documented_in ?catalogue }
+                    BIND(IF(STRSTARTS(STR(?catalogue), "https://artresearch.net/resource/e31/"), STRAFTER(STR(?catalogue), "/e31/"), ?none) AS ?key)
+                  }
+                  GROUP BY ?subject ?parent ?role
+                }
+                OPTIONAL { ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> . BIND(true AS ?page) }
+                BIND(IF(BOUND(?preview), IF(STRSTARTS(?preview, "http"), ?preview, CONCAT("https://artresearch.net", ?preview)), ?none) AS ?image)
+                BIND(IF(BOUND(?archive), IRI(CONCAT("https://artresearch.net/resource/provider/", ?archive)), ?none) AS ?provider)
+                BIND(IF(BOUND(?archive), CONCAT("/assets/images/minilogo_", ?archive, ".png"), ?none) AS ?logo)
+              }'></div>
+            [[/if]]
+            [[#if (ask "ASK { ?? crm:P46i_forms_part_of*/(crm:P55_has_current_location|crm:P53_has_former_or_current_location) ?site . ?building crm:P156_occupies ?site . FILTER(?building != ??) }")]]
+            <div data-band="location" data-place="around" data-arrange="named" data-label="Last Known Location"
+              data-empty="No photographs of this work or of the works around it have been shared yet." data-query='
+              SELECT ?subject ?page ?photos ?image ?iiif ?width ?height ?archive ?provider ?logo WHERE {
+                {
+                  SELECT ?subject (MAX(?count) AS ?photos) (SAMPLE(?previewUrl) AS ?preview) (SAMPLE(?manifest) AS ?iiif)
+                         (SAMPLE(?imageWidth) AS ?width) (SAMPLE(?imageHeight) AS ?height) (MAX(?key) AS ?archive) WHERE {
+                    {
+                      SELECT ?subject (MIN(?preferred) AS ?photo) (COUNT(DISTINCT ?anyPhoto) AS ?count) WHERE {
+                        <{{subject}}> crm:P46i_forms_part_of*/(crm:P55_has_current_location|crm:P53_has_former_or_current_location) ?site .
+                        ?subject crm:P156_occupies ?site .
+                        FILTER(?subject != <{{subject}}>)
+                        MINUS { <{{subject}}> crm:P46i_forms_part_of+ ?subject }
+                        ?subject custom:preferred_photo ?preferred .
+                        OPTIONAL { ?subject custom:photo ?anyPhoto }
+                      }
+                      GROUP BY ?subject
+                    }
+                    ?photo custom:primary_image ?shown .
+                    ?shown custom:preview_url ?previewUrl .
+                    OPTIONAL { ?shown custom:iiif_url ?manifest }
+                    OPTIONAL { ?shown custom:image_width ?imageWidth }
+                    OPTIONAL { ?shown custom:image_height ?imageHeight }
+                    OPTIONAL { ?photo crm:P70i_is_documented_in ?catalogue }
+                    BIND(IF(STRSTARTS(STR(?catalogue), "https://artresearch.net/resource/e31/"), STRAFTER(STR(?catalogue), "/e31/"), ?none) AS ?key)
+                  }
+                  GROUP BY ?subject
+                }
+                OPTIONAL { ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> . BIND(true AS ?page) }
                 BIND(IF(STRSTARTS(?preview, "http"), ?preview, CONCAT("https://artresearch.net", ?preview)) AS ?image)
                 BIND(IRI(CONCAT("https://artresearch.net/resource/provider/", ?archive)) AS ?provider)
                 BIND(CONCAT("/assets/images/minilogo_", ?archive, ".png") AS ?logo)
@@ -267,7 +412,7 @@
             '></div>
           </pharos-auto-fit-grid>
           {{#ifCond (photoImages data.[https://artresearch.net/resource/field_definition/pharos_model/photo].values) "==" "[]"}}
-          [[#unless (ask "ASK { ?? crm:P46_is_composed_of ?part }")]]
+          [[#unless (ask "ASK { { ?? crm:P46_is_composed_of ?other } UNION { ?? crm:P46i_forms_part_of ?other } UNION { ?? crm:P156_occupies ?site . ?other crm:P55_has_current_location|crm:P53_has_former_or_current_location ?site . FILTER(?other != ??) } UNION { ?? crm:P46i_forms_part_of*/(crm:P55_has_current_location|crm:P53_has_former_or_current_location) ?site . ?other crm:P156_occupies ?site . FILTER(?other != ??) } }")]]
           <div class="table-empty">No photographs of this work have been shared yet.</div>
           [[/unless]]
           {{/ifCond}}
@@ -319,8 +464,7 @@
                 field="https://artresearch.net/resource/field_definition/pharos_model/style_period"}}
             {{> plainPart data=data label="Inscription"
                 field="https://artresearch.net/resource/field_definition/pharos_model/inscription"}}
-            {{> plainPart data=data label="Provenance"
-                field="https://artresearch.net/resource/field_definition/pharos_model/work_provenance"}}
+            {{> provenancePart data=data}}
             {{> plainPart data=data label="Exhibitions"
                 field="https://artresearch.net/resource/field_definition/pharos_model/exhibitions"}}
             {{> plainPart data=data label="Bibliography"
@@ -368,7 +512,7 @@
   <template id="claimWithSlip">
     {{#with (evidence value originals)}}
     <details>
-      <summary>{{> claim value=../value text=(claimLabel ../value ../originals) link=../value.[@id]}}</summary>
+      <summary>{{> claim value=../value text=(claimLabel ../value ../originals) link=../value.[@id] kind=../kind}}</summary>
       <div class="slip">
         {{#each this}}
         <div class="evidence" data-arch="{{archKeys this}}">
@@ -380,7 +524,7 @@
       </div>
     </details>
     {{else}}
-    {{> claim value=value text=(claimLabel value originals) link=value.[@id]}}
+    {{> claim value=value text=(claimLabel value originals) link=value.[@id] kind=kind}}
     {{/with}}
   </template>
 
@@ -510,8 +654,11 @@
     {{/with}}
   </template>
 
-  <!-- Repository/Last Known Location: the keeper, as each archive names it,
-       and the place beneath it -->
+  <!-- Repository/Last Known Location: who keeps the work, as each archive names it, and where
+       it is or was last recorded: the building standing there, with the town it stands in, or
+       the place itself, each linked to its record. Both carry their kind as the authorities give
+       it. Under a keeper the place hangs as its branch; without one it is the claim. Where the
+       work came from is the Provenance part, not this one. -->
   <template id="locationPart">
     {{#if (or data.[https://artresearch.net/resource/field_definition/pharos_model/current_keeper]
               data.[https://artresearch.net/resource/field_definition/pharos_model/last_known_location])}}
@@ -519,17 +666,51 @@
       <h2>Repository/Last Known Location</h2>
       <div class="group">
         {{#each (mergeByLabel data.[https://artresearch.net/resource/field_definition/pharos_model/current_keeper].values)}}
-        {{> claimWithSlip value=this originals="https://artresearch.net/resource/field_definition/pharos_model/original_value"}}
+        {{> claimWithSlip value=this originals="https://artresearch.net/resource/field_definition/pharos_model/original_value" kind=(humanize (fieldLabel this "https://artresearch.net/resource/field_definition/pharos_model/entity_kind"))}}
         {{/each}}
-        {{#with data.[https://artresearch.net/resource/field_definition/pharos_model/last_known_location].values}}
-        <div class="branch" data-arch="{{archKeys this}}">
-          <span class="text">{{#each this}}{{#unless @first}}<span class="sep">·</span>{{/unless}}{{#if [@id]}}<a href="/resource/?uri={{encodeUriComponent [@id]}}">{{label}}</a>{{else}}{{label}}{{/if}}{{/each}}{{> badge iri=this.[0].[@id]}}</span>
-          <span class="marks">{{> marks providers=(providers this deep=true) sm=true}}</span>
+        {{#each (placeLines data.[https://artresearch.net/resource/field_definition/pharos_model/last_known_location].values)}}
+        {{#if ../data.[https://artresearch.net/resource/field_definition/pharos_model/current_keeper]}}
+        <div class="branch" data-arch="{{archKeys value}}">
+          <span class="text">{{> placeParts parts=parts}}</span>
+          <span class="kind">{{kind}}</span>
+          <span class="marks">{{> marks providers=(providers value deep=true) sm=true}}</span>
         </div>
-        {{/with}}
+        {{else}}
+        <div class="claim claim--{{claimKind value}}" data-arch="{{archKeys value}}">
+          <span class="text">{{> placeParts parts=parts}}</span>
+          <span class="kind">{{kind}}</span>
+          <span class="marks">{{> marks providers=(providers value deep=true)}}</span>
+        </div>
+        {{/if}}
+        {{/each}}
       </div>
     </div>
     {{/if}}
+  </template>
+
+  <template id="placeParts">
+    {{#each parts}}{{#unless @first}}<span class="sep">·</span>{{/unless}}{{#if iri}}<a href="/resource/?uri={{encodeUriComponent iri}}">{{label}}</a>{{else}}{{label}}{{/if}}{{/each}}
+  </template>
+
+  <!-- Provenance: how the work came to where it is, entry by entry as each record gives it, in
+       that record's own order. One record's entries are not joined with another's: the same sale
+       told by two archives stays two entries until they can be matched on more than their words. -->
+  <template id="provenancePart">
+    {{#with data.[https://artresearch.net/resource/field_definition/pharos_model/work_provenance]}}
+    <div class="part">
+      <h2>Provenance</h2>
+      {{#each (provenanceGroups values)}}
+      <div class="group provenance" data-arch="{{key}}">
+        {{#each entries}}
+        <div class="line" data-arch="{{archKeys this}}">
+          <span class="text">{{#if label}}{{label}}{{else}}{{[@value]}}{{/if}}</span>
+          <span class="marks">{{> marks providers=(providers this) sm=true}}</span>
+        </div>
+        {{/each}}
+      </div>
+      {{/each}}
+    </div>
+    {{/with}}
   </template>
 
   <!-- Subjects: terms gathered under the Iconclass division they belong to,

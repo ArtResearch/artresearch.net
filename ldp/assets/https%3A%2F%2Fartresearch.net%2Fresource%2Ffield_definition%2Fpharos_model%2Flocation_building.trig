@@ -1,0 +1,26 @@
+<https://artresearch.net/resource/field_definition/pharos_model/location_building/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/location_building> a
+      <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
+      <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-d7a239537141c4ab3bd3e8631158ea91-12fb0;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Building";
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-5d2f75ef9736f2df721b16cb8485032f-127eb;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2026-10-22T14:00:00.000+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-d7a239537141c4ab3bd3e8631158ea91-12fb0 a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  _:genid-5d2f75ef9736f2df721b16cb8485032f-127eb a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+
+SELECT ?value WHERE {
+  # the building that occupies the place, unless it is the work itself
+  ?value crm:P156_occupies ?subject .
+  FILTER(?value != ?object)
+}""" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/location_building> .
+}

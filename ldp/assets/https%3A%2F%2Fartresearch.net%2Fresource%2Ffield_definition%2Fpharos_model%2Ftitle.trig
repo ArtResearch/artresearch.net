@@ -18,10 +18,10 @@ PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 PREFIX custom: <https://artresearch.net/custom/>
 
 SELECT ?value WHERE {
-  {
+  
     ?subject crm:P1_is_identified_by ?value.
     ?value crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/preferred_name> .
-  }
+  
 }""" .
   
   <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>

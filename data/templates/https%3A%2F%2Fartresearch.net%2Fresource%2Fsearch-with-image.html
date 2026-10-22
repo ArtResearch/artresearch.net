@@ -223,10 +223,10 @@ SELECT ?subject WHERE {
                 "kind":"hierarchy",
                 "valuesQuery": "SELECT ?value WHERE {?subject crm:P50_has_current_keeper ?value .}",
                 "queryPattern": "{
-                    ?subject crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by ?artist .
+                    ?subject (crm:P108i_was_produced_by|crm:P108i_was_produced_by/crm:P9_consists_of)/crm:P14_carried_out_by ?artist .
                     ?artist custom:sameAs ?__value__ .
                   } UNION {
-                    ?subject crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by ?__value__.
+                    ?subject (crm:P108i_was_produced_by|crm:P108i_was_produced_by/crm:P9_consists_of)/crm:P14_carried_out_by ?__value__.
                     FILTER NOT EXISTS { ?value custom:sameAs ?some. }
                   }",
                 "parentsPattern": "{

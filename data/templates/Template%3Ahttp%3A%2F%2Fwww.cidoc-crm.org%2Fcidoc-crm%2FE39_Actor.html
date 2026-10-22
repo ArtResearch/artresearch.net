@@ -29,7 +29,7 @@
                                 <bs-tab-pane event-key="artworks">
                                   <div class="main-container">
                                      <!-- Union query to cover both Repository and Artist roles -->
-                                     <inline-template template-iri="Default:SearchTemplate" options='{"searchRestrictions":"{ ?subject crm:P50_has_current_keeper <[[this]]> . } UNION { ?subject crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by <[[this]]> . }", "domain": "work", "lock": "true"}'></inline-template>
+                                     <inline-template template-iri="Default:SearchTemplate" options='{"searchRestrictions":"{ ?subject crm:P50_has_current_keeper <[[this]]> . } UNION { ?subject (crm:P108i_was_produced_by|crm:P108i_was_produced_by/crm:P9_consists_of)/crm:P14_carried_out_by <[[this]]> . }", "domain": "work", "lock": "true"}'></inline-template>
                                   </div>
                                 </bs-tab-pane>
                             {{/if}}
@@ -54,7 +54,7 @@
                          <inline-template template-iri="Default:SearchTemplate" options='{"searchRestrictions":"?subject crm:P65_shows_visual_item/crm:P94i_was_created_by/crm:P14_carried_out_by/crm:P107i_is_current_or_former_member_of? <[[this]]> .", "domain": "photograph", "lock": "true"}'></inline-template>
                     {{/if}}
                     {{#if (eq this.[@value] "artist")}}
-                         <inline-template template-iri="Default:SearchTemplate" options='{"searchRestrictions":"?subject crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by <[[this]]> .", "domain": "work", "lock": "true"}'></inline-template>
+                         <inline-template template-iri="Default:SearchTemplate" options='{"searchRestrictions":"?subject (crm:P108i_was_produced_by|crm:P108i_was_produced_by/crm:P9_consists_of)/crm:P14_carried_out_by <[[this]]> .", "domain": "work", "lock": "true"}'></inline-template>
                     {{/if}}
                 {{/each}}
                 </div>

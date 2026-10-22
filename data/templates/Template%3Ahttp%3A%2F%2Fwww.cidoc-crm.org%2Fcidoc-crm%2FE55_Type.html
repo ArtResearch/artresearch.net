@@ -13,6 +13,6 @@
   </div>
   
   <div class="main-container">
-       <inline-template template-iri="Default:SearchTemplate" options='{"searchRestrictions":"{ {?subject crm:P2_has_type/crm:P127_has_broader_term* <[[this]]> .} UNION { ?subject crm:P45_consists_of/crm:P127_has_broader_term* <[[this]]> . } UNION { ?subject crm:P108i_was_produced_by/crm:P9_consists_of* ?production . ?production crm:P32_used_general_technique/crm:P127_has_broader_term* <[[this]]> . } }", "domain": "work", "lock": "true"}'></inline-template>
+       <inline-template template-iri="Default:SearchTemplate" options='{"searchRestrictions":"{ {?subject crm:P2_has_type/crm:P127_has_broader_term* <[[this]]> .} UNION { ?subject crm:P45_consists_of/crm:P127_has_broader_term* <[[this]]> . } UNION { ?subject (crm:P108i_was_produced_by|crm:P108i_was_produced_by/crm:P9_consists_of) ?production . ?production crm:P32_used_general_technique/crm:P127_has_broader_term* <[[this]]> . } }", "domain": "work", "lock": "true"}'></inline-template>
   </div>
 </div>

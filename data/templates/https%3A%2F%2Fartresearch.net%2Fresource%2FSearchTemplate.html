@@ -821,7 +821,7 @@
               {
                 SELECT ?subject (COUNT(DISTINCT ?work) AS ?worksCount) WHERE {
                   ?work crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
-                  ?work crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by ?subject .
+                  ?work (crm:P108i_was_produced_by|crm:P108i_was_produced_by/crm:P9_consists_of)/crm:P14_carried_out_by ?subject .
                   {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
                 }
                 GROUP BY ?subject
@@ -832,7 +832,8 @@
                   {
                       SELECT ?subject (COUNT(DISTINCT ?work) AS ?score) (COUNT(DISTINCT ?work) AS ?worksCount) WHERE {
                         FILTER(?__textPattern__)
-                        ?work crm:P108i_was_produced_by/crm:P9_consists_of*/crm:P14_carried_out_by ?subject .
+                        ?work crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                        ?work (crm:P108i_was_produced_by|crm:P108i_was_produced_by/crm:P9_consists_of)/crm:P14_carried_out_by ?subject .
                         {{#if searchRestrictions}}{ SELECT DISTINCT ?subject WHERE { {{searchRestrictions}} } }{{/if}}
                       }
                       GROUP BY ?subject
@@ -910,8 +911,9 @@
             }' value-relations='{
               "<https://artresearch.net/resource/fr/Work_from_Place>": {
                 "kind":"hierarchy",
-                "valuesQuery": "SELECT ?value WHERE {?subject crm:P55_has_current_location ?value .}",
+                "valuesQuery": "SELECT ?value WHERE { ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> . ?subject crm:P55_has_current_location ?value . }",
                 "queryPattern": "{
+                    ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
                     ?subject crm:P55_has_current_location ?place .
                     ?place crm:P89_falls_within* ?__value__ .
                     ?place ^custom:sameAs?/crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/geographical_entity> .
@@ -928,13 +930,15 @@
                 "kind":"hierarchy",
                 "valuesQuery": "SELECT ?value WHERE {
                                   { 
-                                    ?subject crm:P108i_was_produced_by/crm:P9_consists_of* ?production . 
+                                    ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                                    ?subject (crm:P108i_was_produced_by|crm:P108i_was_produced_by/crm:P9_consists_of) ?production . 
                                     ?production a crm:E12_Production .
                                     ?production crm:P14_carried_out_by ?value .
                                   }
                                 }",
                 "queryPattern": "{
-                                ?subject crm:P108i_was_produced_by/crm:P9_consists_of* ?production . 
+                                ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+                                ?subject (crm:P108i_was_produced_by|crm:P108i_was_produced_by/crm:P9_consists_of) ?production . 
                                 ?production a crm:E12_Production .
                                 ?production crm:P14_carried_out_by ?__value__ .
                   }",

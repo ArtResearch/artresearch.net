@@ -324,12 +324,12 @@
 /* an archive key that cannot act loses its body, but its mark keeps the
    archive's own colours: only the count on its face dims */
 .rr .table .AutoFitGrid--autoFitArchive:disabled { opacity: 1; }
-.rr .table .AutoFitGrid--autoFitArchive:disabled::after { color: var(--ink-4); }
+.rr .table .AutoFitGrid--autoFitArchive:disabled :is(.AutoFitGrid--archiveCount, .AutoFitGrid--archiveMore) { color: var(--ink-4); }
 
 /* archives: a bank of latching keys, any number in at once. Each key
    carries its archive's mark and, printed on the face, the number of
    prints that archive has on the table; the key grows with the number. */
-.rr .table .AutoFitGrid--autoFitArchive { gap: 4px; min-width: 34px; padding: 0 6px 0 5px; }
+.rr .table .AutoFitGrid--autoFitArchive { gap: 4px; width: auto; min-width: 34px; padding: 0 6px 0 5px; }
 .rr .table .AutoFitGrid--autoFitArchive img {
   display: block;
   width: 14px;
@@ -337,13 +337,15 @@
   padding: 0;
   object-fit: contain;
 }
-.rr .table .AutoFitGrid--autoFitArchive::after {
-  content: attr(data-count);
+/* on its face: the work's own photographs, then, lighter, the prints of the other works around them */
+.rr .table :is(.AutoFitGrid--archiveCount, .AutoFitGrid--archiveMore) {
   font: 500 10px/1 var(--sans);
   font-variant-numeric: tabular-nums;
   color: var(--ink-3);
 }
-.rr .table .AutoFitGrid--autoFitArchiveActive::after { color: var(--pull); }
+.rr .table .AutoFitGrid--archiveMore { font-weight: 400; color: var(--ink-4); }
+.rr .table .AutoFitGrid--autoFitArchiveActive .AutoFitGrid--archiveCount { color: var(--pull); }
+.rr .table .AutoFitGrid--autoFitArchiveActive .AutoFitGrid--archiveMore { color: hsl(var(--pull-hsl) / 0.7); }
 
 /* clear: the bank's own momentary key, at the well's right end */
 .rr .table .AutoFitGrid--autoFitArchiveClear { width: 22px; padding: 0; margin-left: 2px; font-size: 0; }
@@ -467,6 +469,9 @@
   transition: opacity 0.25s ease;
 }
 .rr .table .AutoFitGrid--beyond[data-shown] { opacity: 1; }
+/* beside the count, a key for each band that lies beyond the edge: it brings the band's heading into view */
+.rr .table .AutoFitGrid--beyond { gap: 6px; }
+.rr .table .AutoFitGrid--beyondBand { font-weight: 400; }
 .rr .table .AutoFitGrid--beyondAbove { align-items: flex-start; padding-top: 10px; background: linear-gradient(to bottom, hsl(var(--cast) / 0.2), hsl(var(--cast) / 0.07) 45%, transparent); }
 .rr .table .AutoFitGrid--beyondBelow { align-items: flex-end; padding-bottom: 10px; transform: translateY(-100%); background: linear-gradient(to top, hsl(var(--cast) / 0.2), hsl(var(--cast) / 0.07) 45%, transparent); }
 .rr .table .AutoFitGrid--beyondCount {
@@ -526,6 +531,15 @@
   pointer-events: none;
 }
 .rr .table .AutoFitGrid--plan:active .AutoFitGrid--planView { cursor: grabbing; }
+/* where a band begins on the table, its heading's rule crosses the plan, edge to edge */
+.rr .table .AutoFitGrid--planRule {
+  position: absolute;
+  left: 3px;
+  right: 3px;
+  height: 0;
+  border-top: 1.5px solid var(--ink-3);
+  opacity: 0.7;
+}
 
 /* the leaves of a print (recto, detail, verso) sit on the card at the mount's lower right, always
    visible, at every size of the table: a leaf is a fifth of the print's width, between 12 and 20px, and
@@ -634,6 +648,14 @@
 .rr .table .AutoFitGrid--mountRow dd a { color: var(--pull); text-decoration: underline; text-decoration-color: hsl(var(--pull-hsl) / 0.4); text-underline-offset: 2px; }
 .rr .table .AutoFitGrid--mountNote { font: 400 11px/1.5 var(--sans); color: var(--ink-3); opacity: 1; }
 .rr .table .AutoFitGrid--mountNote a { color: var(--ink-3); text-decoration: underline; text-decoration-color: hsl(var(--cast) / 0.25); text-underline-offset: 2px; }
+/* a photograph read from its own record: its groups (the print, the photograph it carries, how the
+   archive got it, the digital image, the rights) stand side by side under the print, each named in
+   the reading voice, its rows beneath it, label and value in two columns */
+.rr .table .AutoFitGrid--mountGroup { display: inline-block; vertical-align: top; max-width: 360px; margin: 8px 32px 0 0; }
+.rr .table .AutoFitGrid--mountGroupHead { margin-bottom: 3px; font: 400 13px/1.3 var(--serif); color: var(--ink-2); }
+.rr .table .AutoFitGrid--mountGroup .AutoFitGrid--mount { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 0 10px; margin: 0; }
+.rr .table .AutoFitGrid--mountGroup .AutoFitGrid--mountRow { display: contents; }
+.rr .table .AutoFitGrid--mountGroup .AutoFitGrid--mountRow dd { overflow-wrap: anywhere; }
 
 /* ── Other works on the table: Related and Similar works are laid out
       like the photographs, each work as one print, and read the same way.
@@ -683,18 +705,28 @@
 }
 .rr .table .AutoFitGrid--registerMark .AutoFitGrid--letter { font-size: 8.5px; line-height: 13px; }
 
-/* ── The work's parts on its table. Under the work's own prints, the sheet's own
-      field heading (Has Parts) is carried across the table with its rule, so the
-      line between the work and what is in it reads as it does on the sheet. Each
-      part follows under its name, a link to its record set in the reading voice
-      like every link on the page; its prints are one step smaller than the
-      work's. A part whose prints fit one row lies beside the next, as wide as its
-      prints; one with parts of its own takes the table's width and says how many
-      works lie under it, its own parts following as blocks of their own, named
-      a step smaller. Nothing here is a key: the hand opens a part by its name and
-      picks up a print as anywhere on the table. ── */
-.rr .table .AutoFitGrid--parts { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
-.rr .table .AutoFitGrid--partsHead {
+/* ── The table reads outward from the work: its own prints, then what lies in it (its parts, for
+      a building the works located in it), then, beyond the table's edge, what it lies in (its
+      wholes, the building it is located in). Each band lies under the sheet's own field heading
+      (Has Parts, Is Part Of, …) carried across the table with its rule, so the line between the
+      work and the works around it reads as it does on the sheet. Inside a band each block lies
+      under its name, a link to its record set in the reading voice like every link on the page;
+      its prints are one step smaller than the work's. A part that brings a single print lies
+      loose, unnamed: its name is on the print when handled. ── */
+.rr .table .AutoFitGrid--band { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+/* what the work lies in lies past the table's edge, on the bench the rail is made of: the edge is
+   the boundary between the work's own world and the world it stands in */
+.rr .table .AutoFitGrid--around {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 20px calc(-1 * var(--plate-gap, 8px)) calc(-1 * var(--plate-gap, 8px));
+  padding: 4px var(--plate-gap, 8px) 16px;
+  background: var(--bench);
+  box-shadow: 0 -1px 0 hsl(var(--cast) / 0.18), inset 0 1px 0 var(--lit), 0 -4px 8px -6px hsl(var(--cast) / 0.35);
+}
+.rr .table .AutoFitGrid--around > .AutoFitGrid--band { margin-top: 10px; }
+.rr .table .AutoFitGrid--bandHead {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -703,8 +735,8 @@
   text-transform: uppercase;
   color: var(--ink-3);
 }
-.rr .table .AutoFitGrid--partsHead::after { content: ''; order: 1; flex: 1 1 auto; height: 1px; background: hsl(var(--cast) / 0.14); }
-.rr .table .AutoFitGrid--partsCount {
+.rr .table .AutoFitGrid--bandHead::after { content: ''; order: 1; flex: 1 1 auto; height: 1px; background: hsl(var(--cast) / 0.14); }
+.rr .table .AutoFitGrid--bandCount {
   order: 2;
   font: 400 11px/1 var(--sans);
   letter-spacing: 0;
@@ -722,6 +754,20 @@
 }
 .rr .table .AutoFitGrid--partBlock { flex: 1 1 100%; min-width: 0; display: flex; flex-direction: column; gap: var(--part-gap, 6px); }
 .rr .table .AutoFitGrid--partBlock[data-beside] { flex: 0 0 auto; }
+/* a whole's other parts hang from it, beside it, behind the slip rule */
+.rr .table .AutoFitGrid--partBlock[data-hang] { padding-left: 12px; border-left: 2px solid hsl(var(--cast) / 0.12); }
+.rr .table .AutoFitGrid--partsOf .AutoFitGrid--partCount { font-size: 11px; }
+.rr .table a.AutoFitGrid--partCount {
+  color: var(--ink-3);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: hsl(var(--cast) / 0.22);
+  text-underline-offset: 3px;
+}
+.rr .table a.AutoFitGrid--partCount:hover { color: var(--ink-2); text-decoration-color: hsl(var(--cast) / 0.6); }
+/* the table's own work, among the other parts of its whole: outlined in ink, its name always on it */
+.rr .table .AutoFitGrid--here { box-shadow: 0 0 0 2px var(--ink-2), 0 1px 2px hsl(var(--cast) / 0.2); }
+.rr .table .AutoFitGrid--here .AutoFitGrid--autoFitNumber { opacity: 1; }
 .rr .table .AutoFitGrid--partCaption {
   display: flex;
   align-items: baseline;
@@ -732,7 +778,8 @@
 }
 .rr .table .AutoFitGrid--partCaption[data-level="2"] { font-size: 12.5px; color: var(--ink-2); }
 .rr .table .AutoFitGrid--partName { min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-/* beside the next, a name may take two lines rather than be cut */
+/* beside the next, its count goes under the name when both do not fit, and a name may take two lines rather than be cut */
+.rr .table .AutoFitGrid--partBlock[data-beside] > .AutoFitGrid--partCaption { flex-wrap: wrap; row-gap: 2px; }
 .rr .table .AutoFitGrid--partBlock[data-beside] > .AutoFitGrid--partCaption .AutoFitGrid--partName {
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -754,7 +801,8 @@
   color: var(--ink-3);
 }
 /* in the list, the same headings stand between the slips */
-.rr .table .AutoFitGrid--autoFitListView > .AutoFitGrid--partsHead { margin: 14px 0 2px; }
+.rr .table .AutoFitGrid--autoFitListView > .AutoFitGrid--bandHead { margin: 14px 0 2px; }
+.rr .table .AutoFitGrid--autoFitListView > .AutoFitGrid--bandHead:first-child { margin-top: 0; }
 .rr .table .AutoFitGrid--autoFitListView > .AutoFitGrid--partCaption { margin: 10px 0 0; }
 .rr .table .AutoFitGrid--autoFitListView > .AutoFitGrid--partCaption[data-level="2"] { margin-top: 4px; padding-left: 14px; }
 
@@ -1058,7 +1106,7 @@ div.slip { margin: 1px 0 8px var(--indent); padding: 3px 0 3px 12px; border-left
   border-left: 1px solid var(--rule);
   border-bottom: 1px solid var(--rule);
 }
-.branch .text .sep { color: var(--ink-4); margin: 0 6px; }
+:is(.branch, .claim) .text .sep { color: var(--ink-4); margin: 0 6px; }
 
 /* ── Is Part Of/Has Part: the record among its wholes and parts. The same
       rows as the sheet's (text · kind · register), stepping in one branch per

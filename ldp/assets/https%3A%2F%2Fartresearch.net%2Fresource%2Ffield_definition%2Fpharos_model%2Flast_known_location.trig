@@ -1,34 +1,41 @@
-
 <https://artresearch.net/resource/field_definition/pharos_model/last_known_location/context> {
-  <https://artresearch.net/resource/field_definition/pharos_model/last_known_location>
-    a <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
+  <https://artresearch.net/resource/field_definition/pharos_model/last_known_location> a
+      <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
       <http://www.w3.org/ns/ldp#Resource>;
-    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-c68c97fd88ea465cbf9937d3c509974d-yba83;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-7072a287db3fb5a226be441c262047f4-27bc6;
     <http://www.w3.org/2000/01/rdf-schema#label> "Last Known Location";
     <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
-    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-c68c97fd88ea465cbf9937d3c509974d-8jpiih;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-f4acb69f8edbfe72473f8cd4e4d50d55-ad556;
     <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
     <http://www.w3.org/ns/prov#generatedAtTime> "2026-03-04T08:33:39.877+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
   
-  _:genid-c68c97fd88ea465cbf9937d3c509974d-yba83 a <http://spinrdf.org/sp#Query>;
+  _:genid-7072a287db3fb5a226be441c262047f4-27bc6 a <http://spinrdf.org/sp#Query>;
     <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
   
-  _:genid-c68c97fd88ea465cbf9937d3c509974d-8jpiih a <http://spinrdf.org/sp#Query>;
+  _:genid-f4acb69f8edbfe72473f8cd4e4d50d55-ad556 a <http://spinrdf.org/sp#Query>;
     <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
-
-SELECT ?value WHERE {
+SELECT ?value ?provUri WHERE {
+  # where the work, or a whole it is part of, is or was last recorded (P55, or P53), or the place it
+  # occupies when it is a building (P156); places only. One group with the page's values, no MINUS:
+  # a MINUS made QLever follow P46i* for every work
+  ?subject crm:P46i_forms_part_of* ?holder .
   {
-    {
-      ?parent crm:P55_has_current_location ?value .
-      ?value crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/geographical_entity> .
-      ?subject crm:P46i_forms_part_of* ?parent .
-    }
-
-    # architectural objects don't have \"Last Known Location\" they have \"Location\"
-    MINUS { 
-      ?subject crm:P2_has_type <https://artresearch.net/resource/pharos/vocab/meta/built_work> .  
-    }
+    ?holder crm:P55_has_current_location ?value .
+    BIND(crm:P55_has_current_location AS ?property)
   }
+  UNION
+  {
+    ?holder crm:P53_has_former_or_current_location ?value .
+    BIND(crm:P53_has_former_or_current_location AS ?property)
+  }
+  UNION
+  {
+    ?holder crm:P156_occupies ?value .
+    BIND(crm:P156_occupies AS ?property)
+  }
+  ?value crm:P2_has_type/crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/geographical_entity> .
+  # the archive's claim of it, for the marks
+  BIND(IRI(CONCAT(\"https://artresearch.net/resource/e13/\", SHA256(CONCAT(STR(?holder), STR(?property), STR(?value))))) AS ?provUri)
 }""" .
   
   <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>

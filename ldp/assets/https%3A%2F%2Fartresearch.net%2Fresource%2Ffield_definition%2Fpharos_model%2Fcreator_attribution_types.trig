@@ -14,11 +14,17 @@
     <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 
 SELECT DISTINCT ?value ?subject ?provUri WHERE {
-  ?work crm:P108i_was_produced_by/crm:P9_consists_of ?production .
+  # one group, so every step joins the page's own work. The kind is the archive's: the type of the
+  # archive's statement, which a PHAROS statement continues (at most one, combine 549); PHAROS's own
+  # verdicts on its statements (judged, assumed) are not kinds of attribution
+  ?work crm:P108i_was_produced_by|crm:P108i_was_produced_by/crm:P9_consists_of ?production .
   ?production crm:P14_carried_out_by ?subject .
+  ?statement crm:P140_assigned_attribute_to ?production .
+  ?statement crm:P141_assigned ?subject .
+  OPTIONAL { ?statement crm:P134_continued ?continued . }
+  BIND(COALESCE(?continued, ?statement) AS ?provUri)
   ?provUri crm:P2_has_type ?value .
-  ?provUri crm:P140_assigned_attribute_to ?production .
-  ?provUri crm:P141_assigned ?subject .  
+  FILTER(!STRSTARTS(STR(?value), "https://artresearch.net/resource/pharos/vocab/verdict/"))
 }""" .
   
   _:genid-95d34ca885cc4ede8d7f7f79eb7adbc6-4jzb a <http://spinrdf.org/sp#Query>;

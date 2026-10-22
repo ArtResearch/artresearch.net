@@ -13,10 +13,14 @@
     <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 
 SELECT ?value WHERE {
-  {
+  
     ?subject crm:P140_assigned_attribute_to ?x .
-    ?subject crm:P134_continued*/crm:P9i_forms_part_of/crm:P14_carried_out_by ?value .
-  }
+    # the archive behind the statement it continues, or behind itself: a statement continues at most one
+    # other (combine 549), and P134_continued* made QLever follow every statement in the index
+    OPTIONAL { ?subject crm:P134_continued ?continued . }
+    BIND(COALESCE(?continued, ?subject) AS ?statement)
+    ?statement crm:P9i_forms_part_of/crm:P14_carried_out_by ?value .
+  
 }""" .
   
   _:genid-61edb8a3b7984cff84587275811ff610-f3y2os a <http://spinrdf.org/sp#Query>;

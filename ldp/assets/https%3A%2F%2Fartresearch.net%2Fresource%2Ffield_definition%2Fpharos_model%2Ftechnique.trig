@@ -13,7 +13,7 @@
     <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 
 SELECT ?value WHERE {
-  ?subject crm:P108i_was_produced_by/crm:P9i_forms_part_of* ?production .
+  ?subject crm:P108i_was_produced_by|crm:P108i_was_produced_by/crm:P9i_forms_part_of ?production .
   ?production crm:P32_used_general_technique ?value .
 }""" .
   

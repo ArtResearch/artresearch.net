@@ -1,0 +1,34 @@
+<https://artresearch.net/resource/field_definition/pharos_model/photo_acquisition/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/photo_acquisition> a
+      <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
+      <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-177111c8f4345e63f01bf4036d736912-c20dd;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Acquired";
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#string>;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-ba5dd83d9288af9db00b18f6e2274ebe-0df8f;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2026-10-22T15:00:00.000+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-177111c8f4345e63f01bf4036d736912-c20dd a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  _:genid-ba5dd83d9288af9db00b18f6e2274ebe-0df8f a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX meta: <https://artresearch.net/resource/pharos/vocab/meta/>
+
+SELECT ?value WHERE {
+  # how, when and from whom, as one line: the archive's mode term, the date, the giver
+  ?subject crm:P24i_changed_ownership_through ?event .
+  OPTIONAL { ?event crm:P2_has_type ?mode . FILTER(STRSTARTS(STR(?mode), \"https://artresearch.net/resource/\")) }
+  OPTIONAL { ?event crm:P4_has_time-span/crm:P82_at_some_time_within ?date }
+  OPTIONAL { ?event crm:P23_transferred_title_from/crm:P1_is_identified_by/crm:P190_has_symbolic_content ?giver }
+  OPTIONAL { ?event crm:P3_has_note ?note }
+  BIND(REPLACE(REPLACE(STR(?mode), \"^.*/\", \"\"), \"_\", \" \") AS ?how)
+  BIND(CONCAT(COALESCE(?how, \"\"), IF(BOUND(?date), CONCAT(\", \", STR(?date)), \"\"), IF(BOUND(?giver), CONCAT(\", from \", ?giver), \"\")) AS ?line)
+  BIND(IF(?line != \"\", ?line, ?note) AS ?value)
+  FILTER(BOUND(?value))
+}""" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/photo_acquisition> .
+}

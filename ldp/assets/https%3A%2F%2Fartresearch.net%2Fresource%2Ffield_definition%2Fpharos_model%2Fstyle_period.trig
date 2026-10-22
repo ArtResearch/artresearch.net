@@ -17,13 +17,13 @@
 PREFIX pharos-meta: <https://artresearch.net/resource/pharos/vocab/meta/>
 
 SELECT ?value WHERE {
-  {
-    ?subject crm:P108i_was_produced_by ?part .
-    ?part crm:P9_consists_of* ?production .
+  
+    # a production consists of parts at most one level deep (combine 549)
+    ?subject crm:P108i_was_produced_by|crm:P108i_was_produced_by/crm:P9_consists_of ?production .
     ?production a crm:E7_Activity .
     ?production crm:P9i_forms_part_of/(^custom:sameAs) ?value .
     ?value crm:P2_has_type <https://artresearch.net/resource/pharos/vocab/meta/styles_and_periods> .
-  }
+  
 }""" .
   
   <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>

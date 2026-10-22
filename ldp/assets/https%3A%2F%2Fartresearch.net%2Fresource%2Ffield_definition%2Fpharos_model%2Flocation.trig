@@ -13,14 +13,14 @@
     <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 
 SELECT ?value WHERE {
-  {
+  
     ?subject crm:P2_has_type <https://artresearch.net/resource/pharos/vocab/meta/built_work> .
     ?subject crm:P46i_forms_part_of* ?parent .
     ?parent crm:P55_has_current_location ?value .
     
     ?value crm:P2_has_type ?type .
     ?type crm:P127_has_broader_term* <https://artresearch.net/resource/pharos/vocab/meta/geographical_entity> .
-  }
+  
 }""" .
   
   _:genid-296da5e45a714b739c6aea941f5d9921-dspeh a <http://spinrdf.org/sp#Query>;

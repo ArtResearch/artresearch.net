@@ -19,7 +19,9 @@
 SELECT DISTINCT ?value WHERE {
   ?e13 crm:P140_assigned_attribute_to ?subject .
   ?e13 crm:P177_assigned_property_of_type crm:P2_has_type .
-  ?e13 crm:P134_continued*/crm:P9i_forms_part_of/crm:P14_carried_out_by ?value   .
+  OPTIONAL { ?e13 crm:P134_continued ?continued . }
+  BIND(COALESCE(?continued, ?e13) AS ?statement)
+  ?statement crm:P9i_forms_part_of/crm:P14_carried_out_by ?value .
 }""" .
   
   <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>

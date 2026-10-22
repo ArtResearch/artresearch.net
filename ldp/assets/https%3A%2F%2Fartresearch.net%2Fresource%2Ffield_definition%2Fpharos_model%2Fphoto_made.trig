@@ -1,0 +1,26 @@
+<https://artresearch.net/resource/field_definition/pharos_model/photo_made/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/photo_made> a
+      <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
+      <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-4b3e25e859966b458f88f4e6ad1b6a57-c011c;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Printed";
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-4494737bf87ab9b3a5a839af1dfe914f-4d704;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2026-10-22T15:00:00.000+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-4b3e25e859966b458f88f4e6ad1b6a57-c011c a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  _:genid-4494737bf87ab9b3a5a839af1dfe914f-4d704 a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX meta: <https://artresearch.net/resource/pharos/vocab/meta/>
+
+SELECT ?value WHERE {
+  # when the print itself was made, which may be long after the negative
+  ?subject crm:P108i_was_produced_by/crm:P4_has_time-span ?value .
+}""" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/photo_made> .
+}

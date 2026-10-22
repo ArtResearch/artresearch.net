@@ -14,15 +14,11 @@
     <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 
 SELECT DISTINCT ?value ?provUri WHERE {
-  {
-    OPTIONAL {
-      ?object crm:P108i_was_produced_by/crm:P9i_forms_part_of* ?production .
-    }
-
-    OPTIONAL {
-      ?object crm:P65_shows_visual_item ?visualItem .
-    }
-  }
+  # the production and visual item of the page's own objects, joined to their values: in a group of
+  # their own they were computed for every object. A production forms part of no other in combine 549
+  # (P9i_forms_part_of* added nothing but a join over the whole index)
+  OPTIONAL { ?object crm:P108i_was_produced_by ?production . }
+  OPTIONAL { ?object crm:P65_shows_visual_item ?visualItem . }
   
   BIND(IF(?attributedType = crm:P2_has_type || ?attributedType = crm:P45_consists_of || ?attributedType = crm:P50_has_current_keeper || ?attributedType = crm:P55_has_current_location, ?object, IF(?attributedType = crm:P65_shows_visual_item, ?visualItem, ?production)) as ?attributedEntity)
   
@@ -30,12 +26,13 @@ SELECT DISTINCT ?value ?provUri WHERE {
   
   BIND(IRI(CONCAT(\"https://artresearch.net/resource/e13/\", SHA256(CONCAT(STR(?attributedEntity), STR(?realProperty), STR(?subject))))) AS ?attribution)
 
-  {
-    ?attribution crm:P134_continued* ?provUri .
-    ?provUri crm:P9i_forms_part_of ?cataloging .
-    ?cataloging crm:P2_has_type <http://vocab.getty.edu/aat/300054628> .
-    ?provUri crm:P141_assigned ?value .
-  }
+  # the archive's statement: the one this statement continues, or itself. A statement continues at most
+  # one other (combine 549); P134_continued* made QLever follow every statement in the index
+  OPTIONAL { ?attribution crm:P134_continued ?continued . }
+  BIND(COALESCE(?continued, ?attribution) AS ?provUri)
+  ?provUri crm:P9i_forms_part_of ?cataloging .
+  ?cataloging crm:P2_has_type <http://vocab.getty.edu/aat/300054628> .
+  ?provUri crm:P141_assigned ?value .
   FILTER(?subject != ?value)
 }""" .
   

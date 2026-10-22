@@ -14,7 +14,7 @@
     <http://spinrdf.org/sp#text> """PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 
 SELECT ?value WHERE {
-  $subject crm:P108i_was_produced_by/crm:P9_consists_of* ?production .
+  $subject (crm:P108i_was_produced_by|crm:P108i_was_produced_by/crm:P9_consists_of) ?production .
   ?production crm:P4_has_time-span ?value. 
 }""" .
   

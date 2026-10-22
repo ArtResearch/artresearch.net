@@ -1,0 +1,23 @@
+<https://artresearch.net/resource/field_definition/pharos_model/provenance_order/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/provenance_order> a
+      <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
+      <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:genid-a7e5e19a50f9be1796f27c1171244d21-e0f3a;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Order";
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#integer>;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:genid-bc58da824fe25012c7fd340ac871f17e-55d7e;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2026-10-22T14:00:00.000+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  _:genid-a7e5e19a50f9be1796f27c1171244d21-e0f3a a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+  
+  _:genid-bc58da824fe25012c7fd340ac871f17e-55d7e a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX custom: <https://artresearch.net/custom/>
+SELECT ?value WHERE {
+  ?subject custom:order ?value .
+}""" .
+  
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/provenance_order> .
+}
