@@ -568,61 +568,7 @@
 }
 
 /* ── Under the light: the picked-up print, its leaves, its mount ── */
-.rr .table .AutoFitGrid--autoFitLightbox {
-  top: var(--rail);
-  background: var(--under-light);
-  background-image: radial-gradient(85% 70% at 50% 42%, var(--under-light-lift), transparent 72%);
-}
-.rr .table .AutoFitGrid--autoFitLightboxViewer { padding: 48px 32px 18px; }
-/* the deep-zoom viewer's own button strip is hidden: wheel, drag and double-click do the work,
-   and a bodied closer/farther pair belongs on the rail (see the proposal's open questions) */
-.rr .table .AutoFitGrid--autoFitLightboxViewer .openseadragon-container > div:not(:first-child) { display: none; }
-.rr .table .AutoFitGrid--autoFitLightboxViewer > img {
-  filter: drop-shadow(0 1px 1px hsl(var(--cast) / 0.2)) drop-shadow(0 12px 22px hsl(var(--cast) / 0.3));
-}
-.rr .table .AutoFitGrid--autoFitLightboxClose {
-  background: var(--face);
-  box-shadow: var(--d-stand);
-  top: 12px;
-  right: 14px;
-  width: auto;
-  height: 22px;
-  padding: 0 10px 0 6px;
-  gap: 4px;
-  border-radius: 4px;
-  color: var(--ink-2);
-  font: 500 12px/22px var(--sans);
-  transition: box-shadow 0.15s ease;
-}
-.rr .table .AutoFitGrid--autoFitLightboxClose:hover { background: var(--face); box-shadow: var(--d-stand-hover); color: var(--ink); }
-.rr .table .AutoFitGrid--autoFitLightboxClose:active { box-shadow: var(--d-pressed); transform: translateY(1px); }
-.rr .table .AutoFitGrid--autoFitLightboxClose i { font-size: 15px; }
-.rr .table .AutoFitGrid--autoFitLightboxClose::after { content: 'Put back'; }
-
-/* turn it over */
-.rr .table .AutoFitGrid--autoFitLightboxLeaves {
-  left: 14px;
-  top: 12px;
-  bottom: auto;
-  transform: none;
-  align-items: center;
-  gap: 4px;
-  padding: 3px 4px 3px 3px;
-  border-radius: 4px;
-  background: var(--face);
-  box-shadow: var(--d-stand);
-}
-.rr .table .AutoFitGrid--autoFitLightboxLeaves::before {
-  content: 'Turn';
-  order: 10;
-  margin: 0 4px 0 5px;
-  font: 500 8.5px/1 var(--sans);
-  letter-spacing: 0.11em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-}
-.rr .table .AutoFitGrid--autoFitLightboxLeaves img { width: 30px; height: 30px; }
-
+.rr .table .AutoFitGrid--autoFitLightbox { top: var(--rail); background: var(--under-light); }
 /* the mount: what the archive wrote under and behind the print */
 .rr .table .AutoFitGrid--autoFitLightboxCaption {
   padding: 10px 16px 11px;
@@ -644,14 +590,225 @@
 .rr .table .AutoFitGrid--mountRow dd a { color: var(--pull); text-decoration: underline; text-decoration-color: hsl(var(--pull-hsl) / 0.4); text-underline-offset: 2px; }
 .rr .table .AutoFitGrid--mountNote { font: 400 11px/1.5 var(--sans); color: var(--ink-3); opacity: 1; }
 .rr .table .AutoFitGrid--mountNote a { color: var(--ink-3); text-decoration: underline; text-decoration-color: hsl(var(--cast) / 0.25); text-underline-offset: 2px; }
-/* a photograph read from its own record: its groups (the print, the photograph it carries, how the
-   archive got it, the digital image, the rights) stand side by side under the print, each named in
-   the reading voice, its rows beneath it, label and value in two columns */
-.rr .table .AutoFitGrid--mountGroup { display: inline-block; vertical-align: top; max-width: 360px; margin: 8px 32px 0 0; }
-.rr .table .AutoFitGrid--mountGroupHead { margin-bottom: 3px; font: 400 13px/1.3 var(--serif); color: var(--ink-2); }
-.rr .table .AutoFitGrid--mountGroup .AutoFitGrid--mount { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 0 10px; margin: 0; }
-.rr .table .AutoFitGrid--mountGroup .AutoFitGrid--mountRow { display: contents; }
-.rr .table .AutoFitGrid--mountGroup .AutoFitGrid--mountRow dd { overflow-wrap: anywhere; }
+
+/* ── A photograph under the light (pharos-photo-light): picked up on a work's table, and the
+      whole table of its own page. Laid whole and fitted, sharp: the archive's image service gives
+      a picture the size of the light, our preview stands in until it arrives. What acts on the
+      picture stands on it: the leaves at its top left, Download and Put back at its top right.
+      Looking closer is asked for: under the hand the picture says "View full resolution", and
+      pressing it lays the archive's tiles in its place until "Whole photograph". ── */
+.rr .PhotoLight {
+  position: relative;
+  flex: 1 1 0%;
+  min-height: 0;
+  background: var(--under-light);
+  background-image: radial-gradient(85% 70% at 50% 42%, var(--under-light-lift), transparent 72%);
+  font-family: var(--sans);
+}
+.rr .PhotoLight--field {
+  position: absolute;
+  inset: 48px 32px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.rr .PhotoLight[data-deep] .PhotoLight--field { inset: 0; }
+.rr .PhotoLight--picture {
+  position: relative;
+  display: block;
+  flex: none;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+}
+.rr .PhotoLight--picture:disabled { cursor: default; }
+.rr .PhotoLight--picture img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 1px 1px hsl(var(--cast) / 0.2)) drop-shadow(0 12px 22px hsl(var(--cast) / 0.3));
+}
+/* under the hand, the picture offers to be looked at closer */
+.rr .PhotoLight--picture::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: hsl(var(--cast) / 0.07);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  pointer-events: none;
+}
+.rr .PhotoLight--lens {
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  bottom: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 13px 0 10px;
+  border-radius: 14px;
+  background: hsl(38 30% 12% / 0.72);
+  color: hsl(45 100% 98%);
+  font: 500 12px/28px var(--sans);
+  white-space: nowrap;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  pointer-events: none;
+}
+.rr .PhotoLight--lens i { font-size: 17px; }
+.rr .PhotoLight--picture:not(:disabled):is(:hover, :focus-visible)::after,
+.rr .PhotoLight--picture:not(:disabled):is(:hover, :focus-visible) .PhotoLight--lens { opacity: 1; }
+/* with no hand to hover, the offer stands */
+@media (hover: none) { .rr .PhotoLight--lens { opacity: 1; } }
+.rr .PhotoLight--tiles { position: absolute; inset: 0; cursor: grab; }
+.rr .PhotoLight--tiles:active { cursor: grabbing; }
+/* the deep-zoom viewer's own button strip is hidden: wheel, drag, pinch and double-click do the work */
+.rr .PhotoLight--tiles .openseadragon-container > div:not(:first-child) { display: none; }
+.rr .PhotoLight--blank {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: min(320px, 60%);
+  aspect-ratio: 3 / 4;
+  padding: 24px;
+  background: var(--card);
+  box-shadow: var(--d-sheet);
+  font: italic 400 15px/1.35 var(--serif);
+  color: var(--ink-3);
+  text-align: center;
+}
+
+/* turn it over: the leaves, the one shown ringed */
+.rr .PhotoLight--leaves {
+  position: absolute;
+  z-index: 3;
+  top: 12px;
+  left: 14px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 4px 3px 3px;
+  border-radius: 4px;
+  background: var(--face);
+  box-shadow: var(--d-stand);
+}
+.rr .PhotoLight--leaf { width: 30px; height: 30px; padding: 0; border: 0; background: none; cursor: pointer; }
+.rr .PhotoLight--leaf img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 2px;
+  opacity: 0.85;
+  box-shadow: 0 0 0 1px hsl(var(--cast) / 0.28);
+}
+.rr .PhotoLight--leaf:hover img { opacity: 1; box-shadow: 0 0 0 1px hsl(var(--cast) / 0.5); }
+.rr .PhotoLight--leaf[aria-pressed="true"] img { opacity: 1; box-shadow: 0 0 0 2px var(--pull); }
+.rr .PhotoLight--leavesLabel {
+  order: 10;
+  margin: 0 4px 0 5px;
+  font: 500 8.5px/1 var(--sans);
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+/* the keys that act on the picture: standing keys, as everywhere in the room */
+.rr .PhotoLight--keys {
+  position: absolute;
+  z-index: 3;
+  top: 12px;
+  right: 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+.rr .PhotoLight--key {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 22px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 4px;
+  background: var(--face);
+  box-shadow: var(--d-stand);
+  font: 500 12px/22px var(--sans);
+  color: var(--ink-2);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: box-shadow 0.12s ease, color 0.12s ease, transform 0.08s ease;
+}
+.rr .PhotoLight--key:hover { box-shadow: var(--d-stand-hover); color: var(--ink); }
+.rr .PhotoLight--key:is(:active, [aria-expanded="true"]) { transform: translateY(1px); background: var(--pressed); box-shadow: var(--d-pressed); }
+.rr .PhotoLight--key i { margin-left: -4px; font-size: 15px; }
+/* Download opens its list of sizes */
+.rr .PhotoLight--key[aria-haspopup]::after { content: '▾'; margin-left: 2px; font-size: 9px; color: var(--ink-3); }
+.rr .PhotoLight--download { position: relative; }
+.rr .PhotoLight--sizes {
+  position: absolute;
+  top: 28px;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 250px;
+  padding: 5px;
+  border-radius: 5px;
+  background: var(--paper);
+  box-shadow: 0 0 0 1px hsl(var(--cast) / 0.1), 0 2px 4px hsl(var(--cast) / 0.12), 0 12px 28px -6px hsl(var(--cast) / 0.32);
+}
+.rr .PhotoLight--size {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 6px 9px;
+  border-radius: 3px;
+  font: 400 12.5px/1.3 var(--sans);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+  text-decoration: none;
+}
+.rr .PhotoLight--size:hover { background: var(--pull-soft); color: var(--ink); text-decoration: none; }
+.rr .PhotoLight--size[data-busy] { cursor: progress; color: var(--ink-3); }
+.rr .PhotoLight--size > span { white-space: nowrap; }
+.rr .PhotoLight--sizeName, .rr .PhotoLight--sizeBox { color: var(--ink-3); }
+.rr .PhotoLight--sizesNote { padding: 6px 9px 4px; font: 400 11px/1.4 var(--sans); color: var(--ink-3); }
+
+/* ── The glance: a photograph under the light, and its slip in the list. Its title and the key
+      to its own record; who took it, when and how; whose it is and on what terms; under the
+      light, how to cite it, as text to copy (a click takes all of it). ── */
+.rr .table .AutoFitGrid--glance { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.rr .table .AutoFitGrid--glanceHead { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 2px; }
+.rr .table .AutoFitGrid--glanceTitle { font: 400 15px/1.35 var(--serif); color: var(--ink); }
+.rr .table :is(.AutoFitGrid--glanceHead, .AutoFitGrid--mountHead) .open-key { flex: none; margin-left: auto; }
+.rr .table .AutoFitGrid--glanceLine { font: 400 12.5px/18px var(--sans); color: var(--ink-2); }
+.rr .table .AutoFitGrid--glanceDot { margin: 0 5px; color: var(--ink-4); }
+.rr .table .AutoFitGrid--glanceWhose { display: flex; align-items: center; flex-wrap: wrap; color: var(--ink-3); }
+.rr .table .AutoFitGrid--glanceMark { width: 13px; height: 13px; margin-right: 6px; object-fit: contain; }
+.rr .table .AutoFitGrid--glanceWhose a { font-weight: 400; color: inherit; text-decoration: underline; text-decoration-color: hsl(var(--cast) / 0.25); text-underline-offset: 2px; }
+.rr .table .AutoFitGrid--glanceWhose a:hover { color: var(--ink-2); text-decoration-color: hsl(var(--cast) / 0.55); }
+.rr .table .AutoFitGrid--cite {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid var(--rule);
+}
+.rr .table .AutoFitGrid--citeLabel {
+  flex: none;
+  font: 500 9.5px/18px var(--sans);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.rr .table .AutoFitGrid--citeText { font: 400 12px/18px var(--sans); color: var(--ink-2); user-select: all; cursor: text; }
 
 /* ── Other works on the table: Related and Similar works are laid out
       like the photographs, each work as one print, and read the same way.
@@ -669,20 +826,9 @@
   color: var(--ink-3);
 }
 @container print (max-width: 88px) { .rr .table .AutoFitGrid--blank { padding: 3px; font-size: 9px; } }
-.rr .table .AutoFitGrid--autoFitLightboxViewer > .AutoFitGrid--blank {
-  width: min(320px, 60%);
-  height: auto;
-  aspect-ratio: 3 / 4;
-  margin: auto;
-  padding: 24px;
-  background: var(--autofit-mount);
-  box-shadow: var(--d-sheet);
-  font-size: 15px;
-}
-
 /* the record's title heads its mount, linked as every link on the page is */
 .rr .table .AutoFitGrid--mountHead { margin-bottom: 6px; }
-.rr .table :is(.AutoFitGrid--mountHead > a, a.AutoFitGrid--autoFitListTitle) {
+.rr .table :is(.AutoFitGrid--mountHead > a:not(.open-key), a.AutoFitGrid--autoFitListTitle) {
   font: 400 15px/1.35 var(--serif);
   color: var(--ink);
   text-decoration: underline;
@@ -691,7 +837,7 @@
   text-underline-offset: 4px;
   transition: text-decoration-color 0.15s;
 }
-.rr .table :is(.AutoFitGrid--mountHead > a, a.AutoFitGrid--autoFitListTitle):hover { text-decoration-color: hsl(var(--cast) / 0.55); }
+.rr .table :is(.AutoFitGrid--mountHead > a:not(.open-key), a.AutoFitGrid--autoFitListTitle):hover { text-decoration-color: hsl(var(--cast) / 0.55); }
 
 /* the archives holding a record: their marks, as in the sheet's register */
 .rr .table .AutoFitGrid--register { gap: 5px; }
@@ -1188,6 +1334,44 @@ div.slip { margin: 1px 0 8px var(--indent); padding: 3px 0 3px 12px; border-left
 .sources > a .id { font-variant-numeric: tabular-nums; }
 .sources > a .id::after { content: ' ↗'; color: var(--ink-4); }
 .colophon { margin-top: 10px; padding-left: var(--indent); font: 400 10.5px/1.4 var(--sans); color: var(--ink-4); }
+
+/* ═══════════════════════════════════════════════════════════════
+   A photograph's own page (data/templates/…meta/photograph.html): the same desk. The table holds
+   the photograph under the light (its Photograph tab) or the photographs like it; the sheet is its
+   record, as its one archive wrote it, part by part, each field a row of label and value.
+   ═══════════════════════════════════════════════════════════════ */
+.rr .table .light-tab { display: flex; flex: 1 1 auto; min-height: 100%; }
+.rr--photograph .through { color: var(--ink-3); }
+/* one archive, nothing to read through: picking up a similar photograph leaves the band as it is */
+.rr--photograph:has(.AutoFitGrid--autoFitGrid[data-archive]) .through { background: none; box-shadow: none; color: var(--ink-3); }
+.rr--photograph:has(.AutoFitGrid--autoFitGrid[data-archive]) .through .who--all { display: inline-flex; }
+.rr--photograph .through .mark-img { width: 14px; height: 14px; object-fit: contain; }
+.rr--photograph .head .imprint .id { font-variant-numeric: tabular-nums; }
+.rr--photograph .cite-text {
+  padding-left: var(--indent);
+  font: 400 13.5px/1.55 var(--serif);
+  color: var(--ink-2);
+  user-select: all;
+  cursor: text;
+}
+.rr--photograph .shows .line { min-height: 30px; }
+.rr .sheet a.open-key { text-decoration: none; }
+.rr--photograph .shows .text { font-size: 14.5px; line-height: 1.35; }
+.rr--photograph .rows {
+  display: grid;
+  grid-template-columns: minmax(110px, max-content) minmax(0, 1fr);
+  gap: 5px 16px;
+  padding-left: var(--indent);
+}
+.rr--photograph .rows .field-row { display: contents; }
+.rr--photograph .rows dt {
+  font: 600 9.5px/20px var(--sans);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+}
+.rr--photograph .rows dd { font: 400 14px/20px var(--serif); color: var(--ink); overflow-wrap: anywhere; }
+.rr--photograph .rows .sep { color: var(--ink-4); }
 
 /* an archive that has no glyph yet: its initial, in its ink, on the same footprint */
 .rr .mark--letter {

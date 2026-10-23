@@ -1,26 +1,17 @@
 {
-  "subject": "work",
-  "provenance": {
-    "fields": {
-      "https://artresearch.net/resource/field_definition/pharos_model/provider": {
-        "subject": "provUri",
-        "returns": [
-          {
-            "sparql_var": "value",
-            "local_var": "provider"
-          }
-        ],
-        "fields": {
-          "https://artresearch.net/resource/field_definition/pharos_model/provider_icon": {
-            "subject": "provider"
-          }
-        }
-      }
-    }
-  },
+  "subject": "photo",
   "fields": {
+    "https://artresearch.net/resource/field_definition/pharos_model/title": {
+      "subject": "photo"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/photo_title": {
+      "subject": "photo"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/photo_identifier": {
+      "subject": "photo"
+    },
     "https://artresearch.net/resource/field_definition/pharos_model/photo_provider": {
-      "subject": "work",
+      "subject": "photo",
       "returns": [
         {
           "sparql_var": "value",
@@ -36,120 +27,142 @@
         }
       }
     },
-    "https://artresearch.net/resource/field_definition/pharos_model/photo_artwork": {
-      "subject": "work"
-    },
-    "https://artresearch.net/resource/field_definition/pharos_model/catalog_record_url": {
-      "subject": "work"
-    },
-    "https://artresearch.net/resource/field_definition/pharos_model/photo_title": {
-      "subject": "work"
-    },
-    "https://artresearch.net/resource/field_definition/pharos_model/photo_identifier": {
-        "subject": "work"
-    },
-    "https://artresearch.net/resource/field_definition/pharos_model/photo_shot_date": {
-        "subject": "work"
-    },
     "https://artresearch.net/resource/field_definition/pharos_model/photo_archive": {
-        "subject": "work"
+      "subject": "photo"
     },
     "https://artresearch.net/resource/field_definition/pharos_model/photo_license": {
-        "subject": "work"
-    },
-    "https://artresearch.net/resource/field_definition/pharos_model/type": {
-      "subject": "work",
-      "returns": [
-        {
-          "sparql_var": "value",
-          "local_var": "type"
-        }
-      ],
-      "fields": {
-        "https://artresearch.net/resource/field_definition/pharos_model/original_value": {
-          "subject": "type",
-          "params": [
-            {
-              "sparql_var": "object",
-              "local_var": "work"
-            },
-            {
-              "sparql_var": "attributedType",
-              "constant": "http://www.cidoc-crm.org/cidoc-crm/P2_has_type"
-            }
-          ]
-        }
-      }
-    },
-    "https://artresearch.net/resource/field_definition/pharos_model/material": {
-      "subject": "work",
-      "returns": [
-        {
-          "sparql_var": "value",
-          "local_var": "material"
-        }
-      ],
-      "fields": {
-        "https://artresearch.net/resource/field_definition/pharos_model/original_value": {
-          "subject": "material",
-          "params": [
-            {
-              "sparql_var": "object",
-              "local_var": "work"
-            },
-            {
-              "sparql_var": "attributedType",
-              "constant": "http://www.cidoc-crm.org/cidoc-crm/P45_consists_of"
-            }
-          ]
-        }
-      }
-    },
-    "https://artresearch.net/resource/field_definition/pharos_model/technique": {
-      "subject": "work",
-      "returns": [
-        {
-          "sparql_var": "value",
-          "local_var": "technique"
-        }
-      ],
-      "fields": {
-        "https://artresearch.net/resource/field_definition/pharos_model/original_value": {
-          "subject": "technique",
-          "params": [
-            {
-              "sparql_var": "object",
-              "local_var": "work"
-            },
-            {
-              "sparql_var": "attributedType",
-              "constant": "http://www.cidoc-crm.org/cidoc-crm/P32_used_general_technique"
-            }
-          ]
-        }
-      }
-    },
-    "https://artresearch.net/resource/field_definition/pharos_model/subject": {
-      "subject": "work"
+      "subject": "photo"
     },
     "https://artresearch.net/resource/field_definition/pharos_model/photographer": {
-      "subject": "work",
+      "subject": "photo"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/photo_shot_date": {
+      "subject": "photo"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/primary_image": {
+      "subject": "photo"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/photo_image": {
+      "subject": "photo",
       "returns": [
         {
           "sparql_var": "value",
-          "local_var": "creator"
+          "local_var": "image"
         }
-      ]
+      ],
+      "fields": {
+        "https://artresearch.net/resource/field_definition/pharos_model/image_position": {
+          "subject": "image"
+        },
+        "https://artresearch.net/resource/field_definition/pharos_model/image_side": {
+          "subject": "image"
+        },
+        "https://artresearch.net/resource/field_definition/pharos_model/image_thumbnail": {
+          "subject": "image"
+        },
+        "https://artresearch.net/resource/field_definition/pharos_model/image_preview": {
+          "subject": "image"
+        },
+        "https://artresearch.net/resource/field_definition/pharos_model/image_iiif": {
+          "subject": "image"
+        },
+        "https://artresearch.net/resource/field_definition/pharos_model/image_width": {
+          "subject": "image"
+        },
+        "https://artresearch.net/resource/field_definition/pharos_model/image_height": {
+          "subject": "image"
+        }
+      }
     },
-    "https://artresearch.net/resource/field_definition/pharos_model/production_date": {
-      "subject": "work"
+    "https://artresearch.net/resource/field_definition/pharos_model/photo_artwork": {
+      "subject": "photo"
     },
-    "https://artresearch.net/resource/field_definition/pharos_model/photo_preview": {
-          "subject": "work"
+    "https://artresearch.net/resource/field_definition/pharos_model/catalog_record_url": {
+      "subject": "photo"
     },
-    "https://artresearch.net/resource/field_definition/pharos_model/photo_iiif_manifest": {
-        "subject": "work"
+    "https://artresearch.net/resource/field_definition/pharos_model/photo_object_type": {
+      "subject": "photo"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/photo_format": {
+      "subject": "photo"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/photo_colour": {
+      "subject": "photo"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/photo_material": {
+      "subject": "photo"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/photo_size": {
+      "subject": "photo"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/photo_mount_size": {
+      "subject": "photo"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/photo_stamp": {
+      "subject": "photo"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/photo_numbers": {
+      "subject": "photo"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/photo_holding": {
+      "subject": "photo"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/photo_owner": {
+      "subject": "photo"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/photo_condition": {
+      "subject": "photo"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/photo_credit_line": {
+      "subject": "photo"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/photo_feature": {
+      "subject": "photo"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/photo_note": {
+      "subject": "photo"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/photo_process": {
+      "subject": "photo"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/photo_issuer": {
+      "subject": "photo"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/photo_made": {
+      "subject": "photo"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/photo_negative": {
+      "subject": "photo"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/photo_view": {
+      "subject": "photo"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/photo_view_description": {
+      "subject": "photo"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/photo_campaign": {
+      "subject": "photo"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/photo_commission": {
+      "subject": "photo"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/photo_acquisition": {
+      "subject": "photo"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/photo_loan": {
+      "subject": "photo"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/photo_digitiser": {
+      "subject": "photo"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/photo_digitised": {
+      "subject": "photo"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/photo_digitisation_project": {
+      "subject": "photo"
+    },
+    "https://artresearch.net/resource/field_definition/pharos_model/photo_rights_holder": {
+      "subject": "photo"
     }
-
   }
 }
