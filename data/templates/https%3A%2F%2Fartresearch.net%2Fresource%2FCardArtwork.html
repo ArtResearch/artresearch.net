@@ -8,44 +8,7 @@
     {{#if data}}
       <semantic-link-container uri="{{data.[@id]}}" target="_blank">
         <div class="slip-print" title="Open record">
-          {{#if provider}}
-            [[!-- On an archive's page a work lies as that archive's own photograph of it, whichever photograph
-                  the reconciled work prefers or a search matched it through (archiveLead, from its lead
-                  photographs: the matched one when it is the archive's); as the matched photograph when the
-                  archive has none among them, else as its preferred one. --]]
-            {{#with (archiveLead data.[https://artresearch.net/resource/field_definition/pharos_model/work_lead_photos].values provider photo)}}
-              <span class="print-on-mount">
-                <img class="print-picture" loading="lazy" alt="" src="https://artresearch.net{{[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" />
-                {{#if [https://artresearch.net/resource/field_definition/pharos_model/photo_provider]}}<img class="print-mark" alt="" title="{{[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}" />{{/if}}
-              </span>
-            {{else}}
-              {{#if photo}}
-                <resource-info subject="{{photo}}" profile="photograph-thumbnail" template="{{> matchMounted}}">
-                  <template id="matchMounted">
-                    {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail]}}
-                      <span class="print-on-mount">
-                        <img class="print-picture" loading="lazy" alt="" src="https://artresearch.net{{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" />
-                        <img class="print-mark" alt="" title="{{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.label}}" src="{{data.[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}" />
-                      </span>
-                    {{else}}
-                      <span class="print-blank">No photograph</span>
-                    {{/if}}
-                  </template>
-                </resource-info>
-              {{else}}
-                {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos]}}
-                  {{#with data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values.[0]}}
-                    <span class="print-on-mount">
-                      <img class="print-picture" loading="lazy" alt="" src="https://artresearch.net{{[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" />
-                      <img class="print-mark" alt="" title="{{[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}" />
-                    </span>
-                  {{/with}}
-                {{else}}
-                  <span class="print-blank">No photograph</span>
-                {{/if}}
-              {{/if}}
-            {{/with}}
-          {{else if photo}}
+          {{#if photo}}
             <resource-info subject="{{photo}}" profile="photograph-thumbnail" template="{{> mounted}}">
               <template id="mounted">
                 {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail]}}
@@ -58,6 +21,25 @@
                 {{/if}}
               </template>
             </resource-info>
+          {{else if provider}}
+            [[!-- On an archive's page a work lies as that archive's own first photograph of it, whichever
+                  photograph the reconciled work prefers (archiveLead, from its lead photographs); as its
+                  preferred photograph when the archive has none among them. --]]
+            {{#with (archiveLead data.[https://artresearch.net/resource/field_definition/pharos_model/work_lead_photos].values provider)}}
+              <span class="print-on-mount">
+                <img class="print-picture" loading="lazy" alt="" src="https://artresearch.net{{[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" />
+                {{#if [https://artresearch.net/resource/field_definition/pharos_model/photo_provider]}}<img class="print-mark" alt="" title="{{[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}" />{{/if}}
+              </span>
+            {{else}}
+              {{#with data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values.[0]}}
+                <span class="print-on-mount">
+                  <img class="print-picture" loading="lazy" alt="" src="https://artresearch.net{{[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" />
+                  {{#if [https://artresearch.net/resource/field_definition/pharos_model/photo_provider]}}<img class="print-mark" alt="" title="{{[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}" />{{/if}}
+                </span>
+              {{else}}
+                <span class="print-blank">No photograph</span>
+              {{/with}}
+            {{/with}}
           {{else}}
             {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos]}}
               {{#with data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values.[0]}}
