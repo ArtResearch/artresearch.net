@@ -316,7 +316,7 @@
                   # its score, 0 for the weakest and 1 for the strongest of what it kept (see the search query)
                   SELECT ?subject ?photo ((?similarity - ?low) / IF(?high > ?low, ?high - ?low, 1) AS ?norm) WHERE {
                     {
-                      SELECT ?subject (MAX(1 - ?distance) AS ?similarity) (IRI(STRAFTER(MIN(CONCAT(STR(xsd:integer(?distance * 1000000) + 10000000), " ", STR(?vecPhoto))), " ")) AS ?photo) WHERE {
+                      SELECT ?subject (MAX(1 - ?distance) AS ?similarity) {{#if providerIri}}(IRI(STRAFTER(IF(MIN(?ownKey) != "~", MIN(?ownKey), MIN(?key)), " ")) AS ?photo){{else}}(IRI(STRAFTER(MIN(CONCAT(STR(xsd:integer(?distance * 1000000) + 10000000), " ", STR(?vecPhoto))), " ")) AS ?photo){{/if}} WHERE {
                         # the candidate photos as one subquery: with a cut or k the vector search is no join to reorder,
                         # and with the photo link outside it QLever fed it every photo and applied the facets after
                         {
@@ -336,6 +336,13 @@
                              vec:candidates ?vecPhoto ; vec:result ?vecPhoto ; vec:bindScore ?distance ;
                              vec:autoCut ?__searchSensitivity__ ; vec:k 100000 .
                         }
+                        {{#if providerIri}}
+                        # on the page of an archive the work lies as the own photograph of that archive that matched
+                        # best, when one did; else as the best match of any archive
+                        OPTIONAL { ?vecPhoto crm:P70i_is_documented_in <{{providerIri}}> . BIND(1 AS ?own) }
+                        BIND(CONCAT(STR(xsd:integer(?distance * 1000000) + 10000000), " ", STR(?vecPhoto)) AS ?key)
+                        BIND(IF(BOUND(?own), ?key, "~") AS ?ownKey)
+                        {{/if}}
                       }
                       GROUP BY ?subject
                     }
@@ -375,7 +382,7 @@
                   # its score, 0 for the weakest and 1 for the strongest of what it kept (see the search query)
                   SELECT ?subject ?photo ((?similarity - ?low) / IF(?high > ?low, ?high - ?low, 1) AS ?norm) WHERE {
                     {
-                      SELECT ?subject (MAX(1 - ?distance) AS ?similarity) (IRI(STRAFTER(MIN(CONCAT(STR(xsd:integer(?distance * 1000000) + 10000000), " ", STR(?vecPhoto))), " ")) AS ?photo) WHERE {
+                      SELECT ?subject (MAX(1 - ?distance) AS ?similarity) {{#if providerIri}}(IRI(STRAFTER(IF(MIN(?ownKey) != "~", MIN(?ownKey), MIN(?key)), " ")) AS ?photo){{else}}(IRI(STRAFTER(MIN(CONCAT(STR(xsd:integer(?distance * 1000000) + 10000000), " ", STR(?vecPhoto))), " ")) AS ?photo){{/if}} WHERE {
                         # the candidate photos as one subquery: with a cut or k the vector search is no join to reorder,
                         # and with the photo link outside it QLever fed it every photo and applied the facets after
                         {
@@ -395,6 +402,13 @@
                              vec:candidates ?vecPhoto ; vec:result ?vecPhoto ; vec:bindScore ?distance ;
                              vec:autoCut "balanced" ; vec:k 100000 .
                         }
+                        {{#if providerIri}}
+                        # on the page of an archive the work lies as the own photograph of that archive that matched
+                        # best, when one did; else as the best match of any archive
+                        OPTIONAL { ?vecPhoto crm:P70i_is_documented_in <{{providerIri}}> . BIND(1 AS ?own) }
+                        BIND(CONCAT(STR(xsd:integer(?distance * 1000000) + 10000000), " ", STR(?vecPhoto)) AS ?key)
+                        BIND(IF(BOUND(?own), ?key, "~") AS ?ownKey)
+                        {{/if}}
                       }
                       GROUP BY ?subject
                     }
@@ -434,7 +448,7 @@
                   # its score, 0 for the weakest and 1 for the strongest of what it kept (see the search query)
                   SELECT ?subject ?photo ((?similarity - ?low) / IF(?high > ?low, ?high - ?low, 1) AS ?norm) WHERE {
                     {
-                      SELECT ?subject (MAX(1 - ?distance) AS ?similarity) (IRI(STRAFTER(MIN(CONCAT(STR(xsd:integer(?distance * 1000000) + 10000000), " ", STR(?vecPhoto))), " ")) AS ?photo) WHERE {
+                      SELECT ?subject (MAX(1 - ?distance) AS ?similarity) {{#if providerIri}}(IRI(STRAFTER(IF(MIN(?ownKey) != "~", MIN(?ownKey), MIN(?key)), " ")) AS ?photo){{else}}(IRI(STRAFTER(MIN(CONCAT(STR(xsd:integer(?distance * 1000000) + 10000000), " ", STR(?vecPhoto))), " ")) AS ?photo){{/if}} WHERE {
                         # the candidate photos as one subquery: with a cut or k the vector search is no join to reorder,
                         # and with the photo link outside it QLever fed it every photo and applied the facets after
                         {
@@ -454,6 +468,13 @@
                              vec:candidates ?vecPhoto ; vec:result ?vecPhoto ; vec:bindScore ?distance ;
                              vec:autoCut ?__searchSensitivity__ ; vec:k 100000 .
                         }
+                        {{#if providerIri}}
+                        # on the page of an archive the work lies as the own photograph of that archive that matched
+                        # best, when one did; else as the best match of any archive
+                        OPTIONAL { ?vecPhoto crm:P70i_is_documented_in <{{providerIri}}> . BIND(1 AS ?own) }
+                        BIND(CONCAT(STR(xsd:integer(?distance * 1000000) + 10000000), " ", STR(?vecPhoto)) AS ?key)
+                        BIND(IF(BOUND(?own), ?key, "~") AS ?ownKey)
+                        {{/if}}
                       }
                       GROUP BY ?subject
                     }
