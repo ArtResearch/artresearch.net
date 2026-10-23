@@ -1,0 +1,31 @@
+<https://artresearch.net/resource/field_definition/pharos_model/work_lead_photos/context> {
+  <https://artresearch.net/resource/field_definition/pharos_model/work_lead_photos>
+    a <http://www.researchspace.org/resource/system/fields/Field>, <http://www.w3.org/ns/prov#Entity>,
+      <http://www.w3.org/ns/ldp#Resource>;
+    <http://www.researchspace.org/resource/system/fields/xsdDatatype> <http://www.w3.org/2001/XMLSchema#anyURI>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Work Lead Photos";
+    <http://www.researchspace.org/resource/system/fields/insertPattern> _:work-lead-photos-insert;
+    <http://www.researchspace.org/resource/system/fields/selectPattern> _:work-lead-photos-select;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.researchspace.org/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2026-10-23T12:00:00.000+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+
+  _:work-lead-photos-select a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> """PREFIX custom: <https://artresearch.net/custom/>
+
+SELECT ?value WHERE {
+  # The work's lead photographs: the index orders a work's photographs with the first one of each of
+  # its records ahead of the rest, so its records' leads are its first photographs, as many as it has
+  # records. Nothing marks them yet: the first 12 positions hold them for every work but the 164 that
+  # have more than 12 records (index 4930f2b), and some others besides. To be replaced by a marker
+  # from the index (platform-design/pharos-record-549.md, workaround 15).
+  ?subject custom:photo ?value .
+  ?value custom:photo_position ?position .
+  FILTER(?position <= 12)
+}""" .
+
+  _:work-lead-photos-insert a <http://spinrdf.org/sp#Query>;
+    <http://spinrdf.org/sp#text> "INSERT { $subject ?predicate $value} WHERE {}" .
+
+  <http://www.researchspace.org/resource/system/fieldDefinitionContainer> <http://www.w3.org/ns/ldp#contains>
+      <https://artresearch.net/resource/field_definition/pharos_model/work_lead_photos> .
+}

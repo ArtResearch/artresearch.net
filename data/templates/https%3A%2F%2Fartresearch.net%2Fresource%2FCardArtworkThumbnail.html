@@ -22,16 +22,24 @@
               </template>
             </resource-info>
           {{else if provider}}
-            {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos]}}
-              {{#with (getPreferredPhoto data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values provider)}}
+            [[!-- On an archive's page a work lies as that archive's own first photograph of it, whichever
+                  photograph the reconciled work prefers (archiveLead, from its lead photographs); as its
+                  preferred photograph when the archive has none among them. --]]
+            {{#with (archiveLead data.[https://artresearch.net/resource/field_definition/pharos_model/work_lead_photos].values provider)}}
+              <span class="print-on-mount">
+                <img class="print-picture" loading="lazy" alt="" src="https://artresearch.net{{[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" />
+                {{#if [https://artresearch.net/resource/field_definition/pharos_model/photo_provider]}}<img class="print-mark" alt="" title="{{[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}" />{{/if}}
+              </span>
+            {{else}}
+              {{#with data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values.[0]}}
                 <span class="print-on-mount">
                   <img class="print-picture" loading="lazy" alt="" src="https://artresearch.net{{[https://artresearch.net/resource/field_definition/pharos_model/photo_thumbnail].values.0.[@value]}}" />
-                  <img class="print-mark" alt="" title="{{[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}" />
+                  {{#if [https://artresearch.net/resource/field_definition/pharos_model/photo_provider]}}<img class="print-mark" alt="" title="{{[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.label}}" src="{{[https://artresearch.net/resource/field_definition/pharos_model/photo_provider].values.0.[https://artresearch.net/resource/field_definition/pharos_model/provider_icon].values.0.[@value]}}" />{{/if}}
                 </span>
+              {{else}}
+                <span class="print-blank">No photograph</span>
               {{/with}}
-            {{else}}
-              <span class="print-blank">No photograph</span>
-            {{/if}}
+            {{/with}}
           {{else}}
             {{#if data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos]}}
               {{#with data.[https://artresearch.net/resource/field_definition/pharos_model/work_preferred_photos].values.[0]}}
